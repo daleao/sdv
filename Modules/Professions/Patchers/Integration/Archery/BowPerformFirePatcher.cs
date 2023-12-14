@@ -44,14 +44,14 @@ internal sealed class BowPerformFirePatcher : HarmonyPatcher
     private static void BowPerformFirePrefix(BasicProjectile projectile, Slingshot slingshot, Farmer who)
     {
         var projectileData = ArcheryIntegration.Instance!.ModApi!.GetProjectileData(Manifest, projectile);
-        if (projectileData is null || !who.HasProfession(Profession.Rascal))
+        if (projectileData is null || !who.HasProfession(VanillaProfession.Rascal))
         {
             return;
         }
 
         var breakChance = Reflector.GetUnboundFieldGetter<BasicProjectile, float>(projectile, "_breakChance").Invoke(projectile);
-        breakChance *= who.HasProfession(Profession.Rascal, true) ? 1.55f : 1.35f;
-        if (!who.HasProfession(Profession.Desperado))
+        breakChance *= who.HasProfession(VanillaProfession.Rascal, true) ? 1.55f : 1.35f;
+        if (!who.HasProfession(VanillaProfession.Desperado))
         {
             Reflector.GetUnboundFieldSetter<BasicProjectile, float>(projectile, "_breakChance").Invoke(projectile, breakChance);
             return;

@@ -74,7 +74,7 @@ internal sealed class PregnancyControllerAddNewHatchedAnimalPatcher : HarmonyPat
     private static void AddNewHatchedAnimalSubroutine(FarmAnimal newborn)
     {
         var owner = Game1.getFarmer(newborn.ownerID.Value);
-        if (!owner.HasProfession(Profession.Rancher))
+        if (!owner.HasProfession(VanillaProfession.Rancher))
         {
             return;
         }

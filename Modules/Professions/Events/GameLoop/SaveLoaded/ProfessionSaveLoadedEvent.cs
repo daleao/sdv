@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.TimeChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Comparers;
@@ -36,7 +35,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         player.professions.OnArrayReplaced += this.OnArrayReplaced;
         player.professions.OnElementChanged += this.OnElementChanged;
 
-        Skill.List.ForEach(s => s.Revalidate());
+        VanillaSkill.List.ForEach(s => s.Revalidate());
         if (ProfessionsModule.Config.EnableLimitBreaks)
         {
             player.RevalidateUltimate();
@@ -46,7 +45,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
 
         if (Context.IsMainPlayer)
         {
-            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _))
+            if (Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Luremaster, out _))
             {
                 this.Manager.Enable<LuremasterTimeChangedEvent>();
             }
@@ -56,17 +55,20 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             }
         }
 
-        if (player.HasProfession(Profession.Prospector))
+        if (player.HasProfession(VanillaProfession.Prospector))
         {
             this.Manager.Enable<ProspectorRenderedHudEvent>();
         }
 
-        if (player.HasProfession(Profession.Scavenger))
+        if (player.HasProfession(VanillaProfession.Scavenger))
         {
             this.Manager.Enable<ScavengerRenderedHudEvent>();
         }
 
-        this.Manager.Enable<PrestigeAchievementOneSecondUpdateTickedEvent>();
+        if (ProfessionsModule.EnablePrestigeLevels)
+        {
+            this.Manager.Enable<PrestigeAchievementDayStartedEvent>();
+        }
     }
 
     /// <summary>Invoked when the value list is replaced.</summary>
@@ -110,7 +112,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     /// <param name="which">The index of the added profession.</param>
     private void OnProfessionAdded(int which)
     {
-        if (which.IsIn(Profession.GetRange(true)))
+        if (which.IsIn(VanillaProfession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
@@ -120,7 +122,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     /// <param name="which">The index of the removed profession.</param>
     private void OnProfessionRemoved(int which)
     {
-        if (which.IsIn(Profession.GetRange(true)))
+        if (which.IsIn(VanillaProfession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }

@@ -25,7 +25,7 @@ internal sealed class SlingshotBeginUsingPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotBeginUsingPostfix()
     {
-        if (Game1.player.HasProfession(Profession.Desperado))
+        if (Game1.player.HasProfession(VanillaProfession.Desperado))
         {
             EventManager.Enable<DesperadoOverchargeUpdateTickedEvent>();
         }

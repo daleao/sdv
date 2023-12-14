@@ -20,8 +20,8 @@ public class PoisonAnimation : TemporaryAnimatedSprite
     /// <param name="duration">The duration in milliseconds.</param>
     public PoisonAnimation(Monster monster, int duration)
         : base(
-            "TileSheets\\Animations",
-            new Rectangle(256, 1856, 64, 128),
+            $"{Manifest.UniqueID}/PoisonAnimation",
+            new Rectangle(0, 0, 64, 128),
             50f,
             6,
             duration / 300,
@@ -29,7 +29,7 @@ public class PoisonAnimation : TemporaryAnimatedSprite
             false,
             Game1.random.NextBool())
     {
-        this.Position = monster.GetOverheadOffset() + new Vector2(0f, -64f);
+        this.Position = new Vector2(0f, -64f);
         this.positionFollowsAttachedCharacter = true;
         this.attachedCharacter = monster;
         this.layerDepth = 999999f;
@@ -50,7 +50,7 @@ public class PoisonAnimation : TemporaryAnimatedSprite
             return result;
         }
 
-        this.Position = monster.GetOverheadOffset() + new Vector2(0f, -64f);
+        this.Position = new Vector2(0f, -64f);
         return result;
     }
 }

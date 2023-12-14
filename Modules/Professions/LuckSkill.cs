@@ -10,10 +10,10 @@ using DaLion.Shared.Extensions.Reflection;
 /// <summary>Represents spacechase0's implementation of the Luck skill.</summary>
 /// <remarks>
 ///     This is technically a vanilla skill and therefore does not use SpaceCore in its implementation despite being a
-///     mod-provided skill. As such, it stands in a murky place, as it is treated like a <see cref="SCSkill"/> despite
+///     mod-provided skill. As such, it stands in a murky place, as it is treated like a <see cref="CustomSkill"/> despite
 ///     not being implemented as one.
 /// </remarks>
-public sealed class LuckSkill : Skill
+public sealed class LuckSkill : VanillaSkill
 {
     /// <summary>Initializes a new instance of the <see cref="LuckSkill"/> class.</summary>
     internal LuckSkill()
@@ -23,42 +23,42 @@ public sealed class LuckSkill : Skill
 
         var i18n = "LuckSkill.I18n".ToType();
         this.DisplayName = Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Skill_Name").Invoke();
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             30,
             "LuckSkill.Fortunate",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Name"),
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Fortunate_Desc"),
             5,
             this));
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             31,
             "LuckSkill.PopularHelper",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Name"),
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "PopularHelper_Desc"),
             5,
             this));
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             32,
             "LuckSkill.Lucky",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Name"),
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "Lucky_Desc"),
             10,
             this));
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             33,
             "LuckSkill.UnUnlucky",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Name"),
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "UnUnlucky_Desc"),
             10,
             this));
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             34,
             "LuckSkill.ShootingStar",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Name"),
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "ShootingStar_Desc"),
             10,
             this));
-        this.Professions.Add(new SCProfession(
+        this.Professions.Add(new CustomProfession(
             35,
             "LuckSkill.SpiritChild",
             Reflector.GetStaticMethodDelegate<Func<string>>(i18n, "SpiritChild_Name"),
@@ -75,7 +75,7 @@ public sealed class LuckSkill : Skill
         for (var i = 0; i < 6; i++)
         {
             var profession = this.Professions[i];
-            SCProfession.Loaded[profession.Id] = (SCProfession)profession;
+            CustomProfession.Loaded[profession.Id] = (CustomProfession)profession;
         }
 
         Instance = this;
@@ -85,7 +85,7 @@ public sealed class LuckSkill : Skill
     public override int MaxLevel => 10;
 
     /// <summary>Gets the singleton <see cref="LuckSkill"/> instance.</summary>
-    internal static Skill? Instance { get; private set; }
+    internal static VanillaSkill? Instance { get; private set; }
 
     /// <inheritdoc />
     public override void Revalidate()

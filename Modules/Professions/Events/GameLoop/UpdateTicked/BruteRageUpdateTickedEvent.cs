@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class BruteRageUpdateTickedEvent : UpdateTickedEvent
 {
-    private readonly int _buffId = (Manifest.UniqueID + Profession.Brute).GetHashCode();
+    private readonly int _buffId = (Manifest.UniqueID + VanillaProfession.Brute).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="BruteRageUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -40,7 +40,7 @@ internal sealed class BruteRageUpdateTickedEvent : UpdateTickedEvent
         }
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        var expiry = player.HasProfession(Profession.Brute, true) ? 40 : 20;
+        var expiry = player.HasProfession(VanillaProfession.Brute, true) ? 40 : 20;
         if (Game1.game1.ShouldTimePass() && State.SecondsOutOfCombat > expiry && e.IsMultipleOf(300))
         {
             ProfessionsModule.State.BruteRageCounter--;
@@ -74,7 +74,7 @@ internal sealed class BruteRageUpdateTickedEvent : UpdateTickedEvent
                 100)
             {
                 which = this._buffId,
-                sheetIndex = Profession.BruteRageSheetIndex,
+                sheetIndex = VanillaProfession.BruteRageSheetIndex,
                 millisecondsDuration = 0,
                 description = I18n.Brute_Buff_Desc(magnitude.ToString("P1"), (magnitude / 2f).ToString("P1")),
             });

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 #endregion using directives
@@ -80,6 +81,8 @@ public sealed class HarmonicInterval : IEquatable<HarmonicInterval>
 }
 
 /// <summary>Extensions for the <see cref="HarmonicInterval"/> class.</summary>
+[SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1204:Static elements should appear before instance elements", Justification = "Extensions for data structure of class file.")]
+[SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1402:File may only contain a single type", Justification = "Extensions for data structure of class file.")]
 public static class HarmonicIntervalExtensions
 {
     /// <summary>Groups the <see cref="HarmonicInterval"/>s in the specified <paramref name="intervalMatrix"/> by their respective <see cref="IntervalNumber"/>s.</summary>

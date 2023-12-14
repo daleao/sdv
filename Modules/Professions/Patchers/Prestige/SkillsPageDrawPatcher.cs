@@ -38,7 +38,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Inject: x -= ProfessionsModule.Config.PrestigeProgressionStyle == ProgressionStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
+        // Inject: x -= ProfessionsModule.Config.PrestigeRibbonStyle == RibbonStyle.Stars ? Textures.STARS_WIDTH_I : Textures.RIBBON_WIDTH_I;
         // After: x = ...
         try
         {
@@ -58,13 +58,9 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 .Insert(
                     new[]
                     {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ProfessionConfig).RequirePropertyGetter(nameof(ProfessionConfig.EnablePrestige))),
+                            OpCodes.Call,
+                            typeof(ProfessionsModule).RequirePropertyGetter(nameof(ProfessionsModule.EnableSkillReset))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                         new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
                         new CodeInstruction(
@@ -73,7 +69,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(
                             OpCodes.Callvirt,
                             typeof(ProfessionConfig).RequirePropertyGetter(
-                                nameof(ProfessionConfig.PrestigeProgressionStyle))),
+                                nameof(ProfessionConfig.PrestigeRibbonStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, notRibbons),
                         new CodeInstruction(
@@ -219,7 +215,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     internal static void DrawExtendedLevelBars(
         int levelIndex, int skillIndex, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnablePrestigeLevels)
         {
             return;
         }
@@ -248,7 +244,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 
     internal static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnableSkillReset)
         {
             return;
         }
@@ -257,7 +253,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             new Vector2(
                 page.xPositionOnScreen + page.width + Textures.ProgressionHorizontalOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset);
-        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
         {
             position.X -= 22;
             position.Y -= 4;
@@ -270,9 +266,9 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
             var skill = i switch
             {
-                1 => Skill.Mining,
-                3 => Skill.Fishing,
-                _ => Skill.FromValue(i),
+                1 => VanillaSkill.Mining,
+                3 => VanillaSkill.Fishing,
+                _ => VanillaSkill.FromValue(i),
             };
             var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
             if (count == 0)
@@ -281,7 +277,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             }
 
             Rectangle sourceRect;
-            if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+            if (ProfessionsModule.Config.PrestigeRibbonStyle.ToString().Contains("Ribbons"))
             {
                 sourceRect = new Rectangle(
                     i * Textures.RibbonWidth,
@@ -289,7 +285,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                     Textures.RibbonWidth,
                     Textures.RibbonWidth);
             }
-            else if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars)
+            else if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
             {
                 sourceRect = new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16);
             }
@@ -305,26 +301,26 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,
                 1f);
         }
 
-        if (SCSkill.Loaded.Count == 0)
+        if (CustomSkill.Loaded.Count == 0)
         {
             return;
         }
 
-        if (ProfessionsModule.Config.PrestigeProgressionStyle.ToString().Contains("Ribbons"))
+        if (ProfessionsModule.Config.PrestigeRibbonStyle.ToString().Contains("Ribbons"))
         {
             position.X += 2; // not sure why but custom skill ribbons render with a small offset
         }
 
         var customSkills = SpaceCoreIntegration.Instance!.ModApi!
             .GetCustomSkills()
-            .Select(name => SCSkill.Loaded[name]);
+            .Select(name => CustomSkill.Loaded[name]);
         if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
@@ -341,14 +337,14 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var sourceRect = ProfessionsModule.Config.PrestigeProgressionStyle switch
+            var sourceRect = ProfessionsModule.Config.PrestigeRibbonStyle switch
             {
-                ProfessionConfig.ProgressionStyle.Gen3Ribbons or ProfessionConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
+                ProfessionConfig.RibbonStyle.Gen3Ribbons or ProfessionConfig.RibbonStyle.Gen4Ribbons => new Rectangle(
                     skill.StringId == "blueberry.LoveOfCooking.CookingSkill" ? 111 : 133,
                     (count - 1) * Textures.RibbonWidth,
                     Textures.RibbonWidth,
                     Textures.RibbonWidth),
-                ProfessionConfig.ProgressionStyle.StackedStars =>
+                ProfessionConfig.RibbonStyle.StackedStars =>
                     new Rectangle(0, (count - 1) * 16, Textures.StarsWidth, 16),
                 _ => Rectangle.Empty,
             };
@@ -360,7 +356,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars
+                ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars
                     ? Textures.StarsScale
                     : Textures.RibbonScale,
                 SpriteEffects.None,

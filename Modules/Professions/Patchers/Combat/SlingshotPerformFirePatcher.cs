@@ -118,7 +118,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     knockback = 0.4f;
                     break;
                 case ObjectIds.Slime:
-                    damageBase = who.HasProfession(Profession.Piper) ? 10 : 1;
+                    damageBase = who.HasProfession(VanillaProfession.Piper) ? 10 : 1;
                     knockback = 0f;
                     break;
                 default: // fish, fruit or vegetable
@@ -145,7 +145,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             }
 
             // calculate overcharge
-            var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge() : 1f;
+            var overcharge = who.HasProfession(VanillaProfession.Desperado) ? __instance.GetOvercharge() : 1f;
             if (overcharge > 1f)
             {
                 EventManager.Disable<DesperadoOverchargeUpdateTickedEvent>();

@@ -26,31 +26,36 @@ internal sealed class UtilityPercentGameCompleteInnerPatcher : HarmonyPatcher
     // ReSharper disable once UnusedParameter.Local
     private static bool UtilityPercentGameCompletePrefix(ref float __result)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || !ProfessionsModule.Config.ExtendedPerfectionRequirement)
+        if (!ProfessionsModule.EnablePrestige || !ProfessionsModule.Config.ExtendedPerfectionRequirement)
         {
             return true; // run original logic
         }
 
-        if (ProfessionsModule.Config.EnableExtendedProgression)
+        if (ProfessionsModule.EnablePrestigeLevels)
         {
             // ReSharper disable once RedundantAssignment
             __result = Math.Min(
-                Skill.ListVanilla
+                VanillaSkill.ListVanilla
                     .Where(skill => skill.CurrentLevel >= 20)
                     .Sum(_ => 1f),
                 5f) / 5f;
+
+            return false; // don't run original logic
         }
-        else
+
+        if (ProfessionsModule.EnableSkillReset)
         {
             // ReSharper disable once RedundantAssignment
             __result += Math.Min(
-                Skill.ListVanilla
+                VanillaSkill.ListVanilla
                     .Where(skill => Game1.player.HasAllProfessionsInSkill(skill))
                     .Sum(_ => 1f),
                 5f) / 5f;
+
+            return false; // don't run original logic
         }
 
-        return false; // don't run original logic
+        return true; // run original logic
     }
 
     #endregion harmony patches

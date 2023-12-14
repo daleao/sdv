@@ -36,7 +36,7 @@ internal sealed class TreasureHuntCommand : ConsoleCommand
         var tile = Game1.currentCursorTile;
         if (location.IsOutdoors)
         {
-            if (!player.HasProfession(Profession.Scavenger))
+            if (!player.HasProfession(VanillaProfession.Scavenger))
             {
                 Log.W($"{player.Name} does not have the Scavenger profession.");
                 return;
@@ -64,7 +64,7 @@ internal sealed class TreasureHuntCommand : ConsoleCommand
         }
         else if (location is MineShaft)
         {
-            if (!player.HasProfession(Profession.Prospector))
+            if (!player.HasProfession(VanillaProfession.Prospector))
             {
                 Log.W($"{player.Name} does not have the Prospector profession.");
                 return;

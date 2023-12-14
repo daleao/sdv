@@ -22,7 +22,7 @@ internal sealed class ConservationismDayEndingEvent : DayEndingEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Conservationist);
+    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Conservationist);
 
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)

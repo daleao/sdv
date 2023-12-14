@@ -118,7 +118,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 {
                     new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.botanist),
                 }) // find repeated botanist check
-                .SetOperand(Profession.Gemologist.Value) // replace with gemologist check
+                .SetOperand(VanillaProfession.Gemologist.Value) // replace with gemologist check
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var shouldntSetCustomQuality) // copy next section branch destination
@@ -202,7 +202,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(Profession.Forager.Value)
+                .MatchProfessionCheck(VanillaProfession.Forager.Value)
                 .Move(-1)
                 .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
                 .Copy(out copy, steps, true, true)
@@ -210,9 +210,9 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 .AddLabels(isNotPrestiged)
                 .Insert(copy)
                 .Match(
-                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Forager.Value) },
+                    new[] { new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Forager.Value) },
                     ILHelper.SearchOption.Previous)
-                .SetOperand(Profession.Forager.Value + 100)
+                .SetOperand(VanillaProfession.Forager.Value + 100)
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .SetOperand(isNotPrestiged)
                 .Move()
@@ -240,11 +240,11 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
 
     private static void CheckActionSubroutine(SObject obj, GameLocation location, Farmer who)
     {
-        if (who.HasProfession(Profession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
+        if (who.HasProfession(VanillaProfession.Ecologist) && obj.isForage(location) && !obj.IsForagedMineral())
         {
             who.Increment(DataKeys.EcologistItemsForaged);
         }
-        else if (who.HasProfession(Profession.Gemologist) && obj.IsForagedMineral())
+        else if (who.HasProfession(VanillaProfession.Gemologist) && obj.IsForagedMineral())
         {
             who.Increment(DataKeys.GemologistMineralsCollected);
             var collected = who.Read<int>(DataKeys.GemologistMineralsCollected);

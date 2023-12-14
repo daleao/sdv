@@ -31,8 +31,8 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
         }
 
         var lastUser = __instance.getLastFarmerToUse();
-        __result = (o.ParentSheetIndex == ObjectIds.Slime && lastUser.HasProfession(Profession.Rascal)) ||
-                   (o.ParentSheetIndex == ObjectIds.MonsterMusk && lastUser.HasProfession(Profession.Rascal, true));
+        __result = (o.ParentSheetIndex == ObjectIds.Slime && lastUser.HasProfession(VanillaProfession.Rascal)) ||
+                   (o.ParentSheetIndex == ObjectIds.MonsterMusk && lastUser.HasProfession(VanillaProfession.Rascal, true));
     }
 
     #endregion harmony patches

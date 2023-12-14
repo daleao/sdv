@@ -23,7 +23,7 @@ internal sealed class SetMaxFishingAuditCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        $"Set all fish to seen and caught at max-size. Relevant for {Profession.Angler}s.";
+        $"Set all fish to seen and caught at max-size. Relevant for {VanillaProfession.Angler}s.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)

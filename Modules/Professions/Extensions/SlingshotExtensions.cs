@@ -10,7 +10,7 @@ using StardewValley.Tools;
 /// <summary>Extensions for the <see cref="Slingshot"/> class.</summary>
 internal static class SlingshotExtensions
 {
-    /// <summary>Determines the extra power of shots fired by <see cref="Profession.Desperado"/>.</summary>
+    /// <summary>Determines the extra power of shots fired by <see cref="VanillaProfession.Desperado"/>.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     /// <returns>A value between 1 and 2.</returns>
     internal static float GetOvercharge(this Slingshot slingshot)

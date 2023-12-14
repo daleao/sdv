@@ -42,7 +42,7 @@ internal sealed class MineShaftCheckActionPatcher : HarmonyPatcher
                 .AddLabels(resumeExecution)
                 .Insert(
                     new[] { new CodeInstruction(OpCodes.Ldarg_3), })
-                .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Spelunker.Value, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

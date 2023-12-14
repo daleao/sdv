@@ -335,7 +335,7 @@ internal static class MonsterExtensions
         }
 
         monster.SetOrIncrement_Poisoned(duration, intensity, poisoner);
-        monster.startGlowing(Color.LimeGreen, true, 0.05f);
+        monster.startGlowing(Color.Purple, true, 0.05f);
         PoisonAnimation.PoisonAnimationByMonster.AddOrUpdate(monster, new PoisonAnimation(monster, duration));
     }
 

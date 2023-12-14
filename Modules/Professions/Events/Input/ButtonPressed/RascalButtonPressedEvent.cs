@@ -22,7 +22,7 @@ internal sealed class RascalButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Rascal);
+    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Rascal);
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)

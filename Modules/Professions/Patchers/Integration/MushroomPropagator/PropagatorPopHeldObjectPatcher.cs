@@ -42,7 +42,7 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
             var doDoubleHarvest = generator.DefineLabel();
             var randInt = generator.DeclareLocal(typeof(int));
             helper
-                .MatchProfessionCheck(Profession.Forager.Value) // find index of forager check
+                .MatchProfessionCheck(VanillaProfession.Forager.Value) // find index of forager check
                 .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                 .GetOperand(out var resumeExecution)
                 .Match(new[] { new CodeInstruction(OpCodes.Brtrue_S) })
@@ -56,7 +56,7 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
                     })
                 .Move(2)
                 .AddLabels(doDoubleHarvest)
-                .InsertProfessionCheck(Profession.Forager.Value + 100)
+                .InsertProfessionCheck(VanillaProfession.Forager.Value + 100)
                 .Insert(
                     new[]
                     {
@@ -78,7 +78,7 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
         try
         {
             helper
-                .MatchProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
+                .MatchProfessionCheck(VanillaProfession.Ecologist.Value) // find index of ecologist check
                 .Move(-1)
                 .GetLabels(out var labels)
                 .CountUntil(new[] { new CodeInstruction(OpCodes.Ldc_I4_4) }, out var count)
@@ -112,7 +112,7 @@ internal sealed class PropagatorPopHeldObjectPatcher : HarmonyPatcher
     private static int PopExtraHeldMushroomsSubroutine(SObject propagator)
     {
         var who = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : propagator.GetOwner();
-        return who.HasProfession(Profession.Ecologist)
+        return who.HasProfession(VanillaProfession.Ecologist)
             ? who.GetEcologistForageQuality()
             : Reflector.GetUnboundFieldGetter<SObject, int>(propagator, "SourceMushroomQuality").Invoke(propagator);
     }

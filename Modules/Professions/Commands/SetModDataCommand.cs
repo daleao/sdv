@@ -107,7 +107,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static void SetEcologistItemsForaged(int? value)
     {
-        if (!Game1.player.HasProfession(Profession.Ecologist))
+        if (!Game1.player.HasProfession(VanillaProfession.Ecologist))
         {
             Log.W("You must have the Ecologist profession.");
             return;
@@ -122,7 +122,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static void SetGemologistMineralsCollected(int? value)
     {
-        if (!Game1.player.HasProfession(Profession.Gemologist))
+        if (!Game1.player.HasProfession(VanillaProfession.Gemologist))
         {
             Log.W("You must have the Gemologist profession.");
             return;
@@ -137,7 +137,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static void SetProspectorHuntStreak(int? value)
     {
-        if (!Game1.player.HasProfession(Profession.Prospector))
+        if (!Game1.player.HasProfession(VanillaProfession.Prospector))
         {
             Log.W("You must have the Prospector profession.");
             return;
@@ -152,7 +152,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static void SetScavengerHuntStreak(int? value)
     {
-        if (!Game1.player.HasProfession(Profession.Scavenger))
+        if (!Game1.player.HasProfession(VanillaProfession.Scavenger))
         {
             Log.W("You must have the Scavenger profession.");
             return;
@@ -167,7 +167,7 @@ internal sealed class SetModDataCommand : ConsoleCommand
 
     private static void SetConservationistTrashCollectedThisSeason(int? value)
     {
-        if (!Game1.player.HasProfession(Profession.Conservationist))
+        if (!Game1.player.HasProfession(VanillaProfession.Conservationist))
         {
             Log.W("You must have the Conservationist profession.");
             return;

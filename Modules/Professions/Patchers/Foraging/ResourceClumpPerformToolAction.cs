@@ -42,7 +42,7 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
             var resumeExecution1 = generator.DefineLabel();
             var resumeExecution2 = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(Profession.Lumberjack.Value)
+                .MatchProfessionCheck(VanillaProfession.Lumberjack.Value)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, 10) })
                 .AddLabels(isNotPrestiged)
                 .Insert(
@@ -53,7 +53,7 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))),
                     })
-                .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Lumberjack.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {
@@ -79,7 +79,7 @@ internal sealed class ResourceClumpPerformToolAction : HarmonyPatcher
                             OpCodes.Callvirt,
                             typeof(Tool).RequireMethod(nameof(Tool.getLastFarmerToUse))),
                     })
-                .InsertProfessionCheck(Profession.Lumberjack.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Lumberjack.Value + 100, forLocalPlayer: false)
                 .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2) })
                 .InsertDiceRoll(0.5)
                 .Insert(

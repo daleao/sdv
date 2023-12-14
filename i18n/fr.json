@@ -195,11 +195,14 @@
   "prestige.level_up.tooltip:5": "Vous avez déjà tous les professions dans cette branche.",
   "prestige.level_up.tooltip:10": "Vous avez déjà cette profession.",
   "prestige.level_up.question": "Vous utilisez le(a) {{oldUltimate}} de la profession {{oldProfession}}. Remplacer par le(a) {{newUltimate}} de la profession {{newProfession}} ?",
-  "prestige.level_up.unlocked": "Vous pouvez désormais continuer à développer votre compétence {{skill}} encore plus.",
-  "prestige.level_up.prestige": "Choisissez une profession à prestigier:",
+  "prestige.level_up.unlocked.standard": "Vous pouvez désormais continuer à développer votre compétence {{skill}} encore plus.",
+  "prestige.level_up.unlocked.challenge": "Vous pouvez désormais continuer à développer vos compétences encore plus.",
+  "prestige.level_up.choose": "Choisissez une profession à prestigier:",
+  "prestige.level_up.streamlined": "Gained Prestige",
   "prestige.achievement.title.male": "Maître des Cinq Métiers",
   "prestige.achievement.title.female": "Maîtresse des Cinq Métiers",
-  "prestige.achievement.desc": "Acquérir tous les professions dans toutes les compétences.",
+  "prestige.achievement.desc.male": "Dépassez les limites d'un agriculteur ordinaire.",
+  "prestige.achievement.desc.female": "Dépassez les limites d'une agricultrice ordinaire.",
 
 
   // *********** //
@@ -341,6 +344,13 @@
   "buffs.yoba.desc": "Ligne de vie",
   "global.infinitycraft": "{{who}} a forgé une Bague Infini.",
   "resonance": "Résonance",
+
+  "dialogue.emily.gemstones.first": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the vibrant energy of a ruby.#$b#Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
+  "dialogue.emily.gemstones.second": "Every gemstone has a different vibration. When you connect with a gemstone, it resonates with the frequencies of our internal emotions.#$b#If you listen closely, you can even hear it!",
+  "dialogue.emily.gemstones.third": "How do you connect with a gemstone?#$b#$h#By keeping it close to you, of course!#$b#$0$#You can wear it as a ring or a necklace and carry it around with you. It's like having a little piece of nature's harmony with you wherever you go!",
+  "dialogue.emily.gemstones.fourth": "Most jewelry can only house one gemstone.#$b#Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones.",
+  "dialogue.qi.gemstones.first": "I see you've made yourself a couple of Iridium Bands.#$b#Have you discovered their true purpose?",
+  "dialogue.qi.gemstones.second": "It may not seem like much, but combined wth some cosmic power the Iridium Band can become extraordinarily powerful...",
 
   // json-assets
   "gems.garnet.name": "Grenat",
@@ -535,8 +545,13 @@
   "gmcm.limit_gauge_offset.desc": "Use this to adjust the X and Y coordinates of the Limit Gauge if using other mods which also add HUD bars.",
 
   "gmcm.sections.prfs.prestige": "Skill Reset & Prestige",
-  "gmcm.enable_prestige.title": "Enable Prestige",
-  "gmcm.enable_prestige.desc": "Must be enabled to allow all prestige modifications.",
+  "gmcm.prestige_progression_mode.title": "Prestige Mode",
+  "gmcm.prestige_progression_mode.desc": "Determines whether the Prestige system is enabled, and if so, the paradigms of how it should function.\nNone - All prestige systems disabled.\nStandard - Prestige levels for each skill unlocked after acquiring all professions in that skill.\nChallenge - Prestige levels for all skills unlocked after acquiring all professions in every skill.\nStreamlined - Prestige levels unlocked immediately at level 10, but can only acquire one profession per skill.\nAll Professions - Prestige levels disabled, but can still reset to acquire all professions.",
+  "gmcm.prestige_mode.none": "None",
+  "gmcm.prestige_mode.standard": "Standard",
+  "gmcm.prestige_mode.streamlined": "Streamlined",
+  "gmcm.prestige_mode.challenge": "Challenge",
+  "gmcm.prestige_mode.all_professions": "All Professions",
   "gmcm.skill_reset_cost_multiplier.title": "Skill Reset Cost Multiplier",
   "gmcm.skill_reset_cost_multiplier.desc": "Multiplies the base cost reseting a skill at the Statue of Prestige. Set to 0 to reset for free.",
   "gmcm.forget_recipes_on_skill_reset.title": "Forget Recipes on Skill Reset",
@@ -547,17 +562,13 @@
   "gmcm.exp_bonus_per_skill_reset.desc": "A percentage bonus applied to a skill's experience gain after a respective skill prestige. Negative values mean it becomes harder to regain those levels.",
   "gmcm.prestige_respec_cost.title": "Cost of Prestige Respec",
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-  "gmcm.prestige_progression_style.title": "Progression Style",
-  "gmcm.prestige_progression_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.progression_style.stackedstars": "Stacked Stars",
-  "gmcm.progression_style.gen3ribbons": "Gen 3 Ribbons",
-  "gmcm.progression_style.gen4ribbons": "Gen 4 Ribbons",
-
-  "gmcm.enable_extended_progression.title": "Enable Extended Progression",
-  "gmcm.enable_extended_progression.desc": "Must be enabled to allow progression until level 20.",
+  "gmcm.prestige_ribbon_style.title": "Progression Style",
+  "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
+  "gmcm.ribbon_stylestacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
+  "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",
   "gmcm.required_exp_per_extended_level.desc": "How much skill experience is required for each level-up above level 10.",
-
   "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
   "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
 

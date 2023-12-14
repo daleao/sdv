@@ -4,30 +4,34 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley;
+using SCSkill = SpaceCore.Skills.Skill;
 
 #endregion using directives
 
 /// <summary>Represents a SpaceCore-provided custom skill.</summary>
 // ReSharper disable once InconsistentNaming
-public sealed class SCSkill : ISkill
+public sealed class CustomSkill : ISkill
 {
-    private static readonly BiMap<SCSkill, SpaceCore.Skills.Skill> SpaceCoreMap = new();
+    private static readonly BiMap<CustomSkill, SCSkill> SpaceCoreMap = new();
 
-    /// <summary>Initializes a new instance of the <see cref="SCSkill"/> class.</summary>
+    private bool _canPrestige;
+
+    /// <summary>Initializes a new instance of the <see cref="CustomSkill"/> class.</summary>
     /// <param name="id">The unique id of skill.</param>
-    internal SCSkill(string id)
+    internal CustomSkill(string id)
     {
         this.StringId = id;
 
-        var skill = SpaceCore.Skills.GetSkill(id);
-        this.DisplayName = skill.GetName();
-        if (skill.Professions.Count != 6)
+        var scSkill = SpaceCore.Skills.GetSkill(id);
+        this.DisplayName = scSkill.GetName();
+        if (scSkill.Professions.Count != 6)
         {
             ThrowHelper.ThrowInvalidOperationException(
                 $"The custom skill {id} did not provide the expected number of professions.");
@@ -35,7 +39,7 @@ public sealed class SCSkill : ISkill
 
         for (var i = 0; i < 6; i++)
         {
-            this.Professions.Add(new SCProfession(skill.Professions[i], i < 2 ? 5 : 10, this));
+            this.Professions.Add(new CustomProfession(scSkill.Professions[i], i < 2 ? 5 : 10, this));
         }
 
         this.ProfessionPairs[-1] = new ProfessionPair(this.Professions[0], this.Professions[1], null, 5);
@@ -47,11 +51,11 @@ public sealed class SCSkill : ISkill
         for (var i = 0; i < 6; i++)
         {
             var profession = this.Professions[i];
-            SCProfession.Loaded[profession.Id] = (SCProfession)profession;
+            CustomProfession.Loaded[profession.Id] = (CustomProfession)profession;
         }
 
-        skill.ExperienceCurve = ISkill.ExperienceCurve;
-        SpaceCoreMap.TryAdd(this, skill);
+        scSkill.ExperienceCurve = ISkill.ExperienceCurve.Skip(1).ToArray();
+        SpaceCoreMap.TryAdd(this, scSkill);
     }
 
     /// <inheritdoc />
@@ -67,11 +71,7 @@ public sealed class SCSkill : ISkill
     public int CurrentLevel => SpaceCore.Skills.GetSkillLevel(Game1.player, this.StringId);
 
     /// <inheritdoc />
-    public int MaxLevel =>
-        this.CanPrestige && ProfessionsModule.Config.EnablePrestige && ProfessionsModule.Config.EnableExtendedProgression &&
-        ((ISkill)this).PrestigeLevel >= 4
-            ? 20
-            : 10;
+    public int MaxLevel => this.CanGainPrestigeLevels() ? 20 : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier =>
@@ -92,26 +92,34 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public IDictionary<int, ProfessionPair> ProfessionPairs { get; } = new Dictionary<int, ProfessionPair>();
 
-    /// <summary>Gets the currently loaded <see cref="SCSkill"/>s.</summary>
+    /// <summary>Gets the currently loaded <see cref="CustomSkill"/>s.</summary>
     /// <remarks>The value type is <see cref="ISkill"/> because this also includes <see cref="LuckSkill"/>, which is not a SpaceCore skill.</remarks>
     internal static Dictionary<string, ISkill> Loaded { get; } = new();
 
-    /// <summary>Gets or sets a value indicating whether this skill can gain prestige levels.</summary>
-    internal bool CanPrestige { get; set; } = false;
-
-    /// <summary>Gets the <see cref="SCSkill"/> equivalent to the specified <see cref="SpaceCore.Skills.Skill"/>.</summary>
-    /// <param name="skill">The <see cref="SpaceCore.Skills.Skill"/>.</param>
-    /// <returns>The equivalent <see cref="SCSkill"/>.</returns>
-    public static SCSkill? FromSpaceCore(SpaceCore.Skills.Skill skill)
+    /// <summary>Gets the <see cref="CustomSkill"/> equivalent to the specified <see cref="SCSkill"/>.</summary>
+    /// <param name="skill">The <see cref="SCSkill"/>.</param>
+    /// <returns>The equivalent <see cref="CustomSkill"/>.</returns>
+    public static CustomSkill? FromSpaceCore(SCSkill skill)
     {
         return SpaceCoreMap.TryGetReverse(skill, out var scProfession) ? scProfession : null;
     }
 
-    /// <summary>Gets the <see cref="SpaceCore.Skills.Skill"/> equivalent to this <see cref="SCSkill"/>.</summary>
-    /// <returns>The equivalent <see cref="SpaceCore.Skills.Skill"/>.</returns>
-    public SpaceCore.Skills.Skill? ToSpaceCore()
+    /// <summary>Gets the <see cref="SCSkill"/> equivalent to this <see cref="CustomSkill"/>.</summary>
+    /// <returns>The equivalent <see cref="SCSkill"/>.</returns>
+    public SCSkill? ToSpaceCore()
     {
         return SpaceCoreMap.TryGetForward(this, out var skill) ? skill : null;
+    }
+
+    /// <summary>Determines whether this skill can gain Prestige Levels.</summary>
+    /// <returns><see langword="true"/> if the local player meets all Prestige conditions, otherwise <see langword="false"/>.</returns>
+    public bool CanGainPrestigeLevels()
+    {
+        return this._canPrestige && (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+                ((ISkill)this).AcquiredProfessions.Length >= 4) ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+                Game1.player.HasAllProfessions()));
     }
 
     /// <inheritdoc />
@@ -123,7 +131,15 @@ public sealed class SCSkill : ISkill
     /// <inheritdoc />
     public void SetLevel(int level)
     {
-        level = Math.Min(level, this.CanPrestige ? 20 : 10);
+        level = Math.Min(level, this.MaxLevel);
+        for (var l = this.CurrentLevel + 1; l <= level; l++)
+        {
+            Reflector
+                .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                .Invoke()
+                .Add(new KeyValuePair<string, int>(this.StringId, level));
+        }
+
         var diff = ISkill.ExperienceCurve[level] - this.CurrentExp;
         this.AddExperience(diff);
     }
@@ -244,5 +260,11 @@ public sealed class SCSkill : ISkill
         {
             this.AddExperience(ISkill.ExpAtLevel10 - currentExp);
         }
+    }
+
+    /// <summary>Sets the prestige flag for this skill to <see langword="true"/>.</summary>
+    internal void RegisterPrestige()
+    {
+        this._canPrestige = true;
     }
 }

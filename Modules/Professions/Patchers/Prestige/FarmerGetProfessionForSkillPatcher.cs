@@ -24,12 +24,12 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
     private static bool FarmerGetProfessionForSkillPrefix(
         Farmer __instance, ref int __result, int skillType, int skillLevel)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || skillType == Farmer.luckSkill)
+        if (!ProfessionsModule.EnablePrestige || skillType == Farmer.luckSkill)
         {
             return true; // run original logic
         }
 
-        if (!Skill.TryFromValue(skillType, out var skill))
+        if (!VanillaSkill.TryFromValue(skillType, out var skill))
         {
             Log.W($"[PRFS]: Received some unknown vanilla skill type ({skillType}).");
             return true; // run original logic
@@ -42,7 +42,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!Profession.TryFromValue(tierOneIndex, out var tierOneProfession))
+        if (!VanillaProfession.TryFromValue(tierOneIndex, out var tierOneProfession))
         {
             Log.W($"[PRFS]: Received some unknown vanilla profession ({skillType}).");
             return true; // run original logic
@@ -51,7 +51,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
         __result = skillLevel switch
         {
             5 => tierOneIndex,
-            10 => __instance.GetCurrentProfessionForBranch(tierOneProfession),
+            10 => __instance.GetCurrentLeafProfessionForBranch(tierOneProfession),
             _ => -1,
         };
 

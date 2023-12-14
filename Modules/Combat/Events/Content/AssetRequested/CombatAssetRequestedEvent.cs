@@ -79,6 +79,9 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             $"{Manifest.UniqueID}/StunAnimation",
             new ModTextureProvider(() => "assets/sprites/effects/stun.png"));
         this.Provide(
+            $"{Manifest.UniqueID}/PoisonAnimation",
+            new ModTextureProvider(() => "assets/sprites/effects/poison.png"));
+        this.Provide(
             $"{Manifest.UniqueID}/GemstoneSockets",
             new ModTextureProvider(ProvideGemSockets));
         this.Provide(

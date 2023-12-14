@@ -27,8 +27,8 @@ internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatcher : HarmonyPa
     {
         try
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession) ||
-                (Skill)profession.Skill == Farmer.luckSkill)
+            if (!VanillaProfession.TryFromValue(whichProfession, out var profession) ||
+                (VanillaSkill)profession.Skill == Farmer.luckSkill)
             {
                 return true; // run original logic
             }

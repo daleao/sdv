@@ -11,7 +11,7 @@ using StardewValley.Tools;
 [UsedImplicitly]
 internal sealed class DesperadoQuickshotUpdateTickedEvent : UpdateTickedEvent
 {
-    private readonly int _buffId = (Manifest.UniqueID + Profession.Desperado).GetHashCode();
+    private readonly int _buffId = (Manifest.UniqueID + VanillaProfession.Desperado).GetHashCode();
 
     private int _timer;
 
@@ -69,7 +69,7 @@ internal sealed class DesperadoQuickshotUpdateTickedEvent : UpdateTickedEvent
                 I18n.Desperado_Buff_Name())
             {
                 which = this._buffId,
-                sheetIndex = Profession.DesperadoQuickshotSheetIndex,
+                sheetIndex = VanillaProfession.DesperadoQuickshotSheetIndex,
                 millisecondsDuration = 0,
                 description = I18n.Desperado_Buff_Desc(),
             });

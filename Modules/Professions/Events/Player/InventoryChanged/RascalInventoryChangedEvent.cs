@@ -32,13 +32,13 @@ internal sealed class RascalInventoryChangedEvent : InventoryChangedEvent
                 continue;
             }
 
-            if (player.HasProfession(Profession.Rascal) &&
+            if (player.HasProfession(VanillaProfession.Rascal) &&
                 (slingshot.numAttachmentSlots.Value == 1 || slingshot.attachments.Length == 1))
             {
                 slingshot.numAttachmentSlots.Value = 2;
                 slingshot.attachments.SetCount(2);
             }
-            else if (!player.HasProfession(Profession.Rascal) &&
+            else if (!player.HasProfession(VanillaProfession.Rascal) &&
                      (slingshot.numAttachmentSlots.Value == 2 || slingshot.attachments.Length == 2))
             {
                 var replacement = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is { } bowData

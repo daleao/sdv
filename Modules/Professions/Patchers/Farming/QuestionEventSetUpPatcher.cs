@@ -48,9 +48,9 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
                 .Move()
                 .AddLabels(resumeExecution) // branch here to resume execution
                 .Move(-1)
-                .InsertProfessionCheck(Profession.Breeder.Value)
+                .InsertProfessionCheck(VanillaProfession.Breeder.Value)
                 .Insert(new[] { new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder) })
-                .InsertProfessionCheck(Profession.Breeder.Value + 100)
+                .InsertProfessionCheck(VanillaProfession.Breeder.Value + 100)
                 .Insert(
                     new[]
                     {

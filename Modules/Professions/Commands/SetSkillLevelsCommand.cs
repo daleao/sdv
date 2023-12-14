@@ -50,8 +50,8 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                 return;
             }
 
-            Skill.List.ForEach(s => s.SetLevel(newLevel));
-            SCSkill.Loaded.Values.ForEach(s => s.SetLevel(newLevel));
+            VanillaSkill.List.ForEach(s => s.SetLevel(newLevel));
+            CustomSkill.Loaded.Values.ForEach(s => s.SetLevel(newLevel));
         }
 
         var argsList = args.ToList();
@@ -69,13 +69,13 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                 return;
             }
 
-            var skillName = args[0];
-            if (!Skill.TryFromName(skillName, true, out var skill))
+            var skillName = argsList[0];
+            if (!VanillaSkill.TryFromName(skillName, true, out var skill))
             {
-                var found = SCSkill.Loaded.Values.FirstOrDefault(s =>
+                var found = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                     string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
                     string.Equals(s.DisplayName, skillName, StringComparison.CurrentCultureIgnoreCase));
-                if (found is not SCSkill customSkill)
+                if (found is not CustomSkill customSkill)
                 {
                     Log.W("You must provide a valid skill name." + this.GetUsage());
                     return;

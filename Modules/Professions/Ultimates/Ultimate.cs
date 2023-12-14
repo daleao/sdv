@@ -27,16 +27,16 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
     #region enum entries
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="Modules.Professions.Profession.Brute"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Brute"/>.</summary>
     public static readonly Ultimate BruteFrenzy = new Frenzy();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="Modules.Professions.Profession.Poacher"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Poacher"/>.</summary>
     public static readonly Ultimate PoacherAmbush = new Ambush();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="Modules.Professions.Profession.Piper"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Piper"/>.</summary>
     public static readonly Ultimate PiperConcerto = new Concerto();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="Modules.Professions.Profession.Desperado"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Desperado"/>.</summary>
     public static readonly Ultimate DesperadoBlossom = new DeathBlossom();
 
     #endregion enum entires

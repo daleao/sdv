@@ -29,14 +29,14 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     {
         switch (__instance.name)
         {
-            case "Tapper" when Game1.player.HasProfession(Profession.Tapper):
+            case "Tapper" when Game1.player.HasProfession(VanillaProfession.Tapper):
                 __instance.recipeList = new Dictionary<int, int>
                 {
                     { ObjectIds.Wood, 25 },
                     { ObjectIds.CopperBar, 1 },
                 };
                 break;
-            case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
+            case "Heavy Tapper" when Game1.player.HasProfession(VanillaProfession.Tapper):
                 __instance.recipeList = new Dictionary<int, int>
                 {
                     { ObjectIds.Hardwood, 18 },
@@ -45,7 +45,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
                 break;
             default:
                 {
-                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
+                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(VanillaProfession.Blaster))
                     {
                         __instance.numberProducedPerCraft *= 2;
                     }

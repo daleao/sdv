@@ -2,12 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
-## Current Patch 4.1.7 Highlights
+## Current Patch 4.1.8 Highlights
 
-* [CMBT]: Gemstones now faintly play their frequency when held for a while.
-* [PRFS]: Added new titles to Prestiged profession variants. The [Readme](./Modules/Professions) has been updated to reflect this change.
-* [PRFS]: `ForgetRecipesOnSkillReset` setting should now apply to SpaceCore skills when enabled.
-* [PRFS]: SpaceCore skills should now be properly capped at level 10 when not fully reset.
+* Added new config presets which can be found in the "optionals" folder.
+* [CMBT]: Added some flavor dialogue to Emily and Mr. Qi dropping some hints about the Infinity Band.
+* [PRFS]: Added new Prestige mode options. You can now have Prestige Levels without needing to reset your skills a bunch of times. Or make it even harder by requiring full reset of **all** skills before unlocking Prestige Levels.
+* [PRFS]: Overhauled the Oceanographer (Prestiged Conservationist) profession perk to better fit the profession's title.
+
+<sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
 ## Minor Release 4.1.x Highlights
 

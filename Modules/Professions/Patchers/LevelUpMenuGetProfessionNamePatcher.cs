@@ -27,7 +27,7 @@ internal sealed class LevelUpMenuGetProfessionNamePatcher : HarmonyPatcher
     {
         try
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession))
+            if (!VanillaProfession.TryFromValue(whichProfession, out var profession))
             {
                 return true; // run original logic
             }

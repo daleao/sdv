@@ -26,7 +26,7 @@ internal sealed class ScavengerWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger);
+    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Scavenger);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

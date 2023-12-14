@@ -26,7 +26,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || action?.Contains("DogStatue") != true ||
+        if (!ProfessionsModule.EnableSkillReset || action?.Contains("DogStatue") != true ||
             !who.IsLocalPlayer)
         {
             return true; // run original logic
@@ -42,15 +42,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            if (ISkill.CanResetAny())
+            if (TryOfferSkillReset(__instance) || TryOfferRespecOptions(__instance))
             {
-                OfferSkillReset(__instance);
-                return false; // don't run original logic
-            }
-
-            if (who.HasAllProfessions(true))
-            {
-                OfferRespecOptions(__instance);
                 return false; // don't run original logic
             }
 
@@ -69,8 +62,13 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     #region dialog handlers
 
-    private static void OfferSkillReset(GameLocation location)
+    private static bool TryOfferSkillReset(GameLocation location)
     {
+        if (!ISkill.CanResetAny())
+        {
+            return false;
+        }
+
         var message = I18n.Prestige_DogStatue_First();
         if (ProfessionsModule.Config.ForgetRecipesOnSkillReset)
         {
@@ -78,11 +76,11 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         }
 
         message += I18n.Prestige_DogStatue_Offer();
-
         location.createQuestionDialogue(message, location.createYesNoResponses(), "dogStatue");
+        return true;
     }
 
-    private static void OfferRespecOptions(GameLocation location)
+    private static bool TryOfferRespecOptions(GameLocation location)
     {
         var message = I18n.Prestige_DogStatue_What();
         var options = Array.Empty<Response>();
@@ -101,7 +99,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             }).ToArray();
         }
 
-        if (Skill.List.Any(s => GameLocation.canRespec(s)))
+        if (VanillaSkill.List.Any(s => GameLocation.canRespec(s)))
         {
             options = options.Concat(new Response[]
             {
@@ -114,7 +112,13 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             }).ToArray();
         }
 
+        if (options.Length <= 0)
+        {
+            return false;
+        }
+
         location.createQuestionDialogue(message, options, "dogStatue");
+        return true;
     }
 
     #endregion dialog handlers

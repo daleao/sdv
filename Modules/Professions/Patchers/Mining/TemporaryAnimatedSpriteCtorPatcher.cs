@@ -34,13 +34,13 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void TemporaryAnimatedSpriteCtorPostfix(TemporaryAnimatedSprite __instance, Farmer owner)
     {
-        if (!owner.HasProfession(Profession.Demolitionist))
+        if (!owner.HasProfession(VanillaProfession.Demolitionist))
         {
             return;
         }
 
         __instance.bombRadius++;
-        if (owner.HasProfession(Profession.Demolitionist, true))
+        if (owner.HasProfession(VanillaProfession.Demolitionist, true))
         {
             __instance.bombRadius++;
         }

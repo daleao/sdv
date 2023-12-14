@@ -33,7 +33,7 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void TreeDayUpdatePostfix(Tree __instance, int __state)
     {
-        var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out var n);
+        var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Arborist, out var n);
         if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow())
         {
             return;

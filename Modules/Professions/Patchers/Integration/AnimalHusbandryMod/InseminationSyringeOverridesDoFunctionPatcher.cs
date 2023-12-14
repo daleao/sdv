@@ -55,7 +55,7 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                 .Insert(
                     new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)5) }, // arg 5 = Farmer who
                     labels)
-                .InsertProfessionCheck(Profession.Breeder.Value, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Breeder.Value, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {
@@ -64,7 +64,7 @@ internal sealed class InseminationSyringeOverridesDoFunctionPatcher : HarmonyPat
                         new CodeInstruction(OpCodes.Conv_R8),
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)5),
                     })
-                .InsertProfessionCheck(Profession.Breeder.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Breeder.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

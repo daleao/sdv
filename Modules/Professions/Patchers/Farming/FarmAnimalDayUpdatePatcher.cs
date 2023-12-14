@@ -88,7 +88,7 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
                 .AddLabels(notPrestigedProducer)
                 .Insert(copy)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_3) }, ILHelper.SearchOption.Previous)
-                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Producer.Value + 100))
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Producer.Value + 100))
                 .Return()
                 .Insert(
                     new[]

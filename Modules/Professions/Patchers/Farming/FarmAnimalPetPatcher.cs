@@ -69,7 +69,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
         {
             var isNotPrestiged = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(Profession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
+                .MatchProfessionCheck(VanillaProfession.Rancher.Value, ILHelper.SearchOption.Previous) // go back and find the inserted rancher check
                 .Match(
                     new[]
                     {
@@ -79,7 +79,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
                 .Move(2)
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
-                .InsertProfessionCheck(Profession.Rancher.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Rancher.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

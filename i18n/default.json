@@ -33,7 +33,7 @@
   "breeder.desc.prestiged": "Incubation 2× >> 3× faster and natural pregnancy 3× >> 5× more likely.",
   "producer.title.male": "Producer",
   "producer.title.female": "Producer",
-  "producer.title.prestiged.male": "Yieldmeister",
+  "producer.title.prestiged.male": "Yieldmeister", // Alternatives: Tycoon
   "producer.title.prestiged.female": "Yieldmeister",
   "producer.desc": "Happy animals produce 2× as frequently. Produce worth 5% more for every full barn or coop.",
   "producer.desc.prestiged": "Happy animals produce 2× >> 3× as frequently.",
@@ -146,8 +146,8 @@
   "conservationist.title.female": "Conservationist",
   "conservationist.title.prestiged.male": "Oceanographer",
   "conservationist.title.prestiged.female": "Oceanographer",
-  "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters earn village favor and merit tax deductions.",
-  "conservationist.desc.prestiged": "Tax deductions accumulate 50% more quickly.",
+  "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters to earn village favor and merit tax deductions.",
+  "conservationist.desc.prestiged": "Crab pots without bait have a chance to trap fish. During rainy or full-moon days, can trap large schools of fish.",
   "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
   "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
 
@@ -197,6 +197,7 @@
   "treasure_hunt.broadcast.ended.success": "{{player}} has found the treasure!",
   "treasure_hunt.broadcast.ended.failure": "{{player}} failed to find the treasure...",
 
+
   // *************** //
   // ** ULTIMATES ** //
   // *************** //
@@ -236,11 +237,14 @@
   "prestige.level_up.tooltip:5": "Already acquired all professions in this branch.",
   "prestige.level_up.tooltip:10": "Already acquired this profession.",
   "prestige.level_up.question": "Currently using {{oldProfession}}'s {{oldUltimate}}. Replace with {{newProfession}}'s {{newUltimate}}?",
-  "prestige.level_up.unlocked": "You can now continue to develop your {{skill}} skill further.",
-  "prestige.level_up.prestige": "Choose a profession to prestige:",
+  "prestige.level_up.unlocked.standard": "You can now continue to develop your {{skill}} skill further.",
+  "prestige.level_up.unlocked.challenge": "You can now continue to develop yours skills further.",
+  "prestige.level_up.choose": "Choose a profession to prestige:",
+  "prestige.level_up.streamlined": "Gained Prestige",
   "prestige.achievement.title.male": "Master of the Five Trades",
   "prestige.achievement.title.female": "Master of the Five Trades",
-  "prestige.achievement.desc": "Acquire all professions in every skill.",
+  "prestige.achievement.desc.male": "Transcend the limits of an ordinary Farmer.",
+  "prestige.achievement.desc.female": "Transcend the limits of an ordinary Farmer.",
 
 
   // *********** //
@@ -382,10 +386,12 @@
   "global.infinitycraft": "{{who}} forged an Infinity Band.",
   "resonance": "Resonance",
 
-  "emily.exposition1": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the vibrant energy of a ruby. Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
-  "emily.exposition2": "Every gemstone has a different vibration. When you connect with a gemstone, they resonate with the frequencies of our own internal emotions. If you listen closely, you can even hear them!",
-  "emily.exposition3": "How do you connect with a gemstone? By keeping it close to you, of course! You can wear it as a necklace or a ring and carry it around with you. It's like having a little piece of nature's harmony with you wherever you go!",
-  "emily.exposition4": "Most jewelry can only house one gemstone. Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones. Maybe with some cosmic mojo",
+  "dialogue.emily.gemstones.first": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the vibrant energy of a ruby.#$b#Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
+  "dialogue.emily.gemstones.second": "Every gemstone has a different vibration. When you connect with a gemstone, it resonates with the frequencies of our internal emotions.#$b#If you listen closely, you can even hear it!",
+  "dialogue.emily.gemstones.third": "How do you connect with a gemstone?#$b#$h#By keeping it close to you, of course!#$b#$0$#You can wear it as a ring or a necklace and carry it around with you. It's like having a little piece of nature's harmony with you wherever you go!",
+  "dialogue.emily.gemstones.fourth": "Most jewelry can only house one gemstone.#$b#Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones.",
+  "dialogue.qi.gemstones.first": "I see you've made yourself a couple of Iridium Bands.#$b#Have you discovered their true purpose?",
+  "dialogue.qi.gemstones.second": "It may not seem like much, but combined wth some cosmic power the Iridium Band can become extraordinarily powerful...",
 
   // json assets
   "gems.garnet.name": "Garnet",
@@ -569,8 +575,13 @@
   "gmcm.limit_gauge_offset.desc": "Use this to adjust the X and Y coordinates of the Limit Gauge if using other mods which also add HUD bars.",
 
   "gmcm.sections.prfs.prestige": "Skill Reset & Prestige",
-  "gmcm.enable_prestige.title": "Enable Prestige",
-  "gmcm.enable_prestige.desc": "Must be enabled to allow all prestige modifications.",
+  "gmcm.prestige_progression_mode.title": "Prestige Mode",
+  "gmcm.prestige_progression_mode.desc": "Determines whether the Prestige system is enabled, and if so, the paradigms of how it should function.\nNone - All prestige systems disabled.\nStandard - Prestige levels for each skill unlocked after acquiring all professions in that skill.\nChallenge - Prestige levels for all skills unlocked after acquiring all professions in every skill.\nStreamlined - Prestige levels unlocked immediately at level 10, but can only acquire one profession per skill.\nAll Professions - Prestige levels disabled, but can still reset to acquire all professions.",
+  "gmcm.prestige_mode.none": "None",
+  "gmcm.prestige_mode.standard": "Standard",
+  "gmcm.prestige_mode.challenge": "Challenge",
+  "gmcm.prestige_mode.streamlined": "Streamlined",
+  "gmcm.prestige_mode.all_professions": "All Professions",
   "gmcm.skill_reset_cost_multiplier.title": "Skill Reset Cost Multiplier",
   "gmcm.skill_reset_cost_multiplier.desc": "Multiplies the base cost reseting a skill at the Statue of Prestige. Set to 0 to reset for free.",
   "gmcm.forget_recipes_on_skill_reset.title": "Forget Recipes on Skill Reset",
@@ -581,17 +592,13 @@
   "gmcm.exp_bonus_per_skill_reset.desc": "A percentage bonus applied to a skill's experience gain after a respective skill prestige. Negative values mean it becomes harder to regain those levels.",
   "gmcm.prestige_respec_cost.title": "Cost of Prestige Respec",
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-  "gmcm.prestige_progression_style.title": "Progression Style",
-  "gmcm.prestige_progression_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.progression_style.stackedstars": "Stacked Stars",
-  "gmcm.progression_style.gen3ribbons": "Gen 3 Ribbons",
-  "gmcm.progression_style.gen4ribbons": "Gen 4 Ribbons",
-
-  "gmcm.enable_extended_progression.title": "Enable Extended Progression",
-  "gmcm.enable_extended_progression.desc": "Must be enabled to allow progression until level 20.",
+  "gmcm.prestige_ribbon_style.title": "Progression Style",
+  "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
+  "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
+  "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",
   "gmcm.required_exp_per_extended_level.desc": "How much skill experience is required for each level-up above level 10.",
-
   "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
   "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
 

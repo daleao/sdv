@@ -40,7 +40,7 @@ public sealed class ModApi
     public int GetEcologistForageQuality(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
+        return farmer.HasProfession(VanillaProfession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
     }
 
     /// <summary>Gets the value of a Gemologist's mineral quality.</summary>
@@ -49,7 +49,7 @@ public sealed class ModApi
     public int GetGemologistMineralQuality(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
+        return farmer.HasProfession(VanillaProfession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
     }
 
     /// <summary>Gets the price bonus applied to animal produce sold by Producer.</summary>
@@ -100,12 +100,12 @@ public sealed class ModApi
     /// <param name="id">The SpaceCore skill id.</param>
     public void RegisterCustomSkillForPrestige(string id)
     {
-        if (!SCSkill.Loaded.TryGetValue(id, out var skill))
+        if (!CustomSkill.Loaded.TryGetValue(id, out var skill))
         {
             ThrowHelper.ThrowInvalidOperationException($"The custom skill {id} is not loaded.");
         }
 
-        ((SCSkill)skill).CanPrestige = true;
+        ((CustomSkill)skill).RegisterPrestige();
     }
 
     #endregion professions
@@ -137,9 +137,9 @@ public sealed class ModApi
         farmer ??= Game1.player;
         return type switch
         {
-            TreasureHuntType.Prospector => Game1.player.HasProfession(Profession.Prospector) &&
+            TreasureHuntType.Prospector => Game1.player.HasProfession(VanillaProfession.Prospector) &&
                                            farmer.Get_ProspectorHunt().TryStart(location),
-            TreasureHuntType.Scavenger => Game1.player.HasProfession(Profession.Scavenger) &&
+            TreasureHuntType.Scavenger => Game1.player.HasProfession(VanillaProfession.Scavenger) &&
                                           farmer.Get_ScavengerHunt().TryStart(location),
             _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, bool>(type),
         };
@@ -156,7 +156,7 @@ public sealed class ModApi
         switch (type)
         {
             case TreasureHuntType.Prospector:
-                if (!Game1.player.HasProfession(Profession.Prospector))
+                if (!Game1.player.HasProfession(VanillaProfession.Prospector))
                 {
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Prospector profession.");
                 }
@@ -164,7 +164,7 @@ public sealed class ModApi
                 farmer.Get_ProspectorHunt().ForceStart(location, target);
                 break;
             case TreasureHuntType.Scavenger:
-                if (!Game1.player.HasProfession(Profession.Scavenger))
+                if (!Game1.player.HasProfession(VanillaProfession.Scavenger))
                 {
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Scavenger profession.");
                 }
@@ -523,6 +523,20 @@ public sealed class ModApi
     public ModConfig GetConfig()
     {
         return ModEntry.Config;
+    }
+
+    /// <summary>Determines whether the player can gain levels above 10.</summary>
+    /// <returns><see langword="true"/> if the Professions module is enabled with Prestige settings allowing extended levels, otherwise <see langword="false"/>.</returns>
+    public bool ArePrestigeLevelsEnabled()
+    {
+        return ProfessionsModule.ShouldEnable && ProfessionsModule.EnablePrestigeLevels;
+    }
+
+    /// <summary>Determines whether the player can reset skills to acquire multiple professions.</summary>
+    /// <returns><see langword="true"/> if the Professions module is enabled with Prestige settings allowing skill reset, otherwise <see langword="false"/>.</returns>
+    public bool AreSkillResetsEnabled()
+    {
+        return ProfessionsModule.ShouldEnable && ProfessionsModule.EnableSkillReset;
     }
 
     #endregion configs

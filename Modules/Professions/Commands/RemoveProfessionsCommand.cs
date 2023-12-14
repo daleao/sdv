@@ -34,7 +34,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
     {
         if (trigger == "clear")
         {
-            var shouldInvalidate = Game1.player.professions.Intersect(Profession.GetRange(true)).Any();
+            var shouldInvalidate = Game1.player.professions.Intersect(VanillaProfession.GetRange(true)).Any();
             Game1.player.professions.Clear();
             LevelUpMenu.RevalidateHealth(Game1.player);
             if (shouldInvalidate)
@@ -57,7 +57,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         {
             if (string.Equals(args[i], "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var shouldInvalidate = Game1.player.professions.Intersect(Profession.GetRange(true)).Any();
+                var shouldInvalidate = Game1.player.professions.Intersect(VanillaProfession.GetRange(true)).Any();
                 Game1.player.professions.Clear();
                 LevelUpMenu.RevalidateHealth(Game1.player);
                 if (shouldInvalidate)
@@ -74,15 +74,15 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             {
                 var range = Game1.player.professions
                     .Where(pid =>
-                        !Profession.TryFromValue(pid, out _) &&
-                        SCProfession.List.All(p => pid != p.Id))
+                        !VanillaProfession.TryFromValue(pid, out _) &&
+                        CustomProfession.List.All(p => pid != p.Id))
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
                 Log.I($"Removed unknown professions from {Game1.player.Name}.");
             }
-            else if (Profession.TryFromName(args[i], true, out var profession) ||
-                     Profession.TryFromLocalizedName(args[i], true, out profession))
+            else if (VanillaProfession.TryFromName(args[i], true, out var profession) ||
+                     VanillaProfession.TryFromLocalizedName(args[i], true, out profession))
             {
                 professionsToRemove.Add(profession.Id);
                 professionsToRemove.Add(profession.Id + 100);
@@ -90,7 +90,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
             }
             else
             {
-                var customProfession = SCProfession.List.FirstOrDefault(p =>
+                var customProfession = CustomProfession.List.FirstOrDefault(p =>
                     string.Equals(args[i], p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
                     string.Equals(args[i], p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)
@@ -110,7 +110,7 @@ internal sealed class RemoveProfessionsCommand : ConsoleCommand
         }
 
         LevelUpMenu.RevalidateHealth(Game1.player);
-        if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
+        if (professionsToRemove.Intersect(VanillaProfession.GetRange(true)).Any())
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }

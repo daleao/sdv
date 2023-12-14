@@ -125,7 +125,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
         Instance!.AssertRegistered();
         foreach (var (skillId, multiplier) in Config.Professions.SkillExpMultipliers)
         {
-            if (Skill.TryFromName(skillId, out var skill))
+            if (VanillaSkill.TryFromName(skillId, out var skill))
             {
                 Instance.AddFloatSlider(
                     () => I18n.Gmcm_SkillExpMultipliers_Title(skill.DisplayName),
@@ -139,17 +139,17 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
                 continue;
             }
 
-            if (SCSkill.Loaded.TryGetValue(skillId, out var scSkill))
+            if (CustomSkill.Loaded.TryGetValue(skillId, out var customSkill))
             {
                 Instance.AddFloatSlider(
-                    () => I18n.Gmcm_SkillExpMultipliers_Title(scSkill.DisplayName),
-                    () => I18n.Gmcm_SkillExpMultipliers_Desc(scSkill.DisplayName),
-                    config => config.SkillExpMultipliers[scSkill.StringId],
-                    (config, value) => config.SkillExpMultipliers[scSkill.StringId] = value,
+                    () => I18n.Gmcm_SkillExpMultipliers_Title(customSkill.DisplayName),
+                    () => I18n.Gmcm_SkillExpMultipliers_Desc(customSkill.DisplayName),
+                    config => config.SkillExpMultipliers[customSkill.StringId],
+                    (config, value) => config.SkillExpMultipliers[customSkill.StringId] = value,
                     () => Config.Professions,
                     0.2f,
                     2f,
-                    id: "SkillExpMultipliers." + scSkill.StringId);
+                    id: "SkillExpMultipliers." + customSkill.StringId);
             }
         }
     }

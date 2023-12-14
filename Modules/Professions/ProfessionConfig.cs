@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Overhaul.Modules.Core.UI;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
+using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
@@ -45,14 +46,34 @@ public sealed class ProfessionConfig
     private double _limitDrainFactor = 1f;
     private float _skillResetCostMultiplier = 1f;
     private float _expBonusPerSkillReset = 0.1f;
-    private ProgressionStyle _progressionStyle = ProgressionStyle.StackedStars;
+    private PrestigeMode _prestigeMode = PrestigeMode.Standard;
+    private RibbonStyle _ribbonStyle = RibbonStyle.StackedStars;
     private float _trackingPointerScale = 1.2f;
     private float _trackingPointerBobRate = 1f;
 
     #region dropdown enums
 
+    /// <summary>Determines the conditions for unlocking prestige levels.</summary>
+    public enum PrestigeMode
+    {
+        /// <summary>Disable all prestige features.</summary>
+        None,
+
+        /// <summary>Prestige for each skill is unlocked after resetting the respective skill three times and acquiring all 10th-level professions within that skill.</summary>
+        Standard,
+
+        /// <summary>Prestige for all skills is unlocked after resetting every skill three times and acquiring all 10th-level professions across all skills.</summary>
+        Challenge,
+
+        /// <summary>Prestige is available immediately without restrictions. But the player can no longer aggregate all professions.</summary>
+        Streamlined,
+
+        /// <summary>Prestige levels and professions are disabled. But the player can still aggregate all professions via skill resetting.</summary>
+        AllProfessions,
+    }
+
     /// <summary>The style used to indicate Skill Reset progression.</summary>
-    public enum ProgressionStyle
+    public enum RibbonStyle
     {
         /// <summary>Use stacked quality star icons, one per reset level.</summary>
         StackedStars,
@@ -439,11 +460,31 @@ public sealed class ProfessionConfig
 
     #region prestige
 
-    /// <summary>Gets a value indicating whether to apply Prestige changes.</summary>
+    /// <summary>Gets a value which determines the paradigms of the prestige system.</summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(200)]
-    public bool EnablePrestige { get; internal set; } = true;
+    public PrestigeMode PrestigeProgressionMode
+    {
+        get => this._prestigeMode;
+        internal set
+        {
+            this._prestigeMode = value;
+            if (!Context.IsWorldReady)
+            {
+                return;
+            }
+
+            if (ProfessionsModule.EnablePrestigeLevels)
+            {
+                EventManager.Enable<PrestigeAchievementDayStartedEvent>();
+            }
+            else
+            {
+                EventManager.Disable<PrestigeAchievementDayStartedEvent>();
+            }
+        }
+    }
 
     /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
     [JsonProperty]
@@ -500,31 +541,25 @@ public sealed class ProfessionConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(206)]
-    public ProgressionStyle PrestigeProgressionStyle
+    public RibbonStyle PrestigeRibbonStyle
     {
-        get => this._progressionStyle;
+        get => this._ribbonStyle;
         internal set
         {
-            if (value == this._progressionStyle)
+            if (value == this._ribbonStyle)
             {
                 return;
             }
 
-            this._progressionStyle = value;
+            this._ribbonStyle = value;
             ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/PrestigeProgression");
         }
     }
 
-    /// <summary>Gets a value indicating whether to allow extended progression up to level 20.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(207)]
-    public bool EnableExtendedProgression { get; internal set; } = true;
-
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
-    [GMCMPriority(208)]
+    [GMCMPriority(207)]
     [GMCMRange(1000, 10000)]
     [GMCMInterval(500)]
     public uint RequiredExpPerExtendedLevel { get; internal set; } = 5000;
@@ -532,7 +567,7 @@ public sealed class ProfessionConfig
     /// <summary>Gets a value indicating whether to add full skill mastery (level 20) as a requirement for perfection.</summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
-    [GMCMPriority(209)]
+    [GMCMPriority(208)]
     public bool ExtendedPerfectionRequirement { get; internal set; } = true;
 
     #endregion prestige

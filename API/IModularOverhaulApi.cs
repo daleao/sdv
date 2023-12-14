@@ -279,4 +279,16 @@ public interface IModularOverhaulApi
     (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) CalculatePropertyTax();
 
     #endregion taxes
+
+    #region configs
+
+    /// <summary>Determines whether the player can gain levels above 10.</summary>
+    /// <returns><see langword="true"/> if the Professions module is enabled with Prestige settings allowing extended levels, otherwise <see langword="false"/>.</returns>
+    bool ArePrestigeLevelsEnabled();
+
+    /// <summary>Determines whether the player can reset skills to acquire multiple professions.</summary>
+    /// <returns><see langword="true"/> if the Professions module is enabled with Prestige settings allowing skill reset, otherwise <see langword="false"/>.</returns>
+    bool AreSkillResetsEnabled();
+
+    #endregion configs
 }

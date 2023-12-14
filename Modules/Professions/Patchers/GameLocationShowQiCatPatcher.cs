@@ -41,13 +41,7 @@ internal sealed class GameLocationShowQiCatPatcher : HarmonyPatcher
                     {
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ProfessionConfig).RequirePropertyGetter(nameof(ProfessionConfig.EnablePrestige))),
+                            typeof(ProfessionsModule).RequirePropertyGetter(nameof(ProfessionsModule.EnablePrestige))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanilla),
                         new CodeInstruction(
                             OpCodes.Call,

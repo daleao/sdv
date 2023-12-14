@@ -60,7 +60,7 @@ internal sealed class GameLocationPerformOrePanTenMinuteUpdatePatcher : HarmonyP
 
     private static int GetBonusAttempts(GameLocation location)
     {
-        return !location.DoesAnyPlayerHereHaveProfession(Profession.Prospector, out var prospectors)
+        return !location.DoesAnyPlayerHereHaveProfession(VanillaProfession.Prospector, out var prospectors)
             ? 0
             : Math.Min(
                 prospectors.Aggregate(

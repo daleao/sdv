@@ -24,7 +24,7 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(string skillName, ref int amt)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || !SCSkill.Loaded.TryGetValue(skillName, out var skill) ||
+        if (!ProfessionsModule.EnableSkillReset || !CustomSkill.Loaded.TryGetValue(skillName, out var skill) ||
             amt <= 0)
         {
             return;
@@ -32,7 +32,7 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
 
         amt = Math.Min(
             (int)(amt * skill.BaseExperienceMultiplier * skill.PrestigeExperienceMultiplier),
-            skill.ExperienceToNextLevel - skill.CurrentExp);
+            skill.ExperienceToMaxLevel - skill.CurrentExp);
     }
 
     #endregion harmony patches

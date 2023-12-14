@@ -6,6 +6,8 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using SCProfession = SpaceCore.Skills.Skill.Profession;
+using SCSkill = SpaceCore.Skills.Skill;
 
 #endregion using directives
 
@@ -23,28 +25,28 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
 
     /// <summary>Patch to apply prestige ordering to skills page profession choices.</summary>
     [HarmonyPrefix]
-    private static bool SkillsGetProfessionForPrefix(ref SpaceCore.Skills.Skill.Profession? __result, SpaceCore.Skills.Skill skill, int level)
+    private static bool SkillsGetProfessionForPrefix(ref SCProfession? __result, SCSkill skill, int level)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnableSkillReset)
         {
             return true; // run original logic
         }
 
-        var scSkill = SCSkill.FromSpaceCore(skill);
-        if (scSkill is null)
+        var customSkill = CustomSkill.FromSpaceCore(skill);
+        if (customSkill is null)
         {
             Log.W($"[PRFS]: The SpaceCore skill {skill.Id} is loaded, but failed to be mapped.");
             return true; // run original logic
         }
 
-        var tierOneIndex = Game1.player.GetCurrentBranchForSkill(scSkill);
+        var tierOneIndex = Game1.player.GetCurrentBranchForSkill(customSkill);
         if (tierOneIndex == -1)
         {
             __result = null;
             return false; // don't run original logic
         }
 
-        if (!SCProfession.Loaded.TryGetValue(tierOneIndex, out var tierOneProfession))
+        if (!CustomProfession.Loaded.TryGetValue(tierOneIndex, out var tierOneProfession))
         {
             Log.W($"[PRFS]: The profession {tierOneIndex} was not found within the loaded SpaceCore professions.");
             return true; // run original logic
@@ -57,14 +59,14 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
                 return false; // don't run original logic
             case 10:
             {
-                var tierTwoIndex = Game1.player.GetCurrentProfessionForBranch(tierOneProfession);
+                var tierTwoIndex = Game1.player.GetCurrentLeafProfessionForBranch(tierOneProfession);
                 if (tierTwoIndex == -1)
                 {
                     __result = null;
                     return false; // don't run original logic
                 }
 
-                if (!SCProfession.Loaded.TryGetValue(tierTwoIndex, out var tierTwoProfession))
+                if (!CustomProfession.Loaded.TryGetValue(tierTwoIndex, out var tierTwoProfession))
                 {
                     Log.W($"[PRFS]: The profession {tierTwoIndex} was not found within the loaded SpaceCore professions.");
                     return true; // run original logic

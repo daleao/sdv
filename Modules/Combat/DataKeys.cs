@@ -36,6 +36,8 @@ internal sealed class DataKeys
 
     internal const string MonsterDropAccumulator = "MonsterDropAccumulator";
     internal const string ContainerDropAccumulator = "ContainerDropAccumulator";
+
+    internal const string HasMadeInfinityBand = "HasMadeInfinityBand";
 }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>GitHub:daleao/modular-overhaul</UpdateKeys>
-    <Version>4.1.7</Version>
+    <Version>4.1.8</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>
@@ -118,9 +118,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="compat\**" />
-    <EmbeddedResource Update="compat\**" />
-    <None Update="compat\**" CopyToOutputDirectory="PreserveNewest" />
+    <Compile Update="optional\**" />
+    <EmbeddedResource Update="optional\**" />
+    <None Update="optional\**" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
   
   <!-- global usings directives -->

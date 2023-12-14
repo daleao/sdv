@@ -14,11 +14,14 @@ public interface IProfession
     /// <summary>Gets a string that uniquely identifies this profession.</summary>
     string StringId { get; }
 
+    /// <summary>Gets the index used in-game to track professions acquired by the player.</summary>
+    int Id { get; }
+
     /// <summary>Gets the localized and gendered title for this profession.</summary>
     string Title { get; }
 
-    /// <summary>Gets the index used in-game to track professions acquired by the player.</summary>
-    int Id { get; }
+    /// <summary>Gets the localized description text for this profession.</summary>
+    string Description { get; }
 
     /// <summary>Gets the level at which this profession is offered.</summary>
     /// <remarks>Either 5 or 10.</remarks>
@@ -32,9 +35,4 @@ public interface IProfession
         this.Level != 5 || !this.Skill.ProfessionPairs.TryGetValue(this.Id, out var pair)
             ? Enumerable.Empty<IProfession>()
             : pair.First.Collect(pair.Second);
-
-    /// <summary>Gets the localized description text for this profession.</summary>
-    /// <param name="prestiged">Whether to get the prestiged or normal variant.</param>
-    /// <returns>A human-readability <see cref="string"/> description of the profession.</returns>
-    string GetDescription(bool prestiged = false);
 }

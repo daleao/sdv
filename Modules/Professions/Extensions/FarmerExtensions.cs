@@ -26,8 +26,8 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasProfession(this Farmer farmer, IProfession profession, bool prestiged = false)
     {
-        if (prestiged && !(profession is Profession ||
-                           (profession is SCProfession custom && ((SCSkill)custom.Skill).CanPrestige)))
+        if (prestiged && !(profession is VanillaProfession ||
+                           (profession is CustomProfession custom && ((CustomSkill)custom.Skill).CanGainPrestigeLevels())))
         {
             return false;
         }
@@ -61,7 +61,7 @@ internal static class FarmerExtensions
 
     /// <summary>Determines whether the <paramref name="farmer"/> has all available professions (vanilla + modded).</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="includeCustom">Whether to include <see cref="SCProfession"/>s in the count.</param>
+    /// <param name="includeCustom">Whether to include <see cref="CustomProfession"/>s in the count.</param>
     /// <returns><see langword="true"/> only if the <paramref name="farmer"/> has all 30 vanilla professions, otherwise <see langword="false"/>.</returns>
     internal static bool HasAllProfessions(this Farmer farmer, bool includeCustom = false)
     {
@@ -71,7 +71,7 @@ internal static class FarmerExtensions
             return false;
         }
 
-        return !includeCustom || SCProfession.List
+        return !includeCustom || CustomProfession.List
             .Select(p => p.Id)
             .All(farmer.professions.Contains);
     }
@@ -113,7 +113,7 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="branch">The branch (level 5 <see cref="IProfession"/>) to check.</param>
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
-    internal static int GetCurrentProfessionForBranch(this Farmer farmer, IProfession branch)
+    internal static int GetCurrentLeafProfessionForBranch(this Farmer farmer, IProfession branch)
     {
         var current = farmer.professions
             .Intersect(branch.BranchingProfessions
@@ -123,7 +123,7 @@ internal static class FarmerExtensions
             .DefaultIfEmpty(-1)
             .Last();
 
-        var allPrestiged = Profession.GetRange(true).Concat(SCProfession.GetAllIds(true)).ToHashSet();
+        var allPrestiged = VanillaProfession.GetRange(true).Concat(CustomProfession.GetAllIds(true)).ToHashSet();
         return allPrestiged.Contains(current) ? current - 100 : current;
     }
 
@@ -138,9 +138,9 @@ internal static class FarmerExtensions
         return farmer.professions
             .Intersect(excludeTierOneProfessions ? skill.TierTwoProfessionIds : skill.ProfessionIds)
             .Select<int, IProfession>(id =>
-                SCSkill.Loaded.ContainsKey(skill.StringId)
-                    ? SCProfession.Loaded[id]
-                    : Profession.FromValue(id)).ToArray();
+                CustomSkill.Loaded.ContainsKey(skill.StringId)
+                    ? CustomProfession.Loaded[id]
+                    : VanillaProfession.FromValue(id)).ToArray();
     }
 
     /// <summary>
@@ -258,7 +258,7 @@ internal static class FarmerExtensions
         return farmer.fishCaught[index][1] >= int.Parse(dataFields[4]);
     }
 
-    /// <summary>Gets the price bonus applied to animal produce sold by <see cref="Profession.Producer"/>.</summary>
+    /// <summary>Gets the price bonus applied to animal produce sold by <see cref="VanillaProfession.Producer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> multiplier for animal products.</returns>
     internal static float GetProducerPriceBonus(this Farmer farmer)
@@ -279,7 +279,7 @@ internal static class FarmerExtensions
         return sum;
     }
 
-    /// <summary>Gets the price bonus applied to fish sold by <see cref="Profession.Angler"/>.</summary>
+    /// <summary>Gets the price bonus applied to fish sold by <see cref="VanillaProfession.Angler"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> multiplier for fish prices.</returns>
     internal static float GetAnglerPriceBonus(this Farmer farmer)
@@ -287,7 +287,7 @@ internal static class FarmerExtensions
         var fishData = Game1.content
             .Load<Dictionary<int, string>>("Data\\Fish");
         var bonus = 0f;
-        var isPrestiged = farmer.HasProfession(Profession.Angler, true);
+        var isPrestiged = farmer.HasProfession(VanillaProfession.Angler, true);
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {
             if (key.IsAlgaeIndex() || !fishData.TryGetValue(key, out var specificFishData))
@@ -318,7 +318,7 @@ internal static class FarmerExtensions
         return Math.Min(bonus, ProfessionsModule.Config.AnglerPriceBonusCeiling);
     }
 
-    /// <summary>Gets the bonus "catching" bar build rate for <see cref="Profession.Aquarist"/>.</summary>
+    /// <summary>Gets the bonus "catching" bar build rate for <see cref="VanillaProfession.Aquarist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> catching height.</returns>
     internal static float GetAquaristCatchingHandicap(this Farmer farmer)
@@ -339,7 +339,7 @@ internal static class FarmerExtensions
         return Math.Min(Math.Min(fishTypes.Count, ProfessionsModule.Config.AquaristFishPondCeiling) * 0.000165f, 0.002f);
     }
 
-    /// <summary>Gets the price bonus applied to all items sold by <see cref="Profession.Conservationist"/>.</summary>
+    /// <summary>Gets the price bonus applied to all items sold by <see cref="VanillaProfession.Conservationist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="float"/> multiplier for general items.</returns>
     internal static float GetConservationistPriceMultiplier(this Farmer farmer)
@@ -347,7 +347,7 @@ internal static class FarmerExtensions
         return 1f + farmer.Read<float>(DataKeys.ConservationistActiveTaxDeduction);
     }
 
-    /// <summary>Gets the quality of items foraged by <see cref="Profession.Ecologist"/>.</summary>
+    /// <summary>Gets the quality of items foraged by <see cref="VanillaProfession.Ecologist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     internal static int GetEcologistForageQuality(this Farmer farmer)
@@ -360,7 +360,7 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
-    /// <summary>Gets the quality of minerals collected by <see cref="Profession.Gemologist"/>.</summary>
+    /// <summary>Gets the quality of minerals collected by <see cref="VanillaProfession.Gemologist"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="SObject"/> quality level.</returns>
     internal static int GetGemologistMineralQuality(this Farmer farmer)
@@ -373,13 +373,13 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
-    /// <summary>Applies <see cref="Profession.Spelunker"/> effects following interaction with a ladder or sink hole.</summary>
+    /// <summary>Applies <see cref="VanillaProfession.Spelunker"/> effects following interaction with a ladder or sink hole.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal static void AddSpelunkerMomentum(this Farmer farmer)
     {
         ProfessionsModule.State.SpelunkerLadderStreak++;
         EventManager.Enable<SpelunkerUpdateTickedEvent>();
-        if (!farmer.HasProfession(Profession.Spelunker, true))
+        if (!farmer.HasProfession(VanillaProfession.Spelunker, true))
         {
             return;
         }
@@ -400,7 +400,7 @@ internal static class FarmerExtensions
     }
 
     /// <summary>
-    ///     Determines whether the <paramref name="farmer"/> is currently using the <see cref="Profession.Poacher"/>
+    ///     Determines whether the <paramref name="farmer"/> is currently using the <see cref="VanillaProfession.Poacher"/>
     ///     <see cref="Ultimate"/>.
     /// </summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>

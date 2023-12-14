@@ -135,8 +135,8 @@
   "poacher.desc": "暴击率+50%。攻击有机会从敌人那里偷走物品。",
   "poacher.desc.prestiged": "成功偷窃后退还特殊动作的冷却时间。",
 
-  "rascal.title.male": "流氓",
-  "rascal.title.female": "流氓",
+  "rascal.title.male": "无赖",
+  "rascal.title.female": "无赖",
   "rascal.desc": "获得一个额外的弹药槽。有35%的机率找回用过的弹药。",
   "rascal.desc.prestiged": "有35%>>55%的机率找回用过的弹药。可以装备怪兽香水发射诱饵弹。",
   "desperado.title.male": "亡命之徒",
@@ -146,10 +146,16 @@
   "desperado.buff.name": "连锁行动",
   "desperado.buff.desc": "+50% 弹药伤害。",
   "piper.title.male": "史莱姆风笛手",
-  "piper.title.female": "史莱姆女巫",
+  "piper.title.female": "史莱姆塞壬",
   "piper.desc": "当附近有敌人时会吸引同盟的史莱姆。 击败史莱姆时有几率获得随机效果。",
   "piper.desc.prestiged": "提高击败史莱姆效果的有效性和多样性。",
   "piper.buff": "粘滑的",
+
+  // other
+  "prestiged.title": "专家 ",
+  "treasure_hunt.broadcast.started": "{{player}}正在寻宝！",
+  "treasure_hunt.broadcast.ended.success": "{{player}}找到宝藏了！",
+  "treasure_hunt.broadcast.ended.failure": "{{player}}没能找到宝藏...",
 
 
   // *************** //
@@ -191,11 +197,14 @@
   "prestige.level_up.tooltip:5": "你已经拥有这个分支的所有职业。",
   "prestige.level_up.tooltip:10": "你已经有这个职业了。",
   "prestige.level_up.question": "目前已经拥有{{oldProfession}}的{{oldUltimate}}。是否替换为{{newProfession}}的{{newUltimate}}？",
-  "prestige.level_up.unlocked": "您现在可以继续进一步发展你的{{skill}}技能。",
-  "prestige.level_up.prestige": "选择一个职业来声望：",
+  "prestige.level_up.unlocked.standard": "您现在可以继续进一步发展你的{{skill}}技能。",
+  "prestige.level_up.unlocked.challenge": "您现在可以继续进一步发展你的技能。",
+  "prestige.level_up.choose": "选择一个职业来声望：",
+  "prestige.level_up.streamlined": "Gained Prestige",
   "prestige.achievement.title.male": "万事通",
   "prestige.achievement.title.female": "万事通",
-  "prestige.achievement.desc": "掌握每一项技能的所有职业。",
+  "prestige.achievement.desc.male": "超越普通农民的极限。",
+  "prestige.achievement.desc.female": "超越普通农民的极限。",
 
 
   // *********** //
@@ -337,6 +346,13 @@
   "global.infinitycraft": "{{who}}锻造了无限戒指。",
   "resonance": "共鸣",
 
+  "dialogue.emily.gesmtones.first": "你有没有注意到宝石可以唤起不同的感觉？就像黄玉的平静或红宝石的活力。宝石有一种不可思议的方式与我们的能量产生共鸣。#$b#这就像大自然的情绪调色板。",
+  "dialogue.emily.gesmtones.second": "每块宝石都有不同的振动。当你与宝石连接时，它们会与我们内心情绪的频率产生共鸣。#$b#如果你仔细听，你甚至可以听到它们的声音！",
+  "dialogue.emily.gesmtones.third": "我是如何与宝石产生联系的？#$b#$h#当然是把它放在身边！#$b#$0$#你可以把它当作项链或戒指戴在身上，随身携带。这就像无论你走到哪里，都有一小块自然的和谐与你同在！",
+  "dialogue.emily.gemstones.fourth": "Most jewelry can only house one gemstone.#$b#Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones.",
+  "dialogue.qi.gemstones.first": "I see you've made yourself a couple of Iridium Bands.#$b#Have you discovered their true purpose?",
+  "dialogue.qi.gemstones.second": "It may not seem like much, but combined wth some cosmic power the Iridium Band can become extraordinarily powerful...",
+
   // json-assets
   "gems.garnet.name": "石榴石",
   "gems.garnet.description": "来自远方的美丽公主的同名。",
@@ -410,7 +426,7 @@
   "ui.buffs.confused": "混乱",
   "ui.buffs.warrior.attack": "+{{value}}攻击",
 
-  "ui.pt.farmer_level": "Skills Mastered",
+  "ui.pt.farmer_level": "掌握技能",
 
 
   // ********* //
@@ -480,8 +496,8 @@
   "gmcm.scavenger_detection_distance.desc": "你必须离宝藏距离多少格才显示位置，按格数调整",
   "gmcm.scavenger_hunt_handicap.title": "寻宝游戏的时间",
   "gmcm.scavenger_hunt_handicap.desc": "如果你发现寻宝狩猎结束得太快，增加这个数字。",
-  "gmcm.prospector_detection_distance.title": "Prospector Detection Distance",
-  "gmcm.prospector_detection_distance.desc": "How close you must be to the treasure tile to hear the sound cue, in tiles.",
+  "gmcm.prospector_detection_distance.title": "探矿探测距离",
+  "gmcm.prospector_detection_distance.desc": "你必须离宝藏方块多近才能听到声音提示，用方块表示。",
   "gmcm.prospector_hunt_handicap.title": "勘探者游戏的时间",
   "gmcm.prospector_hunt_handicap.desc": "如果您发现“勘探者”搜寻结束得太快，增加此数字。",
   "gmcm.spelunker_speed_ceiling.title": "洞穴探险者速度上限",
@@ -520,8 +536,13 @@
   "gmcm.limit_gauge_offset.desc": "如果使用其他也添加HUD条的mod，可以使用这个来调整极限能量的X和Y坐标。",
 
   "gmcm.sections.prfs.prestige": "技能重置&声望",
-  "gmcm.enable_prestige.title": "启动声望",
-  "gmcm.enable_prestige.desc": "必须启用以允许所有声望修改。",
+  "gmcm.prestige_progression_mode.title": "Prestige Mode",
+  "gmcm.prestige_progression_mode.desc": "Determines whether the Prestige system is enabled, and if so, the paradigms of how it should function.\nNone - All prestige systems disabled.\nStandard - Prestige levels for each skill unlocked after acquiring all professions in that skill.\nChallenge - Prestige levels for all skills unlocked after acquiring all professions in every skill.\nStreamlined - Prestige levels unlocked immediately at level 10, but can only acquire one profession per skill.\nAll Professions - Prestige levels disabled, but can still reset to acquire all professions.",
+  "gmcm.prestige_mode.none": "None",
+  "gmcm.prestige_mode.standard": "Standard",
+  "gmcm.prestige_mode.streamlined": "Streamlined",
+  "gmcm.prestige_mode.challenge": "Challenge",
+  "gmcm.prestige_mode.all_professions": "All Professions",
   "gmcm.skill_reset_cost_multiplier.title": "技能重置费用乘数",
   "gmcm.skill_reset_cost_multiplier.desc": "乘以重置威望雕像技能的基础费用。设置为0表示免费重置。",
   "gmcm.forget_recipes_on_skill_reset.title": "重置职业时忘记等级配方",
@@ -532,19 +553,15 @@
   "gmcm.exp_bonus_per_skill_reset.desc": "在获得相应技能声望后，技能经验获得的百分比加成。负值意味着恢复等级变得更加困难。",
   "gmcm.prestige_respec_cost.title": "声望成本",
   "gmcm.prestige_respec_cost.desc": "为一项技能重置声望职业选择的金钱成本。设置为0表示免费重置。",
-  "gmcm.prestige_progression_style.title": "声望风格",
-  "gmcm.prestige_progression_style.desc": "决定出现在技能条旁边的样式，并指示技能重置进度。",
-  "gmcm.progression_style.stackedstars": "堆叠的星星",
-  "gmcm.progression_style.gen3ribbons": "第三代彩带",
-  "gmcm.progression_style.gen4ribbons": "第四代彩带",
-
-  "gmcm.enable_extended_progression.title": "启用技能等级扩展",
-  "gmcm.enable_extended_progression.desc": "必须启用才能允许升级到 20 级。",
+  "gmcm.prestige_ribbon_style.title": "声望风格",
+  "gmcm.prestige_ribbon_style.desc": "决定出现在技能条旁边的样式，并指示技能重置进度。",
+  "gmcm.ribbon_stylestacked_stars": "堆叠的星星",
+  "gmcm.ribbon_style.gen3_ribbons": "第三代彩带",
+  "gmcm.ribbon_style.gen4_ribbons": "第四代彩带",
   "gmcm.required_exp_per_extended_level.title": "每个扩展级别所需的经验",
   "gmcm.required_exp_per_extended_level.desc": "10级以上每升一级需要多少技能经验。",
-
-  "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
-  "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
+  "gmcm.extended_perfection_requirement.title": "扩展完美性要求",
+  "gmcm.extended_perfection_requirement.desc": "如果启用，农民等级完善要求被技能掌握取代，意味着如果扩展进程启用，所有5个原版技能都达到20级或者获得所有30个原版职业。",
 
   "gmcm.sections.prfs.experience": "技能经验系数",
   "gmcm.skill_exp_multipliers.title": "{{skill}}基础经验乘数",
@@ -558,8 +575,8 @@
   "gmcm.tracking_pointer_bob_rate.desc": "改变勘探者和拾荒者职业用来跟踪对象的指针的大小。",
   "gmcm.disable_always_track.title": "禁用持续跟踪箭头",
   "gmcm.disable_always_track.desc": "如果启用，勘探者和清道夫将只在按住热键时跟踪屏幕外的对象。",
-  "gmcm.use_legacy_prospector_hunt.title": "Use Legacy Prospector Hunt",
-  "gmcm.use_legacy_prospector_hunt.desc": "Enable to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.",
+  "gmcm.use_legacy_prospector_hunt.title": "使用旧版的探矿狩猎",
+  "gmcm.use_legacy_prospector_hunt.desc": "允许为勘探者狩猎恢复传统的紫色箭头，而不是新的音频提示。",
   "gmcm.show_fish_collection_max_icon.title": "在“鱼类收集图鉴”中显示“MAX”图标",
   "gmcm.show_fish_collection_max_icon.desc": "是否在最大尺寸捕获的鱼下面显示“Max”图标。",
 
@@ -619,10 +636,10 @@
   "gmcm.enable_infinity_band.desc": "使铱环无用，但增加了全能的无限波段。需要宝石共鸣。",
   "gmcm.enable_gemstone_resonance.title": "启用宝石共振",
   "gmcm.enable_gemstone_resonance.desc": "允许宝石在彼此接近的地方共鸣。",
-  "gmcm.audible_gemstones.title": "Audible Gemstones",
-  "gmcm.audible_gemstones.desc": "Hear the chord formed by the Infinity Band every time it is equipped.",
-  "gmcm.chord_sound_duration.title": "Chord Sound Duration",
-  "gmcm.chord_sound_duration.desc": "How long the chord sound should linger, in milliseconds.",
+  "gmcm.audible_gemstones.title": "可听宝石和弦",
+  "gmcm.audible_gemstones.desc": "听到无限戒指每次装备时形成的和弦。",
+  "gmcm.chord_sound_duration.title": "和弦音长",
+  "gmcm.chord_sound_duration.desc": "和弦音应该持续多长时间，以毫秒为单位。",
   "gmcm.colorful_resonances.title": "彩色共鸣辉光",
   "gmcm.colorful_resonances.desc": "共鸣产生的辉光是否根据共鸣类型",
   "gmcm.resonance_lightsource_texture.title": "共鸣发光纹理",
@@ -905,8 +922,8 @@
   "gmcm.deductible_tool_expenses.desc": "用于购买和升级工具的钱多少比例是免税的。",
   "gmcm.deductible_extras.title": "其他免赔额",
   "gmcm.deductible_extras.desc": "在特定项目上花费的黄金的百分比应该是免税的。必须手动添加项目以完成此列表。",
-  "gmcm.deductible_extras.label.key": "Object Name",
-  "gmcm.deductible_extras.label.value": "Deductible Pct",
+  "gmcm.deductible_extras.label.key": "对象名称",
+  "gmcm.deductible_extras.label.value": "扣除百分比",
 
   "gmcm.sections.txs.property": "财产税",
   "gmcm.property_tax_lateness_fine.title": "延迟罚金",

@@ -17,19 +17,19 @@ internal sealed class SpaceCoreIntegration : ModIntegration<SpaceCoreIntegration
     {
     }
 
-    /// <summary>Instantiates and caches one instance of every <see cref="SCSkill"/>.</summary>
+    /// <summary>Instantiates and caches one instance of every <see cref="CustomSkill"/>.</summary>
     internal void LoadSpaceCoreSkills()
     {
         this.AssertLoaded();
         foreach (var skillId in this.ModApi.GetCustomSkills())
         {
             // checking if the skill is loaded first avoids re-instantiating the skill
-            if (SCSkill.Loaded.ContainsKey(skillId))
+            if (CustomSkill.Loaded.ContainsKey(skillId))
             {
                 continue;
             }
 
-            SCSkill.Loaded[skillId] = new SCSkill(skillId);
+            CustomSkill.Loaded[skillId] = new CustomSkill(skillId);
             Log.D($"[PRFS]: Successfully loaded the custom skill {skillId}.");
         }
     }

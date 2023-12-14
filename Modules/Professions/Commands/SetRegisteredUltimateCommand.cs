@@ -56,8 +56,8 @@ internal sealed class SetRegisteredUltimateCommand : ConsoleCommand
 
         if (!Ultimate.TryFromName(args[0], true, out var ultimate) &&
             !(int.TryParse(args[0], out var index) && Ultimate.TryFromValue(index, out ultimate)) &&
-            !((Profession.TryFromName(args[0], true, out var profession) ||
-               Profession.TryFromLocalizedName(args[0], true, out profession)) &&
+            !((VanillaProfession.TryFromName(args[0], true, out var profession) ||
+               VanillaProfession.TryFromLocalizedName(args[0], true, out profession)) &&
               Ultimate.TryFromValue(profession, out ultimate)))
         {
             Log.W("You must enter a valid 2nd-tier combat profession or Limit Break.");

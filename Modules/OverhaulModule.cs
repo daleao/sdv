@@ -10,6 +10,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Core.Debug;
+using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
@@ -246,6 +247,9 @@ public abstract class OverhaulModule
         {
         }
 
+        /// <summary>Gets a pure sine wave. Used by Desperado's slingshot overcharge.</summary>
+        internal static Lazy<ICue> OverchargeSinWave { get; } = new(() => Game1.soundBank.GetCue("SinWave"));
+
         /// <summary>Gets a value indicating whether the <see cref="OverhaulModule.ProfessionsModule"/> is set to enabled.</summary>
         internal static bool ShouldEnable => ModEntry.Config.EnableProfessions;
 
@@ -254,6 +258,19 @@ public abstract class OverhaulModule
 
         /// <summary>Gets the ephemeral runtime state for the <see cref="OverhaulModule.ProfessionsModule"/>.</summary>
         internal static Professions.ProfessionState State => ModEntry.State.Professions;
+
+        /// <summary>Gets a value indicating whether any form of Prestige is enabled.</summary>
+        internal static bool EnablePrestige => Config.PrestigeProgressionMode != ProfessionConfig.PrestigeMode.None;
+
+        /// <summary>Gets a value indicating whether the current Prestige setting allows extended levels above 10.</summary>
+        internal static bool EnablePrestigeLevels =>
+            Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
+                or ProfessionConfig.PrestigeMode.Streamlined or ProfessionConfig.PrestigeMode.Challenge;
+
+        /// <summary>Gets a value indicating whether the current Prestige setting allows resetting the skill to aggregate multiple professions.</summary>
+        internal static bool EnableSkillReset =>
+            Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
+                or ProfessionConfig.PrestigeMode.Challenge or ProfessionConfig.PrestigeMode.AllProfessions;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -269,9 +286,6 @@ public abstract class OverhaulModule
                 ModHelper.WriteConfig(ModEntry.Config);
             }
         }
-
-        /// <summary>Gets a pure sine wave. Used by Desperado's slingshot overcharge.</summary>
-        public static Lazy<ICue> OverchargeSinWave { get; } = new(() => Game1.soundBank.GetCue("SinWave"));
 
         /// <inheritdoc />
         internal override void RegisterIntegrations()
@@ -581,6 +595,7 @@ public abstract class OverhaulModule
             }
         }
 
+        [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
         internal static void RemoveInvalidEnchantments()
         {
             if (Context.IsMainPlayer)

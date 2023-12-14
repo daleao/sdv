@@ -36,7 +36,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
         {
             for (var i = 0; i < args.Length; i++)
             {
-                if (Skill.TryFromName(args[i], true, out var skill))
+                if (VanillaSkill.TryFromName(args[i], true, out var skill))
                 {
                     Game1.player.newLevels.Set(Game1.player.newLevels
                         .Where(p => p.X != skill)
@@ -44,7 +44,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
                 }
                 else
                 {
-                    var customSkill = SCSkill.Loaded.Values.FirstOrDefault(s =>
+                    var customSkill = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                         string.Equals(s.DisplayName, args[i], StringComparison.CurrentCultureIgnoreCase));
                     if (customSkill is null)
                     {

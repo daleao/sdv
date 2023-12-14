@@ -24,16 +24,29 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationCanRespecPrefix(ref bool __result, int skill_index)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
-        {
-            return true; // run original logic
-        }
-
         try
         {
-            __result = Game1.player.GetUnmodifiedSkillLevel(skill_index) >= 15 &&
-                       !Game1.player.newLevels.Contains(new Point(skill_index, 15)) &&
-                       !Game1.player.newLevels.Contains(new Point(skill_index, 20));
+            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.AllProfessions)
+            {
+                __result = false;
+                return false; // don't run original logic
+            }
+
+            var p = ProfessionsModule.Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
+                or ProfessionConfig.PrestigeMode.Challenge
+                ? 10
+                : 0;
+
+            __result = Game1.player.GetUnmodifiedSkillLevel(skill_index) >= 5 + p &&
+                       !Game1.player.newLevels.Contains(new Point(skill_index, 5 + p)) &&
+                       !Game1.player.newLevels.Contains(new Point(skill_index, 10 + p));
+            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+            {
+                __result = __result &&
+                           !Game1.player.newLevels.Contains(new Point(skill_index, 5)) &&
+                           !Game1.player.newLevels.Contains(new Point(skill_index, 10));
+            }
+
             return false; // don't run original logic;
         }
         catch (Exception ex)

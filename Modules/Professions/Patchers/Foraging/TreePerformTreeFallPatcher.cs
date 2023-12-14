@@ -44,13 +44,13 @@ internal sealed class TreePerformTreeFallPatcher : HarmonyPatcher
                         var isPrestiged = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .MatchProfessionCheck(Profession.Lumberjack.Value)
+                            .MatchProfessionCheck(VanillaProfession.Lumberjack.Value)
                             .Move()
                             .Insert(
                                 new[]
                                 {
                                     new CodeInstruction(OpCodes.Dup),
-                                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Lumberjack.Value + 100),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(NetList<int, NetInt>).RequireMethod(

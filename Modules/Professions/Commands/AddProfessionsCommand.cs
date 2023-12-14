@@ -9,6 +9,7 @@ using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
+using Shared.Extensions.Collections;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -50,22 +51,22 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         {
             if (string.Equals(args[i], "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var range = Profession.GetRange().ToArray();
+                var range = VanillaProfession.GetRange().ToArray();
                 if (prestige)
                 {
-                    range = range.Concat(Profession.GetRange(true)).ToArray();
+                    range = range.Concat(VanillaProfession.GetRange(true)).ToArray();
                 }
 
                 range = range
-                    .Concat(SCProfession.List.Select(p => p.Id))
+                    .Concat(CustomProfession.List.Select(p => p.Id))
                     .ToArray();
                 professionsToAdd.AddRange(range);
                 Log.I($"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
                 break;
             }
 
-            if (Profession.TryFromName(args[i], true, out var profession) ||
-                Profession.TryFromLocalizedName(args[i], true, out profession))
+            if (VanillaProfession.TryFromName(args[i], true, out var profession) ||
+                VanillaProfession.TryFromLocalizedName(args[i], true, out profession))
             {
                 if ((!prestige && Game1.player.HasProfession(profession)) ||
                     (prestige && Game1.player.HasProfession(profession, true)))
@@ -84,7 +85,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             }
             else
             {
-                var customProfession = SCProfession.List.FirstOrDefault(p =>
+                var customProfession = CustomProfession.List.FirstOrDefault(p =>
                     string.Equals(args[i], p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
                     string.Equals(args[i], p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
                 if (customProfession is null)
@@ -113,12 +114,14 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         LevelUpMenu levelUpMenu = new();
         foreach (var pid in professionsToAdd.Distinct().Except(Game1.player.professions))
         {
-            Game1.player.professions.Add(pid);
-            levelUpMenu.getImmediateProfessionPerk(pid);
+            if (Game1.player.professions.AddOrReplace(pid))
+            {
+                levelUpMenu.getImmediateProfessionPerk(pid);
+            }
         }
 
         LevelUpMenu.RevalidateHealth(Game1.player);
-        if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
+        if (professionsToAdd.Intersect(VanillaProfession.GetRange(true)).Any())
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }

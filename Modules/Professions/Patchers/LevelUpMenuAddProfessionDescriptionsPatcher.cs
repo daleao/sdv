@@ -30,17 +30,17 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
     {
         try
         {
-            if (!Profession.TryFromName(professionName, true, out var profession) ||
-                (Skill)profession.Skill == Farmer.luckSkill)
+            if (!VanillaProfession.TryFromName(professionName, true, out var profession) ||
+                (VanillaSkill)profession.Skill == Farmer.luckSkill)
             {
                 return true; // run original logic
             }
 
-            descriptions.Add(profession.Title);
-
             var currentLevel = profession.Skill.CurrentLevel;
             var prestiged = Game1.player.HasProfession(profession, true) ||
-                            (Game1.activeClickableMenu is LevelUpMenu && currentLevel > 10);
+                            (Game1.activeClickableMenu is LevelUpMenu menu && Reflector
+                                .GetUnboundFieldGetter<LevelUpMenu, int>("currentLevel").Invoke(menu) > 10);
+            descriptions.Add(profession.GetTitle(prestiged));
             descriptions.AddRange(profession.GetDescription(prestiged).Split('\n'));
 
             return false; // don't run original logic

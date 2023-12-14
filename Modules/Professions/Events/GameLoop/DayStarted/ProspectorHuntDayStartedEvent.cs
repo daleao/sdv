@@ -20,7 +20,7 @@ internal sealed class ProspectorHuntDayStartedEvent : DayStartedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector);
+    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Prospector);
 
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

@@ -66,7 +66,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
-                .InsertProfessionCheck(Profession.Ecologist.Value)
+                .InsertProfessionCheck(VanillaProfession.Ecologist.Value)
                 .Insert(
                     new[]
                     {

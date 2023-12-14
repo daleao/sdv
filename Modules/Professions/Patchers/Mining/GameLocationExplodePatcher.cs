@@ -35,15 +35,15 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             return;
         }
 
-        var isBlaster = who.HasProfession(Profession.Blaster);
-        var isDemolitionist = who.HasProfession(Profession.Demolitionist);
+        var isBlaster = who.HasProfession(VanillaProfession.Blaster);
+        var isDemolitionist = who.HasProfession(VanillaProfession.Demolitionist);
         if (!isBlaster && !isDemolitionist)
         {
             return;
         }
 
-        var isPrestigedBlaster = who.HasProfession(Profession.Blaster, true);
-        var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
+        var isPrestigedBlaster = who.HasProfession(VanillaProfession.Blaster, true);
+        var isPrestigedDemolitionist = who.HasProfession(VanillaProfession.Demolitionist, true);
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
         var r = new Random(Guid.NewGuid().GetHashCode());
         var circle = new CircleTileGrid(tileLocation, (uint)radius);

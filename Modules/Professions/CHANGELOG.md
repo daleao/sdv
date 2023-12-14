@@ -1,5 +1,55 @@
 ﻿# PRFS Changelog
 
+## 4.1.8
+
+### Added
+
+* Added new Prestige mode options:
+    * **Standard** - Prestige levels (11-20) are unlocked individually per skill by resetting the skill 3 times to acquire all 10th-level professions within that skill. *This is the standard paradigm that has been available until this point.**
+    * **Challenge** - Prestige levels (11-20) are unlocked simultaneously for all skills only after all skills have been reset 3 times each and all 10th-level professions have been acquired across all skills. *This was my original plan, before receving mostly negative feedback.*
+    * **Streamlined** - Prestige levels (11-20) are unlocked immediately upon reaching level 10. The Skill Reset mechanic is eliminated altogether. But this also means you can obtain only one profession per skill. *This is meant for casual players who don't appreciate the grind, or anyone who wants the extended progression but without becoming overpowered.*
+    * **All Professions** - This is the opposite of Streamlined; Prestige levels are eliminated altogether, but the Skill Reset mechanic is maintained. The level cap remains at the regular 10, but the Statue of Prestige will still allow you to obtain all the non-prestige professions.
+
+* Added the following translation keys:
+    * "gmcm.prestige_progression_mode.title"
+    * "gmcm.prestige_progression_mode.desc"
+    * "gmcm.prestige_mode.none"
+    * "gmcm.prestige_mode.standard"
+    * "gmcm.prestige_mode.challenge"
+    * "gmcm.prestige_mode.streamlined"
+    * "gmcm.prestige_mode.all_professions"
+    * "prestige.level_up.unlocked.challenge"
+
+### Changed
+
+* The Oceanographer (Prestiged Conservationist) perk has been changed to fit the profession's title.
+    * ~~Tax deductions build 50% faster~~ Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon nights.
+
+    *Your deep knowledge of current and tidal patterns allow your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality.*
+
+    <div align="center">
+
+    \*~~ With this, I think I am finally happy with all 60 profession perks. ~~\*
+    </div>
+* The Prestige achievement "Master of the Five Trades" is now awarded when all 5 vanilla skills have reached level 20 (previously was level 10).
+* Changed the following translation keys (asterisk indicates a wildcard):
+    * ~~"gmcm.progression_style.\*"~~ -> "gmcm.ribbon_style.\*"
+    * ~~ "prestige.level_up.unlocked"~~ -> "prestige.level_up.unlocked.standard"
+
+### Fixed
+
+* Fixed SpaceCore skill levels being offset by -1.
+
+### Removed
+
+* Removed the following translation keys:
+    * "gmcm.enable_prestige.title"
+    * "gmcm.enable_prestige.desc"
+    * "gmcm.enable_extended_progression.title"
+    * "gmcm.enable_extended_progression.desc"
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.1.7
 
 ### Added
@@ -16,6 +66,8 @@
 
 * `ForgetRecipesOnSkillReset` setting should now apply to SpaceCore skills when ebaled.
 * SpaceCore skills should now be properly capped at level 10 when not fully reset.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 4.1.6
 

@@ -32,7 +32,7 @@ internal sealed class ProspectorHuntUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         this._hunt!.Update(e.Ticks);
-        if (Game1.player.HasProfession(Profession.Prospector, true))
+        if (Game1.player.HasProfession(VanillaProfession.Prospector, true))
         {
             Game1.gameTimeInterval = 0;
         }

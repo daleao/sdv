@@ -25,7 +25,7 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
     private static void AnimalHouseAddNewHatchedAnimalPostfix(AnimalHouse __instance)
     {
         var owner = Game1.getFarmer(__instance.getBuilding().owner.Value);
-        if (!owner.HasProfessionOrLax(Profession.Rancher))
+        if (!owner.HasProfessionOrLax(VanillaProfession.Rancher))
         {
             return;
         }

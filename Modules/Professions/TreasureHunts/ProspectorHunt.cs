@@ -9,10 +9,10 @@ using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.Events.World.ObjectListChanged;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using Shared.Extensions;
 using StardewValley.Locations;
 using StardewValley.Tools;
 
@@ -56,7 +56,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -84,7 +84,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -164,7 +164,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
-            !Game1.player.HasProfession(Profession.Prospector, true))
+            !Game1.player.HasProfession(VanillaProfession.Prospector, true))
         {
             return;
         }

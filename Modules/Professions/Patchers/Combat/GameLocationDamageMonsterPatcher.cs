@@ -62,7 +62,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             helper
                 .MatchProfessionCheck(Farmer.scout) // find index of scout check
                 .Move()
-                .SetOperand(Profession.Poacher.Value); // replace with Poacher check
+                .SetOperand(VanillaProfession.Poacher.Value); // replace with Poacher check
         }
         catch (Exception ex)
         {
@@ -77,11 +77,11 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(Profession.Fighter.Value) // find index of brute check
+                .MatchProfessionCheck(VanillaProfession.Fighter.Value) // find index of brute check
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 1.1f) }) // brute damage multiplier
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)10) }) // arg 10 = Farmer who
-                .InsertProfessionCheck(Profession.Fighter.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Fighter.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {
@@ -104,7 +104,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         try
         {
             helper
-                .MatchProfessionCheck(Profession.Brute.Value) // find index of brute check
+                .MatchProfessionCheck(VanillaProfession.Brute.Value) // find index of brute check
                 .Move(-2)
                 .GetOperand(out var dontBuffDamage)
                 .Insert(
@@ -270,17 +270,17 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
         var r = new Random(Guid.NewGuid().GetHashCode());
         var ultimate = who.Get_Ultimate();
-        if (who.HasProfession(Profession.Brute))
+        if (who.HasProfession(VanillaProfession.Brute))
         {
             HandleBrute(monster, who, ultimate);
         }
 
-        if (who.HasProfession(Profession.Poacher))
+        if (who.HasProfession(VanillaProfession.Poacher))
         {
             HandlePoacher(didCrit, critMultiplier, monster, who, ultimate, r);
         }
 
-        if (monster.IsSlime() && monster.Health <= 0 && who.HasProfession(Profession.Piper))
+        if (monster.IsSlime() && monster.Health <= 0 && who.HasProfession(VanillaProfession.Piper))
         {
             HandlePiper(monster, who, ultimate, r);
         }
@@ -347,7 +347,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             switch (r.Next(4))
             {
                 case 0:
-                    var healed = (int)(monster.MaxHealth * (who.HasProfession(Profession.Piper, true) ? 0.04f : 0.025f));
+                    var healed = (int)(monster.MaxHealth * (who.HasProfession(VanillaProfession.Piper, true) ? 0.04f : 0.025f));
                     who.health = Math.Min(who.health + healed, who.maxHealth);
                     who.currentLocation.debris.Add(new Debris(
                         healed,
@@ -359,7 +359,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     break;
 
                 case 1:
-                    var recovered = (int)(who.Stamina * (who.HasProfession(Profession.Piper, true) ? 0.01f : 0.02f));
+                    var recovered = (int)(who.Stamina * (who.HasProfession(VanillaProfession.Piper, true) ? 0.01f : 0.02f));
                     who.Stamina = Math.Min(who.Stamina + recovered, who.MaxStamina);
                     who.currentLocation.debris.Add(new Debris(
                         recovered,
@@ -370,18 +370,18 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                     Game1.playSound("healSound");
                     break;
 
-                case 2 when applied[10] < (who.HasProfession(Profession.Piper, true) ? 10 : 5):
+                case 2 when applied[10] < (who.HasProfession(VanillaProfession.Piper, true) ? 10 : 5):
                     applied[10]++;
                     RefreshPiperBuff(applied);
                     break;
 
-                case 3 when applied[11] < (who.HasProfession(Profession.Piper, true) ? 10 : 5):
+                case 3 when applied[11] < (who.HasProfession(VanillaProfession.Piper, true) ? 10 : 5):
                     applied[10]++;
                     RefreshPiperBuff(applied);
                     break;
             }
         }
-        else if (who.HasProfession(Profession.Piper, true) && r.NextDouble() < (1d / 6d) + (who.DailyLuck / 2.0))
+        else if (who.HasProfession(VanillaProfession.Piper, true) && r.NextDouble() < (1d / 6d) + (who.DailyLuck / 2.0))
         {
             var whatToBuff = r.Next(10);
             if (whatToBuff is not (3 or 6 or 7))
@@ -470,7 +470,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         // play sound effect
         SoundEffectPlayer.PoacherSteal.Play(who.currentLocation);
 
-        if (!who.HasProfession(Profession.Poacher, true))
+        if (!who.HasProfession(VanillaProfession.Poacher, true))
         {
             return true;
         }
@@ -624,7 +624,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void RefreshPiperBuff(int[] applied)
     {
-        var buffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
+        var buffId = (Manifest.UniqueID + VanillaProfession.Piper).GetHashCode();
         Game1.buffsDisplay.removeOtherBuff(buffId);
         Game1.buffsDisplay.addOtherBuff(new Buff(
             applied[0],

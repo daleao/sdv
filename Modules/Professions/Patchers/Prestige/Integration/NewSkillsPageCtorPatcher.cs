@@ -36,24 +36,32 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
         ClickableTextureComponent ___scrollBar,
         ref Rectangle ___scrollBarRunner)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnablePrestige)
         {
             return;
         }
 
-        __instance.width += 24;
-        ___upButton.bounds.X += 24;
-        ___downButton.bounds.X += 24;
-        ___scrollBar.bounds.X += 24;
-        ___scrollBarRunner.X += 24;
-        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.EnableSkillReset)
         {
-            __instance.width += 24;
             __instance.width += 24;
             ___upButton.bounds.X += 24;
             ___downButton.bounds.X += 24;
             ___scrollBar.bounds.X += 24;
             ___scrollBarRunner.X += 24;
+            if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
+            {
+                __instance.width += 24;
+                __instance.width += 24;
+                ___upButton.bounds.X += 24;
+                ___downButton.bounds.X += 24;
+                ___scrollBar.bounds.X += 24;
+                ___scrollBarRunner.X += 24;
+            }
+        }
+
+        if (!ProfessionsModule.EnablePrestigeLevels)
+        {
+            return;
         }
 
         var sourceRect = new Rectangle(16, 0, 14, 9);

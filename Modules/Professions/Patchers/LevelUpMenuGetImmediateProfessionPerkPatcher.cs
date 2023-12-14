@@ -35,12 +35,12 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (whichProfession.IsIn(Profession.GetRange(true)))
+        if (whichProfession.IsIn(VanillaProfession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
 
-        if (!Profession.TryFromValue(whichProfession, out var profession))
+        if (!VanillaProfession.TryFromValue(whichProfession, out var profession))
         {
             return;
         }
@@ -49,7 +49,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
 
         // add immediate perks
         profession
-            .When(Profession.Aquarist).Then(() =>
+            .When(VanillaProfession.Aquarist).Then(() =>
             {
                 var buildings = Game1.getFarm().buildings;
                 for (var i = 0; i < buildings.Count; i++)
@@ -63,9 +63,9 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                     }
                 }
             })
-            .When(Profession.Prospector).Then(() => EventManager.Enable<ProspectorRenderedHudEvent>())
-            .When(Profession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>())
-            .When(Profession.Rascal).Then(() =>
+            .When(VanillaProfession.Prospector).Then(() => EventManager.Enable<ProspectorRenderedHudEvent>())
+            .When(VanillaProfession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>())
+            .When(VanillaProfession.Rascal).Then(() =>
             {
                 if (player.CurrentTool is not Slingshot slingshot ||
                     (slingshot.numAttachmentSlots.Value != 1 && slingshot.attachments.Length != 1))
@@ -99,7 +99,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
         {
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender) })
-                .SetOperand(Profession.Brute.Value);
+                .SetOperand(VanillaProfession.Brute.Value);
         }
         catch (Exception ex)
         {

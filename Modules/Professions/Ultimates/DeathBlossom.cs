@@ -14,7 +14,7 @@ public sealed class DeathBlossom : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="DeathBlossom"/> class.</summary>
     internal DeathBlossom()
-        : base("Blossom", Professions.Profession.Desperado, Color.DarkGoldenrod, Color.SandyBrown)
+        : base("Blossom", Professions.VanillaProfession.Desperado, Color.DarkGoldenrod, Color.SandyBrown)
     {
     }
 

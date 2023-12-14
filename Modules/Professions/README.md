@@ -465,7 +465,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 - All trapped fish can have quality up to gold (*iridium, with prestige*).
 - Chance depends on fishing level (same formula as forage).
-- The Crab Pot recipe part of the perk is unchanged from vanilla.
+- The crab pot recipe part of the perk is unchanged from vanilla.
 
 <font color="gold">
 <b>⭐ Expert Trapper (Lv15)</b> - Can trap best-quality haul.
@@ -476,7 +476,7 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b> - Baited Crab Pots can produce 2x per day. Unlock new bait effects.
+<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b> - Baited Crab pots can produce 2x per day. Unlock new bait effects.
 </summary>
 
 <ul>
@@ -490,7 +490,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - All baits, with the exception of Magnet, also prevent collecting junk.
 
 <font color="gold">
-<b>⭐ Baitweaver (Lv20)</b> - Baited Crab Pots can produce <s>2×</s> → 3× per day.
+<b>⭐ Baitweaver (Lv20)</b> - Baited Crab pots can produce <s>2×</s> → 3× per day.
 </font>
 
 </font>
@@ -509,7 +509,15 @@ Click on any profession below to display more details. When a perk is preceded b
 - If you quality for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
 <font color="gold">
-<b>⭐ Oceanographer (Lv20)</b> - Tax deductions build 50% faster.
+<details>
+<summary><b>⭐ Oceanographer (Lv20)</b> - Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon nights.
+</summary>
+
+- Limited to fish ordinarily caught with a crab pot.
+- Your deep knowledge of current and tidal patterns allow your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality.
+- On regular days, the chance to catch fish this way is only 10%, and regular quantity and quality rules apply.
+
+</details>
 </font>
 
 </font>
@@ -654,6 +662,16 @@ Click on any profession below to display more details. When a perk is preceded b
 
 ## Prestige
 
+The Prestige mechanic is comprised of two main features: **Skill Reset** and **Prestige Levels**. Your choice of **Prestige Mode** may exclude one or both of these features. Available modes:
+
+- **Standard**
+- **Challenge**
+- **Streamlined**
+- **All Professions**
+- **None**
+
+### Skill Reset
+
 If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) is replaced by the **Statue of [Prestige](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass)**.
 
 <div align="center">
@@ -661,20 +679,36 @@ If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/prestige_statue.gif" alt="prestige_statue.gif" width="67%">
 </div>
 
+<br>
+
 Instead of changing your profession choices, the Statue of Prestige will reset your level 10 skills back to level 0, for a price. After resetting a skill, you will have to level up again to choose a different profession, but you get to keep every profession you've ever acquired (yes, including level 5). You will also find that leveling becomes progressively easier after each skill reset (or harder, depending on your config settings). By default, reseting a skill will also cause you to forget all associated recipes, but can also be turned off. For this incredible service, the Statue of Prestige will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a new colorful star, or by a growing ribbon, depending on your settings.
 
-Once you have acquired four stars, or the ribbon has reached its fourth stage, the level cap for the corresponding skill is raised to 20, allowing you to continue to develop your tool proficiency or max health. Other perks of higher levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be able to choose a profession to **prestige**. A prestiged profession grants improved perks or, in some cases, entirely new ones.
+This feature is included in the **Standard**, **Challenge** and **All Professions** modes. Note that changing the mode to **None** or **Streamlined** will **not** remove any professions from your farmer.
+
+All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
+
+### Prestige Levels
+
+Once conditions have been met, the level cap for your skills will be raised to 20, allowing you to continue to develop your tool proficiency, max health and other stats via **Prestige Levels**. Other perks of these levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be asked to choose a **Prestige Profession**. A prestiged profession grants improved perks or, in some cases, entirely new ones (see above).
 
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/skills_prestige.gif" alt="skills_prestige.gif" width="67%">
 </div>
 
-Only after all possible skills have had their level cap raised will the Statue of Prestige resume it's old behavior, by allowing you to change your prestige choices, for a modest fee of 20,000g (also configurable).
+<br>
 
-The entire Prestige system is optional. It may be turned off at any time, but keep in mind that doing so mid-game will not cause you to lose any already acquired professions, nor will it have any immediate effects on your skill levels. However your skill levels will be reduced to the regular cap of 10 the next time the save is loaded.
+You may choose only **one** Prestige Profession per skill. You will be able to change your prestige choices back at the Statue of Prestige, provided that you have unlocked prestige for all skills, for a modest fee of 20,000g (also configurable).
 
-All custom mod skills based on SpaceCore are compatible with the skill reset feature, but cannot have their level cap raised above the regular 10. For skill mod developers, if you wish to provide prestiged professions you can do so by registering your skill via the provided [API](../../API/IModularOverhaulApi.cs).
+Prestige Levels are included in the **Standard**, **Challenge** and **Streamlined** modes:
+
+- In **Standard** mode, Prestige Levels are unlocked individually for each skill after the corresponding skill has been reset 3 times and all 10th-level professions within that skill have been acquired.
+- In **Challenge** mode, Prestige Levels are unlocked simultaneously for all skills after all skills have been reset 3 times and all 10th-level professions have been acquired across all skills.
+- In **Streamlined** mode, Prestige Levels are available immediately at level 10 with no additional requirements.
+
+Note that changing the mode to **None** or **All Professions** will **not** reduce your skill levels if they are already above 10.
+
+Custom mods skills based on SpaceCore can be made compatible with Prestige Levels by registering via the provided [API](../../API/IModularOverhaulApi.cs).
 
 <sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
@@ -786,7 +820,7 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 <summary> 🟥 <b><font color="red">Click here to expand the list of mods which are NOT compatible:</font></b> 🟥 </summary>
 
 - Any mods that change vanilla skills.
-- [Better Crab Pots][mod:better-crab-pots], [Crab Pot Loot Has Quality And Bait Effects][mod:crab-pot-loot] or any mod that affects Crab Pot behavior.
+- [Better Crab Pots][mod:better-crab-pots], [Crab Pot Loot Has Quality And Bait Effects][mod:crab-pot-loot] or any mod that affects crab pot behavior.
 - [Better Slingshots][mod:better-slingshots], [Ring Overhaul][mod:ring-overhaul], or any mod that affects Slingshot behavior.
 - [Quality Artisan Products][mod:qap] and [Quality Artisan Products for Artisan Valley][mod:qap-av], as they will be overriden by this mod's changes to the Artisan profession (use [Flower Meads][mod:flower-meads] instead for the namesake feature).
 - [All Professions][mod:all-professions] and [Skill Prestige][mod:prestige], as they conflict with this mod's Prestige system. You could potentially use them if you disable this mod's Prestige system, but I will not provide support in case of bugs.
@@ -841,7 +875,7 @@ Yes.
 <summary><b>Can Luremaster and Conservationist work together?</b></summary>
 
 Yes. Otherwise the whole Prestige thing wouldn't make any sense.
-Luremaster applies only to Crab Pots with bait, whereas Conservationist applies only to Crab Pots without.
+Luremaster applies only to crab pots with bait, whereas Conservationist applies only to crab pots without.
 </details>
 
 <details>

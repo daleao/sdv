@@ -79,7 +79,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(Profession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(VanillaProfession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -106,7 +106,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             typeof(ScavengerHuntRenderedHudEvent),
             typeof(ScavengerHuntUpdateTickedEvent));
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(Profession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(VanillaProfession.Scavenger, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -174,7 +174,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         EventManager.Disable<ScavengerHuntRenderedHudEvent>();
         EventManager.Disable<ScavengerHuntUpdateTickedEvent>();
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
-            !Game1.player.HasProfession(Profession.Scavenger, true))
+            !Game1.player.HasProfession(VanillaProfession.Scavenger, true))
         {
             return;
         }

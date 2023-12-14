@@ -181,7 +181,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static void IncrementBruteCounters(Farmer farmer, Monster? damager, int damage)
     {
-        if (!farmer.IsLocalPlayer || !farmer.HasProfession(Profession.Brute) || damager is null)
+        if (!farmer.IsLocalPlayer || !farmer.HasProfession(VanillaProfession.Brute) || damager is null)
         {
             return;
         }

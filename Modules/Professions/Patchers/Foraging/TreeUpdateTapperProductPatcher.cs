@@ -32,7 +32,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
         }
 
         var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : tapper_instance.GetOwner();
-        if (!owner.HasProfession(Profession.Tapper))
+        if (!owner.HasProfession(VanillaProfession.Tapper))
         {
             return;
         }
@@ -40,7 +40,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
         if (tapper_instance.MinutesUntilReady > 0)
         {
             tapper_instance.MinutesUntilReady = (int)(tapper_instance.MinutesUntilReady *
-                                                      (owner.HasProfession(Profession.Tapper, true) ? 0.5 : 0.75));
+                                                      (owner.HasProfession(VanillaProfession.Tapper, true) ? 0.5 : 0.75));
         }
     }
 

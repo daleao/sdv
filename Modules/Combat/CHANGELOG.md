@@ -1,5 +1,13 @@
 ﻿# CMBT Changelog
 
+## 4.1.8
+
+### Added
+
+* Added some flavor dialogue to Emily and Mr. Qi dropping some hints about the Infinity Band.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 4.1.7
 
 ### Added
@@ -9,6 +17,8 @@
 ### Changed
 
 * `PlayChord` setting has been renamed to `AudibleGemstones`.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 
 ## 4.1.5
 

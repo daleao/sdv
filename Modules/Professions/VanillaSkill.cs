@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -20,35 +21,35 @@ using StardewValley.Menus;
 ///     Despite including a <see cref="Ardalis.SmartEnum"/> entry for the Luck skill, that skill is treated specially
 ///     by its own implementation (see <see cref="LuckSkill"/>).
 /// </remarks>
-public class Skill : SmartEnum<Skill>, ISkill
+public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
 {
     #region enum entries
 
     /// <summary>The Farming skill.</summary>
-    public static readonly Skill Farming = new("Farming", Farmer.farmingSkill);
+    public static readonly VanillaSkill Farming = new("Farming", Farmer.farmingSkill);
 
     /// <summary>The Fishing skill.</summary>
-    public static readonly Skill Fishing = new("Fishing", Farmer.fishingSkill);
+    public static readonly VanillaSkill Fishing = new("Fishing", Farmer.fishingSkill);
 
     /// <summary>The Foraging skill.</summary>
-    public static readonly Skill Foraging = new("Foraging", Farmer.foragingSkill);
+    public static readonly VanillaSkill Foraging = new("Foraging", Farmer.foragingSkill);
 
     /// <summary>The Mining skill.</summary>
-    public static readonly Skill Mining = new("Mining", Farmer.miningSkill);
+    public static readonly VanillaSkill Mining = new("Mining", Farmer.miningSkill);
 
     /// <summary>The Combat skill.</summary>
-    public static readonly Skill Combat = new("Combat", Farmer.combatSkill);
+    public static readonly VanillaSkill Combat = new("Combat", Farmer.combatSkill);
 
     /// <summary>The Luck skill, if loaded.</summary>
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Enum value must be field.")]
-    public static Skill Luck = new("Luck", Farmer.luckSkill);
+    public static VanillaSkill Luck = new("Luck", Farmer.luckSkill);
 
     #endregion enum entries
 
-    /// <summary>Initializes a new instance of the <see cref="Skill"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="VanillaSkill"/> class.</summary>
     /// <param name="name">The skill name.</param>
     /// <param name="value">The skill index.</param>
-    protected Skill(string name, int value)
+    protected VanillaSkill(string name, int value)
         : base(name, value)
     {
         if (value == Farmer.luckSkill)
@@ -71,7 +72,7 @@ public class Skill : SmartEnum<Skill>, ISkill
 
         for (var i = 0; i < 6; i++)
         {
-            this.Professions.Add(Profession.FromValue((value * 6) + i));
+            this.Professions.Add(VanillaProfession.FromValue((value * 6) + i));
         }
 
         this.ProfessionPairs[-1] = new ProfessionPair(this.Professions[0], this.Professions[1], null, 5);
@@ -81,7 +82,9 @@ public class Skill : SmartEnum<Skill>, ISkill
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
     }
 
-    public static IEnumerable<Skill> ListVanilla => List.Except(Luck.Collect());
+    /// <summary>Gets an enumeration of the vanilla <see cref="VanillaSkill"/> instances.</summary>
+    /// <remarks>In other words, excludes <see cref="LuckSkill"/>.</remarks>
+    public static IEnumerable<VanillaSkill> ListVanilla => List.Except(Luck.Collect());
 
     /// <inheritdoc />
     public string StringId { get; protected set; }
@@ -96,10 +99,7 @@ public class Skill : SmartEnum<Skill>, ISkill
     public int CurrentLevel => Game1.player.GetUnmodifiedSkillLevel(this.Value);
 
     /// <inheritdoc />
-    public virtual int MaxLevel => ProfessionsModule.Config.EnablePrestige &&
-                                   ProfessionsModule.Config.EnableExtendedProgression && ((ISkill)this).PrestigeLevel >= 4
-        ? 20
-        : 10;
+    public virtual int MaxLevel => this.CanGainPrestigeLevels() ? 20 : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier => ProfessionsModule.Config.SkillExpMultipliers[this.Name];
@@ -123,6 +123,17 @@ public class Skill : SmartEnum<Skill>, ISkill
         return Enumerable.Range(0, 5);
     }
 
+    /// <summary>Determines whether this skill can gain Prestige Levels.</summary>
+    /// <returns><see langword="true"/> if the local player meets all Prestige conditions, otherwise <see langword="false"/>.</returns>
+    public bool CanGainPrestigeLevels()
+    {
+        return ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+                ((ISkill)this).AcquiredProfessions.Length >= 4) ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+                Game1.player.HasAllProfessions());
+    }
+
     /// <inheritdoc />
     public void AddExperience(int amount)
     {
@@ -141,6 +152,11 @@ public class Skill : SmartEnum<Skill>, ISkill
     {
         level = Math.Min(level, this.MaxLevel);
         var farmer = Game1.player;
+        for (var l = this.CurrentLevel + 1; l <= level; l++)
+        {
+            farmer.newLevels.Add(new Point(this.Value, l));
+        }
+
         this
             .When(Farming).Then(() => farmer.farmingLevel.Value = level)
             .When(Fishing).Then(() => farmer.fishingLevel.Value = level)
@@ -260,20 +276,21 @@ public class Skill : SmartEnum<Skill>, ISkill
     /// <inheritdoc />
     public virtual void Revalidate()
     {
-        if (this.CurrentLevel > this.MaxLevel)
+        var maxLevel = this.MaxLevel;
+        if (this.CurrentLevel > maxLevel)
         {
             this.SetLevel(this.MaxLevel);
         }
 
-        if (this.CurrentLevel == this.MaxLevel && this.CurrentExp > ISkill.ExperienceCurve[this.MaxLevel])
+        if (this.CurrentLevel == maxLevel && this.CurrentExp > ISkill.ExperienceCurve[maxLevel])
         {
-            this.SetExperience(ISkill.ExperienceCurve[this.MaxLevel]);
+            this.SetExperience(ISkill.ExperienceCurve[maxLevel]);
             return;
         }
 
         var expectedLevel = 0;
         var level = 1;
-        while (level <= this.MaxLevel && this.CurrentExp >= ISkill.ExperienceCurve[level])
+        while (level <= maxLevel && this.CurrentExp >= ISkill.ExperienceCurve[level])
         {
             level++;
             expectedLevel++;

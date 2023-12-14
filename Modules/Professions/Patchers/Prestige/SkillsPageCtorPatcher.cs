@@ -27,15 +27,23 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SkillsPageCtorPostfix(SkillsPage __instance)
     {
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnablePrestige)
         {
             return;
         }
 
-        __instance.width += 48;
-        if (ProfessionsModule.Config.PrestigeProgressionStyle == ProfessionConfig.ProgressionStyle.StackedStars)
+        if (ProfessionsModule.EnableSkillReset)
         {
-            __instance.width += 24;
+            __instance.width += 48;
+            if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
+            {
+                __instance.width += 24;
+            }
+        }
+
+        if (!ProfessionsModule.EnablePrestigeLevels)
+        {
+            return;
         }
 
         var sourceRect = new Rectangle(16, 0, 14, 9);

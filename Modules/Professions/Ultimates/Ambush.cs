@@ -19,7 +19,7 @@ public sealed class Ambush : Ultimate
 
     /// <summary>Initializes a new instance of the <see cref="Ambush"/> class.</summary>
     internal Ambush()
-        : base("Ambush", Professions.Profession.Poacher, Color.MediumPurple, Color.MidnightBlue)
+        : base("Ambush", Professions.VanillaProfession.Poacher, Color.MediumPurple, Color.MidnightBlue)
     {
     }
 

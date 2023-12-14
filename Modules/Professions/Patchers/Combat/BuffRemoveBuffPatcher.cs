@@ -10,7 +10,7 @@ using HarmonyLib;
 [UsedImplicitly]
 internal sealed class BuffRemoveBuffPatcher : HarmonyPatcher
 {
-    private static readonly int PiperBuffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
+    private static readonly int PiperBuffId = (Manifest.UniqueID + VanillaProfession.Piper).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="BuffRemoveBuffPatcher"/> class.</summary>
     internal BuffRemoveBuffPatcher()

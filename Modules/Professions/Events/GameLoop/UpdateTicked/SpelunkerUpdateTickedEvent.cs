@@ -12,7 +12,7 @@ using StardewValley.Locations;
 [UsedImplicitly]
 internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
 {
-    private readonly int _buffId = (Manifest.UniqueID + Profession.Spelunker).GetHashCode();
+    private readonly int _buffId = (Manifest.UniqueID + VanillaProfession.Spelunker).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="SpelunkerUpdateTickedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -58,7 +58,7 @@ internal sealed class SpelunkerUpdateTickedEvent : UpdateTickedEvent
                 _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
-                sheetIndex = Profession.SpelunkerStreakSheetIndex,
+                sheetIndex = VanillaProfession.SpelunkerStreakSheetIndex,
                 millisecondsDuration = 0,
                 description =
                     I18n.Spelunker_Buff_Desc(ladderChance, speed),

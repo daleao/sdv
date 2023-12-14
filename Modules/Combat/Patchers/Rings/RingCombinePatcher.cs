@@ -10,6 +10,7 @@ using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
+using Shared.Extensions.Stardew;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -58,6 +59,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
                 .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
             combinedRing.UpdateDescription();
             combinedRing.Get_Chord()?.PlayCues();
+            Game1.player.WriteIfNotExists(DataKeys.HasMadeInfinityBand, "true");
             __result = combinedRing;
             return false; // don't run original logic
         }

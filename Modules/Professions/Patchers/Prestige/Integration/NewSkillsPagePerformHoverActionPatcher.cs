@@ -34,19 +34,19 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
     {
         ___hoverText = ___hoverText.Truncate(90);
 
-        if (!ProfessionsModule.Config.EnablePrestige)
+        if (!ProfessionsModule.EnableSkillReset)
         {
             return;
         }
 
-        var bounds = ProfessionsModule.Config.PrestigeProgressionStyle switch
+        var bounds = ProfessionsModule.Config.PrestigeRibbonStyle switch
         {
-            ProfessionConfig.ProgressionStyle.StackedStars => new Rectangle(
+            ProfessionConfig.RibbonStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            ProfessionConfig.ProgressionStyle.Gen3Ribbons or ProfessionConfig.ProgressionStyle.Gen4Ribbons => new Rectangle(
+            ProfessionConfig.RibbonStyle.Gen3Ribbons or ProfessionConfig.RibbonStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -69,9 +69,9 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
             var skill = i switch
             {
-                1 => Skill.Mining,
-                3 => Skill.Fishing,
-                _ => Skill.FromValue(i),
+                1 => VanillaSkill.Mining,
+                3 => VanillaSkill.Fishing,
+                _ => VanillaSkill.FromValue(i),
             };
 
             var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skill, true);
@@ -81,8 +81,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionConfig.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeRibbonStyle is ProfessionConfig.RibbonStyle.Gen3Ribbons
+                or ProfessionConfig.RibbonStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -97,14 +97,14 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             }
         }
 
-        if (SCSkill.Loaded.Count == 0)
+        if (CustomSkill.Loaded.Count == 0)
         {
             return;
         }
 
         var customSkills = SpaceCoreIntegration.Instance!.ModApi!
             .GetCustomSkills()
-            .Select(name => SCSkill.Loaded[name]);
+            .Select(name => CustomSkill.Loaded[name]);
         if (LuckSkill.Instance is not null)
         {
             // luck skill must be enumerated first
@@ -133,8 +133,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeProgressionStyle is ProfessionConfig.ProgressionStyle.Gen3Ribbons
-                or ProfessionConfig.ProgressionStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.PrestigeRibbonStyle is ProfessionConfig.RibbonStyle.Gen3Ribbons
+                or ProfessionConfig.RibbonStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

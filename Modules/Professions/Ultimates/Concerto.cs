@@ -19,7 +19,7 @@ public sealed class Concerto : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Concerto"/> class.</summary>
     internal Concerto()
-        : base("Concerto", Professions.Profession.Piper, Color.LimeGreen, Color.DarkGreen)
+        : base("Concerto", Professions.VanillaProfession.Piper, Color.LimeGreen, Color.DarkGreen)
     {
     }
 

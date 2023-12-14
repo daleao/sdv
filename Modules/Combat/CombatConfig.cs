@@ -427,7 +427,7 @@ public sealed class CombatConfig
     [GMCMPriority(204)]
     public bool AudibleGemstones
     {
-        get => this._audibleGemstones && Game1.options?.soundVolumeLevel > 0f;
+        get => this._audibleGemstones && Game1.options.soundVolumeLevel > 0f;
         internal set => this._audibleGemstones = value;
     }
 

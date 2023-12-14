@@ -22,7 +22,7 @@ internal sealed class SetMaxAnimalDispositionsCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        $"Maxes-out the friendship and/or happiness of all owned animals. Relevant for {Profession.Breeder.Name} and {Profession.Producer.Name}.";
+        $"Maxes-out the friendship and/or happiness of all owned animals. Relevant for {VanillaProfession.Breeder.Name} and {VanillaProfession.Producer.Name}.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)

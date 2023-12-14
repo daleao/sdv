@@ -157,8 +157,8 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         var output = machine.heldObject.Value;
         var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner() ?? Game1.MasterPlayer;
         var r = new Random(Guid.NewGuid().GetHashCode());
-        if (user.HasProfession(Profession.Artisan) ||
-            (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan, out _)))
+        if (user.HasProfession(VanillaProfession.Artisan) ||
+            (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Artisan, out _)))
         {
             output.Quality = input.Quality;
             if (!ProfessionsModule.Config.ArtisanGoodsAlwaysInputQuality)
@@ -175,7 +175,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         }
 
         var owner = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : machine.GetOwner();
-        if (!owner.HasProfession(Profession.Artisan))
+        if (!owner.HasProfession(VanillaProfession.Artisan))
         {
             return;
         }
@@ -185,7 +185,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
         }
 
-        if (owner.HasProfession(Profession.Artisan, true))
+        if (owner.HasProfession(VanillaProfession.Artisan, true))
         {
             machine.MinutesUntilReady -= machine.MinutesUntilReady / 4;
         }

@@ -47,7 +47,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
                 .AddLabels(skipRageBonus)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) }) // arg 1 = Farmer who
-                .InsertProfessionCheck(Profession.Brute.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(VanillaProfession.Brute.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

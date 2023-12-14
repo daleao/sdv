@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.1.8
+
+### Added
+
+* Added new config presets which can be found in the "optionals" folder. The compatibility files have also been moved to this folder.
+
 ## 4.1.5
 
 ### Fixed

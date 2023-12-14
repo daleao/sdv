@@ -24,7 +24,7 @@ internal sealed class MineShaftEnterMineShaftPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void MineShaftEnterMineShaftPostfix()
     {
-        if (Game1.player.HasProfession(Profession.Spelunker))
+        if (Game1.player.HasProfession(VanillaProfession.Spelunker))
         {
             Game1.player.AddSpelunkerMomentum();
         }

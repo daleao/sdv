@@ -25,7 +25,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FishingRodPullFishFromWaterPrefix(int whichFish)
     {
-        if (whichFish.IsTrashIndex() && Game1.player.HasProfession(Profession.Conservationist))
+        if (whichFish.IsTrashIndex() && Game1.player.HasProfession(VanillaProfession.Conservationist))
         {
             Game1.player.Increment(DataKeys.ConservationistTrashCollectedThisSeason);
         }

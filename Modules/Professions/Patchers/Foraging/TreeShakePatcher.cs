@@ -82,7 +82,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
     private static int GetCoconutQuality(int seedIndex)
     {
         return seedIndex is not (ObjectIds.Coconut or ObjectIds.GoldenCoconut) ||
-               !Game1.player.HasProfession(Profession.Ecologist)
+               !Game1.player.HasProfession(VanillaProfession.Ecologist)
             ? SObject.lowQuality
             : Game1.player.GetEcologistForageQuality();
     }

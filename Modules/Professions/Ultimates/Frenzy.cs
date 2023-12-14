@@ -16,7 +16,7 @@ public sealed class Frenzy : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Frenzy"/> class.</summary>
     internal Frenzy()
-        : base("Frenzy", Professions.Profession.Brute, Color.OrangeRed, Color.OrangeRed)
+        : base("Frenzy", Professions.VanillaProfession.Brute, Color.OrangeRed, Color.OrangeRed)
     {
     }
 

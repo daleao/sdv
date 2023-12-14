@@ -33,8 +33,10 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, ref bool __result, string? questionAndAnswer)
     {
-        if (!ProfessionsModule.Config.EnablePrestige ||
-            questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true)
+        if ((!ProfessionsModule.EnableSkillReset ||
+             questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true) &&
+            (ProfessionsModule.Config.PrestigeProgressionMode != ProfessionConfig.PrestigeMode.Streamlined ||
+             questionAndAnswer?.StartsWith("professionForget") != true))
         {
             return true; // run original logic
         }
@@ -79,26 +81,26 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
                     // get skill type and do action
                     var skillName = skillNameAsSpan.ToString();
-                    if (Skill.TryFromName(skillName, true, out var skill))
+                    if (VanillaSkill.TryFromName(skillName, true, out var skill))
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
                             HandleSkillReset(skill);
                         }
-                        else if (questionAndAnswer.Contains("prestigeRespec_"))
+                        else if (questionAndAnswer.ContainsAnyOf("prestigeRespec_", "professionForget_"))
                         {
                             HandlePrestigeRespec(skill);
                         }
                     }
-                    else if (SCSkill.Loaded.TryGetValue(skillName, out var customSkill))
+                    else if (CustomSkill.Loaded.TryGetValue(skillName, out var customSkill))
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
                             HandleSkillReset(customSkill);
                         }
-                        else if (questionAndAnswer.Contains("prestigeRespec_"))
+                        else if (questionAndAnswer.ContainsAnyOf("prestigeRespec_", "professionForget_"))
                         {
-                            HandlePrestigeRespec((SCSkill)customSkill);
+                            HandlePrestigeRespec((CustomSkill)customSkill);
                         }
                     }
 
@@ -123,7 +125,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static void OfferSkillResetChoices(GameLocation location)
     {
         var skillResponses = (
-            from skill in Skill.List.Except(Skill.Luck.Collect()).Concat(SCSkill.Loaded.Values)
+            from skill in VanillaSkill.List.Except(VanillaSkill.Luck.Collect()).Concat(CustomSkill.Loaded.Values)
             where skill.CanReset()
             let costVal = skill.GetResetCost()
             let costStr = costVal > 0
@@ -150,42 +152,42 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var skillResponses = new List<Response>();
-        if (GameLocation.canRespec(Skill.Farming))
+        if (GameLocation.canRespec(VanillaSkill.Farming))
         {
             skillResponses.Add(new Response(
                 "farming",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604")));
         }
 
-        if (GameLocation.canRespec(Skill.Fishing))
+        if (GameLocation.canRespec(VanillaSkill.Fishing))
         {
             skillResponses.Add(new Response(
                 "fishing",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607")));
         }
 
-        if (GameLocation.canRespec(Skill.Foraging))
+        if (GameLocation.canRespec(VanillaSkill.Foraging))
         {
             skillResponses.Add(new Response(
                 "foraging",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606")));
         }
 
-        if (GameLocation.canRespec(Skill.Mining))
+        if (GameLocation.canRespec(VanillaSkill.Mining))
         {
             skillResponses.Add(new Response(
                 "mining",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605")));
         }
 
-        if (GameLocation.canRespec(Skill.Combat))
+        if (GameLocation.canRespec(VanillaSkill.Combat))
         {
             skillResponses.Add(new Response(
                 "combat",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11608")));
         }
 
-        foreach (var customSkill in SCSkill.Loaded.Values)
+        foreach (var customSkill in CustomSkill.Loaded.Values)
         {
             if (customSkill.CurrentLevel >= 15 && !customSkill.NewLevels.Any(level => level is 15 or 20))
             {
@@ -258,7 +260,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         ProfessionsModule.State.UsedStatueToday = true;
     }
 
-    private static void HandlePrestigeRespec(Skill skill)
+    private static void HandlePrestigeRespec(VanillaSkill skill)
     {
         var player = Game1.player;
         player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.PrestigeRespecCost);
@@ -269,7 +271,28 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             GameLocation.RemoveProfession(100 + (skill * 6) + i);
         }
 
-        var currentLevel = Farmer.checkForLevelGain(0, player.experiencePoints[0]);
+        var currentLevel = skill.CurrentLevel;
+        if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+        {
+            // also remove regular professions
+            for (var i = 0; i < 6; i++)
+            {
+                GameLocation.RemoveProfession((skill * 6) + i);
+            }
+
+            // re-add levels
+            if (currentLevel >= 5)
+            {
+                player.newLevels.Add(new Point(skill, 5));
+            }
+
+            if (currentLevel >= 10)
+            {
+                player.newLevels.Add(new Point(skill, 10));
+            }
+        }
+
+        // re-add prestige levels
         if (currentLevel >= 15)
         {
             player.newLevels.Add(new Point(skill, 15));
@@ -293,7 +316,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         ProfessionsModule.State.UsedStatueToday = true;
     }
 
-    private static void HandlePrestigeRespec(SCSkill skill)
+    private static void HandlePrestigeRespec(CustomSkill skill)
     {
         var player = Game1.player;
         player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.PrestigeRespecCost);
@@ -305,6 +328,29 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var currentLevel = Farmer.checkForLevelGain(0, player.experiencePoints[0]);
+        if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+        {
+            // also remove regular professions
+            for (var i = 0; i < 6; i++)
+            {
+                GameLocation.RemoveProfession(100 + skill.Professions[i].Id);
+            }
+
+            // re-add levels
+            if (currentLevel >= 5)
+            {
+                Reflector.GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                    .Invoke().Add(new KeyValuePair<string, int>(skill.StringId, 5));
+            }
+
+            if (currentLevel >= 10)
+            {
+                Reflector.GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                    .Invoke().Add(new KeyValuePair<string, int>(skill.StringId, 10));
+            }
+        }
+
+        // re-add presige levels
         if (currentLevel >= 15)
         {
             Reflector.GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")

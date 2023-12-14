@@ -43,7 +43,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             new ModTextureProvider(() => "assets/sprites/interface/max.png"));
         this.Provide(
             $"{Manifest.UniqueID}/PrestigeProgression",
-            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.PrestigeProgressionStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.PrestigeRibbonStyle}.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -59,10 +59,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<int, string>().Data;
 
-        string title =
-            _I18n.Get("prestige.achievement.title" +
-                              (Game1.player.IsMale ? ".male" : ".female"));
-        var desc = I18n.Prestige_Achievement_Desc();
+        string title = _I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
+        string desc = _I18n.Get("prestige.achievement.desc" + (Game1.player.IsMale ? ".male" : ".female"));
 
         const string shouldDisplayBeforeEarned = "false";
         const string prerequisite = "-1";
@@ -447,7 +445,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             return;
         }
 
-        foreach (var profession in Profession.List)
+        foreach (var profession in VanillaProfession.List)
         {
             if (!Game1.player.HasProfession(profession, true) &&
                 (Game1.activeClickableMenu is not LevelUpMenu || profession.Skill.CurrentLevel <= 10))

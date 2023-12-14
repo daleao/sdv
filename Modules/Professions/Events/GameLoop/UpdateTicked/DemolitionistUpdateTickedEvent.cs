@@ -18,7 +18,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     internal DemolitionistUpdateTickedEvent(EventManager manager)
         : base(manager)
     {
-        this._buffId = (Manifest.UniqueID + Profession.Demolitionist).GetHashCode();
+        this._buffId = (Manifest.UniqueID + VanillaProfession.Demolitionist).GetHashCode();
     }
 
     /// <inheritdoc />
@@ -56,7 +56,7 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
                     "demolitionist.title" + (Game1.player.IsMale ? ".male" : ".female")))
             {
                 which = this._buffId,
-                sheetIndex = Profession.DemolitionistExcitedSheetIndex,
+                sheetIndex = VanillaProfession.DemolitionistExcitedSheetIndex,
                 millisecondsDuration = 555,
                 description = I18n.Demolitionist_Buff_Desc(),
             });

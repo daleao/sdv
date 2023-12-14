@@ -42,7 +42,7 @@ internal sealed class ArrowProjectileUpdatePatcher : HarmonyPatcher
         Farmer ____owner,
         GameLocation location)
     {
-        if (!____owner.HasProfession(Profession.Desperado))
+        if (!____owner.HasProfession(VanillaProfession.Desperado))
         {
             return;
         }

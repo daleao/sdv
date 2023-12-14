@@ -40,18 +40,18 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
 
         for (var i = 1; i <= farmer.combatLevel.Value; i++)
         {
-            if (!farmer.newLevels.Contains(new Point(Skill.Combat, i)))
+            if (!farmer.newLevels.Contains(new Point(VanillaSkill.Combat, i)))
             {
                 expectedMaxHealth += 5;
             }
         }
 
-        if (farmer.HasProfession(Profession.Fighter))
+        if (farmer.HasProfession(VanillaProfession.Fighter))
         {
             expectedMaxHealth += 15;
         }
 
-        if (farmer.HasProfession(Profession.Brute))
+        if (farmer.HasProfession(VanillaProfession.Brute))
         {
             expectedMaxHealth += 25;
         }

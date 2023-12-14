@@ -40,9 +40,9 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
             }
 
             var owner = pair.Instance.GetOwner();
-            var max = owner.HasProfessionOrLax(Profession.Luremaster, true)
+            var max = owner.HasProfessionOrLax(VanillaProfession.Luremaster, true)
                 ? 2
-                : owner.HasProfessionOrLax(Profession.Luremaster)
+                : owner.HasProfessionOrLax(VanillaProfession.Luremaster)
                     ? 1
                     : 0;
             if (max == 0 || pair.Instance.Get_Successes() >= max)

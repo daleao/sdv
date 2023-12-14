@@ -49,7 +49,7 @@ internal sealed class SlingshotCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlingshotCtorPostfix(Slingshot __instance)
     {
-        if (!Game1.player.HasProfession(Profession.Rascal) ||
+        if (!Game1.player.HasProfession(VanillaProfession.Rascal) ||
             (__instance.numAttachmentSlots.Value != 1 && __instance.attachments.Length != 1))
         {
             return;

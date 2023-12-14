@@ -39,7 +39,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
     private static void ObjectCheckForActionPostfix(SObject __instance, bool __state, Farmer who)
     {
         if (__state && __instance.heldObject.Value is null && __instance.IsMushroomBox() &&
-            who.HasProfession(Profession.Ecologist))
+            who.HasProfession(VanillaProfession.Ecologist))
         {
             Game1.player.Increment(DataKeys.EcologistItemsForaged);
         }

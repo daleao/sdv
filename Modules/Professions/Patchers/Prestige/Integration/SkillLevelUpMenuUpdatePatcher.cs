@@ -7,16 +7,19 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using Netcode;
 using SpaceCore.Interface;
+using SCPair = SpaceCore.Skills.Skill.ProfessionPair;
+using SCSkill = SpaceCore.Skills.Skill;
 
 #endregion using directives
 
@@ -34,20 +37,243 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to idiot-proof the level-up menu. </summary>
     [HarmonyPrefix]
-    private static void LevelUpMenuUpdatePrefix(
-        SkillLevelUpMenu __instance, int ___currentLevel, List<int> ___professionsToChoose)
+    private static bool LevelUpMenuUpdatePrefix(
+        SkillLevelUpMenu __instance,
+        List<int> ___professionsToChoose,
+        List<TemporaryAnimatedSprite> ___littleStars,
+        List<CraftingRecipe> ___newCraftingRecipes,
+        ref int ___currentLevel,
+        ref string ___currentSkill,
+        ref bool ___isProfessionChooser,
+        ref bool ___hasUpdatedProfessions,
+        ref int ___timerBeforeStart,
+        ref string ___title,
+        ref List<string> ___extraInfoForLevel,
+        ref List<string> ___leftProfessionDescription,
+        ref MouseState ___oldMouseState,
+        ref SCPair? ___profPair,
+        GameTime time)
     {
-        if (!__instance.isProfessionChooser || !__instance.hasUpdatedProfessions ||
-            !ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) ||
-            !ShouldSuppressClick(___professionsToChoose[1], ___currentLevel))
+        if (__instance.isProfessionChooser && __instance.hasUpdatedProfessions && ___professionsToChoose.Count == 2 &&
+            ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) &&
+            ShouldSuppressClick(___professionsToChoose[1], ___currentLevel))
         {
-            return;
+            __instance.isActive = false;
+            __instance.informationUp = false;
+            __instance.isProfessionChooser = false;
+            return true; // run original logic
         }
 
-        __instance.isActive = false;
-        __instance.informationUp = false;
-        __instance.isProfessionChooser = false;
-        __instance.hasUpdatedProfessions = true;
+        if (!__instance.isActive || ProfessionsModule.Config.PrestigeProgressionMode !=
+            ProfessionConfig.PrestigeMode.Streamlined || ___currentLevel is not 15 or 20)
+        {
+            return true; // run original logic
+        }
+
+        #region copy
+
+        var xPositionOnScreen = __instance.xPositionOnScreen;
+        var width = __instance.width;
+        var skillsByName = Reflector
+            .GetStaticFieldGetter<Dictionary<string, SCSkill>>(typeof(SpaceCore.Skills), "SkillsByName")
+            .Invoke();
+        if (!___hasUpdatedProfessions)
+        {
+            var scSkill = skillsByName[___currentSkill];
+            ___profPair = ChooseProfessionPair(___currentSkill, ___currentLevel);
+            if (___profPair is not null)
+            {
+                ___isProfessionChooser = true;
+            }
+            else
+            {
+                return true;
+            }
+
+            var currentBranch = Game1.player.GetCurrentBranchForSkill(CustomSkill.FromSpaceCore(scSkill)!);
+            switch (___currentLevel)
+            {
+                case 15:
+                    ___professionsToChoose.Add(currentBranch);
+                    break;
+                case 20:
+                    var currentLeaf =
+                        Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                    ___professionsToChoose.Add(currentLeaf);
+                    break;
+            }
+
+            var scProfession = ___profPair.First.GetVanillaId() == currentBranch ? ___profPair.First : ___profPair.Second;
+            var la = new List<string>(new[] { scProfession.GetName() });
+            la.AddRange(scProfession.GetDescription().Split('\n'));
+            ___leftProfessionDescription = la;
+            ___hasUpdatedProfessions = true;
+        }
+
+        for (var i = ___littleStars.Count - 1; i >= 0; i--)
+        {
+            if (___littleStars[i].update(time))
+            {
+                ___littleStars.RemoveAt(i);
+            }
+        }
+
+        if (Game1.random.NextDouble() < 0.03)
+        {
+            var position =
+                new Vector2(
+                    0f,
+                    (Game1.random.Next(__instance.yPositionOnScreen - 128, __instance.yPositionOnScreen - 4) / 20 * 4 *
+                     5) + 32)
+                {
+                    X = Game1.random.NextBool()
+                        ? Game1.random.Next(
+                            xPositionOnScreen + (width / 2) - 228,
+                            xPositionOnScreen + (width / 2) - 132)
+                        : Game1.random.Next(
+                            xPositionOnScreen + (width / 2) + 116,
+                            xPositionOnScreen + width - 160),
+                };
+
+            if (position.Y < __instance.yPositionOnScreen - 64 - 8)
+            {
+                position.X = Game1.random.Next(
+                    xPositionOnScreen + (width / 2) - 116,
+                    xPositionOnScreen + (width / 2) + 116);
+            }
+
+            position.X = position.X / 20f * 4f * 5f;
+            ___littleStars.Add(
+                new TemporaryAnimatedSprite(
+                    "LooseSprites\\Cursors",
+                    new Rectangle(364, 79, 5, 5),
+                    80f,
+                    7,
+                    1,
+                    position,
+                    flicker: false,
+                    flipped: false,
+                    1f,
+                    0f,
+                    Color.White,
+                    4f,
+                    0f,
+                    0f,
+                    0f)
+                { local = true, });
+        }
+
+        if (___timerBeforeStart > 0)
+        {
+            ___timerBeforeStart -= time.ElapsedGameTime.Milliseconds;
+            if (___timerBeforeStart > 0 || !Game1.options.SnappyMenus)
+            {
+                return false;
+            }
+
+            __instance.populateClickableComponentList();
+            __instance.snapToDefaultClickableComponent();
+
+            return false;
+        }
+
+        __instance.height = 512;
+        ___oldMouseState = Game1.input.GetMouseState();
+        if (__instance.isActive && !__instance.informationUp && __instance.starIcon != null)
+        {
+            __instance.starIcon.sourceRect.X =
+                __instance.starIcon.containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()) ? 294 : 310;
+        }
+
+        if (__instance.isActive && __instance.starIcon != null && !__instance.informationUp &&
+            (___oldMouseState.LeftButton == ButtonState.Pressed ||
+             (Game1.options.gamepadControls && Game1.oldPadState.IsButtonDown(Buttons.A))) &&
+            __instance.starIcon.containsPoint(___oldMouseState.X, ___oldMouseState.Y))
+        {
+            ___newCraftingRecipes.Clear();
+            ___extraInfoForLevel.Clear();
+            Game1.player.completelyStopAnimatingOrDoingAction();
+            Game1.playSound("bigSelect");
+            __instance.informationUp = true;
+            __instance.isProfessionChooser = false;
+            var newLevel = Reflector
+                .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SpaceCore.Skills), "NewLevels")
+                .Invoke();
+            ___currentLevel = newLevel.First().Value;
+            ___currentSkill = newLevel.First().Key;
+            ___title = Game1.content.LoadString(
+                "Strings\\UI:LevelUp_Title",
+                ___currentLevel,
+                skillsByName[___currentSkill].GetName());
+            ___extraInfoForLevel = __instance.getExtraInfoForLevel(___currentSkill, ___currentLevel);
+            ___profPair = ChooseProfessionPair(___currentSkill, ___currentLevel);
+            if (___profPair is not null)
+            {
+                ___professionsToChoose.Clear();
+                ___isProfessionChooser = true;
+                var currentBranch = Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(___currentLevel));
+                switch (___currentLevel)
+                {
+                    case 15:
+                        ___professionsToChoose.Add(currentBranch);
+                        break;
+                    case 20:
+                        var currentLeaf = Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                        ___professionsToChoose.Add(
+                            Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentLeaf)));
+                        break;
+                }
+            }
+
+            Game1.player.freezePause = 100;
+        }
+
+        if (!__instance.isActive || !__instance.informationUp)
+        {
+            return false;
+        }
+
+        Game1.player.completelyStopAnimatingOrDoingAction();
+        if (__instance.okButton.containsPoint(Game1.getOldMouseX(), Game1.getOldMouseY()))
+        {
+            __instance.okButton.scale = Math.Min(1.1f, __instance.okButton.scale + 0.05f);
+            if (Game1.didPlayerJustLeftClick() && __instance.readyToClose())
+            {
+                __instance.okButtonClicked();
+                var scSkill = skillsByName[___currentSkill];
+                var currentBranch = Game1.player.GetCurrentBranchForSkill(CustomSkill.FromSpaceCore(scSkill)!);
+                switch (___currentLevel)
+                {
+                    case 15:
+                        if (Game1.player.professions.AddOrReplace(currentBranch + 100))
+                        {
+                            __instance.getImmediateProfessionPerk(currentBranch + 100);
+                        }
+
+                        break;
+                    case 20:
+                        var currentLeaf =
+                            Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                        ___professionsToChoose.Add(currentLeaf);
+                        if (Game1.player.professions.AddOrReplace(currentLeaf + 100))
+                        {
+                            __instance.getImmediateProfessionPerk(currentLeaf + 100);
+                        }
+
+                        break;
+                }
+            }
+        }
+        else
+        {
+            __instance.okButton.scale = Math.Max(1f, __instance.okButton.scale - 0.05f);
+        }
+
+        Game1.player.freezePause = 100;
+
+        #endregion copy
+
+        return false; // don't run original logic
     }
 
     /// <summary>Patch to prevent duplicate profession acquisition.</summary>
@@ -205,7 +431,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                                     new CodeInstruction(
                                         OpCodes.Call,
                                         typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(
-                                            nameof(HasAcquiredLastProfession))),
+                                            nameof(HasUnlockedPrestigeLevels))),
                                     // store the bool result for later
                                     new CodeInstruction(OpCodes.Stloc_S, shouldCongratulateFullSkillMastery),
                                 },
@@ -260,7 +486,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentSkill")),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateForAcquiringLastProfession))),
+                            typeof(SkillLevelUpMenuUpdatePatcher).RequireMethod(nameof(CongratulateForUnlockingPrestigeLevels))),
                     },
                     // restore backed-up labels
                     labels);
@@ -341,15 +567,15 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
     #region injected subroutines
 
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
-    internal static object? ChooseProfessionPair(string skillId, int currentLevel)
+    internal static SCPair? ChooseProfessionPair(string skillId, int currentLevel)
     {
-        if (currentLevel % 5 != 0 || !SCSkill.Loaded.TryGetValue(skillId, out var iSkill))
+        if (currentLevel % 5 != 0 ||
+            !CustomSkill.Loaded.TryGetValueAs<string, ISkill, CustomSkill>(skillId, out var customSkill))
         {
             return null;
         }
 
-        var scSkill = (SCSkill)iSkill;
-        var skillInstance = scSkill.ToSpaceCore()!;
+        var skillInstance = customSkill.ToSpaceCore()!;
         var professionPairs = skillInstance.ProfessionsForLevels.ToList();
         var levelFivePair = professionPairs[0];
         if (currentLevel is 5 or 15)
@@ -363,56 +589,58 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         return branch == firstId ? professionPairs[1] : professionPairs[2];
     }
 
-    private static bool HasAcquiredLastProfession(int currentLevel, string skillId)
+    private static bool HasUnlockedPrestigeLevels(int currentLevel, string skillId)
     {
-        if (!ProfessionsModule.Config.EnablePrestige || currentLevel != 10 ||
-            !SCSkill.Loaded.TryGetValue(skillId, out var scSkill))
+        if (!ProfessionsModule.EnablePrestigeLevels || currentLevel != 10 ||
+            !CustomSkill.Loaded.TryGetValueAs<string, ISkill, CustomSkill>(skillId, out var customSkill))
         {
             return false;
         }
 
-        var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(scSkill);
-        Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
-            ? $" has acquired all professions in the {scSkill} skill and may now gain extended levels."
-            : $" does not yet have all professions in the {scSkill} skill."));
-        if (hasAllProfessions)
+        switch (ProfessionsModule.Config.PrestigeProgressionMode)
         {
-            return true;
-        }
+            case ProfessionConfig.PrestigeMode.Streamlined:
+                return true;
 
-#if DEBUG
-        var missing = string.Join(
-            ',',
-            Game1.player
-                .GetMissingProfessionsInSkill(scSkill)
-                .Select(p => p.Title));
-        Log.D($"[Prestige]: Missing professions: {missing}.");
-#endif
-        return false;
+            case ProfessionConfig.PrestigeMode.Standard:
+            {
+                var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(customSkill);
+                Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
+                ? $" has acquired all professions in the {customSkill} skill and may now gain extended levels."
+                : $" does not yet have all professions in the {customSkill} skill."));
+                return hasAllProfessions;
+            }
+
+            case ProfessionConfig.PrestigeMode.Challenge:
+            {
+                var hasAllProfessions = Game1.player.HasAllProfessions(true);
+                Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
+                    ? " has acquired all professions and may now gain extended levels."
+                    : " does not yet have all professions."));
+                return hasAllProfessions;
+            }
+
+            default:
+                return false;
+        }
     }
 
-    private static void CongratulateForAcquiringLastProfession(string skillId)
+    private static void CongratulateForUnlockingPrestigeLevels(string skillId)
     {
-        if (ProfessionsModule.Config.EnableExtendedProgression)
+        switch (ProfessionsModule.Config.PrestigeProgressionMode)
         {
-            Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked(SCSkill.Loaded[skillId].DisplayName));
-        }
-
-        if (!Game1.player.HasAllProfessions())
-        {
-            return;
-        }
-
-        string title = _I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
-        if (!Game1.player.achievements.Contains(title.GetDeterministicHashCode()))
-        {
-            EventManager.Enable<AchievementUnlockedDayStartedEvent>();
+            case ProfessionConfig.PrestigeMode.Standard:
+                Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Standard(CustomSkill.Loaded[skillId].DisplayName));
+                break;
+            case ProfessionConfig.PrestigeMode.Challenge:
+                Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Challenge());
+                break;
         }
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel)
     {
-        return SCProfession.Loaded.TryGetValue(hovered, out var profession) &&
+        return CustomProfession.Loaded.TryGetValue(hovered, out var profession) &&
                ((currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession)) ||
                 (currentLevel == 10 && Game1.player.HasProfession(profession)));
     }
