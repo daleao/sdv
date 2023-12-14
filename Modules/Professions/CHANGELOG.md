@@ -31,6 +31,8 @@
 
     \*~~ With this, I think I am finally happy with all 60 profession perks. ~~\*
     </div>
+* Changed some Prestige profession names (if you'd like to change any profession names, just open the i18n/default.json file and enter your preference).
+    * ~~Saboteur~~ -> Infiltrator
 * The Prestige achievement "Master of the Five Trades" is now awarded when all 5 vanilla skills have reached level 20 (previously was level 10).
 * Changed the following translation keys (asterisk indicates a wildcard):
     * ~~"gmcm.progression_style.\*"~~ -> "gmcm.ribbon_style.\*"
