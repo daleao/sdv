@@ -12,8 +12,9 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 * [PRFS]: Overhauled the Saboteur (Prestiged Conservationist) profession perk to better fit the profession's title.
 * [PRFS]: Replaced the Aquarist profession's icon with that of fish Roe.
 * Some adjustments to the API.
+* Shaved off several mods from the curated list due to newfond incompatibilities.
 
-**NOTE: This version is incompatible with XP Display. If you want to use that mod then DO NOT update. Please don't bother me or Shockah about this.**
+**NOTE: This version is incompatible with XP Display. If you want to use that mod then DO NOT update. Please don't bother Shockah or I about this.**
 
 <sup><sup>[🔼 Back to top](#margo-changelogs)</sup></sup>
 
