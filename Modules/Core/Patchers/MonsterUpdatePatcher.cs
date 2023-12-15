@@ -1,10 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Core.Patchers;
 
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.StatusEffects;
+using DaLion.Overhaul.Modules.Core.Extensions;
+using DaLion.Overhaul.Modules.Core.StatusEffects;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -76,7 +76,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     else
                     {
                         __instance.Get_BurnTimer().Value = burnTimer;
-                        if ((ticks % 30 == 0 && __instance is Bug or Fly) || ticks % 180 == 0)
+                        if ((__instance is Bug or Fly && ticks % 30 == 0) || ticks % 180 == 0)
                         {
                             var burn = (int)(1d / 16d * __instance.MaxHealth);
                             __instance.Health -= burn;
@@ -91,32 +91,32 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     }
                 }
 
-                // nothing uses poison at the moment, so this is commented to avoid the overhead
-                //var poisonTimer = __instance.Get_PoisonTimer().Value;
-                //if (poisonTimer > 0)
-                //{
-                //    poisonTimer -= time.ElapsedGameTime.Milliseconds;
-                //    if (poisonTimer <= 0)
-                //    {
-                //        __instance.Detox();
-                //    }
-                //    else
-                //    {
-                //        __instance.Get_PoisonTimer().Value = poisonTimer;
-                //        if (ticks % 180 == 0)
-                //        {
-                //            var poison = (int)(__instance.Get_PoisonStacks() * __instance.MaxHealth / 16d);
-                //            __instance.Health -= poison;
-                //            Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
-                //            if (__instance.Health <= 0)
-                //            {
-                //                killer = __instance.Get_Poisoner();
-                //            }
-                //        }
+                var poisonTimer = __instance.Get_PoisonTimer().Value;
+                if (poisonTimer > 0)
+                {
+                    poisonTimer -= time.ElapsedGameTime.Milliseconds;
+                    if (poisonTimer <= 0)
+                    {
+                        __instance.Detox();
+                    }
+                    else
+                    {
+                        __instance.Get_PoisonTimer().Value = poisonTimer;
+                        var pow = (int)Math.Pow(2, __instance.Get_PoisonStacks() - 1);
+                        if (ticks % (180 / pow) == 0)
+                        {
+                            var poison = (int)(pow * __instance.MaxHealth / 16d);
+                            __instance.Health -= poison;
+                            Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
+                            if (__instance.Health <= 0)
+                            {
+                                killer = __instance.Get_Poisoner();
+                            }
+                        }
 
-                //        __instance.startGlowing(Color.LimeGreen, true, 0.05f);
-                //    }
-                //}
+                        __instance.startGlowing(Color.LimeGreen, true, 0.05f);
+                    }
+                }
 
                 if (__instance.Health <= 0)
                 {

@@ -86,7 +86,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                     })
                 .Move()
                 .AddLabels(dontIncreaseEcologistCounter)
-                .InsertProfessionCheck(VanillaProfession.Ecologist.Value)
+                .InsertProfessionCheck(Profession.Ecologist.Value)
                 .Insert(
                     new[]
                     {
@@ -129,7 +129,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                 .ReplaceWith(new CodeInstruction(OpCodes.Blt_S, setIridiumQuality)) // replace AND with OR
                 .Move()
                 .AddLabels(setIridiumQuality) // this is the destination for a successful iridium check
-                .InsertProfessionCheck(VanillaProfession.Agriculturist.Value, new[] { checkForAgriculturist })
+                .InsertProfessionCheck(Profession.Agriculturist.Value, new[] { checkForAgriculturist })
                 .Insert(
                     new[]
                     {
@@ -204,8 +204,8 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
     {
         var harvester = junimoHarvester is null ? Game1.player :
             ProfessionsModule.Config.ShouldJunimosInheritProfessions ? junimoHarvester.GetOwner() : null;
-        return harvester?.HasProfession(VanillaProfession.Harvester) == true &&
-               r.NextDouble() < (harvester.HasProfession(VanillaProfession.Harvester, true) ? 0.2 : 0.1);
+        return harvester?.HasProfession(Profession.Harvester) == true &&
+               r.NextDouble() < (harvester.HasProfession(Profession.Harvester, true) ? 0.2 : 0.1);
     }
 
     #endregion injected subroutines

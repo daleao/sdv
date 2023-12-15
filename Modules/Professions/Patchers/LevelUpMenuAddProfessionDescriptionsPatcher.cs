@@ -30,13 +30,13 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
     {
         try
         {
-            if (!VanillaProfession.TryFromName(professionName, true, out var profession) ||
-                (VanillaSkill)profession.Skill == Farmer.luckSkill)
+            if (!Profession.TryFromName(professionName, true, out var profession) ||
+                (VanillaSkill)profession.ParentSkill == Farmer.luckSkill)
             {
                 return true; // run original logic
             }
 
-            var currentLevel = profession.Skill.CurrentLevel;
+            var currentLevel = profession.ParentSkill.CurrentLevel;
             var prestiged = Game1.player.HasProfession(profession, true) ||
                             (Game1.activeClickableMenu is LevelUpMenu menu && Reflector
                                 .GetUnboundFieldGetter<LevelUpMenu, int>("currentLevel").Invoke(menu) > 10);

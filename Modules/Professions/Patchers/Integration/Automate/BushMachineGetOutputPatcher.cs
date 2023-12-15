@@ -42,7 +42,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
         try
         {
             helper
-                .MatchProfessionCheck(VanillaProfession.Ecologist.Value) // find index of ecologist check
+                .MatchProfessionCheck(Profession.Ecologist.Value) // find index of ecologist check
                 .Move(-1)
                 .Insert(
                     new[]
@@ -79,7 +79,7 @@ internal sealed class BushMachineGetOutputPatcher : HarmonyPatcher
     {
         var chest = AutomateIntegration.Instance?.GetClosestContainerTo(machine);
         var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest?.GetOwner() ?? Game1.MasterPlayer;
-        return user.HasProfession(VanillaProfession.Ecologist) ? user.GetEcologistForageQuality() : SObject.lowQuality;
+        return user.HasProfession(Profession.Ecologist) ? user.GetEcologistForageQuality() : SObject.lowQuality;
     }
 
     #endregion injected subroutines

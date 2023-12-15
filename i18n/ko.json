@@ -133,7 +133,7 @@
   "poacher.title.male": "약탈자",
   "poacher.title.female": "약탈자",
   "poacher.desc": "치명타 확률 +50%. 치명타시 일정 확률로 적에게서 아이템을 훔칩니다.",
-  "poacher.desc.prestiged": "약탈에 성공하면 필살기 재사용 대기시간을 초기화합니다.",
+  "poacher.desc.prestiged": "적을 두 번 밀렵할 수 있습니다. 밀렵에 성공하면 치명적인 독을 가합니다.",
 
   "rascal.title.male": "악동",
   "rascal.title.female": "악동",

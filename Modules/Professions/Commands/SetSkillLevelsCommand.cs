@@ -50,7 +50,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
                 return;
             }
 
-            VanillaSkill.List.ForEach(s => s.SetLevel(newLevel));
+            Skill.List.ForEach(s => s.SetLevel(newLevel));
             CustomSkill.Loaded.Values.ForEach(s => s.SetLevel(newLevel));
         }
 
@@ -70,7 +70,7 @@ internal sealed class SetSkillLevelsCommand : ConsoleCommand
             }
 
             var skillName = argsList[0];
-            if (!VanillaSkill.TryFromName(skillName, true, out var skill))
+            if (!Skill.TryFromName(skillName, true, out var skill))
             {
                 var found = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                     string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||

@@ -3,8 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using Microsoft.Xna.Framework;
 using Netcode;
@@ -19,7 +17,7 @@ public sealed class Ambush : Ultimate
 
     /// <summary>Initializes a new instance of the <see cref="Ambush"/> class.</summary>
     internal Ambush()
-        : base("Ambush", Professions.VanillaProfession.Poacher, Color.MediumPurple, Color.MidnightBlue)
+        : base("Ambush", Profession.Poacher, Color.MediumPurple, Color.MidnightBlue)
     {
     }
 

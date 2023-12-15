@@ -133,7 +133,7 @@
   "poacher.title.male": "游侠",
   "poacher.title.female": "游侠",
   "poacher.desc": "暴击率+50%。攻击有机会从敌人那里偷走物品。",
-  "poacher.desc.prestiged": "成功偷窃后退还特殊动作的冷却时间。",
+  "poacher.desc.prestiged": "敌人可以被偷猎两次。 偷猎成功时施放致命毒药。",
 
   "rascal.title.male": "无赖",
   "rascal.title.female": "无赖",

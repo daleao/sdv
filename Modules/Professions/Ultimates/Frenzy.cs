@@ -1,11 +1,8 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Ultimates;
 
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules;
-
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -16,7 +13,7 @@ public sealed class Frenzy : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Frenzy"/> class.</summary>
     internal Frenzy()
-        : base("Frenzy", Professions.VanillaProfession.Brute, Color.OrangeRed, Color.OrangeRed)
+        : base("Frenzy", Profession.Brute, Color.OrangeRed, Color.OrangeRed)
     {
     }
 

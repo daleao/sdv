@@ -51,7 +51,7 @@ internal sealed class HuntingForTreasureModMessageReceivedEvent : ModMessageRece
             return;
         }
 
-        var profession = split[2] == "Prospector" ? VanillaProfession.Prospector : VanillaProfession.Scavenger;
+        var profession = split[2] == "Prospector" ? Profession.Prospector : Profession.Scavenger;
         if (who.HasProfession(profession, true))
         {
             this.Manager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();

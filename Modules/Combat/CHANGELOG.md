@@ -1,10 +1,14 @@
 ﻿# CMBT Changelog
 
-## 4.1.8
+## 4.2.0
 
 ### Added
 
 * Added some flavor dialogue to Emily and Mr. Qi dropping some hints about the Infinity Band.
+
+### Removed
+
+* Status Effect framework moved to Core module.
 
 <sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
 

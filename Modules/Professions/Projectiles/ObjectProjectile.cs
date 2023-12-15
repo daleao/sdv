@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -170,7 +170,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             if (monster.IsSlime())
             {
-                if (!this.Firer.HasProfession(VanillaProfession.Piper))
+                if (!this.Firer.HasProfession(Profession.Piper))
                 {
                     return;
                 }
@@ -268,7 +268,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // Desperado checks
-        if (this.Firer.HasProfession(VanillaProfession.Desperado))
+        if (this.Firer.HasProfession(Profession.Desperado))
         {
             ProfessionsModule.State.LastDesperadoTarget = monster;
         }
@@ -288,13 +288,13 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         if (this.IsSquishy || this.Ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ||
-            !this.Firer.HasProfession(VanillaProfession.Rascal))
+            !this.Firer.HasProfession(Profession.Rascal))
         {
             return;
         }
 
         // Rascal recovery
-        var recoveryChance = this.Firer.HasProfession(VanillaProfession.Rascal, true) ? 0.55 : 0.35;
+        var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
         if (this.Ammo.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal)
         {
             recoveryChance /= 2d;
@@ -333,13 +333,13 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         if (this.IsSquishy || this.Ammo.ParentSheetIndex == ObjectIds.ExplosiveAmmo ||
-            !this.Firer.HasProfession(VanillaProfession.Rascal))
+            !this.Firer.HasProfession(Profession.Rascal))
         {
             return;
         }
 
         // try to recover
-        var recoveryChance = this.Firer.HasProfession(VanillaProfession.Rascal, true) ? 0.55 : 0.35;
+        var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
         if (this.Ammo.ParentSheetIndex is ObjectIds.Wood or ObjectIds.Coal)
         {
             recoveryChance /= 2d;

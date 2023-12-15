@@ -4,6 +4,7 @@
 
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Constants;

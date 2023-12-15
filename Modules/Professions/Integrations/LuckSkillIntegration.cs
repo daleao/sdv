@@ -35,7 +35,7 @@ internal sealed class LuckSkillIntegration : ModIntegration<LuckSkillIntegration
         }
 
         var luckSkill = new LuckSkill();
-        VanillaSkill.Luck = luckSkill;
+        Skill.Luck = luckSkill;
         CustomSkill.Loaded["spacechase0.LuckSkill"] = luckSkill;
         Log.T($"[PRFS]: Successfully loaded the custom skill {this.ModId}.");
     }

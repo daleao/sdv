@@ -12,7 +12,6 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
 
 #endregion using directives
 

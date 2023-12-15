@@ -5,7 +5,6 @@ namespace DaLion.Overhaul.API;
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Overhaul.Modules.Professions.Extensions;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -33,7 +32,7 @@ public interface IModularOverhaul
         int Level { get; }
 
         /// <summary>Gets the <see cref="ISkill"/> which offers this profession.</summary>
-        ISkill Skill { get; }
+        ISkill ParentSkill { get; }
 
         /// <summary>Gets the professions which branch off from this profession, if any.</summary>
         IEnumerable<int> BranchingProfessions { get; }
@@ -206,6 +205,9 @@ public interface IModularOverhaul
     /// <summary>Interface for Ultimate abilities.</summary>
     public interface IUltimate
     {
+        /// <summary>Gets the corresponding combat profession which offers this <see cref="IUltimate"/>.</summary>
+        IProfession ParentProfession { get; }
+
         /// <summary>Gets the localized and gendered name for this <see cref="IUltimate"/>.</summary>
         string DisplayName { get; }
 

@@ -35,13 +35,13 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
         }
 
         var owner = __instance.GetOwner();
-        if (!owner.HasProfessionOrLax(VanillaProfession.Aquarist))
+        if (!owner.HasProfessionOrLax(Profession.Aquarist))
         {
             return;
         }
 
         var occupancy = __instance.maxOccupants.Value + 2;
-        if (owner.HasProfessionOrLax(VanillaProfession.Aquarist, true))
+        if (owner.HasProfessionOrLax(Profession.Aquarist, true))
         {
             occupancy += 2;
         }

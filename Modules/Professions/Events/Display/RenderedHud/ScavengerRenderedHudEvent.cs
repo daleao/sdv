@@ -34,7 +34,7 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
         // track objects
         foreach (var (tile, @object) in Game1.currentLocation.Objects.Pairs)
         {
-            if (!@object.ShouldBeTrackedBy(VanillaProfession.Scavenger))
+            if (!@object.ShouldBeTrackedBy(Profession.Scavenger))
             {
                 continue;
             }

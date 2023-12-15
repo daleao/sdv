@@ -28,7 +28,7 @@ internal static class BuildingExtensions
     /// <remarks>This overload exists only to be called by emitted ILCode. Excepts a vanilla <see cref="VanillaProfession"/>.</remarks>
     internal static bool DoesOwnerHaveProfession(this Building building, int index, bool prestiged = false)
     {
-        return VanillaProfession.TryFromValue(index, out var profession) &&
+        return Profession.TryFromValue(index, out var profession) &&
                building.GetOwner().HasProfession(profession, prestiged);
     }
 }

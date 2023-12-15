@@ -279,8 +279,8 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
         var professionsToChoose = Reflector
             .GetUnboundFieldGetter<LevelUpMenu, List<int>>("professionsToChoose")
             .Invoke(menu);
-        if (!VanillaProfession.TryFromValue(professionsToChoose[0], out var leftProfession) ||
-            !VanillaProfession.TryFromValue(professionsToChoose[1], out var rightProfession))
+        if (!Profession.TryFromValue(professionsToChoose[0], out var leftProfession) ||
+            !Profession.TryFromValue(professionsToChoose[1], out var rightProfession))
         {
             return;
         }

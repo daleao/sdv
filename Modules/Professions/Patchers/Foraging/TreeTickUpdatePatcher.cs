@@ -44,13 +44,13 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
                         var isPrestiged = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .MatchProfessionCheck(VanillaProfession.Lumberjack.Value)
+                            .MatchProfessionCheck(Profession.Lumberjack.Value)
                             .Move()
                             .Insert(
                                 new[]
                                 {
                                     new CodeInstruction(OpCodes.Dup),
-                                    new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Lumberjack.Value + 100),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(NetList<int, NetInt>).RequireMethod(
@@ -81,7 +81,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         try
         {
             helper
-                .MatchProfessionCheck(VanillaProfession.Arborist.Value)
+                .MatchProfessionCheck(Profession.Arborist.Value)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) }, ILHelper.SearchOption.Previous)
                 .CountUntil(
                     new[]
@@ -105,7 +105,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
         // replace Arborist check for prestiged Arborist check
         var checkForPrestigedArboristInstructions = checkForArboristInstructions;
         checkForPrestigedArboristInstructions[5] =
-            new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Arborist.Value + 100);
+            new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Arborist.Value + 100);
 
         // From: numHardwood++;
         // To: numHardwood += Game1.getFarmer(lastPlayerToHit).professions.Contains(100 + <arborist_id>) ? 2 : 1;
@@ -125,7 +125,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
                         var resumeExecution1 = generator.DefineLabel();
                         var resumeExecution2 = generator.DefineLabel();
                         helper
-                            .MatchProfessionCheck(VanillaProfession.Arborist.Value)
+                            .MatchProfessionCheck(Profession.Arborist.Value)
                             .Match(
                                 new[]
                                 {
@@ -144,7 +144,7 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
                                 })
                             .Move()
                             .AddLabels(resumeExecution1)
-                            .MatchProfessionCheck(VanillaProfession.Arborist.Value)
+                            .MatchProfessionCheck(Profession.Arborist.Value)
                             .Match(
                                 new[]
                                 {

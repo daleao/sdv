@@ -32,7 +32,7 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
         try
         {
             var who = Game1.getFarmer(whichPlayer);
-            if (!who.HasProfession(VanillaProfession.Gemologist) || !new SObject(objectIndex, 1).IsGemOrMineral())
+            if (!who.HasProfession(Profession.Gemologist) || !new SObject(objectIndex, 1).IsGemOrMineral())
             {
                 return true; // run original logic
             }

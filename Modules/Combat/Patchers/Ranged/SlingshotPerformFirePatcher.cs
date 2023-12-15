@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Projectiles;

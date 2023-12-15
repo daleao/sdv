@@ -20,7 +20,7 @@ internal sealed class ScavengerHuntDayStartedEvent : DayStartedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Scavenger);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger);
 
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

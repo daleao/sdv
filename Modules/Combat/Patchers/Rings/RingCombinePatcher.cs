@@ -7,10 +7,10 @@ using System.Reflection;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Netcode;
-using Shared.Extensions.Stardew;
 using StardewValley.Objects;
 
 #endregion using directives

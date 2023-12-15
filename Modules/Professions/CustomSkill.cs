@@ -111,17 +111,6 @@ public sealed class CustomSkill : ISkill
         return SpaceCoreMap.TryGetForward(this, out var skill) ? skill : null;
     }
 
-    /// <summary>Determines whether this skill can gain Prestige Levels.</summary>
-    /// <returns><see langword="true"/> if the local player meets all Prestige conditions, otherwise <see langword="false"/>.</returns>
-    public bool CanGainPrestigeLevels()
-    {
-        return this._canPrestige && (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
-                ((ISkill)this).AcquiredProfessions.Length >= 4) ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
-                Game1.player.HasAllProfessions()));
-    }
-
     /// <inheritdoc />
     public void AddExperience(int amount)
     {
@@ -250,6 +239,16 @@ public sealed class CustomSkill : ISkill
         {
             farmer.Write(DataKeys.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
         }
+    }
+
+    /// <inheritdoc />
+    public bool CanGainPrestigeLevels()
+    {
+        return this._canPrestige && (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
+                                     (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+                                      ((ISkill)this).AcquiredProfessions.Length >= 4) ||
+                                     (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+                                      Game1.player.HasAllProfessions()));
     }
 
     /// <inheritdoc />

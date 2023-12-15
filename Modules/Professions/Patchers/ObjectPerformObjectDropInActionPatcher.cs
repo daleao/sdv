@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
@@ -56,7 +55,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var r = new Random(Guid.NewGuid().GetHashCode());
 
         // artisan users can preserve the input quality
-        if (user.HasProfession(VanillaProfession.Artisan))
+        if (user.HasProfession(Profession.Artisan))
         {
             // golden mayonnaise is always iridium quality
             held.Quality = __instance.ParentSheetIndex == BigCraftableIds.MayonnaiseMachine &&
@@ -78,7 +77,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
 
         // artisan-owned machines work faster and may upgrade quality
-        if (!owner.HasProfession(VanillaProfession.Artisan))
+        if (!owner.HasProfession(Profession.Artisan))
         {
             return;
         }
@@ -88,7 +87,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             held.Quality += held.Quality == SObject.highQuality ? 2 : 1;
         }
 
-        if (owner.HasProfession(VanillaProfession.Artisan, true))
+        if (owner.HasProfession(Profession.Artisan, true))
         {
             __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 4;
         }
@@ -154,7 +153,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                         var notPrestigedBreeder = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .MatchProfessionCheck(VanillaProfession.Breeder.Value)
+                            .MatchProfessionCheck(Profession.Breeder.Value)
                             .Match(new[] { new CodeInstruction(OpCodes.Ldloc_0) }, ILHelper.SearchOption.Previous)
                             .CountUntil(new[] { new CodeInstruction(OpCodes.Brfalse_S) }, out var steps)
                             .Copy(
@@ -167,7 +166,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                             .Insert(copy)
                             .Move(-1)
                             .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_2) }, ILHelper.SearchOption.Previous)
-                            .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, VanillaProfession.Breeder.Value + 100))
+                            .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Breeder.Value + 100))
                             .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
                             .SetOperand(notPrestigedBreeder)
                             .Move()
@@ -196,7 +195,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
     private static void SetGeodeTreasureQuality(SObject crusher, SObject treasure, Farmer who)
     {
-        if (who.HasProfession(VanillaProfession.Gemologist) && treasure.IsGemOrMineral() &&
+        if (who.HasProfession(Profession.Gemologist) && treasure.IsGemOrMineral() &&
             (crusher.IsOwnedBy(who) || ProfessionsModule.Config.LaxOwnershipRequirements))
         {
             treasure.Quality = who.GetGemologistMineralQuality();

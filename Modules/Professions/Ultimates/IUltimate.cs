@@ -3,8 +3,8 @@
 /// <summary>Interface for Ultimate abilities.</summary>
 public interface IUltimate
 {
-    /// <summary>Gets the corresponding combat profession.</summary>
-    IProfession Profession { get; }
+    /// <summary>Gets the corresponding combat profession which offers this <see cref="IUltimate"/>.</summary>
+    IProfession ParentProfession { get; }
 
     /// <summary>Gets the localized and gendered name for this <see cref="IUltimate"/>.</summary>
     string DisplayName { get; }

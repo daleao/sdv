@@ -29,14 +29,14 @@ internal sealed class BasicProjectileExplodeOnImpactPatcher : HarmonyPatcher
     {
         try
         {
-            if (who is not Farmer farmer || !farmer.HasProfession(VanillaProfession.Demolitionist))
+            if (who is not Farmer farmer || !farmer.HasProfession(Profession.Demolitionist))
             {
                 return true; // run original logic
             }
 
             location.explode(
                 new Vector2(x / Game1.tileSize, y / Game1.tileSize),
-                farmer.HasProfession(VanillaProfession.Demolitionist) ? 4 : 3,
+                farmer.HasProfession(Profession.Demolitionist) ? 4 : 3,
                 farmer);
             return false; // don't run original logic
         }

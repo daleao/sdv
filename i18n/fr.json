@@ -133,7 +133,7 @@
   "poacher.title.male": "Débroussailleur",
   "poacher.title.female": "Débroussailleuse",
   "poacher.desc": "Chance de coup critique +50^. Chance de braconner un objet aux ennemis à chaque attaque.",
-  "poacher.desc.prestiged": "Annule le délai de récupération des attaques spéciales lors du braconnage d’un objet.",
+  "poacher.desc.prestiged": "Les ennemis peuvent être braconnés deux fois. Infligez un poison mortel lorsqu'un braconnage réussit.",
 
   "rascal.title.male": "Coquin",
   "rascal.title.female": "Coquine",

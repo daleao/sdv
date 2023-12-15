@@ -37,7 +37,7 @@ public sealed class CustomProfession : IProfession
         this.Id = id;
         this.StringId = stringId;
         this.Level = level;
-        this.Skill = skill;
+        this.ParentSkill = skill;
         this._titleGetter = getTitle;
         this._descriptionGetter = getDescription;
     }
@@ -51,7 +51,7 @@ public sealed class CustomProfession : IProfession
         this.Id = scProfession.GetVanillaId();
         this.StringId = scProfession.Id;
         this.Level = level;
-        this.Skill = skill;
+        this.ParentSkill = skill;
         this._titleGetter = scProfession.GetName;
         this._descriptionGetter = scProfession.GetDescription;
         SpaceCoreMap.TryAdd(this, scProfession);
@@ -77,7 +77,7 @@ public sealed class CustomProfession : IProfession
     public int Level { get; }
 
     /// <inheritdoc />
-    public ISkill Skill { get; }
+    public ISkill ParentSkill { get; }
 
     /// <summary>Gets professions for loaded <see cref="CustomSkill"/>s.</summary>
     internal static Dictionary<int, CustomProfession> Loaded { get; } = new();

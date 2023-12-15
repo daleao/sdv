@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -27,7 +26,7 @@ internal sealed class LevelUpMenuGetProfessionNamePatcher : HarmonyPatcher
     {
         try
         {
-            if (!VanillaProfession.TryFromValue(whichProfession, out var profession))
+            if (!Profession.TryFromValue(whichProfession, out var profession))
             {
                 return true; // run original logic
             }

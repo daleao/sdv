@@ -35,11 +35,11 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         {
             var isNotPrestiged = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(VanillaProfession.Miner.Value)
+                .MatchProfessionCheck(Profession.Miner.Value)
                 .Match(new[] { new CodeInstruction(OpCodes.Stloc_1) })
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_S, (byte)4) }) // arg 4 = Farmer who
-                .InsertProfessionCheck(VanillaProfession.Miner.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Miner.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

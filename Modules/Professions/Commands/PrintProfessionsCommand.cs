@@ -33,7 +33,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
         {
             var skillName = args[0];
             ISkill skill;
-            if (!VanillaSkill.TryFromName(skillName, true, out var vanillaSkill))
+            if (!Skill.TryFromName(skillName, true, out var vanillaSkill))
             {
                 var found = CustomSkill.Loaded.Values.FirstOrDefault(s =>
                     string.Equals(s.StringId, skillName, StringComparison.CurrentCultureIgnoreCase) ||
@@ -77,7 +77,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
         {
             var pid = Game1.player.professions[i];
             var name = new StringBuilder();
-            if (VanillaProfession.TryFromValue(pid >= 100 ? pid - 100 : pid, out var profession))
+            if (Profession.TryFromValue(pid >= 100 ? pid - 100 : pid, out var profession))
             {
                 name.Append(profession.StringId + (pid >= 100 ? " (P)" : Empty));
             }
@@ -89,7 +89,7 @@ internal sealed class PrintProfessionsCommand : ConsoleCommand
                     name.Append(" (P)");
                 }
 
-                name.Append(" (" + customProfession.Skill.StringId + ')');
+                name.Append(" (" + customProfession.ParentSkill.StringId + ')');
             }
             else
             {

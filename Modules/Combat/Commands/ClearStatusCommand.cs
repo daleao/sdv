@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.StatusEffects;
+using DaLion.Overhaul.Modules.Core.StatusEffects;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 

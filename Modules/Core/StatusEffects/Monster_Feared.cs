@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.StatusEffects;
+﻿namespace DaLion.Overhaul.Modules.Core.StatusEffects;
 
 #region using directives
 

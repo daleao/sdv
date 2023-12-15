@@ -32,8 +32,8 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
         {
             var owner = __instance.GetOwner();
             var isConservationist = ProfessionsModule.Config.LaxOwnershipRequirements
-                ? Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Conservationist, out _)
-                : owner.HasProfession(VanillaProfession.Conservationist);
+                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _)
+                : owner.HasProfession(Profession.Conservationist);
             if ((__instance.bait.Value is null && !isConservationist) || __instance.heldObject.Value is not null)
             {
                 return false; // don't run original logic
@@ -43,8 +43,8 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             var fishData =
                 Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
             var isLuremaster = ProfessionsModule.Config.LaxOwnershipRequirements
-                ? Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Luremaster, out _)
-                : owner.HasProfession(VanillaProfession.Luremaster);
+                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _)
+                : owner.HasProfession(Profession.Luremaster);
             var whichFish = -1;
             if (__instance.bait.Value is not null)
             {
@@ -79,7 +79,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             {
                 if (__instance.bait.Value is not null || isConservationist)
                 {
-                    if (owner.HasProfession(VanillaProfession.Conservationist, true))
+                    if (owner.HasProfession(Profession.Conservationist, true))
                     {
                         var isSpecialOceanographerCondition =
                             Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
@@ -124,7 +124,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                          .IsAnyOf(14, 51, 516, 517, 518, 519, 527, 529, 530, 531, 532, 533, 534))
             {
                 // not ring or weapon
-                var isSpecialOceanographerCondition = owner.HasProfession(VanillaProfession.Conservationist, true) &&
+                var isSpecialOceanographerCondition = owner.HasProfession(Profession.Conservationist, true) &&
                     (Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
                     Game1.dayOfMonth == 15);
                 fishQuantity = __instance.GetTrapQuantity(whichFish, owner, r, isSpecialOceanographerCondition);

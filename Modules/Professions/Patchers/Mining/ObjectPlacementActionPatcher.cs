@@ -61,7 +61,7 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
                                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
                                 })
-                            .InsertProfessionCheck(VanillaProfession.Demolitionist.Value, forLocalPlayer: false)
+                            .InsertProfessionCheck(Profession.Demolitionist.Value, forLocalPlayer: false)
                             .Insert(
                                 new[]
                                 {

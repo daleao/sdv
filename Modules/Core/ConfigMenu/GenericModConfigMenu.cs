@@ -8,7 +8,6 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Tools;
 using DaLion.Overhaul.Modules.Tools.Integrations;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
@@ -125,7 +124,7 @@ internal sealed class GenericModConfigMenu : GMCMBuilder<GenericModConfigMenu>
         Instance!.AssertRegistered();
         foreach (var (skillId, multiplier) in Config.Professions.SkillExpMultipliers)
         {
-            if (VanillaSkill.TryFromName(skillId, out var skill))
+            if (Skill.TryFromName(skillId, out var skill))
             {
                 Instance.AddFloatSlider(
                     () => I18n.Gmcm_SkillExpMultipliers_Title(skill.DisplayName),

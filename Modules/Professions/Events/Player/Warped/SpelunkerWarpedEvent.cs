@@ -21,7 +21,7 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Spelunker);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Spelunker);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

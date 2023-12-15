@@ -5,6 +5,7 @@
 using System.Linq;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;

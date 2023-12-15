@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Extensions;
@@ -79,7 +78,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         var width = __instance.width;
         if (!___hasUpdatedProfessions)
         {
-            var currentBranch = Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(___currentSkill));
+            var currentBranch = Game1.player.GetCurrentBranchForSkill(Skill.FromValue(___currentSkill));
             switch (___currentLevel)
             {
                 case 15:
@@ -87,7 +86,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                     break;
                 case 20:
                     var currentLeaf =
-                        Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                        Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                     ___professionsToChoose.Add(currentLeaf);
                     break;
             }
@@ -202,16 +201,16 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
             ___professionsToChoose.Clear();
             ___isProfessionChooser = true;
-            var currentBranch = Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(___currentSkill));
+            var currentBranch = Game1.player.GetCurrentBranchForSkill(Skill.FromValue(___currentSkill));
             switch (___currentLevel)
             {
                 case 15:
                     ___professionsToChoose.Add(currentBranch);
                     break;
                 case 20:
-                    var currentLeaf = Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                    var currentLeaf = Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                     ___professionsToChoose.Add(
-                        Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentLeaf)));
+                        Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentLeaf)));
                     break;
             }
 
@@ -236,7 +235,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                 __instance.readyToClose())
             {
                 __instance.okButtonClicked();
-                var currentBranch = Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(___currentSkill));
+                var currentBranch = Game1.player.GetCurrentBranchForSkill(Skill.FromValue(___currentSkill));
                 switch (___currentLevel)
                 {
                     case 15:
@@ -248,7 +247,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         break;
                     case 20:
                         var currentLeaf =
-                            Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                            Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                         ___professionsToChoose.Add(currentLeaf);
                         if (Game1.player.professions.AddOrReplace(currentLeaf + 100))
                         {
@@ -327,7 +326,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         new[]
                         {
                             // find index of checking if the player has the the first level 5 profession in the skill
-                            new CodeInstruction(OpCodes.Call,
+                            new CodeInstruction(
+                                OpCodes.Call,
                                 typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                             new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
                             new CodeInstruction(OpCodes.Ldarg_0),
@@ -650,7 +650,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
     private static bool HasUnlockedPrestigeLevels(int currentLevel, int chosenProfession)
     {
         if (!ProfessionsModule.EnablePrestigeLevels || currentLevel != 10 ||
-            !VanillaSkill.TryFromValue(chosenProfession / 6, out var skill) || skill == Farmer.luckSkill)
+            !Skill.TryFromValue(chosenProfession / 6, out var skill) || skill == Farmer.luckSkill)
         {
             return false;
         }
@@ -686,8 +686,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
     private static void ProposeChangeUltimate(int chosenProfession, bool shouldCongratulateFullSkillMastery)
     {
         var ulti = Game1.player.Get_Ultimate()!;
-        var oldProfession = VanillaProfession.FromValue(ulti);
-        var newProfession = VanillaProfession.FromValue(chosenProfession);
+        var oldProfession = Profession.FromValue(ulti);
+        var newProfession = Profession.FromValue(chosenProfession);
         Game1.currentLocation.createQuestionDialogue(
             I18n.Prestige_LevelUp_Question(
                     oldProfession.Title,
@@ -714,7 +714,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         switch (ProfessionsModule.Config.PrestigeProgressionMode)
         {
             case ProfessionConfig.PrestigeMode.Standard:
-                Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Standard(VanillaSkill.FromValue(chosenProfession / 6).DisplayName));
+                Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Standard(Skill.FromValue(chosenProfession / 6).DisplayName));
                 break;
             case ProfessionConfig.PrestigeMode.Challenge:
                 Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Challenge());
@@ -724,12 +724,12 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static int GetCurrentBranchForSkill(int currentSkill)
     {
-        return Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(currentSkill));
+        return Game1.player.GetCurrentBranchForSkill(Skill.FromValue(currentSkill));
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel)
     {
-        return VanillaProfession.TryFromValue(hovered, out var profession) &&
+        return Profession.TryFromValue(hovered, out var profession) &&
                ((currentLevel == 5 && Game1.player.HasAllProfessionsBranchingFrom(profession)) ||
                 (currentLevel == 10 && Game1.player.HasProfession(profession)));
     }

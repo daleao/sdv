@@ -133,7 +133,7 @@
   "poacher.title.male": "山賊",
   "poacher.title.female": "山賊",
   "poacher.desc": "クリティカル率+50%. クリティカルヒットで敵からアイテムを盗むことがある。",
-  "poacher.desc.prestiged": "盗むのに成功すると特殊攻撃のクールダウンがリセットされる。",
+  "poacher.desc.prestiged": "敵は2回密猟できる。 密猟に成功すると猛毒を与える。",
 
   "rascal.title.male": "ラスカル",
   "rascal.title.female": "ラスカル",

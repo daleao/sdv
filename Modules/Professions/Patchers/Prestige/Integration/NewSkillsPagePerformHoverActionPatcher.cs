@@ -69,9 +69,9 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
             var skill = i switch
             {
-                1 => VanillaSkill.Mining,
-                3 => VanillaSkill.Fishing,
-                _ => VanillaSkill.FromValue(i),
+                1 => Skill.Mining,
+                3 => Skill.Fishing,
+                _ => Skill.FromValue(i),
             };
 
             var professionsForThisSkill = Game1.player.GetProfessionsForSkill(skill, true);

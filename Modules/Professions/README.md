@@ -510,7 +510,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 <font color="gold">
 <details>
-<summary><b>⭐ Oceanographer (Lv20)</b> - Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon nights.
+<summary><b>⭐ Oceanographer (Lv20)</b> - Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon days.
 </summary>
 
 - Limited to fish ordinarily caught with a crab pot.
@@ -574,7 +574,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - **Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 
 <font color="gold">
-<b>⭐ Saboteur (Lv20)</b> - Refund special move cooldown on a successful poach.
+<b>⭐ Saboteur (Lv20)</b> - Enemies can be poached twice, and become afflicted with deadly poison on a successful poach.
 </font>
 
 </font>
@@ -803,6 +803,38 @@ After all possible skills have had their level cap raised, the Statue of Prestig
 - [CJB Cheats Menu][mod:cjb-cheats], if you download the optional translation files, will display this mod's profession names under Skill Cheats menu.
 - [Archery][mod:archery] bows and crossbows will also apply Rascal and Desperado perks.
 - Legendary fish from [Stardew Aquarium][mod:aquarium], [More New Fish][mod:more-new-fish] and [Ridgeside Village][mod:ridgeside] can be raised in ponds with the Aquarist profession.
+
+**⚠ Note about SVE:**
+
+If using SVE, certain NPC heart events will not trigger if your skill levels is greater than 10. To fix this, open up the following files, search for `SkillLevel`, and edit the field value to include the extended levels:
+
+ * In `Stardew Valley Expanded\[CP] Stardew Valley Expanded\code\NPCs\Morgan.json`, there is 1 instance of `SkillLevel:Mining`. Edit so it looks like this:
+        
+```json
+"Action": "EditData",
+"Target": "data/events/wizardhouse",
+"When": {
+    "SkillLevel:Mining": "7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+},
+```
+
+* In `Stardew Valley Expanded\[CP] Stardew Valley Expanded\code\NPCs\Willy.json`, there are 2 instances of `SkillLevel:Fishing`. Edit so they look like this:
+
+```json
+"Action": "EditData",
+"Target": "data/events/farm",
+"When": {
+    "SkillLevel:Fishing": "5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+},
+```
+
+```json
+"Action": "EditData",
+"Target": "data/events/forest",
+"When": {
+    "SkillLevel:Fishing": "8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20"
+},
+```
 
 </details>
 

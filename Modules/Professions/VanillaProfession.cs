@@ -1,4 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Professions;
+﻿#region global using directives
+
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using Profession = DaLion.Overhaul.Modules.Professions.VanillaProfession;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
+#endregion global using directives
+
+namespace DaLion.Overhaul.Modules.Professions;
 
 #region using directives
 
@@ -6,8 +14,8 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
-using Extensions;
 using Microsoft.Xna.Framework;
 using static System.String;
 
@@ -18,99 +26,99 @@ using static System.String;
 ///     Includes unused <see cref="Ardalis.SmartEnum"/> entries for professions offered by the
 ///     <see cref="LuckSkill"/> as a fail-safe, since those are handled as <see cref="CustomProfession"/>s.
 /// </remarks>
-public sealed class VanillaProfession : SmartEnum<VanillaProfession>, IProfession
+public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
 {
     #region enum entries
 
     /// <summary>The Rancher profession, available at <see cref="VanillaSkill.Farming"/> level 5.</summary>
-    public static readonly VanillaProfession Rancher = new("Rancher", Farmer.rancher, 5);
+    public static readonly Profession Rancher = new("Rancher", Farmer.rancher, 5);
 
     /// <summary>The Harvester profession, available at <see cref="VanillaSkill.Farming"/> level 5.</summary>
-    public static readonly VanillaProfession Harvester = new("Harvester", Farmer.tiller, 5);
+    public static readonly Profession Harvester = new("Harvester", Farmer.tiller, 5);
 
     /// <summary>The Breeder profession, available at <see cref="VanillaSkill.Farming"/> level 10.</summary>
-    public static readonly VanillaProfession Breeder = new("Breeder", Farmer.butcher, 10);
+    public static readonly Profession Breeder = new("Breeder", Farmer.butcher, 10);
 
     /// <summary>The Producer profession, available at <see cref="VanillaSkill.Farming"/> level 10.</summary>
-    public static readonly VanillaProfession Producer = new("Producer", Farmer.shepherd, 10);
+    public static readonly Profession Producer = new("Producer", Farmer.shepherd, 10);
 
     /// <summary>The Artisan profession, available at <see cref="VanillaSkill.Farming"/> level 10.</summary>
-    public static readonly VanillaProfession Artisan = new("Artisan", Farmer.artisan, 10);
+    public static readonly Profession Artisan = new("Artisan", Farmer.artisan, 10);
 
     /// <summary>The Agriculturist profession, available at <see cref="VanillaSkill.Farming"/> level 10.</summary>
-    public static readonly VanillaProfession Agriculturist = new("Agriculturist", Farmer.agriculturist, 10);
+    public static readonly Profession Agriculturist = new("Agriculturist", Farmer.agriculturist, 10);
 
     /// <summary>The Fisher profession, available at <see cref="VanillaSkill.Fishing"/> level 5.</summary>
-    public static readonly VanillaProfession Fisher = new("Fisher", Farmer.fisher, 5);
+    public static readonly Profession Fisher = new("Fisher", Farmer.fisher, 5);
 
     /// <summary>The Trapper profession, available at <see cref="VanillaSkill.Fishing"/> level 5.</summary>
-    public static readonly VanillaProfession Trapper = new("Trapper", Farmer.trapper, 5);
+    public static readonly Profession Trapper = new("Trapper", Farmer.trapper, 5);
 
     /// <summary>The Angler profession, available at <see cref="VanillaSkill.Fishing"/> level 10.</summary>
-    public static readonly VanillaProfession Angler = new("Angler", Farmer.angler, 10);
+    public static readonly Profession Angler = new("Angler", Farmer.angler, 10);
 
     /// <summary>The Aquarist profession, available at <see cref="VanillaSkill.Fishing"/> level 10.</summary>
-    public static readonly VanillaProfession Aquarist = new("Aquarist", Farmer.pirate, 10);
+    public static readonly Profession Aquarist = new("Aquarist", Farmer.pirate, 10);
 
     /// <summary>The Luremaster profession, available at <see cref="VanillaSkill.Fishing"/> level 10.</summary>
-    public static readonly VanillaProfession Luremaster = new("Luremaster", Farmer.baitmaster, 10);
+    public static readonly Profession Luremaster = new("Luremaster", Farmer.baitmaster, 10);
 
     /// <summary>The Conservationist profession, available at <see cref="VanillaSkill.Fishing"/> level 10.</summary>
-    public static readonly VanillaProfession Conservationist = new("Conservationist", Farmer.mariner, 10);
+    public static readonly Profession Conservationist = new("Conservationist", Farmer.mariner, 10);
 
     /// <summary>The Lumberjack profession, available at <see cref="VanillaSkill.Foraging"/> level 5.</summary>
-    public static readonly VanillaProfession Lumberjack = new("Lumberjack", Farmer.forester, 5);
+    public static readonly Profession Lumberjack = new("Lumberjack", Farmer.forester, 5);
 
     /// <summary>The Forager profession, available at <see cref="VanillaSkill.Foraging"/> level 5.</summary>
-    public static readonly VanillaProfession Forager = new("Forager", Farmer.gatherer, 5);
+    public static readonly Profession Forager = new("Forager", Farmer.gatherer, 5);
 
     /// <summary>The Arborist profession, available at <see cref="VanillaSkill.Foraging"/> level 10.</summary>
-    public static readonly VanillaProfession Arborist = new("Arborist", Farmer.lumberjack, 10);
+    public static readonly Profession Arborist = new("Arborist", Farmer.lumberjack, 10);
 
     /// <summary>The Trapper profession, available at <see cref="VanillaSkill.Foraging"/> level 10.</summary>
-    public static readonly VanillaProfession Tapper = new("Tapper", Farmer.tapper, 10);
+    public static readonly Profession Tapper = new("Tapper", Farmer.tapper, 10);
 
     /// <summary>The Ecologist profession, available at <see cref="VanillaSkill.Foraging"/> level 10.</summary>
-    public static readonly VanillaProfession Ecologist = new("Ecologist", Farmer.botanist, 10);
+    public static readonly Profession Ecologist = new("Ecologist", Farmer.botanist, 10);
 
     /// <summary>The Scavenger profession, available at <see cref="VanillaSkill.Foraging"/> level 10.</summary>
-    public static readonly VanillaProfession Scavenger = new("Scavenger", Farmer.tracker, 10);
+    public static readonly Profession Scavenger = new("Scavenger", Farmer.tracker, 10);
 
     /// <summary>The Miner profession, available at <see cref="VanillaSkill.Mining"/> level 5.</summary>
-    public static readonly VanillaProfession Miner = new("Miner", Farmer.miner, 5);
+    public static readonly Profession Miner = new("Miner", Farmer.miner, 5);
 
     /// <summary>The Blaster profession, available at <see cref="VanillaSkill.Mining"/> level 5.</summary>
-    public static readonly VanillaProfession Blaster = new("Blaster", Farmer.geologist, 5);
+    public static readonly Profession Blaster = new("Blaster", Farmer.geologist, 5);
 
     /// <summary>The Spelunker profession, available at <see cref="VanillaSkill.Mining"/> level 10.</summary>
-    public static readonly VanillaProfession Spelunker = new("Spelunker", Farmer.blacksmith, 10);
+    public static readonly Profession Spelunker = new("Spelunker", Farmer.blacksmith, 10);
 
     /// <summary>The Prospector profession, available at <see cref="VanillaSkill.Mining"/> level 10.</summary>
-    public static readonly VanillaProfession Prospector = new("Prospector", Farmer.burrower, 10);
+    public static readonly Profession Prospector = new("Prospector", Farmer.burrower, 10);
 
     /// <summary>The Demolitionist profession, available at <see cref="VanillaSkill.Mining"/> level 10.</summary>
-    public static readonly VanillaProfession Demolitionist = new("Demolitionist", Farmer.excavator, 10);
+    public static readonly Profession Demolitionist = new("Demolitionist", Farmer.excavator, 10);
 
     /// <summary>The Gemologist profession, available at <see cref="VanillaSkill.Mining"/> level 10.</summary>
-    public static readonly VanillaProfession Gemologist = new("Gemologist", Farmer.gemologist, 10);
+    public static readonly Profession Gemologist = new("Gemologist", Farmer.gemologist, 10);
 
     /// <summary>The Fighter profession, available at <see cref="VanillaSkill.Combat"/> level 5.</summary>
-    public static readonly VanillaProfession Fighter = new("Fighter", Farmer.fighter, 5);
+    public static readonly Profession Fighter = new("Fighter", Farmer.fighter, 5);
 
     /// <summary>The Rascal profession, available at <see cref="VanillaSkill.Combat"/> level 5.</summary>
-    public static readonly VanillaProfession Rascal = new("Rascal", Farmer.scout, 5);
+    public static readonly Profession Rascal = new("Rascal", Farmer.scout, 5);
 
     /// <summary>The Brute profession, available at <see cref="VanillaSkill.Combat"/> level 10.</summary>
-    public static readonly VanillaProfession Brute = new("Brute", Farmer.brute, 10);
+    public static readonly Profession Brute = new("Brute", Farmer.brute, 10);
 
     /// <summary>The Poacher profession, available at <see cref="VanillaSkill.Combat"/> level 10.</summary>
-    public static readonly VanillaProfession Poacher = new("Poacher", Farmer.defender, 10);
+    public static readonly Profession Poacher = new("Poacher", Farmer.defender, 10);
 
     /// <summary>The Piper profession, available at <see cref="VanillaSkill.Combat"/> level 10.</summary>
-    public static readonly VanillaProfession Piper = new("Piper", Farmer.acrobat, 10);
+    public static readonly Profession Piper = new("Piper", Farmer.acrobat, 10);
 
     /// <summary>The Desperado profession, available at <see cref="VanillaSkill.Combat"/> level 10.</summary>
-    public static readonly VanillaProfession Desperado = new("Desperado", Farmer.desperado, 10);
+    public static readonly Profession Desperado = new("Desperado", Farmer.desperado, 10);
 
     #endregion enum entries
 
@@ -123,7 +131,7 @@ public sealed class VanillaProfession : SmartEnum<VanillaProfession>, IProfessio
 
     #endregion buff indices
 
-    /// <summary>Initializes a new instance of the <see cref="VanillaProfession"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Profession"/> class.</summary>
     /// <param name="name">The profession name.</param>
     /// <param name="value">The profession index.</param>
     /// <param name="level">The level at which the profession is offered (either 5 or 10).</param>
@@ -147,27 +155,27 @@ public sealed class VanillaProfession : SmartEnum<VanillaProfession>, IProfessio
     /// <inheritdoc />
     public string Description => this.GetDescription(this.IsPrestiged);
 
-    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="VanillaProfession"/>'s icon in the mod's Professions spritesheet.</summary>
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the mod's Professions spritesheet.</summary>
     public Rectangle SourceSheetRect { get; }
 
-    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="VanillaProfession"/>'s icon in the vanilla Cursors spritesheet.</summary>
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the vanilla Cursors spritesheet.</summary>
     public Rectangle TargetSheetRect { get; }
 
     /// <inheritdoc />
     public int Level { get; }
 
     /// <inheritdoc />
-    public ISkill Skill => Professions.VanillaSkill.FromValue(this.Value / 6);
+    public ISkill ParentSkill => Skill.FromValue(this.Value / 6);
 
-    /// <summary>Whether the local player has prestiged this <see cref="VanillaProfession"/>.</summary>
+    /// <summary>Gets a value indicating whether the local player has Prestiged this <see cref="Profession"/>.</summary>
     public bool IsPrestiged => Game1.player.HasProfession(this, true);
 
-    /// <summary>Gets the <see cref="VanillaProfession"/> with the specified localized name.</summary>
+    /// <summary>Gets the <see cref="Profession"/> with the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>
     /// <param name="ignoreCase">Whether to ignore capitalization.</param>
     /// <param name="result">The corresponding profession.</param>
     /// <returns><see langword="true"/> if a matching profession was found, otherwise <see langword="false"/>.</returns>
-    public static bool TryFromLocalizedName(string name, bool ignoreCase, [NotNullWhen(true)] out VanillaProfession? result)
+    public static bool TryFromLocalizedName(string name, bool ignoreCase, [NotNullWhen(true)] out Profession? result)
     {
         var stringComparison = ignoreCase
             ? StringComparison.InvariantCultureIgnoreCase

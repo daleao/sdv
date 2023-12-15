@@ -29,7 +29,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
     {
         try
         {
-            var skill = VanillaSkill.FromValue(which);
+            var skill = Skill.FromValue(which);
             if ((which == Farmer.luckSkill && LuckSkillIntegration.Instance?.IsRegistered != true) || howMuch <= 0)
             {
                 return false; // don't run original logic

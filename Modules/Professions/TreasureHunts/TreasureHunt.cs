@@ -19,7 +19,7 @@ internal abstract class TreasureHunt : ITreasureHunt
     private double _chanceAccumulator = 1d;
 
     /// <summary>Initializes a new instance of the <see cref="TreasureHunt"/> class.</summary>
-    /// <param name="type">Either <see cref="VanillaProfession.Scavenger"/> or <see cref="VanillaProfession.Prospector"/>.</param>
+    /// <param name="type">Either <see cref="Profession.Scavenger"/> or <see cref="Profession.Prospector"/>.</param>
     /// <param name="huntStartedMessage">The message displayed to the player when the hunt starts.</param>
     /// <param name="huntFailedMessage">The message displayed to the player when the hunt fails.</param>
     /// <param name="iconSourceRect">The <see cref="Rectangle"/> area of the corresponding profession's icon.</param>

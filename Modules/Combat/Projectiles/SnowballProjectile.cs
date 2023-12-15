@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
@@ -87,6 +87,15 @@ internal sealed class SnowballProjectile : BasicProjectile
         if (n is Monster { Health: > 0 } monster && Game1.random.NextDouble() < 0.1)
         {
             monster.Chill();
+        }
+    }
+
+    public override void behaviorOnCollisionWithPlayer(GameLocation location, Farmer player)
+    {
+        base.behaviorOnCollisionWithPlayer(location, player);
+        if (Game1.random.NextDouble() < 0.1)
+        {
+            // chill the player
         }
     }
 

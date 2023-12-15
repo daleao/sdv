@@ -34,7 +34,7 @@ internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
         // track objects, such as ore nodes
         foreach (var (tile, @object) in Game1.currentLocation.Objects.Pairs)
         {
-            if (!@object.ShouldBeTrackedBy(VanillaProfession.Prospector))
+            if (!@object.ShouldBeTrackedBy(Profession.Prospector))
             {
                 continue;
             }

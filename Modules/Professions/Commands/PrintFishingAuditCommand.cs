@@ -27,7 +27,7 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
 
     /// <inheritdoc />
     public override string Documentation =>
-        $"Check how many fish have been caught at max-size. Relevant for {VanillaProfession.Angler.Name}s.";
+        $"Check how many fish have been caught at max-size. Relevant for {Profession.Angler.Name}s.";
 
     /// <inheritdoc />
     public override void Callback(string trigger, string[] args)
@@ -76,8 +76,8 @@ internal sealed class PrintFishingAuditCommand : ConsoleCommand
             caughtFishNames.Add(name);
         }
 
-        var priceMultiplier = Game1.player.HasProfession(VanillaProfession.Angler)
-            ? Game1.player.HasProfession(VanillaProfession.Angler, true)
+        var priceMultiplier = Game1.player.HasProfession(Profession.Angler)
+            ? Game1.player.HasProfession(Profession.Angler, true)
                 ? CurrentCulture($"{Math.Min((numMaxSizedCaught * 0.01f) + ((numCaught - numMaxSizedCaught) * 0.005f) + (numLegendaryCaught * 0.025f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
                 : CurrentCulture($"{Math.Min((numCaught * 0.005f) + (numLegendaryCaught * 0.025f), ProfessionsModule.Config.AnglerPriceBonusCeiling):0%}")
             : "zero. You're not an Angler..";

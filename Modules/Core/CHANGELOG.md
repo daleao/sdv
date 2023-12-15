@@ -1,10 +1,13 @@
 ﻿# Core Changelog
 
-## 4.1.8
+## 4.2.0
 
 ### Added
 
 * Added new config presets which can be found in the "optionals" folder. The compatibility files have also been moved to this folder.
+* Added Status Effect framework, previously from CMBT module.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 4.1.5
 

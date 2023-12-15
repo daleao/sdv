@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Immutable;
-using System.Linq;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using static System.FormattableString;

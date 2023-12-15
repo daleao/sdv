@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Professions.VirtualProperties;
+﻿namespace DaLion.Overhaul.Modules.Core.StatusEffects;
 
 #region using directives
 
@@ -9,17 +9,17 @@ using StardewValley.Monsters;
 #endregion using directives
 
 // ReSharper disable once InconsistentNaming
-internal static class Monster_Stolen
+internal static class Monster_Frozen
 {
     internal static ConditionalWeakTable<Monster, NetBool> Values { get; } = new();
 
-    internal static NetBool Get_Stolen(this Monster monster)
+    internal static NetBool Get_Frozen(this Monster monster)
     {
         return Values.GetOrCreateValue(monster);
     }
 
     // Net types are readonly
-    internal static void Set_Stolen(this Monster monster, NetBool value)
+    internal static void Set_Frozen(this Monster monster, NetBool value)
     {
     }
 }

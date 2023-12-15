@@ -5,8 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -81,7 +79,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
                     // get skill type and do action
                     var skillName = skillNameAsSpan.ToString();
-                    if (VanillaSkill.TryFromName(skillName, true, out var skill))
+                    if (Skill.TryFromName(skillName, true, out var skill))
                     {
                         if (questionAndAnswer.Contains("skillReset_"))
                         {
@@ -125,7 +123,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static void OfferSkillResetChoices(GameLocation location)
     {
         var skillResponses = (
-            from skill in VanillaSkill.List.Except(VanillaSkill.Luck.Collect()).Concat(CustomSkill.Loaded.Values)
+            from skill in Skill.List.Except(Skill.Luck.Collect()).Concat(CustomSkill.Loaded.Values)
             where skill.CanReset()
             let costVal = skill.GetResetCost()
             let costStr = costVal > 0
@@ -152,35 +150,35 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var skillResponses = new List<Response>();
-        if (GameLocation.canRespec(VanillaSkill.Farming))
+        if (GameLocation.canRespec(Skill.Farming))
         {
             skillResponses.Add(new Response(
                 "farming",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604")));
         }
 
-        if (GameLocation.canRespec(VanillaSkill.Fishing))
+        if (GameLocation.canRespec(Skill.Fishing))
         {
             skillResponses.Add(new Response(
                 "fishing",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607")));
         }
 
-        if (GameLocation.canRespec(VanillaSkill.Foraging))
+        if (GameLocation.canRespec(Skill.Foraging))
         {
             skillResponses.Add(new Response(
                 "foraging",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606")));
         }
 
-        if (GameLocation.canRespec(VanillaSkill.Mining))
+        if (GameLocation.canRespec(Skill.Mining))
         {
             skillResponses.Add(new Response(
                 "mining",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605")));
         }
 
-        if (GameLocation.canRespec(VanillaSkill.Combat))
+        if (GameLocation.canRespec(Skill.Combat))
         {
             skillResponses.Add(new Response(
                 "combat",
@@ -218,12 +216,12 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         var choices = (
             from unchosenUltimate in Game1.player.GetUnchosenUltimates()
             orderby unchosenUltimate
-            let choice = I18n.Prestige_DogStatue_Choice(unchosenUltimate.Profession.Title, unchosenUltimate.DisplayName)
+            let choice = I18n.Prestige_DogStatue_Choice(unchosenUltimate.ParentProfession.Title, unchosenUltimate.DisplayName)
             select new Response("Choice_" + unchosenUltimate, choice)).ToList();
         choices.Add(new Response("Cancel", I18n.Prestige_DogStatue_Cancel())
             .SetHotKey(Keys.Escape));
 
-        var message = I18n.Prestige_DogStatue_Replace(chosenUltimate.Profession.Title, chosenUltimate.DisplayName);
+        var message = I18n.Prestige_DogStatue_Replace(chosenUltimate.ParentProfession.Title, chosenUltimate.DisplayName);
         location.createQuestionDialogue(message, choices.ToArray(), HandleChangeUlti);
     }
 
@@ -394,7 +392,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         SoundEffectPlayer.DogStatuePrestige.Play(player.currentLocation);
 
         // tell the player
-        Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(chosenUltimate.Profession.Title));
+        Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(chosenUltimate.ParentProfession.Title));
 
         // woof woof
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);

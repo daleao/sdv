@@ -98,7 +98,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                     break;
                 case 20:
                     var currentLeaf =
-                        Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                        Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                     ___professionsToChoose.Add(currentLeaf);
                     break;
             }
@@ -211,16 +211,16 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             {
                 ___professionsToChoose.Clear();
                 ___isProfessionChooser = true;
-                var currentBranch = Game1.player.GetCurrentBranchForSkill(VanillaSkill.FromValue(___currentLevel));
+                var currentBranch = Game1.player.GetCurrentBranchForSkill(Skill.FromValue(___currentLevel));
                 switch (___currentLevel)
                 {
                     case 15:
                         ___professionsToChoose.Add(currentBranch);
                         break;
                     case 20:
-                        var currentLeaf = Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                        var currentLeaf = Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                         ___professionsToChoose.Add(
-                            Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentLeaf)));
+                            Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentLeaf)));
                         break;
                 }
             }
@@ -253,7 +253,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                         break;
                     case 20:
                         var currentLeaf =
-                            Game1.player.GetCurrentLeafProfessionForBranch(VanillaProfession.FromValue(currentBranch));
+                            Game1.player.GetCurrentLeafProfessionForBranch(Profession.FromValue(currentBranch));
                         ___professionsToChoose.Add(currentLeaf);
                         if (Game1.player.professions.AddOrReplace(currentLeaf + 100))
                         {

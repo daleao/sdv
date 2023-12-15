@@ -43,7 +43,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
             return false; // don't run original logic
         }
 
-        if (!____owner.HasProfession(VanillaProfession.Desperado))
+        if (!____owner.HasProfession(Profession.Desperado))
         {
             return true; // run original logic
         }
@@ -69,7 +69,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
             }
         }
         // check for pierce, which is mutually exclusive with quick shot
-        else if (____owner.HasProfession(VanillaProfession.Desperado, true) && __instance.Get_CanPierce() &&
+        else if (____owner.HasProfession(Profession.Desperado, true) && __instance.Get_CanPierce() &&
                  Game1.random.NextDouble() < (overcharge - 1.5f) * inverseResistanceModifer)
         {
             Log.D("Pierced!");
@@ -113,7 +113,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
         }
 
         // Desperado checks
-        if (____owner.HasProfession(VanillaProfession.Desperado) && n is Monster { IsMonster: true } monster)
+        if (____owner.HasProfession(Profession.Desperado) && n is Monster { IsMonster: true } monster)
         {
             ProfessionsModule.State.LastDesperadoTarget = monster;
         }

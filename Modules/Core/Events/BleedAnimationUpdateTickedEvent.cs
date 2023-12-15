@@ -1,9 +1,9 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+﻿namespace DaLion.Overhaul.Modules.Core.Events;
 
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.StatusEffects;
+using DaLion.Overhaul.Modules.Core.StatusEffects;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;

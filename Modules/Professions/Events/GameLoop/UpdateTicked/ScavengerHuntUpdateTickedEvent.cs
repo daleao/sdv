@@ -32,7 +32,7 @@ internal sealed class ScavengerHuntUpdateTickedEvent : UpdateTickedEvent
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         this._hunt!.Update(e.Ticks);
-        if (Game1.player.HasProfession(VanillaProfession.Scavenger, true))
+        if (Game1.player.HasProfession(Profession.Scavenger, true))
         {
             Game1.gameTimeInterval = 0;
         }

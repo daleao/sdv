@@ -37,13 +37,13 @@ internal sealed class HoeDirtApplySpeedIncreases : HarmonyPatcher
             var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
-                .MatchProfessionCheck(VanillaProfession.Agriculturist.Value)
+                .MatchProfessionCheck(Profession.Agriculturist.Value)
                 .Move()
-                .MatchProfessionCheck(VanillaProfession.Agriculturist.Value)
+                .MatchProfessionCheck(Profession.Agriculturist.Value)
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_R4, 0.1f) })
                 .AddLabels(isNotPrestiged)
                 .Insert(new[] { new CodeInstruction(OpCodes.Ldarg_1) })
-                .InsertProfessionCheck(VanillaProfession.Agriculturist.Value + 100, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Agriculturist.Value + 100, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

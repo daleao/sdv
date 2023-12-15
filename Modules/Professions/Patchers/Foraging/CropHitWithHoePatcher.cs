@@ -39,7 +39,7 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
                 .Match(new[] { new CodeInstruction(OpCodes.Stloc_0) })
                 .Move()
                 .AddLabels(resumeExecution)
-                .InsertProfessionCheck(VanillaProfession.Ecologist)
+                .InsertProfessionCheck(Profession.Ecologist)
                 .Insert(
                     new[]
                     {

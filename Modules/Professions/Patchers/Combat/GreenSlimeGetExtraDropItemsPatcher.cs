@@ -31,7 +31,7 @@ internal sealed class GreenSlimeGetExtraDropItemsPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeGetExtraDropItemsPostfix(GreenSlime __instance, List<Item> __result)
     {
-        if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(VanillaProfession.Piper, out var pipers) ||
+        if (!__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper, out var pipers) ||
             !Game1.MasterPlayer.mailReceived.Contains("slimeHutchBuilt"))
         {
             return;

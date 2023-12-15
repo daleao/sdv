@@ -35,7 +35,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         player.professions.OnArrayReplaced += this.OnArrayReplaced;
         player.professions.OnElementChanged += this.OnElementChanged;
 
-        VanillaSkill.List.ForEach(s => s.Revalidate());
+        Skill.List.ForEach(s => s.Revalidate());
         if (ProfessionsModule.Config.EnableLimitBreaks)
         {
             player.RevalidateUltimate();
@@ -45,7 +45,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
 
         if (Context.IsMainPlayer)
         {
-            if (Game1.game1.DoesAnyPlayerHaveProfession(VanillaProfession.Luremaster, out _))
+            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _))
             {
                 this.Manager.Enable<LuremasterTimeChangedEvent>();
             }
@@ -55,12 +55,12 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             }
         }
 
-        if (player.HasProfession(VanillaProfession.Prospector))
+        if (player.HasProfession(Profession.Prospector))
         {
             this.Manager.Enable<ProspectorRenderedHudEvent>();
         }
 
-        if (player.HasProfession(VanillaProfession.Scavenger))
+        if (player.HasProfession(Profession.Scavenger))
         {
             this.Manager.Enable<ScavengerRenderedHudEvent>();
         }
@@ -112,7 +112,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     /// <param name="which">The index of the added profession.</param>
     private void OnProfessionAdded(int which)
     {
-        if (which.IsIn(VanillaProfession.GetRange(true)))
+        if (which.IsIn(Profession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
@@ -122,7 +122,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
     /// <param name="which">The index of the removed profession.</param>
     private void OnProfessionRemoved(int which)
     {
-        if (which.IsIn(VanillaProfession.GetRange(true)))
+        if (which.IsIn(Profession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }

@@ -56,7 +56,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -84,7 +84,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (Game1.player.HasProfession(Profession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -164,7 +164,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             typeof(ProspectorHuntRenderedHudEvent),
             typeof(ProspectorHuntUpdateTickedEvent));
         if (!Context.IsMultiplayer || Context.IsMainPlayer ||
-            !Game1.player.HasProfession(VanillaProfession.Prospector, true))
+            !Game1.player.HasProfession(Profession.Prospector, true))
         {
             return;
         }

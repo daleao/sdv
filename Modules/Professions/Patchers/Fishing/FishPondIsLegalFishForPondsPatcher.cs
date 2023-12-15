@@ -66,7 +66,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
 
     private static bool CanRaiseLegendaryFish(FishPond pond)
     {
-        return pond.GetOwner().HasProfessionOrLax(VanillaProfession.Aquarist);
+        return pond.GetOwner().HasProfessionOrLax(Profession.Aquarist);
     }
 
     #endregion injected subroutines

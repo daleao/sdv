@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

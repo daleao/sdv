@@ -33,6 +33,6 @@ internal sealed class PrintRegisteredUltimateCommand : ConsoleCommand
             return;
         }
 
-        Log.I($"Registered to {ultimate.Profession.Title}'s {ultimate.DisplayName}.");
+        Log.I($"Registered to {ultimate.ParentProfession.Title}'s {ultimate.DisplayName}.");
     }
 }

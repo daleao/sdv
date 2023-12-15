@@ -11,8 +11,8 @@ using Microsoft.Xna.Framework;
 public interface ITreasureHunt
 {
     /// <summary>
-    ///     Gets whether this instance pertains to a <see cref="VanillaProfession.Scavenger"/> or a
-    ///     <see cref="VanillaProfession.Prospector"/>.
+    ///     Gets whether this instance pertains to a <see cref="Profession.Scavenger"/> or a
+    ///     <see cref="Profession.Prospector"/>.
     /// </summary>
     public TreasureHuntType Type { get; }
 

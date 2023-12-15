@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Core.ConfigMenu;
 using DaLion.Shared.Constants;
@@ -15,7 +16,6 @@ using DaLion.Shared.Integrations.GMCM;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using Resonance;
 using StardewModdingAPI.Utilities;
 using StardewValley.Objects;
 

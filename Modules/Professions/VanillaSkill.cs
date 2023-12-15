@@ -1,4 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Professions;
+﻿#region global using directives
+
+#pragma warning disable SA1200 // Using directives should be placed correctly
+global using Skill = DaLion.Overhaul.Modules.Professions.VanillaSkill;
+#pragma warning restore SA1200 // Using directives should be placed correctly
+
+#endregion global using directives
+
+namespace DaLion.Overhaul.Modules.Professions;
 
 #region using directives
 
@@ -21,32 +29,32 @@ using StardewValley.Menus;
 ///     Despite including a <see cref="Ardalis.SmartEnum"/> entry for the Luck skill, that skill is treated specially
 ///     by its own implementation (see <see cref="LuckSkill"/>).
 /// </remarks>
-public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
+public class VanillaSkill : SmartEnum<Skill>, ISkill
 {
     #region enum entries
 
     /// <summary>The Farming skill.</summary>
-    public static readonly VanillaSkill Farming = new("Farming", Farmer.farmingSkill);
+    public static readonly Skill Farming = new("Farming", Farmer.farmingSkill);
 
     /// <summary>The Fishing skill.</summary>
-    public static readonly VanillaSkill Fishing = new("Fishing", Farmer.fishingSkill);
+    public static readonly Skill Fishing = new("Fishing", Farmer.fishingSkill);
 
     /// <summary>The Foraging skill.</summary>
-    public static readonly VanillaSkill Foraging = new("Foraging", Farmer.foragingSkill);
+    public static readonly Skill Foraging = new("Foraging", Farmer.foragingSkill);
 
     /// <summary>The Mining skill.</summary>
-    public static readonly VanillaSkill Mining = new("Mining", Farmer.miningSkill);
+    public static readonly Skill Mining = new("Mining", Farmer.miningSkill);
 
     /// <summary>The Combat skill.</summary>
-    public static readonly VanillaSkill Combat = new("Combat", Farmer.combatSkill);
+    public static readonly Skill Combat = new("Combat", Farmer.combatSkill);
 
     /// <summary>The Luck skill, if loaded.</summary>
     [SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Enum value must be field.")]
-    public static VanillaSkill Luck = new("Luck", Farmer.luckSkill);
+    public static Skill Luck = new("Luck", Farmer.luckSkill);
 
     #endregion enum entries
 
-    /// <summary>Initializes a new instance of the <see cref="VanillaSkill"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="Skill"/> class.</summary>
     /// <param name="name">The skill name.</param>
     /// <param name="value">The skill index.</param>
     protected VanillaSkill(string name, int value)
@@ -72,7 +80,7 @@ public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
 
         for (var i = 0; i < 6; i++)
         {
-            this.Professions.Add(VanillaProfession.FromValue((value * 6) + i));
+            this.Professions.Add(Profession.FromValue((value * 6) + i));
         }
 
         this.ProfessionPairs[-1] = new ProfessionPair(this.Professions[0], this.Professions[1], null, 5);
@@ -82,9 +90,9 @@ public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
     }
 
-    /// <summary>Gets an enumeration of the vanilla <see cref="VanillaSkill"/> instances.</summary>
+    /// <summary>Gets an enumeration of the vanilla <see cref="Skill"/> instances.</summary>
     /// <remarks>In other words, excludes <see cref="LuckSkill"/>.</remarks>
-    public static IEnumerable<VanillaSkill> ListVanilla => List.Except(Luck.Collect());
+    public static IEnumerable<Skill> ListVanilla => List.Except(Luck.Collect());
 
     /// <inheritdoc />
     public string StringId { get; protected set; }
@@ -121,17 +129,6 @@ public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
     public static IEnumerable<int> GetRange()
     {
         return Enumerable.Range(0, 5);
-    }
-
-    /// <summary>Determines whether this skill can gain Prestige Levels.</summary>
-    /// <returns><see langword="true"/> if the local player meets all Prestige conditions, otherwise <see langword="false"/>.</returns>
-    public bool CanGainPrestigeLevels()
-    {
-        return ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
-                ((ISkill)this).AcquiredProfessions.Length >= 4) ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
-                Game1.player.HasAllProfessions());
     }
 
     /// <inheritdoc />
@@ -271,6 +268,16 @@ public class VanillaSkill : SmartEnum<VanillaSkill>, ISkill
         {
             farmer.Write(DataKeys.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
         }
+    }
+
+    /// <inheritdoc />
+    public bool CanGainPrestigeLevels()
+    {
+        return ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+                ((ISkill)this).AcquiredProfessions.Length >= 4) ||
+               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+                Game1.player.HasAllProfessions());
     }
 
     /// <inheritdoc />

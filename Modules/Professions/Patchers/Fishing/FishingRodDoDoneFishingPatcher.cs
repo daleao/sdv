@@ -111,7 +111,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
     private static void RecordTackleMemory(FishingRod instance)
     {
-        if (!instance.getLastFarmerToUse().HasProfession(VanillaProfession.Angler))
+        if (!instance.getLastFarmerToUse().HasProfession(Profession.Angler))
         {
             return;
         }

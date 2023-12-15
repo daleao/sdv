@@ -1,15 +1,15 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Commands;
+﻿namespace DaLion.Overhaul.Modules.Core.Commands;
 
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
-using Buff = DaLion.Shared.Enums.Buff;
+using Buff = Shared.Enums.Buff;
 
 #endregion using directives
 

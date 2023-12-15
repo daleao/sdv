@@ -25,7 +25,7 @@ internal sealed class MonsterInitNetFieldsPatcher : HarmonyPatcher
     private static void MonsterInitNetFieldsPostix(Monster __instance)
     {
         __instance.NetFields.AddFields(
-            __instance.Get_Stolen());
+            __instance.Get_Poached());
     }
 
     #endregion harmony patches

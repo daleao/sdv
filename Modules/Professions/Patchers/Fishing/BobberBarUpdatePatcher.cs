@@ -71,7 +71,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
                 .Match(new[] { new CodeInstruction(OpCodes.Stfld) })
                 .Move()
                 .AddLabels(isNotAquarist)
-                .InsertProfessionCheck(VanillaProfession.Aquarist.Value)
+                .InsertProfessionCheck(Profession.Aquarist.Value)
                 .Insert(
                     new[]
                     {

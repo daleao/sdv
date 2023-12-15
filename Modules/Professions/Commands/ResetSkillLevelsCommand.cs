@@ -30,14 +30,14 @@ internal sealed class ResetSkillLevelsCommand : ConsoleCommand
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
-            VanillaSkill.List.ForEach(s => s.Reset());
+            Skill.List.ForEach(s => s.Reset());
             CustomSkill.Loaded.ForEach(s => s.Value.Reset());
         }
         else
         {
             for (var i = 0; i < args.Length; i++)
             {
-                if (VanillaSkill.TryFromName(args[i], true, out var skill))
+                if (Skill.TryFromName(args[i], true, out var skill))
                 {
                     skill.Reset();
                 }

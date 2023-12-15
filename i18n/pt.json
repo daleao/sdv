@@ -133,7 +133,7 @@
   "poacher.title.male": "Guerrilheiro",
   "poacher.title.female": "Guerrilheira",
   "poacher.desc": "Chance crítica +50%. Chance de afanar um item dos inimigos a cada ataque.",
-  "poacher.desc.prestiged": "Restaura o tempo de recarga dos golpes especiais ao afanar um item.",
+  "poacher.desc.prestiged": "Os inimigos podem ser afanados duas vezes. Inflinge envenenamento ao afanar um inimigo.",
 
   "rascal.title.male": "Patife",
   "rascal.title.female": "Patife",

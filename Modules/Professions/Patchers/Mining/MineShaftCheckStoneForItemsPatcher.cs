@@ -60,7 +60,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
                         // prepare profession check
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
                     })
-                .InsertProfessionCheck(VanillaProfession.Spelunker.Value, forLocalPlayer: false)
+                .InsertProfessionCheck(Profession.Spelunker.Value, forLocalPlayer: false)
                 .Insert(
                     new[]
                     {

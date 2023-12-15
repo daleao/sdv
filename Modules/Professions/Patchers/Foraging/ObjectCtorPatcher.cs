@@ -27,10 +27,10 @@ internal sealed class ObjectCtorPatcher : HarmonyPatcher
     private static void ObjectCtorPostfix(SObject __instance)
     {
         var owner = Game1.getFarmer(__instance.owner.Value);
-        if (__instance.IsWildBerry() && owner.HasProfession(VanillaProfession.Ecologist))
+        if (__instance.IsWildBerry() && owner.HasProfession(Profession.Ecologist))
         {
             __instance.Edibility =
-                (int)(__instance.Edibility * (owner.HasProfession(VanillaProfession.Ecologist, true) ? 2f : 1.5f));
+                (int)(__instance.Edibility * (owner.HasProfession(Profession.Ecologist, true) ? 2f : 1.5f));
         }
     }
 

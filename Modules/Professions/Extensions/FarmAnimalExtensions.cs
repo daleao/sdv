@@ -19,7 +19,7 @@ internal static class FarmAnimalExtensions
         return animal.GetOwner().HasProfession(profession, prestiged);
     }
 
-    /// <summary>Adjusts the price of the <paramref name="animal"/> for <see cref="VanillaProfession.Breeder"/>.</summary>
+    /// <summary>Adjusts the price of the <paramref name="animal"/> for <see cref="Profession.Breeder"/>.</summary>
     /// <param name="animal">The <see cref="FarmAnimal"/>.</param>
     /// <returns>The adjusted friendship value.</returns>
     internal static double GetProducerAdjustedFriendship(this FarmAnimal animal)

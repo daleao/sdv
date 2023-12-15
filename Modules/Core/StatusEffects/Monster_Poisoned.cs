@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.StatusEffects;
+﻿namespace DaLion.Overhaul.Modules.Core.StatusEffects;
 
 #region using directives
 
@@ -17,7 +17,7 @@ internal static class Monster_Poisoned
     {
         var holder = Values.GetOrCreateValue(monster);
         holder.PoisonTimer.Value = timer;
-        holder.PoisonStacks.Value = Math.Min(holder.PoisonStacks.Value + stacks, 3);
+        holder.PoisonStacks.Value = Math.Min(holder.PoisonStacks.Value + stacks, 4);
         holder.Poisoner = poisoner;
     }
 

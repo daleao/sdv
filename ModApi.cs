@@ -2,9 +2,9 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntEnded;
 using DaLion.Overhaul.Modules.Professions.Events.TreasureHunt.TreasureHuntStarted;
@@ -40,7 +40,7 @@ public sealed class ModApi
     public int GetEcologistForageQuality(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        return farmer.HasProfession(VanillaProfession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
+        return farmer.HasProfession(Profession.Ecologist) ? farmer.GetEcologistForageQuality() : SObject.lowQuality;
     }
 
     /// <summary>Gets the value of a Gemologist's mineral quality.</summary>
@@ -49,7 +49,7 @@ public sealed class ModApi
     public int GetGemologistMineralQuality(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        return farmer.HasProfession(VanillaProfession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
+        return farmer.HasProfession(Profession.Gemologist) ? farmer.GetGemologistMineralQuality() : SObject.lowQuality;
     }
 
     /// <summary>Gets the price bonus applied to animal produce sold by Producer.</summary>
@@ -137,9 +137,9 @@ public sealed class ModApi
         farmer ??= Game1.player;
         return type switch
         {
-            TreasureHuntType.Prospector => Game1.player.HasProfession(VanillaProfession.Prospector) &&
+            TreasureHuntType.Prospector => Game1.player.HasProfession(Profession.Prospector) &&
                                            farmer.Get_ProspectorHunt().TryStart(location),
-            TreasureHuntType.Scavenger => Game1.player.HasProfession(VanillaProfession.Scavenger) &&
+            TreasureHuntType.Scavenger => Game1.player.HasProfession(Profession.Scavenger) &&
                                           farmer.Get_ScavengerHunt().TryStart(location),
             _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<TreasureHuntType, bool>(type),
         };
@@ -156,7 +156,7 @@ public sealed class ModApi
         switch (type)
         {
             case TreasureHuntType.Prospector:
-                if (!Game1.player.HasProfession(VanillaProfession.Prospector))
+                if (!Game1.player.HasProfession(Profession.Prospector))
                 {
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Prospector profession.");
                 }
@@ -164,7 +164,7 @@ public sealed class ModApi
                 farmer.Get_ProspectorHunt().ForceStart(location, target);
                 break;
             case TreasureHuntType.Scavenger:
-                if (!Game1.player.HasProfession(VanillaProfession.Scavenger))
+                if (!Game1.player.HasProfession(Profession.Scavenger))
                 {
                     ThrowHelper.ThrowInvalidOperationException("Player does not have the Scavenger profession.");
                 }

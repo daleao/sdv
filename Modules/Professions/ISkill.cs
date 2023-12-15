@@ -173,6 +173,10 @@ public interface ISkill
     /// <param name="saveForRecovery">Whether to store crafted quantities for later recovery.</param>
     void ForgetRecipes(bool saveForRecovery = true);
 
+    /// <summary>Determines whether this skill can gain Prestige Levels.</summary>
+    /// <returns><see langword="true"/> if the local player meets all Prestige conditions, otherwise <see langword="false"/>.</returns>
+    bool CanGainPrestigeLevels();
+
     /// <summary>Determines whether this skill's level matches the expected level for the current experience, and if not fixes those levels.</summary>
     void Revalidate();
 
@@ -180,13 +184,13 @@ public interface ISkill
     /// <returns><see langword="true"/> if at least one vanilla or loaded custom skill can be reset, otherwise <see langword="false"/>.</returns>
     internal static bool CanResetAny()
     {
-        return VanillaSkill.List.Any(s => ((ISkill)s).CanReset()) || CustomSkill.Loaded.Values.Any(s => s.CanReset());
+        return Skill.List.Any(s => ((ISkill)s).CanReset()) || CustomSkill.Loaded.Values.Any(s => s.CanReset());
     }
 
     /// <summary>Revalidates all vanilla and custom skills.</summary>
     internal static void RevalidateAll()
     {
-        VanillaSkill.List.ForEach(s => s.Revalidate());
+        Skill.List.ForEach(s => s.Revalidate());
         CustomSkill.Loaded.Values.ForEach(s => s.Revalidate());
     }
 }

@@ -29,7 +29,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!VanillaSkill.TryFromValue(skillType, out var skill))
+        if (!Skill.TryFromValue(skillType, out var skill))
         {
             Log.W($"[PRFS]: Received some unknown vanilla skill type ({skillType}).");
             return true; // run original logic
@@ -42,7 +42,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!VanillaProfession.TryFromValue(tierOneIndex, out var tierOneProfession))
+        if (!Profession.TryFromValue(tierOneIndex, out var tierOneProfession))
         {
             Log.W($"[PRFS]: Received some unknown vanilla profession ({skillType}).");
             return true; // run original logic

@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -35,12 +34,12 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void LevelUpMenuGetImmediateProfessionPerkPostfix(int whichProfession)
     {
-        if (whichProfession.IsIn(VanillaProfession.GetRange(true)))
+        if (whichProfession.IsIn(Profession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
 
-        if (!VanillaProfession.TryFromValue(whichProfession, out var profession))
+        if (!Profession.TryFromValue(whichProfession, out var profession))
         {
             return;
         }
@@ -49,7 +48,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
 
         // add immediate perks
         profession
-            .When(VanillaProfession.Aquarist).Then(() =>
+            .When(Profession.Aquarist).Then(() =>
             {
                 var buildings = Game1.getFarm().buildings;
                 for (var i = 0; i < buildings.Count; i++)
@@ -63,9 +62,9 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                     }
                 }
             })
-            .When(VanillaProfession.Prospector).Then(() => EventManager.Enable<ProspectorRenderedHudEvent>())
-            .When(VanillaProfession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>())
-            .When(VanillaProfession.Rascal).Then(() =>
+            .When(Profession.Prospector).Then(() => EventManager.Enable<ProspectorRenderedHudEvent>())
+            .When(Profession.Scavenger).Then(() => EventManager.Enable<ScavengerRenderedHudEvent>())
+            .When(Profession.Rascal).Then(() =>
             {
                 if (player.CurrentTool is not Slingshot slingshot ||
                     (slingshot.numAttachmentSlots.Value != 1 && slingshot.attachments.Length != 1))
@@ -99,7 +98,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
         {
             helper
                 .Match(new[] { new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.defender) })
-                .SetOperand(VanillaProfession.Brute.Value);
+                .SetOperand(Profession.Brute.Value);
         }
         catch (Exception ex)
         {

@@ -3,7 +3,6 @@
 #region using directives
 
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedWorld;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
@@ -27,16 +26,16 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
 
     #region enum entries
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Brute"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Brute"/>.</summary>
     public static readonly Ultimate BruteFrenzy = new Frenzy();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Poacher"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Poacher"/>.</summary>
     public static readonly Ultimate PoacherAmbush = new Ambush();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Piper"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Piper"/>.</summary>
     public static readonly Ultimate PiperConcerto = new Concerto();
 
-    /// <summary>The <see cref="Ultimate"/> of <see cref="VanillaProfession.Desperado"/>.</summary>
+    /// <summary>The <see cref="Ultimate"/> of <see cref="Profession.Desperado"/>.</summary>
     public static readonly Ultimate DesperadoBlossom = new DeathBlossom();
 
     #endregion enum entires
@@ -52,7 +51,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     protected Ultimate(string name, IProfession profession, Color meterColor, Color overlayColor)
         : base(name, profession.Id)
     {
-        this.Profession = profession;
+        this.ParentProfession = profession;
         this.BuffId = Manifest.UniqueID.GetHashCode() + profession.Id + 4;
         this.BuffSheetIndex = profession.Id + 22;
         this.Hud = new UltimateHud(this, meterColor);
@@ -78,7 +77,7 @@ public abstract class Ultimate : SmartEnum<Ultimate>, IUltimate
     internal static event EventHandler<IUltimateEmptiedEventArgs>? Emptied;
 
     /// <inheritdoc />
-    public IProfession Profession { get; }
+    public IProfession ParentProfession { get; }
 
     /// <inheritdoc />
     public abstract string DisplayName { get; }

@@ -3,8 +3,6 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules;
 using DaLion.Overhaul.Modules.Professions.Events.GameLoop.UpdateTicked;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
@@ -19,7 +17,7 @@ public sealed class Concerto : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="Concerto"/> class.</summary>
     internal Concerto()
-        : base("Concerto", Professions.VanillaProfession.Piper, Color.LimeGreen, Color.DarkGreen)
+        : base("Concerto", Profession.Piper, Color.LimeGreen, Color.DarkGreen)
     {
     }
 

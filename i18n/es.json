@@ -133,7 +133,7 @@
   "poacher.title.male": "Guerrillero",
   "poacher.title.female": "Guerrillera",
   "poacher.desc": "Probabilidad de golpe crítico +50%. Posibilidad de pinchar un objeto a los enemigos en cada ataque.",
-  "poacher.desc.prestiged": "Reinicia el enfriamento de los ataques especiales al pinchar un objeto.",
+  "poacher.desc.prestiged": "Los enemigos pueden ser pinchados dos veces. Inflige veneno cuando se pincha a un enemigo",
 
   "rascal.title.male": "Bribón",
   "rascal.title.female": "Bribona",

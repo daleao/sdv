@@ -1,6 +1,6 @@
 ﻿# PRFS Changelog
 
-## 4.1.8
+## 4.2.0
 
 ### Added
 
@@ -27,16 +27,22 @@
 
     *Your deep knowledge of current and tidal patterns allow your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality.*
 
+* The Saboteur (Prestiged Conservationist) perk has been changed to fit the profession's title.
+    * ~~Reset the cooldown of special moves on a successful poach~~ Enemies can be poached twice. Inflict deadly poison on a successful poach.
+
+    *Finally put some use to the Poison status effect, and a final reference to the Thief job from RO.*
+
     <div align="center">
 
     \*~~ With this, I think I am finally happy with all 60 profession perks. ~~\*
     </div>
-* Changed some Prestige profession names (if you'd like to change any profession names, just open the i18n/default.json file and enter your preference).
-    * ~~Saboteur~~ -> Infiltrator
+
+* Changed the Aquarist profession icon that of fish Roe, instead of the vanilla Pirate's treasure chest. This should better reflect the theme of the profession. Seems like such an obvious change, I honestly don't know why I never thought of it.
 * The Prestige achievement "Master of the Five Trades" is now awarded when all 5 vanilla skills have reached level 20 (previously was level 10).
 * Changed the following translation keys (asterisk indicates a wildcard):
     * ~~"gmcm.progression_style.\*"~~ -> "gmcm.ribbon_style.\*"
-    * ~~ "prestige.level_up.unlocked"~~ -> "prestige.level_up.unlocked.standard"
+    * ~~"prestige.level_up.unlocked"~~ -> "prestige.level_up.unlocked.standard"
+* Renamed the Profession and Skill enums for better consistency with SpaceCore variants.
 
 ### Fixed
 

@@ -8,8 +8,8 @@ using System.Text;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
-using Shared.Extensions.Collections;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -51,10 +51,10 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         {
             if (string.Equals(args[i], "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var range = VanillaProfession.GetRange().ToArray();
+                var range = Profession.GetRange().ToArray();
                 if (prestige)
                 {
-                    range = range.Concat(VanillaProfession.GetRange(true)).ToArray();
+                    range = range.Concat(Profession.GetRange(true)).ToArray();
                 }
 
                 range = range
@@ -65,8 +65,8 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
                 break;
             }
 
-            if (VanillaProfession.TryFromName(args[i], true, out var profession) ||
-                VanillaProfession.TryFromLocalizedName(args[i], true, out profession))
+            if (Profession.TryFromName(args[i], true, out var profession) ||
+                Profession.TryFromLocalizedName(args[i], true, out profession))
             {
                 if ((!prestige && Game1.player.HasProfession(profession)) ||
                     (prestige && Game1.player.HasProfession(profession, true)))
@@ -121,7 +121,7 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
         }
 
         LevelUpMenu.RevalidateHealth(Game1.player);
-        if (professionsToAdd.Intersect(VanillaProfession.GetRange(true)).Any())
+        if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }

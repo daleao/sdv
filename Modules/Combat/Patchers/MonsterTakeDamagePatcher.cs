@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -81,19 +80,6 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
     }
 
     #region harmony patches
-
-    /// <summary>Frozen effect.</summary>
-    [HarmonyPrefix]
-    private static void MonsterTakeDamagePrefix(Monster __instance, ref int damage)
-    {
-        if (!__instance.IsFrozen())
-        {
-            return;
-        }
-
-        damage *= 2;
-        __instance.Defrost();
-    }
 
     /// <summary>Crits ignore defense, which, btw, actually does something.</summary>
     [HarmonyTranspiler]

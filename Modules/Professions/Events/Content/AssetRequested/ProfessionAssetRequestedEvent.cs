@@ -445,10 +445,10 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             return;
         }
 
-        foreach (var profession in VanillaProfession.List)
+        foreach (var profession in Profession.List)
         {
             if (!Game1.player.HasProfession(profession, true) &&
-                (Game1.activeClickableMenu is not LevelUpMenu || profession.Skill.CurrentLevel <= 10))
+                (Game1.activeClickableMenu is not LevelUpMenu || profession.ParentSkill.CurrentLevel <= 10))
             {
                 continue;
             }

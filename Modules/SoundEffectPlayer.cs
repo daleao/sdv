@@ -4,7 +4,6 @@
 
 using System.IO;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Shared.Exceptions;
 using Microsoft.Xna.Framework.Audio;
 
@@ -21,7 +20,7 @@ public sealed class SoundEffectPlayer : SmartEnum<SoundEffectPlayer>
     /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.Ambush"/> activates.</summary>
     public static readonly SoundEffectPlayer PoacherAmbush = new("PoacherCloak", 1);
 
-    /// <summary>The <see cref="SoundEffectPlayer"/> played when a <see cref="VanillaProfession.Poacher"/> successfully steals an item.</summary>
+    /// <summary>The <see cref="SoundEffectPlayer"/> played when a <see cref="Profession.Poacher"/> successfully steals an item.</summary>
     public static readonly SoundEffectPlayer PoacherSteal = new("PoacherSteal", 2);
 
     /// <summary>The <see cref="SoundEffectPlayer"/> played when <see cref="Modules.Professions.Ultimates.Concerto"/> activates.</summary>

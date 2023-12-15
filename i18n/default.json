@@ -166,10 +166,10 @@
   "brute.buff.desc": "Damage +{{damage}}. Attack Speed +{{speed}}.",
   "poacher.title.male": "Bushwhacker",
   "poacher.title.female": "Bushwhacker",
-  "poacher.title.prestiged.male": "Infiltrator", // Alternatives: Saboteur
-  "poacher.title.prestiged.female": "Infiltrator",
+  "poacher.title.prestiged.male": "Saboteur", // Alternatives: Infiltrator
+  "poacher.title.prestiged.female": "Saboteur",
   "poacher.desc": "Crit. chance +50%. Chance to poach an item from enemies on each attack.",
-  "poacher.desc.prestiged": "Refund special move cooldown on a successful poach.",
+  "poacher.desc.prestiged": "Enemies can be poached twice. Inflict deadly poison on a successful poach.",
 
   "rascal.title.male": "Rascal",
   "rascal.title.female": "Rascal",

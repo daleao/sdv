@@ -28,11 +28,11 @@ public interface IProfession
     int Level { get; }
 
     /// <summary>Gets the <see cref="ISkill"/> which offers this profession.</summary>
-    ISkill Skill { get; }
+    ISkill ParentSkill { get; }
 
     /// <summary>Gets get the professions which branch off from this profession, if any.</summary>
     IEnumerable<IProfession> BranchingProfessions =>
-        this.Level != 5 || !this.Skill.ProfessionPairs.TryGetValue(this.Id, out var pair)
+        this.Level != 5 || !this.ParentSkill.ProfessionPairs.TryGetValue(this.Id, out var pair)
             ? Enumerable.Empty<IProfession>()
             : pair.First.Collect(pair.Second);
 }

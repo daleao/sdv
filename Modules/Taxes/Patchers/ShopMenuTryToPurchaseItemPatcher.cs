@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Taxes.Extensions;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

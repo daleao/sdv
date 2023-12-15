@@ -12,7 +12,6 @@ using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
-using StardewValley.Menus;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -261,7 +260,7 @@ internal static class CrabPotExtensions
     /// <param name="trap">The chosen trap fish.</param>
     /// <param name="owner">The owner of the crab pot.</param>
     /// <param name="r">A random number generator.</param>
-    /// <param name="isLuremaster">Whether the <paramref name="owner"/> has <see cref="VanillaProfession.Luremaster"/>.</param>
+    /// <param name="isLuremaster">Whether the <paramref name="owner"/> has <see cref="Profession.Luremaster"/>.</param>
     /// <returns>A <see cref="SObject"/> quality value.</returns>
     internal static int GetTrapQuality(this CrabPot crabPot, int trap, Farmer owner, Random r, bool isLuremaster)
     {
@@ -271,13 +270,13 @@ internal static class CrabPotExtensions
         }
 
         var fish = new SObject(trap, 1);
-        if (!owner.HasProfession(VanillaProfession.Trapper) || TrapperPirateTreasureTable.ContainsKey(fish.ParentSheetIndex) ||
+        if (!owner.HasProfession(Profession.Trapper) || TrapperPirateTreasureTable.ContainsKey(fish.ParentSheetIndex) ||
             fish.IsAlgae())
         {
             return SObject.lowQuality;
         }
 
-        return owner.HasProfession(VanillaProfession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60d
+        return owner.HasProfession(Profession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60d
             ? SObject.bestQuality
             : r.NextDouble() < owner.FishingLevel / 30d
                 ? SObject.highQuality
@@ -291,6 +290,7 @@ internal static class CrabPotExtensions
     /// <param name="trap">The chosen trap fish.</param>
     /// <param name="owner">The player.</param>
     /// <param name="r">A random number generator.</param>
+    /// <param name="isSpecialOceanographerCondition">Whether to apply special Oceanographer conditions.</param>
     /// <returns>The stack value.</returns>
     internal static int GetTrapQuantity(this CrabPot crabPot, int trap, Farmer owner, Random r, bool isSpecialOceanographerCondition)
     {

@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;

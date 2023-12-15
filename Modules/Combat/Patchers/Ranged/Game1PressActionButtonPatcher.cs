@@ -1,7 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Ranged;
 
-using DaLion.Overhaul;
-
 #region using directives
 
 using DaLion.Overhaul.Modules.Combat.Extensions;

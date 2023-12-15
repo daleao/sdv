@@ -3,10 +3,8 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Professions;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Constants;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -57,14 +55,14 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                 var multiplier = 1f;
 
                 // professions
-                if (farmer.HasProfession(VanillaProfession.Producer) &&
+                if (farmer.HasProfession(Profession.Producer) &&
                     (__instance.IsAnimalOrDerivedGood() || (__instance.ParentSheetIndex == ObjectIds.Honey &&
                                                               ProfessionsModule.Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerPriceBonus();
                 }
 
-                if (farmer.HasProfession(VanillaProfession.Angler) && __instance.IsFish())
+                if (farmer.HasProfession(Profession.Angler) && __instance.IsFish())
                 {
                     multiplier += farmer.GetAnglerPriceBonus();
                 }

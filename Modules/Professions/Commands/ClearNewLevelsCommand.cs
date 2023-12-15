@@ -36,7 +36,7 @@ internal sealed class ClearNewLevelsCommand : ConsoleCommand
         {
             for (var i = 0; i < args.Length; i++)
             {
-                if (VanillaSkill.TryFromName(args[i], true, out var skill))
+                if (Skill.TryFromName(args[i], true, out var skill))
                 {
                     Game1.player.newLevels.Set(Game1.player.newLevels
                         .Where(p => p.X != skill)

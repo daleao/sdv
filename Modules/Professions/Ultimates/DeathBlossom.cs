@@ -1,8 +1,5 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.Ultimates;
 
-using DaLion.Overhaul;
-using DaLion.Overhaul.Modules;
-
 #region using directives
 
 using Microsoft.Xna.Framework;
@@ -14,7 +11,7 @@ public sealed class DeathBlossom : Ultimate
 {
     /// <summary>Initializes a new instance of the <see cref="DeathBlossom"/> class.</summary>
     internal DeathBlossom()
-        : base("Blossom", Professions.VanillaProfession.Desperado, Color.DarkGoldenrod, Color.SandyBrown)
+        : base("Blossom", Profession.Desperado, Color.DarkGoldenrod, Color.SandyBrown)
     {
     }
 

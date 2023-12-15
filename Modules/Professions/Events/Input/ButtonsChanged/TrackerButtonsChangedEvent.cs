@@ -21,8 +21,8 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Prospector) ||
-                                      Game1.player.HasProfession(VanillaProfession.Scavenger);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector) ||
+                                      Game1.player.HasProfession(Profession.Scavenger);
 
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)

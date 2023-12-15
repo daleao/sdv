@@ -1,12 +1,11 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.StatusEffects;
+﻿namespace DaLion.Overhaul.Modules.Core.StatusEffects;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using DaLion.Overhaul.Modules.Combat.Events.Display.RenderedWorld;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Events;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

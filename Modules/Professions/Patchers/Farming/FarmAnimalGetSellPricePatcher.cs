@@ -28,7 +28,7 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
         double adjustedFriendship;
         try
         {
-            if (!__instance.GetOwner().HasProfession(VanillaProfession.Breeder))
+            if (!__instance.GetOwner().HasProfession(Profession.Breeder))
             {
                 return true; // run original logic
             }

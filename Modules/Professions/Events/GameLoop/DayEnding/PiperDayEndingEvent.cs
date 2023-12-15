@@ -10,7 +10,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 internal sealed class PiperDayEndingEvent : DayEndingEvent
 {
-    private static readonly int PiperBuffId = (Manifest.UniqueID + VanillaProfession.Piper).GetHashCode();
+    private static readonly int PiperBuffId = (Manifest.UniqueID + Profession.Piper).GetHashCode();
 
     /// <summary>Initializes a new instance of the <see cref="PiperDayEndingEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>

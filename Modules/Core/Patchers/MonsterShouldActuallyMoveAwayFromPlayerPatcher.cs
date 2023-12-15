@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers;
+﻿namespace DaLion.Overhaul.Modules.Core.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Overhaul.Modules.Core.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;

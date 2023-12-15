@@ -35,7 +35,7 @@ internal sealed class PrestigeAchievementDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (VanillaSkill.ListVanilla.Any(skill => skill.CurrentLevel != 20))
+        if (Skill.ListVanilla.Any(skill => skill.CurrentLevel != 20))
         {
             return;
         }

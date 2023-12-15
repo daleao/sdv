@@ -35,7 +35,7 @@ internal sealed class GameLocationShowQiCatInnerPatcher : HarmonyPatcher
         {
             // ReSharper disable once RedundantAssignment
             __result = Math.Min(
-                VanillaSkill.ListVanilla
+                Skill.ListVanilla
                     .Where(skill => skill.CurrentLevel >= 20)
                     .Sum(_ => 1f),
                 5f);
@@ -47,7 +47,7 @@ internal sealed class GameLocationShowQiCatInnerPatcher : HarmonyPatcher
         {
             // ReSharper disable once RedundantAssignment
             __result += Math.Min(
-                VanillaSkill.ListVanilla
+                Skill.ListVanilla
                     .Where(skill => Game1.player.HasAllProfessionsInSkill(skill))
                     .Sum(_ => 1f),
                 5f);

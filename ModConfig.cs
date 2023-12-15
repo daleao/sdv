@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Diagnostics;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Newtonsoft.Json;

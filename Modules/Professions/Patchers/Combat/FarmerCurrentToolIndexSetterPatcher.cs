@@ -32,13 +32,13 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.HasProfession(VanillaProfession.Rascal) &&
+        if (__instance.HasProfession(Profession.Rascal) &&
             (slingshot.numAttachmentSlots.Value == 1 || slingshot.attachments.Length == 1))
         {
             slingshot.numAttachmentSlots.Value = 2;
             slingshot.attachments.SetCount(2);
         }
-        else if (!__instance.HasProfession(VanillaProfession.Rascal) && (slingshot.numAttachmentSlots.Value == 2 || slingshot.attachments.Length == 2))
+        else if (!__instance.HasProfession(Profession.Rascal) && (slingshot.numAttachmentSlots.Value == 2 || slingshot.attachments.Length == 2))
         {
             var replacement = ArcheryIntegration.Instance?.ModApi?.GetWeaponData(Manifest, slingshot) is { } bowData
                 ? (Slingshot)ArcheryIntegration.Instance.ModApi.CreateWeapon(Manifest, bowData.WeaponId)

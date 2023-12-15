@@ -1,14 +1,14 @@
 ﻿namespace DaLion.Overhaul.Modules.Professions.TreasureHunts;
 
 /// <summary>
-///     The type of <see cref="ITreasureHunt"/>; either <see cref="VanillaProfession.Scavenger"/> or
-///     <see cref="VanillaProfession.Prospector"/>.
+///     The type of <see cref="ITreasureHunt"/>; either <see cref="Profession.Scavenger"/> or
+///     <see cref="Profession.Prospector"/>.
 /// </summary>
 public enum TreasureHuntType
 {
-    /// <summary>A <see cref="VanillaProfession.Scavenger"/> hunt.</summary>
+    /// <summary>A <see cref="Profession.Scavenger"/> hunt.</summary>
     Scavenger,
 
-    /// <summary>A <see cref="VanillaProfession.Prospector"/> hunt.</summary>
+    /// <summary>A <see cref="Profession.Prospector"/> hunt.</summary>
     Prospector,
 }

@@ -26,7 +26,7 @@ internal sealed class PiperWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Piper);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

@@ -24,7 +24,7 @@ internal sealed class ProspectorWarpedEvent : WarpedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(VanillaProfession.Prospector);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
