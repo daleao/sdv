@@ -34,6 +34,11 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         foreach (var @object in Game1.currentLocation.Objects.Values)
         {
             bb = @object.getBoundingBox(@object.TileLocation);
+            if (!Game1.viewport.Intersects(new xTile.Dimensions.Rectangle(bb.X, bb.Y, bb.Width, bb.Height)))
+            {
+                continue;
+            }
+
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
             bb.Highlight(Color.Blue * 0.5f, e.SpriteBatch);
@@ -42,6 +47,11 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         foreach (var feature in Game1.currentLocation.terrainFeatures.Values)
         {
             bb = feature.getBoundingBox(feature.currentTileLocation);
+            if (!Game1.viewport.Intersects(new xTile.Dimensions.Rectangle(bb.X, bb.Y, bb.Width, bb.Height)))
+            {
+                continue;
+            }
+
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
             bb.Highlight(Color.Yellow * 0.5f, e.SpriteBatch);
@@ -50,6 +60,11 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
         foreach (var feature in Game1.currentLocation.largeTerrainFeatures)
         {
             bb = feature.getBoundingBox(feature.currentTileLocation);
+            if (!Game1.viewport.Intersects(new xTile.Dimensions.Rectangle(bb.X, bb.Y, bb.Width, bb.Height)))
+            {
+                continue;
+            }
+
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
             bb.Highlight(Color.Yellow * 0.5f, e.SpriteBatch);
@@ -59,6 +74,11 @@ internal sealed class DebugRenderedWorldEvent : RenderedWorldEvent
                      .Concat(Game1.currentLocation.farmers))
         {
             bb = character.GetBoundingBox();
+            if (!Game1.viewport.Intersects(new xTile.Dimensions.Rectangle(bb.X, bb.Y, bb.Width, bb.Height)))
+            {
+                continue;
+            }
+
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
             var textHeight = Game1.dialogueFont.MeasureString("T").Y;

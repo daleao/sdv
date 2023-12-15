@@ -667,7 +667,7 @@ The Prestige mechanic is comprised of two main features: **Skill Reset** and **P
 - **Standard**
 - **Challenge**
 - **Streamlined**
-- **All Professions**
+- **Capped**
 - **None**
 
 ### Skill Reset
@@ -683,7 +683,7 @@ If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers
 
 Instead of changing your profession choices, the Statue of Prestige will reset your level 10 skills back to level 0, for a price. After resetting a skill, you will have to level up again to choose a different profession, but you get to keep every profession you've ever acquired (yes, including level 5). You will also find that leveling becomes progressively easier after each skill reset (or harder, depending on your config settings). By default, reseting a skill will also cause you to forget all associated recipes, but can also be turned off. For this incredible service, the Statue of Prestige will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a new colorful star, or by a growing ribbon, depending on your settings.
 
-This feature is included in the **Standard**, **Challenge** and **All Professions** modes. Note that changing the mode to **None** or **Streamlined** will **not** remove any professions from your farmer.
+This feature is included in the **Standard**, **Challenge** and **Capped** modes. Note that changing the mode to **None** or **Streamlined** will **not** remove any professions from your farmer.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
@@ -706,7 +706,7 @@ Prestige Levels are included in the **Standard**, **Challenge** and **Streamline
 - In **Challenge** mode, Prestige Levels are unlocked simultaneously for all skills after all skills have been reset 3 times and all 10th-level professions have been acquired across all skills.
 - In **Streamlined** mode, Prestige Levels are available immediately at level 10 with no additional requirements.
 
-Note that changing the mode to **None** or **All Professions** will **not** reduce your skill levels if they are already above 10.
+Note that changing the mode to **None** or **Capped** will **not** reduce your skill levels if they are already above 10.
 
 Custom mods skills based on SpaceCore can be made compatible with Prestige Levels by registering via the provided [API](../../API/IModularOverhaulApi.cs).
 

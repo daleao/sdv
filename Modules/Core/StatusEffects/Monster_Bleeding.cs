@@ -59,6 +59,12 @@ internal static class Monster_Bleeding
         Values.GetOrCreateValue(monster).Bleeder = bleeder;
     }
 
+    // Avoid redundant hashing
+    internal static Holder Get_BleedHolder(this Monster monster)
+    {
+        return Values.GetOrCreateValue(monster);
+    }
+
     internal class Holder
     {
         public NetInt BleedTimer { get; } = new(-1);
@@ -66,5 +72,12 @@ internal static class Monster_Bleeding
         public NetInt BleedStacks { get; internal set; } = new(0);
 
         public Farmer? Bleeder { get; internal set; }
+
+        public void Deconstruct(out NetInt timer, out NetInt stacks, out Farmer? bleeder)
+        {
+            timer = this.BleedTimer;
+            stacks = this.BleedStacks;
+            bleeder = this.Bleeder;
+        }
     }
 }

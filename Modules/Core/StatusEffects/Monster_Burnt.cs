@@ -40,10 +40,22 @@ internal static class Monster_Burnt
         Values.GetOrCreateValue(monster).Burner = burner;
     }
 
+    // Avoid redundant hashing
+    internal static Holder Get_BurnHolder(this Monster monster)
+    {
+        return Values.GetOrCreateValue(monster);
+    }
+
     internal class Holder
     {
         public NetInt BurnTimer { get; } = new(-1);
 
         public Farmer? Burner { get; internal set; }
+
+        public void Deconstruct(out NetInt timer, out Farmer? burner)
+        {
+            timer = this.BurnTimer;
+            burner = this.Burner;
+        }
     }
 }

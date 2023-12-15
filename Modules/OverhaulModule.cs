@@ -270,7 +270,7 @@ public abstract class OverhaulModule
         /// <summary>Gets a value indicating whether the current Prestige setting allows resetting the skill to aggregate multiple professions.</summary>
         internal static bool EnableSkillReset =>
             Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
-                or ProfessionConfig.PrestigeMode.Challenge or ProfessionConfig.PrestigeMode.AllProfessions;
+                or ProfessionConfig.PrestigeMode.Challenge or ProfessionConfig.PrestigeMode.Capped;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable

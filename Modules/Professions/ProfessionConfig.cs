@@ -56,20 +56,20 @@ public sealed class ProfessionConfig
     /// <summary>Determines the conditions for unlocking prestige levels.</summary>
     public enum PrestigeMode
     {
-        /// <summary>Disable all prestige features.</summary>
+        /// <summary>None. All prestige features disabled.</summary>
         None,
 
-        /// <summary>Prestige for each skill is unlocked after resetting the respective skill three times and acquiring all 10th-level professions within that skill.</summary>
+        /// <summary>Standard mode, where Prestige for each skill is unlocked individually by resetting the respective skill 3 times and acquiring all 10th-level professions within that skill.</summary>
         Standard,
 
-        /// <summary>Prestige for all skills is unlocked after resetting every skill three times and acquiring all 10th-level professions across all skills.</summary>
+        /// <summary>Challenge mode, where Prestige for all skills is unlocked simultaneously only after resetting every skill 3 times and acquiring all 10th-level professions across all skills.</summary>
         Challenge,
 
-        /// <summary>Prestige is available immediately without restrictions. But the player can no longer aggregate all professions.</summary>
+        /// <summary>Streamlined mode, where Prestige is available immediately without conditions. But the player can no longer aggregate all professions.</summary>
         Streamlined,
 
-        /// <summary>Prestige levels and professions are disabled. But the player can still aggregate all professions via skill resetting.</summary>
-        AllProfessions,
+        /// <summary>Capped at level 10. Prestige levels and professions are disabled. But the player can still aggregate all professions via skill resetting.</summary>
+        Capped,
     }
 
     /// <summary>The style used to indicate Skill Reset progression.</summary>

@@ -7,8 +7,8 @@
 * Added new Prestige mode options:
     * **Standard** - Prestige levels (11-20) are unlocked individually per skill by resetting the skill 3 times to acquire all 10th-level professions within that skill. *This is the standard paradigm that has been available until this point.**
     * **Challenge** - Prestige levels (11-20) are unlocked simultaneously for all skills only after all skills have been reset 3 times each and all 10th-level professions have been acquired across all skills. *This was my original plan, before receving mostly negative feedback.*
-    * **Streamlined** - Prestige levels (11-20) are unlocked immediately upon reaching level 10. The Skill Reset mechanic is eliminated altogether. But this also means you can obtain only one profession per skill. *This is meant for casual players who don't appreciate the grind, or anyone who wants the extended progression but without becoming overpowered.*
-    * **All Professions** - This is the opposite of Streamlined; Prestige levels are eliminated altogether, but the Skill Reset mechanic is maintained. The level cap remains at the regular 10, but the Statue of Prestige will still allow you to obtain all the non-prestige professions.
+    * **Streamlined** - Prestige levels (11-20) are unlocked immediately upon reaching level 10. The Skill Reset mechanic is eliminated altogether. But this also means you can obtain only one profession per skill. *This is meant for casual players who don't appreciate the grind, or anyone who wants the extended progression but without becoming overpowered by having all professions.*
+    * **Capped** - This is the opposite of Streamlined; Prestige levels are eliminated altogether, but the Skill Reset mechanic is maintained. The level cap remains at the regular 10, but the Statue of Prestige will still allow you to obtain all the non-prestige professions.
 
 * Added the following translation keys:
     * "gmcm.prestige_progression_mode.title"
@@ -47,6 +47,7 @@
 ### Fixed
 
 * Fixed SpaceCore skill levels being offset by -1.
+* `Monster.FindPlayer` optimization was actually not applying at all! The optimization now applies correctly, reducing time spent on this method by ~3.6x. *This is the method which determines monster AI, and called for every monster on the map. In maps like SVE's Crimson Badlands an Highlands, it was the biggest culprit behind people's performance complaints. So this should give a noticeable performance boost for those people.*
 
 ### Removed
 

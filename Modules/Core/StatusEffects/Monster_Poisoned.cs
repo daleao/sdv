@@ -59,6 +59,12 @@ internal static class Monster_Poisoned
         Values.GetOrCreateValue(monster).Poisoner = poisoner;
     }
 
+    // Avoid redundant hashing
+    internal static Holder Get_PoisonHolder(this Monster monster)
+    {
+        return Values.GetOrCreateValue(monster);
+    }
+
     internal class Holder
     {
         public NetInt PoisonTimer { get; } = new(-1);
@@ -66,5 +72,12 @@ internal static class Monster_Poisoned
         public NetInt PoisonStacks { get; internal set; } = new(0);
 
         public Farmer? Poisoner { get; internal set; }
+
+        public void Deconstruct(out NetInt timer, out NetInt stacks, out Farmer? poisoner)
+        {
+            timer = this.PoisonTimer;
+            stacks = this.PoisonStacks;
+            poisoner = this.Poisoner;
+        }
     }
 }

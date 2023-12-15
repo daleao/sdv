@@ -542,7 +542,7 @@
   "gmcm.prestige_mode.standard": "Standard",
   "gmcm.prestige_mode.streamlined": "Streamlined",
   "gmcm.prestige_mode.challenge": "Challenge",
-  "gmcm.prestige_mode.all_professions": "All Professions",
+  "gmcm.prestige_mode.capped": "Capped",
   "gmcm.skill_reset_cost_multiplier.title": "技能重置费用乘数",
   "gmcm.skill_reset_cost_multiplier.desc": "乘以重置威望雕像技能的基础费用。设置为0表示免费重置。",
   "gmcm.forget_recipes_on_skill_reset.title": "重置职业时忘记等级配方",

@@ -538,7 +538,7 @@
   "gmcm.prestige_mode.standard": "Standard",
   "gmcm.prestige_mode.streamlined": "Streamlined",
   "gmcm.prestige_mode.challenge": "Challenge",
-  "gmcm.prestige_mode.all_professions": "All Professions",
+  "gmcm.prestige_mode.capped": "Capped",
   "gmcm.skill_reset_cost_multiplier.title": "Skill Reset Cost Multiplier",
   "gmcm.skill_reset_cost_multiplier.desc": "Multiplies the base cost reseting a skill at the Statue of Prestige. Set to 0 to reset for free.",
   "gmcm.forget_recipes_on_skill_reset.title": "Forget Recipes on Skill Reset",

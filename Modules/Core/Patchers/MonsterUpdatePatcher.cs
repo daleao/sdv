@@ -36,28 +36,30 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
         {
             var ticks = time.TotalGameTime.Ticks;
             Farmer? killer = null;
-
             if (ticks % 30 == 0)
             {
-                var bleedTimer = __instance.Get_BleedTimer().Value;
-                if (bleedTimer > 0)
+                var bleedHolder = __instance.Get_BleedHolder();
+                if (bleedHolder.BleedTimer.Value > 0)
                 {
-                    bleedTimer -= time.ElapsedGameTime.Milliseconds;
-                    if (bleedTimer <= 0)
+                    var (bleedTimer, bleedStacks, bleeder) = bleedHolder;
+                    bleedTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    if (bleedTimer.Value <= 0)
                     {
-                        __instance.Unbleed();
+                        bleedTimer.Value = -1;
+                        bleedStacks.Value = 0;
+                        bleedHolder.Bleeder = null;
+                        __instance.stopGlowing();
                     }
                     else
                     {
-                        __instance.Get_BleedTimer().Value = bleedTimer;
                         if (ticks % 60 == 0)
                         {
-                            var bleed = (int)Math.Pow(2.5, __instance.Get_BleedStacks());
+                            var bleed = (int)Math.Pow(2.5, bleedStacks.Value);
                             __instance.Health -= bleed;
                             Log.D($"{__instance.Name} suffered {bleed} bleed damage. HP Left: {__instance.Health}");
                             if (__instance.Health <= 0)
                             {
-                                killer = __instance.Get_Bleeder();
+                                killer = bleeder;
                             }
                         }
 
@@ -65,17 +67,21 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     }
                 }
 
-                var burnTimer = __instance.Get_BurnTimer().Value;
-                if (burnTimer > 0)
+                var burnHolder = __instance.Get_BurnHolder();
+                if (burnHolder.BurnTimer.Value > 0)
                 {
-                    burnTimer -= time.ElapsedGameTime.Milliseconds;
-                    if (burnTimer <= 0)
+                    var (burnTimer, burner) = burnHolder;
+                    burnTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    if (burnTimer.Value <= 0)
                     {
-                        __instance.Unburn();
+                        __instance.jitteriness.Value /= 2;
+                        __instance.durationOfRandomMovements.Value /= 10;
+                        burnTimer.Value = -1;
+                        burnHolder.Burner = null;
+                        __instance.stopGlowing();
                     }
                     else
                     {
-                        __instance.Get_BurnTimer().Value = burnTimer;
                         if ((__instance is Bug or Fly && ticks % 30 == 0) || ticks % 180 == 0)
                         {
                             var burn = (int)(1d / 16d * __instance.MaxHealth);
@@ -83,7 +89,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                             Log.D($"{__instance.Name} suffered {burn} burn damage. HP Left: {__instance.Health}");
                             if (__instance.Health <= 0)
                             {
-                                killer = __instance.Get_Burner();
+                                killer = burner;
                             }
                         }
 
@@ -91,18 +97,21 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     }
                 }
 
-                var poisonTimer = __instance.Get_PoisonTimer().Value;
-                if (poisonTimer > 0)
+                var poisonHolder = __instance.Get_PoisonHolder();
+                if (poisonHolder.PoisonTimer.Value > 0)
                 {
-                    poisonTimer -= time.ElapsedGameTime.Milliseconds;
-                    if (poisonTimer <= 0)
+                    var (poisonTimer, poisonStacks, poisoner) = poisonHolder;
+                    poisonTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    if (poisonTimer.Value <= 0)
                     {
-                        __instance.Detox();
+                        poisonTimer.Value = -1;
+                        poisonStacks.Value = 0;
+                        poisonHolder.Poisoner = null;
+                        __instance.stopGlowing();
                     }
                     else
                     {
-                        __instance.Get_PoisonTimer().Value = poisonTimer;
-                        var pow = (int)Math.Pow(2, __instance.Get_PoisonStacks() - 1);
+                        var pow = (int)Math.Pow(2, poisonStacks.Value - 1);
                         if (ticks % (180 / pow) == 0)
                         {
                             var poison = (int)(pow * __instance.MaxHealth / 16d);
@@ -110,7 +119,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                             Log.D($"{__instance.Name} suffered {poison} poison damage. HP Left: {__instance.Health}");
                             if (__instance.Health <= 0)
                             {
-                                killer = __instance.Get_Poisoner();
+                                killer = poisoner;
                             }
                         }
 
@@ -125,28 +134,33 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 }
             }
 
-            var slowTimer = __instance.Get_SlowTimer().Value;
-            if (slowTimer <= 0)
+            var slowHolder = __instance.Get_SlowHolder();
+            if (slowHolder.SlowTimer.Value <= 0)
             {
                 return true; // run original logic
             }
 
-            slowTimer -= time.ElapsedGameTime.Milliseconds;
-            if (slowTimer <= 0)
+            var (slowTimer, slowIntensity) = slowHolder;
+            slowTimer.Value -= time.ElapsedGameTime.Milliseconds;
+            if (slowTimer.Value <= 0)
             {
-                if (__instance.IsChilled())
+                var chilled = __instance.Get_Chilled();
+                if (chilled.Value)
                 {
-                    __instance.Unchill();
-                }
-                else
-                {
-                    __instance.Unslow();
+                    chilled.Value = false;
+                    var frozen = __instance.Get_Frozen();
+                    if (frozen.Value)
+                    {
+                        frozen.Value = false;
+                    }
+
+                    __instance.stopGlowing();
                 }
 
+                slowTimer.Value = -1;
                 return true; // run original logic
             }
 
-            __instance.Get_SlowTimer().Value = slowTimer;
             if (__instance.IsChilled())
             {
                 __instance.startGlowing(Color.PowderBlue, true, 0.05f);
@@ -156,14 +170,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 }
             }
 
-            var slowIntensity = __instance.Get_SlowIntensity();
-            if (slowIntensity <= 0d)
-            {
-                __instance.Unslow();
-                return true; // run original logic
-            }
-
-            if (slowIntensity < 1f && ticks % (int)(1f / slowIntensity) == 0f)
+            if (slowIntensity.Value < 1f && ticks % (int)(1f / slowIntensity.Value) == 0f)
             {
                 return true; // run original logic
             }

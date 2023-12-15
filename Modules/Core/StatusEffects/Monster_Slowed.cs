@@ -47,10 +47,22 @@ internal static class Monster_Slowed
     {
     }
 
+    // Avoid redundant hashing
+    internal static Holder Get_SlowHolder(this Monster monster)
+    {
+        return Values.GetOrCreateValue(monster);
+    }
+
     internal class Holder
     {
         public NetInt SlowTimer { get; } = new(-1);
 
         public NetFloat SlowIntensity { get; } = new(0);
+
+        public void Deconstruct(out NetInt timer, out NetFloat intensity)
+        {
+            timer = this.SlowTimer;
+            intensity = this.SlowIntensity;
+        }
     }
 }

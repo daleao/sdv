@@ -26,7 +26,7 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     {
         try
         {
-            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.AllProfessions)
+            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Capped)
             {
                 __result = false;
                 return false; // don't run original logic
