@@ -327,7 +327,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 - Analogous to Scavenger.
 - Tracks all mining nodes and mineral forages off-screen with a yellow pointer, and ladders, shafts and panning spots with a green pointer.
-- Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Follow the purple HUD arrow to find the correct stone within the time limit and break it up to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak.
+- Whenever you are in the mines there is a chance to trigger a short Propsector Hunt for hidden stone treasure. Break stones until you hear a sound cue, then keep breaking more stones, following the pitch of the sound cue until you find the treasure stone. The higher pitch of the sound, the closer you are to the treasure stone. Find it within the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. (For accessibility purposes, you may enable `UseLegacyProspectorHunt` in the config settings to replace the sound minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.)
 - Your Prospector Hunt streak will also increase the chance for additional ores nodes to spawn when entering a new mine level, and for panning points to spawn when entering a new applicable map.
 - You may also hold a key (LeftShift by default) to highlight all resource nodes and ladders currently on-screen, for your convenience.
 - You can optionally configure the tracking HUD arrows to only appear when holding that same key (LeftShift by default).
