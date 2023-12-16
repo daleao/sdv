@@ -20,9 +20,9 @@ internal static class MonsterExtensions
         monster.DamageToFarmer = Math.Max((int)Math.Round(monster.DamageToFarmer * g), 1);
         monster.resilience.Value = Math.Max((int)Math.Round(monster.resilience.Value * g), 1);
 
-        var addedSpeed = r.NextDouble() > 0.5 + (Game1.player.DailyLuck * 2d)
+        var addedSpeed = r.NextDouble() > (2d / 3d) + (Game1.player.DailyLuck * 2d)
             ? 1
-            : r.NextDouble() < 0.5 + (Game1.player.DailyLuck * 2d) ? -1 : 0;
+            : r.NextDouble() < (1d / 3d) + (Game1.player.DailyLuck * 2d) ? -1 : 0;
         monster.speed = Math.Max(monster.speed + addedSpeed, 1);
 
         monster.durationOfRandomMovements.Value =

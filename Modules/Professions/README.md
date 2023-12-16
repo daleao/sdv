@@ -66,7 +66,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Yields an equivalent 10% monetary bonus to vanilla on average, but also provides value if you choose not to sell raw crops.
 
 <font color="gold">
-<b>⭐ Expert Harvester (Lv15)</b> - <s>10%</s> → 20% chance for extra yield from harvested crops.
+<b>⭐ <img src="./resources/assets/sprites/loose/harvester_p.png"/> Expert Harvester (Lv15)</b> - <s>10%</s> → 20% chance for extra yield from harvested crops.
 </font>
 
 </font>
@@ -83,7 +83,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete.
 
 <font color="gold">
-<b>⭐ Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster.
+<b>⭐ <img src="./resources/assets/sprites/loose/agriculturist_p.png"/> Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster.
 </font>
 
 </font>
@@ -101,7 +101,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; in other words, only Artisans themselves can process goods which preserve the ingredient quality, and they can do so on any machines, whereas non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
 
 <font color="gold">
-<b>⭐ Mastercraftsman (Lv20)</b> - Artisan machines work <s>10%</s> → 25% faster.
+<b>⭐ <img src="./resources/assets/sprites/loose/artisan_p.png"/> Mastercraftsman (Lv20)</b> - Artisan machines work <s>10%</s> → 25% faster.
 </font>
 
 </font>
@@ -118,7 +118,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Gain double mood *and* friendship points from petting. Newborn animals are also born with a non-zero, random initial friendship.
 
 <font color="gold">
-<b>⭐ Expert Rancher (Lv15)</b> - Befriend animals <s>2×</s> → 3× more quickly.
+<b>⭐ <img src="./resources/assets/sprites/loose/rancher_p.png"/> Expert Rancher (Lv15)</b> - Befriend animals <s>2×</s> → 3× more quickly.
 </font>
 
 </font>
@@ -135,7 +135,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. If Animal Husbandry is installed, gestation following insemination is also 2x faster.
 
 <font color="gold">
-<b>⭐ Progenitor (Lv20)</b> - Incubation <s>2×</s> → 3× faster and natural pregnancy <s>3×</s> → 5× more likely.
+<b>⭐ <img src="./resources/assets/sprites/loose/breeder_p.png"/> Progenitor (Lv20)</b> - Incubation <s>2×</s> → 3× faster and natural pregnancy <s>3×</s> → 5× more likely.
 </font>
 
 </font>
@@ -156,7 +156,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - There is no limit to the bonus value.
 
 <font color="gold">
-<b>⭐ Yieldmeister (Lv20)</b> - Happy animals produce <s>2×</s> → 3× as frequently.
+<b>⭐ <img src="./resources/assets/sprites/loose/producer_p.png"/> Yieldmeister (Lv20)</b> - Happy animals produce <s>2×</s> → 3× as frequently.
 </font>
 
 </font>
@@ -170,7 +170,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Lv5 - Forager</b>- 20% chance for double yield of foraged items.
+<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Forager (Lv5)</b>- 20% chance for double yield of foraged items.
 </summary>
 
 <ul>
@@ -179,7 +179,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Other than the name, this profession is unchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Expert Forager (Lv15)</b> - <s>20%</s> → 40% chance for double yield of foraged items.
+<b>⭐ <img src="./resources/assets/sprites/loose/forager_p.png"/> Expert Forager (Lv15)</b> - <s>20%</s> → 40% chance for double yield of foraged items.
 </font>
 
 </font>
@@ -197,7 +197,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession. It will likewise apply to crafted Mushroom Boxes and Mushroom Propagators, if either of those mods is installed.
 
 <font color="gold">
-<b>⭐ Bioharmonist (Lv20)</b> - Wild berries restore <s>50%</s> → 100% more health and energy.
+<b>⭐ <img src="./resources/assets/sprites/loose/ecologist_p.png"/> Bioharmonist (Lv20)</b> - Wild berries restore <s>50%</s> → 100% more health and energy.
 </font>
 
 </font>
@@ -217,7 +217,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - You can optionally configure the tracking HUD arrows to only appear when holding that same key (LeftShift by default).
 
 <font color="gold">
-<b>⭐ Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts.
+<b>⭐ <img src="./resources/assets/sprites/loose/scavenger_p.png"/> Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts.
 </font>
 
 </font>
@@ -234,7 +234,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Other than the name, this profession is unchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Expert Lumberjack (Lv15)</b> - Felled trees yield <s>25%</s> → 40% more wood.
+<b>⭐ <img src="./resources/assets/sprites/loose/lumberjack_p.png"/> Expert Lumberjack (Lv15)</b> - Felled trees yield <s>25%</s> → 40% more wood.
 </font>
 
 </font>
@@ -252,7 +252,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - The hardwood bonus is inherited and uchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Silviculturist (Lv20)</b> - All trees can drop twice as much hardwood.
+<b>⭐ <img src="./resources/assets/sprites/loose/arborist_p.png"/> Silviculturist (Lv20)</b> - All trees can drop twice as much hardwood.
 </font>
 
 </font>
@@ -270,7 +270,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - New Heavy recipe: x18 hardwood, x1 radioactive bar.
 
 <font color="gold">
-<b>⭐ Syrupwright (Lv20)</b> - Tapped trees produce syrup <s>25%</s> → 50% faster.
+<b>⭐ <img src="./resources/assets/sprites/loose/tapper_p.png"/> Syrupwright (Lv20)</b> - Tapped trees produce syrup <s>25%</s> → 50% faster.
 </font>
 
 </font>
@@ -293,7 +293,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Completely unchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Expert Miner (Lv15)</b> - <s>+1</s> → +2 ore per ore vein.
+<b>⭐ <img src="./resources/assets/sprites/loose/miner_p.png"/> Expert Miner (Lv15)</b> - <s>+1</s> → +2 ore per ore vein.
 </font>
 
 </font>
@@ -310,7 +310,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 
 <font color="gold">
-<b>⭐ Cavewarden (Lv20)</b> - Recover some health and stamina upon reaching a new mine level.
+<b>⭐ <img src="./resources/assets/sprites/loose/spelunker_p.png"/> Cavewarden (Lv20)</b> - Recover some health and stamina upon reaching a new mine level.
 </font>
 
 </font>
@@ -333,7 +333,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - You can optionally configure the tracking HUD arrows to only appear when holding that same key (LeftShift by default).
 
 <font color="gold">
-<b>⭐ Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts.
+<b>⭐ <img src="./resources/assets/sprites/loose/prospector_p.png"/> Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts.
 </font>
 
 </font>
@@ -350,7 +350,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Provides a new style of mining while attempting to compensate for the lack of coal without the vanilla Prospector profession.
 
 <font color="gold">
-<b>⭐ Expert Blaster (Lv15)</b> - Exploded rocks yield <s>2×</s> → 3× as much coal.
+<b>⭐ <img src="./resources/assets/sprites/loose/blaster_p.png"/> Expert Blaster (Lv15)</b> - Exploded rocks yield <s>2×</s> → 3× as much coal.
 </font>
 
 </font>
@@ -358,7 +358,7 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1 <font color="gold"><i>(⭐+2⭐)</i></font>. Exploded rocks yield 20% more resources.
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. Exploded rocks yield 20% more resources.
 </summary>
 
 <ul>
@@ -368,7 +368,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - You can also manually detonate bombs; any bombs placed while holding down the Mod Key (default LeftShift) will not detonate until you release that same key.
 
 <font color="gold">
-<b>⭐ Pyrotechnician (Lv20)</b> - Exploded rocks yield <s>20%</s> → 40% more resources.
+<b>⭐ <img src="./resources/assets/sprites/loose/demolitionist_p.png"/> Pyrotechnician (Lv20)</b> - Bomb radius <s>+1</s> → +2. Exploded rocks yield <s>20%</s> → 40% more resources.
 </font>
 
 </font>
@@ -389,7 +389,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - The production time bonus for Crystalariums is likewise tied to the owner, and therefore only Crystalariums crafted by the Gemologist will receive that perk (ownership requirements can be turned off in the configs).
 
 <font color="gold">
-<b>⭐ Crystallographer (Lv20)</b> - Crystalariums work <s>25%</s> → 50% faster.
+<b>⭐ <img src="./resources/assets/sprites/loose/gemologist_p.png"/> Crystallographer (Lv20)</b> - Crystalariums work <s>25%</s> → 50% faster.
 </font>
 
 </font>
@@ -413,7 +413,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Also doubles the double catch chance of Wild Bait and the bonus treasure chance of Magnet.
 
 <font color="gold">
-<b>⭐ Expert Fisher (Lv15)</b> - Baits are <s>2×</s> → 3× more effective when fishing.
+<b>⭐ <img src="./resources/assets/sprites/loose/fisher_p.png"/> Expert Fisher (Lv15)</b> - Baits are <s>2×</s> → 3× more effective when fishing.
 </font>
 
 </font>
@@ -431,7 +431,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Lingering tackle effects last for 40 uses (same as regular tackle). This effectively doubles tackle duration, but more importantly, it allows two tackles to be in effect at the same time. **Note that the same tackle effect cannot stack with itself**, so this encourages swapping out different tackles, mixing and matching.
 
 <font color="gold">
-<b>⭐ Rodmancer (Lv20)</b> - Fish are again 0.5% more valuable for every unique max-sized species caught.
+<b>⭐ <img src="./resources/assets/sprites/loose/angler_p.png"/> Rodmancer (Lv20)</b> - Fish are again 0.5% more valuable for every unique max-sized species caught.
 </font>
 
 </font>
@@ -449,7 +449,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Also allows raising legendary fish. Extended family can be raised in the same pond as the parent if [PNDS](../Ponds) module is enabled.
 
 <font color="gold">
-<b>⭐ Ichthyologist (Lv20)</b> - Fish pond max capacity <s>+2</s> → +4.
+<b>⭐ <img src="./resources/assets/sprites/loose/aquarist_p.png"/> Ichthyologist (Lv20)</b> - Fish pond max capacity <s>+2</s> → +4.
 </font>
 
 </font>
@@ -468,7 +468,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - The crab pot recipe part of the perk is unchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Expert Trapper (Lv15)</b> - Can trap best-quality haul.
+<b>⭐ <img src="./resources/assets/sprites/loose/trapper_p.png"/> Expert Trapper (Lv15)</b> - Can trap best-quality haul.
 </font>
 
 </font>
@@ -490,7 +490,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - All baits, with the exception of Magnet, also prevent collecting junk.
 
 <font color="gold">
-<b>⭐ Baitweaver (Lv20)</b> - Baited Crab pots can produce <s>2×</s> → 3× per day.
+<b>⭐ <img src="./resources/assets/sprites/loose/luremaster_p.png"/> Baitweaver (Lv20)</b> - Baited Crab pots can produce <s>2×</s> → 3× per day.
 </font>
 
 </font>
@@ -510,7 +510,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 <font color="gold">
 <details>
-<summary><b>⭐ Oceanographer (Lv20)</b> - Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon days.
+<summary><b>⭐ <img src="./resources/assets/sprites/loose/conservationist_p.png"/> Oceanographer (Lv20)</b> - Crab pots without bait have a chance to trap fish. Special conditions apply during rainy or full-moon days.
 </summary>
 
 - Limited to fish ordinarily caught with a crab pot.
@@ -540,7 +540,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Completely unchanged from vanilla.
 
 <font color="gold">
-<b>⭐ Expert Fighter (Lv15)</b> - Damage <s>+10%</s> → +20%.
+<b>⭐ <img src="./resources/assets/sprites/loose/fighter_p.png"/> Expert Fighter (Lv15)</b> - Damage <s>+10%</s> → +20%.
 </font>
 
 </font>
@@ -557,7 +557,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - **Rage:** Damage +1% and Attack Speed +0.5% per stack*. Max 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds (40 when prestiged).
 
 <font color="gold">
-<b>⭐ Wildheart (Lv20)</b> - Stay enraged for twice as long.
+<b>⭐ <img src="./resources/assets/sprites/loose/brute_p.png"/> Wildheart (Lv20)</b> - Stay enraged for twice as long.
 </font>
 
 </font>
@@ -574,7 +574,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - **Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 
 <font color="gold">
-<b>⭐ Saboteur (Lv20)</b> - Enemies can be poached twice, and become afflicted with deadly poison on a successful poach.
+<b>⭐ <img src="./resources/assets/sprites/loose/poacher_p.png"/> Saboteur (Lv20)</b> - Enemies can be poached twice, and become afflicted with deadly poison on a successful poach.
 </font>
 
 </font>
@@ -594,7 +594,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 <font color="gold">
 <details>
-<summary><b>⭐ Expert Rascal (Lv15)</b> - <s>35%</s> → 50% chance to recover spent ammo. Can equip Monster Musk to shoot alluring ammo.
+<summary><b>⭐ <img src="./resources/assets/sprites/loose/rascal_p.png"/> Expert Rascal (Lv15)</b> - <s>35%</s> → 50% chance to recover spent ammo. Can equip Monster Musk to shoot alluring ammo.
 </summary>
 
 - **Alluring Ammo:** Equip Monster Musk like any other ammo. It will always slot to the bottom ammo slot. Only 1 will be slotted at a time, and it cannot be removed once slotted. As long as a Monster Musk is equipped, projectiles will gain the **musked** effect. When a musked projectile collides with anything, it transfers the musk to that wall or monster, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk will last for 10 shots. This effect does not work with Explosive Ammo, but the Monster Musk will still be consumed.
@@ -618,7 +618,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 <font color="gold">
 <details>
-<summary><b>⭐ Deadeye (Lv20)</b> - Overcharged shots have a chance to pierce through enemies.
+<summary><b>⭐ <img src="./resources/assets/sprites/loose/desperado_p.png"/> Deadeye (Lv20)</b> - Overcharged shots have a chance to pierce through enemies.
 </summary>
 
 - **Pierce:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot then ignores enemy resistance and can damage armored enemies. A shot can any number of times, but the shot's subsequent power and piercing chances are reduced based on each pierced enemy's resistance. Squishy projectiles (i.e., fish, fruits, veggies, and slime) cannot pierce regardless of overcharge.
@@ -643,7 +643,7 @@ Click on any profession below to display more details. When a perk is preceded b
 
 <font color="gold">
 <details>
-<summary><b>⭐ Slime Conductor | Enchantress (Lv20)</b> - Increased effectiveness and variety of defeated Slime effects.
+<summary><b>⭐ <img src="./resources/assets/sprites/loose/piper_p.png"/> Slime Conductor | Enchantress (Lv20)</b> - Increased effectiveness and variety of defeated Slime effects.
 </summary>
 
 - Healing and energy recovery are increased, and the the buff stack limit for Attack and Defense is doubled to 10.
