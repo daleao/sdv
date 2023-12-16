@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.2.1
+
+* Updated Chinese translations by [Jumping-notes](https://github.com/Jumping-notes).
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 4.2.0
 
 ### Added

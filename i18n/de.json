@@ -115,7 +115,7 @@
   "conservationist.title.male": "Naturschützer",
   "conservationist.title.female": "Naturschützerin",
   "conservationist.desc": "Krabbentöpfe ohne Köder können Müll einfangen. Die Reinigung der Gewässer des Tals bringt Dorfbegünstigungen und Abzüge von der Leistungssteuer ein.",
-  "conservationist.desc.prestiged": "Steuerabzüge summieren sich um 50 % schneller.",
+  "conservationist.desc.prestiged": "In Krabbentöpfen ohne Köder besteht die Gefahr, dass Fische gefangen werden. An Regen- oder Vollmondtagen können große Fischschwärme gefangen werden.",
   "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir nach Prüfung deiner Umweltschutzaktivitäten festgestellt haben, dass du gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code für einen Einkommenssteuerabzug von {{taxBonus}} in Frage kommst. Daher wird das gesamte steuerpflichtige Einkommen für {{farm}} bis zum 28. der {{season}} um den oben genannten Betrag erhöht.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem Steuerstatus klären musst.^^^Mit freundlichen Grüßen,^^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Hinweis zum Steuerabzug",
   "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Steuerzahler,^^Wir freuen uns, dir mitzuteilen, dass wir bei der Überprüfung deiner Umweltschutzaktivitäten festgestellt haben, dass du den maximalen Einkommenssteuerabzug von {{taxBonus}} gemäß Abschnitt 501 (c) (3) des Ferngill Revenue Code in Anspruch nehmen kannst. Daher wird das gesamte steuerpflichtige Einkommen für {{farm}} bis zum 28. der {{season}} um den oben genannten Betrag erhöht.^^Bitte bewahre dieses Schreiben in deinen Unterlagen auf, falls du Fragen zu deinem steuerlichen Status klären musst.^^^Mit freundlichen Grüßen,^^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Hinweis zum Steuerabzug",
 
@@ -133,7 +133,7 @@
   "poacher.title.male": "Buschmann",
   "poacher.title.female": "Buschfrau",
   "poacher.desc": "Kritische Trefferchance +50 %. Krit. Schläge haben eine Chance, Gegenstände von Gegnern zu stehlen.",
-  "poacher.desc.prestiged": "Feinde können zweimal abgeworben werden. Füge tödliches Gift zu, wenn eine Wilderei erfolgreich ist.",
+  "poacher.desc.prestiged": "Feinde können zweimal abgeworben werden. Füge einem erfolgreichen Wilderer tödliches Gift zu.",
 
   "rascal.title.male": "Schlitzohr",
   "rascal.title.female": "Schlitzohrin",
@@ -552,7 +552,7 @@
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.prestige_ribbon_style.title": "Progression Style",
   "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.ribbon_stylestacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
   "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
   "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",

@@ -115,7 +115,7 @@
   "conservationist.title.male": "환경운동가",
   "conservationist.title.female": "환경운동가",
   "conservationist.desc": "미끼 없는 게잡이 통발로 쓰레기를 건질 수 있습니다. 물에서 쓰레기를 제거하여 세금 감면을 받고 마을 사람들과 신뢰를 쌓으십시오.",
-  "conservationist.desc.prestiged": "세금 공제가 50% 더 빨리 누적됩니다.",
+  "conservationist.desc.prestiged": "미끼가 없는 게 통발에 물고기가 걸릴 확률이 있습니다. 비가 오거나 보름달이 뜨는 날에는 큰 물고기 떼가 갇힐 수 있습니다.",
   "conservationist.mail": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 국세청 소득 조항 501(c)(3)조에 따라 {{taxBonus}}의 소득공제를 받을 자격이 있다고 결정했음을 알려드립니다. 따라서 {{farm}}의 모든 과세소득은 {{season}} 28일까지 상기한 비율만큼 증가합니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 문서를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]세금 공제 통지",
   "conservationist.mail.max": "재무부^펀길 국세청^^^{{honorific}} @,^^귀하의 환경 활동을 검토한 결과 귀하가 국세청 소득 조항 501(c)(3)조에 따라 최대치인 {{taxBonus}}의 소득공제를 받을 자격이 있다고 결정했음을 알려드립니다. 따라서 {{farm}}의 모든 과세소득은 {{season}} 28일까지 상기한 비율만큼 증가합니다.^^재정 상태에 관한 질문에 답해야 하는 경우 이 문서를 영구 기록으로 보관하십시오.^^^감사합니다.^^Laura D. Pretto^펀길 국세청장[#]세금 공제 통지",
 
@@ -550,7 +550,7 @@
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.prestige_ribbon_style.title": "Progression Style",
   "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.ribbon_stylestacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
   "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
   "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",

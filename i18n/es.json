@@ -115,7 +115,7 @@
   "conservationist.title.male": "Ambientalista",
   "conservationist.title.female": "Ambientalista",
   "conservationist.desc": "Las trampas para cangrejos sin cebo pueden atrapar basura. Limpiar las aguas del Valle otorga deducciones de impuestos y el favor del pueblo.",
-  "conservationist.desc.prestiged": "Las deducciones fiscales se acumulan un 50% más rápido.",
+  "conservationist.desc.prestiged": "Las trampas para cangrejos sin cebo pueden atrapar peces. Durante los días de lluvia o de luna llena, pueden atrapar grandes bancos de peces.",
   "conservationist.mail": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos verificado que califica para una deducción de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes en caso de que necesite resolver cualquier pregunta relacionada con su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de deducción",
   "conservationist.mail.max": "Ministerio de Hacienda^Agencia Estatal de Administración Tributaria^^^{{honorific}} @,^^Nos complace informarle que, después de revisar sus actividades ambientales, hemos determinado que califica para la deducción máxima de su impuesto sobre la renta del {{taxBonus}} conforme a la sección 501(c)(3) del Código de Impuestos y Contribuciones de Ferngill. Como tal, todos los ingresos imponibles de {{farm}} se incrementarán en la cantidad antes mencionada, válido durante la actual temporada de {{season}}.^^Guarde esta carta en sus registros permanentes si necesita resolver alguna pregunta sobre su estado fiscal.^^^Atentamente,^^Laura D. Pretto^Directora ejecutiva, Agencia Estatal de Administración Tributaria[#]Aviso de deducción",
 
@@ -558,7 +558,7 @@
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.prestige_ribbon_style.title": "Progression Style",
   "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.ribbon_stylestacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
   "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
   "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",

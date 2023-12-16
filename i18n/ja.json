@@ -115,7 +115,7 @@
   "conservationist.title.male": "自然保護家",
   "conservationist.title.female": "自然保護家",
   "conservationist.desc": "釣りエサの入っていないカニかごがゴミを捕まえるようになる。 水域からゴミを除去して税の優遇措置を獲得し、村民との信頼を築きましょう。",
-  "conservationist.desc.prestiged": "税額控除の累積が 50% 早くなります。",
+  "conservationist.desc.prestiged": "餌のないカニかごには魚が閉じ込められる可能性があります。 雨の日や満月の日には、大群の魚を捕まえることができます。",
   "conservationist.mail": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税控除を受ける資格があると判断しましたので、お知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]税控除通知",
   "conservationist.mail.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者様へ^^この度、あなたの環境保護活動を審査した結果、ファーンギル歳入法第501条(c)(3)に基づき、{{taxBonus}}の所得税最大控除を受ける資格があると判断しましたのでお知らせいたします。 そのため、{{farm}}の全ての課税所得は、{{season}}の28日まで、上記の金額だけ増加することになります。^^この手紙は、あなたの財政状態に関する疑問を解決するために、永久的な記録として保管しておいてください。^^^謹言^^ローラ・D・プレト^ファーンギル歳入庁長官[#]税控除通知",
 
@@ -133,7 +133,7 @@
   "poacher.title.male": "山賊",
   "poacher.title.female": "山賊",
   "poacher.desc": "クリティカル率+50%. クリティカルヒットで敵からアイテムを盗むことがある。",
-  "poacher.desc.prestiged": "敵は2回密猟できる。 密猟に成功すると猛毒を与える。",
+  "poacher.desc.prestiged": "敵は2回密猟できる。 密猟に成功した者に猛毒を与える。",
 
   "rascal.title.male": "ラスカル",
   "rascal.title.female": "ラスカル",
@@ -551,7 +551,7 @@
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.prestige_ribbon_style.title": "Progression Style",
   "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
-  "gmcm.ribbon_stylestacked_stars": "Stacked Stars",
+  "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
   "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
   "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
   "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",

@@ -1,5 +1,13 @@
 ﻿# PRFS Changelog
 
+## 4.2.1
+
+### Fixed
+
+* Updated the localizations for prestiged Conservationist.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 4.2.0
 
 ### Added
