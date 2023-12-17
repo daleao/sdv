@@ -718,7 +718,7 @@
   "gmcm.forge_socket_position.title": "锻造插座位置",
   "gmcm.forge_socket_position.desc": "如果启用，确定应该绘制锻造套接字的相对位置。",
   "gmcm.socket_position.standard": "标准",
-  "gmcm.socket_position.aboveseparator": "上方分隔符",
+  "gmcm.socket_position.above_separator": "上方分隔符",
   "gmcm.weapon_tooltip_style.title": "武器样式提示",
   "gmcm.weapon_tooltip_style.desc": "是显示武器的绝对数值，还是显示同类型其他武器的相对数值。",
   "gmcm.tooltip_style.vanilla": "原版",

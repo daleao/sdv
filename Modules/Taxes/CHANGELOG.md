@@ -28,7 +28,7 @@
 
 ### Changed
 
-* Default annual interest increased to 72% (was previously 12%). The original value was chosen based on common IRL values. However, IRL, years are >3x longer, and debts are payed over several years, which allows compound interest to take effect. In-game, the 12% was too low to cause any noticeable impact. So I multiplied 12 by 3, and then again by 2 to get 72%. That should give a larger incentive to clear your debts.
+* Default annual interest increased to 72% (was previously 12%). The original value was chosen based on common IRL values. However, IRL, years are >3× longer, and debts are payed over several years, which allows compound interest to take effect. In-game, the 12% was too low to cause any noticeable impact. So I multiplied 12 by 3, and then again by 2 to get 72%. That should give a larger incentive to clear your debts.
     * The change will not affect player's who keep their old configs. I suggest players increase this config setting to taste.
 
 ### Fixed

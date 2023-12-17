@@ -98,7 +98,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <font size="2">
 
 - The quality of the output is based on your Farming level, with the lowest quality being 2 stages below the input quality, and the highest being 1 stage higher. For reference, the chance for output quality to *equal* input quality at Farming level 10 is 30%.
-- Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; in other words, only Artisans themselves can process goods which preserve the ingredient quality, and they can do so on any machines, whereas non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
+- Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; in other words, only Artisans themselves can process goods which preserve the ingredient quality, and they can do so on any machine, whereas non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
 
 <font color="gold">
 <b>⭐ <img src="./resources/assets/sprites/loose/artisan_p.png"/> Mastercraftsman (Lv20)</b> - Artisan machines work <s>10%</s> → 25% faster.
@@ -132,7 +132,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 <font size="2">
 
-- At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3x. If Animal Husbandry is installed, gestation following insemination is also 2x faster.
+- At max friendship animals are worth 2.5x their base price, instead of vanilla 1.3×. If Animal Husbandry is installed, gestation following insemination is also 2× faster.
 
 <font color="gold">
 <b>⭐ <img src="./resources/assets/sprites/loose/breeder_p.png"/> Progenitor (Lv20)</b> - Incubation <s>2×</s> → 3× faster and natural pregnancy <s>3×</s> → 5× more likely.
@@ -403,7 +403,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b> - Baits are 2x more effective when fishing.
+<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b> - Baits are 2× more effective when fishing.
 </summary>
 
 <ul>
@@ -476,7 +476,7 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b> - Baited Crab pots can produce 2x per day. Unlock new bait effects.
+<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b> - Baited Crab pots can produce 2× per day. Unlock new bait effects.
 </summary>
 
 <ul>
@@ -621,7 +621,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <summary><b>⭐ <img src="./resources/assets/sprites/loose/desperado_p.png"/> Deadeye (Lv20)</b> - Overcharged shots have a chance to pierce through enemies.
 </summary>
 
-- **Pierce:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot then ignores enemy resistance and can damage armored enemies. A shot can any number of times, but the shot's subsequent power and piercing chances are reduced based on each pierced enemy's resistance. Squishy projectiles (i.e., fish, fruits, veggies, and slime) cannot pierce regardless of overcharge.
+- **Pierce:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot then ignores enemy resistance and can damage armored enemies. A shot can pierce any number of times, but the shot's subsequent power and piercing chance are reduced based on each pierced enemy's resistance. Squishy projectiles (i.e., fish, fruits, veggies, and slime) cannot pierce regardless of overcharge.
 
 </details>
 </font>
@@ -733,7 +733,7 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. This effect ends prematurely if you attack an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. This effect ends prematurely if you attack an enemy. When the effect ends, gain a 2× crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
 </summary>
 
 <ul>
@@ -745,7 +745,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight directions at once at no additional ammo cost.
+<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.
 </summary>
 
 <ul>
@@ -775,7 +775,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 
 </ul>
 
-After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limmit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
+After all possible skills have had their level cap raised, the Statue of Prestige will let you switch between the four Limit Breaks for free (though a cost can be configured). Switching Limit Breaks is not possible if the Prestige system is disabled. As with the Prestige system, Limit Breaks can be turned off in the mod settings.
 
 <sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 

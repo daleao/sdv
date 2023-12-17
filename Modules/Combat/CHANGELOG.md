@@ -168,7 +168,7 @@
 * Slightly increased the base damage of Quincy projectile, and it becomes stronger below 2/3 and again below 1/3 of max health.
 * Slingshots now have a base 2.5% crit. chance and x1.5 crit. power.
 * Slingshot special attack changed from stunning smack attack to gatling effect. Press and hold the action key to quickly auto-fire for a few seconds. You can release the key at any moment to interrupt the move.
-* Energized enchantment now charges slightly slower per hit. Damage increased by 3x.
+* Energized enchantment now charges slightly slower per hit. Damage increased by 3×.
 * Spreading enchantment has been overhauled as the Runaan enchantment:
     * **Runaan:** Firing creates two additional projectiles which fly towards the nearest enemy after a short delay and deal 40% of the main projectile's damage.
 * The following translation **keys** have been changed:

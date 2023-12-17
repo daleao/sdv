@@ -12,7 +12,7 @@ Taking inspiration from classic RPG or strategy games, this module adds a framew
 [*][b]Burning:[/b] Causes damage equal to 1/16th of max health every 3s for 15s, and reduces attack by half. Does not affect fire enemies (i.e., Lava Lurks, Magma Sprites and Magma Sparkers).
 [*][b]Chilled:[/b] Reduces movement speed by half for 5s. If Chilled is inflicted again during this time, then causes Freeze.
 [*][b]Frozen:[/b] Cannot move or attack for 30s. The next hit during the duration deals triple damage and ends the effect.
-[*][b]Poisoned:[/b] Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3x.
+[*][b]Poisoned:[/b] Causes damage equal to 1/16 of max health every 3s for 15s, stacking up to 3×.
 [*][b]Slowed:[/b] Reduces movement speed by half for the duration.
 [*][b]Stunned:[/b] Cannot move or attack for the duration.
 [/list]

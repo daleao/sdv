@@ -431,8 +431,8 @@ Major changes to the Fishing tree:
     * New prestige perk: pond capacity +4. *More useful and in-line with the Prestige theme.*
     * Default value for LegendaryPondPopulationCeiling lowered from 6 to 5.
 * **Luremaster:**
-    * Now also allows **baited** Crab Pots to produce 2x per day. Previous effects remain unchanged. *Huge and desperately needed buff. Also establishes a neat analogy to Producer.*
-    * New prestige perk: produce 3x per day. *The natural progression.*
+    * Now also allows **baited** Crab Pots to produce 2× per day. Previous effects remain unchanged. *Huge and desperately needed buff. Also establishes a neat analogy to Producer.*
+    * New prestige perk: produce 3× per day. *The natural progression.*
 * **Conservationist:**
     * Village favor can now be gained without prestige. *This perk was pretty useless at extremely late game. It now gives further incentive to pick this profession early.*
     * New prestige effect: 50% faster trash build-up. *Not great, but the best I could come up with.*

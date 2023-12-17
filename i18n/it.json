@@ -274,7 +274,7 @@
   "gmcm.forge_socket_position.title": "Forge Socket Position",
   "gmcm.forge_socket_position.desc": "Determines the relative position where forge sockets should be drawn, if enabled.",
   "gmcm.socket_position.standard": "Standard",
-  "gmcm.socket_position.aboveseparator": "Above Separator",
+  "gmcm.socket_position.above_separator": "Above Separator",
   "gmcm.weapon_tooltip_style.title": "Weapon Tooltip Style",
   "gmcm.weapon_tooltip_style.desc": "Whether to display weapon stats as their absolute values or as relative to other weapons of the same type.",
   "gmcm.tooltip_style.vanilla": "Vanilla",
