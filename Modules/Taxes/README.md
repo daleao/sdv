@@ -10,7 +10,7 @@ This mod implements a "simple" (*citation needed*) taxation system to the game, 
 
 ### Income Tax
 
-The Ferngill Revenue Service (FRS) will calculate your due federal obligations based on your Shipping Bin income. This adds a new gameplay element and a reason to prefer doing business locally, and also affords the player a choice to become a tax evader.
+The Ferngill Revenue Service (FRS) will calculate your due federal obligations **based on Shipping Bin income only**. Right away this adds a reason to prefer selling your goods locally, instead of dumping everything into the Shipping Bin. This also forces the player to engage with the town and the villagers more frequently. The choice is yours between practicality and optimality.
 
 By default, the FRS defines 7 tax brackets for the individual taxpayer, modeled after the United States Of America, with 37% as the highest bracket for income tax. But these brackets and their respective thresholds are all configurable.
 

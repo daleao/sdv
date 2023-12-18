@@ -2,7 +2,13 @@
 
 ## 4.2.1
 
+### Changed
+
 * Updated Chinese translations by [Jumping-notes](https://github.com/Jumping-notes).
+
+### Fixed
+
+* Fixed GMCM issue in handheld systems removing all spaces from Dynamic List options.
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 

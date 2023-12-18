@@ -36,17 +36,17 @@ The modular nature of this mod allows users to cherry-pick features to their lik
 
 The available modules are listed below. **Please read this page carefuly in its entirety.** Modules can be toggled on or off **in the title screen** via GMCM. Each module is itself highly configurable, and will be added to the GMCM menu if enabled. Some modules require specific enabling/disabling instructions you should pay attention to. These requirements will be mentioned below.
 
-- **[PRFS](Modules/Professions#margo--professions-prfs)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics for very-late game save files and Limit Breaks for Combat professions.
+- **[PRFS](Modules/Professions#margo--professions-prfs)** is the original module, formely known as Walk Of Life. It overhauls all the game's professions with the goal of supporting more diverse and interesting playstyles. It also introduces optional Prestige mechanics with level 20 progression for very-late game save files and Limit Breaks for Combat professions.
 
 - **[CMBT](Modules/Combat#margo--combat-cmbt)** ﻿is a huge overhaul of nearly all aspects of combat; from rebalanced stats, melee and ranged weapons, rings and enchantments, to entirely new mechanics like status effects, weapon combos, a new weapon type, Gemstone Music Theory, and much more. **This module adds new items via Json Assets, and thus may cause Json Shuffle on existing saves.** 
 
 - **[PNDS](Modules/Ponds#margo--ponds-pnds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich metallic nuclei...
 
-- **[TXS](Modules/Taxes#margo--taxes-txs)** is a complement to the new Conservationist profession. It introduces a realistic taxation system as an added challenge and end-game gold sink. Because surely a nation at war would be capitalizing on that juicy farm income.
+- **[TXS](Modules/Taxes#margo--taxes-txs)** is a complement to the new Conservationist profession. It introduces a realistic taxation system, including the ability to deduct business expenses and even evade taxes. Adds some extra challenge, an end-game gold sink, and immersiveness. Because surely a nation **at war** would capitalize on a millionaire farmer.
 
 - **[TOLS](Modules/Tools#margo--tools-tols)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
 
-- **[TWX](Modules/Tweex#margo--tweex-twx)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module.
+- **[TWX](Modules/Tweex#margo--tweex-twx)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module. *Feel free to suggest new tweaks for this module.*
 
 Please note that only the Professions and Tweex modules are enabled by default.
 

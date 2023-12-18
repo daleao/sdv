@@ -2,6 +2,11 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.2.1 Highlights
+
+* Fixed a GMCM issue in handheld systems.
+* Updated translations. Minor typo fixes.
+
 ## Minor Release 4.2.x Highlights
 
 * Added new config presets which can be found in the "optionals" folder.
