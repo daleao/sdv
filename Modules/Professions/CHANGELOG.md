@@ -1,10 +1,20 @@
 ﻿# PRFS Changelog
 
+## 4.2.2
+
+### Changed
+
+* Buffed the Prestiged Trapper perk.
+    * Before: Adds `FishingLevel / 60` chance to find Iridium-quality fish.
+    * Now: All qualities from regular Trapper are increased by 1 level; i.e. Iridium is now the highest with `FishingLevel / 30` chance, and Silver is the lowest.
+* Reworded Spelunker description.
+
 ## 4.2.1
 
 ### Changed
 
 * Arborist growth speed perk now applies only to Trees and Fruit Trees manually planted by the Arborist. This is a noticeable nerf, but it makes more sense and is more in line with how other professions work, like Agriculturist and Artisan.
+* Reworded Agriculturist description to clarify that the perk applies **on harvest**, and not a moment before that.
 
 ### Fixed
 

@@ -463,7 +463,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 <font size="2">
 
-- All trapped fish can have quality up to gold (*iridium, with prestige*).
+- All trapped fish can have quality up to gold. After prestige, can have quality up to iridium, with silver at the lowest.
 - Chance depends on fishing level (same formula as forage).
 - The crab pot recipe part of the perk is unchanged from vanilla.
 

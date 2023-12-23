@@ -11,6 +11,7 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Memory;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using Shared.Enums;
 using StardewValley.Locations;
 using StardewValley.Objects;
 
@@ -276,13 +277,17 @@ internal static class CrabPotExtensions
             return SObject.lowQuality;
         }
 
-        return owner.HasProfession(Profession.Trapper, true) && r.NextDouble() < owner.FishingLevel / 60d
-            ? SObject.bestQuality
-            : r.NextDouble() < owner.FishingLevel / 30d
-                ? SObject.highQuality
-                : r.NextDouble() < owner.FishingLevel / 15d
-                    ? SObject.medQuality
-                    : SObject.lowQuality;
+        var quality = r.NextDouble() < owner.FishingLevel / 30d
+            ? ObjectQuality.Gold
+            : r.NextDouble() < owner.FishingLevel / 15d
+                ? ObjectQuality.Silver
+                : ObjectQuality.Regular;
+        if (owner.HasProfession(Profession.Trapper, true))
+        {
+            quality = quality.Increment();
+        }
+
+        return (int)quality;
     }
 
     /// <summary>Gets initial stack for the chosen <paramref name="trap"/> fish.</summary>
