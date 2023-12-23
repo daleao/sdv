@@ -242,7 +242,7 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b> - Trees grow faster if planted by hand. All trees have a chance to drop hardwood.
+<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b> - Trees grow faster when planted by hand. All trees have a chance to drop hardwood.
 </summary>
 
 <ul>
