@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -26,21 +27,21 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     {
         try
         {
-            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Capped)
+            if (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Capped)
             {
                 __result = false;
                 return false; // don't run original logic
             }
 
-            var p = ProfessionsModule.Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
-                or ProfessionConfig.PrestigeMode.Challenge
+            var p = ProfessionsModule.Config.Prestige.Mode is PrestigeConfig.PrestigeMode.Standard
+                or PrestigeConfig.PrestigeMode.Challenge
                 ? 10
                 : 0;
 
             __result = Game1.player.GetUnmodifiedSkillLevel(skill_index) >= 5 + p &&
                        !Game1.player.newLevels.Contains(new Point(skill_index, 5 + p)) &&
                        !Game1.player.newLevels.Contains(new Point(skill_index, 10 + p));
-            if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+            if (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Streamlined)
             {
                 __result = __result &&
                            !Game1.player.newLevels.Contains(new Point(skill_index, 5)) &&

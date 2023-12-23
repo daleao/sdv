@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -25,8 +26,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance)
     {
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out _) &&
-            __instance.daysUntilMature.Value % 4 == 0)
+        if (__instance.Read<bool>(DataKeys.PlantedByArborist) && __instance.daysUntilMature.Value % 4 == 0)
         {
             __instance.daysUntilMature.Value--;
         }

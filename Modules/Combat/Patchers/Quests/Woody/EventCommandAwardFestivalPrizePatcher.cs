@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -54,7 +55,10 @@ internal sealed class EventCommandAwardFestivalPrizePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.WoodyReplacesRusty))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.Quests))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(QuestsConfig).RequirePropertyGetter(nameof(QuestsConfig.WoodyReplacesRusty))),
                         new CodeInstruction(OpCodes.Brfalse_S, rusty),
                         new CodeInstruction(OpCodes.Ldc_I4_S, WeaponIds.WoodenBlade),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

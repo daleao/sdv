@@ -2,8 +2,13 @@
 
 ## 4.2.1
 
+### Changed
+
+* Arborist growth speed perk now applies only to Trees and Fruit Trees manually planted by the Arborist. This is a noticeable nerf, but it makes more sense and is more in line with how other professions work, like Agriculturist and Artisan.
+
 ### Fixed
 
+* Fixed double level-up bug.
 * Updated the localizations for prestiged Conservationist.
 
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>

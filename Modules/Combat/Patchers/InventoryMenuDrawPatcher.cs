@@ -95,7 +95,7 @@ internal sealed class InventoryMenuDrawPatcher : HarmonyPatcher
         if (instance.actualInventory[k] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool ||
                                                          CombatModule.State.AutoSelectableRanged == tool))
         {
-            instance.inventory[k].bounds.DrawBorder(CombatModule.Config.SelectionBorderColor, b);
+            instance.inventory[k].bounds.DrawBorder(CombatModule.Config.ControlsUi.SelectionBorderColor, b);
         }
     }
 

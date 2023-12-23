@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -48,7 +49,10 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableHeroQuest))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.Quests))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(QuestsConfig).RequirePropertyGetter(nameof(QuestsConfig.EnableHeroQuest))),
                         new CodeInstruction(OpCodes.Brfalse_S, checkForGalaxy),
                         new CodeInstruction(OpCodes.Isinst, typeof(InfinityEnchantment)),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

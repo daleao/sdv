@@ -97,13 +97,13 @@ internal sealed class CombatSaveLoadedEvent : SaveLoadedEvent
         // block bullseye cursor
         if (Game1.options.useLegacySlingshotFiring)
         {
-            CombatModule.Config.BullseyeReplacesCursor = false;
+            CombatModule.Config.ControlsUi.BullseyeReplacesCursor = false;
             ModHelper.WriteConfig(Config);
             Log.W(
                 "[CMBT]: Bullseye cursor settings is not compatible with pull-back firing mode. Switch to hold-and-release to use this option.");
         }
 
-        if (!CombatModule.Config.EnableAutoSelection)
+        if (!CombatModule.Config.ControlsUi.EnableAutoSelection)
         {
             return;
         }

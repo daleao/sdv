@@ -25,7 +25,7 @@ internal sealed class UltimateWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (!ProfessionsModule.Config.EnableLimitBreaks)
+        if (!ProfessionsModule.Config.Limit.EnableLimitBreaks)
         {
             this.Disable();
             return;

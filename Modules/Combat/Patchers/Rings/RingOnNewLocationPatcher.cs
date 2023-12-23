@@ -26,7 +26,7 @@ internal sealed class RingOnNewLocationPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnNewLocationPrefix(Ring __instance)
     {
-        return !CombatModule.Config.EnableInfinityBand ||
+        return !CombatModule.Config.RingsEnchantments.EnableInfinityBand ||
                __instance.indexInTileSheet.Value != ObjectIds.IridiumBand;
     }
 

@@ -26,9 +26,9 @@ internal static class ItemExtensions
             case ObjectIds.Wood:
                 return 2;
             case ObjectIds.Coal:
-                return CombatModule.Config.EnableWeaponOverhaul ? 2 : 15;
+                return CombatModule.Config.WeaponsSlingshots.EnableOverhaul ? 2 : 15;
             case ObjectIds.ExplosiveAmmo:
-                return CombatModule.Config.EnableWeaponOverhaul ? 1 : 20;
+                return CombatModule.Config.WeaponsSlingshots.EnableOverhaul ? 1 : 20;
             case ObjectIds.Stone:
                 return 5;
             case ObjectIds.CopperOre:
@@ -66,7 +66,7 @@ internal static class ItemExtensions
             return Game1.textColor;
         }
 
-        if (CombatModule.Config.EnableWeaponOverhaul && CombatModule.Config.ColorCodedForYourConvenience)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul && CombatModule.Config.ControlsUi.ColorCodedForYourConvenience)
         {
             switch (tool)
             {
@@ -80,16 +80,16 @@ internal static class ItemExtensions
                     {
                         case WeaponIds.GalaxySlingshot:
                         case WeaponIds.InfinitySlingshot:
-                            return CombatModule.Config.ColorByTier[WeaponTier.Legendary];
+                            return CombatModule.Config.ControlsUi.ColorByTier[WeaponTier.Legendary];
                         default:
                             if (slingshot.Name.Contains("Yoba"))
                             {
-                                return CombatModule.Config.ColorByTier[WeaponTier.Legendary];
+                                return CombatModule.Config.ControlsUi.ColorByTier[WeaponTier.Legendary];
                             }
 
                             if (slingshot.Name.Contains("Dwarven"))
                             {
-                                return CombatModule.Config.ColorByTier[WeaponTier.Masterwork];
+                                return CombatModule.Config.ControlsUi.ColorByTier[WeaponTier.Masterwork];
                             }
 
                             break;

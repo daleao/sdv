@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Combat;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -58,7 +59,10 @@ internal sealed class MineShaftMonsterDropPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableWeaponOverhaul))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.WeaponsSlingshots))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponsSlingshotsConfig).RequirePropertyGetter(nameof(WeaponsSlingshotsConfig.EnableOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
                         new CodeInstruction(OpCodes.Dup),
                         new CodeInstruction(OpCodes.Isinst, typeof(MeleeWeapon)),

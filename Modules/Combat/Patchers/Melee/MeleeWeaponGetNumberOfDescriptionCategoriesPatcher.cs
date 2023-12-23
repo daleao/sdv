@@ -27,7 +27,7 @@ internal sealed class MeleeWeaponGetNumberOfDescriptionCategoriesPatcher : Harmo
     [HarmonyPrefix]
     private static bool MeleeWeaponGetNumberOfDescriptionCategoriesPrefix(MeleeWeapon __instance, ref int __result)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

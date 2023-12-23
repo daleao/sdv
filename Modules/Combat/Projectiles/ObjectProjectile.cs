@@ -89,7 +89,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         this.Knockback = source.Get_EffectiveKnockback() * (1f + firer.knockbackModifier) * overcharge;
         this.CritChance = 0f;
         this.CritPower = 0f;
-        if (CombatModule.Config.EnableRangedCriticalHits)
+        if (CombatModule.Config.WeaponsSlingshots.EnableRangedCriticalHits)
         {
             this.CritChance += source.Get_EffectiveCritChance();
             this.CritChance *= 1f + firer.critChanceModifier;
@@ -117,7 +117,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                 .Invoke(this).Value = "slimedead";
         }
 
-        this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
+        this.ignoreTravelGracePeriod.Value = CombatModule.Config.WeaponsSlingshots.RemoveSlingshotGracePeriod;
 
         if (source.attachments.Length < 2 || source.attachments[1] is not
                 { ParentSheetIndex: ObjectIds.MonsterMusk } musk)
@@ -233,7 +233,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         if (ProfessionsModule.ShouldEnable)
         {
             // check ultimate
-            if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks)
+            if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.Limit.EnableLimitBreaks)
             {
                 ultimate = this.Firer.Get_Ultimate();
             }

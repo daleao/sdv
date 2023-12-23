@@ -17,6 +17,6 @@ public static class WeaponTypeExtensions
     {
         return type == WeaponType.Dagger
             ? ComboHitStep.FirstHit
-            : (ComboHitStep)CombatModule.Config.ComboHitsPerWeaponType[type.ToStringFast()];
+            : (ComboHitStep)CombatModule.Config.WeaponsSlingshots.ComboHitsPerWeaponType[type.ToStringFast()];
     }
 }

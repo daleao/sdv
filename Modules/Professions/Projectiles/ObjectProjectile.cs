@@ -96,7 +96,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                 .Invoke(this).Value = "slimedead";
         }
 
-        this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
+        this.ignoreTravelGracePeriod.Value = CombatModule.Config.WeaponsSlingshots.RemoveSlingshotGracePeriod;
 
         if (source.attachments.Length < 2 || source.attachments[1] is not
                 { ParentSheetIndex: ObjectIds.MonsterMusk } musk)
@@ -200,7 +200,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         var ogDamage = this.Damage;
         var monsterResistanceModifier = 1f + (monster.resilience.Value / 10f);
         var inverseResistanceModifer = 1f / monsterResistanceModifier;
-        IUltimate? ultimate = this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks
+        IUltimate? ultimate = this.Firer.IsLocalPlayer && ProfessionsModule.Config.Limit.EnableLimitBreaks
             ? this.Firer.Get_Ultimate()
             : null;
 

@@ -26,7 +26,7 @@ internal sealed class UtilityPercentGameCompleteInnerPatcher : HarmonyPatcher
     // ReSharper disable once UnusedParameter.Local
     private static bool UtilityPercentGameCompletePrefix(ref float __result)
     {
-        if (!ProfessionsModule.EnablePrestige || !ProfessionsModule.Config.ExtendedPerfectionRequirement)
+        if (!ProfessionsModule.EnablePrestige || !ProfessionsModule.Config.Prestige.IsPerfectionRequirement)
         {
             return true; // run original logic
         }

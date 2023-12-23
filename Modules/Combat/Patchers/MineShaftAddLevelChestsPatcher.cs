@@ -32,7 +32,7 @@ internal sealed class MineShaftAddLevelChestsPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MineShaftAddLevelChestsPrefix(MineShaft __instance)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

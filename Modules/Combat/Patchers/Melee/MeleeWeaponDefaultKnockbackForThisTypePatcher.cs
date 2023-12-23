@@ -23,7 +23,7 @@ internal sealed class MeleeWeaponDefaultKnockbackForThisTypePatcher : HarmonyPat
     [HarmonyPrefix]
     private static bool MeleeWeaponDefaultKnockbackForThisTypePrefix(MeleeWeapon __instance, ref float __result, int type)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

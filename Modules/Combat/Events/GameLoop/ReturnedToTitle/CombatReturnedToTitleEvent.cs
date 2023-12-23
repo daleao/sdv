@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Core.StatusEffects;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Overhaul.Modules.Core.StatusEffects;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 

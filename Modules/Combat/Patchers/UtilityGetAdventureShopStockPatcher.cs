@@ -29,7 +29,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool UtilityGetAdventureShopStockPrefix(ref Dictionary<ISalable, int[]> __result)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }
@@ -102,7 +102,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
                 stock.Add(new Boots(BootsIds.SpaceBoots), new[] { 20000, int.MaxValue });
             }
 
-            if (!CombatModule.Config.CraftableGemstoneRings)
+            if (!CombatModule.Config.RingsEnchantments.CraftableGemstoneRings)
             {
                 stock.Add(new Ring(ObjectIds.AmethystRing), new[] { 1000, int.MaxValue });
                 stock.Add(new Ring(ObjectIds.TopazRing), new[] { 1000, int.MaxValue });
@@ -206,7 +206,7 @@ internal sealed class UtilityGetAdventureShopStockPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void UtilityGetAdventureShopStockPostfix(Dictionary<ISalable, int[]> __result)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul || !CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul || !CombatModule.Config.Quests.EnableHeroQuest)
         {
             return;
         }

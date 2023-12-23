@@ -110,7 +110,7 @@ internal sealed class GameLocationBlacksmithPatcher : HarmonyPatcher
                 Game1.content.LoadString("Strings\\Locations:Blacksmith_Clint_Geodes")));
         }
 
-        if (CombatModule.Config.DwarvenLegacy && Game1.player.mailReceived.Contains("clintForge"))
+        if (CombatModule.Config.Quests.DwarvenLegacy && Game1.player.mailReceived.Contains("clintForge"))
         {
             responses.Add(new Response("Forge", I18n.Blacksmith_Forge_Option()));
         }

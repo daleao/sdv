@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -110,7 +111,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     public virtual int MaxLevel => this.CanGainPrestigeLevels() ? 20 : 10;
 
     /// <inheritdoc />
-    public float BaseExperienceMultiplier => ProfessionsModule.Config.SkillExpMultipliers[this.Name];
+    public float BaseExperienceMultiplier => ProfessionsModule.Config.Experience.Multipliers[this.Name];
 
     /// <inheritdoc />
     public IEnumerable<int> NewLevels =>
@@ -151,7 +152,11 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         var farmer = Game1.player;
         for (var l = this.CurrentLevel + 1; l <= level; l++)
         {
-            farmer.newLevels.Add(new Point(this.Value, l));
+            var point = new Point(this.Value, level);
+            if (!farmer.newLevels.Contains(point))
+            {
+                farmer.newLevels.Add(point);
+            }
         }
 
         this
@@ -192,7 +197,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         farmer.experiencePoints[this] = 0;
 
         // forget recipes
-        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset && this < Luck)
+        if (ProfessionsModule.Config.Prestige.ForgetRecipesOnSkillReset && this < Luck)
         {
             this.ForgetRecipes();
         }
@@ -273,10 +278,10 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     /// <inheritdoc />
     public bool CanGainPrestigeLevels()
     {
-        return ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+        return ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Streamlined ||
+               (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Standard &&
                 ((ISkill)this).AcquiredProfessions.Length >= 4) ||
-               (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+               (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Challenge &&
                 Game1.player.HasAllProfessions());
     }
 

@@ -62,7 +62,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> if DwarvenLegacy option is enabled and the weapon is a Dwarven, Dragontooth or Elven weapon, otherwise <see langword="false"/>.</returns>
     internal static bool IsLegacyWeapon(this MeleeWeapon weapon)
     {
-        if (!CombatModule.Config.DwarvenLegacy)
+        if (!CombatModule.Config.Quests.DwarvenLegacy)
         {
             return false;
         }
@@ -83,9 +83,9 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> is StabbySwords option is enabled and the weapon should be a stabbing sword, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldBeStabbySword(this MeleeWeapon weapon)
     {
-        return CombatModule.Config.EnableWeaponOverhaul &&
-               CombatModule.Config.EnableStabbingSwords &&
-               (CombatModule.Config.StabbingSwords.Contains(weapon.Name) ||
+        return CombatModule.Config.WeaponsSlingshots.EnableOverhaul &&
+               CombatModule.Config.WeaponsSlingshots.EnableStabbingSwords &&
+               (CombatModule.Config.WeaponsSlingshots.StabbingSwords.Contains(weapon.Name) ||
                 (weapon.InitialParentTileIndex is WeaponIds.GalaxySword or WeaponIds.InfinityBlade &&
                  weapon.Read(DataKeys.SwordType, 3) == 0));
     }
@@ -245,7 +245,7 @@ internal static class MeleeWeaponExtensions
     /// <returns><see langword="true"/> if the <paramref name="weapon"/> is a Galaxy, Infinity or other unique weapon, otherwise <see langword="false"/>.</returns>
     internal static bool ShouldRandomizeDamage(this MeleeWeapon weapon)
     {
-        return CombatModule.Config.EnableWeaponOverhaul && WeaponTier.GetFor(weapon) is var tier &&
+        return CombatModule.Config.WeaponsSlingshots.EnableOverhaul && WeaponTier.GetFor(weapon) is var tier &&
                tier > WeaponTier.Untiered && tier <= WeaponTier.Mythic && !weapon.specialItem;
     }
 
@@ -253,7 +253,7 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void AddIntrinsicEnchantments(this MeleeWeapon weapon)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             if (ModHelper.ModRegistry.IsLoaded("JA.FishHatchering") && weapon.Name == "Sword Fish" &&
                 !weapon.hasEnchantmentOfType<SwordFishEnchantment>())
@@ -303,7 +303,7 @@ internal static class MeleeWeaponExtensions
             }
         }
 
-        if (CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.Quests.EnableHeroQuest)
         {
             switch (weapon.InitialParentTileIndex)
             {
@@ -425,7 +425,7 @@ internal static class MeleeWeaponExtensions
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal static void MakeSpecialIfNecessary(this MeleeWeapon weapon)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             switch (weapon.InitialParentTileIndex)
             {
@@ -450,7 +450,7 @@ internal static class MeleeWeaponExtensions
             }
         }
 
-        if (!CombatModule.Config.EnableWeaponOverhaul && !CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul && !CombatModule.Config.Quests.EnableHeroQuest)
         {
             return;
         }

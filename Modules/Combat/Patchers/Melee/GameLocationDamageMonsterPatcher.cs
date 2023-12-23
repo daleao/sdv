@@ -190,7 +190,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static bool IsClubSmashHittingDuggy(MeleeWeapon weapon, Monster monster)
     {
-        return CombatModule.Config.GroundedClubSmash && weapon.IsClub() &&
+        return CombatModule.Config.WeaponsSlingshots.GroundedClubSmash && weapon.IsClub() &&
                weapon.isOnSpecial && monster is Duggy;
     }
 

@@ -10,7 +10,7 @@ using DaLion.Overhaul.Modules.Combat.Enums;
 using DaLion.Overhaul.Modules.Combat.Extensions;
 using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Overhaul.Modules.Core.Debug;
-using DaLion.Overhaul.Modules.Professions;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Collections;
@@ -260,17 +260,17 @@ public abstract class OverhaulModule
         internal static Professions.ProfessionState State => ModEntry.State.Professions;
 
         /// <summary>Gets a value indicating whether any form of Prestige is enabled.</summary>
-        internal static bool EnablePrestige => Config.PrestigeProgressionMode != ProfessionConfig.PrestigeMode.None;
+        internal static bool EnablePrestige => Config.Prestige.Mode != PrestigeConfig.PrestigeMode.None;
 
         /// <summary>Gets a value indicating whether the current Prestige setting allows extended levels above 10.</summary>
         internal static bool EnablePrestigeLevels =>
-            Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
-                or ProfessionConfig.PrestigeMode.Streamlined or ProfessionConfig.PrestigeMode.Challenge;
+            Config.Prestige.Mode is PrestigeConfig.PrestigeMode.Standard
+                or PrestigeConfig.PrestigeMode.Streamlined or PrestigeConfig.PrestigeMode.Challenge;
 
         /// <summary>Gets a value indicating whether the current Prestige setting allows resetting the skill to aggregate multiple professions.</summary>
         internal static bool EnableSkillReset =>
-            Config.PrestigeProgressionMode is ProfessionConfig.PrestigeMode.Standard
-                or ProfessionConfig.PrestigeMode.Challenge or ProfessionConfig.PrestigeMode.Capped;
+            Config.Prestige.Mode is PrestigeConfig.PrestigeMode.Standard
+                or PrestigeConfig.PrestigeMode.Challenge or PrestigeConfig.PrestigeMode.Capped;
 
         /// <inheritdoc />
         internal override bool _ShouldEnable
@@ -542,7 +542,7 @@ public abstract class OverhaulModule
 
         internal static void PerformDarkSwordValidations()
         {
-            if (!ShouldEnable || !Config.EnableHeroQuest)
+            if (!ShouldEnable || !Config.Quests.EnableHeroQuest)
             {
                 return;
             }
@@ -551,7 +551,7 @@ public abstract class OverhaulModule
             var darkSword = player.Items.FirstOrDefault(item => item is MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword });
             if (darkSword is null && player.IsCursed())
             {
-                if (Config.CanStoreRuinBlade)
+                if (Config.Quests.CanStoreRuinBlade)
                 {
                     foreach (var chest in Game1.game1.IterateAll<Chest>())
                     {

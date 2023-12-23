@@ -26,7 +26,7 @@ internal sealed class ChestAddItemPatcher : HarmonyPatcher
     private static bool ChestAddItemPrefix(ref Item __result, Item item)
     {
         if (item is not MeleeWeapon { InitialParentTileIndex: WeaponIds.DarkSword } ||
-            CombatModule.Config.CanStoreRuinBlade)
+            CombatModule.Config.Quests.CanStoreRuinBlade)
         {
             return true; // run original logic
         }

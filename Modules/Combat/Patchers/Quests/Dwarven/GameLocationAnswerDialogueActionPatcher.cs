@@ -31,7 +31,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(ref bool __result, string? questionAndAnswer)
     {
-        if (!CombatModule.Config.DwarvenLegacy || questionAndAnswer != "Blacksmith_Forge")
+        if (!CombatModule.Config.Quests.DwarvenLegacy || questionAndAnswer != "Blacksmith_Forge")
         {
             return true; // run original logic
         }

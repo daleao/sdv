@@ -24,7 +24,7 @@ internal sealed class UtilityGetUncommonItemForThisMineLevelPatcher : HarmonyPat
     [HarmonyPostfix]
     private static void UtilityGetUncommonItemForThisMineLevelPostfix(Item __result)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul && __result is MeleeWeapon weapon)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul && __result is MeleeWeapon weapon)
         {
             weapon.RandomizeDamage();
         }

@@ -19,7 +19,7 @@ internal static class Tool_ResonatingChords
     internal static Chord? Get_ResonatingChord<TEnchantment>(this Tool tool)
         where TEnchantment : BaseWeaponEnchantment
     {
-        return CombatModule.Config.EnableGemstoneResonance && Values.TryGetValue(tool, out var dict) &&
+        return CombatModule.Config.RingsEnchantments.EnableGemstoneResonance && Values.TryGetValue(tool, out var dict) &&
                dict.TryGetValue(typeof(TEnchantment), out var chord)
             ? chord
             : null;
@@ -32,7 +32,7 @@ internal static class Tool_ResonatingChords
             ThrowHelper.ThrowInvalidOperationException($"Tried to get the resonating chord for non-enchantment type {type}");
         }
 
-        return CombatModule.Config.EnableGemstoneResonance && Values.TryGetValue(tool, out var dict) &&
+        return CombatModule.Config.RingsEnchantments.EnableGemstoneResonance && Values.TryGetValue(tool, out var dict) &&
                dict.TryGetValue(type, out var chord)
             ? chord
             : null;

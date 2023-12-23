@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Attributes;
@@ -39,14 +40,14 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
             return;
         }
 
-        var bounds = ProfessionsModule.Config.PrestigeRibbonStyle switch
+        var bounds = ProfessionsModule.Config.Prestige.Ribbon switch
         {
-            ProfessionConfig.RibbonStyle.StackedStars => new Rectangle(
+            PrestigeConfig.RibbonStyle.StackedStars => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset - 22,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset + 8,
                 0,
                 (int)(Textures.SingleStarWidth * Textures.StarsScale)),
-            ProfessionConfig.RibbonStyle.Gen3Ribbons or ProfessionConfig.RibbonStyle.Gen4Ribbons => new Rectangle(
+            PrestigeConfig.RibbonStyle.Gen3Ribbons or PrestigeConfig.RibbonStyle.Gen4Ribbons => new Rectangle(
                 __instance.xPositionOnScreen + __instance.width + Textures.ProgressionHorizontalOffset,
                 __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.ProgressionVerticalOffset,
                 (int)(Textures.RibbonWidth * Textures.RibbonScale),
@@ -81,8 +82,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeRibbonStyle is ProfessionConfig.RibbonStyle.Gen3Ribbons
-                or ProfessionConfig.RibbonStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.Prestige.Ribbon is PrestigeConfig.RibbonStyle.Gen3Ribbons
+                or PrestigeConfig.RibbonStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))
@@ -133,8 +134,8 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
                 continue;
             }
 
-            bounds.Width = ProfessionsModule.Config.PrestigeRibbonStyle is ProfessionConfig.RibbonStyle.Gen3Ribbons
-                or ProfessionConfig.RibbonStyle.Gen4Ribbons
+            bounds.Width = ProfessionsModule.Config.Prestige.Ribbon is PrestigeConfig.RibbonStyle.Gen3Ribbons
+                or PrestigeConfig.RibbonStyle.Gen4Ribbons
                 ? (int)(Textures.RibbonWidth * Textures.RibbonScale)
                 : (int)(((Textures.SingleStarWidth / 2 * count) + 4) * Textures.StarsScale);
             if (!bounds.Contains(x, y))

@@ -291,7 +291,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void HandleBrute(Monster monster, Farmer who, Ultimate? ultimate)
     {
-        if (!ProfessionsModule.Config.EnableLimitBreaks || who.CurrentTool is not MeleeWeapon weapon ||
+        if (!ProfessionsModule.Config.Limit.EnableLimitBreaks || who.CurrentTool is not MeleeWeapon weapon ||
             ultimate is not Frenzy frenzy || monster.Health > 0)
         {
             return;
@@ -315,7 +315,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         var poached = TryPoach(monster, who, r);
 
         // increment Poacher ultimate meter
-        if (!ProfessionsModule.Config.EnableLimitBreaks || ultimate is not Ambush { IsActive: false } ambush)
+        if (!ProfessionsModule.Config.Limit.EnableLimitBreaks || ultimate is not Ambush { IsActive: false } ambush)
         {
             return;
         }
@@ -409,7 +409,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
 
         // increment Piper ultimate meter
-        if (ProfessionsModule.Config.EnableLimitBreaks &&
+        if (ProfessionsModule.Config.Limit.EnableLimitBreaks &&
             ultimate is Concerto { IsActive: false } concerto)
         {
             var increment = monster switch
@@ -447,8 +447,8 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             effectiveCritChance *= 1f + who.critChanceModifier;
         }
 
-        var actualResistance = (monster.resilience.Value - CombatModule.Config.MonsterDefenseSummand) /
-                               CombatModule.Config.MonsterDefenseMultiplier;
+        var actualResistance = (monster.resilience.Value - CombatModule.Config.Enemies.MonsterDefenseSummand) /
+                               CombatModule.Config.Enemies.MonsterDefenseMultiplier;
         var poachChance = effectiveCritChance - ((actualResistance - who.LuckLevel) * monster.jitteriness.Value);
         if (r.NextDouble() > poachChance)
         {

@@ -26,7 +26,7 @@ internal sealed class BaseEnchantmentOnCalculateDamagePatcher : HarmonyPatcher
     private static bool BaseEnchantmentOnCalculateDamagePrefix(
         BaseEnchantment __instance, Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (!CombatModule.Config.NewPrismaticEnchantments)
+        if (!CombatModule.Config.RingsEnchantments.NewPrismaticEnchantments)
         {
             return true; // run original logic
         }

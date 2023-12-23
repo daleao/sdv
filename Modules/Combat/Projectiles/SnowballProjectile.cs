@@ -53,7 +53,7 @@ internal sealed class SnowballProjectile : BasicProjectile
     {
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge;
-        if (CombatModule.Config.RemoveSlingshotGracePeriod)
+        if (CombatModule.Config.WeaponsSlingshots.RemoveSlingshotGracePeriod)
         {
             this.ignoreTravelGracePeriod.Value = true;
         }

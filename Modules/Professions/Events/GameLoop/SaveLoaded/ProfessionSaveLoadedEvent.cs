@@ -36,7 +36,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         player.professions.OnElementChanged += this.OnElementChanged;
 
         Skill.List.ForEach(s => s.Revalidate());
-        if (ProfessionsModule.Config.EnableLimitBreaks)
+        if (ProfessionsModule.Config.Limit.EnableLimitBreaks)
         {
             player.RevalidateUltimate();
         }
@@ -45,7 +45,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
 
         if (Context.IsMainPlayer)
         {
-            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _))
+            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
             {
                 this.Manager.Enable<LuremasterTimeChangedEvent>();
             }

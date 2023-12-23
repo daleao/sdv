@@ -24,7 +24,7 @@ internal sealed class FarmerShiftToolbarPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerShiftToolbarPostfix(Farmer __instance)
     {
-        if (!CombatModule.Config.AudibleGemstones)
+        if (!CombatModule.Config.RingsEnchantments.AudibleGemstones)
         {
             return;
         }

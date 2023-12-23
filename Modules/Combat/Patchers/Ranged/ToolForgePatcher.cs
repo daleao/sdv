@@ -28,7 +28,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
     private static bool ToolForgePrefix(Tool __instance, ref bool __result, Item item, bool count_towards_stats)
     {
         if (__instance is not Slingshot { InitialParentTileIndex: WeaponIds.GalaxySlingshot } slingshot ||
-            !CombatModule.Config.EnableInfinitySlingshot)
+            !CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot)
         {
             return true; // run original logic
         }
@@ -36,7 +36,7 @@ internal sealed class ToolForgePatcher : HarmonyPatcher
         try
         {
             var enchantment = BaseEnchantment.GetEnchantmentFromItem(__instance, item);
-            if (CombatModule.Config.EnableHeroQuest)
+            if (CombatModule.Config.Quests.EnableHeroQuest)
             {
                 if (enchantment is not InfinityEnchantment)
                 {

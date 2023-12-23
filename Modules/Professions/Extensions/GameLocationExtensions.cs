@@ -25,12 +25,9 @@ internal static class GameLocationExtensions
     /// <returns><see langword="true"/> if the <paramref name="location"/> has at least one <see cref="Farmer"/> with the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool DoesAnyPlayerHereHaveProfession(this GameLocation location, IProfession profession, bool prestiged = false)
     {
-        if (!Context.IsMultiplayer && location.Equals(Game1.currentLocation))
-        {
-            return Game1.player.HasProfession(profession, prestiged);
-        }
-
-        return location.farmers.Any(farmer => farmer.HasProfession(profession, prestiged));
+        return !Context.IsMultiplayer && location.Equals(Game1.currentLocation)
+            ? Game1.player.HasProfession(profession, prestiged)
+            : location.farmers.Any(farmer => farmer.HasProfession(profession, prestiged));
     }
 
     /// <summary>
@@ -39,30 +36,26 @@ internal static class GameLocationExtensions
     /// </summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
-    /// <param name="farmers">All the farmer instances in the location with the given profession.</param>
+    /// <param name="who">All the farmer instances in the location with the given profession.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
     /// <returns><see langword="true"/> if the <paramref name="location"/> has at least one <see cref="Farmer"/> with the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool DoesAnyPlayerHereHaveProfession(
-        this GameLocation location, IProfession profession, out List<Farmer> farmers, bool prestiged = false)
+        this GameLocation location, IProfession profession, out IEnumerable<Farmer> who, bool prestiged = false)
     {
-        farmers = new List<Farmer>();
-        if (!Context.IsMultiplayer && location.Equals(Game1.player.currentLocation) &&
-            Game1.player.HasProfession(profession, prestiged))
+        if (!Context.IsMultiplayer)
         {
-            farmers.Add(Game1.player);
-        }
-        else
-        {
-            foreach (var farmer in location.farmers)
+            if (location.Equals(Game1.player.currentLocation) && Game1.player.HasProfession(profession, prestiged))
             {
-                if (farmer.HasProfession(profession, prestiged))
-                {
-                    farmers.Add(farmer);
-                }
+                who = Game1.player.Collect();
+                return true;
             }
+
+            who = Enumerable.Empty<Farmer>();
+            return false;
         }
 
-        return farmers.Count > 0;
+        who = location.farmers.Where(f => f.HasProfession(profession, prestiged));
+        return who.Any();
     }
 
     /// <summary>Determines whether this <paramref name="location"/> is a dungeon.</summary>

@@ -31,7 +31,7 @@ internal sealed class UtilityGetShopStockPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void UtilityGetShopStockPostfix(object __instance, Dictionary<ISalable, int[]> __result)
     {
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.Quests.EnableHeroQuest)
         {
             return;
         }

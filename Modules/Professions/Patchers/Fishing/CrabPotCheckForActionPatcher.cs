@@ -57,7 +57,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                 case WeaponIds.BrokenTrident:
                     // caught a weapon
                     var weapon = new MeleeWeapon(__instance.heldObject.Value.ParentSheetIndex);
-                    if (CombatModule.ShouldEnable && CombatModule.Config.EnableWeaponOverhaul &&
+                    if (CombatModule.ShouldEnable && CombatModule.Config.WeaponsSlingshots.EnableOverhaul &&
                         weapon.InitialParentTileIndex == WeaponIds.NeptuneGlaive)
                     {
                         weapon.specialItem = true;

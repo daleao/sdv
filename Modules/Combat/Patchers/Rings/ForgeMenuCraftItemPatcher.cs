@@ -27,7 +27,7 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuCraftItemPrefix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
+        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
             left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
             right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
         {

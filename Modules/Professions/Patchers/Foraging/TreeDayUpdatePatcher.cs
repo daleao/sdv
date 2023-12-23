@@ -2,7 +2,10 @@
 
 #region using directives
 
+using System.Linq;
 using DaLion.Overhaul.Modules.Professions.Extensions;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -33,21 +36,21 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void TreeDayUpdatePostfix(Tree __instance, int __state)
     {
-        var anyPlayerIsArborist = Game1.game1.DoesAnyPlayerHaveProfession(Profession.Arborist, out var n);
-        if (__instance.growthStage.Value > __state || !anyPlayerIsArborist || !__instance.CanGrow())
+        if (__instance.growthStage.Value > __state || !__instance.Read<bool>(DataKeys.PlantedByArborist) ||
+            !__instance.CanGrow())
         {
             return;
         }
 
         if (__instance.treeType.Value == Tree.mahoganyTree)
         {
-            if (Game1.random.NextDouble() < 0.075 * n ||
-                (__instance.fertilized.Value && Game1.random.NextDouble() < 0.3 * n))
+            if (Game1.random.NextDouble() < 0.075 ||
+                (__instance.fertilized.Value && Game1.random.NextDouble() < 0.3))
             {
                 __instance.growthStage.Value++;
             }
         }
-        else if (Game1.random.NextDouble() < 0.1 * n)
+        else if (Game1.random.NextDouble() < 0.1)
         {
             __instance.growthStage.Value++;
         }

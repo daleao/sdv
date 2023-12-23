@@ -26,7 +26,7 @@ internal sealed class GameLocationShowQiCatInnerPatcher : HarmonyPatcher
     // ReSharper disable once UnusedParameter.Local
     private static bool GameLocationShowQiCatInnerPrefix(ref float __result)
     {
-        if (!ProfessionsModule.EnablePrestige || !ProfessionsModule.Config.ExtendedPerfectionRequirement)
+        if (!ProfessionsModule.EnablePrestige || !ProfessionsModule.Config.Prestige.IsPerfectionRequirement)
         {
             return true; // run original logic
         }

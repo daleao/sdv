@@ -2,8 +2,10 @@
 
 #region using directives
 
+using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Constants;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
@@ -15,24 +17,39 @@ internal static class Game1Extensions
     /// <summary>Determines whether any <see cref="Farmer"/> in the current game session has the specified <paramref name="profession"/>.</summary>
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
-    /// <param name="count">How many players have this profession.</param>
+    /// <param name="prestiged">Whether to check for the prestiged variant.</param>
+    /// <returns><see langword="true"/> is at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
+    internal static bool DoesAnyPlayerHaveProfession(this Game1 game1, IProfession profession, bool prestiged = false)
+    {
+        return !Context.IsMultiplayer
+            ? Game1.player.HasProfession(profession, prestiged)
+            : Game1.getOnlineFarmers().Any(f => f.HasProfession(profession, prestiged));
+    }
+
+    /// <summary>Determines whether any <see cref="Farmer"/> in the current game session has the specified <paramref name="profession"/>.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="profession">The <see cref="IProfession"/> to check.</param>
+    /// <param name="who">Which <see cref="Farmer"/>s have this profession.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
     /// <returns><see langword="true"/> is at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool DoesAnyPlayerHaveProfession(
-        this Game1 game1, IProfession profession, out int count, bool prestiged = false)
+        this Game1 game1, IProfession profession, out IEnumerable<Farmer> who, bool prestiged = false)
     {
         if (!Context.IsMultiplayer)
         {
             if (Game1.player.HasProfession(profession, prestiged))
             {
-                count = 1;
+                who = Game1.player.Collect();
                 return true;
             }
+
+            who = Enumerable.Empty<Farmer>();
+            return false;
         }
 
-        count = Game1.getOnlineFarmers()
-            .Count(f => f.HasProfession(profession, prestiged));
-        return count > 0;
+        who = Game1.getOnlineFarmers()
+            .Where(f => f.HasProfession(profession, prestiged));
+        return who.Any();
     }
 
     /// <summary>Checks for and corrects invalid <see cref="FishPond"/> populations in the game session.</summary>

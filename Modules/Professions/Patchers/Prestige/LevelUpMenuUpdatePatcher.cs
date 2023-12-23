@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -66,7 +67,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         }
 
         if (!__instance.isActive ||
-            ProfessionsModule.Config.PrestigeProgressionMode != ProfessionConfig.PrestigeMode.Streamlined ||
+            ProfessionsModule.Config.Prestige.Mode != PrestigeConfig.PrestigeMode.Streamlined ||
             ___currentLevel is not 15 or 20 || ___currentSkill == 5)
         {
             return true; // run original logic
@@ -642,7 +643,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static bool ShouldProposeChangeUltimate(int chosenProfession)
     {
-        return ProfessionsModule.Config.EnableLimitBreaks && ProfessionsModule.EnableSkillReset &&
+        return ProfessionsModule.Config.Limit.EnableLimitBreaks && ProfessionsModule.EnableSkillReset &&
                chosenProfession.IsIn(26..29) && Game1.player.Get_Ultimate() is not null &&
                Game1.player.Get_Ultimate()!.Value != chosenProfession;
     }
@@ -655,12 +656,12 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             return false;
         }
 
-        switch (ProfessionsModule.Config.PrestigeProgressionMode)
+        switch (ProfessionsModule.Config.Prestige.Mode)
         {
-            case ProfessionConfig.PrestigeMode.Streamlined:
+            case PrestigeConfig.PrestigeMode.Streamlined:
                 return true;
 
-            case ProfessionConfig.PrestigeMode.Standard:
+            case PrestigeConfig.PrestigeMode.Standard:
             {
                 var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(skill);
                 Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
@@ -669,7 +670,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                 return hasAllProfessions;
             }
 
-            case ProfessionConfig.PrestigeMode.Challenge:
+            case PrestigeConfig.PrestigeMode.Challenge:
             {
                 var hasAllProfessions = Game1.player.HasAllProfessions(true);
                 Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
@@ -711,12 +712,12 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateForUnlockingPrestigeLevels(int chosenProfession)
     {
-        switch (ProfessionsModule.Config.PrestigeProgressionMode)
+        switch (ProfessionsModule.Config.Prestige.Mode)
         {
-            case ProfessionConfig.PrestigeMode.Standard:
+            case PrestigeConfig.PrestigeMode.Standard:
                 Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Standard(Skill.FromValue(chosenProfession / 6).DisplayName));
                 break;
-            case ProfessionConfig.PrestigeMode.Challenge:
+            case PrestigeConfig.PrestigeMode.Challenge:
                 Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Challenge());
                 break;
         }

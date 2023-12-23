@@ -74,13 +74,13 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/><b>Agriculturist (Lv10)</b> - Crops grow 10% faster. Grow best-quality crops organically without fertilizer.
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/><b>Agriculturist (Lv10)</b> - Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.
 </summary>
 
 <ul>
 <font size="2">
 
-- Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete.
+- Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. The chance is equivalent to half of that with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete. Note that quality is determined only on the moment of harvest; planted crops have no quality.
 
 <font color="gold">
 <b>⭐ <img src="./resources/assets/sprites/loose/agriculturist_p.png"/> Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster.
@@ -242,13 +242,13 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b> - All trees grow faster and have a chance to drop hardwood.
+<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b> - Trees grow faster if planted by hand. All trees have a chance to drop hardwood.
 </summary>
 
 <ul>
 <font size="2">
 
-- Bonus tree growth works as a global buff; i.e., all trees in the world are affected as long as any player in the session has this profession, and the effect will stack for all additional online players that share this profession.
+- Bonus to growth speed is 50% for regular Trees, and 25% for Fruit Trees. Only applies to trees manually planted by a player with this profession, unless ownership requirements are disabled. Does not apply to Trees planted naturally by other Trees.
 - The hardwood bonus is inherited and uchanged from vanilla.
 
 <font color="gold">

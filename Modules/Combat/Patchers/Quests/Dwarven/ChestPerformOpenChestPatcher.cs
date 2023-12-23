@@ -36,7 +36,7 @@ internal sealed class ChestPerformOpenChestPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Preference for internal functions.")]
     private static void ChestPerformOpenChestPostfix(Chest __instance)
     {
-        if (!CombatModule.Config.DwarvenLegacy || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
+        if (!CombatModule.Config.Quests.DwarvenLegacy || !JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||
             !JsonAssetsIntegration.DwarvenScrapIndex.HasValue)
         {
             return;

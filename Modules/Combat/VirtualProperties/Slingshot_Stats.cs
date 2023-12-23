@@ -163,15 +163,15 @@ internal static class Slingshot_Stats
         switch (slingshot.InitialParentTileIndex)
         {
             case WeaponIds.MasterSlingshot:
-                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 0.5f : 1f;
+                holder.DamageMod += CombatModule.Config.WeaponsSlingshots.EnableOverhaul ? 0.5f : 1f;
                 holder.KnockbackBonus += 0.1f;
                 break;
             case WeaponIds.GalaxySlingshot:
-                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 1f : CombatModule.Config.EnableInfinitySlingshot ? 2f : 3f;
+                holder.DamageMod += CombatModule.Config.WeaponsSlingshots.EnableOverhaul ? 1f : CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot ? 2f : 3f;
                 holder.KnockbackBonus += 0.2f;
                 break;
             case WeaponIds.InfinitySlingshot:
-                holder.DamageMod += CombatModule.Config.EnableWeaponOverhaul ? 1.5f : 3f;
+                holder.DamageMod += CombatModule.Config.WeaponsSlingshots.EnableOverhaul ? 1.5f : 3f;
                 holder.KnockbackBonus += 0.25f;
                 break;
         }
@@ -228,13 +228,13 @@ internal static class Slingshot_Stats
                     break;
 
                 case ObjectIds.Jade:
-                    holder.JadeBonus += CombatModule.Config.RebalancedGemstones
+                    holder.JadeBonus += CombatModule.Config.RingsEnchantments.RebalancedGemstones
                         ? 0.5f
                         : 0.1f;
                     if (slingshot.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
                     {
                         holder.JadeBonus += (float)(jadeChord.Amplitude *
-                                                    (CombatModule.Config.RebalancedGemstones
+                                                    (CombatModule.Config.RingsEnchantments.RebalancedGemstones
                                                         ? 0.5f
                                                         : 0.1f));
                         holder.AmmoDamage += (int)(holder.AmmoDamage * jadeChord.Amplitude);
@@ -270,7 +270,7 @@ internal static class Slingshot_Stats
                                 holder.EmeraldBonus += 1f;
                                 break;
                             case 4:
-                                holder.JadeBonus += CombatModule.Config.RebalancedGemstones
+                                holder.JadeBonus += CombatModule.Config.RingsEnchantments.RebalancedGemstones
                                     ? 0.5f
                                     : 0.1f;
                                 break;
@@ -290,7 +290,7 @@ internal static class Slingshot_Stats
                     holder.AquamarineBonus += 0.1f;
                     holder.AmethystBonus += 0.1f;
                     holder.EmeraldBonus += 1f;
-                    holder.JadeBonus += CombatModule.Config.RebalancedGemstones
+                    holder.JadeBonus += CombatModule.Config.RingsEnchantments.RebalancedGemstones
                         ? 0.5f
                         : 0.1f;
                     holder.TopazBonus += 1f;
@@ -347,14 +347,14 @@ internal static class Slingshot_Stats
         //if (slingshot.hasEnchantmentOfType<JadeEnchantment>())
         //{
         //    holder.JadeBonus = slingshot.GetEnchantmentLevel<JadeEnchantment>() *
-        //                       (EnchantmentsModule.ShouldEnable && CombatModule.Config.RebalancedGemstones
+        //                       (EnchantmentsModule.ShouldEnable && CombatModule.Config.RingsEnchantments.RebalancedGemstones
         //                           ? 0.5f
         //                           : 0.1f);
         //    if (slingshot.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
         //    {
         //        holder.JadeBonus += (float)(slingshot.GetEnchantmentLevel<JadeEnchantment>() * jadeChord.Amplitude *
         //                                    (EnchantmentsModule.ShouldEnable &&
-        //                                     CombatModule.Config.RebalancedGemstones
+        //                                     CombatModule.Config.RingsEnchantments.RebalancedGemstones
         //                                        ? 0.5f
         //                                        : 0.1f));
         //    }
@@ -551,13 +551,13 @@ internal static class Slingshot_Stats
             }
             else if (ammoId.Contains("Jade"))
             {
-                holder.JadeBonus += CombatModule.Config.RebalancedGemstones
+                holder.JadeBonus += CombatModule.Config.RingsEnchantments.RebalancedGemstones
                     ? 0.5f
                     : 0.1f;
                 if (bow.Get_ResonatingChord<JadeEnchantment>() is { } jadeChord)
                 {
                     holder.JadeBonus += (float)(jadeChord.Amplitude *
-                                                (CombatModule.Config.RebalancedGemstones
+                                                (CombatModule.Config.RingsEnchantments.RebalancedGemstones
                                                     ? 0.5f
                                                     : 0.1f));
                     holder.AmmoDamage += (int)(holder.AmmoDamage * jadeChord.Amplitude);
@@ -600,7 +600,7 @@ internal static class Slingshot_Stats
                             holder.EmeraldBonus += 1f;
                             break;
                         case 4:
-                            holder.JadeBonus += CombatModule.Config.RebalancedGemstones
+                            holder.JadeBonus += CombatModule.Config.RingsEnchantments.RebalancedGemstones
                                 ? 0.5f
                                 : 0.1f;
                             break;

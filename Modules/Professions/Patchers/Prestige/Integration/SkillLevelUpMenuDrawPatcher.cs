@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
@@ -57,8 +58,8 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
             __instance.height += 16;
         }
 
-        if (___timerBeforeStart > 0 || ProfessionsModule.Config.PrestigeProgressionMode !=
-            ProfessionConfig.PrestigeMode.Streamlined || ___professionsToChoose.Count != 1)
+        if (___timerBeforeStart > 0 || ProfessionsModule.Config.Prestige.Mode !=
+            PrestigeConfig.PrestigeMode.Streamlined || ___professionsToChoose.Count != 1)
         {
             return true; // run original logic
         }

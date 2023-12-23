@@ -26,7 +26,7 @@ internal sealed class MeleeWeaponGetItemLevelPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponGetItemLevelPrefix(MeleeWeapon __instance, ref int __result)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

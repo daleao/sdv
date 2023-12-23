@@ -21,7 +21,7 @@ internal static class Textures
     internal const int ProgressionVerticalOffset = -70;
 
     private static Lazy<Texture2D> _prestigeSheetTx =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeRibbon"));
 
     private static Lazy<Texture2D> _maxIconTx =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/MaxIcon"));
@@ -42,9 +42,9 @@ internal static class Textures
 
     internal static void Refresh(IReadOnlySet<IAssetName> names)
     {
-        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeProgression")))
+        if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/PrestigeRibbon")))
         {
-            _prestigeSheetTx = new Lazy<Texture2D>(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeProgression"));
+            _prestigeSheetTx = new Lazy<Texture2D>(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/PrestigeRibbon"));
         }
 
         if (names.Any(name => name.IsEquivalentTo($"{Manifest.UniqueID}/SkillBars")))

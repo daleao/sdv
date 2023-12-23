@@ -24,7 +24,7 @@ internal sealed class SlingshotDrawPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool SlingshotDrawPrefix()
     {
-        return !CombatModule.Config.BullseyeReplacesCursor;
+        return !CombatModule.Config.ControlsUi.BullseyeReplacesCursor;
     }
 
     #endregion harmony patches

@@ -10,10 +10,10 @@ using DaLion.Shared.Integrations;
 #endregion using directives
 
 [ModRequirement("FlashShifter.StardewValleyExpandedCP", "Stardew Valley Expanded")]
-internal sealed class StardewValleyExpandedIntegration : ModIntegration<StardewValleyExpandedIntegration>
+internal sealed class SVExpandedIntegration : ModIntegration<SVExpandedIntegration>
 {
-    /// <summary>Initializes a new instance of the <see cref="StardewValleyExpandedIntegration"/> class.</summary>
-    internal StardewValleyExpandedIntegration()
+    /// <summary>Initializes a new instance of the <see cref="SVExpandedIntegration"/> class.</summary>
+    internal SVExpandedIntegration()
         : base(ModHelper.ModRegistry)
     {
     }

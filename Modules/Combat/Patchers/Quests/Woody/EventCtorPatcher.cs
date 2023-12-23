@@ -26,13 +26,13 @@ internal sealed class EventCtorPatcher : HarmonyPatcher
     // ReSharper disable once InconsistentNaming
     private static void EventCtorPrefix(ref string eventString, int eventID)
     {
-        if (!CombatModule.Config.WoodyReplacesRusty || eventID != 100162)
+        if (!CombatModule.Config.Quests.WoodyReplacesRusty || eventID != 100162)
         {
             return;
         }
 
         var hasSword = Game1.player.Items.Any(item => item is MeleeWeapon weapon && !weapon.isScythe());
-        eventString = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
+        eventString = SVExpandedIntegration.Instance?.IsLoaded == true
             ? hasSword
                 ? I18n.Events_100162_NoSword_Sve()
                 : I18n.Events_100162_Sword_Sve()

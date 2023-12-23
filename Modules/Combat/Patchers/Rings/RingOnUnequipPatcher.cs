@@ -29,13 +29,13 @@ internal sealed class RingOnUnequipPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnUnequipPrefix(Ring __instance, Farmer who)
     {
-        if (CombatModule.Config.EnableInfinityBand &&
+        if (CombatModule.Config.RingsEnchantments.EnableInfinityBand &&
             __instance.indexInTileSheet.Value == ObjectIds.IridiumBand)
         {
             return false; // don't run original logic
         }
 
-        if (!CombatModule.Config.RebalancedRings)
+        if (!CombatModule.Config.RingsEnchantments.RebalancedRings)
         {
             return true; // run original logic
         }

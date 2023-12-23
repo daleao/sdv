@@ -44,7 +44,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
         int type,
         bool isOnSpecial)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul || type == MeleeWeapon.dagger || !f.IsLocalPlayer)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul || type == MeleeWeapon.dagger || !f.IsLocalPlayer)
         {
             return true; // run original logic
         }
@@ -69,7 +69,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            if (!CombatModule.Config.EnableMeleeComboHits)
+            if (!CombatModule.Config.WeaponsSlingshots.EnableComboHits)
             {
                 return true; // run original logic
             }

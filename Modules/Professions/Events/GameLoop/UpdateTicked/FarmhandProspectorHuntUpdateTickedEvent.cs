@@ -54,7 +54,7 @@ internal sealed class FarmhandProspectorHuntUpdateTickedEvent : UpdateTickedEven
             return;
         }
 
-        if (ProfessionsModule.Config.UseLegacyProspectorHunt)
+        if (ProfessionsModule.Config.ControlsUi.UseLegacyProspectorHunt)
         {
             return;
         }

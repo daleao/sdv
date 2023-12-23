@@ -51,7 +51,7 @@ internal sealed class InventoryPageReceiveClickPatcher : HarmonyPatcher
     [HarmonyBefore("DaLion.Overhaul.Modules.Tools")]
     private static bool InventoryPageReceiveClickPrefix(Item? ___hoveredItem, bool playSound)
     {
-        if (!CombatModule.Config.EnableAutoSelection || !CombatModule.Config.SelectionKey.IsDown())
+        if (!CombatModule.Config.ControlsUi.EnableAutoSelection || !CombatModule.Config.ControlsUi.SelectionKey.IsDown())
         {
             return true; // run original logic
         }

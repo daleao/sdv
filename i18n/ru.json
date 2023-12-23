@@ -52,7 +52,7 @@
   "lumberjack.desc.prestiged": "Срубленные деревья дают на 25% >> 40% больше древесины.",
   "arborist.title.male": "Лесник",
   "arborist.title.female": "Лесник",
-  "arborist.desc": "Все деревья растут быстрее. При рубке с обычных деревьев может выпадать твердая древесина.",
+  "arborist.desc": "Деревья растут быстрее, если их посадить вручную. У всех деревьев есть шанс выбросить твердую древесину.",
   "arborist.desc.prestiged": "С обычных деревьев падает в два раза больше твердой древесины.",
   "tapper.title.male": "Вздымщик",
   "tapper.title.female": "Вздымщица",
@@ -467,6 +467,9 @@
 
   // professions
   "gmcm.pages.prfs": "Professions",
+  "gmcm.pages.prfs.limit": "Limit Break Settings",
+  "gmcm.pages.prfs.prestige": "Prestige Settings",
+  "gmcm.pages.prfs.experience": "Experience Settings",
 
   "gmcm.sections.prfs.general": "General Profession Settings",
   "gmcm.should_junimos_inherit_professions.title": "Should Junimos Inherit Professions",
@@ -521,8 +524,8 @@
   "gmcm.limit_break_key.desc": "The key used to activate the Limit Break.",
   "gmcm.hold_key_to_limit_break.title": "Hold-To-Activate",
   "gmcm.hold_key_to_limit_break.desc": "If enabled, the Limit Break will be activated by holding the Activation Key for a short interval, instead of activating immediately.",
-  "gmcm.limit_break_hold_delay_milliseconds.title": "Activation Delay",
-  "gmcm.limit_break_hold_delay_milliseconds.desc": "How long the key should be held before the Limit Break is activated, in seconds.",
+  "gmcm.hold_delay_milliseconds.title": "Activation Delay",
+  "gmcm.hold_delay_milliseconds.desc": "How long the key should be held before the Limit Break is activated, in seconds.",
   "gmcm.limit_gain_factor.title": "Gain Factor",
   "gmcm.limit_gain_factor.desc": "Affects the rate at which one builds the Limit Break gauge (higher is faster).",
   "gmcm.limit_drain_factor.title": "Drain Factor",
@@ -533,8 +536,8 @@
   "gmcm.limit_gauge_offset.desc": "Use this to adjust the X and Y coordinates of the Limit Gauge if using other mods which also add HUD bars.",
 
   "gmcm.sections.prfs.prestige": "Skill Reset & Prestige",
-  "gmcm.prestige_progression_mode.title": "Prestige Mode",
-  "gmcm.prestige_progression_mode.desc": "Determines whether the Prestige system is enabled, and if so, the paradigms of how it should function.\nNone - All prestige systems disabled.\nStandard - Prestige levels for each skill unlocked after acquiring all professions in that skill.\nChallenge - Prestige levels for all skills unlocked after acquiring all professions in every skill.\nStreamlined - Prestige levels unlocked immediately at level 10, but can only acquire one profession per skill.\nAll Professions - Prestige levels disabled, but can still reset to acquire all professions.",
+  "gmcm.mode.title": "Prestige Mode",
+  "gmcm.mode.desc": "Determines whether the Prestige system is enabled, and if so, the paradigms of how it should function.\nNone - All prestige systems disabled.\nStandard - Prestige levels for each skill unlocked after acquiring all professions in that skill.\nChallenge - Prestige levels for all skills unlocked after acquiring all professions in every skill.\nStreamlined - Prestige levels unlocked immediately at level 10, but can only acquire one profession per skill.\nAll Professions - Prestige levels disabled, but can still reset to acquire all professions.",
   "gmcm.prestige_mode.none": "None",
   "gmcm.prestige_mode.standard": "Standard",
   "gmcm.prestige_mode.streamlined": "Streamlined",
@@ -550,15 +553,15 @@
   "gmcm.exp_bonus_per_skill_reset.desc": "A percentage bonus applied to a skill's experience gain after a respective skill prestige. Negative values mean it becomes harder to regain those levels.",
   "gmcm.prestige_respec_cost.title": "Cost of Prestige Respec",
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-  "gmcm.prestige_ribbon_style.title": "Progression Style",
-  "gmcm.prestige_ribbon_style.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
+  "gmcm.ribbon.title": "Progression Style",
+  "gmcm.ribbon.desc": "Determines the style of the sprite that appears next to skill bars, and indicates the skill reset progression.",
   "gmcm.ribbon_style.stacked_stars": "Stacked Stars",
   "gmcm.ribbon_style.gen3_ribbons": "Gen 3 Ribbons",
   "gmcm.ribbon_style.gen4_ribbons": "Gen 4 Ribbons",
-  "gmcm.required_exp_per_extended_level.title": "Required Exp per Extended Level",
-  "gmcm.required_exp_per_extended_level.desc": "How much skill experience is required for each level-up above level 10.",
-  "gmcm.extended_perfection_requirement.title": "Extended Perfection Requirement",
-  "gmcm.extended_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
+  "gmcm.exp_per_extended_level.title": "Required Exp per Extended Level",
+  "gmcm.exp_per_extended_level.desc": "How much skill experience is required for each level-up above level 10.",
+  "gmcm.is_perfection_requirement.title": "Extended Perfection Requirement",
+  "gmcm.is_perfection_requirement.desc": "If enabled, the Farmer Level perfection requirement is replaced with Skill Mastery, meaning level 20 in all 5 vanilla skills if Extended Progression is enabled, or have obtained all 30 vanilla professions if not.",
 
   "gmcm.sections.prfs.experience": "Skill Experience Multipliers",
   "gmcm.skill_exp_multipliers.title": "Base {{skill}} Exp Multiplier",
@@ -577,8 +580,17 @@
   "gmcm.show_fish_collection_max_icon.title": "Show 'MAX' Icon in Fish Collection",
   "gmcm.show_fish_collection_max_icon.desc": "Toggles whether or not to display the 'Max' icon below fish caught at max size.",
 
+  "gmcm.go_to.prfs.limit": "Go to Limit Break Settings",
+  "gmcm.go_to.prfs.prestige": "Go to Prestige Settings",
+  "gmcm.go_to.prfs.experience": "Go to Experience Settings",
+  "gmcm.back_to.prfs": "Back to Profession settings",
+
   // combat
   "gmcm.pages.cmbt": "Combat",
+  "gmcm.pages.cmbt.enemies": "Enemy Encounter Settings",
+  "gmcm.pages.cmbt.quests": "Quest Settings",
+  "gmcm.pages.cmbt.rings_enchantments": "Ring & Enchantment Settings",
+  "gmcm.pages.cmbt.weapons_slingshots": "Weapon & Slingshot Settings",
 
   "gmcm.sections.cmbt.general": "General Combat Mechanics",
   "gmcm.new_resistance_formula.title": "New Resistance Formula",
@@ -590,9 +602,10 @@
   "gmcm.enable_status_conditions.title": "Enable Status Conditions",
   "gmcm.enable_status_conditions.desc": "Whether to enable status conditions like Burn and Stun on enemies. These are used by other modules.",
 
-  "gmcm.sections.cmbt.weapons": "Melee & Ranged Weapons",
-  "gmcm.enable_weapon_overhaul.title": "Enable Weapon Overhaul",
-  "gmcm.enable_weapon_overhaul.desc": "Rebalances every melee weapon and slingshot, in addition to changing Mine chests, monster and container drops, weapon shops and more. !! Please disable this setting before deactivating the Combat module. !!",
+  "gmcm.sections.cmbt.melee": "Melee Weapons",
+
+  "gmcm.enable_overhaul.title": "Enable Weapon Overhaul",
+  "gmcm.enable_overhaul.desc": "Rebalances every melee weapon and slingshot, in addition to changing Mine chests, monster and container drops, weapon shops and more. !! Please disable this setting before deactivating the Combat module. !!",
 
   "gmcm.woody_replaces_rusty.title": "Woody Replaces Rusty",
   "gmcm.woody_replaces_rusty.desc": "Replaces the starting Rusty Sword with a Wooden Blade.",
@@ -600,8 +613,8 @@
   "gmcm.enable_stabbing_swords.desc": "Replaces the defensive special move of some swords with an offensive lunge move. !! Please disable this setting before deactivating the Combat module. !!",
   "gmcm.stabbing_swords.title": "Stabbing Swords",
   "gmcm.stabbing_swords.desc": "Add to this list the names of swords that should be given the Stabbing Sword type.",
-  "gmcm.enable_melee_combo_hits.title": "Enable Melee Combo Hits",
-  "gmcm.enable_melee_combo_hits.desc": "Replaces vanilla weapon spam with a more strategic combo system.",
+  "gmcm.enable_combo_hits.title": "Enable Melee Combo Hits",
+  "gmcm.enable_combo_hits.desc": "Replaces vanilla weapon spam with a more strategic combo system.",
   "gmcm.combo_hits_per_weapon_type.stabbing_sword.title": "Stabbing Sword Combo Hits",
   "gmcm.combo_hits_per_weapon_type.stabbing_sword.desc": "The max. number of consecutive hits in a Stabbing Sword combo (if Stabbing Swords are enabled).",
   "gmcm.combo_hits_per_weapon_type.defense_sword.title": "Defense Sword Combo Hits",
@@ -614,6 +627,8 @@
   "gmcm.defense_improves_parry.desc": "Parry damage will increase for each point in defense.",
   "gmcm.grounded_club_smash.title": "Grounded Club Smash",
   "gmcm.grounded_club_smash.desc": "A club smash AoE will inflict guaranteed critical damage on burrowed enemies, but completely miss flying enemies.",
+
+  "gmcm.sections.cmbt.ranged": "Slingshots",
 
   "gmcm.enable_ranged_critical_hits.title": "Enable Ranged Critical Hits",
   "gmcm.enable_ranged_critical_hits.desc": "Allows slingshots to deal critical damage and be affected by critical modifiers.",
@@ -725,6 +740,12 @@
   "gmcm.draw_current_ammo.desc": "Draws the currently-selected ammo for a ranged weapon. Useful when equipping multiple ammo.",
   "gmcm.bullseye_replaces_cursor.title": "Bullseye Replaces Cursor",
   "gmcm.bullseye_replaces_cursor.desc": "Draws a bulls-eye instead of the mouse cursor while firing a slingshot. Does not support pull-back firing for obvious reasons.",
+
+  "gmcm.go_to.cmbt.enemies": "Go to Enemy Encounter Settings",
+  "gmcm.go_to.cmbt.quests": "Go to Quest Settings",
+  "gmcm.go_to.cmbt.rings_enchantments": "Go to Ring & Enchantment Settings",
+  "gmcm.go_to.cmbt.weapons_slingshots": "Go to Weapon & Slingshot Settings",
+  "gmcm.back_to.cmbt": "Back to Combat settings",
 
   // tools
   "gmcm.pages.tols": "Tools",
@@ -990,6 +1011,7 @@
   "gmcm.deterministic_age_quality.desc": "Whether age-dependent qualities should be deterministic (true) or stochastic (false).",
 
   // control & ui
+  "gmcm.pages.controls_ui": "Control & UI Settings",
   "gmcm.sections.controls_ui": "Controls & UI",
   "gmcm.face_mouse_cursor.title": "Face Towards Mouse Cursor",
   "gmcm.face_mouse_cursor.desc": "If using mouse and keyboard, turn to face towards the current cursor position before swinging.",

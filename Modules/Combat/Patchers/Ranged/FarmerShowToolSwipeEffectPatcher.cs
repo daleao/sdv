@@ -94,7 +94,7 @@ internal sealed class FarmerShowToolSwipeEffectPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (slingshot.InitialParentTileIndex == WeaponIds.InfinitySlingshot && CombatModule.Config.EnableHeroQuest)
+        if (slingshot.InitialParentTileIndex == WeaponIds.InfinitySlingshot && CombatModule.Config.Quests.EnableHeroQuest)
         {
             tempSprite.color = Color.HotPink;
         }

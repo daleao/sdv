@@ -58,8 +58,8 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         else
         {
             Log.W("Json Assets are missing for base Combat module items. `Dwarven Legacy` and `Hero Quest` will be disabled.");
-            CombatModule.Config.DwarvenLegacy = false;
-            CombatModule.Config.EnableHeroQuest = false;
+            CombatModule.Config.Quests.DwarvenLegacy = false;
+            CombatModule.Config.Quests.EnableHeroQuest = false;
             ModHelper.WriteConfig(Config);
         }
 
@@ -76,7 +76,7 @@ internal sealed class JsonAssetsIntegration : ModIntegration<JsonAssetsIntegrati
         else
         {
             Log.W("JSON Assets are missing for Rings.");
-            CombatModule.Config.EnableInfinityBand = false;
+            CombatModule.Config.RingsEnchantments.EnableInfinityBand = false;
             ModHelper.WriteConfig(Config);
         }
 

@@ -42,8 +42,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             $"{Manifest.UniqueID}/MaxIcon",
             new ModTextureProvider(() => "assets/sprites/interface/max.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/PrestigeProgression",
-            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.PrestigeRibbonStyle}.png"));
+            $"{Manifest.UniqueID}/PrestigeRibbon",
+            new ModTextureProvider(() => $"assets/sprites/interface/{ProfessionsModule.Config.Prestige.Ribbon}.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -498,15 +498,15 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     private static string ProvideUltimateMeter()
     {
         var path = "assets/sprites/interface/gauge";
-        if (StardewValleyExpandedIntegration.Instance?.IsLoaded == true)
+        if (SVExpandedIntegration.Instance?.IsLoaded == true)
         {
-            if (!StardewValleyExpandedIntegration.Instance.DisabeGaldoranTheme &&
+            if (!SVExpandedIntegration.Instance.DisabeGaldoranTheme &&
                 (Game1.currentLocation?.NameOrUniqueName.IsAnyOf(
                      "Custom_CastleVillageOutpost",
                      "Custom_CrimsonBadlands",
                      "Custom_IridiumQuarry",
                      "Custom_TreasureCave") == true ||
-                 StardewValleyExpandedIntegration.Instance.UseGaldoranThemeAllTimes))
+                 SVExpandedIntegration.Instance.UseGaldoranThemeAllTimes))
             {
                 return path + "_galdora.png";
             }

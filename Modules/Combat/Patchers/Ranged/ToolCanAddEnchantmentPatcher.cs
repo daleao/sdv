@@ -34,7 +34,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
         }
 
         if (enchantment.IsSecondaryEnchantment() && slingshot.InitialParentTileIndex == WeaponIds.GalaxySlingshot &&
-            CombatModule.Config.EnableInfinitySlingshot)
+            CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot)
         {
             switch (enchantment)
             {
@@ -50,7 +50,7 @@ internal sealed class ToolCanAddEnchantmentPatcher : HarmonyPatcher
             }
         }
 
-        if (!CombatModule.Config.NewPrismaticEnchantments)
+        if (!CombatModule.Config.RingsEnchantments.NewPrismaticEnchantments)
         {
             __result = false;
             return false; // don't run original logic

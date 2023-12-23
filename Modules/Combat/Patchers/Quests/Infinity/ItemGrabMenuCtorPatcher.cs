@@ -26,7 +26,7 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void ItemGrabMenuCtorPrefix(ItemGrabMenu __instance, ref InventoryMenu.highlightThisItem? highlightFunction)
     {
-        if (!CombatModule.Config.CanStoreRuinBlade &&
+        if (!CombatModule.Config.Quests.CanStoreRuinBlade &&
             __instance.GetType().FullName?.Contains("CJBItemSpawner") == false &&
             highlightFunction?.Method.Name != "highlightShippableObjects" &&
             highlightFunction?.Method.DeclaringType?.Name.Contains("Shipping") == false)

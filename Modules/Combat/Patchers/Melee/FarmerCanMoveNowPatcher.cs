@@ -30,7 +30,7 @@ internal sealed class FarmerCanMoveNowPatcher : HarmonyPatcher
         }
 
         CombatModule.State.FarmerAnimating = false;
-        if (CombatModule.Config.SlickMoves)
+        if (CombatModule.Config.ControlsUi.SlickMoves)
         {
             CombatModule.State.DriftVelocity = Vector2.Zero;
         }

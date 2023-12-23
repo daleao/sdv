@@ -51,7 +51,7 @@ internal sealed class ProspectorHuntObjectListChangedEvent : ObjectListChangedEv
             return;
         }
 
-        if (ProfessionsModule.Config.UseLegacyProspectorHunt)
+        if (ProfessionsModule.Config.ControlsUi.UseLegacyProspectorHunt)
         {
             return;
         }

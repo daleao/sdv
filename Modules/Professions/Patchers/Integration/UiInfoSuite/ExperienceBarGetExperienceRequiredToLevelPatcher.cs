@@ -34,7 +34,7 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatcher : Harmony
 
         __result = currentLevel >= 20
             ? 0
-            : ISkill.ExpAtLevel10 + ((currentLevel - 10 + 1) * (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel);
+            : ISkill.ExpAtLevel10 + ((currentLevel - 10 + 1) * (int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel);
         return false; // don't run original logic
     }
 

@@ -25,7 +25,7 @@ internal sealed class MeleeWeaponRecalculateAppliedForgesPatcher : HarmonyPatche
     [HarmonyPrefix]
     private static bool MeleeWeaponRecalculateAppliedForgedPrefix(MeleeWeapon __instance, bool force)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

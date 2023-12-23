@@ -27,7 +27,7 @@ internal sealed class MeleeWeaponSalePricePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponSalePricePrefix(MeleeWeapon __instance, ref int __result)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

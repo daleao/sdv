@@ -23,9 +23,9 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => CombatModule.Config.EnableAutoSelection ||
-                                      CombatModule.Config.FaceMouseCursor ||
-                                      CombatModule.Config.SlickMoves;
+    public override bool IsEnabled => CombatModule.Config.ControlsUi.EnableAutoSelection ||
+                                      CombatModule.Config.ControlsUi.FaceMouseCursor ||
+                                      CombatModule.Config.ControlsUi.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
@@ -48,9 +48,9 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (CombatModule.Config.EnableAutoSelection && ModEntry.State.AreEnemiesAround &&
+        if (CombatModule.Config.ControlsUi.EnableAutoSelection && ModEntry.State.AreEnemiesAround &&
             player.CurrentTool != CombatModule.State.AutoSelectableMelee &&
-            WeaponSelector.TryFor(player, out var index))
+            ToolSelector.TryFor(player, out var index))
         {
             Game1.player.CurrentToolIndex = index;
         }
@@ -61,7 +61,7 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
         }
 
         var originalDirection = (FacingDirection)player.FacingDirection;
-        if (CombatModule.Config.FaceMouseCursor && !Game1.options.gamepadControls &&
+        if (CombatModule.Config.ControlsUi.FaceMouseCursor && !Game1.options.gamepadControls &&
             !weapon.isScythe())
         {
             var location = player.currentLocation;
@@ -103,7 +103,7 @@ internal sealed class WeaponButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (!player.isMoving() || !player.running || !CombatModule.Config.SlickMoves)
+        if (!player.isMoving() || !player.running || !CombatModule.Config.ControlsUi.SlickMoves)
         {
             return;
         }

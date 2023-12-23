@@ -52,7 +52,7 @@
   "lumberjack.desc.prestiged": "砍伐树木的木材产量增加25%>>40%。",
   "arborist.title.male": "树艺师",
   "arborist.title.female": "树艺师",
-  "arborist.desc": "所有的树都长得更快。普通树木会掉落硬木。",
+  "arborist.desc": "如果手工种植，树木会长得更快。 所有树木都有机会掉落硬木。",
   "arborist.desc.prestiged": "普通树木会掉落两倍的硬木。",
   "tapper.title.male": "萃取者",
   "tapper.title.female": "萃取者",
@@ -470,6 +470,9 @@
 
   // professions
   "gmcm.pages.prfs": "职业",
+  "gmcm.pages.prfs.limit": "Limit Break Settings",
+  "gmcm.pages.prfs.prestige": "Prestige Settings",
+  "gmcm.pages.prfs.experience": "Experience Settings",
 
   "gmcm.sections.prfs.general": "一般职业设置",
   "gmcm.should_junimos_inherit_professions.title": "祝尼魔是否继承职业技能",
@@ -524,8 +527,8 @@
   "gmcm.limit_break_key.desc": "用于激活极限技能的键。",
   "gmcm.hold_key_to_limit_break.title": "按住激活",
   "gmcm.hold_key_to_limit_break.desc": "如果启用，极限技能将通过短时间按住热键来激活，而不是立即激活。",
-  "gmcm.limit_break_hold_delay_milliseconds.title": "激活延迟",
-  "gmcm.limit_break_hold_delay_milliseconds.desc": "在激活极限技能之前应按键多长时间（以秒为单位）。",
+  "gmcm.hold_delay_milliseconds.title": "激活延迟",
+  "gmcm.hold_delay_milliseconds.desc": "在激活极限技能之前应按键多长时间（以秒为单位）。",
   "gmcm.limit_gain_factor.title": "增益系数",
   "gmcm.limit_gain_factor.desc": "发动极限技能的积攒速率（越高越快）",
   "gmcm.limit_drain_factor.title": "消耗系数",
@@ -536,8 +539,8 @@
   "gmcm.limit_gauge_offset.desc": "如果使用其他也添加HUD条的mod，可以使用这个来调整极限能量的X和Y坐标。",
 
   "gmcm.sections.prfs.prestige": "技能重置&声望",
-  "gmcm.prestige_progression_mode.title": "声望模式",
-  "gmcm.prestige_progression_mode.desc": "决定声望系统是否启用，如果启用，它应该如何运行的范例。\n无 - 所有声望系统将被禁用。\n标准 - 每个技能的声望等级在获得该技能的所有职业后解锁。\n挑战 - 在获得所有职业后解锁所有技能的声望等级。\n精简 - 声望等级在10级时立即解锁，但每个技能只能获得一个职业。\n所有的职业 - 威望等级被禁用，但仍然可以重置以获得所有职业。",
+  "gmcm.mode.title": "声望模式",
+  "gmcm.mode.desc": "决定声望系统是否启用，如果启用，它应该如何运行的范例。\n无 - 所有声望系统将被禁用。\n标准 - 每个技能的声望等级在获得该技能的所有职业后解锁。\n挑战 - 在获得所有职业后解锁所有技能的声望等级。\n精简 - 声望等级在10级时立即解锁，但每个技能只能获得一个职业。\n所有的职业 - 威望等级被禁用，但仍然可以重置以获得所有职业。",
   "gmcm.prestige_mode.none": "无",
   "gmcm.prestige_mode.standard": "标准",
   "gmcm.prestige_mode.challenge": "挑战",
@@ -553,15 +556,15 @@
   "gmcm.exp_bonus_per_skill_reset.desc": "在获得相应技能声望后，技能经验获得的百分比加成。负值意味着恢复等级变得更加困难。",
   "gmcm.prestige_respec_cost.title": "声望成本",
   "gmcm.prestige_respec_cost.desc": "为一项技能重置声望职业选择的金钱成本。设置为0表示免费重置。",
-  "gmcm.prestige_ribbon_style.title": "声望风格",
-  "gmcm.prestige_ribbon_style.desc": "决定出现在技能条旁边的样式，并指示技能重置进度。",
+  "gmcm.ribbon.title": "声望风格",
+  "gmcm.ribbon.desc": "决定出现在技能条旁边的样式，并指示技能重置进度。",
   "gmcm.ribbon_style.stacked_stars": "堆叠的星星",
   "gmcm.ribbon_style.gen3_ribbons": "第三代彩带",
   "gmcm.ribbon_style.gen4_ribbons": "第四代彩带",
-  "gmcm.required_exp_per_extended_level.title": "每个扩展级别所需的经验",
-  "gmcm.required_exp_per_extended_level.desc": "10级以上每升一级需要多少技能经验。",
-  "gmcm.extended_perfection_requirement.title": "扩展完美性要求",
-  "gmcm.extended_perfection_requirement.desc": "如果启用，农民等级完善要求被技能掌握取代，意味着如果扩展进程启用，所有5个原版技能都达到20级或者获得所有30个原版职业。",
+  "gmcm.exp_per_extended_level.title": "每个扩展级别所需的经验",
+  "gmcm.exp_per_extended_level.desc": "10级以上每升一级需要多少技能经验。",
+  "gmcm.is_perfection_requirement.title": "扩展完美性要求",
+  "gmcm.is_perfection_requirement.desc": "如果启用，农民等级完善要求被技能掌握取代，意味着如果扩展进程启用，所有5个原版技能都达到20级或者获得所有30个原版职业。",
 
   "gmcm.sections.prfs.experience": "技能经验系数",
   "gmcm.skill_exp_multipliers.title": "{{skill}}基础经验乘数",
@@ -580,8 +583,17 @@
   "gmcm.show_fish_collection_max_icon.title": "在“鱼类收集图鉴”中显示“MAX”图标",
   "gmcm.show_fish_collection_max_icon.desc": "是否在最大尺寸捕获的鱼下面显示“Max”图标。",
 
+  "gmcm.go_to.prfs.limit": "Go to Limit Break Settings",
+  "gmcm.go_to.prfs.prestige": "Go to Prestige Settings",
+  "gmcm.go_to.prfs.experience": "Go to Experience Settings",
+  "gmcm.back_to.prfs": "Back to Profession settings",
+
   // combat
   "gmcm.pages.cmbt": "战斗",
+  "gmcm.pages.cmbt.enemies": "Enemy Encounter Settings",
+  "gmcm.pages.cmbt.quests": "Quest Settings",
+  "gmcm.pages.cmbt.rings_enchantments": "Ring & Enchantment Settings",
+  "gmcm.pages.cmbt.weapons_slingshots": "Weapon & Slingshot Settings",
 
   "gmcm.sections.cmbt.general": "一般战斗设置",
   "gmcm.new_resistance_formula.title": "新防御公式",
@@ -594,8 +606,8 @@
   "gmcm.enable_status_conditions.desc": "是否启用异常状态，如燃烧和昏迷的敌人。这些由其他模块使用。",
 
   "gmcm.sections.cmbt.weapons": "近战和远程武器",
-  "gmcm.enable_weapon_overhaul.title": "启用武器大修",
-  "gmcm.enable_weapon_overhaul.desc": "重新平衡每一个近战武器和弹弓，改变宝箱，怪物和容器掉落！请在停用战斗模块之前禁用此设置！",
+  "gmcm.enable_overhaul.title": "启用武器大修",
+  "gmcm.enable_overhaul.desc": "重新平衡每一个近战武器和弹弓，改变宝箱，怪物和容器掉落！请在停用战斗模块之前禁用此设置！",
 
   "gmcm.woody_replaces_rusty.title": "木剑替换生锈的剑",
   "gmcm.woody_replaces_rusty.desc": "用木剑代替生锈的剑。",
@@ -603,8 +615,8 @@
   "gmcm.enable_stabbing_swords.desc": "将一些剑的防御特殊动作替换为进攻性的冲刺动作。请在停用战斗模块之前禁用此设置！",
   "gmcm.stabbing_swords.title": "刺剑",
   "gmcm.stabbing_swords.desc": "在这个列表中添加应该被赋予刺剑类型的剑的名字。",
-  "gmcm.enable_melee_combo_hits.title": "启用近战连击",
-  "gmcm.enable_melee_combo_hits.desc": "用更具战略性的连击系统取代了原版的攻击。",
+  "gmcm.enable_combo_hits.title": "启用近战连击",
+  "gmcm.enable_combo_hits.desc": "用更具战略性的连击系统取代了原版的攻击。",
   "gmcm.combo_hits_per_weapon_type.stabbing_sword.title": "刺剑连续攻击数",
   "gmcm.combo_hits_per_weapon_type.stabbing_sword.desc": "刺剑最大连续攻击次数(如果开启刺剑)。",
   "gmcm.combo_hits_per_weapon_type.defense_sword.title": "防御剑连续攻击数",
@@ -617,6 +629,8 @@
   "gmcm.defense_improves_parry.desc": "防御每增加一点，招架伤害就会增加。",
   "gmcm.grounded_club_smash.title": "球棒扣杀",
   "gmcm.grounded_club_smash.desc": "棍棒粉碎AoE将保证对洞穴敌人造成暴击伤害，但会错过飞行的敌人。",
+
+  "gmcm.sections.cmbt.ranged": "Slingshots",
 
   "gmcm.enable_ranged_critical_hits.title": "启用远程暴击",
   "gmcm.enable_ranged_critical_hits.desc": "允许弹弓造成暴击伤害并受到暴击修正的影响。",
@@ -728,6 +742,12 @@
   "gmcm.draw_current_ammo.desc": "为远程武器绘制当前选择的弹药。当装备多种弹药时有用。",
   "gmcm.bullseye_replaces_cursor.title": "靶心替换光标",
   "gmcm.bullseye_replaces_cursor.desc": "在发射弹弓时绘制靶心而不是鼠标光标。出于显而易见的原因，此选项不支持反向射击。",
+
+  "gmcm.go_to.cmbt.enemies": "Go to Enemy Encounter Settings",
+  "gmcm.go_to.cmbt.quests": "Go to Quest Settings",
+  "gmcm.go_to.cmbt.rings_enchantments": "Go to Ring & Enchantment Settings",
+  "gmcm.go_to.cmbt.weapons_slingshots": "Go to Weapon & Slingshot Settings",
+  "gmcm.back_to.cmbt": "Back to Combat settings",
 
   // tools
   "gmcm.pages.tols": "工具",
@@ -993,6 +1013,7 @@
   "gmcm.deterministic_age_quality.desc": "年龄与品质关系是确定的(True)还是随机的(Fasle)。",
 
   // control & ui
+  "gmcm.pages.controls_ui": "Control & UI Settings",
   "gmcm.sections.controls_ui": "控制 & UI",
   "gmcm.face_mouse_cursor.title": "脸朝向鼠标光标",
   "gmcm.face_mouse_cursor.desc": "如果使用鼠标和键盘，请在摆动前将光标朝向当前位置。",

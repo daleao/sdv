@@ -77,7 +77,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         this.Overcharge = overcharge;
         this.startingScale.Value *= overcharge * overcharge;
         this.IgnoreLocationCollision = true;
-        this.ignoreTravelGracePeriod.Value = CombatModule.Config.RemoveSlingshotGracePeriod;
+        this.ignoreTravelGracePeriod.Value = CombatModule.Config.WeaponsSlingshots.RemoveSlingshotGracePeriod;
     }
 
     public Farmer Firer { get; } = null!;
@@ -99,7 +99,7 @@ internal sealed class QuincyProjectile : BasicProjectile
         if (ProfessionsModule.ShouldEnable)
         {
             // check ultimate
-            if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks)
+            if (this.Firer.IsLocalPlayer && ProfessionsModule.Config.Limit.EnableLimitBreaks)
             {
                 blossom = this.Firer.Get_Ultimate() as DeathBlossom;
             }

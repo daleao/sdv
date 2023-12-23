@@ -130,7 +130,7 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
         float layerDepth,
         Color color)
     {
-        if (!CombatModule.Config.DrawCurrentAmmo || instance.attachments?[0] is not { } ammo)
+        if (!CombatModule.Config.ControlsUi.DrawCurrentAmmo || instance.attachments?[0] is not { } ammo)
         {
             return;
         }

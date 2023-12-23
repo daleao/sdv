@@ -115,7 +115,7 @@ public sealed class WeaponTier : SmartEnum<WeaponTier>
     private WeaponTier(string name, int value)
         : base(name, value)
     {
-        this.Color = value >= 0 ? CombatModule.Config.ColorByTier[this.Value] : Game1.textColor;
+        this.Color = value >= 0 ? CombatModule.Config.ControlsUi.ColorByTier[this.Value] : Game1.textColor;
         this.Price = value switch
         {
             1 => 400,

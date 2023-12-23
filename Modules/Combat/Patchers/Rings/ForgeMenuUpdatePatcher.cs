@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Shared.Extensions.Reflection;
@@ -58,7 +59,10 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableInfinityBand))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.RingsEnchantments))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(RingsEnchantmentsConfig).RequirePropertyGetter(nameof(RingsEnchantmentsConfig.EnableInfinityBand))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,

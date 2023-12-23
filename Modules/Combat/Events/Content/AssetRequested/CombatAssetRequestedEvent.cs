@@ -122,7 +122,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits events data with custom Dwarvish Blueprint introduction event.</summary>
     private static void EditBlacksmithEventsData(IAssetData asset)
     {
-        if (!Context.IsWorldReady || !CombatModule.Config.DwarvenLegacy ||
+        if (!Context.IsWorldReady || !CombatModule.Config.Quests.DwarvenLegacy ||
             string.IsNullOrEmpty(Game1.player.Read(DataKeys.BlueprintsFound)) || !Game1.player.canUnderstandDwarves)
         {
             return;
@@ -136,7 +136,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     private static void EditGilDialogue(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        data[StardewValleyExpandedIntegration.Instance?.IsLoaded == true
+        data[SVExpandedIntegration.Instance?.IsLoaded == true
                 ? "Snoring"
                 : "ComeBackLater"] = I18n.Dialogue_Gil_Virtues();
     }
@@ -144,7 +144,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits location string data with custom legendary sword rhyme.</summary>
     private static void EditLocationsStrings(IAssetData asset)
     {
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.Quests.EnableHeroQuest)
         {
             return;
         }
@@ -166,7 +166,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits monsters data for ancient weapon crafting materials.</summary>
     private static void EditMonstersData(IAssetData asset)
     {
-        if (!CombatModule.Config.DwarvenLegacy)
+        if (!CombatModule.Config.Quests.DwarvenLegacy)
         {
             return;
         }
@@ -195,7 +195,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         var data = asset.AsDictionary<int, string>().Data;
         string[] fields;
 
-        if (CombatModule.Config.RebalancedRings)
+        if (CombatModule.Config.RingsEnchantments.RebalancedRings)
         {
             fields = data[ObjectIds.TopazRing].Split('/');
             fields[5] = CombatModule.ShouldEnable && CombatModule.Config.NewResistanceFormula
@@ -231,14 +231,14 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             }
         }
 
-        if (CombatModule.Config.EnableInfinityBand)
+        if (CombatModule.Config.RingsEnchantments.EnableInfinityBand)
         {
             fields = data[ObjectIds.IridiumBand].Split('/');
             fields[5] = I18n.Rings_Iridium_Desc();
             data[ObjectIds.IridiumBand] = string.Join('/', fields);
         }
 
-        if (CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.Quests.EnableHeroQuest)
         {
             // edit galaxy soul description
             fields = data[ObjectIds.GalaxySoul].Split('/');
@@ -258,7 +258,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             sourceArea,
             targetArea);
 
-        if (CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.Quests.EnableHeroQuest)
         {
             editor.ExtendImage(editor.Data.Width, 48);
             sourceArea = new Rectangle(0, 0, 16, 16);
@@ -269,7 +269,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 targetArea);
         }
 
-        if (CombatModule.Config.NewPrismaticEnchantments)
+        if (CombatModule.Config.RingsEnchantments.NewPrismaticEnchantments)
         {
             editor.ExtendImage(editor.Data.Width, 48);
             sourceArea = new Rectangle(32, 0, 16, 16);
@@ -291,7 +291,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits quests data with custom Dwarvish Blueprint introduction quest.</summary>
     private static void EditQuestsData(IAssetData asset)
     {
-        if (!CombatModule.Config.DwarvenLegacy)
+        if (!CombatModule.Config.Quests.DwarvenLegacy)
         {
             return;
         }
@@ -306,7 +306,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     private static void EditSveEventsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        if (data.ContainsKey("1337098") && CombatModule.Config.EnableHeroQuest)
+        if (data.ContainsKey("1337098") && CombatModule.Config.Quests.EnableHeroQuest)
         {
             data["1337098"] = I18n.Events_1337098_NoPurchase();
         }
@@ -315,8 +315,8 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons data with rebalanced stats.</summary>
     private static void EditWeaponsData(IAssetData asset)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul || CombatModule.Config.DwarvenLegacy ||
-            CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul || CombatModule.Config.Quests.DwarvenLegacy ||
+            CombatModule.Config.Quests.EnableHeroQuest)
         {
             var data = asset.AsDictionary<int, string>().Data;
             var keys = data.Keys;
@@ -324,12 +324,12 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             {
                 var fields = data[key].Split('/');
 
-                if (CombatModule.Config.EnableWeaponOverhaul)
+                if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
                 {
                     EditSingleWeapon(key, fields);
                 }
 
-                if (CombatModule.Config.DwarvenLegacy)
+                if (CombatModule.Config.Quests.DwarvenLegacy)
                 {
                     if (fields[Name].Contains("Dwarf"))
                     {
@@ -341,7 +341,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                     }
                 }
 
-                if (CombatModule.Config.EnableHeroQuest)
+                if (CombatModule.Config.Quests.EnableHeroQuest)
                 {
                     switch (key)
                     {
@@ -360,7 +360,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             }
         }
 
-        if (CombatModule.Config.EnableInfinitySlingshot)
+        if (CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot)
         {
             var data = asset.AsDictionary<int, string>().Data;
             data[WeaponIds.InfinitySlingshot] = string.Format(
@@ -373,13 +373,13 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits weapons tilesheet with touched up textures.</summary>
     private static void EditWeaponsTileSheetEarly(IAssetData asset)
     {
-        if (CombatModule.Config.EnableWeaponOverhaul)
+        if (CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             var editor = asset.AsImage();
             editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/weapons"));
         }
 
-        if (CombatModule.Config.EnableInfinitySlingshot)
+        if (CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot)
         {
             var editor = asset.AsImage();
             var targetArea = new Rectangle(16, 128, 16, 16);
@@ -405,14 +405,14 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 ? ModHelper.ModContent.Load<Texture2D>("assets/sprites/objects/weapons_simple")
                 : Tool.weaponsTexture;
         Rectangle sourceArea, targetArea;
-        if (CombatModule.Config.EnableHeroQuest)
+        if (CombatModule.Config.Quests.EnableHeroQuest)
         {
             sourceArea = new Rectangle(0, 0, 32, 16);
             targetArea = new Rectangle(32, 0, 32, 16);
             editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
 
-        if (CombatModule.Config.DwarvenLegacy)
+        if (CombatModule.Config.Quests.DwarvenLegacy)
         {
             sourceArea = new Rectangle(32, 0, 16, 16);
             targetArea = new Rectangle(112, 16, 16, 16);
@@ -427,13 +427,13 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Edits events data with custom Blade of Ruin introduction event.</summary>
     private static void EditWizardEventsData(IAssetData asset)
     {
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.Quests.EnableHeroQuest)
         {
             return;
         }
 
         var data = asset.AsDictionary<string, string>().Data;
-        data["144703/n viegoCurse/p Wizard"] = StardewValleyExpandedIntegration.Instance?.IsLoaded == true
+        data["144703/n viegoCurse/p Wizard"] = SVExpandedIntegration.Instance?.IsLoaded == true
                 ? I18n.Events_Curse_Intro_Sve()
                 : I18n.Events_Curse_Intro();
     }
@@ -443,12 +443,12 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     {
         var data = asset.AsDictionary<string, string>().Data;
 
-        if (CombatModule.Config.RebalancedRings)
+        if (CombatModule.Config.RingsEnchantments.RebalancedRings)
         {
             data["Ring of Yoba"] = "336 5 335 5 72 1 768 20/Home/524/false/Combat 8";
         }
 
-        if (CombatModule.Config.CraftableGemstoneRings)
+        if (CombatModule.Config.RingsEnchantments.CraftableGemstoneRings)
         {
             data["Emerald Ring"] = "60 1 336 5/Home/533/Ring/Combat 6";
             data["Aquamarine Ring"] = "62 1 335 5/Home/531/Ring/Combat 4";
@@ -458,7 +458,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             data["Jade Ring"] = "70 1 335 5/Home/532/Ring/Combat 4";
         }
 
-        if (CombatModule.Config.EnableInfinityBand)
+        if (CombatModule.Config.RingsEnchantments.EnableInfinityBand)
         {
             var fields = data["Iridium Band"].Split('/');
             fields[0] = "337 5 768 100 769 100";
@@ -475,14 +475,14 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
         var sourceY = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true
             ? 32 : BetterRingsIntegration.Instance?.IsLoaded == true
                 ? 16 : 0;
-        if (CombatModule.Config.CraftableGemstoneRings)
+        if (CombatModule.Config.RingsEnchantments.CraftableGemstoneRings)
         {
             sourceArea = new Rectangle(16, sourceY, 96, 16);
             targetArea = new Rectangle(16, 352, 96, 16);
             editor.PatchImage(Textures.RingsTx, sourceArea, targetArea);
         }
 
-        if (CombatModule.Config.EnableInfinityBand)
+        if (CombatModule.Config.RingsEnchantments.EnableInfinityBand)
         {
             sourceArea = new Rectangle(0, sourceY, 16, 16);
             targetArea = new Rectangle(368, 336, 16, 16);
@@ -556,7 +556,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Provides the correct gemstone socket texture path.</summary>
     private static string ProvideGemSockets()
     {
-        var path = "assets/sprites/interface/GemSocket_" + CombatModule.Config.ForgeSocketStyle;
+        var path = "assets/sprites/interface/GemSocket_" + CombatModule.Config.ControlsUi.ForgeSocketStyle;
         if (ModHelper.ModRegistry.IsLoaded("ManaKirel.VMI") ||
             ModHelper.ModRegistry.IsLoaded("ManaKirel.VintageInterface2"))
         {
@@ -720,7 +720,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 break;
 
             case WeaponIds.ForestSword:
-                if (CombatModule.Config.DwarvenLegacy)
+                if (CombatModule.Config.Quests.DwarvenLegacy)
                 {
                     fields[MinDamage] = 85.ToString();
                     fields[MaxDamage] = 100.ToString();
@@ -1026,7 +1026,7 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
                 fields[CritPower] = 1.5.ToString(CultureInfo.InvariantCulture);
                 break;
             case WeaponIds.ElfBlade:
-                if (CombatModule.Config.DwarvenLegacy)
+                if (CombatModule.Config.Quests.DwarvenLegacy)
                 {
                     fields[MinDamage] = 50.ToString();
                     fields[MaxDamage] = 60.ToString();

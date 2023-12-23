@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -51,8 +52,11 @@ internal sealed class GameLocationShowQiCatPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Professions))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(ProfessionConfig).RequirePropertyGetter(
-                                nameof(ProfessionConfig.ExtendedPerfectionRequirement))),
+                            typeof(ProfessionConfig).RequirePropertyGetter(nameof(ProfessionConfig.Prestige))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(PrestigeConfig).RequirePropertyGetter(
+                                nameof(PrestigeConfig.IsPerfectionRequirement))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanilla),
                         new CodeInstruction(OpCodes.Ldstr, "/5^"),
                         new CodeInstruction(OpCodes.Br_S, resumeExecution),

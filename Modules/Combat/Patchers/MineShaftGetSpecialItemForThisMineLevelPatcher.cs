@@ -29,7 +29,7 @@ internal sealed class MineShaftGetSpecialItemForThisMineLevelPatcher : HarmonyPa
     [HarmonyPrefix]
     private static bool MineShaftGetSpecialItemForThisMineLevelPrefix(ref Item __result, int level)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul)
         {
             return true; // run original logic
         }

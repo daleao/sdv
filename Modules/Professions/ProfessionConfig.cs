@@ -4,88 +4,39 @@
 
 using System.Collections.Generic;
 using DaLion.Overhaul.Modules.Core.ConfigMenu;
-using DaLion.Overhaul.Modules.Core.UI;
-using DaLion.Overhaul.Modules.Professions.Events.Display.RenderingHud;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
-using DaLion.Overhaul.Modules.Professions.Events.Player.Warped;
-using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Overhaul.Modules.Professions.Ultimates;
-using DaLion.Overhaul.Modules.Professions.VirtualProperties;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Integrations.GMCM.Attributes;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
-using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
 /// <summary>The user-configurable settings for PRFS.</summary>
 public sealed class ProfessionConfig
 {
-    private readonly Dictionary<string, float> _skillExpMultipliers = new()
-    {
-        { "Farming", 1f },
-        { "Fishing", 1f },
-        { "Foraging", 1f },
-        { "Mining", 1f },
-        { "Combat", 1f },
-        { "Luck", 1f },
-        { "blueberry.LoveOfCooking.CookingSkill", 1f },
-        { "spacechase0.Cooking", 1f },
-        { "spacechase0.Magic", 1f },
-        { "drbirbdev.Binning", 1f },
-        { "drbirbdev.Socializing", 1f },
-        { "moonslime.Excavation", 1f },
-    };
-
     private float _scavengerHuntHandicap = 1f;
     private float _prospectorHuntHandicap = 1f;
     private float _anglerPriceBonusCeiling = 1f;
     private float _conservationistTaxDeductionCeiling = 1f;
-    private bool _enableLimitBreaks = true;
-    private double _limitGainFactor = 1f;
-    private double _limitDrainFactor = 1f;
-    private float _skillResetCostMultiplier = 1f;
-    private float _expBonusPerSkillReset = 0.1f;
-    private PrestigeMode _prestigeMode = PrestigeMode.Standard;
-    private RibbonStyle _ribbonStyle = RibbonStyle.StackedStars;
-    private float _trackingPointerScale = 1.2f;
-    private float _trackingPointerBobRate = 1f;
 
-    #region dropdown enums
+    /// <inheritdoc cref="LimitBreakConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Professions/Limit", "prfs.limit", true)]
+    public LimitBreakConfig Limit { get; internal set; } = new();
 
-    /// <summary>Determines the conditions for unlocking prestige levels.</summary>
-    public enum PrestigeMode
-    {
-        /// <summary>None. All prestige features disabled.</summary>
-        None,
+    /// <inheritdoc cref="PrestigeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Professions/Prestige", "prfs.prestige", true)]
+    public PrestigeConfig Prestige { get; internal set; } = new();
 
-        /// <summary>Standard mode, where Prestige for each skill is unlocked individually by resetting the respective skill 3 times and acquiring all 10th-level professions within that skill.</summary>
-        Standard,
+    /// <inheritdoc cref="ExperienceConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Professions/Experience", "prfs.experience", true)]
+    public ExperienceConfig Experience { get; internal set; } = new();
 
-        /// <summary>Challenge mode, where Prestige for all skills is unlocked simultaneously only after resetting every skill 3 times and acquiring all 10th-level professions across all skills.</summary>
-        Challenge,
-
-        /// <summary>Streamlined mode, where Prestige is available immediately without conditions. But the player can no longer aggregate all professions.</summary>
-        Streamlined,
-
-        /// <summary>Capped at level 10. Prestige levels and professions are disabled. But the player can still aggregate all professions via skill resetting.</summary>
-        Capped,
-    }
-
-    /// <summary>The style used to indicate Skill Reset progression.</summary>
-    public enum RibbonStyle
-    {
-        /// <summary>Use stacked quality star icons, one per reset level.</summary>
-        StackedStars,
-
-        /// <summary>Use Generation 3 Pokemon contest ribbons.</summary>
-        Gen3Ribbons,
-
-        /// <summary>Use Generation 4 Pokemon contest ribbons.</summary>
-        Gen4Ribbons,
-    }
-
-    #endregion dropdown enums
+    /// <inheritdoc cref="ControlsUiConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Professions/ControlsUi", "controls_ui", true)]
+    public ControlsUiConfig ControlsUi { get; internal set; } = new();
 
     /// <summary>Gets a value indicating whether determines whether Harvester and Agriculturist perks should apply to crops harvested by Junimos.</summary>
     [JsonProperty]
@@ -110,6 +61,7 @@ public sealed class ProfessionConfig
 
     /// <summary>Gets a set of machines used to create artisan goods. Add to this list the artisan machines from third-party mods you are using to make them compatible with the Artisan profession.</summary>
     [JsonProperty]
+    [GMCMSection("prfs.general")]
     [GMCMPriority(3)]
     [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigArtisanMachinesOverride")]
     public HashSet<string> ArtisanMachines { get; internal set; } = new()
@@ -154,6 +106,7 @@ public sealed class ProfessionConfig
 
     /// <summary>Gets a list of artisan goods derived from animal produce. Add to this list the animal-derived goods from third-party mods you are using to make them compatible with the Producer profession.</summary>
     [JsonProperty]
+    [GMCMSection("prfs.general")]
     [GMCMPriority(4)]
     [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigAnimalDerivedGoodsOverride")]
     public HashSet<string> AnimalDerivedGoods { get; internal set; } = new()
@@ -343,329 +296,4 @@ public sealed class ProfessionConfig
             this._conservationistTaxDeductionCeiling = Math.Abs(value);
         }
     }
-
-    #region limit break
-
-    /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(100)]
-    public bool EnableLimitBreaks
-    {
-        get => this._enableLimitBreaks;
-        internal set
-        {
-            if (value == this._enableLimitBreaks)
-            {
-                return;
-            }
-
-            this._enableLimitBreaks = value;
-            if (!Context.IsWorldReady || Game1.player.Get_Ultimate() is not { } ultimate)
-            {
-                return;
-            }
-
-            switch (value)
-            {
-                case false:
-                    ultimate.ChargeValue = 0d;
-                    EventManager.DisableWithAttribute<UltimateEventAttribute>();
-                    break;
-                case true:
-                {
-                    Game1.player.RevalidateUltimate();
-                    EventManager.Enable<UltimateWarpedEvent>();
-                    if (Game1.currentLocation.IsDungeon())
-                    {
-                        EventManager.Enable<UltimateMeterRenderingHudEvent>();
-                    }
-
-                    break;
-                }
-            }
-        }
-    }
-
-    /// <summary>Gets the mod key used to activate the Limit Break.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(101)]
-    public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
-
-    /// <summary>Gets a value indicating whether the Limit Break is activated by holding the <see cref="LimitBreakKey"/>, as opposed to simply pressing.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(102)]
-    public bool HoldKeyToLimitBreak { get; internal set; } = true;
-
-    /// <summary>Gets how long the <see cref="LimitBreakKey"/> should be held to activate the Limit Break, in milliseconds.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(103)]
-    [GMCMRange(250, 2000)]
-    [GMCMInterval(50)]
-    public uint LimitBreakHoldDelayMilliseconds { get; internal set; } = 250;
-
-    /// <summary>
-    ///     Gets the rate at which one builds the Limit gauge. Increase this if you feel the gauge raises too
-    ///     slowly.
-    /// </summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(104)]
-    [GMCMRange(0.25f, 4f)]
-    public double LimitGainFactor
-    {
-        get => this._limitGainFactor;
-        internal set
-        {
-            this._limitGainFactor = Math.Abs(value);
-        }
-    }
-
-    /// <summary>
-    ///     Gets the rate at which the Limit gauge depletes during Ultimate. Decrease this to make the Limit Break last
-    ///     longer.
-    /// </summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(105)]
-    [GMCMRange(0.25f, 4f)]
-    public double LimitDrainFactor
-    {
-        get => this._limitDrainFactor;
-        internal set
-        {
-            this._limitDrainFactor = Math.Abs(value);
-        }
-    }
-
-    /// <summary>Gets monetary cost of changing the chosen Limit Break. Set to 0 to change for free.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(106)]
-    [GMCMRange(0, 100000)]
-    [GMCMInterval(1000)]
-    public uint LimitRespecCost { get; internal set; } = 0;
-
-    /// <summary>Gets the offset that should be applied to the Limit Gauge's position.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.limit_break")]
-    [GMCMPriority(107)]
-    [GMCMDefaultVector2(0f, 0f)]
-    public Vector2 LimitGaugeOffset { get; internal set; } = Vector2.Zero;
-
-    #endregion limit break
-
-    #region prestige
-
-    /// <summary>Gets a value which determines the paradigms of the prestige system.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(200)]
-    public PrestigeMode PrestigeProgressionMode
-    {
-        get => this._prestigeMode;
-        internal set
-        {
-            this._prestigeMode = value;
-            if (!Context.IsWorldReady)
-            {
-                return;
-            }
-
-            if (ProfessionsModule.EnablePrestigeLevels)
-            {
-                EventManager.Enable<PrestigeAchievementDayStartedEvent>();
-            }
-            else
-            {
-                EventManager.Disable<PrestigeAchievementDayStartedEvent>();
-            }
-        }
-    }
-
-    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(201)]
-    [GMCMRange(0f, 3f)]
-    public float SkillResetCostMultiplier
-    {
-        get => this._skillResetCostMultiplier;
-        internal set
-        {
-            this._skillResetCostMultiplier = Math.Abs(value);
-        }
-    }
-
-    /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(202)]
-    public bool ForgetRecipesOnSkillReset { get; internal set; } = true;
-
-    /// <summary>Gets a value indicating whether the player can use the Statue of Prestige more than once per day.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(203)]
-    public bool AllowMultipleResets { get; internal set; } = false;
-
-    /// <summary>Gets a percentage bonus applied to a skill's experience gain after a respective skill prestige. Negative values mean it becomes harder to regain those levels.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(204)]
-    [GMCMRange(-0.5f, 1f)]
-    public float ExpBonusPerSkillReset
-    {
-        get => this._expBonusPerSkillReset;
-        internal set
-        {
-            this._expBonusPerSkillReset = Math.Max(value, -0.5f);
-        }
-    }
-
-    /// <summary>Gets monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(205)]
-    [GMCMRange(0, 100000)]
-    [GMCMInterval(1000)]
-    public uint PrestigeRespecCost { get; internal set; } = 20000;
-
-    /// <summary>
-    ///     Gets the style of the sprite that appears next to skill bars. Accepted values: "StackedStars", "Gen3Ribbons",
-    ///     "Gen4Ribbons".
-    /// </summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(206)]
-    public RibbonStyle PrestigeRibbonStyle
-    {
-        get => this._ribbonStyle;
-        internal set
-        {
-            if (value == this._ribbonStyle)
-            {
-                return;
-            }
-
-            this._ribbonStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/PrestigeProgression");
-        }
-    }
-
-    /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(207)]
-    [GMCMRange(1000, 10000)]
-    [GMCMInterval(500)]
-    public uint RequiredExpPerExtendedLevel { get; internal set; } = 5000;
-
-    /// <summary>Gets a value indicating whether to add full skill mastery (level 20) as a requirement for perfection.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(208)]
-    public bool ExtendedPerfectionRequirement { get; internal set; } = true;
-
-    #endregion prestige
-
-    #region experience
-
-    /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
-    /// <remarks>The order is Farming, Fishing, Foraging, Mining, Combat and Luck (if installed).</remarks>
-    [JsonProperty]
-    [GMCMSection("prfs.experience")]
-    [GMCMPriority(300)]
-    [GMCMRange(0.2f, 2f)]
-    [GMCMOverride(typeof(GenericModConfigMenu), "ProfessionConfigSkillExpMultipliersOverride")]
-    public Dictionary<string, float> SkillExpMultipliers
-    {
-        get => this._skillExpMultipliers;
-        internal set
-        {
-            if (value == this._skillExpMultipliers)
-            {
-                return;
-            }
-
-            foreach (var pair in value)
-            {
-                this._skillExpMultipliers[pair.Key] = Math.Abs(pair.Value);
-            }
-        }
-    }
-
-    #endregion experience
-
-    #region controls & ui
-
-    /// <summary>Gets mod key used by Prospector and Scavenger professions.</summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(401)]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
-
-    /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(402)]
-    [GMCMRange(0.2f, 5f)]
-    [GMCMInterval(0.2f)]
-    public float TrackingPointerScale
-    {
-        get => this._trackingPointerScale;
-        internal set
-        {
-            this._trackingPointerScale = value;
-            if (HudPointer.Instance.IsValueCreated)
-            {
-                HudPointer.Instance.Value.Scale = value;
-            }
-        }
-    }
-
-    /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(403)]
-    [GMCMRange(0.5f, 2f)]
-    [GMCMInterval(0.05f)]
-    public float TrackingPointerBobRate
-    {
-        get => this._trackingPointerBobRate;
-        internal set
-        {
-            this._trackingPointerBobRate = value;
-            if (HudPointer.Instance.IsValueCreated)
-            {
-                HudPointer.Instance.Value.BobRate = value;
-            }
-        }
-    }
-
-    /// <summary>Gets a value indicating whether Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(404)]
-    public bool DisableAlwaysTrack { get; internal set; } = false;
-
-    /// <summary>Gets a value indicating whether to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.</summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(405)]
-    public bool UseLegacyProspectorHunt { get; internal set; } = false;
-
-    /// <summary>
-    ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
-    ///     maximum size.
-    /// </summary>
-    [JsonProperty]
-    [GMCMSection("controls_ui")]
-    [GMCMPriority(406)]
-    public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
-
-    #endregion controls & ui
 }

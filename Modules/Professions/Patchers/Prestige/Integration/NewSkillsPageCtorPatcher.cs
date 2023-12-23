@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -48,7 +49,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
             ___downButton.bounds.X += 24;
             ___scrollBar.bounds.X += 24;
             ___scrollBarRunner.X += 24;
-            if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
+            if (ProfessionsModule.Config.Prestige.Ribbon == PrestigeConfig.RibbonStyle.StackedStars)
             {
                 __instance.width += 24;
                 __instance.width += 24;

@@ -8,7 +8,7 @@ using StardewValley.Monsters;
 #endregion using directives
 
 /// <summary>Smart <see cref="Tool"/> selector.</summary>
-internal static class WeaponSelector
+internal static class ToolSelector
 {
     internal static bool TryFor(Farmer who, out int index)
     {
@@ -21,12 +21,12 @@ internal static class WeaponSelector
         }
 
         if (CombatModule.State.AutoSelectableMelee is not null &&
-            distance <= CombatModule.Config.MeleeAutoSelectionRange)
+            distance <= CombatModule.Config.ControlsUi.MeleeAutoSelectionRange)
         {
             index = who.Items.IndexOf(CombatModule.State.AutoSelectableMelee);
         }
         else if (CombatModule.State.AutoSelectableRanged is not null &&
-                 distance <= CombatModule.Config.RangedAutoSelectionRange)
+                 distance <= CombatModule.Config.ControlsUi.RangedAutoSelectionRange)
         {
             index = who.Items.IndexOf(CombatModule.State.AutoSelectableRanged);
         }

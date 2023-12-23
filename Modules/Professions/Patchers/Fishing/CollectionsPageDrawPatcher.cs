@@ -71,7 +71,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 
     private static void DrawMaxIcons(CollectionsPage page, SpriteBatch b)
     {
-        if (!ProfessionsModule.Config.ShowFishCollectionMaxIcon)
+        if (!ProfessionsModule.Config.ControlsUi.ShowFishCollectionMaxIcon)
         {
             return;
         }

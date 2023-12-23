@@ -32,7 +32,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
         {
             var owner = __instance.GetOwner();
             var isConservationist = ProfessionsModule.Config.LaxOwnershipRequirements
-                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist, out _)
+                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Conservationist)
                 : owner.HasProfession(Profession.Conservationist);
             if ((__instance.bait.Value is null && !isConservationist) || __instance.heldObject.Value is not null)
             {
@@ -43,7 +43,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             var fishData =
                 Game1.content.Load<Dictionary<int, string>>("Data\\Fish");
             var isLuremaster = ProfessionsModule.Config.LaxOwnershipRequirements
-                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster, out _)
+                ? Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster)
                 : owner.HasProfession(Profession.Luremaster);
             var whichFish = -1;
             if (__instance.bait.Value is not null)

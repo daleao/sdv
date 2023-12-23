@@ -28,7 +28,7 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (!CombatModule.Config.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue)
+        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue)
         {
             return true; // run original logic
         }

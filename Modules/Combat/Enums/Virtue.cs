@@ -4,7 +4,7 @@
 
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Combat;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley;
 
@@ -74,9 +74,9 @@ public sealed class Virtue : SmartEnum<Virtue>
         get
         {
             var target = int.MaxValue;
-            switch (CombatModule.Config.HeroQuestDifficulty)
+            switch (CombatModule.Config.Quests.HeroQuestDifficulty)
             {
-                case CombatConfig.QuestDifficulty.Easy:
+                case QuestsConfig.QuestDifficulty.Easy:
                     this
                         .When(Honor).Then(() => target = 1)
                         .When(Compassion).Then(() => target = 1)
@@ -84,7 +84,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Generosity).Then(() => target = (int)1e5)
                         .When(Valor).Then(() => target = 4);
                     break;
-                case CombatConfig.QuestDifficulty.Medium:
+                case QuestsConfig.QuestDifficulty.Medium:
                     this
                         .When(Honor).Then(() => target = 3)
                         .When(Compassion).Then(() => target = 3)
@@ -92,7 +92,7 @@ public sealed class Virtue : SmartEnum<Virtue>
                         .When(Generosity).Then(() => target = (int)5e5)
                         .When(Valor).Then(() => target = 8);
                     break;
-                case CombatConfig.QuestDifficulty.Hard:
+                case QuestsConfig.QuestDifficulty.Hard:
                     this
                         .When(Honor).Then(() => target = 5)
                         .When(Compassion).Then(() => target = 5)

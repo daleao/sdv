@@ -23,7 +23,7 @@ internal sealed class BluePrintCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BluePrintCtorPostfix(BluePrint __instance)
     {
-        if (!CombatModule.Config.DwarvenLegacy || __instance.name != "Island Obelisk" ||
+        if (!CombatModule.Config.Quests.DwarvenLegacy || __instance.name != "Island Obelisk" ||
             !__instance.itemsRequired.Remove(ObjectIds.DragonTooth))
         {
             return;

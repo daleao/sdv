@@ -34,7 +34,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         try
         {
             string message;
-            if (!ProfessionsModule.Config.AllowMultipleResets && ProfessionsModule.State.SkillsToReset.Count > 0)
+            if (!ProfessionsModule.Config.Prestige.AllowMultipleResets && ProfessionsModule.State.SkillsToReset.Count > 0)
             {
                 message = I18n.Prestige_DogStatue_Dismiss();
                 Game1.drawObjectDialogue(message);
@@ -69,7 +69,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         }
 
         var message = I18n.Prestige_DogStatue_First();
-        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset)
+        if (ProfessionsModule.Config.Prestige.ForgetRecipesOnSkillReset)
         {
             message += I18n.Prestige_DogStatue_Forget();
         }
@@ -84,7 +84,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         var message = I18n.Prestige_DogStatue_What();
         var options = Array.Empty<Response>();
 
-        if (ProfessionsModule.Config.EnableLimitBreaks &&
+        if (ProfessionsModule.Config.Limit.EnableLimitBreaks &&
             Game1.player.Get_Ultimate() is not null)
         {
             options = options.Concat(new Response[]
@@ -92,8 +92,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new(
                     "changeUlt",
                     I18n.Prestige_DogStatue_Changeult() +
-                    (ProfessionsModule.Config.LimitRespecCost > 0
-                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.LimitRespecCost)
+                    (ProfessionsModule.Config.Limit.LimitRespecCost > 0
+                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.Limit.LimitRespecCost)
                         : string.Empty)),
             }).ToArray();
         }
@@ -105,8 +105,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 new(
                     "prestigeRespec",
                     I18n.Prestige_DogStatue_Respec() +
-                    (ProfessionsModule.Config.PrestigeRespecCost > 0
-                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.PrestigeRespecCost)
+                    (ProfessionsModule.Config.Prestige.PrestigeRespecCost > 0
+                        ? ' ' + I18n.Prestige_DogStatue_Cost(ProfessionsModule.Config.Prestige.PrestigeRespecCost)
                         : string.Empty)),
             }).ToArray();
         }

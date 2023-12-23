@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -108,7 +109,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, resumeExecution1),
                         new CodeInstruction(
@@ -119,7 +123,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketPosition))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketPosition))),
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution1),
                     })
@@ -148,7 +155,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, resumeExecution2),
                         new CodeInstruction(
@@ -159,7 +169,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketPosition))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketPosition))),
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Bne_Un_S, resumeExecution2),
                     })
@@ -198,7 +211,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketStyle))),
                         new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Beq_S, drawGenericText),
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)9), // arg 9 = Item hoveredItem
@@ -252,7 +268,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                                         typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ForgeSocketStyle))),
+                                        typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.ControlsUi))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(ControlsUiConfig).RequirePropertyGetter(nameof(ControlsUiConfig.ForgeSocketStyle))),
                                     new CodeInstruction(OpCodes.Ldc_I4_0),
                                     new CodeInstruction(OpCodes.Beq_S, callTotalForgeLevels),
                                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.GetMaxForges))),
@@ -278,7 +297,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     private static void DrawForgeIcons(Tool tool, int x, ref int y, SpriteBatch b, SpriteFont font)
     {
         var position = new Vector2(x + 20, y + 24);
-        if (CombatModule.Config.ForgeSocketPosition == CombatConfig.SocketPosition.AboveSeparator)
+        if (CombatModule.Config.ControlsUi.ForgeSocketPosition == ControlsUiConfig.SocketPosition.AboveSeparator)
         {
             position.Y -= 24;
         }

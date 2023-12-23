@@ -35,7 +35,7 @@ internal sealed class CurseOneSecondUpdateTickedEvent : OneSecondUpdateTickedEve
             return;
         }
 
-        var dot = weapon.Read<int>(DataKeys.CursePoints) / 10f * CombatModule.Config.RuinBladeDotMultiplier;
+        var dot = weapon.Read<int>(DataKeys.CursePoints) / 10f * CombatModule.Config.Quests.RuinBladeDotMultiplier;
         player.health = (int)Math.Max(player.health - dot, 1);
     }
 }

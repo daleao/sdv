@@ -76,7 +76,7 @@ internal sealed class ToolbarDrawPatcher : HarmonyPatcher
         if (Game1.player.Items[j] is Tool tool && (CombatModule.State.AutoSelectableMelee == tool || CombatModule.State.AutoSelectableRanged == tool) &&
             Game1.player.CurrentTool != tool)
         {
-            buttons[j].bounds.DrawBorder(CombatModule.Config.SelectionBorderColor, b);
+            buttons[j].bounds.DrawBorder(CombatModule.Config.ControlsUi.SelectionBorderColor, b);
         }
     }
 

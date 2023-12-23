@@ -24,7 +24,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, ref int value)
     {
-        if (!CombatModule.Config.AudibleGemstones)
+        if (!CombatModule.Config.RingsEnchantments.AudibleGemstones)
         {
             return;
         }

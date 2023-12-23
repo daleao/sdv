@@ -7,6 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
@@ -64,8 +65,8 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!__instance.isActive || ProfessionsModule.Config.PrestigeProgressionMode !=
-            ProfessionConfig.PrestigeMode.Streamlined || ___currentLevel is not 15 or 20)
+        if (!__instance.isActive || ProfessionsModule.Config.Prestige.Mode !=
+            PrestigeConfig.PrestigeMode.Streamlined || ___currentLevel is not 15 or 20)
         {
             return true; // run original logic
         }
@@ -597,12 +598,12 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return false;
         }
 
-        switch (ProfessionsModule.Config.PrestigeProgressionMode)
+        switch (ProfessionsModule.Config.Prestige.Mode)
         {
-            case ProfessionConfig.PrestigeMode.Streamlined:
+            case PrestigeConfig.PrestigeMode.Streamlined:
                 return true;
 
-            case ProfessionConfig.PrestigeMode.Standard:
+            case PrestigeConfig.PrestigeMode.Standard:
             {
                 var hasAllProfessions = Game1.player.HasAllProfessionsInSkill(customSkill);
                 Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
@@ -611,7 +612,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 return hasAllProfessions;
             }
 
-            case ProfessionConfig.PrestigeMode.Challenge:
+            case PrestigeConfig.PrestigeMode.Challenge:
             {
                 var hasAllProfessions = Game1.player.HasAllProfessions(true);
                 Log.D($"[Prestige]: Farmer {Game1.player.Name} " + (hasAllProfessions
@@ -627,12 +628,12 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static void CongratulateForUnlockingPrestigeLevels(string skillId)
     {
-        switch (ProfessionsModule.Config.PrestigeProgressionMode)
+        switch (ProfessionsModule.Config.Prestige.Mode)
         {
-            case ProfessionConfig.PrestigeMode.Standard:
+            case PrestigeConfig.PrestigeMode.Standard:
                 Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Standard(CustomSkill.Loaded[skillId].DisplayName));
                 break;
-            case ProfessionConfig.PrestigeMode.Challenge:
+            case PrestigeConfig.PrestigeMode.Challenge:
                 Game1.drawObjectDialogue(I18n.Prestige_LevelUp_Unlocked_Challenge());
                 break;
         }

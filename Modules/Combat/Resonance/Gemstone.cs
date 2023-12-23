@@ -609,7 +609,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(Farmer who, float amplitude)
         {
-            if (CombatModule.Config.RebalancedRings)
+            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
             {
                 if (CombatModule.Config.NewResistanceFormula)
                 {
@@ -629,7 +629,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Dissonate(Farmer who, float amplitude)
         {
-            if (CombatModule.Config.RebalancedRings)
+            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
             {
                 if (CombatModule.Config.NewResistanceFormula)
                 {
@@ -649,7 +649,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
         {
-            if (CombatModule.Config.RebalancedRings)
+            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
             {
                 if (CombatModule.Config.NewResistanceFormula)
                 {

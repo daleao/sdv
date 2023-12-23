@@ -33,7 +33,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string? action, Farmer who)
     {
-        if (!CombatModule.Config.EnableHeroQuest || action is null || !who.IsLocalPlayer)
+        if (!CombatModule.Config.Quests.EnableHeroQuest || action is null || !who.IsLocalPlayer)
         {
             return true; // run original logic
         }

@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Integrations;
 using DaLion.Shared.Classes;
@@ -75,7 +76,7 @@ public sealed class CustomSkill : ISkill
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier =>
-        ProfessionsModule.Config.SkillExpMultipliers.TryGetValue(this.StringId, out var multiplier)
+        ProfessionsModule.Config.Experience.Multipliers.TryGetValue(this.StringId, out var multiplier)
             ? multiplier
             : 1f;
 
@@ -148,7 +149,7 @@ public sealed class CustomSkill : ISkill
             .Invoke(newLevels.Where(pair => pair.Key != this.StringId).ToList());
 
         // reset recipes
-        if (ProfessionsModule.Config.ForgetRecipesOnSkillReset && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
+        if (ProfessionsModule.Config.Prestige.ForgetRecipesOnSkillReset && this.StringId == "blueberry.LoveOfCooking.CookingSkill")
         {
             this.ForgetRecipes();
         }
@@ -244,10 +245,10 @@ public sealed class CustomSkill : ISkill
     /// <inheritdoc />
     public bool CanGainPrestigeLevels()
     {
-        return this._canPrestige && (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined ||
-                                     (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Standard &&
+        return this._canPrestige && (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Streamlined ||
+                                     (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Standard &&
                                       ((ISkill)this).AcquiredProfessions.Length >= 4) ||
-                                     (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Challenge &&
+                                     (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Challenge &&
                                       Game1.player.HasAllProfessions()));
     }
 

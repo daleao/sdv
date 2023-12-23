@@ -28,7 +28,7 @@ internal static class Farmer_Ultimate
         Values.AddOrUpdate(farmer, Create(farmer));
         Log.I($"{farmer.Name}'s Ultimate was set to {value}.");
 
-        if (value is not null && ProfessionsModule.Config.EnableLimitBreaks)
+        if (value is not null && ProfessionsModule.Config.Limit.EnableLimitBreaks)
         {
             EventManager.Enable<UltimateWarpedEvent>();
             if (Game1.currentLocation.IsDungeon())

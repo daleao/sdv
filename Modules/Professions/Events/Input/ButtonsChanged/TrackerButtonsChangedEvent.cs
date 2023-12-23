@@ -27,11 +27,11 @@ internal sealed class TrackerButtonsChangedEvent : ButtonsChangedEvent
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
-        if (ProfessionsModule.Config.ModKey.JustPressed())
+        if (ProfessionsModule.Config.ControlsUi.ModKey.JustPressed())
         {
             HudPointer.Instance.Value.ShouldBob = true;
         }
-        else if (ProfessionsModule.Config.ModKey.GetState() == SButtonState.Released &&
+        else if (ProfessionsModule.Config.ControlsUi.ModKey.GetState() == SButtonState.Released &&
                  !Game1.player.Get_ProspectorHunt().IsActive && !Game1.player.Get_ScavengerHunt().IsActive)
         {
             HudPointer.Instance.Value.ShouldBob = false;

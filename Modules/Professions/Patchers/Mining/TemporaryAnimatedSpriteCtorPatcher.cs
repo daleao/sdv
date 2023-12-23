@@ -45,7 +45,7 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
             __instance.bombRadius++;
         }
 
-        if (!ProfessionsModule.Config.ModKey.IsDown())
+        if (!ProfessionsModule.Config.ControlsUi.ModKey.IsDown())
         {
             return;
         }

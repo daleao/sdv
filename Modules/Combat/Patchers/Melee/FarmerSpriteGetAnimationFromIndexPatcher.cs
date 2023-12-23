@@ -27,7 +27,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerSpriteGetAnimationFromIndexPrefix(int index, FarmerSprite requester)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul || !CombatModule.Config.EnableMeleeComboHits ||
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul || !CombatModule.Config.WeaponsSlingshots.EnableComboHits ||
             index is not (248 or 240 or 232 or 256))
         {
             return true; // run original logic

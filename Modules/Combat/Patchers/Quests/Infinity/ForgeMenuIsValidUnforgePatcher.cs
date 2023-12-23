@@ -30,7 +30,7 @@ internal sealed class ForgeMenuIsValidUnforgePatcher : HarmonyPatcher
             return;
         }
 
-        __result = CombatModule.Config.EnableHeroQuest && __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: WeaponIds.HolyBlade };
+        __result = CombatModule.Config.Quests.EnableHeroQuest && __instance.leftIngredientSpot.item is MeleeWeapon { InitialParentTileIndex: WeaponIds.HolyBlade };
     }
 
     #endregion harmony patches

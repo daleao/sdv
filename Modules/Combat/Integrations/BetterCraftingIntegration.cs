@@ -27,7 +27,7 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
         }
 
         var recipes = new List<string>();
-        if (CombatModule.Config.CraftableGemstoneRings)
+        if (CombatModule.Config.RingsEnchantments.CraftableGemstoneRings)
         {
             recipes.AddRange(new[]
             {

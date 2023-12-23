@@ -23,7 +23,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
-        if (CombatModule.Config.DwarvenLegacy && __instance.name == "Warp Totem: Island" &&
+        if (CombatModule.Config.Quests.DwarvenLegacy && __instance.name == "Warp Totem: Island" &&
             __instance.recipeList.Remove(ObjectIds.DragonTooth))
         {
             __instance.recipeList[ObjectIds.RadioactiveOre] = 1;

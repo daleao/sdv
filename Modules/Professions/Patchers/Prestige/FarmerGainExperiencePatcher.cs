@@ -48,15 +48,6 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
 
             if (newLevel > skill.CurrentLevel)
             {
-                for (var level = skill.CurrentLevel + 1; level <= newLevel; level++)
-                {
-                    var point = new Point(which, level);
-                    if (!Game1.player.newLevels.Contains(point))
-                    {
-                        Game1.player.newLevels.Add(point);
-                    }
-                }
-
                 skill.SetLevel(newLevel);
             }
 

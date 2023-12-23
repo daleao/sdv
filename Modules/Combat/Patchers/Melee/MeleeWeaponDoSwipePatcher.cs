@@ -31,7 +31,7 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
         float swipeSpeed,
         Farmer? f)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul || __instance.isScythe())
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul || __instance.isScythe())
         {
             return true; // run original logic
         }
@@ -98,7 +98,7 @@ internal sealed class MeleeWeaponDoSwipePatcher : HarmonyPatcher
                     break;
             }
 
-            if (CombatModule.Config.EnableMeleeComboHits)
+            if (CombatModule.Config.WeaponsSlingshots.EnableComboHits)
             {
                 return false; // don't run original logic
             }

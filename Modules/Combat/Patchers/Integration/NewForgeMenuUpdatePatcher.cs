@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Overhaul.Modules.Combat.Resonance;
@@ -74,7 +74,10 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableHeroQuest))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.Quests))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(QuestsConfig).RequirePropertyGetter(nameof(QuestsConfig.EnableHeroQuest))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
                         new CodeInstruction(
@@ -130,7 +133,10 @@ internal sealed class NewForgeMenuUpdatePatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableInfinityBand))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.RingsEnchantments))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(RingsEnchantmentsConfig).RequirePropertyGetter(nameof(RingsEnchantmentsConfig.EnableInfinityBand))),
                         new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
                         new CodeInstruction(
                             OpCodes.Call,

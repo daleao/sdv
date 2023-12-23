@@ -52,7 +52,7 @@ internal sealed class ArrowProjectileBehaviorOnCollisionWithMonsterPatcher : Har
         var ogDamage = ____collectiveDamage;
         var monsterResistanceModifier = 1f + (monster.resilience.Value / 10f);
         var inverseResistanceModifer = 1f / monsterResistanceModifier;
-        IUltimate? ultimate = ____owner.IsLocalPlayer && ProfessionsModule.Config.EnableLimitBreaks
+        IUltimate? ultimate = ____owner.IsLocalPlayer && ProfessionsModule.Config.Limit.EnableLimitBreaks
             ? ____owner.Get_Ultimate()
             : null;
 

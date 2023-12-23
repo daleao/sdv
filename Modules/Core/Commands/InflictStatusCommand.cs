@@ -9,7 +9,7 @@ using DaLion.Shared.Commands;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Monsters;
-using Buff = Shared.Enums.Buff;
+using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 

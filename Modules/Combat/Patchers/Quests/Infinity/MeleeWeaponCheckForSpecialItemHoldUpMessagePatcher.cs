@@ -28,7 +28,7 @@ internal sealed class MeleeWeaponCheckForSpecialItemHoldUpMessagePatcher : Harmo
     [HarmonyPrefix]
     private static bool MeleeWeaponCheckForSpecialItemHoldUpPostfix(MeleeWeapon __instance, ref string? __result)
     {
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.Quests.EnableHeroQuest)
         {
             return true; // run original logic
         }

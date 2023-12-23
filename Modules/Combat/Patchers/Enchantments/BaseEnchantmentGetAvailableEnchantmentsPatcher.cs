@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Overhaul.Modules.Combat.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
@@ -47,7 +48,10 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.NewPrismaticEnchantments))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.RingsEnchantments))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(RingsEnchantmentsConfig).RequirePropertyGetter(nameof(RingsEnchantmentsConfig.NewPrismaticEnchantments))),
                         new CodeInstruction(OpCodes.Brtrue_S, newEnchantments),
                     })
                 .Move(12)

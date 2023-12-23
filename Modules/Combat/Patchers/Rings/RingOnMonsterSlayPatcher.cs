@@ -26,7 +26,7 @@ internal sealed class RingOnMonsterSlayPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool RingOnMonsterSlayPrefix(Ring __instance, Farmer who)
     {
-        if (!who.IsLocalPlayer || !CombatModule.Config.RebalancedRings)
+        if (!who.IsLocalPlayer || !CombatModule.Config.RingsEnchantments.RebalancedRings)
         {
             return true; // run original logic
         }

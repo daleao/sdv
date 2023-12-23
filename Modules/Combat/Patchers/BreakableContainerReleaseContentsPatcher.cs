@@ -30,7 +30,7 @@ internal sealed class BreakableContainerReleaseContentsPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool BreakableContainerReleaseContentsPrefix(BreakableContainer __instance, GameLocation location, Farmer who)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul || location is not MineShaft shaft)
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul || location is not MineShaft shaft)
         {
             return true; // run original logic
         }

@@ -14,6 +14,31 @@ using StardewModdingAPI.Utilities;
 /// <summary>The user-configurable settings for TOLS.</summary>
 public sealed class ToolConfig
 {
+    /// <inheritdoc cref="AxeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Axe", "tols.axe", true)]
+    public AxeConfig Axe { get; internal set; } = new();
+
+    /// <inheritdoc cref="PickaxeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Pickaxe", "tols.pick", true)]
+    public PickaxeConfig Pick { get; internal set; } = new();
+
+    /// <inheritdoc cref="HoeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Hoe", "tols.hoe", true)]
+    public HoeConfig Hoe { get; internal set; } = new();
+
+    /// <inheritdoc cref="WateringCanConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/WateringCan", "tols.can", true)]
+    public WateringCanConfig Can { get; internal set; } = new();
+
+    /// <inheritdoc cref="ScytheConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Scythe", "tols.scythe", true)]
+    public ScytheConfig Scythe { get; internal set; } = new();
+
     #region general
 
     /// <summary>Gets a value indicating whether to play the shockwave animation when the charged Axe is released.</summary>
@@ -90,29 +115,4 @@ public sealed class ToolConfig
     public bool HideAffectedTiles { get; internal set; } = false;
 
     #endregion controls & ui
-
-    /// <inheritdoc cref="AxeConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Axe", "tols.axe", true)]
-    public AxeConfig Axe { get; internal set; } = new();
-
-    /// <inheritdoc cref="PickaxeConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Pickaxe", "tols.pick", true)]
-    public PickaxeConfig Pick { get; internal set; } = new();
-
-    /// <inheritdoc cref="HoeConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Hoe", "tols.hoe", true)]
-    public HoeConfig Hoe { get; internal set; } = new();
-
-    /// <inheritdoc cref="WateringCanConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/WateringCan", "tols.can", true)]
-    public WateringCanConfig Can { get; internal set; } = new();
-
-    /// <inheritdoc cref="ScytheConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Overhaul.Modules.Tools/Scythe", "tols.scythe", true)]
-    public ScytheConfig Scythe { get; internal set; } = new();
 }

@@ -24,12 +24,12 @@ internal sealed class ScavengerRenderedHudEvent : RenderedHudEvent
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        if (ProfessionsModule.Config.DisableAlwaysTrack && !ProfessionsModule.Config.ModKey.IsDown())
+        if (ProfessionsModule.Config.ControlsUi.DisableAlwaysTrack && !ProfessionsModule.Config.ControlsUi.ModKey.IsDown())
         {
             return;
         }
 
-        var shouldHighlightOnScreen = ProfessionsModule.Config.ModKey.IsDown();
+        var shouldHighlightOnScreen = ProfessionsModule.Config.ControlsUi.ModKey.IsDown();
 
         // track objects
         foreach (var (tile, @object) in Game1.currentLocation.Objects.Pairs)

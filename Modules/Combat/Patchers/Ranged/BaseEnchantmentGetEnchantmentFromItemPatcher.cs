@@ -27,7 +27,7 @@ internal sealed class BaseEnchantmentGetEnchantmentFromItemPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void BaseEnchantmentGetEnchantmentFromItemPostfix(ref BaseEnchantment? __result, Item? base_item, Item item)
     {
-        if (CombatModule.Config.EnableInfinitySlingshot &&
+        if (CombatModule.Config.WeaponsSlingshots.EnableInfinitySlingshot &&
             base_item is Slingshot { InitialParentTileIndex: WeaponIds.GalaxySlingshot } &&
             Utility.IsNormalObjectAtParentSheetIndex(item, ObjectIds.GalaxySoul))
         {

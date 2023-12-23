@@ -28,7 +28,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(ref bool __result, string? questionAndAnswer)
     {
-        if (!CombatModule.Config.EnableWeaponOverhaul || !CombatModule.Config.EnableStabbingSwords ||
+        if (!CombatModule.Config.WeaponsSlingshots.EnableOverhaul || !CombatModule.Config.WeaponsSlingshots.EnableStabbingSwords ||
             questionAndAnswer?.StartsWith("PillarsConvert") != true)
         {
             return true; // run original logic

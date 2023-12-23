@@ -85,7 +85,7 @@ internal static class FarmerExtensions
     {
         return farmer.HasProfession(profession, prestiged) ||
                (ProfessionsModule.Config.LaxOwnershipRequirements &&
-                Game1.game1.DoesAnyPlayerHaveProfession(profession, out _, prestiged));
+                Game1.game1.DoesAnyPlayerHaveProfession(profession, prestiged));
     }
 
     /// <summary>
@@ -180,7 +180,7 @@ internal static class FarmerExtensions
     internal static void RevalidateUltimate(this Farmer farmer)
     {
         var currentIndex = farmer.Read(DataKeys.UltimateIndex, -1);
-        if (currentIndex > 0 && !ProfessionsModule.Config.EnableLimitBreaks)
+        if (currentIndex > 0 && !ProfessionsModule.Config.Limit.EnableLimitBreaks)
         {
             Log.W(
                 $"[PRFS]: {farmer.Name} has non-null Limit Break but Limit Breaks are not enabled. The registered Limit Break will be reset.");

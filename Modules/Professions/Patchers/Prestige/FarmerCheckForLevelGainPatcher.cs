@@ -29,7 +29,7 @@ internal sealed class FarmerCheckForLevelGainPatcher : HarmonyPatcher
 
         for (var i = 1; i <= 10; i++)
         {
-            var requiredExpForThisLevel = ISkill.ExpAtLevel10 + (ProfessionsModule.Config.RequiredExpPerExtendedLevel * i);
+            var requiredExpForThisLevel = ISkill.ExpAtLevel10 + (ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * i);
             if (oldXP >= requiredExpForThisLevel)
             {
                 continue;

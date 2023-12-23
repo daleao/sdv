@@ -24,7 +24,7 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool JadeEnchantmentUnapplyToPrefix(JadeEnchantment __instance, Item item)
     {
-        if (item is not MeleeWeapon weapon || !CombatModule.Config.RebalancedGemstones)
+        if (item is not MeleeWeapon weapon || !CombatModule.Config.RingsEnchantments.RebalancedGemstones)
         {
             return true; // run original logic
         }

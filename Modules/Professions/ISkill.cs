@@ -43,7 +43,7 @@ public interface ISkill
 
     /// <summary>Gets the experience multiplier due to this skill's prestige level.</summary>
     float PrestigeExperienceMultiplier =>
-        (float)Math.Pow(1f + ProfessionsModule.Config.ExpBonusPerSkillReset, this.AcquiredProfessions.Length);
+        (float)Math.Pow(1f + ProfessionsModule.Config.Prestige.ExpBonusPerSkillReset, this.AcquiredProfessions.Length);
 
     /// <summary>Gets the new levels gained during the current game day, which have not yet been accomplished by an overnight menu.</summary>
     IEnumerable<int> NewLevels { get; }
@@ -86,16 +86,16 @@ public interface ISkill
         6900,
         10000,
         ExpAtLevel10,
-        ExpAtLevel10 + (int)ProfessionsModule.Config.RequiredExpPerExtendedLevel,
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 2),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 3),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 4),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 5),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 6),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 7),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 8),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 9),
-        ExpAtLevel10 + ((int)ProfessionsModule.Config.RequiredExpPerExtendedLevel * 10),
+        ExpAtLevel10 + (int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel,
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 2),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 3),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 4),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 5),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 6),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 7),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 8),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 9),
+        ExpAtLevel10 + ((int)ProfessionsModule.Config.Prestige.ExpPerPrestigeLevel * 10),
     };
 
     /// <summary>Adds experience points for this skill.</summary>
@@ -149,7 +149,7 @@ public interface ISkill
     /// <returns>A sum of gold to be paid.</returns>
     int GetResetCost()
     {
-        var multiplier = ProfessionsModule.Config.SkillResetCostMultiplier;
+        var multiplier = ProfessionsModule.Config.Prestige.SkillResetCostMultiplier;
         if (multiplier <= 0f)
         {
             return 0;

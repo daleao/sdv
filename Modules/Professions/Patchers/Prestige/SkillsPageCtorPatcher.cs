@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -35,7 +36,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
         if (ProfessionsModule.EnableSkillReset)
         {
             __instance.width += 48;
-            if (ProfessionsModule.Config.PrestigeRibbonStyle == ProfessionConfig.RibbonStyle.StackedStars)
+            if (ProfessionsModule.Config.Prestige.Ribbon == PrestigeConfig.RibbonStyle.StackedStars)
             {
                 __instance.width += 24;
             }

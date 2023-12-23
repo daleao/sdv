@@ -23,9 +23,9 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => CombatModule.Config.EnableAutoSelection ||
-                                      CombatModule.Config.FaceMouseCursor ||
-                                      CombatModule.Config.SlickMoves;
+    public override bool IsEnabled => CombatModule.Config.ControlsUi.EnableAutoSelection ||
+                                      CombatModule.Config.ControlsUi.FaceMouseCursor ||
+                                      CombatModule.Config.ControlsUi.SlickMoves;
 
     /// <inheritdoc />
     protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
@@ -48,9 +48,9 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (CombatModule.Config.EnableAutoSelection && ModEntry.State.AreEnemiesAround &&
+        if (CombatModule.Config.ControlsUi.EnableAutoSelection && ModEntry.State.AreEnemiesAround &&
             player.CurrentTool != CombatModule.State.AutoSelectableRanged &&
-            WeaponSelector.TryFor(player, out var index))
+            ToolSelector.TryFor(player, out var index))
         {
             player.CurrentToolIndex = index;
         }
@@ -61,7 +61,7 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
         }
 
         var originalDirection = (FacingDirection)player.FacingDirection;
-        if (CombatModule.Config.FaceMouseCursor && !Game1.options.gamepadControls)
+        if (CombatModule.Config.ControlsUi.FaceMouseCursor && !Game1.options.gamepadControls)
         {
             var location = player.currentLocation;
             var isNearActionableTile = false;
@@ -88,7 +88,7 @@ internal sealed class SlingshotButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (!player.isMoving() || !player.running || !CombatModule.Config.SlickMoves)
+        if (!player.isMoving() || !player.running || !CombatModule.Config.ControlsUi.SlickMoves)
         {
             return;
         }

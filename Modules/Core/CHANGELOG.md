@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.2.2
+
+### Changed
+
+* GMCM page links moved to the top of the page for better UX.
+
 ## 4.2.1
 
 ### Changed

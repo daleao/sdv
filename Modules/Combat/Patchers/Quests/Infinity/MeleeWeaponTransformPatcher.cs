@@ -26,7 +26,7 @@ internal sealed class MeleeWeaponTransformPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MeleeWeaponTransformPrefix(MeleeWeapon __instance, int newIndex)
     {
-        if (!CombatModule.Config.EnableHeroQuest)
+        if (!CombatModule.Config.Quests.EnableHeroQuest)
         {
             return true; // run original logic
         }

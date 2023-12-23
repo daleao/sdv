@@ -21,7 +21,7 @@ public sealed class Chord : IChord
     private static readonly double[] Range = Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
 
     private static List<double> _linSpace =
-        MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.ChordSoundDuration / 100).ToList();
+        MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100).ToList();
 
     private readonly ICue[] _cues;
     private int[] _pitches;
@@ -102,7 +102,7 @@ public sealed class Chord : IChord
 
     internal static void RecalculateLinSpace()
     {
-        _linSpace = MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.ChordSoundDuration / 100).ToList();
+        _linSpace = MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100).ToList();
     }
 
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>
@@ -178,7 +178,7 @@ public sealed class Chord : IChord
     /// <summary>Begins playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>
     internal void PlayCues()
     {
-        if (!CombatModule.Config.AudibleGemstones)
+        if (!CombatModule.Config.RingsEnchantments.AudibleGemstones)
         {
             return;
         }
@@ -224,7 +224,7 @@ public sealed class Chord : IChord
             Log.E(ex.ToString());
         }
 
-        var fadeSteps = (int)CombatModule.Config.ChordSoundDuration / 100;
+        var fadeSteps = (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100;
         foreach (var step in Enumerable.Range(0, fadeSteps))
         {
             DelayedAction.functionAfterDelay(
@@ -282,10 +282,10 @@ public sealed class Chord : IChord
         }
 
         this._lightSource = new LightSource(
-            (int)CombatModule.Config.ResonanceLightsourceTexture,
+            (int)CombatModule.Config.RingsEnchantments.ResonanceLightsourceTexture,
             Vector2.Zero,
             (float)this.Amplitude,
-            CombatModule.Config.ColorfulResonances ? this.Root.GlowColor : Color.Black,
+            CombatModule.Config.RingsEnchantments.ColorfulResonances ? this.Root.GlowColor : Color.Black,
             playerID: Game1.player.UniqueMultiplayerID);
     }
 

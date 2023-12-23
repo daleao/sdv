@@ -25,7 +25,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <summary>Raised when the <paramref name="slingshot"/> fires a <see cref="BasicProjectile"/>.</summary>
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     /// <param name="projectile">The fired <see cref="BasicProjectile"/>.</param>
-    /// <param name="overcharge">The amount of overcharge applied by <see cref="Professions.Profession.Desperado"/>.</param>
+    /// <param name="overcharge">The amount of overcharge applied by <see cref="Profession.Desperado"/>.</param>
     /// <param name="startingPosition">The projectile's starting position (also its current position).</param>
     /// <param name="xVelocity">The horizontal component of projectile's velocity.</param>
     /// <param name="yVelocity">The vertical component of projectile's velocity.</param>

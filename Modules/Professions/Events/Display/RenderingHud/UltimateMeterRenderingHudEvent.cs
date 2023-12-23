@@ -23,7 +23,7 @@ internal sealed class UltimateMeterRenderingHudEvent : RenderingHudEvent
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
     {
-        if (!ProfessionsModule.Config.EnableLimitBreaks)
+        if (!ProfessionsModule.Config.Limit.EnableLimitBreaks)
         {
             this.Disable();
             return;

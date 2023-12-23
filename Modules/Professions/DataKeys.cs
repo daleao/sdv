@@ -17,6 +17,8 @@ internal sealed class DataKeys
     internal const string LastTackleUsed = "LastTackleUsed";
     internal const string LastTackleUses = "LastTackleUses";
     internal const string MuskUses = "MuskUses";
+
+    internal const string PlantedByArborist = "PlantedByArborist";
 }
 #pragma warning restore SA1600 // Elements should be documented
 #pragma warning restore CS1591 // Missing XML comment for publicly visible type or member

@@ -44,7 +44,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
         if (darkSword is null)
         {
-            if (CombatModule.Config.CanStoreRuinBlade)
+            if (CombatModule.Config.Quests.CanStoreRuinBlade)
             {
                 return;
             }

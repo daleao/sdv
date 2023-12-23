@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using DaLion.Overhaul.Modules.Professions.Configs;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
@@ -33,7 +34,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     {
         if ((!ProfessionsModule.EnableSkillReset ||
              questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true) &&
-            (ProfessionsModule.Config.PrestigeProgressionMode != ProfessionConfig.PrestigeMode.Streamlined ||
+            (ProfessionsModule.Config.Prestige.Mode != PrestigeConfig.PrestigeMode.Streamlined ||
              questionAndAnswer?.StartsWith("professionForget") != true))
         {
             return true; // run original logic
@@ -142,7 +143,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     private static void OfferPrestigeRespecChoices(GameLocation location)
     {
-        if (ProfessionsModule.Config.PrestigeRespecCost > 0 && Game1.player.Money < ProfessionsModule.Config.PrestigeRespecCost)
+        if (ProfessionsModule.Config.Prestige.PrestigeRespecCost is var cost and > 0 && Game1.player.Money < cost)
         {
             Game1.drawObjectDialogue(
                 Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
@@ -206,7 +207,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     private static void OfferChangeUltiChoices(GameLocation location)
     {
-        if (ProfessionsModule.Config.LimitRespecCost > 0 && Game1.player.Money < ProfessionsModule.Config.LimitRespecCost)
+        if (ProfessionsModule.Config.Limit.LimitRespecCost is var cost and > 0 && Game1.player.Money < cost)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Locations:BusStop_NotEnoughMoneyForTicket"));
             return;
@@ -261,7 +262,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static void HandlePrestigeRespec(VanillaSkill skill)
     {
         var player = Game1.player;
-        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.PrestigeRespecCost);
+        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.Prestige.PrestigeRespecCost);
 
         // remove all prestige professions for this skill
         for (var i = 0; i < 6; i++)
@@ -270,7 +271,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var currentLevel = skill.CurrentLevel;
-        if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+        if (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Streamlined)
         {
             // also remove regular professions
             for (var i = 0; i < 6; i++)
@@ -317,7 +318,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     private static void HandlePrestigeRespec(CustomSkill skill)
     {
         var player = Game1.player;
-        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.PrestigeRespecCost);
+        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.Prestige.PrestigeRespecCost);
 
         // remove all prestige professions for this skill
         for (var i = 0; i < 6; i++)
@@ -326,7 +327,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var currentLevel = Farmer.checkForLevelGain(0, player.experiencePoints[0]);
-        if (ProfessionsModule.Config.PrestigeProgressionMode == ProfessionConfig.PrestigeMode.Streamlined)
+        if (ProfessionsModule.Config.Prestige.Mode == PrestigeConfig.PrestigeMode.Streamlined)
         {
             // also remove regular professions
             for (var i = 0; i < 6; i++)
@@ -382,7 +383,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var player = Game1.player;
-        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.LimitRespecCost);
+        player.Money = Math.Max(0, player.Money - (int)ProfessionsModule.Config.Limit.LimitRespecCost);
 
         // change ultimate
         var chosenUltimate = Ultimate.FromName(choice.SplitWithoutAllocation('_')[1].ToString());

@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat;
+using DaLion.Overhaul.Modules.Combat.Configs;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -50,7 +50,10 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableWeaponOverhaul))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.WeaponsSlingshots))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponsSlingshotsConfig).RequirePropertyGetter(nameof(WeaponsSlingshotsConfig.EnableOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontRebalance),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Call, typeof(MineShaft).RequirePropertyGetter(nameof(MineShaft.mineLevel))),
@@ -86,7 +89,10 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.EnableWeaponOverhaul))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.WeaponsSlingshots))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(WeaponsSlingshotsConfig).RequirePropertyGetter(nameof(WeaponsSlingshotsConfig.EnableOverhaul))),
                         new CodeInstruction(OpCodes.Brfalse_S, dontRebalance),
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Call, typeof(MineShaft).RequirePropertyGetter(nameof(MineShaft.mineLevel))),
@@ -119,7 +125,10 @@ internal sealed class MineShaftPopulateLevelPatcher : HarmonyPatcher
                             typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.MonsterSpawnChanceMultiplier))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.Enemies))),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(EnemiesConfig).RequirePropertyGetter(nameof(EnemiesConfig.MonsterSpawnChanceMultiplier))),
                         new CodeInstruction(OpCodes.Conv_R8),
                         new CodeInstruction(OpCodes.Mul),
                     });

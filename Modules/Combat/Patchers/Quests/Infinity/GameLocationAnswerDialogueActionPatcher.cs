@@ -29,7 +29,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(GameLocation __instance, ref bool __result, string? questionAndAnswer)
     {
-        if (!CombatModule.Config.EnableHeroQuest || questionAndAnswer?.StartsWithAnyOf("DarkSword_", "Yoba_") != true)
+        if (!CombatModule.Config.Quests.EnableHeroQuest || questionAndAnswer?.StartsWithAnyOf("DarkSword_", "Yoba_") != true)
         {
             return true; // run original logic
         }

@@ -1012,7 +1012,7 @@ internal static class SlingshotExtensions
     /// <param name="slingshot">The <see cref="Slingshot"/>.</param>
     internal static void AddIntrinsicEnchantments(this Slingshot slingshot)
     {
-        if (!CombatModule.Config.EnableHeroQuest || slingshot.InitialParentTileIndex != WeaponIds.InfinitySlingshot ||
+        if (!CombatModule.Config.Quests.EnableHeroQuest || slingshot.InitialParentTileIndex != WeaponIds.InfinitySlingshot ||
             slingshot.hasEnchantmentOfType<RangedInfinityEnchantment>())
         {
             return;

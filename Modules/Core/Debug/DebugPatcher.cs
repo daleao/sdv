@@ -15,6 +15,7 @@ internal sealed class DebugPatcher : HarmonyPatcher
     /// <summary>Initializes a new instance of the <see cref="DebugPatcher"/> class.</summary>
     internal DebugPatcher()
     {
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.placementAction));
     }
 
     #region harmony patches
@@ -22,13 +23,13 @@ internal sealed class DebugPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void DebugPrefix()
     {
-        Log.D("Debug prefix called!");
+        Log.A("Debug prefix called!");
     }
 
     [HarmonyPostfix]
     private static void DebugPostfix()
     {
-        Log.D("Debug postfix called!");
+        Log.A("Debug postfix called!");
     }
 
     #endregion harmony patches

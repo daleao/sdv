@@ -35,8 +35,8 @@ internal sealed class HudPointer
     /// <summary>Gets the singleton <see cref="HudPointer"/> instance.</summary>
     internal static Lazy<HudPointer> Instance { get; } = new(() => new HudPointer(
         ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/HudPointer"),
-        ProfessionsModule.Config.TrackingPointerScale,
-        ProfessionsModule.Config.TrackingPointerBobRate));
+        ProfessionsModule.Config.ControlsUi.TrackingPointerScale,
+        ProfessionsModule.Config.ControlsUi.TrackingPointerBobRate));
 
     /// <summary>Gets or sets the scale for drawing the pointer.</summary>
     internal float Scale { get; set; }

@@ -21,7 +21,7 @@ internal sealed class BullseyeRenderedEvent : RenderedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => CombatModule.Config.BullseyeReplacesCursor && Game1.player.usingSlingshot;
+    public override bool IsEnabled => CombatModule.Config.ControlsUi.BullseyeReplacesCursor && Game1.player.usingSlingshot;
 
     /// <inheritdoc />
     protected override void OnRenderedImpl(object? sender, RenderedEventArgs e)
