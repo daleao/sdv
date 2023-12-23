@@ -301,7 +301,7 @@ Click on any profession below to display more details. When a perk is preceded b
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases every mine level. +1 speed every 10 levels.
+<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases after each mine level. +1 speed every 10 levels.
 </summary>
 
 <ul>
@@ -310,7 +310,7 @@ Click on any profession below to display more details. When a perk is preceded b
 - Plus 0.5% ladder chance per level. Bonus ladder chance resets each time you leave the mines. **This includes taking the stairs back to the mine entrance.**
 
 <font color="gold">
-<b>⭐ <img src="./resources/assets/sprites/loose/spelunker_p.png"/> Cavewarden (Lv20)</b> - Recover some health and stamina upon reaching a new mine level.
+<b>⭐ <img src="./resources/assets/sprites/loose/spelunker_p.png"/> Cavewarden (Lv20)</b> - Recover some health and stamina at each mine level.
 </font>
 
 </font>

@@ -84,8 +84,8 @@
   "spelunker.title.female": "Spelunker",
   "spelunker.title.prestiged.male": "Cavewarden", // Alternatives: Speleologist
   "spelunker.title.prestiged.female": "Cavewarden",
-  "spelunker.desc": "Chance to find ladders and shafts increases every mine level. Speed increases every 5 levels.",
-  "spelunker.desc.prestiged": "Restore some health and energy upon reaching a new mine level.",
+  "spelunker.desc": "Chance to find ladders and shafts increases after each mine level. Speed increases every 5 levels.",
+  "spelunker.desc.prestiged": "Restore some health and energy at each mine level.",
   "spelunker.buff.desc": "Ladder chance +{{ladderChance}}. +{{speed}} Speed.",
   "prospector.title.male": "Prospector",
   "prospector.title.female": "Prospector",
