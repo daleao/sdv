@@ -42,7 +42,7 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 - **[PNDS](Modules/Ponds#margo--ponds-pnds)** is a complement to the new Aquarist profession. It allows Fish Ponds to produce Roe with scaling quantities and qualities, spontaneously grow algae, and even enrich metallic nuclei...
 
-- **[TXS](Modules/Taxes#margo--taxes-txs)** is a complement to the new Conservationist profession. It introduces a realistic taxation system, including the ability to deduct business expenses and even evade taxes. Adds some extra challenge, an end-game gold sink, and immersiveness. Because surely a nation **at war** would capitalize on a millionaire farmer.
+- **[TXS](Modules/Taxes#margo--taxes-txs)** is a complement to the new Conservationist profession. It introduces a realistic taxation system, including the ability to deduct business expenses and even evade taxes. Because surely a nation *currently at war* would capitalize on a millionaire farmer.
 
 - **[TOLS](Modules/Tools#margo--tools-tols)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
 

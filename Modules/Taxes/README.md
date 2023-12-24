@@ -6,7 +6,7 @@
 
 ## Overview
 
-This mod implements a "simple" (*citation needed*) taxation system to the game, because surely a nation at war would be on top of your juicy pile of gold.
+This mod implements a "simple" (*citation needed*) taxation system to the game, which serves not only as an added challenge and end-game gold sink, but also enriches existing vanilla elements with new gameplay. Because surely a nation [currently at war](https://stardewvalleywiki.com/Gotoro_Empire) would be all over some millionaire Joe Schmoe farmer.
 
 ### Income Tax
 
