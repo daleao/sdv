@@ -30,7 +30,7 @@ internal sealed class CraftingRecipeConsumeIngredientsPatcher : HarmonyPatcher
     private static bool CraftingRecipeConsumeIngredientsPrefix(
         CraftingRecipe __instance, IList<Chest?>? additional_materials)
     {
-        if (additional_materials is null || !__instance.name.Contains("Ring") ||
+        if (!__instance.name.Contains("Ring") ||
             !__instance.name.ContainsAnyOf("Glow", "Magnet") || !TweexModule.Config.ImmersiveGlowstoneProgression)
         {
             return true; // run original logic
@@ -43,7 +43,7 @@ internal sealed class CraftingRecipeConsumeIngredientsPatcher : HarmonyPatcher
                 var remaining = index.IsRingIndex()
                     ? Game1.player.ConsumeRing(index, required)
                     : Game1.player.ConsumeObject(index, required);
-                if (remaining <= 0)
+                if (remaining <= 0 || additional_materials is null)
                 {
                     continue;
                 }

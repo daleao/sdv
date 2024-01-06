@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Threading.Tasks;
-using DaLion.Overhaul.Modules.Professions.Events.GameLoop.DayStarted;
 using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Events;
@@ -24,41 +23,39 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
     }
 
     /// <inheritdoc />
-    protected override void OnEnabled()
-    {
-        this.Manager.Disable<MonitorLuremastersDayStartedEvent>();
-    }
-
-    /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
         Parallel.ForEach(Game1.game1.IterateAllWithLocation<CrabPot>(), pair =>
         {
-            if (pair.Instance.heldObject.Value is not null)
+            var (instance, location) = pair;
+            if (instance.heldObject.Value is not null)
             {
                 return;
             }
 
-            var owner = pair.Instance.GetOwner();
+            var owner = instance.GetOwner();
             var max = owner.HasProfessionOrLax(Profession.Luremaster, true)
                 ? 2
                 : owner.HasProfessionOrLax(Profession.Luremaster)
                     ? 1
                     : 0;
-            if (max == 0 || pair.Instance.Get_Successes() >= max)
+            if (max == 0 || instance.Get_Successes() >= max)
             {
                 return;
             }
 
-            var chance = 1d / ((max == 2 ? 8d : 12d) - pair.Instance.Get_Attempts());
+            var chance = 1d / ((max == 2 ? 8d : 12d) - instance.Get_Attempts());
             if (Game1.random.NextDouble() > chance)
             {
+                instance.IncrementAttempts();
                 return;
             }
 
-            pair.Instance.DayUpdate(pair.Location);
-            pair.Instance.IncrementSuccesses();
-            pair.Instance.ResetAttempts();
+            Log.D("Crab Pot instance succeeded in Luremaster additional capture! Running day update...");
+            instance.DayUpdate(location);
+            Log.D("Day update complete.");
+            instance.IncrementSuccesses();
+            instance.ResetAttempts();
         });
     }
 }

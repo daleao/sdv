@@ -1,5 +1,13 @@
 ﻿# CMBT Changelog
 
+## 4.2.2
+
+### Fixed
+
+* Fixed Mammonite enchantment not account for negative enemy HP, which could cause the player to *lose* money when slaying enemies.
+
+<sup><sup>[🔼 Back to top](#cmbt-changelog)</sup></sup>
+
 ## 4.2.0
 
 ### Added

@@ -46,7 +46,7 @@ The available modules are listed below. **Please read this page carefuly in its 
 
 - **[TOLS](Modules/Tools#margo--tools-tols)** is a one-stop-shop for tool customization and quality-of-life. It enables resource-tool charging, farming-tool customization, intelligent tool auto-selection, and even adds Radioactive tool upgrades, among other things.
 
-- **[TWX](Modules/Tweex#margo--tweex-twx)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module. *Feel free to suggest new tweaks for this module.*
+- **[TWX](Modules/Tweex#margo--tweex-twx)** is the final module, and serves as a repository for smaller tweaks and fixes to inconsistencies not large enough to merit a separate module. *Feel free to suggest new tweaks for this module!*
 
 Please note that only the Professions and Tweex modules are enabled by default.
 

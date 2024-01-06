@@ -23,9 +23,12 @@ internal sealed class MonitorLuremastersDayStartedEvent : DayStartedEvent
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
+        if (!Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
         {
-            this.Manager.Enable<LuremasterTimeChangedEvent>();
+            return;
         }
+
+        this.Manager.Enable(typeof(LuremastersDayStartedEvent), typeof(LuremasterTimeChangedEvent));
+        this.Disable();
     }
 }

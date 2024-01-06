@@ -30,7 +30,7 @@ public sealed class MammoniteEnchantment : BaseWeaponEnchantment
             return;
         }
 
-        if (monster.Health >= monster.MaxHealth * this.Threshold || monster.Health > 1000)
+        if (monster.Health is > 1000 or < 0 || monster.Health >= monster.MaxHealth * this.Threshold)
         {
             return;
         }

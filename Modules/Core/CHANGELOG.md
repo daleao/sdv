@@ -5,6 +5,9 @@
 ### Changed
 
 * GMCM page links moved to the top of the page for better UX.
+* Updated Chinese translations by [Jumping-notes](https://github.com/Jumping-notes).
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 4.2.1
 

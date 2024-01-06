@@ -2,6 +2,15 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.2.2 Highlights
+
+Moved GMCM page links moved to the top of the respective page.
+* [CMBT]: Fixed Mammonite enchantment sometimes consuming gold instead of rewarding it.
+* [PRFS]: Buffed the Prestiged Trapper perk.
+* [PRFS]: Fixed Luremaster double Crab Pot production not applying correctly.
+* [TWX]: Fixed ring materials not being consumed when crafting rings in the Glowstone progression.
+* Updated translations.
+
 ## Patch 4.2.1 Highlights
 
 * Fixed a GMCM issue in handheld systems.

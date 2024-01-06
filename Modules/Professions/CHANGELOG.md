@@ -2,12 +2,24 @@
 
 ## 4.2.2
 
+### Added
+
+* Added alternate Prestige icons by [Posister](https://github.com/Posister).
+
+<img src="../../assets/sprites/interface/professions_alt.png">
+
 ### Changed
 
 * Buffed the Prestiged Trapper perk.
     * Before: Adds `FishingLevel / 60` chance to find Iridium-quality fish.
     * Now: All qualities from regular Trapper are increased by 1 level; i.e. Iridium is now the highest with `FishingLevel / 30` chance, and Silver is the lowest.
 * Reworded Spelunker description.
+
+### Fixed
+
+* Fixed Luremaster double Crab Pot production not applying after the first day. Also fixed the chance of double production not scaling correctly with each failed attempt.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 4.2.1
 

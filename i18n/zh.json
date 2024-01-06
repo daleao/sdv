@@ -94,7 +94,7 @@
   "fisher.title.male": "渔夫",
   "fisher.title.female": "渔夫",
   "fisher.desc": "钓鱼时鱼饵的效果提高了 2 倍。",
-  "fisher.desc.prestiged": "钓鱼时鱼饵的效果提高 2 倍 >> 3 倍。",
+  "fisher.desc.prestiged": "钓鱼时鱼饵的效果是原来的 2 倍 >> 3 倍。",
   "angler.title.male": "垂钓者",
   "angler.title.female": "垂钓者",
   "angler.desc": "每捕获一种独特的鱼类，鱼的价值就会增加 0.5%。 完全展开钓具会导致其效果持续在钓竿上。",
@@ -197,10 +197,10 @@
   "prestige.level_up.tooltip:5": "你已经拥有这个分支的所有职业。",
   "prestige.level_up.tooltip:10": "你已经有这个职业了。",
   "prestige.level_up.question": "目前已经拥有{{oldProfession}}的{{oldUltimate}}。是否替换为{{newProfession}}的{{newUltimate}}？",
-  "prestige.level_up.unlocked.standard": "您现在可以继续进一步发展你的{{skill}}技能。",
-  "prestige.level_up.unlocked.challenge": "您现在可以继续进一步发展你的技能。",
-  "prestige.level_up.choose": "选择一个职业来声望：",
-  "prestige.level_up.streamlined": "Gained Prestige",
+  "prestige.level_up.unlocked.standard": "你现在可以进一步发展你的{{skill}}技能。",
+  "prestige.level_up.unlocked.challenge": "现在你可以继续进一步发展你的技能。",
+  "prestige.level_up.choose": "选择有声望的职业：",
+  "prestige.level_up.streamlined": "获得声望",
   "prestige.achievement.title.male": "万事通",
   "prestige.achievement.title.female": "万事通",
   "prestige.achievement.desc.male": "超越普通农民的极限。",
@@ -214,8 +214,8 @@
   "weapons.type.sword": "剑",
   "weapons.type.club": "棍棒",
   "weapons.type.dagger": "匕首",
-  "weapons.sword.stabbing": "进攻",
-  "weapons.sword.defense": "防守",
+  "weapons.type.stabbing": "进攻",
+  "weapons.type.defense": "防守",
   "weapons.dwarven.prefix": "矮人",
   "weapons.elven.prefix": "小精灵",
   "weapons.dark_sword.name": "堕落之刃",
@@ -470,9 +470,9 @@
 
   // professions
   "gmcm.pages.prfs": "职业",
-  "gmcm.pages.prfs.limit": "Limit Break Settings",
-  "gmcm.pages.prfs.prestige": "Prestige Settings",
-  "gmcm.pages.prfs.experience": "Experience Settings",
+  "gmcm.pages.prfs.limit": "极限技能设置",
+  "gmcm.pages.prfs.prestige": "声望设置",
+  "gmcm.pages.prfs.experience": "经验设置",
 
   "gmcm.sections.prfs.general": "一般职业设置",
   "gmcm.should_junimos_inherit_professions.title": "祝尼魔是否继承职业技能",
@@ -583,17 +583,17 @@
   "gmcm.show_fish_collection_max_icon.title": "在“鱼类收集图鉴”中显示“MAX”图标",
   "gmcm.show_fish_collection_max_icon.desc": "是否在最大尺寸捕获的鱼下面显示“Max”图标。",
 
-  "gmcm.go_to.prfs.limit": "Go to Limit Break Settings",
-  "gmcm.go_to.prfs.prestige": "Go to Prestige Settings",
-  "gmcm.go_to.prfs.experience": "Go to Experience Settings",
-  "gmcm.back_to.prfs": "Back to Profession settings",
+  "gmcm.go_to.prfs.limit": "进入极限技能设置",
+  "gmcm.go_to.prfs.prestige": "进入声望设置",
+  "gmcm.go_to.prfs.experience": "进入经验设置",
+  "gmcm.back_to.prfs": "返回职业设置",
 
   // combat
   "gmcm.pages.cmbt": "战斗",
-  "gmcm.pages.cmbt.enemies": "Enemy Encounter Settings",
-  "gmcm.pages.cmbt.quests": "Quest Settings",
-  "gmcm.pages.cmbt.rings_enchantments": "Ring & Enchantment Settings",
-  "gmcm.pages.cmbt.weapons_slingshots": "Weapon & Slingshot Settings",
+  "gmcm.pages.cmbt.enemies": "敌人遭遇设置",
+  "gmcm.pages.cmbt.quests": "任务设置",
+  "gmcm.pages.cmbt.rings_enchantments": "戒指&附魔设置",
+  "gmcm.pages.cmbt.weapons_slingshots": "武器与弹弓设置",
 
   "gmcm.sections.cmbt.general": "一般战斗设置",
   "gmcm.new_resistance_formula.title": "新防御公式",
@@ -630,7 +630,7 @@
   "gmcm.grounded_club_smash.title": "球棒扣杀",
   "gmcm.grounded_club_smash.desc": "棍棒粉碎AoE将保证对洞穴敌人造成暴击伤害，但会错过飞行的敌人。",
 
-  "gmcm.sections.cmbt.ranged": "Slingshots",
+  "gmcm.sections.cmbt.ranged": "弹弓",
 
   "gmcm.enable_ranged_critical_hits.title": "启用远程暴击",
   "gmcm.enable_ranged_critical_hits.desc": "允许弹弓造成暴击伤害并受到暴击修正的影响。",
@@ -743,11 +743,11 @@
   "gmcm.bullseye_replaces_cursor.title": "靶心替换光标",
   "gmcm.bullseye_replaces_cursor.desc": "在发射弹弓时绘制靶心而不是鼠标光标。出于显而易见的原因，此选项不支持反向射击。",
 
-  "gmcm.go_to.cmbt.enemies": "Go to Enemy Encounter Settings",
-  "gmcm.go_to.cmbt.quests": "Go to Quest Settings",
-  "gmcm.go_to.cmbt.rings_enchantments": "Go to Ring & Enchantment Settings",
-  "gmcm.go_to.cmbt.weapons_slingshots": "Go to Weapon & Slingshot Settings",
-  "gmcm.back_to.cmbt": "Back to Combat settings",
+  "gmcm.go_to.cmbt.enemies": "进入敌人遭遇设置",
+  "gmcm.go_to.cmbt.quests": "进入任务设置",
+  "gmcm.go_to.cmbt.rings_enchantments": "进入戒指与附魔设置",
+  "gmcm.go_to.cmbt.weapons_slingshots": "进入武器&弹弓设置",
+  "gmcm.back_to.cmbt": "返回战斗设置",
 
   // tools
   "gmcm.pages.tols": "工具",
@@ -1013,7 +1013,7 @@
   "gmcm.deterministic_age_quality.desc": "年龄与品质关系是确定的(True)还是随机的(Fasle)。",
 
   // control & ui
-  "gmcm.pages.controls_ui": "Control & UI Settings",
+  "gmcm.pages.controls_ui": "按键 & UI设置",
   "gmcm.sections.controls_ui": "控制 & UI",
   "gmcm.face_mouse_cursor.title": "脸朝向鼠标光标",
   "gmcm.face_mouse_cursor.desc": "如果使用鼠标和键盘，请在摆动前将光标朝向当前位置。",
