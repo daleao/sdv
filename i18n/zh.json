@@ -193,7 +193,7 @@
   "prestige.dog_statue.choice": "{{ultimate}}的{{profession}}",
   "prestige.dog_statue.fledged": "*沃夫* *沃夫* (你现在是一个完整的{{profession}}。)",
   "prestige.dog_statue.cancel": "我改变了主意...",
-  "prestige.skill_page.tooltip": "{{count}}/4个获得的职业：",
+  "prestige.skill_page.tooltip": "{{count}}/6个获得的职业：",
   "prestige.level_up.tooltip:5": "你已经拥有这个分支的所有职业。",
   "prestige.level_up.tooltip:10": "你已经有这个职业了。",
   "prestige.level_up.question": "目前已经拥有{{oldProfession}}的{{oldUltimate}}。是否替换为{{newProfession}}的{{newUltimate}}？",

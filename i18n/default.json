@@ -233,7 +233,7 @@
   "prestige.dog_statue.choice": "{{profession}}'s {{ultimate}}",
   "prestige.dog_statue.fledged": "*woof* *woof* (You are now a fully-fledged {{profession}}).",
   "prestige.dog_statue.cancel": "I changed my mind...",
-  "prestige.skill_page.tooltip": "{{count}}/4 professions acquired:",
+  "prestige.skill_page.tooltip": "{{count}}/6 professions acquired:",
   "prestige.level_up.tooltip:5": "Already acquired all professions in this branch.",
   "prestige.level_up.tooltip:10": "Already acquired this profession.",
   "prestige.level_up.question": "Currently using {{oldProfession}}'s {{oldUltimate}}. Replace with {{newProfession}}'s {{newUltimate}}?",

@@ -191,7 +191,7 @@
   "prestige.dog_statue.choice": "{{ultimate}} ({{profession}})",
   "prestige.dog_statue.fledged": "¡Guau! ¡Guau! (Ahora eres un(a) {{profession}} de pleno derecho.)",
   "prestige.dog_statue.cancel": "He cambiado de idea...",
-  "prestige.skill_page.tooltip": "{{count}}/4 profesiones adquiridas:",
+  "prestige.skill_page.tooltip": "{{count}}/6 profesiones adquiridas:",
   "prestige.level_up.tooltip:5": "Ya tienes todas las profesiones en esta rama.",
   "prestige.level_up.tooltip:10": "Ya tienes esta profesión.",
   "prestige.level_up.question": "Estás usando el(la) {{oldUltimate}} de la profesión {{oldProfession}}. ¿Reemplazar con el(la) {{newUltimate}} de la profesión {{newProfession}}?",

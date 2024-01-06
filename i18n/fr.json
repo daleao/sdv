@@ -191,7 +191,7 @@
   "prestige.dog_statue.choice": "{{ultimate}} ({{profession}})",
   "prestige.dog_statue.fledged": "*Wouaf* *Wouaf* (vous êtes désormais un(e} {{profession}} à part entière.)",
   "prestige.dog_statue.cancel": "J’ai changé d’avis...",
-  "prestige.skill_page.tooltip": "{{count}}/4 professions acquises:",
+  "prestige.skill_page.tooltip": "{{count}}/6 professions acquises:",
   "prestige.level_up.tooltip:5": "Vous avez déjà tous les professions dans cette branche.",
   "prestige.level_up.tooltip:10": "Vous avez déjà cette profession.",
   "prestige.level_up.question": "Vous utilisez le(a) {{oldUltimate}} de la profession {{oldProfession}}. Remplacer par le(a) {{newUltimate}} de la profession {{newProfession}} ?",

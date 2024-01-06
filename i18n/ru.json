@@ -191,7 +191,7 @@
   "prestige.dog_statue.choice": "{{profession}} {{ultimate}}",
   "prestige.dog_statue.fledged": "*гав* *гав* (Теперь вы полноценный(ая) {{profession}}).",
   "prestige.dog_statue.cancel": "Я передумал(а)...",
-  "prestige.skill_page.tooltip": "{{count}}/4 приобретенных профессий:",
+  "prestige.skill_page.tooltip": "{{count}}/6 приобретенных профессий:",
   "prestige.level_up.tooltip:5": "Все профессии в этой отрасли уже освоены.",
   "prestige.level_up.tooltip:10": "Эта профессия уже освоена.",
   "prestige.level_up.question": "В настоящее время выбрано {{old Profession}} {{old Ultimate}}. Заменить на {{new Profession}} {{new Ultimate}}?",

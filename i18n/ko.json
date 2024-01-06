@@ -190,7 +190,7 @@
   "prestige.dog_statue.choice": "{{profession}}의 {{ultimate}}",
   "prestige.dog_statue.fledged": "*멍* *멍* (당신은 이제 완전한 {{profession}}(이)가 되었습니다).",
   "prestige.dog_statue.cancel": "마음이 바뀌었어요...",
-  "prestige.skill_page.tooltip": "습득한 직업 {{count}}/4:",
+  "prestige.skill_page.tooltip": "습득한 직업 {{count}}/6:",
   "prestige.level_up.tooltip:5": "이미 이 계통의 모든 직업을 습득했습니다.",
   "prestige.level_up.tooltip:10": "이미 이 직업을 습득했습니다.",
   "prestige.level_up.question": "현재 {{oldProfession}}의 {{oldUltimate}}(이)가 있습니다. {{newProfession}}의 {{newUltimate}}(으)로 변경할까요?",

@@ -191,7 +191,7 @@
   "prestige.dog_statue.choice": "{{profession}}の{{ultimate}}",
   "prestige.dog_statue.fledged": "*ワン* *ワン* (これで君も一人前の{{profession}}だよ。).",
   "prestige.dog_statue.cancel": "やっぱりやめる...",
-  "prestige.skill_page.tooltip": "取得した特化職{{count}}/4 :",
+  "prestige.skill_page.tooltip": "取得した特化職{{count}}/6 :",
   "prestige.level_up.tooltip:5": "この分野の全ての特化職を取得済み。",
   "prestige.level_up.tooltip:10": "すでにこの特化職を取得している。",
   "prestige.level_up.question": "現在のアルティメットは{{oldProfession}}の{{oldUltimate}}です。 {{newProfession}}の {{newUltimate}}に変更しますか？",

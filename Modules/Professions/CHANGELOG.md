@@ -4,15 +4,24 @@
 
 ### Added
 
-* Added alternate Prestige icons by [Posister](https://github.com/Posister).
+* Added alternate Prestige icons by [Posister](https://github.com/Posister). Check them out below (left: Original Metallic; right: Posister Gold. You can switch between them via UI config settings.
 
-<img src="../../assets/sprites/interface/professions_alt.png">
+<div align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/assets/sprites/interface/professions_MetallicGold.png">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/assets/sprites/interface/professions_PosisterGold.png">
+</div>
 
 ### Changed
 
 * Buffed the Prestiged Trapper perk.
     * Before: Adds `FishingLevel / 60` chance to find Iridium-quality fish.
     * Now: All qualities from regular Trapper are increased by 1 level; i.e. Iridium is now the highest with `FishingLevel / 30` chance, and Silver is the lowest.
+* Prestige ribbon tooltips now also list acquired 5th-level professions, instead of only the 10th-level professions. People have been confused about whether or not they still have the 5th-level profession after doing a reset, so this should make it clear.
+
+<div align="center">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/new_tooltips.png">
+</div>
+
 * Reworded Spelunker description.
 
 ### Fixed
