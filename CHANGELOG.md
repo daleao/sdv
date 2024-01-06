@@ -7,6 +7,8 @@ This file contains a TL;DR of current version changes and hotfixes from across a
 Moved GMCM page links moved to the top of the respective page.
 * [CMBT]: Fixed Mammonite enchantment sometimes consuming gold instead of rewarding it.
 * [PRFS]: Buffed the Prestiged Trapper perk.
+* [PRFS]: Added new Prestige profession icons.
+* [PRFS]: Added 5th-level professions to Prestige ribbon tooltips.
 * [PRFS]: Fixed Luremaster double Crab Pot production not applying correctly.
 * [TWX]: Fixed ring materials not being consumed when crafting rings in the Glowstone progression.
 * Updated translations.
