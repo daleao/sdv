@@ -4,7 +4,7 @@
 
 ### Added
 
-* Added alternate Prestige icons by [Posister](https://github.com/Posister). Check them out below (left: Original Metallic; right: Posister Gold. You can switch between them via UI config settings.
+* Added alternate Prestige icons by [Posister](https://github.com/Posister). Check them out below (left: Original Metallic; right: Posister Gold. You can switch between them via Prestige config settings.
 
 <div align="center">
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/assets/sprites/interface/professions_MetallicGold.png">
@@ -19,7 +19,7 @@
 * Prestige ribbon tooltips now also list acquired 5th-level professions, instead of only the 10th-level professions. People have been confused about whether or not they still have the 5th-level profession after doing a reset, so this should make it clear.
 
 <div align="center">
-<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/new_tooltips.png">
+<img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/new_tooltips.png" width="33%">
 </div>
 
 * Reworded Spelunker description.

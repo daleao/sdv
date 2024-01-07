@@ -345,12 +345,12 @@
   "global.infinitycraft": "{{who}} a forgé une Bague Infini.",
   "resonance": "Résonance",
 
-  "dialogue.emily.gemstones.first": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the vibrant energy of a ruby.#$b#Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
+  "dialogue.emily.gemstones.first": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the fieriness of a ruby!#$b#Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
   "dialogue.emily.gemstones.second": "Every gemstone has a different vibration. When you connect with a gemstone, it resonates with the frequencies of our internal emotions.#$b#If you listen closely, you can even hear it!",
   "dialogue.emily.gemstones.third": "How do you connect with a gemstone?#$b#$h#By keeping it close to you, of course!#$b#$0$#You can wear it as a ring or a necklace and carry it around with you. It's like having a little piece of nature's harmony with you wherever you go!",
   "dialogue.emily.gemstones.fourth": "Most jewelry can only house one gemstone.#$b#Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones.",
   "dialogue.qi.gemstones.first": "I see you've made yourself a couple of Iridium Bands.#$b#Have you discovered their true purpose?",
-  "dialogue.qi.gemstones.second": "It may not seem like much, but combined wth some cosmic power the Iridium Band can become extraordinarily powerful...",
+  "dialogue.qi.gemstones.second": "It may not look like anything special, but given some cosmic power the Iridium Band can be extraordinarily powerful...",
 
   // json-assets
   "gems.garnet.name": "Grenat",

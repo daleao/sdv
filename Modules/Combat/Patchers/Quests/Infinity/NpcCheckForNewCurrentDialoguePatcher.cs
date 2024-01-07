@@ -60,9 +60,8 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Emily_Gemstones_Fourth(), __instance));
                     break;
 
-                case "Mr. Qi" when __instance.currentLocation.Name == "QiNutRoom" &&
-                                   player.craftingRecipes.TryGetValue("Iridium Band", out var crafted) && crafted > 0 &&
-                                   !player.Read<bool>(DataKeys.HasMadeInfinityBand):
+                case "Mr. Qi" when player.craftingRecipes.TryGetValue("Iridium Band", out var crafted) && crafted > 0 &&
+                                   !player.Read<bool>(DataKeys.HasMadeInfinityBand) && Game1.random.NextDouble() < 1d / 3d:
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Qi_Gemstones_First(), __instance));
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Qi_Gemstones_Second(), __instance));
                     break;
