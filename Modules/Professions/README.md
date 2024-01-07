@@ -709,7 +709,7 @@ You may choose only **one** Prestige Profession per skill. You will be able to c
 Prestige Levels are included in the **Standard**, **Challenge** and **Streamlined** modes:
 
 - In **Standard** mode, Prestige Levels are unlocked individually for each skill after the corresponding skill has been reset 3 times and all 10th-level professions within that skill have been acquired.
-- In **Challenge** mode, Prestige Levels are unlocked simultaneously for all skills after all skills have been reset 3 times and all 10th-level professions have been acquired across all skills.
+- In **Challenge** mode, Prestige Levels are unlocked simultaneously for all skills after all skills have been reset 3 times and all 10th-level professions have been acquired across all skills (***only Vanilla skills are considered***).
 - In **Streamlined** mode, Prestige Levels are available immediately at level 10 with no additional requirements.
 
 Note that changing the mode to **None** or **Capped** will **not** reduce your skill levels if they are already above 10.
