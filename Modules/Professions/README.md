@@ -29,7 +29,7 @@
 	<li><a href="#limit-breaks">Limit Breaks</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
 	<li><a href="#recommended-mods">Recommended Mods</a></li>
-	<li><a href="#for-c-developers">For C# Developers</a></li>
+	<li><a href="#for-mod-authors">For Mod Authors</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
 </details>
@@ -877,7 +877,21 @@ If using SVE, certain NPC heart events will not trigger if your skill levels is 
 
 <sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
 
-## For C# Developers
+## For Mod Authors
+
+### Contentsmiths
+
+The following mod textures can be targeted by CP mods:
+
+- `DaLion.ModularOverhaul/HudPointer`: changes the texture of the arrow which tracks Scavenger and Prospector objectives. You can use this to provide larger or different-shaped arrows. The provided texture should be grey, as it will be colored in dynamically.
+- `DaLion.ModularOverhaul/MaxIcon`: changes the texture of the "MAX" icon used in the fishing collection tab.
+- `DaLion.ModularOverhaul/MaxIcon`: changes the texture of the "MAX" icon used in the fishing collection tab.
+- `DaLion.ModularOverhaul/PrestigeRibbons`: changes the ribbon or star texture shown to the right of each skill in the skills page menu. Pay attention to the fact that ribbon and star versions each use different dimensions. I don't recommend changing these.
+- `DaLion.ModularOverhaul/ProfessionIcons`: changes the profession icons for regular and Prestige professions.
+- `DaLion.ModularOverhaul/SkillBars`: changes the texture of Prestige-level skill bars (blue / green rectangles) in the skill page menu.
+- `DaLion.ModularOverhaul/LimitGauge`: changes the texture of the Limit Charge gauge.
+
+### Blacksmiths
 
 The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
 
@@ -886,8 +900,8 @@ The module exposes an API to facilitate integration with other mods. Currently e
 - Forcing new Treasure Hunt events, or interrupting active Treasure Hunts.
 - Triggering events when a Treasure Hunt starts or ends.
 - Checking a player's registered Ultimate ability.
-- Triggering events when a player's Ultimate gains charge, becomes active or inactive.
-- Checking whether the Ultimate HUD element is currently being displayed (useful for UI mods to decide whether to reposition their own HUD elements).
+- Triggering events when a player's [Limit Break](#limit-breaks) gains charge, becomes active or inactive.
+- Checking whether the Limit Charge gauge is currently being displayed. This is useful for UI mods to decide whether to reposition their own HUD elements.
 - Checking the player's config settings for this mod.
 - Registering custom skills for Prestige.
 

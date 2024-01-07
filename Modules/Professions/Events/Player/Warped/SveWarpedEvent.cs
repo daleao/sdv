@@ -20,6 +20,6 @@ internal sealed class SveWarpedEvent : WarpedEvent
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/UltimateMeter");
+        ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/LimitGauge");
     }
 }

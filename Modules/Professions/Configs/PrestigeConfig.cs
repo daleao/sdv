@@ -169,7 +169,7 @@ public sealed class PrestigeConfig
             }
 
             this._iconStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/PrestigeIcons");
+            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/ProfessionIcons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }

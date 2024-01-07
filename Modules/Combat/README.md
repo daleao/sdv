@@ -59,6 +59,7 @@
 		</ol>
 	</li>
 	<li><a href="#compatibility">Compatibility</a></li>
+	<li><a href="#for-mod-authors">For Mod Authors</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
 </details>
@@ -678,6 +679,30 @@ If enemies are nearby, players can optionally choose a weapon, melee or ranged, 
 - Ring features are **not** compatible with other mods with similar scope, including [Combine Many Rings][mod:combine-many-rings], [Balanced Combine Many Rings][mod:balanced-many-rings] and, to an extent, [Ring Overhaul][mod:ring-overhaul]
 - Other ring retextures will be lightly incompatible with the new Infinity Band, meaning there may be some visual glitches but otherwise no real issues.
 </details>
+
+<sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
+
+## For Mod Authors
+
+### Contentsmiths
+
+The following mod textures can be targeted by CP mods:
+
+- `{Manifest.UniqueID}/GarnetNode`: changes the texture of the Garnet resource node. This can be useful to match whatever resource retexture you are using.
+- `{Manifest.UniqueID}/DwarvishBlueprint`: changes the texture of the old Dwarvish blueprint. This is only seen once, when you find your very first blueprint, so I don't recommend changing this.
+- `{Manifest.UniqueID}/BleedAnimation`, `{Manifest.UniqueID}/SlowAnimation`, `{Manifest.UniqueID}/StunAnimation`, `{Manifest.UniqueID}/PoisonAnimation`: changes the corresponding status effect animation. I don't recommend changing these either.
+- `{Manifest.UniqueID}/GemstoneSockets`: changes the texture of the gemstone Forge sockets displayed on Melee Weapon tooltips. This can be useful to match whatever UI recolor you are using.
+- `{Manifest.UniqueID}/SnowballCollisionAnimation`: changes the texture of the snowball projectile collision animation. This can be useful to match whatever snow recolor you are using.
+
+### Blacksmiths
+
+The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
+
+- Checking the corresponding [Chord](#chords) metadata for a given Infinity Band.
+- Applying / curing [status effects](#status-effects).
+- Checking the player's config settings for this mod.
+
+To consume the API, copy both interfaces from the [API folder](../../API/) namespace to your project and [ask SMAPI for a proxy][wiki:integrations-api].
 
 <sup><sup>[🔼 Back to top](#margo--combat-cmbt)</sup></sup>
 

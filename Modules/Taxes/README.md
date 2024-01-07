@@ -18,7 +18,7 @@ Federal obligations are due on the first of the month, end-of-day, and will be d
 
 If the [Professions](../Professions) module is enabled and the player has the Conservationist profession, the professions' tax deduction perk will change from a % value increase to all items, to a more immersive % deduction of taxable income. Environmentalist activities can be used to deduct taxable income up to 100%. This means that farmers can be tax-exempt by collecting enough trash from oceans or rivers (it is recommended to decrease the default Professions setting for TrashNeededPerTaxDeduction, as the TaxBonusCeiling setting will be overridden to 100%).
 
-### (NEW) Property Tax
+### Property Tax
 
 In addition to federal obligations, the farmer is also obliged to contribute Property Taxes to their local government.
 
@@ -35,5 +35,9 @@ Lateness fines are generally higher for property taxes (configurable). But since
 ## Compatibility
 
 Should be compatible with anything (including [Ferngill Revenue Service](https://www.nexusmods.com/stardewvalley/mods/7566, but please don't try using both together).
+
+## For Mod Authors
+
+C# mod authors may request the [Mod API](../../API/) to calculate the player's current taxes. This can be useful for authors who wish to add in-game methods of checking your taxes, as **I personally will not be doing that**.
 
 [🔼 Back to top](#margo--taxes-txs)

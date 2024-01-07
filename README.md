@@ -15,6 +15,7 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 - [Introduction](#introduction)
 - [Modules](#modules)
 - [Installation & Update](#installation--update)
+- [Uninstallation](#uninstallation)
 - [Reporting Bugs or Issues](#reporting-bugs-or-issues)
 - [API for C# Developers](#api-for-c-developers)
 - [Building the Source Code](#building-the-source-code)
