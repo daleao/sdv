@@ -91,7 +91,16 @@ An Android version of Chargeable Tools is available in a dedicated branch.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
-**The use of Vortex or other mod managers is not recommended for Stardew Valley.**
+**The use of Vortex or other mod managers is not recommended for Stardew Valley.** I will **not** support Vortex users.
+
+## Uninstallation
+
+Should you choose to remove this mod mid-save, ensure to first disable every module via GMCM. This will allow the mod to cleanup itself and removing lasting changes from the save file.
+
+<div align="center">
+
+**⚠ Failure to do this may brick your save. ⚠**
+</div>
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
