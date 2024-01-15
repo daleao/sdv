@@ -1,5 +1,11 @@
 ﻿# Core Changelog
 
+## 4.2.3
+
+### Fixed
+
+* Added missing status effect animations *
+
 ## 4.2.2
 
 ### Changed

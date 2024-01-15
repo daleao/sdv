@@ -53,7 +53,8 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
 
                     break;
 
-                case "Emily" when player.spouse != "Emily" && Game1.dayOfMonth % 4 == 0 && Game1.random.NextDouble() < 1d / 3d:
+                case "Emily" when player.spouse != "Emily" && !player.Read<bool>(DataKeys.HasMadeInfinityBand) &&
+                                  Game1.dayOfMonth % 7 == 0 && Game1.random.NextDouble() < 1d / 3d:
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Emily_Gemstones_First(), __instance));
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Emily_Gemstones_Second(), __instance));
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Emily_Gemstones_Third(), __instance));
@@ -61,7 +62,8 @@ internal sealed class NpcCheckForNewCurrentDialoguePatcher : HarmonyPatcher
                     break;
 
                 case "Mr. Qi" when player.craftingRecipes.TryGetValue("Iridium Band", out var crafted) && crafted > 0 &&
-                                   !player.Read<bool>(DataKeys.HasMadeInfinityBand) && Game1.random.NextDouble() < 1d / 3d:
+                                   !player.Read<bool>(DataKeys.HasMadeInfinityBand) &&
+                                   Game1.random.NextDouble() < 1d / 3d:
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Qi_Gemstones_First(), __instance));
                     __instance.CurrentDialogue.Push(new Dialogue(I18n.Dialogue_Qi_Gemstones_Second(), __instance));
                     break;

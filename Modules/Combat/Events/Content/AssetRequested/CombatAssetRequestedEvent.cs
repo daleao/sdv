@@ -70,18 +70,6 @@ internal sealed class CombatAssetRequestedEvent : AssetRequestedEvent
             $"{Manifest.UniqueID}/DwarvishBlueprint",
             new ModTextureProvider(() => "assets/sprites/objects/blueprint.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/BleedAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/bleed.png"));
-        this.Provide(
-            $"{Manifest.UniqueID}/SlowAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/slow.png"));
-        this.Provide(
-            $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/stun.png"));
-        this.Provide(
-            $"{Manifest.UniqueID}/PoisonAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/poison.png"));
-        this.Provide(
             $"{Manifest.UniqueID}/GemstoneSockets",
             new ModTextureProvider(ProvideGemSockets));
         this.Provide(

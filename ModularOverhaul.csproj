@@ -10,7 +10,7 @@
     <RepositoryType>git</RepositoryType>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <UpdateKeys>GitHub:daleao/modular-overhaul</UpdateKeys>
-    <Version>4.2.2</Version>
+    <Version>4.2.3</Version>
 
     <!-- build settings -->
     <TargetFramework>net5.0</TargetFramework>

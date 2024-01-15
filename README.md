@@ -14,8 +14,7 @@ A complete and comprehensive rework of Stardew Valley gameplay mechanics, offeri
 
 - [Introduction](#introduction)
 - [Modules](#modules)
-- [Installation & Update](#installation--update)
-- [Uninstallation](#uninstallation)
+- [Installation, Update & Uninstallation](#installation-update--uninstallation)
 - [Reporting Bugs or Issues](#reporting-bugs-or-issues)
 - [API for C# Developers](#api-for-c-developers)
 - [Building the Source Code](#building-the-source-code)
@@ -64,13 +63,15 @@ An Android version of Chargeable Tools is available in a dedicated branch.
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
-## Installation & Update
+## Installation, Update & Uninstallation
+
+### Installation
 
 1. Make sure the dependencies are installed:
     - [SpaceCore](https://www.nexusmods.com/stardewvalley/mods/1348) is always required.
-    - [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720) is required for the new items in CMBT module.
-    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (version 2.3.4 or higher) is required for the Garnet Node.
-    - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) is highly recommended.
+    - [Json Assets](https://www.nexusmods.com/stardewvalley/mods/1720) is required only for the new items in CMBT module. If not using that module, this is not needed.
+    - [Custom Ore Nodes](https://www.nexusmods.com/stardewvalley/mods/5966) (version 2.3.4 or higher) is required to spawn Garnet nodes, also part of the CMBT module. If not using that module, this is also not needed.
+    - [Generic Mod Config Menu](https://www.nexusmods.com/stardewvalley/mods/5098) is not technically required, but is extremely recommended, and may help unbrick your save should you later remove this mod.
 2. Go to the [Releases page](https://github.com/daleao/modular-overhaul/releases) (link also to the right) and download the latest `ModularOverhaul.zip` file.
 
 <div align="center">
@@ -83,25 +84,37 @@ An Android version of Chargeable Tools is available in a dedicated branch.
 3. Extract the downloaded archive file into your local mods folder.
 4. Explore the `compat` folder to find compatibility files that must be manually installed.
 5. Start the game once with SMAPI to generate a config file.
-6. Enable the desired modules in GMCM by pressing Shift+F12 in the title screen, or by manually editing the `config.json` file.
+    5a. If GMCM is installed, you should get an automatic prompt to enable the desired modules.
+    5b. If GMCM is **not** installed, then you will have to quit the game at this point and manually edit the `config.json` file, setting the desired modules to `true`.
 
 <div align="center">
 
 **⚠ Please review the compatibility sections of each specific module in the links above. ⚠**
 </div>
 
+### Updating
+
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
-**The use of Vortex or other mod managers is not recommended for Stardew Valley.** I will **not** support Vortex users.
+You should **always keep the mod updated to the latest revision**; i.e., if the version is `xx.yy.zz`, always keep `zz` at the higher number available. Revisions contain import bug fixes.
 
-## Uninstallation
+Minor version upgrades (i.e., `yy`) should be updated with care! Your old config file may become incompatible, or there may be other minor incompatibilities. **Always read the changelog carefully** and look out for specific update instructions **before installing a minor version update** on existing saves.
 
-Should you choose to remove this mod mid-save, ensure to first disable every module via GMCM. This will allow the mod to cleanup itself and removing lasting changes from the save file.
+**Major version upgrades (i.e., `xx`) should *probably* NOT be updated in existing saves.**
 
+**The use of Vortex or other mod managers is not recommended for Stardew Valley.** I will **NOT** support Vortex users.
+
+### Uninstallation
+
+Before uninstalling, please make sure to load your save and disable the Weapon Overhaul if it is enabled. This is also required if you just want to disable the CMBT module.
 <div align="center">
 
 **⚠ Failure to do this may brick your save. ⚠**
 </div>
+
+If using the PNDS module, make sure to also reset any Fish Ponds containing algae.
+
+Afterwards the mod should be safe to uninstall.
 
 <sub><sup>[🔼 Back to top](#table-of-contents)</sup></sub>
 
@@ -110,7 +123,7 @@ Should you choose to remove this mod mid-save, ensure to first disable every mod
 1. Make sure the mod is updated to the latest version. I will not support older versions.
 2. Make sure you can reliably reproduce the issue. **Write out the steps to reproduce the issue.**
 3. Check whether the issue is caused by a mod conflict:
-    - You can do this easily by renaming your mod folder to something else (for example, just add an dot, or an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu + Item Spawner (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small groups, until you identify the conflicting mod. *You can safely ignore any Content Patcher or other framework mods while doing this, as those will never cause conflicts.*
+    - You can do this easily by renaming your mod folder to something else (for example, just add a dot, or an underscore), creating a new one, and then copying over SpaceCore, MARGO and, optionally, CJB Cheats Menu + Item Spawner (to help with quick testing). If the issue can no longer be reproduced in this condition, then gradually copy over your remaining mods in small chunks, until you identify the conflicting mod. *You can ignore content packs for frameworks like Content Patcher, Json Assets or  other frameworks while doing this, as those types of mods do not cause conflicts.*
 4. Check whether the issue can be reproduced on a brand new save file. If it cannot, then I will probably ask you to upload your save folder to any file-sharing service of your choice, and share the url.
 5. Upload your entire log to [smapi.io](https://smapi.io/log). There you will also find instructions in case you don't know where to find your log.
     <div align="center">

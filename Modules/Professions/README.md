@@ -445,7 +445,7 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 <font size="2">
 
-- The catching bar decreases 5.5% faster per unique Fish Pond. In multiplayer, **only counts Fish Ponds owned by the player with this profession**. Does stack with Trap Bobber.
+- The catching bar decreases 5.5% slower per unique Fish Pond. In multiplayer, **only counts Fish Ponds owned by the player with this profession**. Does stack with Trap Bobber.
 - Also allows raising legendary fish. Extended family can be raised in the same pond as the parent if [PNDS](../Ponds) module is enabled.
 
 <font color="gold">
