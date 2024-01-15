@@ -96,7 +96,7 @@ An Android version of Chargeable Tools is available in a dedicated branch.
 
 As with any mod, always **delete any previous installation completely** before updating. If you'd like to preserve your config settings you can delete everything except the `config.json` file.
 
-You should **always keep the mod updated to the latest revision**; i.e., if the version is `xx.yy.zz`, always keep `zz` at the higher number available. Revisions contain import bug fixes.
+You should **always keep the mod updated to the latest revision**; i.e., if the version is `xx.yy.zz`, always keep `zz` at the highest available number. Revisions contain important bug fixes and are always safe to install.
 
 Minor version upgrades (i.e., `yy`) should be updated with care! Your old config file may become incompatible, or there may be other minor incompatibilities. **Always read the changelog carefully** and look out for specific update instructions **before installing a minor version update** on existing saves.
 
