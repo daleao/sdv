@@ -30,8 +30,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
     /// <summary>Patch to remember initial machine state.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.LowerThanNormal)]
-    // ReSharper disable once RedundantAssignment
-    private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
+    private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, out bool __state)
     {
         __state = __instance.heldObject.Value !=
                   null; // remember whether this machine was already holding an object
@@ -195,8 +194,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
     private static void SetGeodeTreasureQuality(SObject crusher, SObject treasure, Farmer who)
     {
-        if (who.HasProfession(Profession.Gemologist) && treasure.IsGemOrMineral() &&
-            (crusher.IsOwnedBy(who) || ProfessionsModule.Config.LaxOwnershipRequirements))
+        if (who.HasProfession(Profession.Gemologist) && treasure.IsGemOrMineral() && crusher.IsOwnedByOrLax(who))
         {
             treasure.Quality = who.GetGemologistMineralQuality();
         }

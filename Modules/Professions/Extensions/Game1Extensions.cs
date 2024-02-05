@@ -60,9 +60,7 @@ internal static class Game1Extensions
         for (var i = 0; i < buildings.Count; i++)
         {
             var building = buildings[i];
-            if (building is FishPond pond &&
-                (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
-                pond.isUnderConstruction())
+            if (building is FishPond pond && pond.IsOwnedByOrLax(Game1.player) && pond.isUnderConstruction())
             {
                 pond.UpdateMaximumOccupancy();
             }

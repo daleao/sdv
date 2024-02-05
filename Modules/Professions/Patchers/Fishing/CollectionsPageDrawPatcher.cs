@@ -12,6 +12,7 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Stardew;
 using StardewValley.Menus;
 
 #endregion using directives
@@ -92,12 +93,17 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
+            var srcRect = new Rectangle(
+                0,
+                index.IsTrapFishIndex() ? Textures.MaxIconTx.Height / 2 : 0,
+                Textures.MaxIconTx.Width,
+                Textures.MaxIconTx.Height / 2);
             var destRect = new Rectangle(
                 component.bounds.Right - (Textures.MaxIconTx.Width * 2),
-                component.bounds.Bottom - (Textures.MaxIconTx.Height * 2),
+                component.bounds.Bottom - Textures.MaxIconTx.Height,
                 Textures.MaxIconTx.Width * 2,
-                Textures.MaxIconTx.Height * 2);
-            b.Draw(Textures.MaxIconTx, destRect, Color.White);
+                Textures.MaxIconTx.Height);
+            b.Draw(Textures.MaxIconTx, destRect, srcRect, Color.White);
         }
     }
 

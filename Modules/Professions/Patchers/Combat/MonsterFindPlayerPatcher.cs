@@ -32,7 +32,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [HarmonyBefore("Esca.FarmTypeManager")]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
-        if (Game1.ticks % 30 != 0)
+        if (Game1.ticks % 15 != 0)
         {
             __result = __instance.Get_Target();
             return false; // don't run original logic

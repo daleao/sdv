@@ -6,11 +6,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Overhaul.Modules.Professions.Events.Display.RenderedHud;
+using DaLion.Overhaul.Modules.Professions.Extensions;
 using DaLion.Overhaul.Modules.Professions.Ultimates;
 using DaLion.Overhaul.Modules.Professions.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -54,9 +54,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
                 for (var i = 0; i < buildings.Count; i++)
                 {
                     var building = buildings[i];
-                    if (building is FishPond pond &&
-                        (pond.IsOwnedBy(player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
-                        !pond.isUnderConstruction())
+                    if (building is FishPond pond && pond.IsOwnedByOrLax(player) && !pond.isUnderConstruction())
                     {
                         pond.UpdateMaximumOccupancy();
                     }

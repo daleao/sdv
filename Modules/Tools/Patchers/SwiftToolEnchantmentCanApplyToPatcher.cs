@@ -21,7 +21,6 @@ internal sealed class SwiftToolEnchantmentCanApplyToPatcher : HarmonyPatcher
 
     /// <summary>Allow apply Swift enchant to Watering Can.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
     private static bool SwiftToolEnchantmentCanApplyToPrefix(ref bool __result, Item item)
     {
         __result = item is Tool tool && (tool is Axe or Hoe or Pickaxe ||

@@ -22,8 +22,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
     /// <summary>Remember state before action.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static void ObjectPerformObjectDropInActionPrefix(SObject __instance, ref bool __state)
+    private static void ObjectPerformObjectDropInActionPrefix(SObject __instance, out bool __state)
     {
         __state = __instance.heldObject
             .Value is not null; // remember whether this machine was already holding an object

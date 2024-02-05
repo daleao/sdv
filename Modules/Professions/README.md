@@ -427,7 +427,8 @@ Click on any profession below to display more details. When a perk is preceded b
 <ul>
 <font size="2">
 
-- Legendary fish are 5 regular fish; i.e., 2.5% bonus to fish sell price. This includes Extended Family, and the legendary fish from Sardew Aquarium and Ridgeside Village, if those mods are installed.
+- Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk.
+- Legendary fish are worth 5 regular fish; i.e., 2.5% bonus to fish sell price. This includes Extended Family, and the legendary fish from Sardew Aquarium and Ridgeside Village, if those mods are installed.
 - Lingering tackle effects last for 40 uses (same as regular tackle). This effectively doubles tackle duration, but more importantly, it allows two tackles to be in effect at the same time. **Note that the same tackle effect cannot stack with itself**, so this encourages swapping out different tackles, mixing and matching.
 
 <font color="gold">

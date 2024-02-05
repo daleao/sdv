@@ -26,7 +26,6 @@ internal sealed class BushShakePatcher : HarmonyPatcher
 
     /// <summary>Detects if the bush is ready for harvest.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
     private static void BushShakePrefix(Bush __instance, ref bool __state)
     {
         if (TweexModule.Config.BerryBushExpReward > 0 && __instance.tileSheetOffset.Value == 1 &&

@@ -155,6 +155,8 @@ This is solved by implementating a **combo framework** for melee weapons. A comb
 - **Clubs:** up to 2 hits, being one horizontal swipe and one vertical swipe, by default.
 - **Daggers:** unchanged, effectively up to infinite hits.
 
+**Note that animations must execute completely for the combo framework to properly function. Ergo, animation canceling *will freeze your game if Combo Framework is enabled*.**
+
 <div align="center">
 
 <img src="https://gitlab.com/daleao/modular-overhaul/-/raw/main/resources/screenshots/combo_sword_small.gif" alt="combo_sword.gif" width="33%">

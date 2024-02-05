@@ -9,7 +9,6 @@ using DaLion.Shared.Extensions.Collections;
 #endregion using directives
 
 [UsedImplicitly]
-[Debug]
 internal sealed class RevalidateCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="RevalidateCommand"/> class.</summary>

@@ -157,8 +157,7 @@ internal sealed class GenericObjectMachinePatcher : HarmonyPatcher
         var output = machine.heldObject.Value;
         var user = ProfessionsModule.Config.LaxOwnershipRequirements ? Game1.player : chest.GetOwner() ?? Game1.MasterPlayer;
         var r = new Random(Guid.NewGuid().GetHashCode());
-        if (user.HasProfession(Profession.Artisan) ||
-            (ProfessionsModule.Config.LaxOwnershipRequirements && Game1.game1.DoesAnyPlayerHaveProfession(Profession.Artisan)))
+        if (user.HasProfessionOrLax(Profession.Artisan))
         {
             output.Quality = input.Quality;
             if (!ProfessionsModule.Config.ArtisanGoodsAlwaysInputQuality)

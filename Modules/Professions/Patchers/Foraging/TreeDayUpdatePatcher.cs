@@ -25,8 +25,7 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Abrorist tree growth odds.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static bool TreeDayUpdatePrefix(Tree __instance, ref int __state)
+    private static bool TreeDayUpdatePrefix(Tree __instance, out int __state)
     {
         __state = __instance.growthStage.Value;
         return true; // run original logic

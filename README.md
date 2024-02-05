@@ -52,7 +52,7 @@ Please note that only the Professions and Tweex modules are enabled by default.
 
 99% of your questions about this mod are answered in the pages above. It took me several years of work to produce this mod and document it neatly, so I expect you can spend at least 15 minutes to read the documentation before asking questions.
 
-All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed**.
+All modules should be fully multiplayer and split-screen compatible **if and only if all players have it installed and with the same config settings**.
 
 <div align="center">
 
@@ -224,7 +224,7 @@ For those interested, [this is my curated modlist](https://smapi.io/log/e2eecb20
 - My heavily edited version of [Monster Girls](https://www.nexusmods.com/stardewvalley/mods/14692) is the least immersive and borderline NSFW mod in this list. For anyone who's not a pervert I'd probably recommend [Slime Rancher](https://www.nexusmods.com/stardewvalley/mods/12654).
 - I try to be minimalist on new items, mostly sticking to [PPJA](https://www.nexusmods.com/stardewvalley/users/26612284?tab=user+files) with a few interesting additions when the art or gameplay particularly stands out to me (e.g., [Magical Crops](https://www.nexusmods.com/stardewvalley/mods/8762)).
 
-Please note that a lot of the mods in the list have been very heavily customized to fit these criteria, including but not limited to, typo fixes, harmonized textures and even entire map edits. The most heavily edited mods are versioned with the suffix `-DaLion`. I am not at liberty to share my personal edits, but all of them are framework mods, mostly CP, JA and PFM, which means it should be relatively easy for anyone to edit themselves. If you are not willing to make that effort then my recommendation would be to avoid them entirely due to a general lack of polish.
+Please note that a lot of the mods in the list have been very heavily customized to fit these criteria, including but not limited to: typo fixes, harmonized textures, and, in some cases, entire map edits. These mods are versioned with the suffix `-DaLion`. I am not at liberty to share my personal edits, but all of them are framework mods, mostly CP, JA and PFM, which means it should be relatively easy for anyone to edit themselves. If you are not willing to make that effort then my recommendation would be to avoid them entirely due to a general lack of polish.
 
 Make sure to test every mod before committing it to your mod list, and do not make changes to that list once you begin playing.
 

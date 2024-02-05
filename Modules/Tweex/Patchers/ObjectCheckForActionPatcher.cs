@@ -24,8 +24,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
 
     /// <summary>Detects if an object is ready for harvest.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
+    private static bool ObjectCheckForActionPrefix(SObject __instance, out bool __state)
     {
         __state = __instance.heldObject.Value is not null &&
                   __instance.readyForHarvest.Value;

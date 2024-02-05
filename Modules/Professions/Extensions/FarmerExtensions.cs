@@ -75,7 +75,7 @@ internal static class FarmerExtensions
             .All(farmer.professions.Contains);
     }
 
-    /// <summary>Determines whether this or, if allowed by the module's settings, any <see cref="Farmer"/> instance in the current game session has the specified <paramref name="profession"/>.</summary>
+    /// <summary>Determines whether this---or any <see cref="Farmer"/> instance in the game session, if allowed by the module's settings---has the specified <paramref name="profession"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
@@ -245,7 +245,7 @@ internal static class FarmerExtensions
 
         var fishData = Game1.content
             .Load<Dictionary<int, string>>("Data\\Fish")
-            .Where(p => !p.Key.IsAlgaeIndex() && !p.Value.Contains("trap"))
+            .Where(p => !p.Key.IsAlgaeIndex())
             .ToDictionary(p => p.Key, p => p.Value);
 
         if (!fishData.TryGetValue(index, out var specificFishData))
@@ -254,7 +254,9 @@ internal static class FarmerExtensions
         }
 
         var dataFields = specificFishData.SplitWithoutAllocation('/');
-        return farmer.fishCaught[index][1] >= int.Parse(dataFields[4]);
+        return index.IsTrapFishIndex()
+            ? farmer.fishCaught[index][1] >= int.Parse(dataFields[6])
+            : farmer.fishCaught[index][1] >= int.Parse(dataFields[4]);
     }
 
     /// <summary>Gets the price bonus applied to animal produce sold by <see cref="Profession.Producer"/>.</summary>
@@ -267,9 +269,9 @@ internal static class FarmerExtensions
         for (var i = 0; i < buildings.Count; i++)
         {
             var building = buildings[i];
-            if ((building.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
-                !building.isUnderConstruction() && building.buildingType.Contains("Deluxe") &&
-                building.indoors.Value is AnimalHouse house && house.isFull())
+            if (building.IsOwnedByOrLax(farmer) && !building.isUnderConstruction() &&
+                building.buildingType.Contains("Deluxe") && building.indoors.Value is AnimalHouse house &&
+                house.isFull())
             {
                 sum += 0.05f;
             }
@@ -327,8 +329,7 @@ internal static class FarmerExtensions
         for (var i = 0; i < buildings.Count; i++)
         {
             var building = buildings[i];
-            if (building is FishPond pond &&
-                (pond.IsOwnedBy(Game1.player) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
+            if (building is FishPond pond && pond.IsOwnedByOrLax(Game1.player) &&
                 !pond.isUnderConstruction() && pond.fishType.Value > 0)
             {
                 fishTypes.Add(pond.fishType.Value);
@@ -393,8 +394,7 @@ internal static class FarmerExtensions
     internal static IEnumerable<GreenSlime> GetRaisedSlimes(this Farmer farmer)
     {
         return Game1.getFarm().buildings
-            .Where(b => (b.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) &&
-                        b.indoors.Value is SlimeHutch && !b.isUnderConstruction())
+            .Where(b => b.IsOwnedByOrLax(farmer) && b.indoors.Value is SlimeHutch && !b.isUnderConstruction())
             .SelectMany(b => b.indoors.Value.characters.OfType<GreenSlime>());
     }
 

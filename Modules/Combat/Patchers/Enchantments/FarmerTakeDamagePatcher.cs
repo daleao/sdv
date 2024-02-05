@@ -27,7 +27,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Apply Topaz bonus for Slingshots.</summary>
     [HarmonyPrefix]
-    private static void FarmerTakeDamagePrefix(Farmer __instance, ref bool __state)
+    private static void FarmerTakeDamagePrefix(Farmer __instance, out bool __state)
     {
         __state = false;
         if (__instance.CurrentTool is not Slingshot slingshot || !slingshot.hasEnchantmentOfType<TopazEnchantment>() ||

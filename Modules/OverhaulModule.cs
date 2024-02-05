@@ -188,7 +188,7 @@ public abstract class OverhaulModule
     {
         /// <summary>Initializes a new instance of the <see cref="OverhaulModule.CoreModule"/> class.</summary>
         internal CoreModule()
-            : base("Core", "mrg")
+            : base("Core", "margo")
         {
         }
 

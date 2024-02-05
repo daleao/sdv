@@ -2,14 +2,9 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Reflection;
-using System.Reflection.Emit;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Netcode;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -21,58 +16,29 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
     internal CrabPotCheckForActionPatcher()
     {
         this.Target = this.RequireMethod<CrabPot>(nameof(CrabPot.checkForAction));
+        this.Prefix!.priority = Priority.First;
     }
 
     #region harmony patches
 
-    /// <summary>Trash does not consume bait.</summary>
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? PCrabPotCheckForActionTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    private static void CrabPotCheckForActionPrefix(CrabPot __instance, bool justCheckingForActivity, ref SObject? __state)
     {
-        var helper = new ILHelper(original, instructions);
-
-        try
+        if (!justCheckingForActivity && TweexModule.Config.TrashDoesNotConsumeBait &&
+            __instance.heldObject.Value?.IsTrash() == true)
         {
-            var skipBaitConsumption = generator.DefineLabel();
-            var proceedToBaitConsumption = generator.DefineLabel();
-            helper
-                .Match(
-                    new[]
-                    {
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(NetFieldBase<SObject, NetRef<SObject>>).RequirePropertySetter("Value")),
-                        new CodeInstruction(OpCodes.Ldarg_1),
-                    })
-                .Move()
-                .AddLabels(skipBaitConsumption)
-                .Match(new[] { new CodeInstruction(OpCodes.Ldarg_0) })
-                .AddLabels(proceedToBaitConsumption)
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Tweex))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(TweexConfig).RequirePropertyGetter(nameof(TweexConfig.TrashDoesNotConsumeBait))),
-                        new CodeInstruction(OpCodes.Brfalse_S, proceedToBaitConsumption),
-                        new CodeInstruction(OpCodes.Ldloc_0),
-                        new CodeInstruction(OpCodes.Call, typeof(SObjectExtensions).RequireMethod(nameof(SObjectExtensions.IsTrash))),
-                        new CodeInstruction(OpCodes.Brtrue_S, skipBaitConsumption),
-                    });
+            __state = __instance.bait.Value;
         }
-        catch (Exception ex)
-        {
-            Log.E($"Failed preventing trash bait consumption.\nHelper returned {ex}");
-            return null;
-        }
+    }
 
-        return helper.Flush();
+    [HarmonyPostfix]
+    private static void CrabPotCheckForActionPostfix(CrabPot __instance, bool justCheckingForActivity, SObject? __state)
+    {
+        if (!justCheckingForActivity && __state is not null && __instance.bait.Value is null)
+        {
+            __instance.bait.Value = __state;
+        }
     }
 
     #endregion harmony patches

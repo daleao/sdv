@@ -157,7 +157,7 @@ public sealed class PrestigeConfig
     ///     Gets the style of the sprite used for Prestige profession variants. Accepted values: "MetallicGold", "PosisterGold".
     /// </summary>
     [JsonProperty]
-    [GMCMPriority(206)]
+    [GMCMPriority(207)]
     public IconStyle Icon
     {
         get => this._iconStyle;
@@ -176,13 +176,13 @@ public sealed class PrestigeConfig
 
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]
-    [GMCMPriority(207)]
+    [GMCMPriority(208)]
     [GMCMRange(1000, 10000)]
     [GMCMInterval(500)]
     public uint ExpPerPrestigeLevel { get; internal set; } = 5000;
 
     /// <summary>Gets a value indicating whether to add full skill mastery (level 20) as a requirement for perfection.</summary>
     [JsonProperty]
-    [GMCMPriority(208)]
+    [GMCMPriority(209)]
     public bool IsPerfectionRequirement { get; internal set; } = true;
 }

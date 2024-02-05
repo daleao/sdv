@@ -83,4 +83,13 @@ internal static class SObjectExtensions
         return Profession.TryFromValue(index, out var profession) &&
                obj.GetOwner().HasProfession(profession, prestiged);
     }
+
+    /// <summary>Checks whether the <paramref name="object"/> is owned by the specified <see cref="Farmer"/>, or if <see cref="ProfessionConfig.LaxOwnershipRequirements"/> is enabled in the mod's config settings.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/>'s owner value is equal to the unique ID of the specified <paramref name="farmer"/> or if <see cref="ProfessionConfig.LaxOwnershipRequirements"/> is enabled in the mod's config settings, otherwise <see langword="false"/>.</returns>
+    internal static bool IsOwnedByOrLax(this SObject @object, Farmer farmer)
+    {
+        return @object.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements;
+    }
 }

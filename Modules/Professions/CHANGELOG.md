@@ -1,5 +1,11 @@
 ﻿# PRFS Changelog
 
+## 4.2.3
+
+### Added
+
+* The collections page for fishes now also displays MAX icons underneath max-sized trap fish. This icon is colored red to distinguish from regular fishes, which are now colored blue.
+
 ## 4.2.2
 
 ### Added

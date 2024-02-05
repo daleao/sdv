@@ -27,8 +27,7 @@ internal sealed class ObjectCheckForActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to remember object state.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static bool ObjectCheckForActionPrefix(SObject __instance, ref bool __state)
+    private static bool ObjectCheckForActionPrefix(SObject __instance, out bool __state)
     {
         __state = __instance.heldObject.Value is not null;
         return true; // run original logic

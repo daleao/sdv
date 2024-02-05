@@ -2,6 +2,14 @@
 
 This file contains a TL;DR of current version changes and hotfixes from across all modules. For the complete changelog, please refer to the individual changelogs of each module, linked [below](#detailed-changelogs).
 
+## Patch 4.2.3 Highlights
+
+* Fixed missing status effect error when CMBT module is not enabled.
+* Fixed `margo revalidate` command not available in Release version.
+* [PRFS]: Now displays a blue MAX icon for ordinary fish and red MAX icon for crab-pot fish in the collections page.
+* [TWX]: Fixed freeze when collecting trash from Crab Pot with full inventory.
+* [TWX]: `TrashDoesNotConsumeBait` now applies to fishing rods as well.
+
 ## Patch 4.2.2 Highlights
 
 Moved GMCM page links moved to the top of the respective page.

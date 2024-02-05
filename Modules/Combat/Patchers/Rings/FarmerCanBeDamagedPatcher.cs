@@ -21,8 +21,7 @@ internal sealed class FarmerCanBeDamagedPatcher : HarmonyPatcher
 
     /// <summary>Ring of Yoba rebalance.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
-    private static bool FarmerCanBeDamagedPostfix(Farmer __instance, ref bool __result)
+    private static bool FarmerCanBeDamagedPostfix(Farmer __instance, out bool __result)
     {
         __result = !__instance.temporarilyInvincible && !__instance.isEating && !Game1.fadeToBlack &&
                    (!Game1.buffsDisplay.hasBuff((int)Buff.YobasBlessing) || CombatModule.Config.RingsEnchantments.RebalancedRings);

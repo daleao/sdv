@@ -33,7 +33,6 @@ internal sealed class FishPondGetFishProducePatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Replace single production with multi-yield production.</summary>
-    // ReSharper disable once RedundantAssignment
     [HarmonyPrefix]
     private static bool FishPondGetFishProducePrefix(FishPond __instance, ref SObject? __result, Random? random)
     {

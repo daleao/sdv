@@ -26,7 +26,6 @@ internal sealed class FishPondGetFishPondDataPatcher : HarmonyPatcher
 
     /// <summary>Replace single production with multi-yield production.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
     private static bool FishPondGetFishPondDataPrefix(FishPond __instance, ref FishPondData? __result)
     {
         if (__instance.fishType.Value <= 0)

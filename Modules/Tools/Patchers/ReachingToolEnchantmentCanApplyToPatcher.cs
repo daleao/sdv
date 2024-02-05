@@ -21,7 +21,6 @@ internal sealed class ReachingToolEnchantmentCanApplyToPatcher : HarmonyPatcher
 
     /// <summary>Allow apply Reaching enchant to Axe and Pick.</summary>
     [HarmonyPrefix]
-    // ReSharper disable once RedundantAssignment
     private static bool ReachingToolEnchantmentCanApplyToPrefix(ref bool __result, Item item)
     {
         if (item is Tool tool && (tool is WateringCan or Hoe ||

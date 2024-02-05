@@ -4,7 +4,6 @@
 
 using System.Reflection;
 using DaLion.Overhaul.Modules.Professions.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -68,9 +67,7 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
             for (var i = 0; i < buildings.Count; i++)
             {
                 var building = buildings[i];
-                if (building is not FishPond pond ||
-                    !(pond.IsOwnedBy(farmer) || ProfessionsModule.Config.LaxOwnershipRequirements) ||
-                    pond.isUnderConstruction())
+                if (building is not FishPond pond || !pond.IsOwnedByOrLax(farmer) || pond.isUnderConstruction())
                 {
                     continue;
                 }
