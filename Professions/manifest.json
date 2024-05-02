@@ -1,0 +1,24 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "DaLion.Professions",
+  "Name": "Ars Magisterii",
+  "Author": "DaLion",
+  "Version": "0.1.0-Debug",
+  "Description": "Overhaul of Stardew Valley professions, skills and mastery systems.",
+  "EntryDll": "DaLion.Professions.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "DaLion.Core",
+      "MinimumVersion": "1.0.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.23.0",
+      "IsRequired": true
+    }
+  ],
+  "UpdateKeys": [
+    "???"
+  ]
+}

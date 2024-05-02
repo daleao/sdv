@@ -1,0 +1,19 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "DaLion.Taxes",
+  "Name": "Tributa Realia",
+  "Author": "DaLion",
+  "Version": "1.0.0-Debug",
+  "Description": "Provides realistic income and property taxation systems.",
+  "EntryDll": "DaLion.Taxes.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "DaLion.Core",
+      "MinimumVersion": "1.0.0",
+      "IsRequired": true
+    }
+  ],
+  "UpdateKeys": [
+    "???"
+  ]
+}

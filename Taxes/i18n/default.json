@@ -1,0 +1,60 @@
+{
+  // mail
+  "mail.frs.intro": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your recent address change to Pelican Town, Stardew Valley has been filed and registered. All future correspondence will be directed to {{farm}} farm.^^We kindly remind you that federal income tax contributions are due end-of-day on the 1st of every season. For your convenience, your due obligations will be automatically deducted from your balance. If your balance is insufficient, you will be fined in accordance with section 501(c)(1) of the Ferngill Revenue Code at the rate of {{fine}} and a loan will be issued in your name with the Bank of Stardew, subject to the nominal interest fee of {{interest}} per annum.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]Address Change Confirmation",
+  "mail.frs.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g has been automatically deducted from your balance.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Monthly Notice",
+  "mail.frs.outstanding": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total due income tax for the closing season in the amount of {{due}}g could not be fully deducted from your balance. In accordance with section 501(c)(1) of the Ferngill Revenue Code, you will be fined an additional {{fine}} and all future income to {{farm}} farm will be levied until your outstanding debt, totaling {{outstanding}}g, is completely settled. Please keep in mind that it is in your best interest to clear any outstanding debts as soon as possible to avoid accruing interest at the rate of {{interest}} per annum.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Monthly Notice",
+  "mail.frs.deduction": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{deductible}} as per section 501(c)(3) of the Ferngill Revenue Code.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
+  "mail.frs.deduction.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you are exempt from Federal income tax as per section 501(c)(3) of the Ferngill Revenue Code. As such, no charges will be made to your balance with respect to the closing season.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
+  "mail.lewis.notice": "@,^As you are aware, one of my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. I've taken the liberty of charging your account directly. ^On behalf of Pelican Town, I am deeply grateful for your ongoing contributions to our community.  ^  Sincerely, Mr. Lewis[#]Municipal Property Tax Notice",
+  "mail.lewis.outstanding": "@,^As you are aware, one my duties as mayor of Pelican Town is to levy taxes on all the town's properties. During the preceding fiscal year, the county's assessment of {{farm}} farm's property determined a valuation of {{valuation}}g. As a result, you are liable for {{due}}g in total property taxes for the applicable tax period. ^Unfortunately, your account was found to have insufficient funds to cover the entire amount. As per county policy, I take no pleasure in informing that you will be fined an additional {{fine}}. The entirety of your deb, totaling {{outstanding}}g, will be sold to the Bank of Stardew, who is authorized to seize all shipping income until the outstanding amount is paid in full, subject to a {{interest}} yearly interest rate. ^Please know that the people of Pelican Town are here to support you if you are facing difficult times.  ^  Sincerely, Mr. Lewis[#]Municipal Property Tax Notice",
+
+  // other
+  "hud.debt.debit": "Your balance was debited for {{amount}}g towards outstanding debts.",
+  "honorific.male": "Dear",
+  "honorific.female": "Dear",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  // income
+  "gmcm.sections.txs.income": "Income Tax",
+  "gmcm.tax_rate_per_income_bracket.title": "Tax Rates Per Income Bracket",
+  "gmcm.tax_rate_per_income_bracket.desc": "The tax rates applied at each income bracket. In each pair, the first number represents the incoming ceiling for that bracket, and the second number represents the taxable percentage of income within that bracket.",
+  "gmcm.income_bracket.title": "Bracket",
+  "gmcm.income_bracket.desc": "The income ceiling for this bracket. All income between the previous bracket and this number will be taxed at the correponding tax rate.",
+  "gmcm.tax_rate.title": "Tax Rate",
+  "gmcm.tax_rate.desc": "The taxable percentage of income within this bracket.",
+  "gmcm.income_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.income_tax_lateness_fine.desc": "A one-time penalty rate charged over the unpaid amount when income taxes are not paid on-time.",
+  "gmcm.deductible_animal_expenses.title": "Deductible Animal Expenses",
+  "gmcm.deductible_animal_expenses.desc": "What percentage of gold spent on animal purchases and supplies should be tax-deductible.",
+  "gmcm.deductible_building_expenses.title": "Deductible Building Expenses",
+  "gmcm.deductible_building_expenses.desc": "What percentage of gold spent constructing farm buildings is tax-deductible.",
+  "gmcm.deductible_seed_expenses.title": "Deductible Seed Expenses",
+  "gmcm.deductible_seed_expenses.desc": "What percentage of gold spent on seed purchases should be tax-deductible.",
+  "gmcm.deductible_tool_expenses.title": "Deductible Tool Expenses",
+  "gmcm.deductible_tool_expenses.desc": "What percentage of gold spent on tool purchases and upgrades should be tax-deductible.",
+  "gmcm.deductible_extras.title": "Other Deductibles",
+  "gmcm.deductible_extras.desc": "What percentage of gold spent on the specific item should be tax-deductible. Items must be added manually to do this list.",
+  "gmcm.deductible_extras.label.key": "Object Name",
+  "gmcm.deductible_extras.label.value": "Deductible Pct",
+
+  // property
+  "gmcm.sections.txs.property": "Property Tax",
+  "gmcm.property_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.property_tax_lateness_fine.desc": "A one-time penalty rate charged once over the unpaid amount, when property taxes are not paid on-time.",
+  "gmcm.unused_tile_tax_rate.title": "Unused Tile Tax Rate",
+  "gmcm.unused_tile_tax_rate.desc": "The tax rate charged over a tile not actively used for productive means.",
+  "gmcm.used_tile_tax_rate.title": "Used Tile Tax Rate",
+  "gmcm.used_tile_tax_rate.desc": "The tax rate charged over a tile actively used for agriculture, livestock or forestry.",
+  "gmcm.building_tax_rate.title": "Building Tile Tax Rate",
+  "gmcm.building_tax_rate.desc": "The tax rate charged over a tile occupied by a constructed building (magical buildings are.",
+  "gmcm.exempt_magical_buildings.title": "Exempt Magical Buildings",
+  "gmcm.exempt_magical_buildings.desc": "Whether or not magical buildings (i.e., those summoned at the Wizard's Tower) are exempt from property taxes.",
+
+  // other
+  "gmcm.annual_interest.title": "Annual Intereset",
+  "gmcm.annual_interest.desc": "The interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the annual rate."
+}

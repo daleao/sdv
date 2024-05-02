@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34622.214
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Taxes", "Taxes\DaLion.Taxes.csproj", "{3F32D4E8-2E3D-45EC-A2A2-BDE472C80713}"
+EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Shared", "Shared\Shared.shproj", "{0C5F1531-281E-468C-B47F-1E78E3B9C02E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Professions", "Professions\DaLion.Professions.csproj", "{FB24690D-7648-473E-A5DF-444EAEA8F13A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Core", "Core\DaLion.Core.csproj", "{9DEC9E76-6F74-4E4F-98CC-4C96E4B2C0E8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Chargeable", "Chargeable\DaLion.Chargeable.csproj", "{7B8ABA5B-6B79-4DDE-8072-5CEA89F0EE93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Ponds", "Ponds\DaLion.Ponds.csproj", "{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3F32D4E8-2E3D-45EC-A2A2-BDE472C80713}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F32D4E8-2E3D-45EC-A2A2-BDE472C80713}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F32D4E8-2E3D-45EC-A2A2-BDE472C80713}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F32D4E8-2E3D-45EC-A2A2-BDE472C80713}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB24690D-7648-473E-A5DF-444EAEA8F13A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB24690D-7648-473E-A5DF-444EAEA8F13A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB24690D-7648-473E-A5DF-444EAEA8F13A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB24690D-7648-473E-A5DF-444EAEA8F13A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DEC9E76-6F74-4E4F-98CC-4C96E4B2C0E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DEC9E76-6F74-4E4F-98CC-4C96E4B2C0E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DEC9E76-6F74-4E4F-98CC-4C96E4B2C0E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DEC9E76-6F74-4E4F-98CC-4C96E4B2C0E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B8ABA5B-6B79-4DDE-8072-5CEA89F0EE93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B8ABA5B-6B79-4DDE-8072-5CEA89F0EE93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B8ABA5B-6B79-4DDE-8072-5CEA89F0EE93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B8ABA5B-6B79-4DDE-8072-5CEA89F0EE93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E50DC87F-AB0C-4EA6-A5C3-C7B085774022}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Shared\Shared.projitems*{0c5f1531-281e-468c-b47f-1e78e3b9c02e}*SharedItemsImports = 13
+		Shared\Shared.projitems*{9dec9e76-6f74-4e4f-98cc-4c96e4b2c0e8}*SharedItemsImports = 5
+	EndGlobalSection
+EndGlobal

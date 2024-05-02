@@ -1,0 +1,95 @@
+﻿namespace DaLion.Professions.Framework.Patchers.Mining;
+
+#region using directives
+
+using System.Reflection;
+using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Harmony;
+using HarmonyLib;
+using StardewValley.GameData.Machines;
+using StardewValley.Inventories;
+
+#endregion using directives
+
+[UsedImplicitly]
+internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
+{
+    /// <summary>Initializes a new instance of the <see cref="ObjectPlaceInMachinePatcher"/> class.</summary>
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ObjectPlaceInMachinePatcher(Harmonizer harmonizer)
+        : base(harmonizer)
+    {
+        this.Target = this.RequireMethod<SObject>(nameof(SObject.PlaceInMachine));
+    }
+
+    #region harmony patches
+
+    /// <summary>Patch to add Prestiged Demolitionist efficient coal consumption.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? ObjectPlaceInMachineTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            var skipConsumption = generator.DefineLabel();
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(IInventory).RequireMethod(nameof(IInventory.ReduceId))),
+                ])
+                .Move(2)
+                .AddLabels(skipConsumption)
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[7]),
+                    ],
+                    ILHelper.SearchOption.Previous)
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ObjectPlaceInMachinePatcher).RequireMethod(nameof(ShouldSkipFuelConsumption))),
+                    new CodeInstruction(OpCodes.Brtrue_S, skipConsumption),
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding Prestiged Demolitionist efficient coal consumption.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
+    }
+
+    #endregion harmony patches
+
+    #region injections
+
+    private static bool ShouldSkipFuelConsumption(
+        SObject machine,
+        MachineItemAdditionalConsumedItems additionalRequirement,
+        Farmer who)
+    {
+        if (additionalRequirement.ItemId == SObject.coalID && who.HasProfession(Profession.Demolitionist, true))
+        {
+            if (Data.ReadAs<int>(machine, DataKeys.PersistedCoals) > 0)
+            {
+                Data.Increment(machine, DataKeys.PersistedCoals, -1);
+                return true;
+            }
+
+            Data.Write(machine, DataKeys.PersistedCoals, additionalRequirement.RequiredCount.ToString());
+            return false;
+        }
+
+        return false;
+    }
+
+    #endregion injections
+}
