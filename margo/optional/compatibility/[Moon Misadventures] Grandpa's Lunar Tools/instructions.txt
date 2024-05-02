@@ -1,0 +1,2 @@
+Copy "tools-radioactive.png" and "tools-mythicite.png" and paste both inside "Mods/MoonMisadventures/assets".
+Overwrite when prompted.
