@@ -21,6 +21,7 @@ public abstract class FurnitureListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.FurnitureListChanged -= this.OnFurnitureListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.FurnitureListChanged"/>

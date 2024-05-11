@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -30,18 +29,15 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>
-    ///     Inject ItemGrabMenu + allow legendary fish to share a pond with their extended families + secretly enrich
-    ///     metals in radioactive ponds.
-    /// </summary>
+    /// <summary>Allow legendary fish to share a pond with their extended families.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         // From: if (who.ActiveObject.ItemId != fishType)
-        // To: if (!IsExtendedFamily(who.ActiveObject.ItemId, fishType))
+        // To: if (!IsNotSameFishNorExtendedFamily(who.ActiveObject.ItemId, fishType))
         try
         {
             helper
@@ -55,7 +51,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                 .ReplaceWith(
                     new CodeInstruction(
                         OpCodes.Call,
-                        typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsNotSameFishNorExtendedFamily))));
+                        typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsSameFishOrExtendedFamily))));
         }
         catch (Exception ex)
         {
@@ -70,9 +66,9 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     #region injected subroutines
 
-    private static bool IsNotSameFishNorExtendedFamily(string heldId, string otherId)
+    private static bool IsSameFishOrExtendedFamily(string heldId, string otherId)
     {
-        return heldId != otherId && Lookups.FamilyPairs.TryGet($"(O){otherId}", out var pairId) && pairId != $"(O){heldId}";
+        return heldId != otherId && !(Lookups.FamilyPairs.TryGetValue($"(O){otherId}", out var pairId) && pairId == $"(O){heldId}");
     }
 
     #endregion injected subroutines

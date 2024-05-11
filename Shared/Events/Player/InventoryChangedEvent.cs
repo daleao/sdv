@@ -21,6 +21,7 @@ public abstract class InventoryChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Player.InventoryChanged -= this.OnInventoryChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IPlayerEvents.InventoryChanged"/>

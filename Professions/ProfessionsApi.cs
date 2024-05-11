@@ -100,9 +100,9 @@ public class ProfessionsApi : IProfessionsApi
     #region limit break
 
     /// <inheritdoc />
-    public string GetLimitBreakId(Farmer? farmer = null)
+    public int GetLimitBreakId(Farmer? farmer = null)
     {
-        return farmer?.Get_LimitBreakId().Value ?? State.LimitBreak?.Name ?? string.Empty;
+        return farmer?.Get_LimitBreakId().Value ?? State.LimitBreak?.Id ?? -1;
     }
 
     /// <inheritdoc />
@@ -155,4 +155,10 @@ public class ProfessionsApi : IProfessionsApi
     }
 
     #endregion limit break
+
+    /// <inheritdoc />
+    public ProfessionsConfig GetConfig()
+    {
+        return Config;
+    }
 }

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -64,8 +63,9 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
                 }
 
                 case "dogStatue_changeUlt":
+                case "dogStatue_changeUlt_Return":
                 {
-                    OfferChangeUltiChoices(__instance);
+                    OfferChangeLimitChoices(__instance);
                     break;
                 }
 
@@ -207,7 +207,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             "prestigeRespec");
     }
 
-    private static void OfferChangeUltiChoices(GameLocation location)
+    private static void OfferChangeLimitChoices(GameLocation location)
     {
         var player = Game1.player;
         if (Config.Masteries.LimitRespecCost is var cost and > 0 && player.Money < cost)
@@ -218,10 +218,15 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
         var choices = (
             from limit in LimitBreak.All()
-            where player.HasProfession(limit.ParentProfession) && State.LimitBreak != limit
+            where player.HasProfession(limit.ParentProfession) && State.LimitBreak?.Equals(limit) != true
             select new Response(
-                "Choice_" + limit,
-                I18n.Prestige_DogStatue_Choice(limit.ParentProfession.Title, limit.DisplayName))).ToList();
+                "Choice_" + limit.Name,
+                I18n.Prestige_DogStatue_Choice(limit.ParentProfession.GetTitle(false), limit.DisplayName))).ToList();
+        if (choices.Count == 0)
+        {
+            return;
+        }
+
         if (State.LimitBreak is not null)
         {
             choices
@@ -230,9 +235,9 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var message = State.LimitBreak is { } l
-            ? I18n.Prestige_DogStatue_Replace(l.ParentProfession.Title, l.DisplayName)
+            ? I18n.Prestige_DogStatue_Replace(l.ParentProfession.GetTitle(false), l.DisplayName)
             : I18n.Prestige_DogStatue_Choose();
-        location.createQuestionDialogue(message, [.. choices], HandleChangeUlti);
+        location.createQuestionDialogue(message, [.. choices], HandleChangeLimit);
     }
 
     private static void HandleSkillReset(ISkill skill)
@@ -268,7 +273,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         State.UsedStatueToday = true;
     }
 
-    private static void HandlePrestigeRespec(VanillaSkill skill)
+    private static void HandlePrestigeRespec(Skill skill)
     {
         var player = Game1.player;
         player.Money = Math.Max(0, player.Money - (int)Config.Masteries.PrestigeRespecCost);
@@ -344,31 +349,30 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         State.UsedStatueToday = true;
     }
 
-    private static void HandleChangeUlti(Farmer who, string choice)
+    private static void HandleChangeLimit(Farmer who, string choice)
     {
         if (choice == "Cancel")
         {
             return;
         }
 
-        var player = Game1.player;
-        player.Money = Math.Max(0, player.Money - (int)Config.Masteries.LimitRespecCost);
+        var split = choice.Split('_');
+        if (split.Length != 2)
+        {
+            return;
+        }
 
-        // change Limit Break
-        var newLimit = LimitBreak.FromName(choice.SplitWithoutAllocation('_')[1].ToString());
-        player.Set_LimitBreak(newLimit);
+        var newLimit = LimitBreak.FromName(split[1]);
+        var message = '"' + newLimit.Description + "\". " + I18n.Prestige_DogStatue_Describe();
+        Response[] responses =
+        [
+            new Response("Confirm_" + newLimit.Name, Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_Yes"))
+                .SetHotKey(Keys.Y),
+            new Response("Return", Game1.content.LoadString("Strings\\Lexicon:QuestionDialogue_No"))
+                .SetHotKey(Keys.Escape),
+        ];
 
-        // play sound effect
-        SoundBox.DogStatuePrestige.PlayLocal();
-
-        // tell the player
-        Game1.drawObjectDialogue(I18n.Prestige_DogStatue_Fledged(newLimit.ParentProfession.Title));
-
-        // woof woof
-        DelayedAction.playSoundAfterDelay("dog_bark", 1300);
-        DelayedAction.playSoundAfterDelay("dog_bark", 1900);
-
-        State.UsedStatueToday = true;
+        who.currentLocation.createQuestionDialogue(message, responses, "ConfirmChangeLimit");
     }
 
     #endregion dialog handlers

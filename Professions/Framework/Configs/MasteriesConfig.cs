@@ -15,7 +15,7 @@ using StardewModdingAPI.Utilities;
 /// <summary>The Mastery-related settings for PRFS.</summary>
 public sealed class MasteriesConfig
 {
-    private bool _enableLimitBreaks = true;
+    private bool _unlockLimitBreaks = true;
     private double _limitGainFactor = 1f;
     private double _limitDrainFactor = 1f;
     private IconStyle _prestigeIconStyle = IconStyle.MetallicGold;
@@ -38,17 +38,17 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(100)]
-    public bool EnableLimitBreaks
+    public bool UnlockLimitBreaks
     {
-        get => this._enableLimitBreaks;
+        get => this._unlockLimitBreaks;
         internal set
         {
-            if (value == this._enableLimitBreaks)
+            if (value == this._unlockLimitBreaks)
             {
                 return;
             }
 
-            this._enableLimitBreaks = value;
+            this._unlockLimitBreaks = value;
             if (!Context.IsWorldReady || State.LimitBreak is null)
             {
                 return;
@@ -146,7 +146,7 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(200)]
-    public bool EnablePrestigeLevels { get; internal set; } = true;
+    public bool UnlockPrestigeLevels { get; internal set; } = true;
 
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]

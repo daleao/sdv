@@ -1,15 +1,15 @@
 ﻿namespace DaLion.Taxes.Framework.Integrations;
 
-internal interface IProfessionsApi
+public interface IProfessionsApi
 {
-    internal interface IModConfig
+    public interface IProfessionsConfig
     {
-        int TrashNeededPerTaxDeduction { get; }
+        uint ConservationistTrashNeededPerTaxDeduction { get; }
 
         float ConservationistTaxDeductionCeiling { get; }
     }
 
-    float GetConservationistDeductions();
+    float GetConservationistTaxDeduction(Farmer? farmer = null);
 
-    IModConfig GetConfigs();
+    IProfessionsConfig GetConfig();
 }

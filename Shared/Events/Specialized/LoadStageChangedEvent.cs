@@ -21,6 +21,7 @@ public abstract class LoadStageChangedEvent : ManagedEvent
     public override void Dispose()
     {
         //this.Manager.ModEvents.Specialized.LoadStageChanged -= this.OnLoadStageChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="ISpecializedEvents.LoadStageChanged"/>

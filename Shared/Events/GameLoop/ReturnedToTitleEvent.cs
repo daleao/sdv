@@ -21,6 +21,7 @@ public abstract class ReturnedToTitleEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.ReturnedToTitle -= this.OnReturnedToTitle;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.ReturnedToTitle"/>

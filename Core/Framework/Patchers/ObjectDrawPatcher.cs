@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Patchers.Combat;
+﻿namespace DaLion.Core.Framework.Patchers;
 
 #region using directives
 

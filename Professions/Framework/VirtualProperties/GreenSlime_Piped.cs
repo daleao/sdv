@@ -18,8 +18,8 @@ internal static class GreenSlime_Piped
         return Values.TryGetValue(slime, out var piped) ? piped : null;
     }
 
-    internal static void Set_Piped(this GreenSlime slime, Farmer piper)
+    internal static void Set_Piped(this GreenSlime slime, Farmer piper, int timer = -1)
     {
-        Values.AddOrUpdate(slime, new PipedSlime(slime, piper));
+        Values.AddOrUpdate(slime, new PipedSlime(slime, piper, timer));
     }
 }

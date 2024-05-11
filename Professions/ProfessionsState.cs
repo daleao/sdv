@@ -10,6 +10,7 @@ using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
 using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
+using DaLion.Shared.Extensions;
 using StardewValley;
 using StardewValley.Monsters;
 
@@ -18,16 +19,20 @@ using StardewValley.Monsters;
 internal sealed class ProfessionsState
 {
     private int _rageCounter;
+    private List<int>? _orderedProfessions;
     private Monster? _lastDesperadoTarget;
     private LimitBreak? _limitBreak;
     private ProspectorHunt? _prospectorHunt;
     private ScavengerHunt? _scavengerHunt;
+    private Dictionary<string, int>? _prestigedEcologistBuffsLookup;
 
     internal int SpelunkerLadderStreak { get; set; }
 
-    internal List<Item> SpelunkerUncollectedItems { get; set; } = [];
+    internal List<string> SpelunkerUncollectedItems { get; set; } = [];
 
-    internal int DemolitionistExcitedness { get; set; }
+    internal int DemolitionistAdrenaline { get; set; }
+
+    internal List<ChainedExplosion> ChainedExplosions { get; } = [];
 
     internal int BruteRageCounter
     {
@@ -56,13 +61,47 @@ internal sealed class ProfessionsState
         }
     }
 
-    internal HashSet<GreenSlime> AllySlimes { get; } = [];
+    internal List<PipedSlime> SummonedSlimes { get; } = [];
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
 
     internal bool UsedStatueToday { get; set; }
 
-    internal List<int> OrderedProfessions { get; set; } = [];
+    internal List<int> OrderedProfessions
+    {
+        get
+        {
+            if (this._orderedProfessions is not null)
+            {
+                return this._orderedProfessions;
+            }
+
+            var player = Game1.player;
+            var storedProfessions = Data.Read(player, DataKeys.OrderedProfessions);
+            if (string.IsNullOrEmpty(storedProfessions))
+            {
+                Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
+                this._orderedProfessions = [.. player.professions];
+            }
+            else
+            {
+                var professionsList = storedProfessions.ParseList<int>();
+                if (professionsList.Count != player.professions.Count || !professionsList.All(player.professions.Contains))
+                {
+                    Log.W(
+                        $"Player {player.Name}'s professions does not match the stored list of professions. The stored professions will be reset.");
+                    Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
+                    this._orderedProfessions = [.. player.professions];
+                }
+                else
+                {
+                    this._orderedProfessions = professionsList;
+                }
+            }
+
+            return this._orderedProfessions;
+        }
+    }
 
     internal LimitBreak? LimitBreak
     {
@@ -79,8 +118,8 @@ internal sealed class ProfessionsState
             }
 
             this._limitBreak = value;
-            Data.Write(Game1.player, DataKeys.LimitBreakId, value.Name);
-            if (Config.Masteries.EnableLimitBreaks)
+            Data.Write(Game1.player, DataKeys.LimitBreakId, value.Id.ToString());
+            if (Config.Masteries.UnlockLimitBreaks)
             {
                 EventManager.Enable<LimitWarpedEvent>();
             }
@@ -143,5 +182,14 @@ internal sealed class ProfessionsState
         }
     }
 
-    internal Dictionary<string, int> PrestigedEcologistBuffsLookup { get; set; } = [];
+    internal Dictionary<string, int> PrestigedEcologistBuffsLookup
+    {
+        get
+        {
+            this._prestigedEcologistBuffsLookup ??= Data
+                    .Read(Game1.player, DataKeys.PrestigedEcologistBuffLookup)
+                    .ParseDictionary<string, int>();
+            return this._prestigedEcologistBuffsLookup;
+        }
+    }
 }

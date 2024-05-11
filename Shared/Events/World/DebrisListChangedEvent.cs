@@ -21,6 +21,7 @@ public abstract class DebrisListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.DebrisListChanged -= this.OnDebrisListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.DebrisListChanged"/>

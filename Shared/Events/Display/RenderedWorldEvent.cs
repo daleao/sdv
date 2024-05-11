@@ -21,6 +21,7 @@ public abstract class RenderedWorldEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.RenderedWorld -= this.OnRenderedWorld;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>

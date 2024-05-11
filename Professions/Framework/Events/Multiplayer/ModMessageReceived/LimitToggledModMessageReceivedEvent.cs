@@ -40,8 +40,8 @@ internal sealed class LimitToggledModMessageReceivedEvent : ModMessageReceivedEv
         switch (limitState)
         {
             case "Active":
-                var id = Data.Read(who, DataKeys.LimitBreakId);
-                var limit = LimitBreak.FromName(id);
+                var id = Data.ReadAs(who, DataKeys.LimitBreakId, -1);
+                var limit = LimitBreak.FromId(id);
                 Log.D($"{who.Name} activated {limit.Name}.");
                 who.startGlowing(limit.Color, false, 0.05f);
                 break;

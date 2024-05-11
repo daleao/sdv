@@ -206,7 +206,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     secondProjectile.IgnoreLocationCollision = true;
                 }
 
-                Game1.delayedActions.Add(new DelayedAction(200, () => location.projectiles.Add(secondProjectile)));
+                Game1.delayedActions.Add(new DelayedAction(225, () => location.projectiles.Add(secondProjectile)));
             }
 
             ___canPlaySound = true;

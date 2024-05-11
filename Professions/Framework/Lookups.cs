@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Shared.Classes;
 
 #endregion using directives
 
@@ -50,18 +49,27 @@ internal static class Lookups
         QualifiedObjectIds.MsAngler,
         QualifiedObjectIds.LegendII,
         QualifiedObjectIds.GlacierfishJr,
-        QualifiedObjectIds.RadioactiveCarp
+        QualifiedObjectIds.RadioactiveCarp,
+        "MNF.MoreNewFish_tui",
+        "MNF.MoreNewFish_la",
     ];
 
     /// <summary>Gets a map from a legendary fish ID to that of its corresponding extended family pair.</summary>
-    internal static BiMap<string, string> FamilyPairs { get; } = new(new Dictionary<string, string>
+    internal static Dictionary<string, string> FamilyPairs { get; } = new()
     {
         { QualifiedObjectIds.Crimsonfish, QualifiedObjectIds.SonOfCrimsonfish },
         { QualifiedObjectIds.Angler, QualifiedObjectIds.MsAngler },
         { QualifiedObjectIds.Legend, QualifiedObjectIds.LegendII },
         { QualifiedObjectIds.MutantCarp, QualifiedObjectIds.RadioactiveCarp },
         { QualifiedObjectIds.Glacierfish, QualifiedObjectIds.GlacierfishJr },
-    });
+        { QualifiedObjectIds.SonOfCrimsonfish, QualifiedObjectIds.Crimsonfish },
+        { QualifiedObjectIds.MsAngler, QualifiedObjectIds.Angler },
+        { QualifiedObjectIds.LegendII, QualifiedObjectIds.Legend },
+        { QualifiedObjectIds.RadioactiveCarp, QualifiedObjectIds.MutantCarp },
+        { QualifiedObjectIds.GlacierfishJr, QualifiedObjectIds.Glacierfish },
+        { "MNF.MoreNewFish_tui", "MNF.MoreNewFish_la" },
+        { "MNF.MoreNewFish_la", "MNF.MoreNewFish_tui" },
+    };
 
     /// <summary>Gets or sets the ids of resource nodes.</summary>
     internal static HashSet<string> ResourceNodeIds { get; set; } =

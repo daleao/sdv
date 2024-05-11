@@ -35,7 +35,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
     private static bool LevelUpMenuUpdatePrefix(
         LevelUpMenu __instance,
         List<int> ___professionsToChoose,
-        List<TemporaryAnimatedSprite> ___littleStars,
+        TemporaryAnimatedSpriteList ___littleStars,
         List<CraftingRecipe> ___newCraftingRecipes,
         ref int ___currentLevel,
         ref int ___currentSkill,
@@ -45,6 +45,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
         ref string ___title,
         ref List<string> ___extraInfoForLevel,
         ref List<string> ___leftProfessionDescription,
+        ref List<string> ___rightProfessionDescription,
         ref MouseState ___oldMouseState,
         ref Rectangle ___sourceRectForLevelIcon,
         GameTime time)
@@ -64,35 +65,49 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!__instance.isActive ||
-            ___currentLevel is not (15 or 20) || ___professionsToChoose.Count != 1)
+        if (!__instance.isActive || ___currentLevel <= 10)
+        {
+            return true; // run original logic
+        }
+
+        var player = Game1.player;
+        if (!___hasUpdatedProfessions)
+        {
+            ISkill skill = Skill.FromValue(___currentSkill);
+            switch (___currentLevel)
+            {
+                case 15:
+                    ___professionsToChoose.AddRange(skill.TierOneProfessionIds.Where(player.professions.Contains));
+                    break;
+                case 20:
+                    var rootId = player.GetCurrentRootProfessionForSkill(skill);
+                    IProfession root = Profession.FromValue(rootId);
+                    ___professionsToChoose.AddRange(root.GetBranchingProfessions
+                        .Select(p => p.Id)
+                        .Where(player.professions.Contains));
+                    break;
+            }
+
+            if (___professionsToChoose.Count == 0)
+            {
+                return true; // run original logic
+            }
+
+            ___leftProfessionDescription = LevelUpMenu.getProfessionDescription(___professionsToChoose[0]);
+            if (___professionsToChoose.Count > 1)
+            {
+                ___rightProfessionDescription = LevelUpMenu.getProfessionDescription(___professionsToChoose[1]);
+            }
+
+            ___hasUpdatedProfessions = true;
+        }
+
+        if (___professionsToChoose.Count != 1)
         {
             return true; // run original logic
         }
 
         #region choose single profession
-
-        var player = Game1.player;
-        var xPositionOnScreen = __instance.xPositionOnScreen;
-        var width = __instance.width;
-        if (!___hasUpdatedProfessions)
-        {
-            var root = player.GetCurrentRootProfessionForSkill(Skill.FromValue(___currentSkill));
-            switch (___currentLevel)
-            {
-                case 15:
-                    ___professionsToChoose.Add(root);
-                    break;
-                case 20:
-                    var branch =
-                        player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(root));
-                    ___professionsToChoose.Add(branch);
-                    break;
-            }
-
-            ___leftProfessionDescription = LevelUpMenu.getProfessionDescription(___professionsToChoose[0]);
-            ___hasUpdatedProfessions = true;
-        }
 
         for (var i = ___littleStars.Count - 1; i >= 0; i--)
         {
@@ -102,6 +117,8 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             }
         }
 
+        var xPositionOnScreen = __instance.xPositionOnScreen;
+        var width = __instance.width;
         if (Game1.random.NextBool(0.03))
         {
             var position =
@@ -180,9 +197,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
             Game1.playSound("bigSelect");
             __instance.informationUp = true;
             __instance.isProfessionChooser = false;
-            var newLevel = player.newLevels[0];
-            ___currentLevel = newLevel.Y;
-            ___currentSkill = newLevel.X;
+            (___currentSkill, ___currentLevel) = player.newLevels[0];
             ___title = Game1.content.LoadString(
                 "Strings\\UI:LevelUp_Title",
                 ___currentLevel,
@@ -201,20 +216,26 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
             ___professionsToChoose.Clear();
             ___isProfessionChooser = true;
-            var root = player.GetCurrentRootProfessionForSkill(Skill.FromValue(___currentSkill));
+            ISkill skill = Skill.FromValue(___currentSkill);
             switch (___currentLevel)
             {
                 case 15:
-                    ___professionsToChoose.Add(root);
+                    ___professionsToChoose.AddRange(skill.TierOneProfessionIds.Where(player.professions.Contains));
                     break;
                 case 20:
-                    var branch =
-                        player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(root));
-                    ___professionsToChoose.Add(branch);
+                    var rootId = player.GetCurrentRootProfessionForSkill(skill);
+                    IProfession root = Profession.FromValue(rootId);
+                    ___professionsToChoose.AddRange(root.GetBranchingProfessions
+                        .Select(p => p.Id)
+                        .Where(player.professions.Contains));
                     break;
             }
 
             ___leftProfessionDescription = LevelUpMenu.getProfessionDescription(___professionsToChoose[0]);
+            if (___professionsToChoose.Count > 1)
+            {
+                ___rightProfessionDescription = LevelUpMenu.getProfessionDescription(___professionsToChoose[1]);
+            }
 
             const int newHeight = 0;
             __instance.height = newHeight + 256 + (___extraInfoForLevel.Count * 64 * 3 / 4);
@@ -330,7 +351,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                             new CodeInstruction(OpCodes.Ldc_I4_6), new CodeInstruction(OpCodes.Mul),
                             new CodeInstruction(
                                 OpCodes.Callvirt,
-                                typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                                typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
                         ],
                         ILHelper.SearchOption.First)
                     .GetLabels(out var labels)
@@ -347,9 +368,9 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                     .PatternMatch([
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(NetList<int, NetInt>).RequireMethod(nameof(NetList<int, NetInt>.Contains))),
+                            typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
                     ])
-                    .Remove() // remove Callvirt NetList<int, NetInt>.Contains()
+                    .Remove() // remove Callvirt NetIntHashSet.Contains()
                     .SetOpCode(OpCodes.Bne_Un_S); // was Brfalse_S
             }
             catch (Exception ex)

@@ -53,14 +53,18 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
                         OpCodes.Call,
                         typeof(ObjectCheckForActionOnMachinePatcher).RequireMethod(nameof(AttemptPushToHopper))),
                     new CodeInstruction(OpCodes.Dup),
-                    new CodeInstruction(OpCodes.Stloc_2), // can't get a reference to the LocalBuilder of this variable in order to load it by ref, so instead we set it by duplicating the result of the injected method
+                    new CodeInstruction(
+                        OpCodes
+                        .Stloc_2), // can't get a reference to the LocalBuilder of this variable in order to load it by ref, so instead we set it by duplicating the result of the injected method
                     new CodeInstruction(OpCodes.Brtrue_S, skipHumanHarvest),
                 ])
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.heldObject))),
-                    new CodeInstruction(OpCodes.Ldnull),
-                ])
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.heldObject))),
+                        new CodeInstruction(OpCodes.Ldnull),
+                    ],
+                    nth: 2)
                 .AddLabels(skipHumanHarvest);
         }
         catch (Exception ex)
@@ -78,13 +82,26 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     private static bool AttemptPushToHopper(SObject machine, MachineData machineData, SObject objectThatWasHeld, Farmer who)
     {
-        var tileBelow = new Vector2(machine.TileLocation.X, machine.TileLocation.Y - 1f);
-        if (machine.Location?.Objects.TryGetValue(tileBelow, out var toObj) != true ||
-            toObj is not Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopper)
+        Chest hopper;
+        var tileBelow = new Vector2(machine.TileLocation.X, machine.TileLocation.Y + 1f);
+        if (machine.Location?.Objects.TryGetValue(tileBelow, out var objBelow) != true ||
+            objBelow is not Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperBelow)
         {
-            return false;
+            var tileAbove = new Vector2(machine.TileLocation.X, machine.TileLocation.Y - 1f);
+            if (machine.Location?.Objects.TryGetValue(tileAbove, out var objAbove) != true ||
+                objAbove is not Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperAbove)
+            {
+                return false;
+            }
+
+            hopper = hopperAbove;
+        }
+        else
+        {
+            hopper = hopperBelow;
         }
 
+        // this should always be false
         if (hopper.GetOwner() != who)
         {
             return false;
@@ -97,7 +114,7 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
             return false;
         }
 
-        Game1.playSound("coin");
+        machine.Location.playSound("coin");
         MachineDataUtility.UpdateStats(machineData?.StatsToIncrementWhenHarvested, objectThatWasHeld, objectThatWasHeld.Stack);
         return true;
     }

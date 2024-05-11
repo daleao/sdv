@@ -31,13 +31,13 @@ internal static class Farmer_LimitBreak
         Values.GetOrCreateValue(farmer).LimitBreak = value;
     }
 
-    public static NetString Get_LimitBreakId(this Farmer farmer)
+    public static NetInt Get_LimitBreakId(this Farmer farmer)
     {
         return Values.GetValue(farmer, Create).Id;
     }
 
     // Net types are readonly
-    public static void Set_LimitBreakId(this Farmer farmer, NetString value)
+    public static void Set_LimitBreakId(this Farmer farmer, NetInt value)
     {
     }
 
@@ -53,17 +53,17 @@ internal static class Farmer_LimitBreak
 
     private static Holder Create(Farmer farmer)
     {
-        var id = Data.Read(farmer, DataKeys.LimitBreakId);
+        var id = Data.ReadAs(farmer, DataKeys.LimitBreakId, -1);
         return new Holder
         {
             Id = { Value = id },
-            LimitBreak = string.IsNullOrEmpty(id) ? null : LimitBreak.FromName(id),
+            LimitBreak = id < 0 ? null : LimitBreak.FromId(id),
         };
     }
 
     public class Holder
     {
-        public NetString Id { get; } = new(string.Empty);
+        public NetInt Id { get; } = new(-1);
 
         public NetBool IsActive { get; } = new(false);
 

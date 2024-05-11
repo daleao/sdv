@@ -4,10 +4,12 @@
 
 using System.Linq;
 using DaLion.Core;
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -37,38 +39,31 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         }
 
         var isDungeon = e.NewLocation.IsDungeon();
-        if (!isDungeon && !CoreMod.State.AreEnemiesNearby)
+        var areEnemiesAround = CoreMod.State.AreEnemiesNearby && e.NewLocation is not SlimeHutch;
+        if (!isDungeon && !areEnemiesAround)
         {
+            State.SummonedSlimes.Clear();
+            return;
+        }
+
+        if (State.SummonedSlimes.Any())
+        {
+            foreach (var piped in State.SummonedSlimes)
+            {
+                e.OldLocation.characters.Remove(piped.Instance);
+                e.NewLocation.characters.Add(piped.Instance);
+            }
+
             return;
         }
 
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var maxWidth = e.NewLocation.Map.Layers[0].LayerWidth;
-        var maxHeight = e.NewLocation.Map.Layers[0].LayerHeight;
-        var spawnTiles = new HashSet<Vector2>();
-        var (playerX, playerY) = e.Player.Tile;
-        for (var x = playerX - 2; x <= playerX + 2; x++)
-        {
-            if (x < 0 || x > maxWidth || x == playerX)
-            {
-                continue;
-            }
-
-            for (var y = playerY - 2; y <= playerY + 2; y++)
-            {
-                if (y < 0 || y > maxHeight || y == playerY)
-                {
-                    continue;
-                }
-
-                var tile = new Vector2(x, y);
-                if (e.NewLocation.CanSpawnCharacterHere(tile))
-                {
-                    spawnTiles.Add(tile);
-                }
-            }
-        }
-
+        var mapWidth = e.NewLocation.Map.Layers[0].LayerWidth;
+        var mapHeight = e.NewLocation.Map.Layers[0].LayerHeight;
+        var spawnTiles = e.Player.Tile
+            .GetTwentyFourNeighbors(mapWidth, mapHeight)
+            .Where(e.NewLocation.CanSpawnCharacterHere)
+            .ToHashSet();
         if (!spawnTiles.Any())
         {
             return;
@@ -80,13 +75,14 @@ internal sealed class PiperWarpedEvent : WarpedEvent
         {
             var tile = spawnTiles.Choose(r);
             spawnTiles.Remove(tile);
+            var position = tile * Game1.tileSize;
             GreenSlime piped;
             switch (e.NewLocation)
             {
                 case MineShaft shaft:
                 {
                     // from MineShaft.getMonsterForThisLevel
-                    piped = new GreenSlime(tile, shaft.mineLevel);
+                    piped = new GreenSlime(position, shaft.mineLevel);
                     shaft.BuffMonsterIfNecessary(piped);
                     break;
                 }
@@ -96,9 +92,9 @@ internal sealed class PiperWarpedEvent : WarpedEvent
                     // from Woods.resetSharedState
                     piped = e.NewLocation.GetSeason() switch
                     {
-                        Season.Winter => new GreenSlime(tile, 40),
-                        Season.Fall => new GreenSlime(tile, r.NextBool() ? 40 : 0),
-                        _ => new GreenSlime(tile, 0),
+                        Season.Winter => new GreenSlime(position, 40),
+                        Season.Fall => new GreenSlime(position, r.NextBool() ? 40 : 0),
+                        _ => new GreenSlime(position, 0),
                     };
                     break;
                 }
@@ -106,27 +102,27 @@ internal sealed class PiperWarpedEvent : WarpedEvent
                 case VolcanoDungeon:
                 {
                     // from VolcanoDungeon.GenerateEntities
-                    piped = new GreenSlime(tile, 0);
+                    piped = new GreenSlime(position, 0);
                     piped.makeTigerSlime();
                     break;
                 }
 
                 default:
                 {
-                    piped = new GreenSlime(tile, 0);
+                    piped = new GreenSlime(position, 0);
                     break;
                 }
             }
 
             var numberRaised = e.Player.CountRaisedSlimes();
-            var powerup = Math.Min(numberRaised / 10f, 3f);
-            piped.moveTowardPlayerThreshold.Value = 0;
+            var powerup = MathHelper.Lerp(1f, 2f, numberRaised / 30f);
             piped.MaxHealth = (int)(piped.MaxHealth * powerup);
             piped.Health = piped.MaxHealth;
             piped.DamageToFarmer = (int)(piped.DamageToFarmer * powerup);
             piped.resilience.Value = (int)(piped.resilience.Value * powerup);
             e.NewLocation.characters.Add(piped);
-            State.AllySlimes.Add(piped);
+            piped.Set_Piped(e.Player);
+            State.SummonedSlimes.Add(piped.Get_Piped()!);
             spawned++;
         }
     }

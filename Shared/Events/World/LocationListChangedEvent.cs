@@ -21,6 +21,7 @@ public abstract class LocationListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.LocationListChanged -= this.OnLocationListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.LocationListChanged"/>

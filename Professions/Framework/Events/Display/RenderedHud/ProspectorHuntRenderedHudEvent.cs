@@ -35,7 +35,8 @@ internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
         HudPointer.Instance.DrawAsTrackingPointer(treasureTile, Color.Violet);
 
         // reveal if close enough
-        if (Game1.player.DistanceTo(treasureTile) <= Config.ProspectorDetectionDistance)
+        if (Game1.player.SquaredTileDistance(treasureTile) <=
+            Config.ProspectorDetectionDistance * Config.ProspectorDetectionDistance)
         {
             HudPointer.Instance.DrawOverTile(treasureTile, Color.Violet);
         }

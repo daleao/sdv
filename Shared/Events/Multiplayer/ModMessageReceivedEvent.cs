@@ -24,6 +24,7 @@ public abstract class ModMessageReceivedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Multiplayer.ModMessageReceived -= this.OnModMessageReceived;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>

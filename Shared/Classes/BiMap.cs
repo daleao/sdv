@@ -212,7 +212,7 @@ public static class BiMapExtensions
     }
 
     /// <summary>
-    ///     Checks if a the given key is present in either direction of the <see cref="BiMap{TForwardKey,TReverseKey}"/>.
+    ///     Checks if the given key is present in either direction of the <see cref="BiMap{TForwardKey,TReverseKey}"/>.
     /// </summary>
     /// <typeparam name="T">The type of both the key and paired value in the <see cref="BiMap{TForward,TReverse}"/>.</typeparam>
     /// <param name="map">A <see cref="BiMap{TForward,TReverse}"/> from  <typeparamref name="T"/> to  <typeparamref name="T"/>.</param>

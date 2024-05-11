@@ -477,15 +477,9 @@ internal static class CrabPotExtensions
                 trash = r.Next(2) == 0 ? QualifiedObjectIds.GreenAlgae : QualifiedObjectIds.WhiteAlgae;
                 break;
             default:
-                if (location.Name == "WitchSwamp")
-                {
-                    trash = r.Next(2) == 0 ? QualifiedObjectIds.GreenAlgae : QualifiedObjectIds.WhiteAlgae;
-                }
-                else
-                {
-                    trash = QualifiedObjectIds.GreenAlgae;
-                }
-
+                trash = location.Name == "WitchSwamp"
+                    ? r.Next(2) == 0 ? QualifiedObjectIds.GreenAlgae : QualifiedObjectIds.WhiteAlgae
+                    : QualifiedObjectIds.GreenAlgae;
                 break;
         }
 

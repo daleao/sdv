@@ -31,6 +31,8 @@ public static class DelegateExtensions
 
     public static Func<T1, TResult> Partial<T1, T2, TResult>(this Func<T1, T2, TResult> func, T2 arg2) => arg1 => func(arg1, arg2);
 
+    public static Func<T, TResult> Partial<T, TResult>(this Func<T, T, TResult> func, T arg1) => arg2 => func(arg1, arg2);
+
     public static Func<TResult> Partial<T1, T2, TResult>(this Func<T1, T2, TResult> func, T1 arg1, T2 arg2) => () => func(arg1, arg2);
 
     public static Func<T2, T3, TResult> Partial<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, T1 arg1) => (arg2, arg3) => func(arg1, arg2, arg3);
@@ -38,6 +40,8 @@ public static class DelegateExtensions
     public static Func<T1, T3, TResult> Partial<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, T2 arg2) => (arg1, arg3) => func(arg1, arg2, arg3);
 
     public static Func<T1, T2, TResult> Partial<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, T3 arg3) => (arg1, arg2) => func(arg1, arg2, arg3);
+
+    public static Func<T, T, TResult> Partial<T, TResult>(this Func<T, T, T, TResult> func, T arg1) => (arg2, arg3) => func(arg1, arg2, arg3);
 
     public static Func<T3, TResult> Partial<T1, T2, T3, TResult>(this Func<T1, T2, T3, TResult> func, T1 arg1, T2 arg2) => arg3 => func(arg1, arg2, arg3);
 
@@ -77,6 +81,8 @@ public static class DelegateExtensions
 
     public static Action<T1> Partial<T1, T2>(this Action<T1, T2> action, T2 arg2) => arg1 => action(arg1, arg2);
 
+    public static Action<T> Partial<T>(this Action<T, T> action, T arg1) => arg2 => action(arg1, arg2);
+
     public static Action Partial<T1, T2>(this Action<T1, T2> action, T1 arg1, T2 arg2) => () => action(arg1, arg2);
 
     public static Action<T2, T3> Partial<T1, T2, T3>(this Action<T1, T2, T3> action, T1 arg1) => (arg2, arg3) => action(arg1, arg2, arg3);
@@ -84,6 +90,8 @@ public static class DelegateExtensions
     public static Action<T1, T3> Partial<T1, T2, T3>(this Action<T1, T2, T3> action, T2 arg2) => (arg1, arg3) => action(arg1, arg2, arg3);
 
     public static Action<T1, T2> Partial<T1, T2, T3>(this Action<T1, T2, T3> action, T3 arg3) => (arg1, arg2) => action(arg1, arg2, arg3);
+
+    public static Action<T, T> Partial<T>(this Action<T, T, T> action, T arg1) => (arg2, arg3) => action(arg1, arg2, arg3);
 
     public static Action<T3> Partial<T1, T2, T3>(this Action<T1, T2, T3> action, T1 arg1, T2 arg2) => arg3 => action(arg1, arg2, arg3);
 

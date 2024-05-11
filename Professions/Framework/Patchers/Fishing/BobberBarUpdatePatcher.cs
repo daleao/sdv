@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Buildings;
 using StardewValley.Menus;
+using FarmerExtensions = DaLion.Professions.Framework.Extensions.FarmerExtensions;
 
 #endregion using directives
 
@@ -24,6 +27,34 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    /// <summary>Patch to for Prestiged Aquarist instant catch.</summary>
+    [HarmonyPostfix]
+    private static void BobberBarUpdatePostfix(BobberBar __instance)
+    {
+        if (!Game1.player.HasProfession(Profession.Aquarist, true))
+        {
+            return;
+        }
+
+        Utility.ForEachBuilding(b =>
+        {
+            if (b is not FishPond pond || !pond.HasUnlockedFinalPopulationGate() ||
+                pond.fishType.Value != __instance.whichFish ||
+                pond.currentOccupants.Value < pond.maxOccupants.Value)
+            {
+                return true;
+            }
+
+            __instance.distanceFromCatching = 1f;
+            if (__instance.treasure)
+            {
+                __instance.treasureCaught = true;
+            }
+
+            return false;
+        });
+    }
 
     /// <summary>Patch to slow-down catching bar decrease for Aquarist.</summary>
     [HarmonyTranspiler]

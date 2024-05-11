@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Commands;
-using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 
 #endregion using directives
@@ -33,18 +32,17 @@ internal sealed class UpdateMaxOccupancyCommand : ConsoleCommand
         }
 
         var count = 0;
-        var buildings = Game1.getFarm().buildings;
-        foreach (var building in buildings)
+        Utility.ForEachBuilding(b =>
         {
-            if (building is not FishPond pond || !pond.IsOwnedBy(Game1.player) ||
-                pond.isUnderConstruction())
+            if (b is not FishPond pond)
             {
-                continue;
+                return true;
             }
 
             pond.UpdateMaximumOccupancy();
             count++;
-        }
+            return true;
+        });
 
         if (count > 0)
         {

@@ -21,6 +21,7 @@ public abstract class CursorMovedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Input.CursorMoved -= this.OnCursorMoved;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IInputEvents.CursorMoved"/>

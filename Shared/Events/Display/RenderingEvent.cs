@@ -21,6 +21,7 @@ public abstract class RenderingEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.Rendering -= this.OnRendering;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.Rendering"/>

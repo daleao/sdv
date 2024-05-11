@@ -3,13 +3,14 @@
 internal sealed class SpelunkerStreakBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.SpelunkerStreak";
-    internal const int SHEET_INDEX = 56;
+    private const int SHEET_INDEX = 56;
 
     internal SpelunkerStreakBuff()
         : base(
             id: ID,
             source: "Spelunker",
             displaySource: _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")),
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             duration: 17)
     {

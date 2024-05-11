@@ -27,15 +27,9 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Demolitionist explosion radius.</summary>
     [HarmonyPrefix]
-    private static void GameLocationExplodePrefix(ref int radius, Farmer? who)
+    private static void GameLocationExplodePrefix(ref int radius, Farmer? who, bool destroyObjects)
     {
-        if (who?.HasProfession(Profession.Demolitionist) != true)
-        {
-            return;
-        }
-
-        radius++;
-        if (who.HasProfession(Profession.Demolitionist, true))
+        if (destroyObjects && who?.HasProfession(Profession.Demolitionist) == true)
         {
             radius++;
         }
@@ -44,9 +38,9 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     /// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
     [HarmonyPostfix]
     private static void GameLocationExplodePostfix(
-        GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who)
+        GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who, int damage_amount, bool destroyObjects)
     {
-        if (who is null)
+        if (who is null || !destroyObjects)
         {
             return;
         }
@@ -58,6 +52,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             return;
         }
 
+        radius *= 2; // the body of GameLocation.explode divides the radius by 2 to produce HoeDirt, so we need this to restore the original explosion radius
         var isPrestigedBlaster = who.HasProfession(Profession.Blaster, true);
         var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
@@ -74,22 +69,30 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             r,
             who);
 
-        if (!who.IsLocalPlayer || !isDemolitionist)
+        if (!isDemolitionist)
         {
             return;
         }
 
         // get excited speed buff
-        var distanceFromEpicenter = who.DistanceTo(tileLocation);
-        if (distanceFromEpicenter <= radius + 1)
+        if (who.IsLocalPlayer)
         {
-            State.DemolitionistExcitedness = 4;
+            var distanceFromEpicenter = who.SquaredTileDistance(tileLocation);
+            if (distanceFromEpicenter <= radius * radius)
+            {
+                State.DemolitionistAdrenaline = 4;
+            }
+
+            // ReSharper disable once PossibleLossOfFraction
+            if (distanceFromEpicenter <= radius / 2)
+            {
+                State.DemolitionistAdrenaline += 2;
+            }
         }
 
-        // ReSharper disable once PossibleLossOfFraction
-        if (distanceFromEpicenter <= (radius / 2) + 1)
+        if (who.HasProfession(Profession.Demolitionist, true) && radius > 2)
         {
-            State.DemolitionistExcitedness += 2;
+            State.ChainedExplosions.Add(new ChainedExplosion(__instance, tileLocation, radius, damage_amount, who));
         }
     }
 

@@ -3,13 +3,12 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley.Extensions;
 using StardewValley.Objects;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -28,16 +27,17 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
     [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
+    [HarmonyPriority(Priority.First)]
     private static bool CrabPotCheckForActionPrefix(
         ref CrabPot __instance,
         ref bool __result,
+        ref int ___ignoreRemovalTimer,
         ref bool ___lidFlapping,
         ref float ___lidFlapTimer,
         ref Vector2 ___shake,
         ref float ___shakeTimer,
         Farmer who,
-        bool justCheckingForActivity = false)
+        bool justCheckingForActivity)
     {
         try
         {
@@ -50,11 +50,73 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             var held = __instance.heldObject.Value;
             if (held is not null)
             {
-                var item = ItemRegistry.Create(held.QualifiedItemId);
-                if (item is SObject)
+                var item = ItemRegistry.Create(held.QualifiedItemId, held.Stack, held.Quality);
+                if (item is SObject && who.stats.Get("Book_Crabbing") != 0)
                 {
-                    item.Stack = held.Stack;
-                    item.Quality = held.Quality;
+                    var r = Utility.CreateDaySaveRandom(
+                        Game1.uniqueIDForThisGame,
+                        Game1.stats.DaysPlayed * 77,
+                        (__instance.TileLocation.X * 777f) + __instance.TileLocation.Y);
+                    if (r.NextBool(0.25))
+                    {
+                        item.Stack++;
+                    }
+                }
+
+                var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
+                if (location.Objects.TryGetValue(tileAbove, out var objAbove) &&
+                    objAbove is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopper)
+                {
+                    // this should always be false
+                    if (hopper.GetOwner() != who)
+                    {
+                        return false; // don't run original logic
+                    }
+
+                    if (hopper.addItem(item) != null)
+                    {
+                        __result = false;
+                        return false; // don't run original logic
+                    }
+
+                    if (DataLoader.Fish(Game1.content).TryGetValue(item.ItemId, out var rawData1))
+                    {
+                        var split = rawData1.Split('/');
+                        var minFishSize = rawData1.Contains("trap") ? Convert.ToInt32(split[5]) : Convert.ToInt32(split[3]);
+                        var maxFishSize = rawData1.Contains("trap") ? Convert.ToInt32(split[6]) : Convert.ToInt32(split[4]) / 2;
+                        who.caughtFish(
+                            item.QualifiedItemId,
+                            Game1.random.Next(minFishSize, maxFishSize + 1),
+                            from_fish_pond: false,
+                            item.Stack);
+                    }
+
+                    who.gainExperience(Skill.Fishing, 5);
+                    __instance.bait.Value = null;
+                    __instance.heldObject.Value = null;
+                    __instance.readyForHarvest.Value = false;
+                    __instance.tileIndexToShow = 710;
+                    if (hopper.Items.FirstOrDefault(i => i?.Category == SObject.baitCategory) is SObject bait &&
+                        __instance.performObjectDropInAction(bait, false, who))
+                    {
+                        hopper.Items.ReduceId(bait.QualifiedItemId, 1);
+                    }
+
+                    if (!location.farmers.Any())
+                    {
+                        __result = false;
+                        return false; // don't run original logic
+                    }
+
+                    ___lidFlapping = true;
+                    ___lidFlapTimer = 60f;
+                    location.playSound("fishingRodBend");
+                    DelayedAction.playSoundAfterDelay("coin", 500, location);
+                    ___shake = Vector2.Zero;
+                    ___shakeTimer = 0f;
+                    ___ignoreRemovalTimer = 750;
+                    __result = true;
+                    return false; // don't run original logic
                 }
 
                 var addedToInventory = who.addItemToInventoryBool(item);
@@ -66,54 +128,34 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                     return false; // don't run original logic;
                 }
 
-                if (addedToInventory && item is MeleeWeapon or Ring)
+                who.mostRecentlyGrabbedItem = item;
+                if (DataLoader.Fish(Game1.content).TryGetValue(item.ItemId, out var rawData2))
                 {
-                    who.mostRecentlyGrabbedItem = item;
-                }
-
-                if (Data.Read(__instance, DataKeys.TrappedHaul).ParseList<string>() is { Count: > 0 } haul)
-                {
-                    __instance.heldObject.Value = parseHeldObjectData(haul[0]);
-                    Data.Write(__instance, DataKeys.TrappedHaul, string.Join(',', haul.Skip(1)));
-                }
-                else
-                {
-                    __instance.heldObject.Value = null;
-                }
-
-                if (DataLoader.Fish(Game1.content).TryGetValue(item.ItemId, out var rawDataStr))
-                {
-                    var rawData = rawDataStr.Split('/');
-                    var minFishSize = rawData.Length <= 5 ? 1 : Convert.ToInt32(value: rawData[5]);
-                    var maxFishSize = rawData.Length > 5 ? Convert.ToInt32(rawData[6]) : 10;
+                    var split = rawData2.Split('/');
+                    var minFishSize = rawData2.Contains("trap") ? Convert.ToInt32(split[5]) : Convert.ToInt32(split[3]);
+                    var maxFishSize = rawData2.Contains("trap") ? Convert.ToInt32(split[6]) : Convert.ToInt32(split[4]) / 2;
                     who.caughtFish(
                         item.QualifiedItemId,
                         Game1.random.Next(minFishSize, maxFishSize + 1),
-                        from_fish_pond: false);
+                        from_fish_pond: false,
+                        item.Stack);
                 }
 
-                who.gainExperience(1, 5);
+                who.gainExperience(Skill.Fishing, 5);
             }
 
+            __instance.heldObject.Value = null;
+            __instance.bait.Value = null;
             __instance.readyForHarvest.Value = false;
             __instance.tileIndexToShow = 710;
             ___lidFlapping = true;
             ___lidFlapTimer = 60f;
-            if (Data.Read(__instance, DataKeys.Overbait).ParseList<string>() is { Count: > 0 } overbait)
-            {
-                __instance.bait.Value = ItemRegistry.Create<SObject>(overbait[0]);
-                Data.Write(__instance, DataKeys.Overbait, string.Join(',', overbait.Skip(1)));
-            }
-            else
-            {
-                __instance.bait.Value = null;
-            }
-
             who.animateOnce(279 + who.FacingDirection);
             location.playSound("fishingRodBend");
             DelayedAction.playSoundAfterDelay("coin", 500);
             ___shake = Vector2.Zero;
             ___shakeTimer = 0f;
+            ___ignoreRemovalTimer = 750;
             __result = true;
             return false; // don't run original logic
         }
@@ -122,36 +164,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
             return true; // default to original logic
         }
-
-        SObject? parseHeldObjectData(string? data)
-        {
-            if (string.IsNullOrEmpty(data))
-            {
-                return null;
-            }
-
-            var split = data.Split('/');
-            return ItemRegistry.Create<SObject>(split[0], amount: int.Parse(split[1]), quality: int.Parse(split[2]));
-        }
     }
 
     #endregion harmony patches
-
-    #region injections
-
-    private static double GetBaitPreservationChance(SObject? caught)
-    {
-        const int maxValue = 700;
-        var cappedValue = caught?.IsTrash() == true
-            ? 0d
-            : Math.Min(caught?.salePrice() ?? 0, maxValue);
-
-        //     30g -> ~26.5% chance
-        //     700g -> ~5.3% <-- capped here
-        const double a = 335d / 4d;
-        const double b = 275d / 2d;
-        return a / (cappedValue + b);
-    }
-
-    #endregion injections
 }

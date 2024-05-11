@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.VirtualProperties;
 using StardewValley.Extensions;
 using StardewValley.Monsters;
 
@@ -13,17 +14,18 @@ internal sealed class PipedSlime
     /// <summary>Initializes a new instance of the <see cref="PipedSlime"/> class.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
     /// <param name="piper">The <see cref="Farmer"/> who cast <see cref="PiperConcerto"/>.</param>
-    internal PipedSlime(GreenSlime slime, Farmer piper)
+    /// <param name="timer">The duration in milliseconds.</param>
+    internal PipedSlime(GreenSlime slime, Farmer piper, int timer = -1)
     {
         this.Instance = slime;
         this.Piper = piper;
-        this.PipeTimer = (int)(30000 / Config.Masteries.LimitDrainFactor);
+        this.PipeTimer = (int)(timer * LimitBreak.GetDurationMultiplier);
         this.OriginalHealth = slime.MaxHealth;
         this.OriginalRange = slime.moveTowardPlayerThreshold.Value;
         this.OriginalScale = slime.Scale;
         this.FakeFarmer = new FakeFarmer
         {
-            UniqueMultiplayerID = slime.GetHashCode(), currentLocation = slime.currentLocation,
+            UniqueMultiplayerID = slime.GetHashCode(), currentLocation = piper.currentLocation,
         };
     }
 
@@ -48,7 +50,7 @@ internal sealed class PipedSlime
     /// <summary>Gets the original scale of the instance, before it was piped.</summary>
     internal float OriginalScale { get; }
 
-    /// <summary>Gets the fake <see cref="Farmer"/> instance used to aggro other <see cref="Monster"/>s.</summary>
+    /// <summary>Gets the fake <see cref="Farmer"/> instance used for aggroing onto non-players.</summary>
     internal FakeFarmer FakeFarmer { get; }
 
     /// <summary>Grows the <see cref="PipedSlime"/> one stage.</summary>
@@ -93,5 +95,26 @@ internal sealed class PipedSlime
         this.Instance.willDestroyObjectsUnderfoot = false;
         this.Instance.addedSpeed = 0;
         this.Instance.focusedOnFarmers = false;
+    }
+
+    internal void Burst()
+    {
+        this.Instance.Health = 0;
+        this.Instance.deathAnimation();
+    }
+
+    internal void DropItems()
+    {
+        foreach (var item in this.Instance.Get_Inventory())
+        {
+            if (item is not null)
+            {
+                Game1.createItemDebris(
+                    item,
+                    this.Instance.Position,
+                    Game1.random.Next(4),
+                    this.Instance.currentLocation);
+            }
+        }
     }
 }

@@ -38,10 +38,11 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
             return false;
         }
 
-        var prestige = args.Any(a => a is "-p" or "--prestiged");
+        var prestigeArgs = args.Where(a => a.ToLower() is "-p" or "--prestiged").ToArray();
+        var prestige = prestigeArgs.Any();
         if (prestige)
         {
-            args = args.Except(["-p", "--prestiged"]).ToArray();
+            args = args.Except(prestigeArgs).ToArray();
         }
 
         List<int> professionsToAdd = [];

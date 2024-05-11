@@ -21,6 +21,7 @@ public abstract class ObjectListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.ObjectListChanged -= this.OnObjectListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.ObjectListChanged"/>

@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
 using DaLion.Professions.Framework.Events.Display.RenderingHud;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Events.Limit.Activated;
@@ -35,8 +34,9 @@ public abstract class LimitBreak : ILimitBreak
         this.Id = id;
         this.Name = name;
         this.ParentProfession = Profession.FromValue(id);
-        this.DisplayName = _I18n.Get(this.ParentProfession.Name.ToLower() + ".title" +
+        this.DisplayName = _I18n.Get(this.ParentProfession.Name.ToLower() + ".limit.title" +
                                      (Game1.player.IsMale ? ".male" : ".female"));
+        this.Description = _I18n.Get(this.ParentProfession.Name.ToLower() + ".limit.explain");
         this.BuffId = UniqueId + ".Buffs.Limit." + this.Name;
         this.Color = color;
         this.Gauge = new LimitGauge(this, color);
@@ -73,6 +73,9 @@ public abstract class LimitBreak : ILimitBreak
     /// <inheritdoc />
     public string DisplayName { get; }
 
+    /// <inheritdoc />
+    public string Description { get; }
+
     /// <summary>Gets the ID of the buff that displays while the instance is active.</summary>
     public string BuffId { get; }
 
@@ -85,7 +88,7 @@ public abstract class LimitBreak : ILimitBreak
         get => this._chargeValue;
         set
         {
-            if (!Config.Masteries.EnableLimitBreaks)
+            if (!Config.Masteries.UnlockLimitBreaks)
             {
                 return;
             }
@@ -162,6 +165,12 @@ public abstract class LimitBreak : ILimitBreak
 
     private static int ActivationTimerMax => (int)Math.Round(Config.Masteries.HoldDelayMilliseconds * 6d / 100d);
 
+    /// <inheritdoc />
+    public bool Equals(ILimitBreak? other)
+    {
+        return this.Id == other?.Id;
+    }
+
     /// <summary>Instantiates the <see cref="LimitBreak"/> with the specified <paramref name="id"/>.</summary>
     /// <param name="id">The <see cref="LimitBreak"/> ID, which equals the corresponding combat profession index.</param>
     /// <returns>A new <see cref="LimitBreak"/> instance of the requested type, if valid.</returns>
@@ -178,24 +187,6 @@ public abstract class LimitBreak : ILimitBreak
         };
     }
 
-    /// <summary>Attempts to instantiate the <see cref="LimitBreak"/> with the specified <paramref name="id"/>.</summary>
-    /// <param name="id">The <see cref="LimitBreak"/> ID, which equals the corresponding combat profession index.</param>
-    /// <param name="limit">The new <see cref="LimitBreak"/> instance, if successful.</param>
-    /// <returns><see langword="true"/> if <paramref name="id"/> is valid, otherwise <see langword="false"/>.</returns>
-    internal static bool TryFromId(int id, [NotNullWhen(true)] out LimitBreak? limit)
-    {
-        limit = id switch
-        {
-            Farmer.brute => new BruteFrenzy(),
-            Farmer.defender => new PoacherAmbush(),
-            Farmer.acrobat => new PiperConcerto(),
-            Farmer.desperado => new DesperadoBlossom(),
-            _ => null,
-        };
-
-        return limit is not null;
-    }
-
     /// <summary>Instantiates the <see cref="LimitBreak"/> with the specified <paramref name="name"/>.</summary>
     /// <param name="name">The technical name of the <see cref="LimitBreak"/>.</param>
     /// <returns>A new <see cref="LimitBreak"/> instance of the requested type, if valid.</returns>
@@ -204,30 +195,12 @@ public abstract class LimitBreak : ILimitBreak
     {
         return name switch
         {
-            "frenzy" => new BruteFrenzy(),
-            "ambush" => new PoacherAmbush(),
-            "concerto" => new PiperConcerto(),
-            "blossom" => new DesperadoBlossom(),
+            "Frenzy" => new BruteFrenzy(),
+            "Ambush" => new PoacherAmbush(),
+            "Concerto" => new PiperConcerto(),
+            "Blossom" => new DesperadoBlossom(),
             _ => ThrowHelper.ThrowArgumentException<LimitBreak>(),
         };
-    }
-
-    /// <summary>Attempts to instantiate the <see cref="LimitBreak"/> with the specified <paramref name="name"/>.</summary>
-    /// <param name="name">The technical name of the <see cref="LimitBreak"/>.</param>
-    /// <param name="limit">The new <see cref="LimitBreak"/> instance, if successful.</param>
-    /// <returns><see langword="true"/> if <paramref name="name"/> is valid, otherwise <see langword="false"/>.</returns>
-    internal static bool TryFromName(string name, [NotNullWhen(true)] out LimitBreak? limit)
-    {
-        limit = name switch
-        {
-            "frenzy" => new BruteFrenzy(),
-            "ambush" => new PoacherAmbush(),
-            "concerto" => new PiperConcerto(),
-            "blossom" => new DesperadoBlossom(),
-            _ => null,
-        };
-
-        return limit is not null;
     }
 
     /// <summary>Enumerates all available <see cref="LimitBreak"/> types.</summary>
@@ -277,7 +250,7 @@ public abstract class LimitBreak : ILimitBreak
     /// <summary>Detects and handles activation input.</summary>
     internal void CheckForActivation()
     {
-        if (!Config.Masteries.EnableLimitBreaks)
+        if (!Config.Masteries.UnlockLimitBreaks)
         {
             return;
         }

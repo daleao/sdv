@@ -10,7 +10,6 @@ namespace DaLion.Professions;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using DaLion.Core;
 using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
@@ -45,7 +44,7 @@ public sealed class ProfessionsMod : Mod
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager => CoreMod.EventManager;
+    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
@@ -71,10 +70,10 @@ public sealed class ProfessionsMod : Mod
     internal static bool EnableSkillReset => Config.Skills.EnableSkillReset;
 
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
-    internal static bool EnablePrestigeLevels => Config.Masteries.EnablePrestigeLevels;
+    internal static bool EnablePrestigeLevels => Config.Masteries.UnlockPrestigeLevels;
 
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
-    internal static bool EnableLimitBreaks => Config.Masteries.EnableLimitBreaks;
+    internal static bool EnableLimitBreaks => Config.Masteries.UnlockLimitBreaks;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
@@ -96,7 +95,7 @@ public sealed class ProfessionsMod : Mod
         Config = helper.ReadConfig<ProfessionsConfig>();
         PerScreenState = new PerScreen<ProfessionsState>(() => new ProfessionsState());
         Data = new ModDataManager(UniqueId, Log);
-        EventManager.ManageInitial(assembly);
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
         Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
         CommandHandler.HandleAll(

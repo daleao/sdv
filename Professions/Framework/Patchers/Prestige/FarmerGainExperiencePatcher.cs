@@ -29,7 +29,6 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
     {
         try
         {
-            var skill = Skill.FromValue(which);
             if (which == Farmer.luckSkill || howMuch <= 0)
             {
                 return false; // don't run original logic
@@ -41,6 +40,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
+            var skill = Skill.FromValue(which);
             howMuch = Math.Max((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).BonusExperienceMultiplier), 1);
             if (skill.CurrentLevel == skill.MaxLevel && __instance.Level >= 25)
             {
@@ -64,8 +64,8 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            skill.SetLevel(newLevel);
             skill.AddExperience(howMuch);
+            skill.SetLevel(newLevel);
             return false; // don't run original logic
         }
         catch (Exception ex)

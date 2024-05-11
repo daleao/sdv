@@ -68,7 +68,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                 message += "\n\n\tMod data:";
                 message = o.modData.Pairs
-                    .Where(p => p.Key.StartsWith(Manifest.UniqueID))
+                    .Where(p => p.Key.StartsWith("DaLion"))
                     .Aggregate(
                         message,
                         (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");
@@ -110,6 +110,11 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                     if (who is not null)
                     {
+                        message += "\n\n\tNew levels:";
+                        message = who.newLevels.Aggregate(
+                            message,
+                            (m, n) => m + $"\n\t\t-{n}");
+
                         message += "\n\n\tEvents seen:";
                         message = who.eventsSeen.Aggregate(
                             message,
@@ -127,7 +132,7 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                         message += "\n\n\tMod data:";
                         message = who.modData.Pairs
-                            .Where(p => p.Key.StartsWith(Manifest.UniqueID))
+                            .Where(p => p.Key.StartsWith("DaLion"))
                             .Aggregate(
                                 message,
                                 (m, p) => m + $"\n\t\t- {p.Key}: {p.Value}");

@@ -65,8 +65,8 @@ internal sealed class FarmhandProspectorHuntUpdateTickedEvent : UpdateTickedEven
             return;
         }
 
-        var distanceToTreasure = (int)removed.Single().DistanceTo(hunt.TreasureTile.Value);
-        var detectionDistance = (int)Config.ProspectorDetectionDistance;
+        var distanceToTreasure = (int)removed.Single().SquaredTileDistance(hunt.TreasureTile.Value);
+        var detectionDistance = (int)(Config.ProspectorDetectionDistance * Config.ProspectorDetectionDistance);
         if (detectionDistance > 0 && !distanceToTreasure.IsIn(1..detectionDistance))
         {
             this._stonesPrevious = stonesCurrent;

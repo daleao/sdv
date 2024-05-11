@@ -108,6 +108,13 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     }
 
     /// <inheritdoc />
+    public bool Equals(ISkill? other)
+    {
+        return this.Id == other?.Id;
+    }
+
+
+    /// <inheritdoc />
     public void AddExperience(int amount)
     {
         Game1.player.experiencePoints[this] = Math.Min(this.CurrentExp + amount, ISkill.ExperienceCurve[this.MaxLevel]);
@@ -127,7 +134,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         var farmer = Game1.player;
         for (var l = this.CurrentLevel + 1; l <= level; l++)
         {
-            var point = new Point(this.Value, level);
+            var point = new Point(this.Value, l);
             if (!farmer.newLevels.Contains(point))
             {
                 farmer.newLevels.Add(point);
@@ -140,13 +147,14 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
             .When(Foraging).Then(() => farmer.foragingLevel.Value = level)
             .When(Mining).Then(() => farmer.miningLevel.Value = level)
             .When(Combat).Then(() => farmer.combatLevel.Value = level);
-        Game1.player.experiencePoints[this] = ISkill.ExperienceCurve[level];
+        Game1.player.experiencePoints[this] =
+            Math.Max(Game1.player.experiencePoints[this], ISkill.ExperienceCurve[level]);
     }
 
     /// <inheritdoc />
     public bool CanReset()
     {
-        return !this.CanGainPrestigeLevels() && ((ISkill)this).CanReset();
+        return !this.CanGainPrestigeLevels() && ISkill.CanReset(this);
     }
 
     /// <inheritdoc />
@@ -257,10 +265,10 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         }
 
         var expectedLevel = 0;
-        var level = 1;
-        while (level <= maxLevel && this.CurrentExp >= ISkill.ExperienceCurve[level])
+        var l = 1;
+        while (l <= maxLevel && this.CurrentExp >= ISkill.ExperienceCurve[l])
         {
-            level++;
+            l++;
             expectedLevel++;
         }
 

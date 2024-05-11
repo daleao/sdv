@@ -24,6 +24,7 @@ public abstract class PeerConnectedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Multiplayer.PeerConnected -= this.OnPeerConnected;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IMultiplayerEvents.PeerConnected"/>

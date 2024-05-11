@@ -17,13 +17,33 @@ public static class StringExtensions
 {
     private static readonly Regex SWhitespace = new(@"\s+", RegexOptions.Compiled);
 
-    /// <summary>Determines whether the string contains any of the specified sub-strings.</summary>
-    /// <param name="str">The <see cref="string"/>.</param>
-    /// <param name="candidates">The sub-strings to search for.</param>
-    /// <returns><see langword="true"/> if <paramref name="str"/> contains at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
-    public static bool ContainsAnyOf(this string str, params string[] candidates)
+    /// <summary>Replaces the <see cref="char"/>s starting at the specified <paramref name="position"/> with those from the specified <paramref name="newValue"/>.</summary>
+    /// <param name="string">The <see cref="string"/>.</param>
+    /// <param name="position">The <see cref="char"/> index.</param>
+    /// <param name="newValue">A replacement <see cref="string"/>.</param>
+    /// <returns>A new <see cref="string"/> where the <c>N</c> <see cref="char"/>s starting at <paramref name="position"/> are replaced with <paramref name="newValue"/>, where <c>N</c> is the length of <paramref name="newValue"/>.</returns>
+    public static string ReplaceAt(this string @string, int position, string newValue)
     {
-        return candidates.Any(str.Contains);
+        if (string.IsNullOrEmpty(newValue))
+        {
+            return @string;
+        }
+
+        if (position + newValue.Length > @string.Length)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException();
+        }
+
+        return @string.Remove(position, newValue.Length).Insert(position, newValue);
+    }
+
+    /// <summary>Determines whether the string contains any of the specified sub-strings.</summary>
+    /// <param name="string">The <see cref="string"/>.</param>
+    /// <param name="candidates">The sub-strings to search for.</param>
+    /// <returns><see langword="true"/> if <paramref name="string"/> contains at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAnyOf(this string @string, params string[] candidates)
+    {
+        return candidates.Any(@string.Contains);
     }
 
     /// <summary>Determines whether the string contains all of the specified sub-strings.</summary>

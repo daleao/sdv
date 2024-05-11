@@ -25,11 +25,12 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has the specified <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool HasProfession(this Farmer farmer, IProfession profession, bool prestiged = false)
     {
+#if RELEASE
         if (prestiged && !profession.ParentSkill.CanGainPrestigeLevels())
         {
             return false;
         }
-
+#endif
         return farmer.professions.Contains(profession.Id + (prestiged ? 100 : 0));
     }
 
@@ -218,11 +219,10 @@ internal static class FarmerExtensions
     internal static float GetProducerSaleBonus(this Farmer farmer)
     {
         var sum = 0f;
-        Utility.ForEachBuilding(building =>
+        Utility.ForEachBuilding(b =>
         {
-            if (building.IsOwnedByOrLax(farmer) && !building.isUnderConstruction() &&
-                building.buildingType.Contains("Deluxe") && building.indoors.Value is AnimalHouse house &&
-                house.isFull())
+            if (b.IsOwnedByOrLax(farmer) && b.buildingType.Contains("Deluxe") &&
+                b.indoors.Value is AnimalHouse house && house.isFull())
             {
                 sum += 0.05f;
             }
@@ -275,8 +275,7 @@ internal static class FarmerExtensions
         HashSet<string> fishTypes = [];
         Utility.ForEachBuilding(b =>
         {
-            if (b is FishPond pond && pond.IsOwnedByOrLax(Game1.player) &&
-                !pond.isUnderConstruction() && !string.IsNullOrEmpty(pond.fishType.Value))
+            if (b is FishPond pond && pond.IsOwnedByOrLax(Game1.player) && !string.IsNullOrEmpty(pond.fishType.Value))
             {
                 fishTypes.Add(pond.fishType.Value);
             }
@@ -310,16 +309,16 @@ internal static class FarmerExtensions
     {
         Buff? buff = buffIndex switch
         {
-            0 => new EcologistFarmingBuff(0.5f),
-            1 => new EcologistFishingBuff(0.5f),
-            2 => new EcologistForagingBuff(0.5f),
-            3 => new EcologistMiningBuff(0.5f),
-            4 => new EcologistLuckLevelBuff(0.5f),
-            5 => new EcologistAttackBuff(0.5f),
-            6 => new EcologistDefenseBuff(0.5f),
-            7 => new EcologistMaxStaminaBuff(10f),
-            8 => new EcologistSpeedBuff(0.5f),
-            9 => new EcologistMagneticRadiusBuff(32f),
+            0 => new EcologistFarmingBuff(),
+            1 => new EcologistFishingBuff(),
+            2 => new EcologistMiningBuff(),
+            3 => new EcologistLuckLevelBuff(),
+            4 => new EcologistForagingBuff(),
+            5 => new EcologistMaxStaminaBuff(),
+            6 => new EcologistMagneticRadiusBuff(),
+            7 => new EcologistSpeedBuff(),
+            8 => new EcologistDefenseBuff(),
+            9 => new EcologistAttackBuff(),
             _ => null,
         };
 
@@ -348,12 +347,11 @@ internal static class FarmerExtensions
     internal static int CountRaisedSlimes(this Farmer farmer)
     {
         var count = Game1.getFarm().characters.OfType<GreenSlime>().Count();
-        Utility.ForEachBuilding(building =>
+        Utility.ForEachBuilding(b =>
         {
-            if (building.IsOwnedByOrLax(farmer) && building.indoors.Value is SlimeHutch &&
-                !building.isUnderConstruction())
+            if (b.IsOwnedByOrLax(farmer) && b.indoors.Value is SlimeHutch)
             {
-                count += building.indoors.Value.characters.OfType<GreenSlime>().Count();
+                count += b.indoors.Value.characters.OfType<GreenSlime>().Count();
             }
 
             return true;

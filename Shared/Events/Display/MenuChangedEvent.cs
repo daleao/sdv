@@ -21,6 +21,7 @@ public abstract class MenuChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.MenuChanged -= this.OnMenuChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>

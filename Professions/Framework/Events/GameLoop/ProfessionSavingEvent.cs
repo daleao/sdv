@@ -25,7 +25,7 @@ internal sealed class ProfessionSavingEvent : SavingEvent
     {
         var player = Game1.player;
         Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', State.OrderedProfessions));
-        Data.Write(player, DataKeys.LimitBreakId, State.LimitBreak?.Name);
+        Data.Write(player, DataKeys.LimitBreakId, State.LimitBreak?.Id.ToString());
         Data.Write(
             player,
             DataKeys.PrestigedEcologistBuffLookup,

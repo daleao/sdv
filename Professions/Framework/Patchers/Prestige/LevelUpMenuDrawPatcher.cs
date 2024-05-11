@@ -49,7 +49,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
         if (___currentLevel == 10)
         {
-            __instance.height += 16;
+            __instance.height += 32;
         }
 
         if (___timerBeforeStart > 0 || ___professionsToChoose.Count != 1)

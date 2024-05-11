@@ -58,7 +58,7 @@ internal sealed class InflictStatusCommand : ConsoleCommand
         }
         else
         {
-            var nearest = player.GetClosestCharacter<Monster>(out _);
+            var nearest = player.GetClosestCharacter<Monster>();
             if (nearest is null)
             {
                 this.Handler.Log.W("There are no enemies nearby.");

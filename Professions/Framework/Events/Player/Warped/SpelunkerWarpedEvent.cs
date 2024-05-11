@@ -5,10 +5,9 @@
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Microsoft.Xna.Framework;
+using DaLion.Shared.Extensions.Xna;
 using StardewModdingAPI.Events;
 using StardewValley;
-using StardewValley.Extensions;
 using StardewValley.Locations;
 
 #endregion using directives
@@ -36,54 +35,59 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
             return;
         }
 
-        if (e.OldLocation is MineShaft && e.Player.HasProfession(Profession.Spelunker, true))
+        var player = e.Player;
+        var oldLocation = e.OldLocation;
+        var newLocation = e.NewLocation;
+        if (oldLocation is MineShaft && player.HasProfession(Profession.Spelunker, true))
         {
-            if (e.NewLocation is MineShaft)
+            if (oldLocation is MineShaft)
             {
-                foreach (var debris in e.OldLocation.debris)
+                foreach (var debris in oldLocation.debris)
                 {
-                    if (debris.item is not null && Game1.random.NextBool())
+                    if (debris.itemId?.Value.StartsWith("(O)") == true && Game1.random.NextBool(0.2))
                     {
-                        State.SpelunkerUncollectedItems.Add(debris.item.getOne());
+                        State.SpelunkerUncollectedItems.Add(debris.itemId.Value);
                     }
                 }
             }
-            else if (e.NewLocation.Name is "Mines" or "SkullCave")
+
+            if (newLocation.Name is "Mine" or "SkullCave")
             {
-                Vector2[] offsets = [new Vector2(0f, 2f), new Vector2(1f, 2f), new Vector2(1f, 1f)];
-                foreach (var item in State.SpelunkerUncollectedItems)
+                var mapWidth = newLocation.Map.DisplayWidth;
+                var mapHeight = newLocation.Map.DisplayHeight;
+                var spawnTiles = player.Tile.GetTwentyFourNeighbors(mapWidth, mapHeight).ToArray();
+                foreach (var id in State.SpelunkerUncollectedItems)
                 {
                     Game1.createItemDebris(
-                        item,
-                        e.Player.getStandingPosition() + (offsets.Choose(Game1.random) * Game1.tileSize),
+                        ItemRegistry.Create(id),
+                        spawnTiles.Choose(Game1.random) * Game1.tileSize,
                         -1,
-                        e.NewLocation);
+                        newLocation);
                 }
 
                 State.SpelunkerUncollectedItems.Clear();
             }
         }
 
-        if (e.NewLocation is not MineShaft && e.OldLocation is MineShaft)
+        if (newLocation is not MineShaft && oldLocation is MineShaft)
         {
             State.SpelunkerLadderStreak = 0;
             _previousMineLevel = 0;
             return;
         }
 
-        if (e.NewLocation is not MineShaft shaft || shaft.mineLevel <= _previousMineLevel)
+        if (newLocation is not MineShaft shaft || shaft.mineLevel <= _previousMineLevel)
         {
             return;
         }
 
         State.SpelunkerLadderStreak++;
         _previousMineLevel = shaft.mineLevel;
-        if (!e.Player.HasProfession(Profession.Spelunker, true) || !shaft.IsTreasureOrSafeRoom())
+        if (!player.HasProfession(Profession.Spelunker, true) || !shaft.IsTreasureOrSafeRoom())
         {
             return;
         }
 
-        var player = e.Player;
         player.health = Math.Min(player.health + (int)(player.maxHealth * 0.05f), player.maxHealth);
         player.Stamina = Math.Min(player.Stamina + (player.MaxStamina * 0.05f), player.MaxStamina);
     }

@@ -21,6 +21,7 @@ public abstract class MouseWheelScrolledEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Input.MouseWheelScrolled -= this.OnMouseWheelScrolled;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IInputEvents.MouseWheelScrolled"/>

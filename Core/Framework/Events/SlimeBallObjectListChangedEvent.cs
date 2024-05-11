@@ -9,7 +9,6 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 public sealed class SlimeBallObjectListChangedEvent : ObjectListChangedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="SlimeBallObjectListChangedEvent"/> class.</summary>

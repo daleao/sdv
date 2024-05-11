@@ -49,13 +49,13 @@ internal sealed class DoTaxesCommand : ConsoleCommand
                             ? Data.ReadAs<float>(player, DataKeys.PercentDeductions)
                             // ReSharper disable once PossibleLossOfFraction
                             : Data.ReadAs<int>(player, "ConservationistTrashCollectedThisSeason") /
-                              ProfessionsIntegration.Instance.ModApi!.GetConfigs().TrashNeededPerTaxDeduction / 100f
+                              ProfessionsIntegration.Instance.ModApi!.GetConfig().ConservationistTrashNeededPerTaxDeduction / 100f
                         : 0f;
                     if (deductible > 0f)
                     {
                         deductible = Math.Min(
                             deductible,
-                            ProfessionsIntegration.Instance!.ModApi!.GetConfigs().ConservationistTaxDeductionCeiling);
+                            ProfessionsIntegration.Instance!.ModApi!.GetConfig().ConservationistTaxDeductionCeiling);
                     }
 
                     var taxable = (int)((seasonIncome - businessExpenses) * (1f - deductible));

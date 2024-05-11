@@ -65,6 +65,11 @@ internal static class ChromaMapper
 
         foreach (var (key, data) in Game1.objectData)
         {
+            if (data.ContextTags is null)
+            {
+                continue;
+            }
+
             foreach (var tag in data.ContextTags)
             {
                 if (tag.StartsWith("color_") && ColorFromTag.TryGetValue(tag, out var color))

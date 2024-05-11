@@ -14,6 +14,9 @@ internal enum Mail
     /// <summary>The FRS tax deduction letter.</summary>
     FrsDeduction,
 
+    /// <summary>Lewis' taxation intro letter.</summary>
+    LewisIntro,
+
     /// <summary>Lewis' taxation notice letter.</summary>
     LewisNotice,
 

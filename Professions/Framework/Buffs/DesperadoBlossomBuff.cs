@@ -10,8 +10,8 @@ using Microsoft.Xna.Framework;
 internal sealed class DesperadoBlossomBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Blossom";
-    internal const int BASE_DURATION = 15_000;
-    internal const int SHEET_INDEX = 55;
+    private const int BASE_DURATION = 15_000;
+    private const int SHEET_INDEX = 55;
 
     internal DesperadoBlossomBuff()
         : base(
@@ -19,6 +19,7 @@ internal sealed class DesperadoBlossomBuff : Buff
             source: "Blossom",
             displaySource: Game1.player.IsMale ? I18n.Desperado_Limit_Title_Male() : I18n.Desperado_Limit_Title_Female(),
             duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             description: I18n.Desperado_Limit_Desc())
     {

@@ -5,7 +5,6 @@ namespace DaLion.Professions.Framework.Patchers.Fishing;
 
 using System.Reflection;
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Reflection;
@@ -146,7 +145,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
                         itemToDraw = ItemRegistry.Create<SObject>(
-                                Lookups.FamilyPairs.TryGet(____fishItem.QualifiedItemId, out var pairId)
+                                Lookups.FamilyPairs.TryGetValue(____fishItem.QualifiedItemId, out var pairId)
                                     ? pairId
                                     : ____fishItem.QualifiedItemId);
                     }

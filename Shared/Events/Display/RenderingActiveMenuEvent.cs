@@ -21,6 +21,7 @@ public abstract class RenderingActiveMenuEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.RenderingActiveMenu -= this.OnRenderingActiveMenu;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.RenderingActiveMenu"/>

@@ -35,7 +35,7 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void TemporaryAnimatedSpriteCtorPostfix(TemporaryAnimatedSprite __instance, Farmer owner)
     {
-        if (!Config.ModKey.IsDown())
+        if (!owner.HasProfession(Profession.Demolitionist) || !Config.ModKey.IsDown())
         {
             return;
         }

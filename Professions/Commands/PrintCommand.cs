@@ -117,16 +117,20 @@ internal sealed class PrintCommand : ConsoleCommand
 
             while (q.TryDequeue(out var skill))
             {
-                sb.Append($"\n**{skill.StringId} LV{skill.CurrentLevel} ({skill.CurrentExp} / {ISkill.ExperienceCurve[skill.CurrentLevel + 1]}**");
+                sb.Append($"\n{skill.StringId} " +
+                          $"LV{skill.CurrentLevel} " +
+                          $"(EXP: {skill.CurrentExp}" +
+                          (skill.CurrentLevel < skill.MaxLevel
+                              ? $" / {ISkill.ExperienceCurve[skill.CurrentLevel + 1]})"
+                              : ')'));
                 var professionsInSkill = Game1.player.GetProfessionsForSkill(skill);
                 Array.Sort(professionsInSkill);
                 var list = professionsInSkill.Aggregate(
                     Empty,
                     (current, next) =>
                         current +
-                        $"{(next.Level == 5 ? "\n\t-" : "\n\t\t-")} {next.StringId} {(next.Id < 100 && Game1.player.professions.Contains(next.Id + 100) ? "(P) " : string.Empty)}(LV{next.Level} / ID: {next.Id}");
+                        $"{(next.Level == 5 ? "\n>" : "\n - ")} {next.StringId} {(next.Id < 100 && Game1.player.professions.Contains(next.Id + 100) ? "(P) " : string.Empty)}(LV{next.Level} / ID: {next.Id})");
                 sb.Append(list);
-                Log.I(sb.ToString());
             }
         }
         else
@@ -137,7 +141,10 @@ internal sealed class PrintCommand : ConsoleCommand
             {
                 if (Profession.TryFromValue(pid >= 100 ? pid - 100 : pid, out var vanillaProfession))
                 {
-                    professions.Add(vanillaProfession);
+                    if (pid < 100)
+                    {
+                        professions.Add(vanillaProfession);
+                    }
                 }
                 else if (CustomProfession.Loaded.TryGetValue(pid, out var customProfession))
                 {
@@ -164,12 +171,11 @@ internal sealed class PrintCommand : ConsoleCommand
             unknown.Sort();
             foreach (var pid in unknown)
             {
-                sb.Append($"\n-Unknown profession {pid}");
+                sb.Append($"\n- Unknown profession {pid}");
             }
         }
 
         this.Handler.Log.I(sb.ToString());
-        return;
     }
 
     private void PrintModData()

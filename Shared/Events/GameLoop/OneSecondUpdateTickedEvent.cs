@@ -21,6 +21,7 @@ public abstract class OneSecondUpdateTickedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.OneSecondUpdateTicked -= this.OnOneSecondUpdateTicked;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicked"/>

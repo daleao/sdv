@@ -120,11 +120,10 @@ public sealed class CustomSkill : ISkill
         return FromSpaceCore.GetValueOrDefault(scSkill);
     }
 
-    /// <summary>Gets the <see cref="SCSkill"/> equivalent to this <see cref="CustomSkill"/>.</summary>
-    /// <returns>The equivalent <see cref="SCSkill"/>.</returns>
-    public SCSkill ToSpaceCore()
+    /// <inheritdoc />
+    public bool Equals(ISkill? other)
     {
-        return this._scSkill;
+        return this.Id == other?.Id;
     }
 
     /// <inheritdoc />
@@ -137,12 +136,16 @@ public sealed class CustomSkill : ISkill
     public void SetLevel(int level)
     {
         level = Math.Min(level, this.MaxLevel);
+        var newLevels = Reflector
+            .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
+            .Invoke();
         for (var l = this.CurrentLevel + 1; l <= level; l++)
         {
-            Reflector
-                .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-                .Invoke()
-                .Add(new KeyValuePair<string, int>(this.StringId, level));
+            var kvp = new KeyValuePair<string, int>(this.StringId, l);
+            if (!newLevels.Contains(kvp))
+            {
+                newLevels.Add(kvp);
+            }
         }
 
         var diff = ISkill.ExperienceCurve[level] - this.CurrentExp;
@@ -232,5 +235,12 @@ public sealed class CustomSkill : ISkill
         {
             this.AddExperience(ISkill.LEVEL_10_EXP - currentExp);
         }
+    }
+
+    /// <summary>Gets the <see cref="SCSkill"/> equivalent to this <see cref="CustomSkill"/>.</summary>
+    /// <returns>The equivalent <see cref="SCSkill"/>.</returns>
+    public SCSkill ToSpaceCore()
+    {
+        return this._scSkill;
     }
 }

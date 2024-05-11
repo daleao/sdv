@@ -21,7 +21,7 @@ public sealed class PiperConcerto : LimitBreak
 
     /// <inheritdoc />
     public override bool CanActivate => base.CanActivate && Game1.player.currentLocation.characters.OfType<Monster>()
-        .Any(m => m.IsSlime() && m.IsWithinCharacterThreshold());
+        .Any(m => m.IsSlime() && m.IsCharacterWithinThreshold());
 
     /// <summary>Gets or sets the number of ticks since the latest contact with a Slime.</summary>
     internal int SlimeContactTimer { get; set; }

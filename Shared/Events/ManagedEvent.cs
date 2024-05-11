@@ -64,7 +64,6 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
             return false;
         }
 
-        this.Manager.Log.D($"[Event]: {this.GetType().Name} enabled itself.");
         this.OnEnabled();
         return this._enabled.Value;
     }
@@ -102,7 +101,6 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
             return false;
         }
 
-        this.Manager.Log.D($"[Event]: {this.GetType().Name} disabled itself.");
         this.OnDisabled();
         return !this._enabled.Value;
     }

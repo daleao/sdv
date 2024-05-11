@@ -21,6 +21,7 @@ public abstract class UnvalidatedUpdateTickedEvent : ManagedEvent
     public override void Dispose()
     {
         //this.Manager.ModEvents.Specialized.UnvalidatedUpdateTicked -= this.OnUnvalidatedUpdateTicked;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="ISpecializedEvents.UnvalidatedUpdateTicked"/>

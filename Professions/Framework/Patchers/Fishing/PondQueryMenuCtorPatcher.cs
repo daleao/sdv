@@ -28,7 +28,7 @@ internal sealed class PondQueryMenuCtorPatcher : HarmonyPatcher
     {
         if (fish_pond.maxOccupants.Value > 10)
         {
-            PondQueryMenu.height += 16;
+            PondQueryMenu.height += 32;
         }
     }
 

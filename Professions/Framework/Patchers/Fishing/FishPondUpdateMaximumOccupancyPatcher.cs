@@ -35,15 +35,14 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
         }
 
         var owner = __instance.GetOwner();
-        if (!owner.HasProfessionOrLax(Profession.Aquarist))
-        {
-            return;
-        }
-
-        var occupancy = __instance.maxOccupants.Value + 2;
-        if (owner.HasProfession(Profession.Aquarist, true))
+        var occupancy = 10;
+        if (owner.HasProfessionOrLax(Profession.Aquarist))
         {
             occupancy += 2;
+            if (owner.HasProfession(Profession.Aquarist, true))
+            {
+                occupancy += 2;
+            }
         }
 
         if (__instance.GetFishObject().IsBossFish())
@@ -52,7 +51,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
         }
 
         __instance.maxOccupants.Set(occupancy);
-        __instance.currentOccupants.Value = Math.Min(__instance.currentOccupants.Value, __instance.maxOccupants.Value);
+        __instance.currentOccupants.Set(Math.Min(__instance.currentOccupants.Value, __instance.maxOccupants.Value));
     }
 
     #endregion harmony patches

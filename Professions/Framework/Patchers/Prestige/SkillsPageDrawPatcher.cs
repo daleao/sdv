@@ -19,6 +19,7 @@ using StardewValley.Menus;
 internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 {
     internal static Dictionary<ISkill, Rectangle> RibbonTargetRectBySkill = [];
+    internal static int RibbonXOffset;
 
     /// <summary>Initializes a new instance of the <see cref="SkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
@@ -198,7 +199,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         {
             b.Draw(
                 Textures.SkillBars,
-                new Vector2(addedX + x + (levelIndex * 36), y - 4 + (skillIndex * 56)),
+                new Vector2(x + addedX + (levelIndex * 36), y + (skillIndex * 68) - 4),
                 new Rectangle(0, 0, 8, 9),
                 Color.White,
                 0f,
@@ -218,7 +219,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET,
+                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.PROGRESSION_VERTICAL_OFFSET);
         const int verticalSpacing = 68;
         for (var i = 0; i < 5; i++)
@@ -240,7 +241,6 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             }
 
             var sourceRect = new Rectangle(0, (count - 1) * 16, (count + 1) * 4, 16);
-            var scale = Textures.STARS_SCALE;
             b.Draw(
                 Textures.PrestigeRibbons,
                 position,
@@ -248,15 +248,15 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                scale,
+                Textures.STARS_SCALE,
                 SpriteEffects.None,
                 1f);
 
             RibbonTargetRectBySkill[skill] = new Rectangle(
                 (int)position.X,
                 (int)position.Y,
-                (int)(sourceRect.Width * scale),
-                (int)(sourceRect.Height * scale));
+                (int)(sourceRect.Width * Textures.STARS_SCALE),
+                (int)(sourceRect.Height * Textures.STARS_SCALE));
         }
     }
 

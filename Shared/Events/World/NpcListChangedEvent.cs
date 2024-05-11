@@ -21,6 +21,7 @@ public abstract class NpcListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.NpcListChanged -= this.OnNpcListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.NpcListChanged"/>

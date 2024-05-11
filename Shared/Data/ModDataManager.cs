@@ -142,11 +142,11 @@ public class ModDataManager
         if (farmer.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
-            return true;
+            return false;
         }
 
         this.Write(farmer, key, value, modId);
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -294,18 +294,18 @@ public class ModDataManager
     /// <param name="key">The key to write to.</param>
     /// <param name="value">The value to write, or <see langword="null"/> to remove the <paramref name="key"/>.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
-    /// <returns><see langword="true"/> if the key already existed, otherwise <see langword="false"/>.</returns>
+    /// <returns><see langword="true"/> if data was written, or <see langword="false"/> if the key already existed.</returns>
     public bool WriteIfNotExists(Building building, string key, string? value, string? modId = null)
     {
         modId ??= this._id;
         if (building.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
-            return true;
+            return false;
         }
 
         this.Write(building, key, value, modId);
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -460,11 +460,11 @@ public class ModDataManager
         if (character.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
-            return true;
+            return false;
         }
 
         this.Write(character, key, value, modId);
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -618,11 +618,11 @@ public class ModDataManager
         if (location.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
-            return true;
+            return false;
         }
 
         this.Write(location, key, value, modId);
-        return false;
+        return true;
     }
 
     /// <summary>
@@ -779,11 +779,11 @@ public class ModDataManager
         if (item.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
-            return true;
+            return false;
         }
 
         this.Write(item, key, value, modId);
-        return false;
+        return true;
     }
 
     /// <summary>

@@ -10,6 +10,16 @@ using DaLion.Shared.Exceptions;
 /// <summary>Extensions for generic arrays of objects.</summary>
 public static class ArrayExtensions
 {
+    /// <summary>Sorts the <paramref name="array"/> in reverse order.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="array"/>. <paramref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
+    /// <param name="array">An array of <see cref="IComparable{T}"/>s.</param>
+    public static void SortDescending<T>(this T[] array)
+        where T : IComparable<T>
+    {
+        Array.Sort(array);
+        Array.Reverse(array);
+    }
+
     /// <summary>Determines whether the specified <paramref name="index"/> is within the bounds of the <paramref name="array"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="array"/>.</typeparam>
     /// <param name="array">The array.</param>

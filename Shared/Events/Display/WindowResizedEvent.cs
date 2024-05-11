@@ -21,6 +21,7 @@ public abstract class WindowResizedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.WindowResized -= this.OnWindowResized;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.WindowResized"/>

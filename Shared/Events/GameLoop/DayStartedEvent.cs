@@ -21,6 +21,7 @@ public abstract class DayStartedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.DayStarted -= this.OnDayStarted;
+        GC.SuppressFinalize(this);
     }
 
     /// <summary>Raised after a new in-game day starts, or after connecting to a multiplayer world.</summary>

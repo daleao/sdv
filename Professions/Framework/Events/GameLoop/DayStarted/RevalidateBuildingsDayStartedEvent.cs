@@ -10,7 +10,6 @@ using StardewValley.Buildings;
 #endregion using directives
 
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class RevalidateBuildingsDayStartedEvent : DayStartedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="RevalidateBuildingsDayStartedEvent"/> class.</summary>
@@ -45,11 +44,6 @@ internal sealed class RevalidateBuildingsDayStartedEvent : DayStartedEvent
 
         Utility.ForEachBuilding(b =>
         {
-            if (b.isUnderConstruction())
-            {
-                return true;
-            }
-
             if (b is FishPond pond)
             {
                 pond.UpdateMaximumOccupancy();
@@ -59,26 +53,34 @@ internal sealed class RevalidateBuildingsDayStartedEvent : DayStartedEvent
             var indoors = b.GetIndoors();
             switch (indoors)
             {
-                case AnimalHouse { Name: "Deluxe Barn" } barn:
-                    if (areThereAnyPrestigedBreeders)
+                case AnimalHouse barn when barn.Name.Contains("Barn"):
+                    if (areThereAnyPrestigedBreeders && barn.animalLimit.Value == 12)
                     {
                         barn.animalLimit.Value = 14;
-                        barn.Objects.Values
-                            .First(o => o.QualifiedItemId == QualifiedBigCraftableIds.FeedHopper)
-                            .TileLocation = new Vector2(4, 3);
+                        if (barn.Objects.TryGetValue(new Vector2(6, 3), out var hopper))
+                        {
+                            barn.Objects.Remove(hopper.TileLocation);
+                            hopper.TileLocation = new Vector2(4, 3);
+                            barn.Objects[hopper.TileLocation] = hopper;
+                        }
                     }
-                    else
+                    else if (!areThereAnyPrestigedBreeders && barn.animalLimit.Value == 14)
                     {
                         barn.animalLimit.Value = 12;
-                        barn.Objects.Values
-                            .First(o => o.QualifiedItemId == QualifiedBigCraftableIds.FeedHopper)
-                            .TileLocation = new Vector2(6, 3);
+                        {
+                            if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
+                            {
+                                barn.Objects.Remove(hopper.TileLocation);
+                                hopper.TileLocation = new Vector2(6, 3);
+                                barn.Objects[hopper.TileLocation] = hopper;
+                            }
+                        }
                     }
 
                     ModHelper.GameContent.InvalidateCache("Maps/Barn3");
                     break;
 
-                case AnimalHouse { Name: "Deluxe Coop" } coop:
+                case AnimalHouse coop when coop.Name.Contains("Coop"):
                     coop.animalLimit.Value = areThereAnyPrestigedProducers ? 14 : 12;
                     ModHelper.GameContent.InvalidateCache("Maps/Coop3");
                     break;
@@ -86,22 +88,20 @@ internal sealed class RevalidateBuildingsDayStartedEvent : DayStartedEvent
                 case SlimeHutch hutch:
                     if (areThereAnyPrestigedPipers)
                     {
-                        var capacity = Reflector
-                            .GetUnboundFieldGetter<SlimeHutch, int>(hutch, "_slimeCapacity")
-                            .Invoke(hutch);
                         Reflector
                             .GetUnboundFieldSetter<SlimeHutch, int>(hutch, "_slimeCapacity")
-                            .Invoke(hutch, (int)(capacity * 1.5f));
+                            .Invoke(hutch, 30);
                         hutch.waterSpots.SetCount(6);
                     }
                     else
                     {
                         Reflector
                             .GetUnboundFieldSetter<SlimeHutch, int>(hutch, "_slimeCapacity")
-                            .Invoke(hutch, -1);
+                            .Invoke(hutch, 20);
                         hutch.waterSpots.SetCount(4);
                     }
 
+                    ModHelper.GameContent.InvalidateCache("Maps/SlimeHutch");
                     break;
             }
 

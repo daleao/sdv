@@ -54,14 +54,15 @@ public static class MonsterExtensions
                 && monster is not Spiker;
     }
 
-    /// <summary>Determines whether the <paramref name="monster"/> is close enough to see the given player.</summary>
+    /// <summary>Determines whether the specified <paramref name="character"/> is within the moving threshold of this <paramref name="monster"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="other">The target <see cref="Character"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="monster"/>'s distance to the <paramref name="other"/> is less than it's aggro threshold, otherwise <see langword="false"/>.</returns>
-    public static bool IsWithinCharacterThreshold(this Monster monster, Character? other = null)
+    public static bool IsCharacterWithinThreshold(this Monster monster, Character? other = null)
     {
         other ??= Game1.player;
-        return monster.DistanceTo(other) <= monster.moveTowardPlayerThreshold.Value;
+        return monster.SquaredTileDistance(other.Tile) <=
+               monster.moveTowardPlayerThreshold.Value * monster.moveTowardPlayerThreshold.Value;
     }
 
     /// <summary>Causes the <paramref name="monster"/> to die, triggering item drops and quest completion checks as appropriate.</summary>

@@ -24,6 +24,7 @@ using StardewValley.Menus;
 internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 {
     internal static Dictionary<ISkill, Rectangle> RibbonTargetRectBySkill = [];
+    internal static int RibbonXOffset = 0;
 
     /// <summary>Initializes a new instance of the <see cref="NewSkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
@@ -287,7 +288,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
     internal static void DrawExtendedLevelBars(
         int levelIndex, int indexWithLuckSkill, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!Config.Masteries.EnablePrestigeLevels)
+        if (!Config.Masteries.UnlockPrestigeLevels)
         {
             return;
         }
@@ -303,7 +304,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         {
             b.Draw(
                 Textures.SkillBars,
-                new Vector2(addedX + x + (levelIndex * 36), y - 4 + (indexWithLuckSkill * 56)),
+                new Vector2(x + addedX + (levelIndex * 36), y + (indexWithLuckSkill * 68) - 4),
                 new Rectangle(0, 0, 8, 9),
                 Color.White,
                 0f,
@@ -323,7 +324,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET,
+                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
                 Textures.PROGRESSION_VERTICAL_OFFSET);
         var lastVisibleSkillIndex =

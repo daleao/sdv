@@ -12,8 +12,8 @@ using StardewValley.Monsters;
 internal sealed class BruteFrenzyBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limits.Frenzy";
-    internal const int BASE_DURATION = 15_000;
-    internal const int SHEET_INDEX = 49;
+    private const int BASE_DURATION = 15_000;
+    private const int SHEET_INDEX = 49;
 
     internal BruteFrenzyBuff()
         : base(
@@ -21,6 +21,7 @@ internal sealed class BruteFrenzyBuff : Buff
             source: "Frenzy",
             displaySource: Game1.player.IsMale ? I18n.Brute_Limit_Title_Male() : I18n.Brute_Limit_Title_Female(),
             duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             description: I18n.Brute_Limit_Desc())
     {

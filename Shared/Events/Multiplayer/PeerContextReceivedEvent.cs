@@ -24,6 +24,7 @@ public abstract class PeerContextReceivedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Multiplayer.PeerContextReceived -= this.OnPeerContextReceived;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IMultiplayerEvents.PeerContextReceived"/>

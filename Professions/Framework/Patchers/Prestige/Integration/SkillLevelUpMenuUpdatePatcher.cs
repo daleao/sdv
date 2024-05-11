@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Attributes;
@@ -50,11 +51,13 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         ref string ___title,
         ref List<string> ___extraInfoForLevel,
         ref List<string> ___leftProfessionDescription,
+        ref List<string> ___rightProfessionDescription,
         ref MouseState ___oldMouseState,
         ref SCPair? ___profPair,
         GameTime time)
     {
-        if (__instance.isProfessionChooser && __instance.hasUpdatedProfessions && ___professionsToChoose.Count == 2 &&
+        if (__instance is { isProfessionChooser: true, hasUpdatedProfessions: true } &&
+            ___professionsToChoose.Count == 2 &&
             ShouldSuppressClick(___professionsToChoose[0], ___currentLevel) &&
             ShouldSuppressClick(___professionsToChoose[1], ___currentLevel))
         {
@@ -64,53 +67,67 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!__instance.isActive || ___currentLevel is not (15 or 20) || ___professionsToChoose.Count != 1)
+        if (!__instance.isActive || ___currentLevel is (15 or 20))
         {
             return true; // run original logic
         }
 
-        #region choose single profession
-
         var player = Game1.player;
-        var xPositionOnScreen = __instance.xPositionOnScreen;
-        var width = __instance.width;
         var skillsByName = Reflector
             .GetStaticFieldGetter<Dictionary<string, SCSkill>>(typeof(SCSkills), "SkillsByName")
             .Invoke();
         if (!___hasUpdatedProfessions)
         {
-            var scSkill = skillsByName[___currentSkill];
             ___profPair = ChooseProfessionPair(___currentSkill, ___currentLevel);
             if (___profPair is not null)
             {
                 ___isProfessionChooser = true;
+
+                if (player.professions.Contains(___profPair.First.GetVanillaId()))
+                {
+                    ___professionsToChoose.Add(___profPair.First.GetVanillaId());
+                }
+
+                if (player.professions.Contains(___profPair.Second.GetVanillaId()))
+                {
+                    ___professionsToChoose.Add(___profPair.Second.GetVanillaId());
+                }
             }
             else
             {
-                return true;
+                return true; // run original logic
             }
 
-            var root = player.GetCurrentRootProfessionForSkill(CustomSkill.GetFromSpaceCore(scSkill)!);
-            switch (___currentLevel)
+            if (___professionsToChoose.Count == 0)
             {
-                case 15:
-                    ___professionsToChoose.Add(root);
-                    break;
-                case 20:
-                    var branch =
-                        player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(root));
-                    ___professionsToChoose.Add(branch);
-                    break;
+                return true; // run original logic
             }
 
-            var scProfession = ___profPair.First.GetVanillaId() == root
+            var scProfession = ___profPair.First.GetVanillaId() == ___professionsToChoose[0]
                 ? ___profPair.First
                 : ___profPair.Second;
             var la = new List<string>([scProfession.GetName()]);
             la.AddRange(scProfession.GetDescription().Split('\n'));
             ___leftProfessionDescription = la;
+            if (___professionsToChoose.Count > 1)
+            {
+                scProfession = ___profPair.Second.GetVanillaId() == ___professionsToChoose[1]
+                    ? ___profPair.Second
+                    : ___profPair.First;
+                var ra = new List<string>([scProfession.GetName()]);
+                ra.AddRange(scProfession.GetDescription().Split('\n'));
+                ___rightProfessionDescription = ra;
+            }
+
             ___hasUpdatedProfessions = true;
         }
+
+        if (___professionsToChoose.Count != 1)
+        {
+            return true; // run original logic
+        }
+
+        #region choose single profession
 
         for (var i = ___littleStars.Count - 1; i >= 0; i--)
         {
@@ -120,6 +137,8 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             }
         }
 
+        var xPositionOnScreen = __instance.xPositionOnScreen;
+        var width = __instance.width;
         if (Game1.random.NextBool(0.03))
         {
             var position =
@@ -213,17 +232,14 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
             {
                 ___professionsToChoose.Clear();
                 ___isProfessionChooser = true;
-                var root = player.GetCurrentRootProfessionForSkill(Skill.FromValue(___currentLevel));
-                switch (___currentLevel)
+                if (player.professions.Contains(___profPair.First.GetVanillaId()))
                 {
-                    case 15:
-                        ___professionsToChoose.Add(root);
-                        break;
-                    case 20:
-                        var branch =
-                            player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(root));
-                        ___professionsToChoose.Add(branch);
-                        break;
+                    ___professionsToChoose.Add(___profPair.First.GetVanillaId());
+                }
+
+                if (player.professions.Contains(___profPair.Second.GetVanillaId()))
+                {
+                    ___professionsToChoose.Add(___profPair.Second.GetVanillaId());
                 }
             }
 

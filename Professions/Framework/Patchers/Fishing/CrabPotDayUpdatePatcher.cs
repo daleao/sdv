@@ -4,10 +4,10 @@
 
 using System.Reflection;
 using DaLion.Shared.Enums;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.Extensions;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -31,6 +31,11 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
     {
         try
         {
+            if (__instance.heldObject.Value is not null)
+            {
+                return false; // don't run original logic
+            }
+
             var location = __instance.Location;
             var owner = __instance.GetOwner();
             var isConservationist = owner.HasProfessionOrLax(Profession.Conservationist);
@@ -39,9 +44,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            var (tileX, tileY) = __instance.TileLocation;
-            var (offsetX, offsetY) = __instance.directionOffset.Value;
-            var r = Utility.CreateDaySaveRandom(tileX * 1000f, tileY * 255f, (offsetX * 1000f) + offsetY);
+            var r = new Random(Guid.NewGuid().GetHashCode());
             var isLuremaster = false;
             var caught = string.Empty;
             if (__instance.bait.Value is { } bait)
@@ -49,15 +52,6 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                 isLuremaster = bait.GetOwner().HasProfessionOrLax(Profession.Luremaster);
                 if (isLuremaster)
                 {
-                    if (__instance.heldObject.Value is { } held)
-                    {
-                        Data.Append(
-                            __instance,
-                            DataKeys.TrappedHaul,
-                            $"{held.QualifiedItemId}/{held.Stack}/{held.Quality}");
-                        __instance.heldObject.Value = null;
-                    }
-
                     if (__instance.HasMagnet())
                     {
                         caught = __instance.ChoosePirateTreasure(owner, r);
@@ -66,10 +60,6 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                     {
                         caught = __instance.ChooseFish(owner, r);
                     }
-                }
-                else
-                {
-                    return false; // don't run original logic
                 }
 
                 if (string.IsNullOrEmpty(caught))
@@ -82,43 +72,36 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             var quality = 0;
             if (string.IsNullOrEmpty(caught))
             {
-                if (__instance.bait.Value is not null || isConservationist)
+                if (owner.HasProfession(Profession.Conservationist, true))
                 {
-                    if (owner.HasProfession(Profession.Conservationist, true))
+                    var isSpecialOceanographerCondition =
+                        Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
+                        Game1.dayOfMonth == 15;
+                    if (isSpecialOceanographerCondition || r.NextBool(0.1))
                     {
-                        var isSpecialOceanographerCondition =
-                            Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
-                            Game1.dayOfMonth == 15;
-                        if (isSpecialOceanographerCondition || r.NextBool(0.1))
-                        {
-                            caught = __instance.ChooseTrapFish(false, owner, r);
-                        }
-
-                        if (!string.IsNullOrEmpty(caught) && isSpecialOceanographerCondition)
-                        {
-                            quantity = __instance.GetTrapQuantity(caught, isLuremaster, isSpecialOceanographerCondition, owner, r);
-                            quality = (int)__instance.GetTrapQuality(caught, isLuremaster, owner, r).Increment();
-                        }
+                        caught = __instance.ChooseTrapFish(false, owner, r);
                     }
 
-                    if (string.IsNullOrEmpty(caught))
+                    if (!string.IsNullOrEmpty(caught) && isSpecialOceanographerCondition)
                     {
-                        caught = __instance.GetTrash(r);
-                        if (isConservationist && caught.IsTrashId())
-                        {
-                            Data.Increment(owner, DataKeys.ConservationistTrashCollectedThisSeason);
-                            if ((int)Data.ReadAs<float>(owner, DataKeys.ConservationistTrashCollectedThisSeason) %
-                                Config.ConservationistTrashNeededPerFriendshipPoint ==
-                                0)
-                            {
-                                Utility.improveFriendshipWithEveryoneInRegion(owner, 1, "Town");
-                            }
-                        }
+                        quantity = __instance.GetTrapQuantity(caught, isLuremaster, isSpecialOceanographerCondition, owner, r);
+                        quality = (int)__instance.GetTrapQuality(caught, isLuremaster, owner, r).Increment();
                     }
                 }
-                else
+
+                if (string.IsNullOrEmpty(caught))
                 {
-                    return false; // don't run original logic
+                    caught = __instance.GetTrash(r);
+                    if (isConservationist && caught.IsTrashId())
+                    {
+                        Data.Increment(owner, DataKeys.ConservationistTrashCollectedThisSeason);
+                        if ((int)Data.ReadAs<float>(owner, DataKeys.ConservationistTrashCollectedThisSeason) %
+                            Config.ConservationistTrashNeededPerFriendshipPoint ==
+                            0)
+                        {
+                            Utility.improveFriendshipWithEveryoneInRegion(owner, 1, "Town");
+                        }
+                    }
                 }
             }
             else if (caught[1] is not ('R' or 'W')) // not ring or weapon
@@ -130,21 +113,22 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                 quality = (int)__instance.GetTrapQuality(caught, isLuremaster, owner, r);
                 if (isSpecialOceanographerCondition)
                 {
-                    quantity += 1;
+                    quality += 1;
                     if (quality is 3 or > 4)
                     {
                         quality = 4;
                     }
                 }
             }
-            else if (caught[1] == 'R')
+            else
             {
-                caught = caught.Replace('R', 'O');
+                caught = caught.ReplaceAt(1, "O");
             }
 
             __instance.heldObject.Value = ItemRegistry.Create<SObject>(caught, amount: quantity, quality: quality);
             __instance.tileIndexToShow = 714;
             __instance.readyForHarvest.Value = true;
+            __instance.onReadyForHarvest();
             return false; // don't run original logic
         }
         catch (Exception ex)

@@ -39,9 +39,13 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
                 return false;
             }
 
-            __result = Game1.player.GetUnmodifiedSkillLevel(skill_index) >= 15 &&
-                       !Game1.player.newLevels.Contains(new Point(skill_index, 15)) &&
-                       !Game1.player.newLevels.Contains(new Point(skill_index, 20));
+            var player = Game1.player;
+            __result = player.GetUnmodifiedSkillLevel(skill_index) >= 15 &&
+                       !player.newLevels.Contains(new Point(skill_index, 15)) &&
+                       !player.newLevels.Contains(new Point(skill_index, 20)) &&
+                       player.professions
+                           .Intersect(((ISkill)Skill.FromValue(skill_index)).TierTwoProfessionIds)
+                           .Count() > 1;
             return false; // don't run original logic;
         }
         catch (Exception ex)

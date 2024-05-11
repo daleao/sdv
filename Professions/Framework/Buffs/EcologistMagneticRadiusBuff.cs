@@ -9,15 +9,13 @@ using StardewValley.Buffs;
 internal sealed class EcologistMagneticRadiusBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.EcologistP.MagneticRadius";
-    internal const int SHEET_INDEX = 8;
 
-    internal EcologistMagneticRadiusBuff(float intensity)
+    internal EcologistMagneticRadiusBuff(float intensity = 32f)
         : base(
             id: ID,
             source: "Ecologist",
             displaySource: _I18n.Get("ecologist.title.prestiged" + (Game1.player.IsMale ? ".male" : ".female")),
             duration: 60000,
-            iconSheetIndex: SHEET_INDEX,
             effects: GetBuffEffects(intensity))
     {
     }

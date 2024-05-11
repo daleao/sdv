@@ -30,33 +30,23 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if (!Skill.TryFromValue(skillType, out var skill))
-        {
-            Log.W($"Received some unknown vanilla skill type ({skillType}).");
-            return true; // run original logic
-        }
-
-        var root = __instance.GetCurrentRootProfessionForSkill(skill);
-        switch (root)
+        var skill = Skill.FromValue(skillType);
+        var rootIndex = __instance.GetCurrentRootProfessionForSkill(skill);
+        switch (rootIndex)
         {
             case < 0:
                 __result = -1;
                 return false; // don't run original logic
             case >= 100:
-                root -= 100;
+                rootIndex -= 100;
                 break;
         }
 
-        if (!Profession.TryFromValue(root, out var tierOneProfession))
-        {
-            Log.W($"Received some unknown vanilla profession ({skillType}).");
-            return true; // run original logic
-        }
-
+        var root = Profession.FromValue(rootIndex);
         __result = skillLevel switch
         {
-            5 => root,
-            10 => __instance.GetCurrentBranchingProfessionForRoot(tierOneProfession),
+            5 => rootIndex,
+            10 => __instance.GetCurrentBranchingProfessionForRoot(root),
             _ => -1,
         };
 

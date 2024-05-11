@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for PNDS.</summary>
+/// <summary>Config schema for the Ponds mod.</summary>
 public sealed class PondsConfig
 {
     private uint _daysUntilAlgaeSpawn = 3;
@@ -32,9 +32,4 @@ public sealed class PondsConfig
         get => this._roeProductionChanceMultiplier;
         internal set => this._roeProductionChanceMultiplier = Math.Max(value, 0.1f);
     }
-
-    /// <summary>Gets a value indicating whether the quality of produced roe should be always the same as the quality of the producing fish. If set to false, then the quality will be less than or equal to that of the producing fish.</summary>
-    [JsonProperty]
-    [GMCMPriority(2)]
-    public bool RoeAlwaysFishQuality { get; internal set; } = false;
 }

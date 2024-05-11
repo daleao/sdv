@@ -53,8 +53,7 @@ internal sealed class TreePerformTreeFallPatcher : HarmonyPatcher
                                     new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
-                                        typeof(NetList<int, NetInt>).RequireMethod(
-                                            nameof(NetList<int, NetInt>.Contains))),
+                                        typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
                                     new CodeInstruction(OpCodes.Brtrue_S, isPrestiged),
                                 ])
                             .PatternMatch([new CodeInstruction(OpCodes.Ldc_R8, 1.25)])

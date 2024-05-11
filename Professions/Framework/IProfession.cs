@@ -8,7 +8,7 @@ using DaLion.Shared.Extensions;
 #endregion using directives
 
 /// <summary>Interface for all the <see cref="Farmer"/>'s professions.</summary>
-public interface IProfession : IComparable<IProfession>
+public interface IProfession : IComparable<IProfession>, IEquatable<IProfession>
 {
     /// <summary>Gets a string that uniquely identifies this profession.</summary>
     string StringId { get; }

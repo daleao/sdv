@@ -182,8 +182,8 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
         // check for pierce, which is mutually exclusive with quick shot
-        else if (this.Firer.HasProfession(Profession.Desperado, true) && !this.IsSquishyOrExplosive &&
-                 Game1.random.NextBool((this.Overcharge - 1.5f) * inverseResistanceModifer))
+        else if (this.Firer.HasProfession(Profession.Desperado) && !this.IsSquishyOrExplosive &&
+                 Game1.random.NextBool((this.Overcharge - 1f) * inverseResistanceModifer))
         {
             Log.D("Pierced!");
 
@@ -320,7 +320,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         var bouncesBefore = this.bouncesLeft.Value;
         var piercesBefore = this.piercesLeft.Value;
         var didCollide = base.update(time, location);
-
         if (this.bouncesLeft.Value < bouncesBefore || this.piercesLeft.Value < piercesBefore)
         {
             this.Damage *= 2;

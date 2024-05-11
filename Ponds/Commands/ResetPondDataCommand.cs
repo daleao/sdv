@@ -33,7 +33,7 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return false;
         }
 
-        var nearest = Game1.player.GetClosestBuilding<FishPond>(out _, predicate: b =>
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
             b.IsOwnedBy(Game1.player) && !b.isUnderConstruction());
         if (nearest is null)
         {
@@ -41,13 +41,8 @@ internal sealed class ResetPondDataCommand : ConsoleCommand
             return true;
         }
 
-        Data.Write(nearest, DataKeys.FishQualities, null);
-        Data.Write(nearest, DataKeys.FamilyQualities, null);
-        Data.Write(nearest, DataKeys.FamilyLivingHere, null);
+        Data.Write(nearest, DataKeys.PondFish, null);
         Data.Write(nearest, DataKeys.DaysEmpty, 0.ToString());
-        Data.Write(nearest, DataKeys.SeaweedLivingHere, null);
-        Data.Write(nearest, DataKeys.GreenAlgaeLivingHere, null);
-        Data.Write(nearest, DataKeys.WhiteAlgaeLivingHere, null);
         Data.Write(nearest, DataKeys.CheckedToday, null);
         Data.Write(nearest, DataKeys.ItemsHeld, null);
         Data.Write(nearest, DataKeys.MetalsHeld, null);

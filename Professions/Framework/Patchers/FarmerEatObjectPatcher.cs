@@ -51,7 +51,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
 
         buffIndex = Game1.random.Next(10);
         __instance.ApplyPrestigedEcologistBuff(buffIndex);
-        Data.Append(__instance, DataKeys.PrestigedEcologistBuffLookup, $"{o.ItemId},{buffIndex}", ';');
+        State.PrestigedEcologistBuffsLookup[o.ItemId] = buffIndex;
     }
 
     #endregion harmony patches

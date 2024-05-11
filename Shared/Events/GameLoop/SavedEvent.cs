@@ -21,6 +21,7 @@ public abstract class SavedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.Saved -= this.OnSaved;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.Saved"/>

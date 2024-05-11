@@ -21,6 +21,7 @@ public abstract class TimeChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.TimeChanged -= this.OnTimeChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.TimeChanged"/>

@@ -9,12 +9,12 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
+using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
-using StardewValley.Buildings;
 using StardewValley.Tools;
 using static System.String;
 
@@ -327,6 +327,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         };
     }
 
+    /// <inheritdoc />
+    public bool Equals(IProfession? other)
+    {
+        return this.Id == other?.Id;
+    }
+
     /// <summary>Gets the localized and gendered title for this profession.</summary>
     /// <param name="prestiged">Whether to get the prestiged or normal variant.</param>
     /// <returns>A human-readable <see cref="string"/> title for the profession.</returns>
@@ -358,15 +364,10 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Aquarist).Then(() => Utility.ForEachBuilding(building =>
-            {
-                if (building is FishPond pond && !pond.isUnderConstruction())
-                {
-                    pond.UpdateMaximumOccupancy();
-                }
-
-                return true;
-            }))
+            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Luremaster).Then(() => EventManager.Enable(
+                typeof(LuremasterDayStartedEvent),
+                typeof(LuremasterTimeChangedEvent)))
             .When(Prospector).Then(() => State.ProspectorHunt ??= new ProspectorHunt())
             .When(Scavenger).Then(() => State.ScavengerHunt ??= new ScavengerHunt())
             .When(Fighter).Then(() => Game1.player.maxHealth += 15)
@@ -399,15 +400,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Aquarist).Then(() => Utility.ForEachBuilding(building =>
-            {
-                if (building is FishPond pond && !pond.isUnderConstruction())
-                {
-                    pond.UpdateMaximumOccupancy();
-                }
-
-                return true;
-            }))
+            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Prospector).Then(() => State.ProspectorHunt = null)
             .When(Scavenger).Then(() => State.ScavengerHunt = null)
             .When(Fighter).Then(() => Game1.player.maxHealth -= 15)
@@ -442,7 +435,6 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 EventManager.Unmanage<ChromaBallObjectListChangedEvent>();
-                EventManager.Enable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
             });
 
         if ((Skill)this.ParentSkill == Skill.Combat && this.Level == 10 && State.LimitBreak == LimitBreak.FromId(this))

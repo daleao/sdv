@@ -42,6 +42,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap));
         this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap));
+        this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
@@ -162,7 +163,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Breeder, true, true))
         {
-            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/Barn3"));
+            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/Barn3.tmx"));
         }
     }
 
@@ -176,7 +177,21 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
 
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Producer, true, true))
         {
-            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/Coop3"));
+            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/Coop3.tmx"));
+        }
+    }
+
+    /// <summary>Patches upgraded Slime Hutch map.</summary>
+    private static void EditSlimeHutchMap(IAssetData asset)
+    {
+        if (!Context.IsWorldReady || Game1.player is null)
+        {
+            return;
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, true, true))
+        {
+            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/SlimeHutch.tmx"));
         }
     }
 

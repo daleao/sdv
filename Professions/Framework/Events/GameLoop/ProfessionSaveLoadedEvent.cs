@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
 using DaLion.Professions.Framework.Limits;
@@ -14,6 +13,7 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using StardewModdingAPI.Events;
 using StardewValley;
+using World.ObjectListChanged;
 
 #endregion using directives
 
@@ -38,35 +38,12 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
         // revalidate skills
         Skill.List.ForEach(s => s.Revalidate());
 
-        // load and validate ordered professions
-        var storedProfessions = Data.Read(player, DataKeys.OrderedProfessions);
-        if (string.IsNullOrEmpty(storedProfessions))
-        {
-            Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
-            State.OrderedProfessions = [.. player.professions];
-        }
-        else
-        {
-            var professionsList = storedProfessions.ParseList<int>();
-            if (professionsList.Count != player.professions.Count || !professionsList.All(player.professions.Contains))
-            {
-                Log.W(
-                    $"Player {player.Name}'s professions does not match the stored list of professions. The stored professions will be reset.");
-                Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
-                State.OrderedProfessions = [.. player.professions];
-            }
-            else
-            {
-                State.OrderedProfessions = professionsList;
-            }
-        }
-
         // load limit break
-        var limitId = Data.Read(player, DataKeys.LimitBreakId);
-        if (!string.IsNullOrEmpty(limitId))
+        var limitId = Data.ReadAs(player, DataKeys.LimitBreakId, -1);
+        if (limitId > 0)
         {
-            var limit = LimitBreak.FromName(limitId)!;
-            if (!player.professions.Contains(limit.Id))
+            var limit = LimitBreak.FromId(limitId);
+            if (!player.professions.Contains(limitId))
             {
                 Log.W(
                     $"{player.Name} has broken the limits of {limit.Name} but is missing the corresponding profession. The limit will be unbroken.");
@@ -76,14 +53,6 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             {
                 State.LimitBreak = limit;
             }
-        }
-
-        // load other data
-        if (player.HasProfession(Profession.Ecologist, true))
-        {
-            State.PrestigedEcologistBuffsLookup = Data
-                .Read(player, DataKeys.PrestigedEcologistBuffLookup)
-                .ParseDictionary<string, int>();
         }
 
         // initialize treasure hunts
@@ -97,23 +66,29 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             State.ScavengerHunt = new ScavengerHunt();
         }
 
-        // enable events
-        if (Context.IsMainPlayer)
+        if (!Context.IsMainPlayer)
         {
-            if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
-            {
-                this.Manager.Enable(
-                    typeof(LuremasterDayStartedEvent),
-                    typeof(LuremasterOneSecondUpdateTickedEvent),
-                    typeof(LuremasterTimeChangedEvent));
-            }
-            else if (Context.IsMultiplayer)
-            {
-                this.Manager.Enable<LuremasterPeerConnectedEvent>();
-            }
-
-            this.Manager.Enable<RevalidateBuildingsDayStartedEvent>();
+            return;
         }
+
+        // enable events
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
+        {
+            this.Manager.Enable(
+                typeof(LuremasterDayStartedEvent),
+                typeof(LuremasterTimeChangedEvent));
+        }
+        else if (Context.IsMultiplayer)
+        {
+            this.Manager.Enable<LuremasterPeerConnectedEvent>();
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, true))
+        {
+            this.Manager.Enable<ChromaBallObjectListChangedEvent>();
+        }
+
+        this.Manager.Enable<RevalidateBuildingsDayStartedEvent>();
     }
 
     /// <summary>Invoked when a profession is added to the local player.</summary>

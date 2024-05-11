@@ -23,11 +23,11 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
 
     /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
     [HarmonyPostfix]
-    private static void HoeDirtPlantTranspiler(HoeDirt __instance, Farmer who)
+    private static void HoeDirtPlantPostfix(HoeDirt __instance, Farmer who)
     {
-        if (__instance.crop is not null && who.HasProfession(Profession.Agriculturist, true))
+        if (__instance.crop is { } crop && who.HasProfession(Profession.Agriculturist, true))
         {
-            Data.Write(__instance.crop, DataKeys.PlantedByPrestigedAgriculturist, true.ToString());
+            Data.Write(crop, DataKeys.PlantedByPrestigedAgriculturist, true.ToString());
         }
     }
 

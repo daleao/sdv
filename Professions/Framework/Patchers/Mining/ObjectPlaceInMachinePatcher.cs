@@ -76,15 +76,16 @@ internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
         MachineItemAdditionalConsumedItems additionalRequirement,
         Farmer who)
     {
-        if (additionalRequirement.ItemId == SObject.coalID && who.HasProfession(Profession.Demolitionist, true))
+        if (additionalRequirement.ItemId == SObject.coalQID && who.HasProfession(Profession.Demolitionist, true))
         {
-            if (Data.ReadAs<int>(machine, DataKeys.PersistedCoals) > 0)
+            var required = additionalRequirement.RequiredCount;
+            if (Data.ReadAs<int>(machine, DataKeys.PersistedCoals) >= required)
             {
-                Data.Increment(machine, DataKeys.PersistedCoals, -1);
+                Data.Increment(machine, DataKeys.PersistedCoals, -required);
                 return true;
             }
 
-            Data.Write(machine, DataKeys.PersistedCoals, additionalRequirement.RequiredCount.ToString());
+            Data.Increment(machine, DataKeys.PersistedCoals, required);
             return false;
         }
 

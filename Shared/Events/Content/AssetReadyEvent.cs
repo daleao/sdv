@@ -21,6 +21,7 @@ public abstract class AssetReadyEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Content.AssetReady -= this.OnAssetReady;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IContentEvents.AssetReady"/>

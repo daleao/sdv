@@ -29,7 +29,7 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance)
     {
-        if (__instance.Health > 0 || __instance.Get_Piped() is null)
+        if (__instance.Health > 0 || __instance.Get_Piped() is not { } piped)
         {
             return;
         }
@@ -42,6 +42,9 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
                 monster.Set_Taunter(null);
             }
         }
+
+        piped.DropItems();
+        State.SummonedSlimes.Remove(piped);
     }
 
     #endregion harmony patches

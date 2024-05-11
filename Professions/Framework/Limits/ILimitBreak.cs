@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework;
 #endregion using directives
 
 /// <summary>Interface for LimitBreak abilities.</summary>
-public interface ILimitBreak
+public interface ILimitBreak : IEquatable<ILimitBreak>
 {
     /// <summary>Gets the corresponding combat profession which offers this <see cref="ILimitBreak"/>.</summary>
     Profession ParentProfession { get; }
@@ -20,6 +20,9 @@ public interface ILimitBreak
 
     /// <summary>Gets the localized and gendered name for the <see cref="ILimitBreak"/>.</summary>
     string DisplayName { get; }
+
+    /// <summary>Gets the localized description text for the <see cref="ILimitBreak"/>.</summary>
+    string Description { get; }
 
     /// <summary>Gets the ID of the corresponding <see cref="Buff"/>.</summary>
     string BuffId { get; }

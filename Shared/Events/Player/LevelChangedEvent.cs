@@ -21,6 +21,7 @@ public abstract class LevelChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Player.LevelChanged -= this.OnLevelChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IPlayerEvents.LevelChanged"/>

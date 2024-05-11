@@ -21,6 +21,7 @@ public abstract class ChestInventoryChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.ChestInventoryChanged -= this.OnChestInventoryChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.ChestInventoryChanged"/>

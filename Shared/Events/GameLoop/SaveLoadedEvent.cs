@@ -21,6 +21,7 @@ public abstract class SaveLoadedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.SaveLoaded -= this.OnSaveLoaded;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.SaveLoaded"/>

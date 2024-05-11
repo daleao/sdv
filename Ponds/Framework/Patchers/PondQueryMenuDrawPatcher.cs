@@ -4,7 +4,6 @@ namespace DaLion.Ponds.Framework.Patchers;
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Classes;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
@@ -13,6 +12,7 @@ using DaLion.Shared.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Collections;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
@@ -129,13 +129,15 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             SObject? itemToDraw = null;
             if (isAlgaePond)
             {
-                seaweedCount = Data.ReadAs<int>(____pond, DataKeys.SeaweedLivingHere);
-                greenAlgaeCount = Data.ReadAs<int>(____pond, DataKeys.GreenAlgaeLivingHere);
-                whiteAlgaeCount = Data.ReadAs<int>(____pond, DataKeys.WhiteAlgaeLivingHere);
+                var algae = ____pond.ParsePondFishes();
+                seaweedCount = algae.Count(f => f?.Id == "152");
+                greenAlgaeCount = algae.Count(f => f?.Id == "153");
+                whiteAlgaeCount = algae.Count(f => f?.Id == "157");
             }
             else if (isLegendaryPond)
             {
-                familyCount = Data.ReadAs<int>(____pond, DataKeys.FamilyLivingHere, modId: "DaLion.Professions");
+                var bosses = ____pond.ParsePondFishes();
+                familyCount = bosses.Count(f => $"(O){f?.Id}" == Lookups.FamilyPairs[____fishItem.QualifiedItemId]);
                 itemToDraw = ____fishItem;
             }
             else
@@ -148,16 +150,16 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
                 var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 275.2f;
                 var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                           (columns * slotSpacing * 2f) + (x * slotSpacing * 4f);
+                    (columns * slotSpacing * 2f) + (x * slotSpacing * 4f);
 
                 if (isAlgaePond)
                 {
                     itemToDraw = seaweedCount-- > 0
-                        ? new SObject(QualifiedObjectIds.Seaweed, 1)
+                        ? ItemRegistry.Create<SObject>(QualifiedObjectIds.Seaweed, 1)
                         : greenAlgaeCount-- > 0
-                            ? new SObject(QualifiedObjectIds.GreenAlgae, 1)
+                            ? ItemRegistry.Create<SObject>(QualifiedObjectIds.GreenAlgae, 1)
                             : whiteAlgaeCount-- > 0
-                                ? new SObject(QualifiedObjectIds.WhiteAlgae, 1)
+                                ? ItemRegistry.Create<SObject>(QualifiedObjectIds.WhiteAlgae, 1)
                                 : null;
 
                     if (itemToDraw is not null)
@@ -189,10 +191,9 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
-                        itemToDraw = ItemRegistry.Create<SObject>(
-                                Lookups.FamilyPairs.TryGet(____fishItem.QualifiedItemId, out var pairId)
-                                    ? pairId
-                                    : ____fishItem.QualifiedItemId);
+                        itemToDraw = Lookups.FamilyPairs.TryGetValue(____fishItem.QualifiedItemId, out var pairId)
+                            ? ItemRegistry.Create<SObject>(pairId)
+                            : ____fishItem;
                     }
 
                     itemToDraw!.drawInMenu(
@@ -230,119 +231,58 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             // draw stars
             if (!isAlgaePond)
             {
-                var (_, numMedQuality, numHighQuality, numBestQuality) =
-                    Data.Read(____pond, DataKeys.FishQualities, $"{____pond.FishCount - familyCount},0,0,0")
-                        .ParseTuple<int, int, int, int>()!.Value;
-                if (numBestQuality + numHighQuality + numMedQuality > 0)
+                var fishes = ____pond.ParsePondFishes();
+                if (fishes.Count != ____pond.FishCount)
                 {
-                    x = y = 0;
-                    for (var i = 0; i < ____pond.FishCount - familyCount; i++)
-                    {
-                        var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
-                        var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 270.2f;
-                        var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                            (columns * slotSpacing * 2f) + (x * slotSpacing * 4f) + 16f;
-                        var quality = numBestQuality-- > 0
-                            ? SObject.bestQuality
-                            : numHighQuality-- > 0
-                                ? SObject.highQuality
-                                : numMedQuality-- > 0
-                                    ? SObject.medQuality
-                                    : SObject.lowQuality;
-                        if (quality <= SObject.lowQuality)
-                        {
-                            if (++x == columns)
-                            {
-                                x = 0;
-                                y++;
-                            }
-
-                            continue;
-                        }
-
-                        var qualityRect = quality < SObject.bestQuality
-                            ? new Rectangle(338 + ((quality - 1) * 8), 400, 8, 8)
-                            : new Rectangle(346, 392, 8, 8);
-                        yOffset = quality < SObject.bestQuality
-                            ? 0f
-                            : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
-                                       1f) * 0.05f);
-                        b.Draw(
-                            Game1.mouseCursors,
-                            new Vector2(xPos, yPos + yOffset + 50f),
-                            qualityRect,
-                            Color.White,
-                            0f,
-                            new Vector2(4f, 4f),
-                            3f * 0.75f * (1f + yOffset),
-                            SpriteEffects.None,
-                            0.9f);
-
-                        if (++x != columns)
-                        {
-                            continue;
-                        }
-
-                        x = 0;
-                        y++;
-                    }
+                    ThrowHelper.ThrowInvalidDataException(
+                        "Mismatch between algae population data and actual population.");
                 }
 
-                if (familyCount > 0)
+                fishes.SortDescending();
+                x = y = 0;
+                for (var i = 0; i < ____pond.FishCount - familyCount; i++)
                 {
-                    var (_, numMedFamilyQuality, numHighFamilyQuality, numBestFamilyQuality) =
-                        Data.Read(____pond, DataKeys.FamilyQualities, $"{familyCount},0,0,0").ParseTuple<int, int, int, int>()!
-                            .Value;
-                    if (numBestFamilyQuality + numHighFamilyQuality + numMedFamilyQuality > 0)
+                    var quality = fishes[i]?.Quality ?? SObject.lowQuality;
+                    var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
+                    var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * slotSpacing * 4f) + 270.2f;
+                    var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
+                        (columns * slotSpacing * 2f) + (x * slotSpacing * 4f) + 16f;
+                    if (quality <= SObject.lowQuality)
                     {
-                        for (var i = ____pond.FishCount - familyCount; i < ____pond.FishCount; i++)
+                        if (++x == columns)
                         {
-                            var yOffset = (float)Math.Sin((____age * 1f) + (x * 0.75f) + (y * 0.25f)) * 2f;
-                            var yPos = __instance.yPositionOnScreen + (int)(yOffset * 4f) + (y * 4 * slotSpacing) +
-                                       270.2f;
-                            var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
-                                (columns * slotSpacing * 2f) + (x * slotSpacing * 4f) + 16f;
-
-                            var quality = numBestFamilyQuality-- > 0
-                                ? SObject.bestQuality
-                                : numHighFamilyQuality-- > 0
-                                    ? SObject.highQuality
-                                    : numMedFamilyQuality-- > 0
-                                        ? SObject.medQuality
-                                        : SObject.lowQuality;
-                            if (quality <= SObject.lowQuality)
-                            {
-                                break;
-                            }
-
-                            var qualityRect = quality < SObject.bestQuality
-                                ? new Rectangle(338 + ((quality - 1) * 8), 400, 8, 8)
-                                : new Rectangle(346, 392, 8, 8);
-                            yOffset = quality < SObject.bestQuality
-                                ? 0f
-                                : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI /
-                                                    512.0) +
-                                           1f) * 0.05f);
-                            b.Draw(
-                                Game1.mouseCursors,
-                                new Vector2(xPos, yPos + yOffset + 50f),
-                                qualityRect,
-                                Color.White,
-                                0f,
-                                new Vector2(4f, 4f),
-                                3f * 0.75f * (1f + yOffset),
-                                SpriteEffects.None,
-                                0.9f);
-
-                            if (++x != columns)
-                            {
-                                continue;
-                            }
-
                             x = 0;
                             y++;
                         }
+
+                        continue;
                     }
+
+                    var qualityRect = quality < SObject.bestQuality
+                        ? new Rectangle(338 + ((quality - 1) * 8), 400, 8, 8)
+                        : new Rectangle(346, 392, 8, 8);
+                    yOffset = quality < SObject.bestQuality
+                        ? 0f
+                        : (float)((Math.Cos(Game1.currentGameTime.TotalGameTime.Milliseconds * Math.PI / 512.0) +
+                                   1f) * 0.05f);
+                    b.Draw(
+                        Game1.mouseCursors,
+                        new Vector2(xPos, yPos + yOffset + 50f),
+                        qualityRect,
+                        Color.White,
+                        0f,
+                        new Vector2(4f, 4f),
+                        3f * 0.75f * (1f + yOffset),
+                        SpriteEffects.None,
+                        0.9f);
+
+                    if (++x != columns)
+                    {
+                        continue;
+                    }
+
+                    x = 0;
+                    y++;
                 }
             }
 
@@ -354,12 +294,14 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 Game1.smallFont,
                 new Vector2(
                     __instance.xPositionOnScreen + (PondQueryMenu.width / 2) - (textSize.X * 0.5f),
-                    __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48) - textSize.Y),
+                    __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight -
+                    (hasUnresolvedNeeds ? 32 : 48) - textSize.Y),
                 Game1.textColor);
 
             if (hasUnresolvedNeeds)
             {
-                Reflector.GetUnboundMethodDelegate<DrawHorizontalPartitionDelegate>(__instance, "drawHorizontalPartition").Invoke(
+                Reflector.GetUnboundMethodDelegate<DrawHorizontalPartitionDelegate>(__instance,
+                    "drawHorizontalPartition").Invoke(
                     __instance,
                     b,
                     (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
@@ -500,6 +442,12 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             __instance.drawMouse(b);
 
             return false; // don't run original logic
+        }
+        catch (InvalidDataException ex)
+        {
+            Log.W($"{ex}\nThe data will be reset.");
+            ____pond.ResetPondFishData();
+            return true; // default to original logic
         }
         catch (Exception ex)
         {

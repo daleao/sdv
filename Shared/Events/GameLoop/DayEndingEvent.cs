@@ -21,6 +21,7 @@ public abstract class DayEndingEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.DayEnding -= this.OnDayEnding;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.DayEnding"/>

@@ -40,15 +40,43 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
     {
         if (EnableSkillReset)
         {
-            var max = Skill.List.Select(skill => Game1.player.GetProfessionsForSkill(skill, true).Length).Max();
-            if (max > 0)
+            ISkill? maxSkill = null;
+            var maxLength = 0;
+            foreach (var skill in Skill.List)
             {
-                var width = (max + 2) * 4 * (int)Textures.STARS_SCALE;
-                __instance.width += width;
-                ___upButton.bounds.X += width;
-                ___downButton.bounds.X += width;
-                ___scrollBar.bounds.X += width;
-                ___scrollBarRunner.X += width;
+                if (maxSkill is null)
+                {
+                    maxSkill = skill;
+                    continue;
+                }
+
+                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
+                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill.CurrentLevel)))
+                {
+                    maxSkill = skill;
+                    maxLength = length;
+                }
+            }
+
+            foreach (var skill in CustomSkill.Loaded.Values)
+            {
+                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
+                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill!.CurrentLevel)))
+                {
+                    maxSkill = skill;
+                    maxLength = length;
+                }
+            }
+
+            if (maxLength > 0)
+            {
+                var addedWidth = (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE;
+                __instance.width += addedWidth;
+                ___upButton.bounds.X += addedWidth;
+                ___downButton.bounds.X += addedWidth;
+                ___scrollBar.bounds.X += addedWidth;
+                ___scrollBarRunner.X += addedWidth;
+                NewSkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
             }
         }
 

@@ -9,15 +9,13 @@ using StardewValley.Buffs;
 internal sealed class EcologistAttackBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.EcologistP.Attack";
-    internal const int SHEET_INDEX = 11;
 
-    internal EcologistAttackBuff(float intensity)
+    internal EcologistAttackBuff(float intensity = 5f)
         : base(
             id: ID,
             source: "Ecologist",
             displaySource: _I18n.Get("ecologist.title.prestiged" + (Game1.player.IsMale ? ".male" : ".female")),
             duration: 60000,
-            iconSheetIndex: SHEET_INDEX,
             effects: GetBuffEffects(intensity))
     {
     }

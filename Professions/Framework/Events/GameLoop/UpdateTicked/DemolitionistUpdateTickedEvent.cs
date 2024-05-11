@@ -19,12 +19,17 @@ internal sealed class DemolitionistUpdateTickedEvent : UpdateTickedEvent
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => State.DemolitionistExcitedness > 0;
+    public override bool IsEnabled => State.DemolitionistAdrenaline > 0;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        Game1.player.applyBuff(new DemolitionistExcitednessBuff());
-        State.DemolitionistExcitedness -= State.DemolitionistExcitedness >= 4 ? 2 : 1;
+        if (Game1.player.hasBuff("DaLion.Professions.Buffs.DemolitionistExcitedness"))
+        {
+            return;
+        }
+
+        Game1.player.applyBuff(new DemolitionistAdrenalineBuff());
+        State.DemolitionistAdrenaline -= State.DemolitionistAdrenaline >= 4 ? 2 : 1;
     }
 }

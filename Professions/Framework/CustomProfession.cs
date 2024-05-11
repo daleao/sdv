@@ -129,6 +129,12 @@ public sealed class CustomProfession : IProfession
         };
     }
 
+    /// <inheritdoc />
+    public bool Equals(IProfession? other)
+    {
+        return this.Id == other?.Id;
+    }
+
     /// <summary>Gets the <see cref="SCProfession"/> equivalent to this <see cref="CustomProfession"/>.</summary>
     /// <returns>The equivalent <see cref="SCProfession"/>.</returns>
     public SCProfession ToSpaceCore()

@@ -8,7 +8,7 @@ using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
-/// <summary>The user-configurable settings for Tools.</summary>
+/// <summary>Config schema for the Chargeable mod.</summary>
 public sealed class ChargeableConfig
 {
     /// <inheritdoc cref="AxeConfig"/>
@@ -36,14 +36,14 @@ public sealed class ChargeableConfig
         if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
         {
             Log.W("Missing values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Axe.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
+            this.Axe.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5];
             isValid = false;
         }
 
         if (this.Pick.RadiusAtEachPowerLevel.Length < 5)
         {
             Log.W("Missing values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Pick.RadiusAtEachPowerLevel = new uint[] { 1, 2, 3, 4, 5 };
+            this.Pick.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5];
             isValid = false;
         }
 

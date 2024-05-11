@@ -16,14 +16,15 @@ using StardewValley.Monsters;
 internal sealed class PiperConcertoBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Concerto";
-    internal const int BASE_DURATION = 30_000;
-    internal const int SHEET_INDEX = 54;
+    private const int BASE_DURATION = 30_000;
+    private const int SHEET_INDEX = 53;
 
     internal PiperConcertoBuff()
         : base(
             id: ID,
             source: "Piper",
             displaySource: Game1.player.IsMale ? I18n.Piper_Limit_Title_Male() : I18n.Piper_Limit_Title_Female(),
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
             description: I18n.Piper_Limit_Desc())
@@ -36,7 +37,7 @@ internal sealed class PiperConcertoBuff : Buff
         SoundBox.PiperProvoke.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
         foreach (var character in Game1.player.currentLocation.characters)
         {
-            if (character is not GreenSlime slime || !slime.IsWithinCharacterThreshold() || slime.Scale >= 2f)
+            if (character is not GreenSlime slime || !slime.IsCharacterWithinThreshold() || slime.Scale >= 2f)
             {
                 continue;
             }
@@ -53,7 +54,8 @@ internal sealed class PiperConcertoBuff : Buff
                 }
             }
 
-            slime.Set_Piped(Game1.player);
+            slime.Set_Piped(Game1.player, BASE_DURATION);
+            slime.focusedOnFarmers = true;
         }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
@@ -78,10 +80,5 @@ internal sealed class PiperConcertoBuff : Buff
         }
 
         EventManager.Enable<SlimeInflationUpdateTickedEvent>();
-    }
-
-    public override void OnRemoved()
-    {
-        EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
     }
 }

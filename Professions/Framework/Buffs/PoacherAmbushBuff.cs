@@ -14,8 +14,8 @@ using StardewValley.Monsters;
 internal sealed class PoacherAmbushBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Ambush";
-    internal const int BASE_DURATION = 15_000;
-    internal const int SHEET_INDEX = 51;
+    private const int BASE_DURATION = 15_000;
+    private const int SHEET_INDEX = 51;
 
     internal PoacherAmbushBuff()
         : base(
@@ -23,6 +23,7 @@ internal sealed class PoacherAmbushBuff : Buff
             source: "Ambush",
             displaySource: Game1.player.IsMale ? I18n.Poacher_Limit_Title_Male() : I18n.Poacher_Limit_Title_Female(),
             duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             effects: new BuffEffects
             {

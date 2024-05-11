@@ -6,8 +6,10 @@ using System.Linq;
 using System.Reflection;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -54,24 +56,49 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            if (__instance is GreenSlime slime)
+            if (__instance is GreenSlime slime && slime.Get_Piped() is { } piped)
             {
-                var piped = slime.Get_Piped();
-                if (piped is not null)
+                Vector2? targetTile = null;
+                var aggroee = slime.GetClosestCharacter(
+                    location.characters.OfType<Monster>(),
+                    m => !m.IsSlime() && slime.IsCharacterWithinThreshold(m));
+                if (aggroee is not null)
                 {
-                    var aggroee = slime.GetClosestCharacter(out _, location.characters
-                        .OfType<Monster>()
-                        .Where(m => !m.IsSlime()));
-                    if (aggroee is not null)
-                    {
-                        piped.FakeFarmer.Position = aggroee.Position;
-                        target = piped.FakeFarmer;
-                    }
-
-                    __result = target;
-                    __instance.Set_Target(__result);
-                    return false; // don't run original logic
+                    targetTile = aggroee.Position;
+                    piped.FakeFarmer.IsEnemy = true;
                 }
+                else if (State.SummonedSlimes.Contains(piped) && slime.Get_HasInventorySlots())
+                {
+                    var approximatePosition =
+                        Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
+                            typeof(Debris),
+                            "approximatePosition");
+                    var closest = slime.GetClosest(
+                        location.debris,
+                        d => approximatePosition(d),
+                        out _,
+                        d => d.itemId.Value is not null);
+                    if (closest is not null)
+                    {
+                        targetTile = approximatePosition(closest);
+                        piped.FakeFarmer.IsEnemy = false;
+                    }
+                }
+
+                if (targetTile is null)
+                {
+                    var maxWidth = location.Map.DisplayWidth;
+                    var maxHeight = location.Map.DisplayHeight;
+                    targetTile = slime.GetClosestTile(piped.Piper.Tile.GetTwentyFourNeighbors(maxWidth, maxHeight)) *
+                                 Game1.tileSize;
+                    piped.FakeFarmer.IsEnemy = false;
+                }
+
+                piped.FakeFarmer.Position = targetTile.Value;
+                target = piped.FakeFarmer;
+                __result = target;
+                __instance.Set_Target(target);
+                return false; // don't run original logic
             }
 
             var taunter = __instance.Get_Taunter();
@@ -86,7 +113,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             }
 
             __result = target ?? (Context.IsMultiplayer
-                ? __instance.GetClosestFarmer(out _, predicate: f => f is not FakeFarmer && !f.IsAmbushing())
+                ? __instance.GetClosestFarmer(predicate: f => f is not FakeFarmer && !f.IsAmbushing())
                 : Game1.player);
             __instance.Set_Target(__result);
             return false; // don't run original logic

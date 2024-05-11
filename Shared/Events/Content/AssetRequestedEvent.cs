@@ -27,6 +27,7 @@ public abstract class AssetRequestedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Content.AssetRequested -= this.OnAssetRequested;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IContentEvents.AssetRequested"/>
@@ -59,7 +60,7 @@ public abstract class AssetRequestedEvent : ManagedEvent
     /// <param name="editor">The <see cref="AssetEditor"/>.</param>
     protected void Edit(string name, IAssetEditor editor)
     {
-        if (!this._editors.TryAdd(name, new List<IAssetEditor> { editor }))
+        if (!this._editors.TryAdd(name, [editor]))
         {
             this._editors[name].Add(editor);
         }

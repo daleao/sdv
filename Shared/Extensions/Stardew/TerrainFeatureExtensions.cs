@@ -14,62 +14,55 @@ using StardewValley.TerrainFeatures;
 public static class TerrainFeatureExtensions
 {
     /// <summary>
-    ///     Gets the tile distance between this <paramref name="terrainFeature"/> and the target <paramref name="tile"/>.
+    ///     Gets the squared pixel distance between this <paramref name="terrainFeature"/> and the target <paramref name="position"/>.
+    /// </summary>
+    /// <param name="terrainFeature">The <see cref="Character"/>.</param>
+    /// <param name="position">The target tile.</param>
+    /// <returns>The squared pixel distance between <paramref name="terrainFeature"/> and the <paramref name="position"/>.</returns>
+    public static double SquaredPixelDistance(this TerrainFeature terrainFeature, Vector2 position)
+    {
+        var dx = (terrainFeature.Tile.X * Game1.tileSize) - position.X;
+        var dy = (terrainFeature.Tile.Y * Game1.tileSize) - position.Y;
+        return (dx * dx) + (dy * dy);
+    }
+
+    /// <summary>
+    ///     Gets the squared tile distance between this <paramref name="terrainFeature"/> and the target <paramref name="tile"/>.
     /// </summary>
     /// <param name="terrainFeature">The <see cref="Character"/>.</param>
     /// <param name="tile">The target tile.</param>
-    /// <returns>The tile distance between <paramref name="terrainFeature"/> and the <paramref name="tile"/>.</returns>
-    public static double DistanceTo(this TerrainFeature terrainFeature, Vector2 tile)
+    /// <returns>The squared tile distance between <paramref name="terrainFeature"/> and the <paramref name="tile"/>.</returns>
+    public static double SquaredTileDistance(this TerrainFeature terrainFeature, Vector2 tile)
     {
-        return (terrainFeature.Tile - tile).Length();
+        var dx = terrainFeature.Tile.X - tile.X;
+        var dy = terrainFeature.Tile.Y - tile.Y;
+        return (dx * dx) + (dy * dy);
     }
 
     /// <summary>
-    ///     Gets the tile distance between this <paramref name="terrainFeature"/> and the target
-    ///     <paramref name="building"/> in the same <see cref="GameLocation"/>.
+    ///     Finds the closest tile from among the specified <paramref name="candidates"/> to this
+    ///     <paramref name="terrainFeature"/>.
     /// </summary>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="building">The target <see cref="Building"/>.</param>
-    /// <returns>The tile distance between <paramref name="terrainFeature"/> and <paramref name="building"/>.</returns>
-    public static double DistanceTo(this TerrainFeature terrainFeature, Building building)
+    /// <param name="candidates">The candidate <see cref="TerrainFeature"/>s, if already available.</param>
+    /// <returns>The closest tile from among the specified <paramref name="candidates"/> to this <paramref name="terrainFeature"/>.</returns>
+    public static Vector2 GetClosestTile(this TerrainFeature terrainFeature, IEnumerable<Vector2> candidates)
     {
-        return terrainFeature.DistanceTo(new Vector2(building.tileX.Value, building.tileY.Value));
-    }
+        var closest = terrainFeature.Tile;
+        var distanceToClosest = double.MaxValue;
+        foreach (var candidate in candidates)
+        {
+            var distanceToThisCandidate = terrainFeature.SquaredTileDistance(candidate);
+            if (distanceToThisCandidate >= distanceToClosest)
+            {
+                continue;
+            }
 
-    /// <summary>
-    ///     Gets the tile distance between this <paramref name="terrainFeature"/> and the target
-    ///     <paramref name="character"/> in the same <see cref="GameLocation"/>.
-    /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="character">The target <see cref="Character"/>.</param>
-    /// <returns>The tile distance between <paramref name="terrainFeature"/> and <paramref name="character"/>.</returns>
-    public static double DistanceTo(this TerrainFeature terrainFeature, Character character)
-    {
-        return terrainFeature.DistanceTo(character.Tile);
-    }
+            closest = candidate;
+            distanceToClosest = distanceToThisCandidate;
+        }
 
-    /// <summary>
-    ///     Get the tile distance between this <paramref name="terrainFeature"/> and the target
-    ///     <paramref name="obj"/> in the same <see cref="GameLocation"/>.
-    /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="obj">The target <see cref="SObject"/>.</param>
-    /// <returns>The tile distance between <paramref name="terrainFeature"/> and <paramref name="obj"/>.</returns>
-    public static double DistanceTo(this TerrainFeature terrainFeature, SObject obj)
-    {
-        return terrainFeature.DistanceTo(obj.TileLocation);
-    }
-
-    /// <summary>
-    ///     Gets the tile distance between this <paramref name="terrainFeature"/> and some this <paramref name="other"/>
-    ///     in the same <see cref="GameLocation"/>.
-    /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="other">The target <see cref="TerrainFeature"/>.</param>
-    /// <returns>The tile distance between <paramref name="terrainFeature"/> and <paramref name="other"/>.</returns>
-    public static double DistanceTo(this TerrainFeature terrainFeature, TerrainFeature other)
-    {
-        return terrainFeature.DistanceTo(other.Tile);
+        return closest;
     }
 
     /// <summary>
@@ -80,7 +73,7 @@ public static class TerrainFeatureExtensions
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
     /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
-    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
+    /// <param name="distance">The actual tile distance to the closest candidate found.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The closest target from among the specified <paramref name="candidates"/> to this <paramref name="terrainFeature"/>.</returns>
     public static T? GetClosest<T>(
@@ -97,7 +90,7 @@ public static class TerrainFeatureExtensions
         var distanceToClosest = double.MaxValue;
         foreach (var candidate in candidates.Skip(1))
         {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(getPosition(candidate));
+            var distanceToThisCandidate = terrainFeature.SquaredPixelDistance(getPosition(candidate));
             if (distanceToThisCandidate >= distanceToClosest)
             {
                 continue;
@@ -112,10 +105,10 @@ public static class TerrainFeatureExtensions
     }
 
     /// <summary>
-    ///     Finds the closest <see cref="Building"/> of sub-type <typeparamref name="TBuilding"/> to this
+    ///     Finds the closest <see cref="Building"/> of subtype <typeparamref name="TBuilding"/> to this
     ///     <paramref name="terrainFeature"/> in the current <see cref="GameLocation"/>.
     /// </summary>
-    /// <typeparam name="TBuilding">A sub-type of <see cref="Building"/>.</typeparam>
+    /// <typeparam name="TBuilding">A subtype of <see cref="Building"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -126,32 +119,15 @@ public static class TerrainFeatureExtensions
         Func<TBuilding, bool>? predicate = null)
         where TBuilding : Building
     {
-        predicate ??= _ => true;
-        candidates ??= terrainFeature.Location.buildings
-            .OfType<TBuilding>()
-            .Where(t => predicate(t));
-        TBuilding? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        return closest;
+        candidates ??= terrainFeature.Location.buildings.OfType<TBuilding>();
+        return terrainFeature.GetClosest(candidates, b => b.GetBoundingBox().Center.ToVector2(), out _, predicate);
     }
 
     /// <summary>
-    ///     Finds the closest <see cref="NPC"/> of sub-type <typeparamref name="TCharacter"/> to this
+    ///     Finds the closest <see cref="NPC"/> of subtype <typeparamref name="TCharacter"/> to this
     ///     <paramref name="terrainFeature"/> in the current <see cref="GameLocation"/>.
     /// </summary>
-    /// <typeparam name="TCharacter">A sub-type of <see cref="Character"/>.</typeparam>
+    /// <typeparam name="TCharacter">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="candidates">The candidate <see cref="NPC"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -162,25 +138,8 @@ public static class TerrainFeatureExtensions
         Func<TCharacter, bool>? predicate = null)
         where TCharacter : Character
     {
-        predicate ??= _ => true;
-        candidates ??= terrainFeature.Location.characters
-            .OfType<TCharacter>()
-            .Where(t => predicate(t));
-        TCharacter? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        return closest;
+        candidates ??= terrainFeature.Location.characters.OfType<TCharacter>();
+        return terrainFeature.GetClosest(candidates, c => c.Position, out _, predicate);
     }
 
     /// <summary>
@@ -196,30 +155,15 @@ public static class TerrainFeatureExtensions
         IEnumerable<Farmer>? candidates = null,
         Func<Farmer, bool>? predicate = null)
     {
-        predicate ??= _ => true;
-        candidates ??= terrainFeature.Location.farmers.Where(f => predicate(f));
-        Farmer? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        return closest;
+        candidates ??= terrainFeature.Location.farmers;
+        return terrainFeature.GetClosest(candidates, f => f.Position, out _, predicate);
     }
 
     /// <summary>
-    ///     Finds the closest <see cref="SObject"/> of sub-type <typeparamref name="TObject"/> to this
+    ///     Finds the closest <see cref="SObject"/> of subtype <typeparamref name="TObject"/> to this
     ///     <paramref name="terrainFeature"/> in the current <see cref="GameLocation"/>.
     /// </summary>
-    /// <typeparam name="TObject">A sub-type of <see cref="SObject"/>.</typeparam>
+    /// <typeparam name="TObject">A subtype of <see cref="SObject"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="candidates">The candidate <see cref="SObject"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -230,32 +174,15 @@ public static class TerrainFeatureExtensions
         Func<TObject, bool>? predicate = null)
         where TObject : SObject
     {
-        predicate ??= _ => true;
-        candidates ??= terrainFeature.Location.Objects.Values
-            .OfType<TObject>()
-            .Where(o => predicate(o));
-        TObject? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        return closest;
+        candidates ??= terrainFeature.Location.Objects.Values.OfType<TObject>();
+        return terrainFeature.GetClosest(candidates, o => o.TileLocation * Game1.tileSize, out _, predicate);
     }
 
     /// <summary>
     ///     Finds the closest <see cref="TerrainFeature"/> to this one in the current <see cref="GameLocation"/>, and of
-    ///     the specified sub-type.
+    ///     the specified subtype.
     /// </summary>
-    /// <typeparam name="TTerrainFeature">A sub-type of <see cref="SObject"/>.</typeparam>
+    /// <typeparam name="TTerrainFeature">A subtype of <see cref="SObject"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="candidates">The candidate <see cref="TerrainFeature"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -267,23 +194,11 @@ public static class TerrainFeatureExtensions
         where TTerrainFeature : TerrainFeature
     {
         predicate ??= _ => true;
-        candidates ??= terrainFeature.Location.terrainFeatures.Values
-            .OfType<TTerrainFeature>()
-            .Where(t => predicate(t));
-        TTerrainFeature? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = terrainFeature.DistanceTo(candidate);
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        return closest;
+        candidates ??= terrainFeature.Location.terrainFeatures.Values.OfType<TTerrainFeature>();
+        return terrainFeature.GetClosest(
+            candidates,
+            t => t.Tile * Game1.tileSize,
+            out _,
+            t => !ReferenceEquals(t, terrainFeature) && predicate(t));
     }
 }

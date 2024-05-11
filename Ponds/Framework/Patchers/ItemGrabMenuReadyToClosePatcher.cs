@@ -20,7 +20,7 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
     internal ItemGrabMenuReadyToClosePatcher(Harmonizer harmonizer)
         : base(harmonizer)
     {
-        this.Target = this.RequireMethod<ItemGrabMenu>(nameof(ItemGrabMenu.readyToClose));
+        this.Target = this.RequireMethod<MenuWithInventory>(nameof(MenuWithInventory.readyToClose));
     }
 
     #region harmony patches
@@ -44,7 +44,7 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
 
         var output = inventory
             .OrderByDescending(i => i is ColoredObject
-                ? new SObject(i.QualifiedItemId, 1).salePrice()
+                ? ItemRegistry.Create<SObject>(i.QualifiedItemId, 1).salePrice()
                 : i.salePrice())
             .First() as SObject;
         inventory.Remove(output!);

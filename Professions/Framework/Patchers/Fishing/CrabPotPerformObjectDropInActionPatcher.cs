@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -25,33 +24,18 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to allow Luremaster to overbait.</summary>
-    [HarmonyPostfix]
-    private static void CrabPotPerformObjectDropInActionPostfix(CrabPot __instance, ref bool __result, Item dropInItem, bool probe, Farmer who)
+    /// <summary>Fixes an issue when collecting trash while holding bait as Conservationist.</summary>
+    [HarmonyPrefix]
+    private static bool CrabPotPerformObjectDropInActionPrefix(CrabPot __instance, ref bool __result)
     {
-        if (probe || __instance.Location is not { } location || __instance.bait.Value is null || __result)
+        if (__instance.heldObject.Value is null)
         {
-            return;
+            return true; // run original logic;
         }
 
-        if (dropInItem is not SObject { Category: SObject.baitCategory } bait ||
-            !who.HasProfession(Profession.Luremaster))
-        {
-            return;
-        }
+        __result = false;
+        return false; // don't run original logic
 
-        var overbait = Data.Read(__instance, DataKeys.Overbait).ParseList<string>();
-        var capacity = who.HasProfession(Profession.Luremaster, true) ? 2 : 1;
-        if (overbait.Count >= capacity)
-        {
-            return;
-        }
-
-        overbait.Add(bait.QualifiedItemId);
-        Data.Write(__instance, DataKeys.Overbait, string.Join(',', overbait));
-        location.playSound("Ship");
-        __instance.lidFlapping = true;
-        __instance.lidFlapTimer = 60f;
     }
 
     /// <summary>Patch to allow Conservationist to place bait.</summary>
@@ -65,11 +49,9 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
         try
         {
             helper
-                .MatchProfessionCheck(Profession.Conservationist.Value)
-                .PatternMatch([new CodeInstruction(OpCodes.Ldloc_1)], ILHelper.SearchOption.Previous)
-                .PatternMatch([new CodeInstruction(OpCodes.Ldloc_1)], ILHelper.SearchOption.Previous)
-                .CountUntil([new CodeInstruction(OpCodes.Brtrue_S)], out var count)
-                .Remove(count);
+                .MatchProfessionCheck(Farmer.mariner)
+                .PatternMatch([new CodeInstruction(OpCodes.Ldloc_2)], ILHelper.SearchOption.Previous, nth: 2)
+                .RemoveUntil([new CodeInstruction(OpCodes.Brtrue_S)]);
         }
         catch (Exception ex)
         {

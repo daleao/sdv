@@ -2,11 +2,6 @@
 
 #region using directives
 
-using System.IO;
-using System.Linq;
-using DaLion.Shared.Constants;
-using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -27,98 +22,25 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Distinguish extended family pairs + increment total Fish Pond quality ratings.</summary>
+    /// <summary>Increment total Fish Pond quality ratings.</summary>
     [HarmonyPostfix]
     private static void FishPondAddFishToPondPostfix(FishPond __instance, FishPondData ____fishPondData, SObject fish)
     {
-        try
+
+        var added = new PondFish(fish.ItemId, fish.Quality);
+        Data.Append(__instance, DataKeys.PondFish, added.ToString(), ';');
+        if (fish.ItemId is "160" or "899")
         {
-            if (Lookups.LegendaryFishes.Contains(fish.QualifiedItemId))
-            {
-                if (fish.ItemId != __instance.fishType.Value)
-                {
-                    var familyQualities = Data
-                        .Read(
-                            __instance,
-                            DataKeys.FamilyQualities,
-                            $"{Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions")},0,0,0")
-                        .ParseList<int>();
-                    if (familyQualities.Count != 4 ||
-                        familyQualities.Sum() != Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions"))
-                    {
-                        ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
-                    }
-
-                    familyQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
-                    Data.Increment(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions");
-                    Data.Write(__instance, DataKeys.FamilyQualities, string.Join(',', familyQualities));
-                }
-                else
-                {
-                    var fishQualities = Data
-                        .Read(
-                            __instance,
-                            DataKeys.FishQualities,
-                            $"{__instance.FishCount - Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions") - 1},0,0,0") // already added at this point, so consider - 1
-                        .ParseList<int>();
-                    if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > __instance.FishCount - 1))
-                    {
-                        ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
-                    }
-
-                    fishQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
-                    Data.Write(__instance, DataKeys.FishQualities, string.Join(',', fishQualities));
-                }
-
-                // enable reproduction if angler or ms. angler
-                if (fish.ItemId is not ("160" or "899") ||
-                    Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions") is not (var familyCount and > 0))
-                {
-                    return;
-                }
-
-                var mates = Math.Min(__instance.FishCount - familyCount, familyCount);
-                ____fishPondData.SpawnTime = 12 / mates;
-            }
-            else if (fish.IsAlgae())
-            {
-                switch (fish.QualifiedItemId)
-                {
-                    case QualifiedObjectIds.Seaweed:
-                        Data.Increment(__instance, DataKeys.SeaweedLivingHere);
-                        break;
-                    case QualifiedObjectIds.GreenAlgae:
-                        Data.Increment(__instance, DataKeys.GreenAlgaeLivingHere);
-                        break;
-                    case QualifiedObjectIds.WhiteAlgae:
-                        Data.Increment(__instance, DataKeys.WhiteAlgaeLivingHere);
-                        break;
-                }
-            }
-            else
-            {
-                var fishQualities = Data
-                    .Read(
-                        __instance,
-                        DataKeys.FishQualities,
-                        $"{__instance.FishCount - Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere, modId: "DaLion.Professions") - 1},0,0,0") // already added at this point, so consider - 1
-                    .ParseList<int>();
-                if (fishQualities.Count != 4 || fishQualities.Any(q => q < 0 || q > __instance.FishCount - 1))
-                {
-                    ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
-                }
-
-                fishQualities[fish.Quality == 4 ? 3 : fish.Quality]++;
-                Data.Write(__instance, DataKeys.FishQualities, string.Join(',', fishQualities));
-            }
+           __instance.SetAnglerSpawnTime(____fishPondData);
         }
-        catch (InvalidDataException ex)
+
+        if (Data.Read(__instance, DataKeys.PondFish).Split(';').Length == __instance.FishCount)
         {
-            Log.W($"{ex}\nThe data will be reset.");
-            Data.Write(__instance, DataKeys.FishQualities, $"{__instance.FishCount},0,0,0");
-            Data.Write(__instance, DataKeys.FamilyQualities, null);
-            Data.Write(__instance, DataKeys.FamilyLivingHere, null);
+            return;
         }
+
+        Log.E("Mismatch between fish population data and actual population.");
+        __instance.ResetPondFishData();
     }
 
     #endregion harmony patches

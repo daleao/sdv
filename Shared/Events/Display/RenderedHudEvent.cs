@@ -21,6 +21,7 @@ public abstract class RenderedHudEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Display.RenderedHud -= this.OnRenderedHud;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IDisplayEvents.RenderedHud"/>

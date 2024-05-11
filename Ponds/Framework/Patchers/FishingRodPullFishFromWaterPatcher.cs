@@ -2,13 +2,11 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using DaLion.Shared.Classes;
-using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Reflection;
@@ -79,50 +77,27 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         quality = SObject.lowQuality;
         try
         {
-            var seaweedCount = Data.ReadAs<int>(pond, DataKeys.SeaweedLivingHere);
-            var greenAlgaeCount = Data.ReadAs<int>(pond, DataKeys.GreenAlgaeLivingHere);
-            var whiteAlgaeCount = Data.ReadAs<int>(pond, DataKeys.WhiteAlgaeLivingHere);
-            var roll = Game1.random.Next(seaweedCount + greenAlgaeCount + whiteAlgaeCount);
-            if (roll < seaweedCount)
+            var algae = pond.ParsePondFishes();
+            var pulled = algae.Choose();
+            if (pulled is null)
             {
-                id = QualifiedObjectIds.Seaweed;
-                Data.Write(pond, DataKeys.SeaweedLivingHere, (--seaweedCount).ToString());
-            }
-            else if (roll < seaweedCount + greenAlgaeCount)
-            {
-                id = QualifiedObjectIds.GreenAlgae;
-                Data.Write(pond, DataKeys.GreenAlgaeLivingHere, (--greenAlgaeCount).ToString());
-            }
-            else if (roll < seaweedCount + greenAlgaeCount + whiteAlgaeCount)
-            {
-                id = QualifiedObjectIds.WhiteAlgae;
-                Data.Write(pond, DataKeys.WhiteAlgaeLivingHere, (--whiteAlgaeCount).ToString());
+                ThrowHelper.ThrowInvalidOperationException("Chose null algae data from Pond Fish.");
             }
 
-            var total = Data.ReadAs<int>(pond, DataKeys.SeaweedLivingHere) +
-                        Data.ReadAs<int>(pond, DataKeys.GreenAlgaeLivingHere) +
-                        Data.ReadAs<int>(pond, DataKeys.WhiteAlgaeLivingHere);
-            if (total != pond.FishCount)
+            id = pulled.Id;
+            algae.Remove(pulled);
+            if (algae.Count != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
                     "Mismatch between algae population data and actual population.");
             }
+
+            Data.Write(pond, DataKeys.PondFish, string.Join(';', algae));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            Data.Write(pond, DataKeys.SeaweedLivingHere, null);
-            Data.Write(pond, DataKeys.GreenAlgaeLivingHere, null);
-            Data.Write(pond, DataKeys.WhiteAlgaeLivingHere, null);
-            var field = pond.fishType.Value switch
-            {
-                QualifiedObjectIds.Seaweed => DataKeys.SeaweedLivingHere,
-                QualifiedObjectIds.GreenAlgae => DataKeys.GreenAlgaeLivingHere,
-                QualifiedObjectIds.WhiteAlgae => DataKeys.WhiteAlgaeLivingHere,
-                _ => string.Empty,
-            };
-
-            Data.Write(pond, field, pond.FishCount.ToString());
+            pond.ResetPondFishData();
         }
     }
 
@@ -130,80 +105,32 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     {
         try
         {
-            var fishQualities = Data.Read(
-                pond,
-                DataKeys.FishQualities,
-                $"{pond.FishCount - Data.ReadAs<int>(pond, DataKeys.FamilyLivingHere, modId: "DaLion.Professions")},0,0,0").ParseList<int>();
-            if (fishQualities.Count != 4 ||
-                fishQualities.Any(q =>
-                    q < 0 || q > pond.FishCount +
-                    1)) // FishCount has already been decremented at this point, so we increment 1 to compensate
+            var fish = pond.ParsePondFishes();
+            fish.SortDescending();
+            var pulled = pond.HasLegendaryFish()
+                ? Game1.random.NextBool()
+                    ? fish.Last(f => $"(O){f?.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]) ?? fish.Last()
+                    : fish.Last(f => f?.Id == pond.fishType.Value) ?? fish.Last()
+                : fish.Last();
+            if (pulled is null)
             {
-                ThrowHelper.ThrowInvalidDataException("FishQualities data had incorrect number of values.");
+                ThrowHelper.ThrowInvalidOperationException("Chose null fish data from Pond Fish.");
             }
 
-            var lowestFish = fishQualities.FindIndex(i => i > 0);
-            if (pond.HasLegendaryFish())
+            (id, quality) = pulled;
+            fish.Remove(pulled);
+            if (fish.Count != pond.FishCount)
             {
-                PullLegendary(pond, ref id, ref quality, fishQualities, lowestFish);
+                ThrowHelper.ThrowInvalidDataException(
+                    "Mismatch between fish population data and actual population.");
             }
-            else
-            {
-                quality = lowestFish == 3 ? 4 : lowestFish;
-                fishQualities[lowestFish]--;
-                Data.Write(pond, DataKeys.FishQualities, string.Join(",", fishQualities));
-            }
+
+            Data.Write(pond, DataKeys.PondFish, string.Join(';', fish));
         }
         catch (InvalidDataException ex)
         {
             Log.W($"{ex}\nThe data will be reset.");
-            Data.Write(pond, DataKeys.FishQualities, $"{pond.FishCount},0,0,0");
-            Data.Write(pond, DataKeys.FamilyQualities, null);
-            Data.Write(pond, DataKeys.FamilyLivingHere, null);
-        }
-    }
-
-    private static void PullLegendary(FishPond pond, ref string id, ref int quality, List<int> fishQualities, int lowestFish)
-    {
-        var familyCount = Data.ReadAs<int>(pond, DataKeys.FamilyLivingHere, modId: "DaLion.Professions");
-        if (fishQualities.Sum() + familyCount !=
-            pond.FishCount +
-            1) // FishCount has already been decremented at this point, so we increment 1 to compensate
-        {
-            ThrowHelper.ThrowInvalidDataException("FamilyLivingHere data is invalid.");
-        }
-
-        if (familyCount > 0)
-        {
-            var familyQualities =
-                Data.Read(pond, DataKeys.FamilyQualities, $"{Data.ReadAs<int>(pond, DataKeys.FamilyLivingHere, modId: "DaLion.Professions")},0,0,0")
-                    .ParseList<int>();
-            if (familyQualities.Count != 4 || familyQualities.Sum() != familyCount)
-            {
-                ThrowHelper.ThrowInvalidDataException("FamilyQualities data had incorrect number of values.");
-            }
-
-            var lowestFamily = familyQualities.FindIndex(i => i > 0);
-            if (lowestFamily < lowestFish || (lowestFamily == lowestFish && Game1.random.NextDouble() < 0.5))
-            {
-                id = Lookups.FamilyPairs.TryGet(id, out var pairId) && !string.IsNullOrEmpty(pairId) ? pairId : id;
-                quality = lowestFamily == 3 ? 4 : lowestFamily;
-                familyQualities[lowestFamily]--;
-                Data.Write(pond, DataKeys.FamilyQualities, string.Join(",", familyQualities));
-                Data.Increment(pond, DataKeys.FamilyLivingHere, -1);
-            }
-            else
-            {
-                quality = lowestFish == 3 ? 4 : lowestFish;
-                fishQualities[lowestFish]--;
-                Data.Write(pond, DataKeys.FishQualities, string.Join(",", fishQualities));
-            }
-        }
-        else
-        {
-            quality = lowestFish == 3 ? 4 : lowestFish;
-            fishQualities[lowestFish]--;
-            Data.Write(pond, DataKeys.FishQualities, string.Join(",", fishQualities));
+            pond.ResetPondFishData();
         }
     }
 

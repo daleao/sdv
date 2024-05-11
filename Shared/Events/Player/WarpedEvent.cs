@@ -21,6 +21,7 @@ public abstract class WarpedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Player.Warped -= this.OnWarped;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IPlayerEvents.Warped"/>

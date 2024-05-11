@@ -27,14 +27,47 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
     [HarmonyPostfix]
-    private static void GreenSlimeUpdatePostfix(GreenSlime __instance, GameTime time)
+    private static void GreenSlimeUpdatePostfix(GreenSlime __instance, ref int ___readyToJump, GameTime time)
     {
         if (__instance.Get_Piped() is not { } piped)
         {
             return;
         }
 
-        piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;
+        __instance.Speed = piped.Piper.Speed;,
+        if (piped.PipeTimer > 0)
+        {
+            piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;
+            if (piped.PipeTimer <= 0)
+            {
+                piped.Burst();
+            }
+        }
+
+        if (!piped.FakeFarmer.IsEnemy && time.ElapsedGameTime.Milliseconds % 4 == 0)
+        {
+            ___readyToJump = -1;
+            __instance.timeSinceLastJump = 0;
+            var approximatePosition =
+                Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
+                    typeof(Debris),
+                    "approximatePosition");
+            for (var i = __instance.currentLocation.debris.Count - 1; i >= 0; i--)
+            {
+                var debris = __instance.currentLocation.debris[i];
+                if (debris.itemId is null)
+                {
+                    continue;
+                }
+
+                if (__instance.GetBoundingBox().Contains(approximatePosition(debris)) &&
+                    __instance.CollectDebris(debris))
+                {
+                    __instance.currentLocation.debris.RemoveAt(i);
+                }
+            }
+        }
+
         foreach (var character in __instance.currentLocation.characters)
         {
             if (character is not Monster { IsMonster: true } monster

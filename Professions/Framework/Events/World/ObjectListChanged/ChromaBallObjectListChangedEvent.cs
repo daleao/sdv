@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Core;
 using DaLion.Core.Framework;
 using DaLion.Professions.Framework.Chroma;
 using DaLion.Shared.Events;
@@ -18,7 +19,16 @@ internal sealed class ChromaBallObjectListChangedEvent : ObjectListChangedEvent
     internal ChromaBallObjectListChangedEvent(EventManager? manager = null)
         : base(manager ?? ProfessionsMod.EventManager)
     {
-        this.Manager.Unmanage<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
+    }
+
+    protected override void OnEnabled()
+    {
+        CoreMod.EventManager.Disable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
+    }
+
+    protected override void OnDisabled()
+    {
+        CoreMod.EventManager.Enable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
     }
 
     /// <inheritdoc />

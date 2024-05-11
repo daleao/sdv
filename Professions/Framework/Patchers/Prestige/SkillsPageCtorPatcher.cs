@@ -31,11 +31,30 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     {
         if (EnableSkillReset)
         {
-            var max = Skill.List.Select(skill => Game1.player.GetProfessionsForSkill(skill, true).Length).Max();
-            if (max > 0)
+            Skill? maxSkill = null;
+            var maxLength = 0;
+            foreach (var skill in Skill.List)
             {
-                __instance.width += (max + 2) * 4 * (int)Textures.STARS_SCALE;
+                if (maxSkill is null)
+                {
+                    maxSkill = skill;
+                    continue;
+                }
+
+                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
+                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill.CurrentLevel)))
+                {
+                    maxSkill = skill;
+                    maxLength = length;
+                }
             }
+
+            if (maxLength > 0)
+            {
+                __instance.width += (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE;
+                SkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
+            }
+
         }
 
         if (!EnablePrestigeLevels)

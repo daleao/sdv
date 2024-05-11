@@ -19,11 +19,6 @@ public static class Int32Extensions
         return value >= range.Start.Value && value <= range.End.Value;
     }
 
-    public static Range UpTo(this int first, int last)
-    {
-        return first..last;
-    }
-
     /// <summary>Finds the first common <see cref="int"/>eger between the <paramref name="collection"/> and the specified <paramref name="candidates"/>. If none are found, returns the specified <paramref name="default"/> value.</summary>
     /// <param name="collection">A <see cref="ICollection{T}"/> of <see cref="int"/>egers.</param>
     /// <param name="candidates">The candidate <see cref="int"/>egers.</param>

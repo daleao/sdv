@@ -21,6 +21,7 @@ public abstract class LocaleChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Content.LocaleChanged -= this.OnLocaleChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IContentEvents.LocaleChanged"/>

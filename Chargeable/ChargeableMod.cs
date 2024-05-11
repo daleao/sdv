@@ -6,7 +6,6 @@ namespace DaLion.Chargeable;
 
 #region using directives
 
-using System.Linq;
 using DaLion.Shared;
 using HarmonyLib;
 using StardewModdingAPI.Events;
@@ -63,12 +62,13 @@ public sealed class ChargeableMod : Mod
         Config = helper.ReadConfig<ChargeableConfig>();
         Config.Validate(helper);
         PerScreenState = new PerScreen<ChargeableState>(() => new ChargeableState());
-        helper.Events.GameLoop.GameLaunched += this.OnGameLaunched;
-        helper.Events.GameLoop.UpdateTicked += this.OnUpdateTicked;
+        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
+        helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
         new Harmony(this.ModManifest.UniqueID).PatchAll();
     }
 
-    private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
+    private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
         if (ChargeableConfigMenu.Instance?.IsLoaded == true)
         {
@@ -76,14 +76,24 @@ public sealed class ChargeableMod : Mod
         }
     }
 
-    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
+    private static void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
+    {
+        PerScreenState.ResetAllScreens();
+    }
+
+    private static void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (State.Shockwaves.Count == 0 || (Config.TicksBetweenWaves > 1 && !e.IsMultipleOf(Config.TicksBetweenWaves)))
         {
             return;
         }
 
-        var shockwaves = State.Shockwaves.ToList();
-        shockwaves.ForEach(wave => wave.Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds));
+        for (var i = State.Shockwaves.Count - 1; i >= 0; i--)
+        {
+            if (State.Shockwaves[i].Update(Game1.currentGameTime.TotalGameTime.TotalMilliseconds))
+            {
+                State.Shockwaves.RemoveAt(i);
+            }
+        }
     }
 }

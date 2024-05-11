@@ -6,19 +6,18 @@ using StardewValley.Buffs;
 
 #endregion using directives
 
-internal sealed class DemolitionistExcitednessBuff : Buff
+internal sealed class DemolitionistAdrenalineBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.DemolitionistExcitedness";
-    internal const int SHEET_INDEX = 57;
 
-    internal DemolitionistExcitednessBuff()
+    internal DemolitionistAdrenalineBuff()
         : base(
             id: ID,
             source: "Demolitionist",
             displaySource: _I18n.Get("demolitionist.title" + (Game1.player.IsMale ? ".male" : ".female")),
-            iconSheetIndex: SHEET_INDEX,
-            duration: 17,
-            effects: new BuffEffects { Speed = { State.DemolitionistExcitedness }, },
+            iconTexture: null,
+            duration: 555,
+            effects: new BuffEffects { Speed = { State.DemolitionistAdrenaline }, },
             description: I18n.Demolitionist_Buff_Desc())
     {
     }

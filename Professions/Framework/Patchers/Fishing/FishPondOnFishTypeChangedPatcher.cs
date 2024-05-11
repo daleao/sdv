@@ -23,9 +23,9 @@ internal sealed class FishPondOnFishTypeChangedPatcher : HarmonyPatcher
 
     /// <summary>Reset Fish Pond data.</summary>
     [HarmonyPostfix]
-    private static void FishPondOnFishTypeChangedPostfix(FishPond __instance, int old_value, int new_value)
+    private static void FishPondOnFishTypeChangedPostfix(FishPond __instance, string? old_value, string? new_value)
     {
-        if (old_value < 0 || new_value >= 0)
+        if (string.IsNullOrEmpty(old_value) || !string.IsNullOrWhiteSpace(new_value))
         {
             return;
         }

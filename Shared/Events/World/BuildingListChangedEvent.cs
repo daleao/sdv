@@ -21,6 +21,7 @@ public abstract class BuildingListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.BuildingListChanged -= this.OnBuildingListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.BuildingListChanged"/>

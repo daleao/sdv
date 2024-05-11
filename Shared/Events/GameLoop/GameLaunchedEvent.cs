@@ -21,6 +21,7 @@ public abstract class GameLaunchedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.GameLoop.GameLaunched -= this.OnGameLaunched;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>

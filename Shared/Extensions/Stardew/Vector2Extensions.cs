@@ -2,11 +2,8 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
-using StardewValley.Buildings;
 
 #endregion using directives
 
@@ -81,44 +78,5 @@ public static class Vector2Extensions
         return Math.Abs(x) >= Math.Abs(y)
             ? x < 0 ? FacingDirection.Left : FacingDirection.Right
             : y > 0 ? FacingDirection.Down : FacingDirection.Up;
-    }
-
-    /// <summary>
-    ///     Finds the closest target from among the specified <paramref name="candidates"/> to this
-    ///     <paramref name="position"/>.
-    /// </summary>
-    /// <typeparam name="T">The target type.</typeparam>
-    /// <param name="position">The <see cref="Vector2"/> position.</param>
-    /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
-    /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
-    /// <param name="distance">The distance to the closest <see cref="Building"/>, in number of tiles.</param>
-    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
-    /// <returns>The closest target from among the specified <paramref name="candidates"/> to this <paramref name="position"/>.</returns>
-    public static T? GetClosest<T>(
-        this Vector2 position,
-        IEnumerable<T> candidates,
-        Func<T, Vector2> getPosition,
-        out double distance,
-        Func<T, bool>? predicate = null)
-        where T : class
-    {
-        predicate ??= _ => true;
-        candidates = candidates.Where(c => predicate(c));
-        T? closest = null;
-        var distanceToClosest = double.MaxValue;
-        foreach (var candidate in candidates)
-        {
-            var distanceToThisCandidate = (position - getPosition(candidate)).Length();
-            if (distanceToThisCandidate >= distanceToClosest)
-            {
-                continue;
-            }
-
-            closest = candidate;
-            distanceToClosest = distanceToThisCandidate;
-        }
-
-        distance = distanceToClosest;
-        return closest;
     }
 }

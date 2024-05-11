@@ -9,7 +9,7 @@ using StardewValley.Buffs;
 internal sealed class PoacherBackstabBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Backstab";
-    internal const int SHEET_INDEX = 50;
+    private const int SHEET_INDEX = 50;
 
     internal PoacherBackstabBuff(int duration)
         : base(
@@ -17,6 +17,7 @@ internal sealed class PoacherBackstabBuff : Buff
             source: "Ambush",
             displaySource: Game1.player.IsMale ? I18n.Poacher_Limit_Title_Male() : I18n.Poacher_Limit_Title_Female(),
             duration: duration,
+            iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             effects: new BuffEffects
             {

@@ -31,11 +31,11 @@ internal static class FarmExtensions
             usedTiles++;
             var averageYield = (crop.GetData().HarvestMinStack + crop.GetData().HarvestMaxStack) / 2f;
             var harvest = !crop.forageCrop.Value
-                ? new SObject(crop.indexOfHarvest.Value, 1)
+                ? ItemRegistry.Create<SObject>(crop.indexOfHarvest.Value)
                 : crop.whichForageCrop.Value == Crop.forageCrop_springOnionID
-                    ? new SObject(QualifiedObjectIds.SpringOnion, 1)
+                    ? ItemRegistry.Create<SObject>(QualifiedObjectIds.SpringOnion)
                     : crop.whichForageCrop.Value == Crop.forageCrop_gingerID
-                        ? new SObject(QualifiedObjectIds.Ginger, 1) : null;
+                        ? ItemRegistry.Create<SObject>(QualifiedObjectIds.Ginger) : null;
             if (harvest is null)
             {
                 continue;
@@ -79,10 +79,13 @@ internal static class FarmExtensions
 
             blueprintAppraisal:
             totalBuildingValue += buildingData.BuildCost;
-            foreach (var materialData in buildingData.BuildMaterials)
+            if (buildingData.BuildMaterials is not null)
             {
-                var material = ItemRegistry.Create<SObject>(materialData.ItemId, materialData.Amount);
-                totalBuildingValue += material.salePrice() * material.Stack;
+                foreach (var materialData in buildingData.BuildMaterials)
+                {
+                    var material = ItemRegistry.Create<SObject>(materialData.ItemId, materialData.Amount);
+                    totalBuildingValue += material.salePrice() * material.Stack;
+                }
             }
 
             if (buildingData.BuildingToUpgrade is not null)
@@ -121,14 +124,14 @@ internal static class FarmExtensions
             }
 
             totalBuildingValue += 10000;
-            totalBuildingValue += new SObject(QualifiedObjectIds.Wood, 1).Price * 450;
+            totalBuildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Wood).Price * 450;
             if (farmer.HouseUpgradeLevel <= 1)
             {
                 continue;
             }
 
             totalBuildingValue += 50000;
-            totalBuildingValue += new SObject(QualifiedObjectIds.Hardwood, 1).Price * 150;
+            totalBuildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Hardwood).Price * 150;
             if (farmer.HouseUpgradeLevel > 2)
             {
                 totalBuildingValue += 100000;

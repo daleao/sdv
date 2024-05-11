@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
@@ -31,7 +30,6 @@ internal sealed class LuremasterPeerConnectedEvent : PeerConnectedEvent
 
         this.Manager.Enable(
             typeof(LuremasterDayStartedEvent),
-            typeof(LuremasterOneSecondUpdateTickedEvent),
             typeof(LuremasterTimeChangedEvent));
         this.Disable();
     }

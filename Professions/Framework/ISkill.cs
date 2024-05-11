@@ -11,7 +11,7 @@ using StardewValley;
 #endregion using directives
 
 /// <summary>Interface for all the <see cref="Farmer"/>'s skills.</summary>
-public interface ISkill
+public interface ISkill : IEquatable<ISkill>
 {
     /// <summary>The vanilla experience cap.</summary>
     public const int LEVEL_10_EXP = 15000;
@@ -98,6 +98,7 @@ public interface ISkill
         LEVEL_10_EXP + ((int)Config.Masteries.ExpPerPrestigeLevel * 8),
         LEVEL_10_EXP + ((int)Config.Masteries.ExpPerPrestigeLevel * 9),
         LEVEL_10_EXP + ((int)Config.Masteries.ExpPerPrestigeLevel * 10),
+        int.MaxValue,
     ];
 
     /// <summary>Adds experience points for this skill.</summary>
@@ -111,62 +112,11 @@ public interface ISkill
 
     /// <summary>Determines whether this skill can be reset for Masteries.</summary>
     /// <returns><see langword="true"/> if the local player meets all reset conditions, otherwise <see langword="false"/>.</returns>
-    bool CanReset()
-    {
-        var farmer = Game1.player;
-
-        var isSkillLevelTen = this.CurrentLevel >= 10;
-        if (!isSkillLevelTen)
-        {
-            Log.D($"[Masteries]: {this.StringId} skill cannot be reset because it's level is lower than 10.");
-            return false;
-        }
-
-        var justLeveledUp = this.NewLevels.Contains(10);
-        if (justLeveledUp)
-        {
-            Log.D($"[Masteries]: {this.StringId} skill cannot be reset because {farmer.Name} has not yet seen the level-up menu.");
-            return false;
-        }
-
-        var hasProfessionsLeftToAcquire = farmer.GetProfessionsForSkill(this, true).Length.IsIn(1..3);
-        if (!hasProfessionsLeftToAcquire)
-        {
-            Log.D(
-                $"[Masteries]: {this.StringId} skill cannot be reset because {farmer.Name} either already has all professions in the skill, or has none at all.");
-            return false;
-        }
-
-        var alreadyResetThisSkill = State.SkillsToReset.Contains(this);
-        if (alreadyResetThisSkill)
-        {
-            Log.D($"[Masteries]: {this.StringId} skill has already been marked for reset tonight.");
-            return false;
-        }
-
-        return true;
-    }
+    bool CanReset() => CanReset(this);
 
     /// <summary>Gets the cost of resetting this skill.</summary>
     /// <returns>A sum of gold to be paid.</returns>
-    int GetResetCost()
-    {
-        var multiplier = Config.Skills.SkillResetCostMultiplier;
-        if (multiplier <= 0f)
-        {
-            return 0;
-        }
-
-        var baseCost = this.AcquiredProfessions.Length switch
-        {
-            1 => 10000,
-            2 => 50000,
-            3 => 100000,
-            _ => 0,
-        };
-
-        return (int)(baseCost * multiplier);
-    }
+    int GetResetCost() => GetResetCost(this);
 
     /// <summary>Resets the skill for Masteries.</summary>
     void Reset();
@@ -181,12 +131,72 @@ public interface ISkill
     /// <summary>Determines whether this skill's level matches the expected level for the current experience, and if not fixes those levels.</summary>
     void Revalidate();
 
+    /// <summary>Determines whether this skill can be reset for Masteries.</summary>
+    /// <param name="skill">The <see cref="ISkill"/>.</param>
+    /// <returns><see langword="true"/> if the local player meets all reset conditions, otherwise <see langword="false"/>.</returns>
+    internal static bool CanReset(ISkill skill)
+    {
+        var farmer = Game1.player;
+
+        var isSkillLevelTen = skill.CurrentLevel >= 10;
+        if (!isSkillLevelTen)
+        {
+            Log.D($"[Masteries]: {skill.StringId} skill cannot be reset because it's level is lower than 10.");
+            return false;
+        }
+
+        var justLeveledUp = skill.NewLevels.Contains(10);
+        if (justLeveledUp)
+        {
+            Log.D($"[Masteries]: {skill.StringId} skill cannot be reset because {farmer.Name} has not yet seen the level-up menu.");
+            return false;
+        }
+
+        var hasProfessionsLeftToAcquire = farmer.GetProfessionsForSkill(skill, true).Length.IsIn(1..3);
+        if (!hasProfessionsLeftToAcquire)
+        {
+            Log.D(
+                $"[Masteries]: {skill.StringId} skill cannot be reset because {farmer.Name} either already has all professions in the skill, or has none at all.");
+            return false;
+        }
+
+        var alreadyResetThisSkill = State.SkillsToReset.Contains(skill);
+        if (alreadyResetThisSkill)
+        {
+            Log.D($"[Masteries]: {skill.StringId} skill has already been marked for reset tonight.");
+            return false;
+        }
+
+        return !skill.CanGainPrestigeLevels();
+    }
+
+    /// <summary>Gets the cost of resetting this skill.</summary>
+    /// <param name="skill">The <see cref="ISkill"/>.</param>
+    /// <returns>A sum of gold to be paid.</returns>
+    internal static int GetResetCost(ISkill skill)
+    {
+        var multiplier = Config.Skills.SkillResetCostMultiplier;
+        if (multiplier <= 0f)
+        {
+            return 0;
+        }
+
+        var baseCost = skill.AcquiredProfessions.Length switch
+        {
+            1 => 10000,
+            2 => 50000,
+            3 => 100000,
+            _ => 0,
+        };
+
+        return (int)(baseCost * multiplier);
+    }
+
     /// <summary>Determines whether any skill at all can be reset for Masteries.</summary>
     /// <returns><see langword="true"/> if at least one vanilla or loaded custom skill can be reset, otherwise <see langword="false"/>.</returns>
     internal static bool CanResetAny()
     {
-        return Skill.List.Any(s => ((ISkill)s).CanReset()) ||
-               CustomSkill.Loaded.Values.Any(s => ((ISkill)s).CanReset());
+        return Skill.List.Any(CanReset) || CustomSkill.Loaded.Values.Any(CanReset);
     }
 
     /// <summary>Revalidates all vanilla and custom skills.</summary>

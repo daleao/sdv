@@ -35,7 +35,8 @@ internal sealed class ScavengerHuntRenderedHudEvent : RenderedHudEvent
         HudPointer.Instance.DrawAsTrackingPointer(treasureTile, Color.Violet);
 
         // reveal if close enough
-        if (Game1.player.DistanceTo(treasureTile) <= Math.Pow(Config.ScavengerDetectionDistance, 2))
+        if (Game1.player.SquaredTileDistance(treasureTile) <=
+            Config.ScavengerDetectionDistance * Config.ScavengerDetectionDistance)
         {
             HudPointer.Instance.DrawOverTile(treasureTile, Color.Violet);
         }

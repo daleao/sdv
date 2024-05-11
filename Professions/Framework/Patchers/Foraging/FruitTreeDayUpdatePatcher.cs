@@ -29,7 +29,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
         __state.GrowthStage = __instance.growthStage.Value;
     }
 
-    /// <summary>Patch to increase Abrorist fruit tree growth speed.</summary>
+    /// <summary>Patch to increase Arborist fruit tree growth speed.</summary>
     [HarmonyPostfix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance, (int DaysUntilMature, int GrowthStage) __state)

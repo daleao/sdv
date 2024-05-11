@@ -21,6 +21,7 @@ public abstract class AssetsInvalidatedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Content.AssetsInvalidated -= this.OnAssetsInvalidated;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IContentEvents.AssetsInvalidated"/>

@@ -9,7 +9,6 @@ namespace DaLion.Taxes;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using DaLion.Core;
 using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
@@ -33,7 +32,7 @@ public sealed class TaxesMod : Mod
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager => CoreMod.EventManager;
+    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
@@ -74,7 +73,7 @@ public sealed class TaxesMod : Mod
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<TaxesConfig>();
         Data = new ModDataManager(UniqueId, Log);
-        EventManager.ManageInitial(assembly);
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
         Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
         CommandHandler.HandleAll(

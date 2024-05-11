@@ -68,11 +68,12 @@ internal class Shockwave
 
     /// <summary>Expands the affected radius by one unit and applies the tool's effects.</summary>
     /// <param name="milliseconds">The current elapsed <see cref="GameTime"/> in milliseconds.</param>
-    internal void Update(double milliseconds)
+    /// <returns><see langword="true"/> if the <see cref="Shockwave"/> has reached its final radius and should be disposed, otherwise <see langword="false"/>.</returns>
+    internal bool Update(double milliseconds)
     {
         if (milliseconds - this._millisecondsWhenReleased < ShockwaveDelay)
         {
-            return;
+            return false;
         }
 
         IEnumerable<Vector2> affectedTiles;
@@ -89,7 +90,7 @@ internal class Shockwave
             affectedTiles = this._tileGrids[0].Tiles;
         }
 
-        foreach (var tile in affectedTiles.Except(new[] { this._epicenter, this._farmer.Tile }))
+        foreach (var tile in affectedTiles.Except([this._epicenter, this._farmer.Tile]))
         {
             this._farmer.TemporarilyFakeInteraction(() =>
             {
@@ -128,13 +129,8 @@ internal class Shockwave
                 30f));
         }
 
-        if (this._currentRadius++ < this._finalRadius)
-        {
-            return;
-        }
-
         //Log.D(this._tileGrids[^1].ToString());
-        State.Shockwaves.Remove(this);
+        return this._currentRadius++ >= this._finalRadius;
     }
 
     /// <summary>

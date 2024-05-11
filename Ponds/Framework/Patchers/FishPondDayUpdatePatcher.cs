@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
@@ -76,24 +75,12 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        var spawned = r.NextAlgae();
-        __instance.fishType.Value = spawned;
+        var spawned = new PondFish(r.NextAlgae(), SObject.lowQuality);
+        __instance.fishType.Value = spawned.Id;
         ____fishPondData = null;
         __instance.UpdateMaximumOccupancy();
         __instance.currentOccupants.Value++;
-        switch (spawned)
-        {
-            case QualifiedObjectIds.Seaweed:
-                Data.Increment(__instance, DataKeys.SeaweedLivingHere);
-                break;
-            case QualifiedObjectIds.GreenAlgae:
-                Data.Increment(__instance, DataKeys.GreenAlgaeLivingHere);
-                break;
-            case QualifiedObjectIds.WhiteAlgae:
-                Data.Increment(__instance, DataKeys.WhiteAlgaeLivingHere);
-                break;
-        }
-
+        Data.Append(__instance, DataKeys.PondFish, spawned.ToString(), ';');
         Data.Write(__instance, DataKeys.DaysEmpty, null);
     }
 

@@ -21,6 +21,7 @@ public abstract class ButtonsChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.Input.ButtonsChanged -= this.OnButtonsChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>

@@ -13,10 +13,12 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Pathfinder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ColorRange.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Countdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Quadtree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\Game1Extensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\GameLocationExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\ItemExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SpriteBatchExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\StringExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmAnimalExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\FarmerExtensions.cs" />

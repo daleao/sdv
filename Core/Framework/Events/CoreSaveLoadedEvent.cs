@@ -9,19 +9,18 @@ using StardewModdingAPI.Events;
 
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class CoreGameLaunchedEvent : GameLaunchedEvent
+internal sealed class CoreSaveLoadedEvent : SaveLoadedEvent
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreGameLaunchedEvent"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CoreSaveLoadedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreGameLaunchedEvent(EventManager? manager = null)
+    internal CoreSaveLoadedEvent(EventManager? manager = null)
         : base(manager ?? CoreMod.EventManager)
     {
     }
 
     /// <inheritdoc />
-    protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
+    protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        this.Manager.Reset();
-        PerScreenState.ResetAllScreens();
+        this.Manager.Enable<SlimeBallObjectListChangedEvent>();
     }
 }

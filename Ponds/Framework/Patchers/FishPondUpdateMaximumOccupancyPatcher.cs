@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -21,15 +22,33 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Fix for Professions compatibility.</summary>
+    [HarmonyPostfix]
+    [HarmonyBefore("DaLion.Professions")]
+    private static void FishPondUpdateMaximumOccupancyPrefix(FishPond __instance, ref int __state)
+    {
+        __state = __instance.FishCount;
+    }
+
     /// <summary>Set Tui-La pond capacity.</summary>
     [HarmonyPostfix]
     [HarmonyAfter("DaLion.Professions")]
-    private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance)
+    private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance, int __state)
     {
         if (__instance.fishType.Value is "MNF.MoreNewFish_tui" or "MNF.MoreNewFish_la")
         {
             __instance.maxOccupants.Set(2);
         }
+
+        if (__instance.FishCount >= __state)
+        {
+            return;
+        }
+
+        var fish = __instance.ParsePondFishes();
+        fish.SortDescending();
+        fish = fish.Take(__instance.FishCount).ToList();
+        Data.Write(__instance, DataKeys.PondFish, string.Join(';', fish));
     }
 
     #endregion harmony patches

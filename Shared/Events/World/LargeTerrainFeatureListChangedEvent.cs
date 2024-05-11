@@ -21,6 +21,7 @@ public abstract class LargeTerrainFeatureListChangedEvent : ManagedEvent
     public override void Dispose()
     {
         this.Manager.ModEvents.World.LargeTerrainFeatureListChanged -= this.OnLargeTerrainFeatureListChanged;
+        GC.SuppressFinalize(this);
     }
 
     /// <inheritdoc cref="IWorldEvents.LargeTerrainFeatureListChanged"/>

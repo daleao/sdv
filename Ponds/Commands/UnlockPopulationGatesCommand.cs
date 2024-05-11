@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
@@ -10,6 +11,7 @@ using StardewValley.Buildings;
 #endregion using directives
 
 [UsedImplicitly]
+[Debug]
 internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
 {
     /// <summary>Initializes a new instance of the <see cref="UnlockPopulationGatesCommand"/> class.</summary>
@@ -34,7 +36,7 @@ internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
             Log.W("Additional arguments will be ignored.");
         }
 
-        var nearest = Game1.player.GetClosestBuilding<FishPond>(out _, predicate: b =>
+        var nearest = Game1.player.GetClosestBuilding<FishPond>(predicate: b =>
             b.IsOwnedBy(Game1.player) && !b.isUnderConstruction());
         if (nearest is null)
         {

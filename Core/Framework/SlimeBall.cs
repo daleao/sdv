@@ -135,7 +135,8 @@ public class SlimeBall
             drops.Add(QualifiedObjectIds.GoldOre, r.Next(10, 21));
             while (r.NextBool(0.05))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.GoldBar, r.Next(1, 3), (a, b) => a + b);
+                drops.           
+                    AddOrUpdate(QualifiedObjectIds.GoldBar, r.Next(1, 3), (a, b) => a + b);
             }
         }
 

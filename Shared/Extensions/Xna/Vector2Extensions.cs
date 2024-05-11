@@ -56,7 +56,7 @@ public static class Vector2Extensions
             (sin * tx) + (cos * ty));
     }
 
-    /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
+    /// <summary>Gets the 4-connected neighboring tiles.</summary>
     /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
@@ -85,13 +85,18 @@ public static class Vector2Extensions
         }
     }
 
-    /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
+    /// <summary>Gets the 8-connected neighboring tiles.</summary>
     /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="tile"/>.</returns>
     public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 tile, int width, int height)
     {
+        foreach (var neighbor in GetFourNeighbors(tile, width, height))
+        {
+            yield return neighbor;
+        }
+
         var (x, y) = tile;
         if (x > 0 && y > 0)
         {
@@ -112,10 +117,64 @@ public static class Vector2Extensions
         {
             yield return new Vector2(x + 1, y + 1);
         }
+    }
 
-        foreach (var neighbor in GetFourNeighbors(tile, width, height))
+    /// <summary>Gets the 24-connected neighboring tiles.</summary>
+    /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="tile"/>.</returns>
+    public static IEnumerable<Vector2> GetTwentyFourNeighbors(this Vector2 tile, int width, int height)
+    {
+        foreach (var neighbor in GetEightNeighbors(tile, width, height))
         {
             yield return neighbor;
+        }
+
+        var x = (int)tile.X;
+        var y = (int)tile.Y;
+        if (y - 2 >= 0)
+        {
+            for (var i = -2; i <= 2; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Vector2(x + i, y - 2);
+                }
+            }
+        }
+
+        if (y + 2 < height)
+        {
+            for (var i = -2; i <= 2; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Vector2(x + i, y + 2);
+                }
+            }
+        }
+
+        if (x - 2 >= 0)
+        {
+            for (var j = -1; j <= 1; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Vector2(x - 2, y + j);
+                }
+            }
+        }
+
+        if (x + 2 < width)
+        {
+            for (var j = -1; j <= 1; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Vector2(x + 2, y + j);
+                }
+            }
         }
     }
 

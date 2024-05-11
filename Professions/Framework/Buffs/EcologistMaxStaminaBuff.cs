@@ -9,15 +9,13 @@ using StardewValley.Buffs;
 internal sealed class EcologistMaxStaminaBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.EcologistP.MaxStamina";
-    internal const int SHEET_INDEX = 16;
 
-    internal EcologistMaxStaminaBuff(float intensity)
+    internal EcologistMaxStaminaBuff(float intensity = 10f)
         : base(
             id: ID,
             source: "Ecologist",
             displaySource: _I18n.Get("ecologist.title.prestiged" + (Game1.player.IsMale ? ".male" : ".female")),
             duration: 60000,
-            iconSheetIndex: SHEET_INDEX,
             effects: GetBuffEffects(intensity))
     {
     }

@@ -38,6 +38,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
         {
+            PostalService.Send(Mail.LewisIntro);
             PostalService.Send(Mail.FrsIntro);
         }
 
@@ -117,7 +118,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             return;
         }
 
-        var deductible = professionsApi.GetConservationistDeductions();
+        var deductible = professionsApi.GetConservationistTaxDeduction();
         if (deductible <= 0f)
         {
             return;
@@ -125,7 +126,7 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
 
         deductible = Math.Min(
                 deductible,
-                professionsApi.GetConfigs().ConservationistTaxDeductionCeiling);
+                professionsApi.GetConfig().ConservationistTaxDeductionCeiling);
 
         Data.Write(taxpayer, DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
         Data.Write(taxpayer, DataKeys.LatestTaxDeductions, deductible.ToString(CultureInfo.InvariantCulture));

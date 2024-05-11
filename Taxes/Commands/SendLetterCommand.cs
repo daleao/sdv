@@ -47,6 +47,9 @@ internal sealed class SendLetterCommand : ConsoleCommand
             case "frs_deduction":
                 PostalService.Send(Mail.FrsDeduction);
                 break;
+            case "lewis_intro":
+                PostalService.Send(Mail.LewisIntro);
+                break;
             case "lewis_notice":
                 PostalService.Send(Mail.LewisNotice);
                 break;
