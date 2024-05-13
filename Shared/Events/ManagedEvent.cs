@@ -33,9 +33,16 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
     /// <summary>Gets the <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; }
 
-    public static bool operator ==(ManagedEvent? left, ManagedEvent? right) => (object?)left == null ? (object?)right == null : left.Equals(right);
+    /// <summary>Compares whether two <see cref="ManagedEvent" /> instances are equal.</summary>
+    /// <param name="left"><see cref="ManagedEvent" /> instance on the left of the equal sign.</param>
+    /// <param name="right"><see cref="ManagedEvent" /> instance on the right of the equal sign.</param>
+    /// <returns><see langword="true"/> if the instances are equal; <see langword="false"/> otherwise.</returns>
+    public static bool operator ==(ManagedEvent? left, ManagedEvent? right) => left?.Equals(right) ?? right is null;
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    /// <summary>Compares whether two <see cref="ManagedEvent" /> instances are not equal.</summary>
+    /// <param name="left"><see cref="ManagedEvent" /> instance on the left of the not equal sign.</param>
+    /// <param name="right"><see cref="ManagedEvent" /> instance on the right of the not equal sign.</param>
+    /// <returns><see langword="true"/> if the instances are not equal; <see langword="false"/> otherwise.</returns>
     public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);
 
     /// <summary>Determines whether two <see cref="ManagedEvent"/> instances are equal.</summary>

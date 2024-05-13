@@ -36,7 +36,7 @@ public static class SObjectExtensions
     /// <param name="object">The <see cref="Character"/>.</param>
     /// <param name="position">The target tile.</param>
     /// <returns>The squared pixel distance between <paramref name="object"/> and the <paramref name="position"/>.</returns>
-    public static double SquaredPixelDistance(this SObject @object, Vector2 position)
+    public static float SquaredPixelDistance(this SObject @object, Vector2 position)
     {
         var dx = (@object.TileLocation.X * Game1.tileSize) - position.X;
         var dy = (@object.TileLocation.Y * Game1.tileSize) - position.Y;
@@ -49,7 +49,7 @@ public static class SObjectExtensions
     /// <param name="object">The <see cref="Character"/>.</param>
     /// <param name="tile">The target tile.</param>
     /// <returns>The squared tile distance between <paramref name="object"/> and the <paramref name="tile"/>.</returns>
-    public static double SquaredTileDistance(this SObject @object, Vector2 tile)
+    public static float SquaredTileDistance(this SObject @object, Vector2 tile)
     {
         var dx = @object.TileLocation.X - tile.X;
         var dy = @object.TileLocation.Y - tile.Y;
@@ -66,7 +66,7 @@ public static class SObjectExtensions
     public static Vector2 GetClosestTile(this SObject @object, IEnumerable<Vector2> candidates)
     {
         var closest = @object.TileLocation;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.SquaredTileDistance(candidate);
@@ -97,14 +97,14 @@ public static class SObjectExtensions
         this SObject @object,
         IEnumerable<T> candidates,
         Func<T, Vector2> getPosition,
-        out double distance,
+        out float distance,
         Func<T, bool>? predicate = null)
         where T : class
     {
         predicate ??= _ => true;
         candidates = candidates.Where(c => predicate(c));
         T? closest = null;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = @object.SquaredPixelDistance(getPosition(candidate));

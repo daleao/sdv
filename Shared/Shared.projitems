@@ -13,7 +13,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Pathfinder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\DStarLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\AStar.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ColorRange.cs" />
@@ -39,6 +40,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedObjectIds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedBigCraftableIds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectQuality.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DoubleExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\FloatExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\SeasonExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\WeaponType.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Content\AssetReadyEvent.cs" />
@@ -198,5 +201,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Pathfinding\" />
   </ItemGroup>
 </Project>

@@ -19,7 +19,7 @@ public static class TerrainFeatureExtensions
     /// <param name="terrainFeature">The <see cref="Character"/>.</param>
     /// <param name="position">The target tile.</param>
     /// <returns>The squared pixel distance between <paramref name="terrainFeature"/> and the <paramref name="position"/>.</returns>
-    public static double SquaredPixelDistance(this TerrainFeature terrainFeature, Vector2 position)
+    public static float SquaredPixelDistance(this TerrainFeature terrainFeature, Vector2 position)
     {
         var dx = (terrainFeature.Tile.X * Game1.tileSize) - position.X;
         var dy = (terrainFeature.Tile.Y * Game1.tileSize) - position.Y;
@@ -32,7 +32,7 @@ public static class TerrainFeatureExtensions
     /// <param name="terrainFeature">The <see cref="Character"/>.</param>
     /// <param name="tile">The target tile.</param>
     /// <returns>The squared tile distance between <paramref name="terrainFeature"/> and the <paramref name="tile"/>.</returns>
-    public static double SquaredTileDistance(this TerrainFeature terrainFeature, Vector2 tile)
+    public static float SquaredTileDistance(this TerrainFeature terrainFeature, Vector2 tile)
     {
         var dx = terrainFeature.Tile.X - tile.X;
         var dy = terrainFeature.Tile.Y - tile.Y;
@@ -49,7 +49,7 @@ public static class TerrainFeatureExtensions
     public static Vector2 GetClosestTile(this TerrainFeature terrainFeature, IEnumerable<Vector2> candidates)
     {
         var closest = terrainFeature.Tile;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = terrainFeature.SquaredTileDistance(candidate);
@@ -80,14 +80,14 @@ public static class TerrainFeatureExtensions
         this TerrainFeature terrainFeature,
         IEnumerable<T> candidates,
         Func<T, Vector2> getPosition,
-        out double distance,
+        out float distance,
         Func<T, bool>? predicate = null)
         where T : class
     {
         predicate ??= _ => true;
         candidates = candidates.Where(c => predicate(c));
         T? closest = null;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates.Skip(1))
         {
             var distanceToThisCandidate = terrainFeature.SquaredPixelDistance(getPosition(candidate));

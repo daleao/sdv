@@ -20,7 +20,7 @@ public static class CharacterExtensions
     /// <param name="character">The <see cref="Character"/>.</param>
     /// <param name="position">The target position.</param>
     /// <returns>The squared pixel distance between <paramref name="character"/> and the <paramref name="position"/>.</returns>
-    public static double SquaredPixelDistance(this Character character, Vector2 position)
+    public static float SquaredPixelDistance(this Character character, Vector2 position)
     {
         var dx = character.Position.X - position.X;
         var dy = character.Position.Y - position.Y;
@@ -33,7 +33,7 @@ public static class CharacterExtensions
     /// <param name="character">The <see cref="Character"/>.</param>
     /// <param name="tile">The target tile.</param>
     /// <returns>The squared tile distance between <paramref name="character"/> and the <paramref name="tile"/>.</returns>
-    public static double SquaredTileDistance(this Character character, Vector2 tile)
+    public static float SquaredTileDistance(this Character character, Vector2 tile)
     {
         var dx = character.Tile.X - tile.X;
         var dy = character.Tile.Y - tile.Y;
@@ -50,7 +50,7 @@ public static class CharacterExtensions
     public static Vector2 GetClosestTile(this Character character, IEnumerable<Vector2> candidates)
     {
         var closest = character.Tile;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = character.SquaredTileDistance(candidate);
@@ -81,14 +81,14 @@ public static class CharacterExtensions
         this Character character,
         IEnumerable<T> candidates,
         Func<T, Vector2> getPosition,
-        out double distance,
+        out float distance,
         Func<T, bool>? predicate = null)
         where T : class
     {
         predicate ??= _ => true;
         candidates = candidates.Where(c => predicate(c));
         T? closest = null;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = character.SquaredPixelDistance(getPosition(candidate));

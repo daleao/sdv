@@ -23,7 +23,7 @@ public static class Vector2Extensions
     /// <param name="self">The <see cref="Vector2"/>.</param>
     /// <param name="other">Some other <see cref="Vector2"/>.</param>
     /// <returns>The angle between <paramref name="self"/> and <paramref name="other"/>, in degrees.</returns>
-    public static double AngleBetween(this Vector2 self, Vector2 other)
+    public static double AngleWith(this Vector2 self, Vector2 other)
     {
         var (ax, ay) = self;
         var (bx, by) = other;

@@ -37,7 +37,7 @@ public static class BuildingExtensions
     /// <param name="building">The <see cref="Character"/>.</param>
     /// <param name="position">The target position.</param>
     /// <returns>The squared pixel distance between <paramref name="building"/> and the <paramref name="position"/>.</returns>
-    public static double SquaredPixelDistance(this Building building, Vector2 position)
+    public static float SquaredPixelDistance(this Building building, Vector2 position)
     {
         var bbox = building.GetBoundingBox();
         var dx = bbox.Center.X - position.X;
@@ -51,7 +51,7 @@ public static class BuildingExtensions
     /// <param name="building">The <see cref="Character"/>.</param>
     /// <param name="tile">The target tile.</param>
     /// <returns>The squared tile distance between <paramref name="building"/> and the <paramref name="tile"/>.</returns>
-    public static double SquaredTileDistance(this Building building, Vector2 tile)
+    public static float SquaredTileDistance(this Building building, Vector2 tile)
     {
         var v = new Vector2(building.tileX.Value, building.tileY.Value);
         var dx = v.X - tile.X;
@@ -69,7 +69,7 @@ public static class BuildingExtensions
     public static Vector2 GetClosestTile(this Building building, IEnumerable<Vector2> candidates)
     {
         var closest = new Vector2(building.tileX.Value, building.tileY.Value);
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.SquaredTileDistance(candidate);
@@ -100,14 +100,14 @@ public static class BuildingExtensions
         this Building building,
         IEnumerable<T> candidates,
         Func<T, Vector2> getPosition,
-        out double distance,
+        out float distance,
         Func<T, bool>? predicate = null)
         where T : class
     {
         predicate ??= _ => true;
         candidates = candidates.Where(c => predicate(c));
         T? closest = null;
-        var distanceToClosest = double.MaxValue;
+        var distanceToClosest = float.MaxValue;
         foreach (var candidate in candidates)
         {
             var distanceToThisCandidate = building.SquaredPixelDistance(getPosition(candidate));

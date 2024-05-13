@@ -44,7 +44,17 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
         }
 
         piped.DropItems();
-        State.SummonedSlimes.Remove(piped);
+        var cooldown = 300 - (piped.Piper.CountRaisedSlimes() * 2);
+        if (State.SummonedSlimes[0] == piped)
+        {
+            State.SummonedSlimes[0] = null;
+            State.PiperCooldown[0] = cooldown;
+        }
+        else if (State.SummonedSlimes[1] == piped)
+        {
+            State.SummonedSlimes[1] = null;
+            State.PiperCooldown[1] = cooldown;
+        }
     }
 
     #endregion harmony patches

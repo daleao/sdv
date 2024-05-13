@@ -34,7 +34,6 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        __instance.Speed = piped.Piper.Speed;,
         if (piped.PipeTimer > 0)
         {
             piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;

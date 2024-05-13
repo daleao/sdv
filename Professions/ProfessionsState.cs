@@ -61,7 +61,9 @@ internal sealed class ProfessionsState
         }
     }
 
-    internal List<PipedSlime> SummonedSlimes { get; } = [];
+    internal PipedSlime?[] SummonedSlimes { get; } = new PipedSlime?[2];
+
+    internal int[] PiperCooldown { get; } = new int[2];
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
 
