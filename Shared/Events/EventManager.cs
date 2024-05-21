@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using HarmonyLib;
@@ -65,6 +66,28 @@ public sealed class EventManager
     {
         this._eventCache.Add(@event.GetType(), @event);
         this.Log.D($"[EventManager]: Now managing {@event.GetType().Name}.");
+    }
+
+    /// <summary>Adds an instance of type <typeparamref name="TEvent"/> to the cache.</summary>
+    /// <typeparam name="TEvent">A <see cref="IManagedEvent"/> type to disable.</typeparam>
+    /// <param name="parameters">The parameters for the constructor of <typeparamref name="TEvent"/>.</param>
+    public void Manage<TEvent>(params object?[]? parameters)
+        where TEvent : IManagedEvent
+    {
+        if (parameters is not null)
+        {
+            parameters = this.Collect(parameters).ToArray();
+        }
+
+        var instance = typeof(TEvent).RequireConstructor(parameters?.Length ?? 1).Invoke(parameters ?? [this]);
+        if (instance is not TEvent @event)
+        {
+            ThrowHelper.ThrowInvalidOperationException($"Failed to construct instance of type {typeof(TEvent).Name}");
+            return;
+        }
+
+        this._eventCache.AddOrUpdate(typeof(TEvent), @event);
+        this.Log.D($"[EventManager]: Now managing {typeof(TEvent).Name}.");
     }
 
     /// <summary>Implicitly manages all <see cref="IManagedEvent"/> types in the specified <paramref name="assembly"/>> using reflection.</summary>

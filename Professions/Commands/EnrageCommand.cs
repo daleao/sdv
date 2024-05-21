@@ -7,17 +7,13 @@ using DaLion.Shared.Commands;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="EnrageCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class EnrageCommand : ConsoleCommand
+internal sealed class EnrageCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="EnrageCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal EnrageCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["enrage"];
 

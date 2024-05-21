@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="FreezeAnimationRenderedWorldEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class FreezeAnimationRenderedWorldEvent : RenderedWorldEvent
+internal sealed class FreezeAnimationRenderedWorldEvent(EventManager? manager = null)
+    : RenderedWorldEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="FreezeAnimationRenderedWorldEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal FreezeAnimationRenderedWorldEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
@@ -28,6 +24,7 @@ internal sealed class FreezeAnimationRenderedWorldEvent : RenderedWorldEvent
             this.Disable();
         }
 
-        FreezeAnimation.FreezeAnimationsByMonster.ForEach(pair => pair.Value.ForEach(freeze => freeze.draw(e.SpriteBatch)));
+        FreezeAnimation.FreezeAnimationsByMonster.ForEach(pair =>
+            pair.Value.ForEach(freeze => freeze.draw(e.SpriteBatch)));
     }
 }

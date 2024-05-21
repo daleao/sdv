@@ -4,12 +4,8 @@
 
 using DaLion.Professions.Framework.Events.Display.RenderingHud;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
-using DaLion.Professions.Framework.Events.Limit.Activated;
-using DaLion.Professions.Framework.Events.Limit.ChargeIncreased;
-using DaLion.Professions.Framework.Events.Limit.ChargeInitiated;
-using DaLion.Professions.Framework.Events.Limit.Deactivated;
-using DaLion.Professions.Framework.Events.Limit.Emptied;
-using DaLion.Professions.Framework.Events.Limit.FullyCharged;
+using DaLion.Professions.Framework.Limits.Events;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 
@@ -52,8 +48,8 @@ public abstract class LimitBreak : ILimitBreak
     /// <inheritdoc cref="OnChargeInitiated"/>
     internal static event EventHandler<ILimitChargeInitiatedEventArgs>? ChargeInitiated;
 
-    /// <inheritdoc cref="OnChargeIncreased"/>
-    internal static event EventHandler<ILimitChargeIncreasedEventArgs>? ChargeIncreased;
+    /// <inheritdoc cref="OnChargeChanged"/>
+    internal static event EventHandler<ILimitChargeChangedEventArgs>? ChargeChanged;
 
     /// <inheritdoc cref="OnFullyCharged"/>
     internal static event EventHandler<ILimitFullyChargedEventArgs>? FullyCharged;
@@ -93,12 +89,6 @@ public abstract class LimitBreak : ILimitBreak
                 return;
             }
 
-            var delta = value - this._chargeValue;
-            if (Math.Abs(delta) < 0.01)
-            {
-                return;
-            }
-
             if (value <= 0)
             {
                 this.Gauge.ForceStopShake();
@@ -108,7 +98,7 @@ public abstract class LimitBreak : ILimitBreak
                     this.Deactivate();
                 }
 
-                if (!Game1.currentLocation.IsDungeon())
+                if (!Game1.currentLocation.IsEnemyArea() && this.IsGaugeVisible)
                 {
                     EventManager.Enable<LimitGaugeFadeOutUpdateTickedEvent>();
                 }
@@ -116,29 +106,39 @@ public abstract class LimitBreak : ILimitBreak
                 this.OnEmptied();
                 this._chargeValue = 0;
             }
-            else
+
+            var delta = value - this._chargeValue;
+            if (Math.Abs(delta) < 0.01)
             {
-                var scaledDelta = delta * (MaxCharge / BASE_MAX_CHARGE) * (delta >= 0
-                    ? Config.Masteries.LimitGainFactor
-                    : Config.Masteries.LimitDrainFactor);
-                value = Math.Min(scaledDelta + this._chargeValue, MaxCharge);
-                if (this._chargeValue == 0f)
+                return;
+            }
+
+            if (delta > 0)
+            {
+                delta *= MaxCharge / BASE_MAX_CHARGE * Config.Masteries.LimitGainFactor;
+                value = Math.Min(this._chargeValue + delta, MaxCharge);
+                if (this._chargeValue == 0d)
                 {
-                    EventManager.Enable<LimitGaugeRenderingHudEvent>();
                     this.OnChargeInitiated(value);
                 }
 
-                if (value > this._chargeValue)
+                if (value >= MaxCharge)
                 {
-                    this.OnChargeIncreased(this._chargeValue, value);
-                    if (value >= MaxCharge)
-                    {
-                        this.OnFullyCharged();
-                    }
+                    this.OnFullyCharged();
                 }
-
-                this._chargeValue = value;
             }
+
+            if (!value.Approx(this._chargeValue))
+            {
+                this.OnChargeChanged(this._chargeValue, value);
+            }
+
+            if (value > 0)
+            {
+                EventManager.Enable<LimitGaugeRenderingHudEvent>();
+            }
+
+            this._chargeValue = value;
         }
     }
 
@@ -152,7 +152,7 @@ public abstract class LimitBreak : ILimitBreak
     public bool IsGaugeVisible => LimitGauge.IsVisible;
 
     /// <summary>Gets the maximum charge value.</summary>
-    internal static double MaxCharge => BASE_MAX_CHARGE + (Game1.player.CombatLevel > 10 ? Game1.player.CombatLevel * 5 : 0);
+    internal static double MaxCharge => BASE_MAX_CHARGE + (Game1.player.CombatLevel > 10 ? 5 * (Game1.player.CombatLevel - 10) : 0);
 
     /// <summary>Gets a multiplier which extends the buff duration when above level 10.</summary>
     internal static double GetDurationMultiplier => MaxCharge / BASE_MAX_CHARGE / Config.Masteries.LimitDrainFactor;
@@ -329,12 +329,12 @@ public abstract class LimitBreak : ILimitBreak
         ChargeInitiated?.Invoke(this, new LimitChargeInitiatedEventArgs(Game1.player, newValue));
     }
 
-    /// <summary>Raised when a player's combat LimitBreak gains any charge.</summary>
+    /// <summary>Raised when a player's combat LimitBreak gains or loses any charge.</summary>
     /// <param name="oldValue">The old charge value.</param>
     /// <param name="newValue">The new charge value.</param>
-    protected void OnChargeIncreased(double oldValue, double newValue)
+    protected void OnChargeChanged(double oldValue, double newValue)
     {
-        ChargeIncreased?.Invoke(this, new LimitChargeIncreasedEventArgs(Game1.player, oldValue, newValue));
+        ChargeChanged?.Invoke(this, new LimitChargeChangedEventArgs(Game1.player, oldValue, newValue));
     }
 
     /// <summary>Raised when the local player's Limit Break charge value reaches max value.</summary>

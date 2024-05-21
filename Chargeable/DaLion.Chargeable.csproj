@@ -5,7 +5,7 @@
     <AssemblyName>DaLion.Chargeable</AssemblyName>
     <RootNamespace>DaLion.Chargeable</RootNamespace>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-    <RepositoryUrl>https://gitlab.com/daleao/sdv-mods</RepositoryUrl>
+    <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Chargeable</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>1.0.0</Version>
     <GameVersion>1.5.6</GameVersion>
@@ -16,7 +16,7 @@
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Chargeable</UniqueId>
     <Description>Charge the Axe and Pickaxe to break debris within an area.</Description>
-    <UpdateKeys>???</UpdateKeys>
+    <UpdateKeys>Nexus:23048</UpdateKeys>
     <ManifestComment>false</ManifestComment>
 
     <!-- build settings -->

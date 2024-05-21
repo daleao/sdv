@@ -7,15 +7,10 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Handles Poacher Limit Break activation.</summary>
-public sealed class PoacherAmbush : LimitBreak
+/// <summary>Initializes a new instance of the <see cref="PoacherAmbush"/> class.</summary>
+public sealed class PoacherAmbush()
+    : LimitBreak(Profession.Poacher, "Ambush", Color.MediumPurple, Color.MidnightBlue)
 {
-    /// <summary>Initializes a new instance of the <see cref="PoacherAmbush"/> class.</summary>
-    internal PoacherAmbush()
-        : base(Profession.Poacher, "Ambush", Color.MediumPurple, Color.MidnightBlue)
-    {
-    }
-
     /// <summary>Gets or sets the number of seconds since deactivation.</summary>
     internal double SecondsOutOfAmbush { get; set; } = double.MaxValue;
 
@@ -47,6 +42,7 @@ public sealed class PoacherAmbush : LimitBreak
     /// <inheritdoc />
     internal override void Countdown()
     {
-        this.ChargeValue -= MaxCharge / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
+        // base duration 30 s * 60 fps = 1800 frames
+        this.ChargeValue -= BASE_MAX_CHARGE / 1800d;
     }
 }

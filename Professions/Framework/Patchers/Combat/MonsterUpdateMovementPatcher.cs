@@ -3,10 +3,11 @@
 #region using directives
 
 using DaLion.Professions.Framework.VirtualProperties;
-using DaLion.Shared.Enums;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Netcode;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -24,89 +25,49 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch for improve AI for piped Slimes using A*.</summary>
-    [HarmonyPrefix]
-    private static void MonsterUpdateMovementWithAStar(Monster __instance, GameLocation location, GameTime time)
-    {
-        if (__instance is not GreenSlime slime || slime.Get_Piped() is null)
-        {
-            return;
-        }
-
-        var path = slime.Get_Path();
-        var current = __instance.TilePoint;
-        var target = __instance.Player.TilePoint;
-        var priority = Game1.ticks + location.characters.IndexOf(__instance);
-        if (priority % 120 == 0)
-        {
-            if (!location.Get_Pathfinder().ComputeShortestPath(current, target, out path))
-            {
-                __instance.defaultMovementBehavior(time);
-                goto realizeMovement;
-            }
-
-            slime.Set_Path(path);
-        }
-
-        var next = slime.Get_Step();
-        var diff = next - current;
-        if (diff == Point.Zero)
-        {
-            if (path.Count == 0)
-            {
-                __instance.defaultMovementBehavior(time);
-                goto realizeMovement;
-            }
-
-            next = path.Pop();
-            slime.Set_Step(next);
-            diff = next - current;
-        }
-
-        var direction = Math.Abs(diff.X) > Math.Abs(diff.Y)
-            ? diff.X >= 0 ? FacingDirection.Right : FacingDirection.Left
-            : diff.Y >= 0 ? FacingDirection.Down : FacingDirection.Up;
-        direction.SetMoving(__instance);
-
-    realizeMovement:
-        __instance.MovePosition(time, Game1.viewport, location);
-        if (__instance.Position.Equals(__instance.lastPosition) && __instance.IsWalkingTowardPlayer &&
-            __instance.withinPlayerThreshold())
-        {
-            __instance.noMovementProgressNearPlayerBehavior();
-        }
-    }
-
     /// <summary>Patch for improve AI for piped Slimes using D* Lite.</summary>
     [HarmonyPrefix]
-    private static void MonsterUpdateMovementWithDStarLite(Monster __instance, GameLocation location, GameTime time)
+    private static bool MonsterUpdateMovementPostfix(Monster __instance, GameLocation location, GameTime time)
     {
-        if (__instance is not GreenSlime slime || slime.Get_Piped() is null)
+        if (__instance is not GreenSlime slime ||
+            Reflector.GetUnboundFieldGetter<GreenSlime, NetBool>(slime, "pursuingMate").Invoke(slime).Value)
         {
-            return;
+            return true; // run original logic
         }
 
-        var current = __instance.TilePoint;
-        var next = slime.Get_Step();
-        var diff = next - current;
-        if (diff == Point.Zero)
+        if (slime.Get_Piped() is not { } piped)
         {
-            var target = __instance.Player.TilePoint;
-            if (slime.Get_Pathfinder().Step(current, target) is not { } step)
+            if (!__instance.Player.HasProfession(Profession.Piper) || State.OffendedSlimes.Contains(slime))
             {
-                __instance.defaultMovementBehavior(time);
-                goto realizeMovement;
+                return true; // run original logic
             }
 
-            next = step;
-            slime.Set_Step(next);
-            diff = next - current;
+            slime.defaultMovementBehavior(time);
+            goto realizeMovement;
         }
 
-        var direction = Math.Abs(diff.X) > Math.Abs(diff.Y)
-            ? diff.X >= 0 ? FacingDirection.Right : FacingDirection.Left
-            : diff.Y >= 0 ? FacingDirection.Down : FacingDirection.Up;
-        direction.SetMoving(__instance);
+        __instance.Speed = piped.Piper.Speed;
+        var target = __instance.Player;
+        if (piped.FakeFarmer.IsEnemy)
+        {
+            return true; // run original logic
+        }
+
+        var currenTile = __instance.TilePoint;
+        var step = slime.Get_CurrentStep();
+        if (step is null || step == currenTile)
+        {
+            var targetTile = target.TilePoint;
+            step = slime.Get_IncrementalPathfinder().Step(currenTile, targetTile);
+            if (step is null)
+            {
+                return false; // don't run original logic
+            }
+
+            slime.Set_CurrentStep(step);
+        }
+
+        slime.SetMovingTowardTile(step.Value);
 
     realizeMovement:
         __instance.MovePosition(time, Game1.viewport, location);
@@ -115,6 +76,8 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
         {
             __instance.noMovementProgressNearPlayerBehavior();
         }
+
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

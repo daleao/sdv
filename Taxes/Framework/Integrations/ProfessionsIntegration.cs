@@ -7,12 +7,7 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProfessionsIntegration"/> class.</summary>
 [ModRequirement("DaLion.Professions")]
-internal sealed class ProfessionsIntegration : ModIntegration<ProfessionsIntegration, IProfessionsApi>
-{
-    /// <summary>Initializes a new instance of the <see cref="ProfessionsIntegration"/> class.</summary>
-    internal ProfessionsIntegration()
-        : base(ModHelper.ModRegistry)
-    {
-    }
-}
+internal sealed class ProfessionsIntegration()
+    : ModIntegration<ProfessionsIntegration, IProfessionsApi>(ModHelper.ModRegistry);

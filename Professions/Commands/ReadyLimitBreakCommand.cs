@@ -7,16 +7,12 @@ using DaLion.Shared.Commands;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ReadyLimitBreakCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class ReadyLimitBreakCommand : ConsoleCommand
+internal sealed class ReadyLimitBreakCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="ReadyLimitBreakCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal ReadyLimitBreakCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["rdy"];
 
@@ -52,7 +48,7 @@ internal sealed class ReadyLimitBreakCommand : ConsoleCommand
         }
 
         // ReSharper disable once PossibleLossOfFraction
-        limit.ChargeValue = value / 100 * LimitBreak.MaxCharge;
+        limit.ChargeValue = value / 100d * LimitBreak.MaxCharge;
         return true;
     }
 }

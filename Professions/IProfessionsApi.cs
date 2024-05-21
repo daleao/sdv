@@ -2,16 +2,10 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.Events.Limit.Activated;
-using DaLion.Professions.Framework.Events.Limit.ChargeIncreased;
-using DaLion.Professions.Framework.Events.Limit.ChargeInitiated;
-using DaLion.Professions.Framework.Events.Limit.Deactivated;
-using DaLion.Professions.Framework.Events.Limit.Emptied;
-using DaLion.Professions.Framework.Events.Limit.FullyCharged;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntEnded;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntStarted;
 using DaLion.Professions.Framework.Limits;
+using DaLion.Professions.Framework.Limits.Events;
 using DaLion.Professions.Framework.TreasureHunts;
+using DaLion.Professions.Framework.TreasureHunts.Events;
 using DaLion.Shared.Events;
 
 #endregion using directive
@@ -100,7 +94,7 @@ public interface IProfessionsApi
     /// <summary>Registers a new instance of an event raised when the player's <see cref="ILimitBreak"/> charge increases.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>
     /// <returns>A new <see cref="IManagedEvent"/> instance which encapsulates the specified <paramref name="callback"/>.</returns>
-    IManagedEvent RegisterLimitChargeIncreasedEvent(Action<object?, ILimitChargeIncreasedEventArgs> callback);
+    IManagedEvent RegisterLimitChargeIncreasedEvent(Action<object?, ILimitChargeChangedEventArgs> callback);
 
     /// <summary>Registers a new instance of an event raised when the player's <see cref="ILimitBreak"/> reaches full charge.</summary>
     /// <param name="callback">The delegate that will be called when the event is triggered.</param>

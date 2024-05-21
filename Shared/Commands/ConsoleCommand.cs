@@ -22,24 +22,32 @@ public abstract class ConsoleCommand : IConsoleCommand
     /// <inheritdoc />
     public virtual void Callback(string trigger, string[] args)
     {
-        if (args.Length > 0 && string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase))
+        if (args.Length > 0 && (string.Equals(args[0], "help", StringComparison.InvariantCultureIgnoreCase) ||
+                                string.Equals(args[0], "doc", StringComparison.InvariantCultureIgnoreCase)))
         {
+            var message =
+                $"{this.Documentation}\n\nAliases: {string.Join(',', this.Triggers.Skip(1).Select(t => "`" + t + "`"))}";
             var usage = this.GetUsage();
             if (!string.IsNullOrEmpty(usage))
             {
-                this.Handler.Log.I(usage);
+                message += usage;
             }
 
+            Log.I(message);
             return;
         }
 
         if (!this.CallbackImpl(trigger, args))
         {
+            var message =
+                $"{this.Documentation}\n\nAliases: {string.Join(',', this.Triggers.Skip(1).Select(t => "`" + t + "`"))}";
             var usage = this.GetUsage();
             if (!string.IsNullOrEmpty(usage))
             {
-                this.Handler.Log.W(usage);
+                message += usage;
             }
+
+            Log.W(message);
         }
     }
 

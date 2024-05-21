@@ -2,14 +2,8 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.Events.Limit.Activated;
-using DaLion.Professions.Framework.Events.Limit.ChargeIncreased;
-using DaLion.Professions.Framework.Events.Limit.ChargeInitiated;
-using DaLion.Professions.Framework.Events.Limit.Deactivated;
-using DaLion.Professions.Framework.Events.Limit.Emptied;
-using DaLion.Professions.Framework.Events.Limit.FullyCharged;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntEnded;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntStarted;
+using DaLion.Professions.Framework.Limits.Events;
+using DaLion.Professions.Framework.TreasureHunts.Events;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewValley.Tools;
@@ -130,9 +124,9 @@ public class ProfessionsApi : IProfessionsApi
     }
 
     /// <inheritdoc />
-    public IManagedEvent RegisterLimitChargeIncreasedEvent(Action<object?, ILimitChargeIncreasedEventArgs> callback)
+    public IManagedEvent RegisterLimitChargeIncreasedEvent(Action<object?, ILimitChargeChangedEventArgs> callback)
     {
-        var e = new LimitChargeIncreasedEvent(callback);
+        var e = new LimitChargeChangedEvent(callback);
         ProfessionsMod.EventManager.Manage(e);
         return e;
     }

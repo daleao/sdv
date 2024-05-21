@@ -8,17 +8,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="LimitButtonsChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [LimitEvent]
 [UsedImplicitly]
-internal sealed class LimitButtonsChangedEvent : ButtonsChangedEvent
+internal sealed class LimitButtonsChangedEvent(EventManager? manager = null)
+    : ButtonsChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="LimitButtonsChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal LimitButtonsChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.LimitBreak?.CanActivate == true;
 

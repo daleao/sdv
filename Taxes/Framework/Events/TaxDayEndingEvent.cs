@@ -11,17 +11,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="TaxDayEndingEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class TaxDayEndingEvent : DayEndingEvent
+internal sealed class TaxDayEndingEvent(EventManager? manager = null)
+    : DayEndingEvent(manager ?? TaxesMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="TaxDayEndingEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal TaxDayEndingEvent(EventManager? manager = null)
-        : base(manager ?? TaxesMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
@@ -93,9 +89,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
             default:
             {
                 CheckOutstanding(taxpayer, ref dayIncome);
+                break;
             }
-
-            break;
         }
 
         if (dayIncome < amountSold)
@@ -125,8 +120,8 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         }
 
         deductible = Math.Min(
-                deductible,
-                professionsApi.GetConfig().ConservationistTaxDeductionCeiling);
+            deductible,
+            professionsApi.GetConfig().ConservationistTaxDeductionCeiling);
 
         Data.Write(taxpayer, DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
         Data.Write(taxpayer, DataKeys.LatestTaxDeductions, deductible.ToString(CultureInfo.InvariantCulture));
@@ -196,16 +191,16 @@ internal sealed class TaxDayEndingEvent : DayEndingEvent
         {
             var origin = farm.GetMainFarmHouseEntry();
             usableTiles = origin.FloodFill(
-                farm.Map.DisplayWidth,
-                farm.Map.DisplayHeight,
+                farm.Map.Layers[0].TileWidth,
+                farm.Map.Layers[0].TileHeight,
                 p => farm.doesTileHaveProperty(p.X, p.Y, "Diggable", "Back") is not null).Count;
             Data.Write(farm, DataKeys.UsableTiles, usableTiles.ToString());
         }
 
         var currentUsePct = Data.ReadAs<float>(farm, DataKeys.UsedTiles) / usableTiles;
         var amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * Config.UsedTileTaxRate) +
-                          ((agricultureValue + livestockValue) * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
-                          (buildingValue * Config.BuildingTaxRate));
+                              ((agricultureValue + livestockValue) * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
+                              (buildingValue * Config.BuildingTaxRate));
         Data.Write(taxpayer, DataKeys.LatestDuePropertyTax, amountDue.ToString());
         if (amountDue <= 0)
         {

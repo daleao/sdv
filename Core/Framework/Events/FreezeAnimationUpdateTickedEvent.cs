@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="FreezeAnimationUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class FreezeAnimationUpdateTickedEvent : UpdateTickedEvent
+internal sealed class FreezeAnimationUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="FreezeAnimationUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal FreezeAnimationUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
@@ -28,6 +24,7 @@ internal sealed class FreezeAnimationUpdateTickedEvent : UpdateTickedEvent
             this.Disable();
         }
 
-        FreezeAnimation.FreezeAnimationsByMonster.ForEach(pair => pair.Value.ForEach(freeze => freeze.update(Game1.currentGameTime)));
+        FreezeAnimation.FreezeAnimationsByMonster.ForEach(pair =>
+            pair.Value.ForEach(freeze => freeze.update(Game1.currentGameTime)));
     }
 }

@@ -7,17 +7,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="TaxSaveLoadedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
+internal sealed class TaxSaveLoadedEvent(EventManager? manager = null)
+    : SaveLoadedEvent(manager ?? TaxesMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="TaxSaveLoadedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal TaxSaveLoadedEvent(EventManager? manager = null)
-        : base(manager ?? TaxesMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
@@ -33,9 +29,9 @@ internal sealed class TaxSaveLoadedEvent : SaveLoadedEvent
         }
 
         var usableTiles = 0;
-        for (var i = 0; i < farm.Map.DisplayHeight; i++)
+        for (var i = 0; i < farm.Map.Layers[0].LayerWidth; i++)
         {
-            for (var j = 0; j < farm.Map.DisplayWidth; j++)
+            for (var j = 0; j < farm.Map.Layers[0].LayerHeight; j++)
             {
                 if (farm.doesTileHaveProperty(i, j, "Diggable", "Back") is not null)
                 {

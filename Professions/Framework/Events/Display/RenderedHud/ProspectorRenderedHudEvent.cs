@@ -8,18 +8,15 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 
+/// <summary>Initializes a new instance of the <see cref="ProspectorRenderedHudEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ProspectorRenderedHudEvent : RenderedHudEvent
+internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
+    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ProspectorRenderedHudEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProspectorRenderedHudEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {

@@ -13,18 +13,23 @@ internal static class GreenSlime_Step
 {
     internal static ConditionalWeakTable<GreenSlime, Holder> Values { get; } = [];
 
-    internal static Point Get_Step(this GreenSlime slime)
+    internal static Point? Get_CurrentStep(this GreenSlime slime)
     {
-        return Values.GetOrCreateValue(slime).Step;
+        return Values.GetValue(slime, Create).Step;
     }
 
-    internal static void Set_Step(this GreenSlime slime, Point value)
+    internal static void Set_CurrentStep(this GreenSlime slime, Point? value)
     {
         Values.GetOrCreateValue(slime).Step = value;
     }
 
+    internal static Holder Create(GreenSlime slime)
+    {
+        return new Holder { Step = slime.Get_IncrementalPathfinder().Step(slime.TilePoint, slime.Player.TilePoint) };
+    }
+
     internal class Holder
     {
-        public Point Step { get; internal set; }
+        public Point? Step { get; internal set; }
     }
 }

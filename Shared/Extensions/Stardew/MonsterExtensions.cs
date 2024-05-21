@@ -44,14 +44,20 @@ public static class MonsterExtensions
     /// <returns><see langword="true"/> if the <paramref name="monster"/> is not in an invincible state, otherwise <see langword="false"/>.</returns>
     public static bool CanBeDamaged(this Monster monster)
     {
-        return !monster.IsInvisible && !monster.isInvincible()
-                && (monster is not Bug bug || !bug.isArmoredBug.Value)
-                && (monster is not RockCrab crab || crab.Sprite.currentFrame % 4 != 0 ||
-                    Reflector
-                        .GetUnboundFieldGetter<RockCrab, NetBool>("shellGone")
-                        .Invoke(crab).Value)
-                && (monster is not LavaLurk lurk || lurk.currentState.Value != LavaLurk.State.Submerged)
-                && monster is not Spiker;
+        return !monster.IsInvisible && !monster.isInvincible();
+    }
+
+    /// <summary>Determines whether the <paramref name="monster"/> is in a state that allows it to suffer damager.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> is not in an invincible state, otherwise <see langword="false"/>.</returns>
+    public static bool IsArmored(this Monster monster)
+    {
+        return (monster is Bug bug && bug.isArmoredBug.Value)
+               || (monster is RockCrab crab && crab.Sprite.currentFrame % 4 == 0 &&
+                   !Reflector
+                       .GetUnboundFieldGetter<RockCrab, NetBool>("shellGone")
+                       .Invoke(crab).Value)
+               || monster is Spiker;
     }
 
     /// <summary>Determines whether the specified <paramref name="character"/> is within the moving threshold of this <paramref name="monster"/>.</summary>

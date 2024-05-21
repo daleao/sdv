@@ -5,18 +5,18 @@
     <AssemblyName>DaLion.Core</AssemblyName>
     <RootNamespace>DaLion.Core</RootNamespace>
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
-    <RepositoryUrl>???</RepositoryUrl>
+    <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>1.0.0</Version>
     <GameVersion>1.6</GameVersion>
     <SmapiVersion>4.0</SmapiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Ars Nuclei</Name>
+    <Name>Lionheart</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Core</UniqueId>
     <Description>Provides core functionality required by DaLion mods.</Description>
-    <UpdateKeys>???</UpdateKeys>
+    <UpdateKeys>Nexus:24332</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
     <Version_AppendConfiguration>false</Version_AppendConfiguration>

@@ -10,17 +10,13 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DesperadoRenderedWorldEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 // This is here (as opposed to RenderedHud) to avoid UI scaling shenanigans.
-internal sealed class DesperadoRenderedWorldEvent : RenderedWorldEvent
+internal sealed class DesperadoRenderedWorldEvent(EventManager? manager = null)
+    : RenderedWorldEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoRenderedWorldEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DesperadoRenderedWorldEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {

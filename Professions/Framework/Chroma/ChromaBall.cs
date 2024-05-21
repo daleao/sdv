@@ -14,13 +14,12 @@ internal sealed class ChromaBall(SObject slimeBall, Vector2? tile = null) : Core
     {
         var drops = base.GetDrops();
         var r = new Random(Guid.NewGuid().GetHashCode());
-
         var closest = ChromaMapper.ItemsByColor.Keys.ArgMin(color => color.L1Distance(this.SlimeColor));
         var range = new ColorRange(
-            [(byte)(closest.R - 10), (byte)(closest.R + 10)],
-            [(byte)(closest.G - 10), (byte)(closest.G + 10)],
-            [(byte)(closest.B - 10), (byte)(closest.B + 10)]);
-        if (range.Contains(closest) && r.NextBool(0.05))
+            [(byte)(closest.R - 15), (byte)(closest.R + 15)],
+            [(byte)(closest.G - 15), (byte)(closest.G + 15)],
+            [(byte)(closest.B - 15), (byte)(closest.B + 15)]);
+        if (range.Contains(closest) && r.NextBool(0.5))
         {
             drops.Add(ChromaMapper.ItemsByColor[closest].Choose(r), 1);
         }

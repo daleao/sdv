@@ -13,16 +13,12 @@ using xTile.Dimensions;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProspectorWarpedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ProspectorWarpedEvent : WarpedEvent
+internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
+    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ProspectorWarpedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProspectorWarpedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector, true);
 

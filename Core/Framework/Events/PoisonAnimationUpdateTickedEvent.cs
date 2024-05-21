@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="PoisonAnimationUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class PoisonAnimationUpdateTickedEvent : UpdateTickedEvent
+internal sealed class PoisonAnimationUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="PoisonAnimationUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal PoisonAnimationUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {

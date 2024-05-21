@@ -38,9 +38,9 @@ internal sealed class SlingshotGetAmmoDamagePatcher : HarmonyPatcher
         }
 
         __result = user.CountRaisedSlimes();
-        if (user.HasProfession(Profession.Piper, true))
+        if (!user.HasProfession(Profession.Piper, true))
         {
-            __result *= 2;
+            __result /= 2;
         }
     }
 

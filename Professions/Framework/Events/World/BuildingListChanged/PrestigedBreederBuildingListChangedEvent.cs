@@ -7,16 +7,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="PrestigedBreederBuildingListChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class PrestigedBreederBuildingListChangedEvent : BuildingListChangedEvent
+internal sealed class PrestigedBreederBuildingListChangedEvent(EventManager? manager = null)
+    : BuildingListChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="PrestigedBreederBuildingListChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal PrestigedBreederBuildingListChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Game1.game1.DoesAnyPlayerHaveProfession(Profession.Breeder, true, true);
 

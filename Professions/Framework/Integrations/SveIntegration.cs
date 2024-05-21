@@ -9,15 +9,11 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="SveIntegration"/> class.</summary>
 [ModRequirement("FlashShifter.StardewValleyExpandedCP")]
-internal sealed class SveIntegration : ModIntegration<SveIntegration>
+internal sealed class SveIntegration()
+    : ModIntegration<SveIntegration>(ModHelper.ModRegistry)
 {
-    /// <summary>Initializes a new instance of the <see cref="SveIntegration"/> class.</summary>
-    internal SveIntegration()
-        : base(ModHelper.ModRegistry)
-    {
-    }
-
     /// <summary>Gets a value indicating whether the <c>DisableGaldoranTheme</c> config setting is enabled.</summary>
     internal bool DisabeGaldoranTheme => this.IsLoaded && ModHelper
         .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")

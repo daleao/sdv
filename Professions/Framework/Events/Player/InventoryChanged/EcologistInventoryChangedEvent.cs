@@ -7,32 +7,31 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="EcologistInventoryChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class EcologistInventoryChangedEvent : InventoryChangedEvent
+internal sealed class EcologistInventoryChangedEvent(EventManager? manager = null)
+    : InventoryChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="EcologistInventoryChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal EcologistInventoryChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnInventoryChangedImpl(object? sender, InventoryChangedEventArgs e)
     {
-        foreach (var item in e.Added)
+        if (e.Player.HasProfession(Profession.Ecologist))
         {
-            if (item is not SObject @object || !@object.isForage() || !e.Player.HasProfession(Profession.Ecologist) ||
-                Data.ReadAs<bool>(item, DataKeys.EcologistBuffed))
+            foreach (var item in e.Added)
             {
-                continue;
-            }
+                if (item is not SObject @object || !@object.isForage() ||
+                    Data.ReadAs<bool>(item, DataKeys.EcologistBuffed))
+                {
+                    continue;
+                }
 
-            @object.Edibility = e.Player.HasProfession(Profession.Ecologist, true)
-                ? @object.Edibility * 2
-                : (int)(@object.Edibility * 1.5f);
-            Data.Write(item, DataKeys.EcologistBuffed, true.ToString());
+                @object.Edibility = e.Player.HasProfession(Profession.Ecologist, true)
+                    ? @object.Edibility * 2
+                    : (int)(@object.Edibility * 1.5f);
+                Data.Write(item, DataKeys.EcologistBuffed, true.ToString());
+            }
         }
 
         foreach (var item in e.Removed)

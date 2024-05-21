@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProspectorHuntRenderedHudEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ProspectorHuntRenderedHudEvent : RenderedHudEvent
+internal sealed class ProspectorHuntRenderedHudEvent(EventManager? manager = null)
+    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ProspectorHuntRenderedHudEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProspectorHuntRenderedHudEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {

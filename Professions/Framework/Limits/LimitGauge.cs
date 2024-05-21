@@ -104,12 +104,12 @@ internal sealed class LimitGauge
             SpriteEffects.None,
             1f);
 
-        // draw top 'S'
+        // draw top 'L'
         b.Draw(
             Texture,
             topOfBar + new Vector2(16, -212 + (TextureHeight * 4)),
             new Rectangle(13, 3, 4, 5),
-            this._color,
+            this._color * this._opacity,
             0f,
             Vector2.Zero,
             Game1.pixelZoom,
@@ -123,7 +123,7 @@ internal sealed class LimitGauge
             (int)topOfBar.X,
             (int)(topOfBar.Y + (srcY * 4f)),
             width * 4,
-            16 + ((TextureHeight - 32) * 4) + (int)Math.Ceiling(bonusLevelHeight));
+            ((TextureHeight - 32) * 4) + (int)Math.Ceiling(bonusLevelHeight));
         b.Draw(
             Texture,
             destRect,
@@ -145,10 +145,10 @@ internal sealed class LimitGauge
             1f);
 
         // draw fill
-        var fillPct = this._owner.ChargeValue / LimitBreak.MaxCharge;
+        var fillPercent = this._owner.ChargeValue / LimitBreak.MaxCharge;
         var fullBarHeight = InitialBarHeight + bonusLevelHeight;
-        var srcHeight = (int)(42 * fillPct);
-        var destHeight = (int)(fullBarHeight * fillPct);
+        var srcHeight = (int)(42 * fillPercent);
+        var destHeight = (int)(fullBarHeight * fillPercent);
 
         width = 6;
         srcY = TextureHeight - 2 - srcHeight;
@@ -158,12 +158,11 @@ internal sealed class LimitGauge
             (int)(topOfBar.Y + ((TextureHeight - 44) * 4) + (float)fullBarHeight - destHeight),
             width * 4,
             destHeight);
-
         b.Draw(
             Texture,
             destRect,
             sourceRect,
-            Color.White,
+            Color.White * this._opacity,
             0f,
             Vector2.Zero,
             SpriteEffects.None,
@@ -175,7 +174,7 @@ internal sealed class LimitGauge
             Game1.staminaRect,
             destRect,
             Game1.staminaRect.Bounds,
-            Color.Black * 0.3f,
+            Color.Black * 0.3f * this._opacity,
             0f,
             Vector2.Zero,
             SpriteEffects.None,

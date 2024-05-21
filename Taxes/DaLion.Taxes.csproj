@@ -5,18 +5,18 @@
     <AssemblyName>DaLion.Taxes</AssemblyName>
     <RootNamespace>DaLion.Taxes</RootNamespace>
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
-    <RepositoryUrl>???</RepositoryUrl>
+    <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Taxes</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>1.0.0</Version>
     <GameVersion>1.6</GameVersion>
     <SmapiVersion>4.0</SmapiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Tributa Realia</Name>
+    <Name>Serfdom</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Taxes</UniqueId>
     <Description>Provides realistic income and property taxation systems.</Description>
-    <UpdateKeys>???</UpdateKeys>
+    <UpdateKeys>Nexus:23054</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

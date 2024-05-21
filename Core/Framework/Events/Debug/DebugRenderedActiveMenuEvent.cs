@@ -10,17 +10,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DebugRenderedActiveMenuEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class DebugRenderedActiveMenuEvent : RenderedActiveMenuEvent
+internal sealed class DebugRenderedActiveMenuEvent(EventManager? manager = null)
+    : RenderedActiveMenuEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DebugRenderedActiveMenuEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DebugRenderedActiveMenuEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;
 

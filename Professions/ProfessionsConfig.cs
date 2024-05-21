@@ -33,16 +33,11 @@ public sealed class ProfessionsConfig
     [GMCMInnerConfig("DaLion.Professions/Masteries", "prfs.masteries", true)]
     public MasteriesConfig Masteries { get; internal set; } = new();
 
-    /// <inheritdoc cref="MasteriesConfig"/>
-    [JsonProperty]
-    [GMCMInnerConfig("DaLion.Professions/Tweex", "prfs.tweex", true)]
-    public TweexConfig Tweex { get; internal set; } = new();
-
     /// <summary>Gets mod key used by Prospector and Scavenger professions (also Demolitionist).</summary>
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(0)]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftCtrl, LeftShoulder");
 
     /// <summary>
     ///     Gets a value indicating whether if enabled, machine and building ownership will be ignored when determining whether to apply profession

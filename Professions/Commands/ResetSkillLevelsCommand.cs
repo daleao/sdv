@@ -8,16 +8,12 @@ using DaLion.Shared.Extensions.Collections;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ResetSkillLevelsCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class ResetSkillLevelsCommand : ConsoleCommand
+internal sealed class ResetSkillLevelsCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="ResetSkillLevelsCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal ResetSkillLevelsCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["reset"];
 

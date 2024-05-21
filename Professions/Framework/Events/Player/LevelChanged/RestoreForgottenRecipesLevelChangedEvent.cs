@@ -8,16 +8,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="RestoreForgottenRecipesLevelChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class RestoreForgottenRecipesLevelChangedEvent : LevelChangedEvent
+internal sealed class RestoreForgottenRecipesLevelChangedEvent(EventManager? manager = null)
+    : LevelChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="RestoreForgottenRecipesLevelChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal RestoreForgottenRecipesLevelChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnLevelChangedImpl(object? sender, LevelChangedEventArgs e)
     {

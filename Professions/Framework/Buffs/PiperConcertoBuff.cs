@@ -42,18 +42,6 @@ internal sealed class PiperConcertoBuff : Buff
                 continue;
             }
 
-            if (Game1.random.NextBool(0.012 + (Game1.player.team.AverageDailyLuck() / 10.0)))
-            {
-                if (Game1.currentLocation is MineShaft && Game1.player.team.SpecialOrderActive("Wizard2"))
-                {
-                    slime.makePrismatic();
-                }
-                else
-                {
-                    slime.hasSpecialItem.Value = true;
-                }
-            }
-
             slime.Set_Piped(Game1.player, BASE_DURATION);
             slime.focusedOnFarmers = true;
         }

@@ -175,7 +175,7 @@ internal static class FarmerExtensions
     internal static IProfession[] GetProfessionsForSkill(
         this Farmer farmer, ISkill skill, bool excludeTierOneProfessions = false)
     {
-        return farmer.professions
+        var x = farmer.professions
             .Intersect(excludeTierOneProfessions ? skill.TierTwoProfessionIds : skill.ProfessionIds)
             .Select<int, IProfession?>(id =>
                 Profession.TryFromValue(id, out var vanilla)
@@ -183,6 +183,7 @@ internal static class FarmerExtensions
                     : CustomProfession.Loaded.GetValueOrDefault(id))
             .WhereNotNull()
             .ToArray();
+        return x;
     }
 
     /// <summary>

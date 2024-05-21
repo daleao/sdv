@@ -8,17 +8,13 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="RascalInventoryChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class RascalInventoryChangedEvent : InventoryChangedEvent
+internal sealed class RascalInventoryChangedEvent(EventManager? manager = null)
+    : InventoryChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="RascalInventoryChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal RascalInventoryChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnInventoryChangedImpl(object? sender, InventoryChangedEventArgs e)
     {

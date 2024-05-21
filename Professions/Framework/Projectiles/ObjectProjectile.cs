@@ -6,9 +6,9 @@ using DaLion.Core.Framework.Extensions;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Enums;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using StardewValley.Extensions;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
 using StardewValley.Tools;
@@ -92,8 +92,10 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         if (!this.IsSquishyOrExplosive && firer.HasProfession(Profession.Desperado, true) && overcharge <= 1f)
         {
-            this.bouncesLeft.Value++;
+            this.bouncesLeft.Value = 1;
         }
+
+        this.piercesLeft.Value = 0;
     }
 
     public Item Ammo { get; } = null!;
@@ -129,31 +131,31 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         if (this.Ammo.QualifiedItemId == QualifiedObjectIds.Slime)
         {
-            if (monster.IsSlime())
+            if (monster is GreenSlime slime)
             {
-                if (!this.Firer.HasProfession(Profession.Piper))
+                if (slime.Get_Piped() is null)
                 {
+                    this._explosionAnimation(this, location);
                     return;
                 }
 
                 // do heal Slime
-                var amount = Game1.random.Next(this.Damage - 2, this.Damage + 2);
+                var amount = (int)(Game1.random.NextFloat(0.15f, 0.25f) * monster.MaxHealth);
                 monster.Health = Math.Min(monster.Health + amount, monster.MaxHealth);
                 location.debris.Add(new Debris(
                     amount,
                     new Vector2(monster.StandingPixel.X + 8, monster.StandingPixel.Y),
-                    Color.Lime,
+                    Color.Green,
                     1f,
                     monster));
-                //Game1.playSound("healSound");
-                this._explosionAnimation(this, location);
+                Game1.playSound("healSound");
                 return;
             }
 
-            if (!monster.IsSlime() && monster is not Ghost && Game1.random.NextBool(2d / 3d))
+            if (!monster.IsSlime() && monster is not Ghost && !monster.IsSlowed() && Game1.random.NextBool())
             {
                 // do debuff
-                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456),  1f / 3f);
+                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
                 monster.startGlowing(Color.LimeGreen, false, 0.05f);
             }
         }
@@ -225,7 +227,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
         else
         {
-            this.piercesLeft.Value--;
+            this.piercesLeft.Value = 0;
         }
 
         // Desperado checks

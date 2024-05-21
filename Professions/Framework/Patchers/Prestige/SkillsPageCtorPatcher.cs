@@ -35,18 +35,15 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
             var maxLength = 0;
             foreach (var skill in Skill.List)
             {
-                if (maxSkill is null)
+                var length = Game1.player.GetProfessionsForSkill(skill, true).Length;
+                if (maxSkill is not null && length <= maxLength &&
+                    (length != maxLength || skill.CurrentLevel <= maxSkill.CurrentLevel))
                 {
-                    maxSkill = skill;
                     continue;
                 }
 
-                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
-                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill.CurrentLevel)))
-                {
-                    maxSkill = skill;
-                    maxLength = length;
-                }
+                maxSkill = skill;
+                maxLength = length;
             }
 
             if (maxLength > 0)

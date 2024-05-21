@@ -10,22 +10,19 @@ using StardewValley.Monsters;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="InflictStatusCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class InflictStatusCommand : ConsoleCommand
+internal sealed class InflictStatusCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="InflictStatusCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal InflictStatusCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["inflict_status", "inflict", "status"];
 
     /// <inheritdoc />
-    public override string Documentation => "Inflicts the specified status condition on the nearest monster, or all monsters if the `--all` flag is used.";
+    public override string Documentation =>
+        "Inflicts the specified status condition on the nearest monster, or all monsters if the `--all` flag is used.";
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)

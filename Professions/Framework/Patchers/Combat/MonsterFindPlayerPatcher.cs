@@ -58,16 +58,19 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
 
             if (__instance is GreenSlime slime && slime.Get_Piped() is { } piped)
             {
-                Vector2? targetTile = null;
+                Vector2? targetPos = null;
                 var aggroee = slime.GetClosestCharacter(
                     location.characters.OfType<Monster>(),
-                    m => !m.IsSlime() && slime.IsCharacterWithinThreshold(m));
+                    m => !m.IsSlime() && m is not Spiker &&
+                         (m is not Duggy duggy || duggy.Sprite.CurrentFrame is > 0 and < 10) &&
+                         m is not LavaLurk &&
+                         slime.IsCharacterWithinThreshold(m));
                 if (aggroee is not null)
                 {
-                    targetTile = aggroee.Position;
+                    targetPos = aggroee.Position;
                     piped.FakeFarmer.IsEnemy = true;
                 }
-                else if (State.SummonedSlimes.Contains(piped) && slime.Get_HasInventorySlots())
+                else if (State.AlliedSlimes.Contains(piped) && slime.Get_HasInventorySlots())
                 {
                     var approximatePosition =
                         Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
@@ -80,21 +83,21 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                         d => d.itemId.Value is not null);
                     if (closest is not null)
                     {
-                        targetTile = approximatePosition(closest);
+                        targetPos = approximatePosition(closest);
                         piped.FakeFarmer.IsEnemy = false;
                     }
                 }
 
-                if (targetTile is null)
+                if (targetPos is null)
                 {
-                    var maxWidth = location.Map.DisplayWidth;
-                    var maxHeight = location.Map.DisplayHeight;
-                    targetTile = slime.GetClosestTile(piped.Piper.Tile.GetTwentyFourNeighbors(maxWidth, maxHeight)) *
+                    var mapWidth = location.Map.Layers[0].LayerWidth;
+                    var mapHeight = location.Map.Layers[0].LayerHeight;
+                    targetPos = slime.GetClosestTile(piped.Piper.Tile.GetEightNeighbors(mapWidth, mapHeight)) *
                                  Game1.tileSize;
                     piped.FakeFarmer.IsEnemy = false;
                 }
 
-                piped.FakeFarmer.Position = targetTile.Value;
+                piped.FakeFarmer.Position = targetPos.Value;
                 target = piped.FakeFarmer;
                 __result = target;
                 __instance.Set_Target(target);

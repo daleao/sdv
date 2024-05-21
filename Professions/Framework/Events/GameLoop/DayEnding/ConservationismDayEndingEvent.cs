@@ -9,16 +9,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ConservationismDayEndingEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ConservationismDayEndingEvent : DayEndingEvent
+internal sealed class ConservationismDayEndingEvent(EventManager? manager = null)
+    : DayEndingEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ConservationismDayEndingEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ConservationismDayEndingEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Game1.dayOfMonth == 28 && Game1.player.HasProfession(Profession.Conservationist);
 

@@ -9,17 +9,13 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProfessionSavingEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class ProfessionSavingEvent : SavingEvent
+internal sealed class ProfessionSavingEvent(EventManager? manager = null)
+    : SavingEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ProfessionSavingEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProfessionSavingEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)
     {

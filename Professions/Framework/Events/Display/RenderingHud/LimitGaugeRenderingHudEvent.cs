@@ -8,17 +8,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="LimitGaugeRenderingHudEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [LimitEvent]
 [UsedImplicitly]
-internal sealed class LimitGaugeRenderingHudEvent : RenderingHudEvent
+internal sealed class LimitGaugeRenderingHudEvent(EventManager? manager = null)
+    : RenderingHudEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="LimitGaugeRenderingHudEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal LimitGaugeRenderingHudEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
     {

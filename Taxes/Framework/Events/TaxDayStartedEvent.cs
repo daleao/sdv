@@ -7,16 +7,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="TaxDayStartedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class TaxDayStartedEvent : DayStartedEvent
+internal sealed class TaxDayStartedEvent(EventManager? manager = null)
+    : DayStartedEvent(manager ?? TaxesMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="TaxDayStartedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal TaxDayStartedEvent(EventManager? manager = null)
-        : base(manager ?? TaxesMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {

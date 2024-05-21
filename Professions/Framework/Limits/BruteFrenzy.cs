@@ -7,15 +7,10 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Handles Brute Limit Break activation.</summary>
-public sealed class BruteFrenzy : LimitBreak
+/// <summary>Initializes a new instance of the <see cref="BruteFrenzy"/> class.</summary>
+public sealed class BruteFrenzy()
+    : LimitBreak(Profession.Brute, "Frenzy", Color.OrangeRed, Color.OrangeRed)
 {
-    /// <summary>Initializes a new instance of the <see cref="BruteFrenzy"/> class.</summary>
-    internal BruteFrenzy()
-        : base(Profession.Brute, "Frenzy", Color.OrangeRed, Color.OrangeRed)
-    {
-    }
-
     /// <summary>Gets or sets the number of enemies defeated while active.</summary>
     internal int KillCount { get; set; }
 
@@ -48,6 +43,7 @@ public sealed class BruteFrenzy : LimitBreak
     /// <inheritdoc />
     internal override void Countdown()
     {
-        this.ChargeValue -= MaxCharge / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
+        // base duration 15 s * 60 fps = 900 frames
+        this.ChargeValue -= BASE_MAX_CHARGE / 900d;
     }
 }

@@ -21,6 +21,7 @@ public abstract class AssetRequestedEvent : ManagedEvent
         : base(manager)
     {
         manager.ModEvents.Content.AssetRequested += this.OnAssetRequested;
+        this.Initialize();
     }
 
     /// <inheritdoc />
@@ -54,6 +55,9 @@ public abstract class AssetRequestedEvent : ManagedEvent
             editors.ForEach(editor => editor.Edit(e));
         }
     }
+
+    /// <summary>Initializes editors and providers.</summary>
+    protected abstract void Initialize();
 
     /// <summary>Caches the specified <paramref name="editor"/> for the asset with the specified <paramref name="name"/>.</summary>
     /// <param name="name">The name of the asset.</param>

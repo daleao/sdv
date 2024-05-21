@@ -8,17 +8,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="TrackMonstersNpcListChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class TrackMonstersNpcListChangedEvent : NpcListChangedEvent
+internal sealed class TrackMonstersNpcListChangedEvent(EventManager? manager = null)
+    : NpcListChangedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="TrackMonstersNpcListChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal TrackMonstersNpcListChangedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnNpcListChangedImpl(object? sender, NpcListChangedEventArgs e)
     {

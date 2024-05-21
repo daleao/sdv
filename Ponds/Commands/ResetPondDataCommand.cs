@@ -8,16 +8,12 @@ using StardewValley.Buildings;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ResetPondDataCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class ResetPondDataCommand : ConsoleCommand
+internal sealed class ResetPondDataCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="ResetPondDataCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal ResetPondDataCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["reset_data", "clear_data", "reset", "clear"];
 

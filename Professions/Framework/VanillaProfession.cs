@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
@@ -362,9 +363,9 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     internal void OnAdded(Farmer who, bool prestiged = false)
     {
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
             .When(Luremaster).Then(() => EventManager.Enable(
                 typeof(LuremasterDayStartedEvent),
                 typeof(LuremasterTimeChangedEvent)))
@@ -381,7 +382,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             })
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
                 EventManager.Enable<ChromaBallObjectListChangedEvent>();
             });
 
@@ -398,9 +399,9 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     internal void OnRemoved(Farmer who, bool prestiged = false)
     {
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
             .When(Prospector).Then(() => State.ProspectorHunt = null)
             .When(Scavenger).Then(() => State.ScavengerHunt = null)
             .When(Fighter).Then(() => Game1.player.maxHealth -= 15)
@@ -433,7 +434,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             })
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
                 EventManager.Unmanage<ChromaBallObjectListChangedEvent>();
             });
 

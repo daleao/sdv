@@ -13,21 +13,18 @@ using StardewValley.Menus;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="AddProfessionsCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class AddProfessionsCommand : ConsoleCommand
+internal sealed class AddProfessionsCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="AddProfessionsCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal AddProfessionsCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["add", "get"];
 
     /// <inheritdoc />
-    public override string Documentation => "Add the specified professions to the player. Does not affect skill levels.";
+    public override string Documentation =>
+        "Add the specified professions to the player. Does not affect skill levels.";
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
@@ -58,7 +55,8 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
 
                 range = [.. range, .. CustomProfession.List.Select(p => p.Id)];
                 professionsToAdd.AddRange(range);
-                this.Handler.Log.I($"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
+                this.Handler.Log.I(
+                    $"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
                 break;
             }
 
@@ -78,7 +76,8 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
                     professionsToAdd.Add(profession + 100);
                 }
 
-                this.Handler.Log.I($"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {Game1.player.Name}.");
+                this.Handler.Log.I(
+                    $"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {Game1.player.Name}.");
             }
             else
             {
@@ -99,7 +98,8 @@ internal sealed class AddProfessionsCommand : ConsoleCommand
 
                 if (Game1.player.HasProfession(customProfession))
                 {
-                    this.Handler.Log.W($"Farmer {Game1.player.Name} already has the {customProfession.StringId} profession.");
+                    this.Handler.Log.W(
+                        $"Farmer {Game1.player.Name} already has the {customProfession.StringId} profession.");
                     continue;
                 }
 

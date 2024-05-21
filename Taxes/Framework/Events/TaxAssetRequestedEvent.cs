@@ -8,14 +8,15 @@ using static System.FormattableString;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="TaxAssetRequestedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
+internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
+    : AssetRequestedEvent(manager ?? TaxesMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="TaxAssetRequestedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal TaxAssetRequestedEvent(EventManager? manager = null)
-        : base(manager ?? TaxesMod.EventManager)
+    /// <inheritdoc />
+    protected override void Initialize()
     {
         this.Edit("Data/mail", new AssetEditor(EditMailData));
     }
@@ -69,12 +70,12 @@ internal sealed class TaxAssetRequestedEvent : AssetRequestedEvent
 
         outstanding = Data.ReadAs<int>(player, DataKeys.LatestOutstandingPropertyTax);
         data[$"{UniqueId}/{Mail.LewisOutstanding}"] = I18n.Mail_Lewis_Outstanding(
-                player.farmName.Value,
-                valuation,
-                due,
-                CurrentCulture($"{Config.PropertyTaxLatenessFine:0.#%}"),
-                outstanding,
-                interest);
+            player.farmName.Value,
+            valuation,
+            due,
+            CurrentCulture($"{Config.PropertyTaxLatenessFine:0.#%}"),
+            outstanding,
+            interest);
 
         Data.Write(player, DataKeys.LatestDueIncomeTax, string.Empty);
         Data.Write(player, DataKeys.LatestOutstandingIncomeTax, string.Empty);

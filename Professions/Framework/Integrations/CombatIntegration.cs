@@ -7,12 +7,7 @@ using DaLion.Shared.Integrations;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="CombatIntegration"/> class.</summary>
 [ModRequirement("DaLion.Combat")]
-internal sealed class CombatIntegration : ModIntegration<CombatIntegration, ICombatApi>
-{
-    /// <summary>Initializes a new instance of the <see cref="CombatIntegration"/> class.</summary>
-    internal CombatIntegration()
-        : base(ModHelper.ModRegistry)
-    {
-    }
-}
+internal sealed class CombatIntegration()
+    : ModIntegration<CombatIntegration, ICombatApi>(ModHelper.ModRegistry);

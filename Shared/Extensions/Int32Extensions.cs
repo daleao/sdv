@@ -28,4 +28,14 @@ public static class Int32Extensions
     {
         return collection.Intersect(candidates).DefaultIfEmpty(-1).First();
     }
+
+    /// <summary>Adds the specified <paramref name="values"/> ensuring that the result does not overflow.</summary>
+    /// <param name="values">The <see cref="int"/> values to be added.</param>
+    /// <returns>The sum of <paramref name="values"/>, or <see cref="int.MaxValue"/> is that sum would be greater than <see cref="int.MaxValue"/>.</returns>
+    public static int AddWithoutOverflow(params int[] values)
+    {
+        long sum = 0;
+        for (var i = 0; i < values.Length && (sum += values[i]) <= int.MaxValue; i++) ;
+        return sum > int.MaxValue ? int.MaxValue : (int)sum;
+    }
 }

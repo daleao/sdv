@@ -12,16 +12,12 @@ using StardewValley.Menus;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="RemoveProfessionsCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class RemoveProfessionsCommand : ConsoleCommand
+internal sealed class RemoveProfessionsCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="RemoveProfessionsCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal RemoveProfessionsCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["remove", "clear"];
 

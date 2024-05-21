@@ -12,11 +12,11 @@
     <SmapiVersion>4.0</SmapiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Ars Aquaria</Name>
+    <Name>Aquarism</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Ponds</UniqueId>
     <Description>Allows Fish Ponds to remember fish qualities, scaling roe production, spontaneously grow algae, and even enrich metallic nuclei.</Description>
-    <UpdateKeys>???</UpdateKeys>
+    <UpdateKeys>Nexus:23051</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

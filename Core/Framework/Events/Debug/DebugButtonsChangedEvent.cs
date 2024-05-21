@@ -10,18 +10,14 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DebugButtonsChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [Debug]
 [AlwaysEnabledEvent]
-internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
+internal sealed class DebugButtonsChangedEvent(EventManager? manager = null)
+    : ButtonsChangedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DebugButtonsChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DebugButtonsChangedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
@@ -127,8 +123,8 @@ internal sealed class DebugButtonsChangedEvent : ButtonsChangedEvent
 
                         message += "\n\n\tQuest log:";
                         message = who.questLog.Aggregate(
-                                message,
-                                (m, q) => m + $"\n\t\t- {q.id}: {q.questTitle}");
+                            message,
+                            (m, q) => m + $"\n\t\t- {q.id}: {q.questTitle}");
 
                         message += "\n\n\tMod data:";
                         message = who.modData.Pairs

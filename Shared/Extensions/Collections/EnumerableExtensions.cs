@@ -28,12 +28,10 @@ public static class EnumerableExtensions
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
     /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the highest <typeparamref name="TComparable"/> predicate result.</returns>
-    public static T? ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+    public static T ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate(
-            default(T),
-            (a, b) => a is null ? b : predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
+        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
     }
 
     /// <summary>Finds the item which minimizes the given <paramref name="predicate"/>.</summary>
@@ -42,12 +40,10 @@ public static class EnumerableExtensions
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
     /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the lowest <typeparamref name="TComparable"/> predicate result.</returns>
-    public static T? ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+    public static T ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate(
-            default(T),
-            (a, b) => a is null ? b : predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
+        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
     }
 
     /// <summary>Filters out <see langword="null"/> references from the <paramref name="enumerable"/>.</summary>
@@ -78,7 +74,7 @@ public static class EnumerableExtensions
     public static T? Choose<T>(this IEnumerable<T> enumerable, Random? r = null)
     {
         r ??= new Random(Guid.NewGuid().GetHashCode());
-        if (enumerable is ICollection<T> collection)
+        if (enumerable is ICollection<T> { Count: > 0 } collection)
         {
             return collection.ElementAt(r.Next(collection.Count));
         }

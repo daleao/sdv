@@ -12,17 +12,13 @@ using StardewValley.Locations;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="SpelunkerWarpedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class SpelunkerWarpedEvent : WarpedEvent
+internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
+    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     private static int _previousMineLevel;
-
-    /// <summary>Initializes a new instance of the <see cref="SpelunkerWarpedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal SpelunkerWarpedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Spelunker);
@@ -53,8 +49,8 @@ internal sealed class SpelunkerWarpedEvent : WarpedEvent
 
             if (newLocation.Name is "Mine" or "SkullCave")
             {
-                var mapWidth = newLocation.Map.DisplayWidth;
-                var mapHeight = newLocation.Map.DisplayHeight;
+                var mapWidth = newLocation.Map.Layers[0].LayerWidth;
+                var mapHeight = newLocation.Map.Layers[0].LayerHeight;
                 var spawnTiles = player.Tile.GetTwentyFourNeighbors(mapWidth, mapHeight).ToArray();
                 foreach (var id in State.SpelunkerUncollectedItems)
                 {

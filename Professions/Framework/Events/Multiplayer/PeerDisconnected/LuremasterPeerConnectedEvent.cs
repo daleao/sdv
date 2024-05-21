@@ -9,17 +9,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="LuremasterPeerConnectedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class LuremasterPeerConnectedEvent : PeerConnectedEvent
+internal sealed class LuremasterPeerConnectedEvent(EventManager? manager = null)
+    : PeerConnectedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="LuremasterPeerConnectedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal LuremasterPeerConnectedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object? sender, PeerConnectedEventArgs e)
     {

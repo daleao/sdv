@@ -7,17 +7,13 @@ using DaLion.Shared.Commands;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="SendLetterCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class SendLetterCommand : ConsoleCommand
+internal sealed class SendLetterCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="SendLetterCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal SendLetterCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["send", "letter"];
 

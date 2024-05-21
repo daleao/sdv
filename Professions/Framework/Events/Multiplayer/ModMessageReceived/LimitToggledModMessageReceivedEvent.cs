@@ -8,16 +8,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="LimitToggledModMessageReceivedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class LimitToggledModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class LimitToggledModMessageReceivedEvent(EventManager? manager = null)
+    : ModMessageReceivedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="LimitToggledModMessageReceivedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal LimitToggledModMessageReceivedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer;
 

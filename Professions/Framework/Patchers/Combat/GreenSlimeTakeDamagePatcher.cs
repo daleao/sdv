@@ -27,10 +27,15 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Patch to reset monster aggro when a piped slime is defeated.</summary>
     [HarmonyPostfix]
-    private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance)
+    private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance, Farmer who)
     {
         if (__instance.Health > 0 || __instance.Get_Piped() is not { } piped)
         {
+            if (who.IsLocalPlayer)
+            {
+                State.OffendedSlimes.Add(__instance);
+            }
+
             return;
         }
 
@@ -44,16 +49,13 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
         }
 
         piped.DropItems();
-        var cooldown = 300 - (piped.Piper.CountRaisedSlimes() * 2);
-        if (State.SummonedSlimes[0] == piped)
+        if (State.AlliedSlimes[0] == piped)
         {
-            State.SummonedSlimes[0] = null;
-            State.PiperCooldown[0] = cooldown;
+            State.AlliedSlimes[0] = null;
         }
-        else if (State.SummonedSlimes[1] == piped)
+        else if (State.AlliedSlimes[1] == piped)
         {
-            State.SummonedSlimes[1] = null;
-            State.PiperCooldown[1] = cooldown;
+            State.AlliedSlimes[1] = null;
         }
     }
 

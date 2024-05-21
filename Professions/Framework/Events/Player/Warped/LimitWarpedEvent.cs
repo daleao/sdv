@@ -10,17 +10,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="LimitWarpedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [LimitEvent]
 [UsedImplicitly]
-internal sealed class LimitWarpedEvent : WarpedEvent
+internal sealed class LimitWarpedEvent(EventManager? manager = null)
+    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="LimitWarpedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal LimitWarpedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Config.Masteries.UnlockLimitBreaks && State.LimitBreak is not null;
 
@@ -32,7 +28,7 @@ internal sealed class LimitWarpedEvent : WarpedEvent
             return;
         }
 
-        if (e.NewLocation.IsDungeon())
+        if (e.NewLocation.IsEnemyArea())
         {
             this.Manager.Enable<LimitGaugeRenderingHudEvent>();
         }

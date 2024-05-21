@@ -16,8 +16,8 @@ using StardewModdingAPI.Utilities;
 public sealed class MasteriesConfig
 {
     private bool _unlockLimitBreaks = true;
-    private double _limitGainFactor = 1f;
-    private double _limitDrainFactor = 1f;
+    private double _limitGainFactor = 1d;
+    private double _limitDrainFactor = 1d;
     private IconStyle _prestigeIconStyle = IconStyle.MetallicGold;
 
     #region dropdown enums

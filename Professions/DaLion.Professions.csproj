@@ -5,18 +5,18 @@
     <AssemblyName>DaLion.Professions</AssemblyName>
     <RootNamespace>DaLion.Professions</RootNamespace>
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
-    <RepositoryUrl>???</RepositoryUrl>
+    <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Professions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>0.1.0</Version>
     <GameVersion>1.6</GameVersion>
     <SmapiVersion>4.0</SmapiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Ars Magisterii</Name>
+    <Name>Walk Of Life - Rebirth</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Professions</UniqueId>
     <Description>Overhaul of Stardew Valley professions, skills and mastery systems.</Description>
-    <UpdateKeys>???</UpdateKeys>
+    <UpdateKeys>Nexus:23049</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

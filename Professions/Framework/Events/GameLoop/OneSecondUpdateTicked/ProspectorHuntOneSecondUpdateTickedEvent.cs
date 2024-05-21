@@ -8,17 +8,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProspectorHuntOneSecondUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ProspectorHuntOneSecondUpdateTickedEvent : OneSecondUpdateTickedEvent
+internal sealed class ProspectorHuntOneSecondUpdateTickedEvent(EventManager? manager = null)
+    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     private static uint _previousHuntRocksCrushed;
-
-    /// <summary>Initializes a new instance of the <see cref="ProspectorHuntOneSecondUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProspectorHuntOneSecondUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
 
     /// <inheritdoc />
     protected override void OnEnabled()

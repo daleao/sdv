@@ -34,9 +34,6 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatcher : HarmonyPatcher
 
         timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
         __instance.Set_JumpTimer(timeLeft);
-
-        //if (!__instance.Player.HasProfession(Profession.Piper)) return;
-        //  ___readyToJump = -1;
     }
 
     #endregion harmony patches

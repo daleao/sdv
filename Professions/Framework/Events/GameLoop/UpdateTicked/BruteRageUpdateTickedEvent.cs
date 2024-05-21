@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="BruteRageUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class BruteRageUpdateTickedEvent : UpdateTickedEvent
+internal sealed class BruteRageUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="BruteRageUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal BruteRageUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.BruteRageCounter > 0;
 

@@ -10,16 +10,12 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DesperadoOverchargeUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class DesperadoOverchargeUpdateTickedEvent : UpdateTickedEvent
+internal sealed class DesperadoOverchargeUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoOverchargeUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DesperadoOverchargeUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnEnabled()
     {

@@ -98,25 +98,6 @@ public static partial class FacingDirectionExtensions
         return 0; // should never happen
     }
 
-    public static void SetMoving(this FacingDirection direction, NPC npc)
-    {
-        switch (direction)
-        {
-            case FacingDirection.Up:
-                npc.SetMovingOnlyUp();
-                break;
-            case FacingDirection.Down:
-                npc.SetMovingOnlyDown();
-                break;
-            case FacingDirection.Left:
-                npc.SetMovingOnlyLeft();
-                break;
-            case FacingDirection.Right:
-                npc.SetMovingOnlyRight();
-                break;
-        }
-    }
-
     /// <summary>Gets a unit vector which points in the specified direction.</summary>
     /// <param name="direction">A <see cref="FacingDirection"/>.</param>
     /// <returns>A unit <see cref="Vector2"/> pointing towards <paramref name="direction"/>.</returns>

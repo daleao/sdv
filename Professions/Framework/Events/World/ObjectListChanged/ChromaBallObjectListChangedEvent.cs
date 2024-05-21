@@ -11,16 +11,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ChromaBallObjectListChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ChromaBallObjectListChangedEvent : ObjectListChangedEvent
+internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = null)
+    : ObjectListChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ChromaBallObjectListChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ChromaBallObjectListChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     protected override void OnEnabled()
     {
         CoreMod.EventManager.Disable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
@@ -46,7 +42,7 @@ internal sealed class ChromaBallObjectListChangedEvent : ObjectListChangedEvent
                 continue;
             }
 
-            var drops = hutch.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper)
+            var drops = hutch.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper, true)
                 ? new ChromaBall(value, key).GetDrops()
                 : new SlimeBall(value, key).GetDrops();
             foreach (var (id, stack) in drops)

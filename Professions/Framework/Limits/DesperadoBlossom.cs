@@ -7,15 +7,10 @@ using Microsoft.Xna.Framework;
 
 #endregion using directives
 
-/// <summary>Handles Desperado Limit Break activation.</summary>
-public sealed class DesperadoBlossom : LimitBreak
+/// <summary>Initializes a new instance of the <see cref="DesperadoBlossom"/> class.</summary>
+public sealed class DesperadoBlossom()
+    : LimitBreak(Profession.Desperado, "Blossom", Color.DarkGoldenrod, Color.SandyBrown)
 {
-    /// <summary>Initializes a new instance of the <see cref="DesperadoBlossom"/> class.</summary>
-    internal DesperadoBlossom()
-        : base(Profession.Desperado, "Blossom", Color.DarkGoldenrod, Color.SandyBrown)
-    {
-    }
-
     /// <inheritdoc />
     internal override void Activate()
     {
@@ -33,6 +28,7 @@ public sealed class DesperadoBlossom : LimitBreak
     /// <inheritdoc />
     internal override void Countdown()
     {
-        this.ChargeValue -= MaxCharge / 900d; // lasts 15s * 60 ticks/s -> 900 ticks
+        // base duration 15 s * 60 fps = 900 frames
+        this.ChargeValue -= BASE_MAX_CHARGE / 900d;
     }
 }

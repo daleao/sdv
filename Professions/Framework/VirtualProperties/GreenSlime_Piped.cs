@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
-using DaLion.Professions.Framework.Limits;
 using StardewValley.Monsters;
 
 #endregion using directives

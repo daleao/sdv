@@ -7,16 +7,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="HostModMessageReceivedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class HostModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class HostModMessageReceivedEvent(EventManager? manager = null)
+    : ModMessageReceivedEvent(manager ?? TaxesMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="HostModMessageReceivedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal HostModMessageReceivedEvent(EventManager? manager = null)
-        : base(manager ?? TaxesMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
 
@@ -43,7 +39,8 @@ internal sealed class HostModMessageReceivedEvent : ModMessageReceivedEvent
                     return;
                 }
 
-                Log.I($"A farmhand has expended {value}g. This amount will be added to {Game1.player.farmName} farm's business expenses.");
+                Log.I(
+                    $"A farmhand has expended {value}g. This amount will be added to {Game1.player.farmName} farm's business expenses.");
                 Data.Increment(Game1.player, key, value);
                 break;
         }

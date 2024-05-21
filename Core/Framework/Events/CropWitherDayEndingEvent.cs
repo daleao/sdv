@@ -10,16 +10,12 @@ using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="CropWitherDayEndingEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class CropWitherDayEndingEvent : DayEndingEvent
+internal sealed class CropWitherDayEndingEvent(EventManager? manager = null)
+    : DayEndingEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="CropWitherDayEndingEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CropWitherDayEndingEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMainPlayer && Config.CropWitherChance > 0f;
 

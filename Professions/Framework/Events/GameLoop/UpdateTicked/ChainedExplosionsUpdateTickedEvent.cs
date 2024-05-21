@@ -7,16 +7,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ChainedExplosionsUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ChainedExplosionsUpdateTickedEvent : UpdateTickedEvent
+internal sealed class ChainedExplosionsUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ChainedExplosionsUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ChainedExplosionsUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.ChainedExplosions.Count > 0;
 

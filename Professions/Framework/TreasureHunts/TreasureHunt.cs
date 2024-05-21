@@ -3,8 +3,7 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntEnded;
-using DaLion.Professions.Framework.Events.TreasureHunt.TreasureHuntStarted;
+using DaLion.Professions.Framework.TreasureHunts.Events;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;

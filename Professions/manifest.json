@@ -1,7 +1,7 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "DaLion.Professions",
-  "Name": "Ars Magisterii",
+  "Name": "Walk Of Life - Rebirth",
   "Author": "DaLion",
   "Version": "0.1.0-Debug",
   "Description": "Overhaul of Stardew Valley professions, skills and mastery systems.",

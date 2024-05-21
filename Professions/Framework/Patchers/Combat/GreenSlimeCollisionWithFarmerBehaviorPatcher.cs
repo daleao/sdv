@@ -8,6 +8,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -30,7 +31,8 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
     [HarmonyPostfix]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
-        if (!__instance.currentLocation.IsDungeon())
+        __instance.farmerPassesThrough = __instance.farmerPassesThrough || __instance.Get_Piped() != null;
+        if (!__instance.currentLocation.IsEnemyArea())
         {
             return;
         }

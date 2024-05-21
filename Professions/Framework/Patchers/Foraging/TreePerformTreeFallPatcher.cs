@@ -45,12 +45,12 @@ internal sealed class TreePerformTreeFallPatcher : HarmonyPatcher
                         var isPrestiged = generator.DefineLabel();
                         var resumeExecution = generator.DefineLabel();
                         helper
-                            .MatchProfessionCheck(Profession.Lumberjack.Value)
+                            .MatchProfessionCheck(Farmer.forester)
                             .Move()
                             .Insert(
                                 [
                                     new CodeInstruction(OpCodes.Dup),
-                                    new CodeInstruction(OpCodes.Ldc_I4_S, Profession.Lumberjack.Value + 100),
+                                    new CodeInstruction(OpCodes.Ldc_I4_S, Farmer.forester + 100),
                                     new CodeInstruction(
                                         OpCodes.Callvirt,
                                         typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
@@ -63,7 +63,7 @@ internal sealed class TreePerformTreeFallPatcher : HarmonyPatcher
                             .Insert(
                                 [
                                     new CodeInstruction(OpCodes.Pop),
-                                    new CodeInstruction(OpCodes.Ldc_R8, 1.4),
+                                    new CodeInstruction(OpCodes.Ldc_R8, 1.5),
                                 ],
                                 [isPrestiged]);
                     });

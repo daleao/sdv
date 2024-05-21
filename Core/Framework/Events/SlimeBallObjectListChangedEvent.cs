@@ -8,16 +8,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="SlimeBallObjectListChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-public sealed class SlimeBallObjectListChangedEvent : ObjectListChangedEvent
+public sealed class SlimeBallObjectListChangedEvent(EventManager? manager = null)
+    : ObjectListChangedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="SlimeBallObjectListChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    public SlimeBallObjectListChangedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e)
     {

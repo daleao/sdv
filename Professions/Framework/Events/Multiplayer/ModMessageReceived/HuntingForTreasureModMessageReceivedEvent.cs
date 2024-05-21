@@ -9,16 +9,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="HuntingForTreasureModMessageReceivedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class HuntingForTreasureModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class HuntingForTreasureModMessageReceivedEvent(EventManager? manager = null)
+    : ModMessageReceivedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="HuntingForTreasureModMessageReceivedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal HuntingForTreasureModMessageReceivedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;
 

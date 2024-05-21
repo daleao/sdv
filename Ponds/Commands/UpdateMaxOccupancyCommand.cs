@@ -7,16 +7,12 @@ using StardewValley.Buildings;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="UpdateMaxOccupancyCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class UpdateMaxOccupancyCommand : ConsoleCommand
+internal sealed class UpdateMaxOccupancyCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="UpdateMaxOccupancyCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal UpdateMaxOccupancyCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["update_pond_occupancy", "update_occupancy", "update", "occupancy"];
 

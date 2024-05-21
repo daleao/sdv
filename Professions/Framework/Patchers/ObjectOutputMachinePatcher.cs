@@ -56,20 +56,15 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
                 break;
             }
 
-            case QualifiedBigCraftableIds.WormBin:
-            case QualifiedBigCraftableIds.DeluxeWormBin:
-            case QualifiedBigCraftableIds.BaitMaker:
-                if (held is not null && owner.HasProfession(Profession.Luremaster, true))
-                {
-                    held.Stack *= 2;
-                }
-
-                break;
-
             default:
                 if (__instance.GetMachineData().IsIncubator && Game1.player.HasProfession(Profession.Breeder))
                 {
                     __instance.MinutesUntilReady /= 2;
+                }
+
+                if (held?.Category == SObject.baitCategory && owner.HasProfession(Profession.Luremaster, true))
+                {
+                    held.Stack *= 2;
                 }
 
                 break;

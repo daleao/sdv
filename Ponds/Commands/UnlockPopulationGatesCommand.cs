@@ -10,17 +10,13 @@ using StardewValley.Buildings;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="UnlockPopulationGatesCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class UnlockPopulationGatesCommand : ConsoleCommand
+internal sealed class UnlockPopulationGatesCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="UnlockPopulationGatesCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal UnlockPopulationGatesCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["unlock_gates", "unlock", "gates"];
 

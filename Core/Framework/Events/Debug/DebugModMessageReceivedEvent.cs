@@ -9,17 +9,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DebugModMessageReceivedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class DebugModMessageReceivedEvent : ModMessageReceivedEvent
+internal sealed class DebugModMessageReceivedEvent(EventManager? manager = null)
+    : ModMessageReceivedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DebugModMessageReceivedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DebugModMessageReceivedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;
 

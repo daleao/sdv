@@ -13,16 +13,12 @@ using static System.String;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="PrintCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class PrintCommand : ConsoleCommand
+internal sealed class PrintCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="PrintCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal PrintCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["print", "read", "show", "log", "list"];
 
@@ -68,7 +64,7 @@ internal sealed class PrintCommand : ConsoleCommand
         var sb = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} [<key>]");
         sb.Append("\n\nParameters:");
         sb.Append(
-            "\n\t<key>\t- What you would like to print. Accepted values are \"data\", \"limit\", \"fishdex\", any skill name, or \"all\" for all skills.");
+            "\n\t<key> - What you would like to print. Accepted values are \"data\", \"limit\", \"fishdex\", any skill name, or \"all\" for all skills.");
         sb.Append("\n\nExamples:");
         return sb.ToString();
     }
@@ -184,47 +180,47 @@ internal sealed class PrintCommand : ConsoleCommand
         var sb = new StringBuilder($"Farmer {player.Name}'s mod data:");
         var value = Data.Read(player, DataKeys.EcologistVarietiesForaged);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? $"Ecologist Varieties Foraged: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
-                         (int.Parse(value) < Config.ForagesNeededForBestQuality
-                             ? $" ({Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                             : Empty)
-                       : "Mod data does not contain an entry for EcologistVarietiesForaged.");
+            !IsNullOrEmpty(value)
+                ? $"Ecologist Varieties Foraged: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
+                  (int.Parse(value) < Config.ForagesNeededForBestQuality
+                      ? $" ({Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                      : Empty)
+                : "Mod data does not contain an entry for EcologistVarietiesForaged.");
 
         value = Data.Read(player, DataKeys.GemologistMineralsStudied);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? $"Gemologist Minerals Studied: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
-                         (int.Parse(value) < Config.MineralsNeededForBestQuality
-                             ? $" ({Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                             : Empty)
-                       : "Mod data does not contain an entry for GemologistMineralsStudied.");
+            !IsNullOrEmpty(value)
+                ? $"Gemologist Minerals Studied: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
+                  (int.Parse(value) < Config.MineralsNeededForBestQuality
+                      ? $" ({Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
+                      : Empty)
+                : "Mod data does not contain an entry for GemologistMineralsStudied.");
 
         value = Data.Read(player, DataKeys.ProspectorHuntStreak);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? $"Prospector Hunt Streak: {value} (affects Prospector Hunt treasure quality)"
-                       : "Mod data does not contain an entry for ProspectorHuntStreak.");
+            !IsNullOrEmpty(value)
+                ? $"Prospector Hunt Streak: {value} (affects Prospector Hunt treasure quality)"
+                : "Mod data does not contain an entry for ProspectorHuntStreak.");
 
         value = Data.Read(player, DataKeys.ScavengerHuntStreak);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? $"Scavenger Hunt Streak: {value} (affects Scavenger Hunt treasure quality)"
-                       : "Mod data does not contain an entry for ScavengerHuntStreak.");
+            !IsNullOrEmpty(value)
+                ? $"Scavenger Hunt Streak: {value} (affects Scavenger Hunt treasure quality)"
+                : "Mod data does not contain an entry for ScavengerHuntStreak.");
 
         value = Data.Read(player, DataKeys.ConservationistTrashCollectedThisSeason);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? $"Conservationist Trash Collected ({Game1.season}): {value}\n\t\tExpected tax deduction for {Game1.season.Next()}: " +
-                         // ReSharper disable once PossibleLossOfFraction
-                         $"{Math.Min((int)float.Parse(value) / Config.ConservationistTrashNeededPerTaxDeduction / 100f, Config.ConservationistTaxDeductionCeiling):0%}"
-                       : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
+            !IsNullOrEmpty(value)
+                ? $"Conservationist Trash Collected ({Game1.season}): {value}\n\t\tExpected tax deduction for {Game1.season.Next()}: " +
+                  // ReSharper disable once PossibleLossOfFraction
+                  $"{Math.Min((int)float.Parse(value) / Config.ConservationistTrashNeededPerTaxDeduction / 100f, Config.ConservationistTaxDeductionCeiling):0%}"
+                : "Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
 
         value = Data.Read(player, DataKeys.ConservationistActiveTaxDeduction);
         sb.Append("\n\t- ").Append(
-                   !IsNullOrEmpty(value)
-                       ? CurrentCulture($"Conservationist Active Tax Deduction: {float.Parse(value):0%}")
-                       : "Mod data does not contain an entry for ConservationistActiveTaxDeduction.");
+            !IsNullOrEmpty(value)
+                ? CurrentCulture($"Conservationist Active Tax Deduction: {float.Parse(value):0%}")
+                : "Mod data does not contain an entry for ConservationistActiveTaxDeduction.");
 
         this.Handler.Log.I(sb.ToString());
     }
@@ -302,9 +298,9 @@ internal sealed class PrintCommand : ConsoleCommand
                     $"\n\t- {fish} (current: {nonMaxSizedCaught[fish].Item1}, max: {nonMaxSizedCaught[fish].Item2})")));
 
         var seasonFish = from specificFishData in fishData.Values
-                         where specificFishData.SplitWithoutAllocation('/')[6]
-                             .Contains(Game1.currentSeason, StringComparison.Ordinal)
-                         select specificFishData.SplitWithoutAllocation('/')[0].ToString();
+            where specificFishData.SplitWithoutAllocation('/')[6]
+                .Contains(Game1.currentSeason, StringComparison.Ordinal)
+            select specificFishData.SplitWithoutAllocation('/')[0].ToString();
         sb.Append("\nThe following fish can be caught this season:");
         sb = seasonFish.Except(caughtFishNames)
             .Aggregate(sb, (current, fish) => current.Append($"\n\t- {fish}"));

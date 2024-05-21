@@ -8,17 +8,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ScavengerHuntOneSecondUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ScavengerHuntOneSecondUpdateTickedEvent : OneSecondUpdateTickedEvent
+internal sealed class ScavengerHuntOneSecondUpdateTickedEvent(EventManager? manager = null)
+    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     private static uint _previousHuntStepsTaken;
-
-    /// <summary>Initializes a new instance of the <see cref="ScavengerHuntOneSecondUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ScavengerHuntOneSecondUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
 
     /// <inheritdoc />
     protected override void OnEnabled()

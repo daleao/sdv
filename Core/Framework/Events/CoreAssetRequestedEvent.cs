@@ -7,29 +7,30 @@ using DaLion.Shared.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="CoreAssetRequestedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class CoreAssetRequestedEvent : AssetRequestedEvent
+internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
+    : AssetRequestedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreAssetRequestedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreAssetRequestedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
+    /// <inheritdoc />
+    protected override void Initialize()
     {
         this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData));
 
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/bleed.png"));
+            new ModTextureProvider(() => "assets/sprites/bleed.png"));
         this.Provide(
             $"{Manifest.UniqueID}/SlowAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/slow.png"));
+            new ModTextureProvider(() => "assets/sprites/slow.png"));
         this.Provide(
             $"{Manifest.UniqueID}/StunAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/stun.png"));
+            new ModTextureProvider(() => "assets/sprites/stun.png"));
         this.Provide(
             $"{Manifest.UniqueID}/PoisonAnimation",
-            new ModTextureProvider(() => "assets/sprites/effects/poison.png"));
+            new ModTextureProvider(() => "assets/sprites/poison.png"));
     }
 
     /// <summary>Edits crafting recipes with new ring recipes.</summary>

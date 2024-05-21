@@ -9,16 +9,12 @@ using StardewValley;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="StatueDayEndingEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class StatueDayEndingEvent : DayEndingEvent
+internal sealed class StatueDayEndingEvent(EventManager? manager = null)
+    : DayEndingEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="StatueDayEndingEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal StatueDayEndingEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.SkillsToReset.Count > 0;
 

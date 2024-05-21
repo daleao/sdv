@@ -9,17 +9,13 @@ using StardewValley.Menus;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="DebugCursorMovedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class DebugCursorMovedEvent : CursorMovedEvent
+internal sealed class DebugCursorMovedEvent(EventManager? manager = null)
+    : CursorMovedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="DebugCursorMovedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal DebugCursorMovedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;
 

@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Professions.Framework.Events.GameLoop;
 
+using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
+
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
@@ -46,7 +48,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             if (!player.professions.Contains(limitId))
             {
                 Log.W(
-                    $"{player.Name} has broken the limits of {limit.Name} but is missing the corresponding profession. The limit will be unbroken.");
+                    $"{player.Name} has the Limit Break \"{limit.Name}\" but is missing the corresponding profession. The limit will be unbroken.");
                 Data.Write(player, DataKeys.LimitBreakId, null);
             }
             else
@@ -88,7 +90,7 @@ internal sealed class ProfessionSaveLoadedEvent : SaveLoadedEvent
             this.Manager.Enable<ChromaBallObjectListChangedEvent>();
         }
 
-        this.Manager.Enable<RevalidateBuildingsDayStartedEvent>();
+        this.Manager.Enable<RevalidateBuildingsDayEndingEvent>();
     }
 
     /// <summary>Invoked when a profession is added to the local player.</summary>

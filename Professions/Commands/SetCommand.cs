@@ -12,8 +12,11 @@ using StardewValley.Tools;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="SetCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class SetCommand : ConsoleCommand
+internal sealed class SetCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
     private readonly HashSet<string> _dataKeys =
     [
@@ -40,13 +43,6 @@ internal sealed class SetCommand : ConsoleCommand
         "conservationist",
         "conservationisttrashcollectedthisseason",
     ];
-
-    /// <summary>Initializes a new instance of the <see cref="SetCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal SetCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
 
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["set", "write"];
@@ -116,18 +112,27 @@ internal sealed class SetCommand : ConsoleCommand
     {
         var sb = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <key> <value>");
         sb.Append("\n\nParameters:");
-        sb.Append("\n\t<key>\t- a skill or data key to be set");
-        sb.Append("\\n\t<value>\t- the desired new value");
+        sb.Append("\n\t<key> - A skill name to set the level of, or data key to set the value of.");
+        sb.Append("\n\t<value> - The desired new level or value.");
         sb.Append("\n\nExamples:");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} farming 10 => sets the player's Farming skill level to 10");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} limit brute => sets the player's Limit Break to Brute's Frenzy");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} ecologist 30 => sets EcologistVarietiesForaged to the value 30");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} conservationist 100 => sets ConservationistTrashCollectedThisSeason to 100");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax caught => sets the record size of fish caught so far to the maximum value (for testing Angler profession)");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax all => sets the record size of all to the maximum value, even if not yet caught (for testing Angler profession)");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} rodmem 856 => sets the tackle memory of the currently held fishing rod to the value 856 (Curiosity Lure, for testing Angler profession)");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim friendship => sets the friendship of all owned animals to the maximum value (for testing Breeder profession)");
-        sb.Append($"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim mood => sets the mood of all owned animals to the maximum value (for testing Producer profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} farming 10 => sets the player's Farming skill level to 10");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} limit brute => sets the player's Limit Break to Brute's Frenzy");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} ecologist 30 => sets EcologistVarietiesForaged to the value 30");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} conservationist 100 => sets ConservationistTrashCollectedThisSeason to 100");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax caught => sets the record size of fish caught so far to the maximum value (for testing Angler profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax all => sets the record size of all to the maximum value, even if not yet caught (for testing Angler profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} rodmem 856 => sets the tackle memory of the currently held fishing rod to the value 856 (Curiosity Lure, for testing Angler profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim friendship => sets the friendship of all owned animals to the maximum value (for testing Breeder profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim mood => sets the mood of all owned animals to the maximum value (for testing Producer profession)");
         sb.Append(this.GetAvailableKeys());
         return sb.ToString();
     }
@@ -232,7 +237,8 @@ internal sealed class SetCommand : ConsoleCommand
 
         if (!Game1.player.HasProfession(limit.ParentProfession))
         {
-            this.Handler.Log.W("You don't have the required profession. Use the \"add\" command first if you would like to set this Limit Break.");
+            this.Handler.Log.W(
+                "You don't have the required profession. Use the \"add\" command first if you would like to set this Limit Break.");
             return;
         }
 
@@ -409,7 +415,8 @@ internal sealed class SetCommand : ConsoleCommand
         }
 
         Data.Write(Game1.player, DataKeys.ConservationistTrashCollectedThisSeason, value);
-        this.Handler.Log.I($"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
+        this.Handler.Log.I(
+            $"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
     }
 
     private void SetFishingRodMemory(string value)

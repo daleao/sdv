@@ -13,8 +13,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\DStarLite.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\AStar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\NpcExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderRenderedWorldEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\MTDStarLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ColorRange.cs" />
@@ -196,13 +197,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderObjectListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)README.md" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Pathfinding\" />
   </ItemGroup>
 </Project>

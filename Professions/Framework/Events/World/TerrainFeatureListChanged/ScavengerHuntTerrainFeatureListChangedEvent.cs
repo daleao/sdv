@@ -8,16 +8,12 @@ using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ScavengerHuntTerrainFeatureListChangedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ScavengerHuntTerrainFeatureListChangedEvent : TerrainFeatureListChangedEvent
+internal sealed class ScavengerHuntTerrainFeatureListChangedEvent(EventManager? manager = null)
+    : TerrainFeatureListChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ScavengerHuntTerrainFeatureListChangedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ScavengerHuntTerrainFeatureListChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnTerrainFeatureListChangedImpl(object? sender, TerrainFeatureListChangedEventArgs e)
     {

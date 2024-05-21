@@ -15,7 +15,7 @@ public static class GameLocationExtensions
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="location"/> is a <see cref="MineShaft"/> or one of several recognized dungeon locations, otherwise <see langword="false"/>.</returns>
     /// <remarks>Includes locations from Stardew Valley Expanded, Ridgeside Village and Moon Misadventures.</remarks>
-    public static bool IsDungeon(this GameLocation location)
+    public static bool IsEnemyArea(this GameLocation location)
     {
         return location is MineShaft or BugLand or VolcanoDungeon ||
                location.NameOrUniqueName.ContainsAnyOf(

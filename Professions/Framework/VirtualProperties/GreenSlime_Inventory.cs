@@ -20,7 +20,19 @@ internal static class GreenSlime_Inventory
 
     internal static bool Get_HasInventorySlots(this GreenSlime slime)
     {
-        return Values.GetValue(slime, Create).HasEmptySlots();
+        var inventory = Values.GetValue(slime, Create);
+        if (inventory.HasEmptySlots())
+        {
+            return true;
+        }
+
+        Utility.consolidateStacks(inventory);
+        while (inventory.Count < 10)
+        {
+            inventory.Add(null);
+        }
+
+        return inventory.HasEmptySlots();
     }
 
     private static Inventory Create(GreenSlime _)

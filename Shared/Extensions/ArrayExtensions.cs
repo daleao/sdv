@@ -108,6 +108,7 @@ public static class ArrayExtensions
     /// <param name="array">The array.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
     /// <returns>A random element from the <paramref name="array"/>.</returns>
+    /// <exception cref="IndexOutOfRangeException">If <paramref name="array"/> is empty.</exception>
     public static T Choose<T>(this T[] array, Random? r = null)
     {
         r ??= new Random(Guid.NewGuid().GetHashCode());

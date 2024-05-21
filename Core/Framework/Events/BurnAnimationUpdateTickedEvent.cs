@@ -10,16 +10,12 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="BurnAnimationUpdateTickedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class BurnAnimationUpdateTickedEvent : UpdateTickedEvent
+internal sealed class BurnAnimationUpdateTickedEvent(EventManager? manager = null)
+    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="BurnAnimationUpdateTickedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal BurnAnimationUpdateTickedEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
@@ -28,6 +24,7 @@ internal sealed class BurnAnimationUpdateTickedEvent : UpdateTickedEvent
             this.Disable();
         }
 
-        BurnAnimation.BurnAnimationsByMonster.ForEach(pair => pair.Value.ForEach(burn => burn.update(Game1.currentGameTime)));
+        BurnAnimation.BurnAnimationsByMonster.ForEach(pair =>
+            pair.Value.ForEach(burn => burn.update(Game1.currentGameTime)));
     }
 }

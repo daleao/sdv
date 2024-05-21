@@ -9,16 +9,12 @@ using StardewValley.Extensions;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ScavengerWarpedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ScavengerWarpedEvent : WarpedEvent
+internal sealed class ScavengerWarpedEvent(EventManager? manager = null)
+    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ScavengerWarpedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ScavengerWarpedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger, true);
 

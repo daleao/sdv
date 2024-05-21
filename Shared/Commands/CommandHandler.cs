@@ -192,14 +192,6 @@ public sealed class CommandHandler
             return;
         }
 
-        if (args.Length > 1 && (string.Equals(args[1], "help", StringComparison.InvariantCultureIgnoreCase) ||
-                                string.Equals(args[1], "doc", StringComparison.InvariantCultureIgnoreCase)))
-        {
-            this.Log.I(
-                $"{handled.Documentation}\n\nAliases: {string.Join(',', handled.Triggers.Skip(1).Select(t => "`" + t + "`"))}");
-            return;
-        }
-
         if (!this._conditional?.Invoke() ?? false)
         {
             return;

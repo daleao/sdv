@@ -8,16 +8,12 @@ using DaLion.Shared.Commands;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ClearNewLevelsCommand"/> class.</summary>
+/// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class ClearNewLevelsCommand : ConsoleCommand
+internal sealed class ClearNewLevelsCommand(CommandHandler handler)
+    : ConsoleCommand(handler)
 {
-    /// <summary>Initializes a new instance of the <see cref="ClearNewLevelsCommand"/> class.</summary>
-    /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
-    internal ClearNewLevelsCommand(CommandHandler handler)
-        : base(handler)
-    {
-    }
-
     /// <inheritdoc />
     public override string[] Triggers { get; } = ["clear_new_levels"];
 

@@ -7,17 +7,13 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="CoreReturnedToTitleEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class CoreReturnedToTitleEvent : ReturnedToTitleEvent
+internal sealed class CoreReturnedToTitleEvent(EventManager? manager = null)
+    : ReturnedToTitleEvent(manager ?? CoreMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="CoreReturnedToTitleEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal CoreReturnedToTitleEvent(EventManager? manager = null)
-        : base(manager ?? CoreMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)
     {

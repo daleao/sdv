@@ -21,7 +21,7 @@ public sealed class ChargeableConfig
     public bool RequireModkey { get; internal set; } = true;
 
     /// <summary>Gets the chosen mod key(s).</summary>
-    public KeybindList Modkey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList Modkey { get; internal set; } = KeybindList.Parse("LeftCtrl, LeftShoulder");
 
     /// <summary>Gets the number of update ticks between each peak of the shockwave. Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     public uint TicksBetweenWaves { get; internal set; } = 4;

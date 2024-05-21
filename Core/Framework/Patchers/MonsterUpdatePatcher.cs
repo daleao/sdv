@@ -153,10 +153,9 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     {
                         frozen.Value = false;
                     }
-
-                    __instance.stopGlowing();
                 }
 
+                __instance.stopGlowing();
                 slowTimer.Value = -1;
                 return true; // run original logic
             }

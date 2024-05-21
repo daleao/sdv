@@ -1,8 +1,12 @@
 ﻿namespace DaLion.Professions.Framework.Patchers.Combat;
 
+using DaLion.Core.Framework.Extensions;
+
 #region using directives
 
+using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -29,8 +33,19 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, ref int ___readyToJump, GameTime time)
     {
+        if (!ReferenceEquals(__instance.currentLocation, Game1.player.currentLocation))
+        {
+            return;
+        }
+
         if (__instance.Get_Piped() is not { } piped)
         {
+            if (!__instance.Player.HasProfession(Profession.Piper) || State.OffendedSlimes.Contains(__instance))
+            {
+                return;
+            }
+
+            ___readyToJump = -1;
             return;
         }
 
@@ -39,14 +54,20 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;
             if (piped.PipeTimer <= 0)
             {
-                piped.Burst();
+                if (!State.AlliedSlimes.Contains(piped))
+                {
+                    piped.Burst();
+                }
+                else
+                {
+                    EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
+                }
             }
         }
 
         if (!piped.FakeFarmer.IsEnemy && time.ElapsedGameTime.Milliseconds % 4 == 0)
         {
             ___readyToJump = -1;
-            __instance.timeSinceLastJump = 0;
             var approximatePosition =
                 Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
                     typeof(Debris),
@@ -59,7 +80,8 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                     continue;
                 }
 
-                if (__instance.GetBoundingBox().Contains(approximatePosition(debris)) &&
+                var (x, y) = approximatePosition(debris) / Game1.tileSize;
+                if (__instance.Tile.X.Approx(x, 0.9f) && __instance.Tile.Y.Approx(y, 0.9f) &&
                     __instance.CollectDebris(debris))
                 {
                     __instance.currentLocation.debris.RemoveAt(i);
@@ -98,6 +120,12 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 1f,
                 monster));
             monster.setInvincibleCountdown(piped.Piper.Get_IsLimitBreaking().Value ? 300 : 450);
+            if (!monster.IsSlime() && monster is not Ghost && !monster.IsSlowed() && Game1.random.NextBool())
+            {
+                // apply Slimed debuff
+                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
+                monster.startGlowing(Color.LimeGreen, false, 0.05f);
+            }
 
             // aggro monsters
             if (monster.Get_Taunter() is null)

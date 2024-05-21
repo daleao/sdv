@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Linq;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Content;
 using DaLion.Shared.Enums;
@@ -23,14 +22,15 @@ using xTile;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="ProfessionAssetRequestedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [AlwaysEnabledEvent]
-internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
+internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null)
+    : AssetRequestedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="ProfessionAssetRequestedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal ProfessionAssetRequestedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+    /// <inheritdoc />
+    protected override void Initialize()
     {
         this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/BigCraftables", new AssetEditor(EditBigCraftablesData));
@@ -63,9 +63,6 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
         this.Provide(
             $"{UniqueId}/LimitGauge",
             new ModTextureProvider(ProvideLimitGauge));
-        this.Provide(
-            $"{UniqueId}/HudPointer",
-            new ModTextureProvider(() => "assets/sprites/pointer.png"));
         this.Provide(
             $"{UniqueId}/Mayo",
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
@@ -209,7 +206,7 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
     /// <summary>Patches fish pond data with legendary fish data.</summary>
     private static void EditFishPondDataData(IAssetData asset)
     {
-        var data = ((List<FishPondData>)asset.Data).Concat(
+        ((List<FishPondData>)asset.Data).AddRange(
             new List<FishPondData>
             {
                 new()
@@ -617,7 +614,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             SpriteIndex = 0,
             Edibility = 20,
             IsDrink = true,
-            ContextTags = [
+            ContextTags =
+            [
                 "color_gold",
                 "mayo_item",
             ],
@@ -635,7 +633,8 @@ internal sealed class ProfessionAssetRequestedEvent : AssetRequestedEvent
             SpriteIndex = 1,
             Edibility = 50,
             IsDrink = true,
-            ContextTags = [
+            ContextTags =
+            [
                 "color_white",
                 "mayo_item",
             ],

@@ -9,18 +9,14 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
+/// <summary>Initializes a new instance of the <see cref="GaldoraHudThemeWarpedEvent"/> class.</summary>
+/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [ModRequirement("FlashShifter.StardewValleyExpandedCP", "Stardew Valley Expanded")]
 [AlwaysEnabledEvent]
-internal sealed class GaldoraHudThemeWarpedEvent : WarpedEvent
+internal sealed class GaldoraHudThemeWarpedEvent(EventManager? manager = null)
+    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <summary>Initializes a new instance of the <see cref="GaldoraHudThemeWarpedEvent"/> class.</summary>
-    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-    internal GaldoraHudThemeWarpedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
-    {
-    }
-
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {

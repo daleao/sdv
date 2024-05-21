@@ -21,7 +21,7 @@ internal static class GameLocation_Quadtree
 
     private static Quadtree<Character> Create(GameLocation location)
     {
-        var regionBounds = new Rectangle(0, 0, location.Map.DisplayWidth, location.Map.DisplayHeight);
+        var regionBounds = new Rectangle(0, 0, location.Map.Layers[0].LayerWidth, location.Map.Layers[0].LayerHeight);
         var tree = new Quadtree<Character>(regionBounds, c => c.GetBoundingBox());
         foreach (var c in location.characters)
         {

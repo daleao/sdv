@@ -1,0 +1,1008 @@
+<div align="center">
+
+<div align="center">
+
+<img src="resources/covers/title_wol_r.png" alt="title.png" width="67%">
+</div>
+
+<br>
+
+<span width="67%">
+<img src="https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png" width="5%"/>
+<img src="https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
+<img src="https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png" width="5%"/>
+<img src="https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png" width="5%"/>
+<img src="https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png" width="5%"/>
+</span>
+
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<details  open="open"  align="left">
+<summary>Table of Contents</summary>
+<ol>
+	<li><a href="#overview">Overview</a></li>
+	<li>
+		<a href="#professions">Professions</a>
+		<ol>
+			<li><a href="#-farming">Farming</a></li>
+			<li><a href="#-foraging">Foraging</a></li>
+			<li><a href="#-mining">Mining</a></li>
+			<li><a href="#-fishing">Fishing</a></li>
+			<li><a href="#-combat">Combat</a></li>
+		</ol>
+	</li>
+	<li><a href="#prestige">Prestige</a></li>
+	<li><a href="#limit-breaks">Limit Breaks</a></li>
+	<li><a href="#compatibility">Compatibility</a></li>
+	<li><a href="#recommended-mods">Recommended Mods</a></li>
+	<li><a href="#for-mod-authors">For Mod Authors</a></li>
+	<li><a href="#faq">F.A.Q.</a></li>
+</ol>
+</details>
+
+
+## What this is
+
+This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and provide opportunities to explore entirely new styles of gameplay which engage and also scale with the player until the very late-game.
+
+Every profession follows a clear theme or vanilla mechanic, and expands upon that mechanic with perks that enable entirely new styles of gameplay, provide scale with player, provide new end-game objectives and steer the player towards new playstyles.
+
+This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] mod for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+
+## The Professions
+
+Click on any profession below to expand for more details. Golden professions refer to [Prestige](#prestige-progression) variants.
+
+### ![](https://i.imgur.com/p9QdB6L.png) Farming
+
+<ul>
+
+<!--- Harvester --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/harvester.png"/> <b>Harvester (Lv5)</b> - 10% chance for extra yield from harvested crops.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/harvester_p.png"/> <b>Master Harvester (Lv15)</b> - <s>10%</s> → 20% chance for extra yield from harvested crops.
+</font>
+
+<font size="2">
+<details>
+
+Equivalent in value to vanilla's 10% price bonus on average, while also providing value if you choose not to sell raw crops.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Agriculturist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster and can survive the first day out-of-season.
+</font>
+
+<font size="2">
+<details>
+
+Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. Chance is equivalent to half of the chance with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete. Note that quality is determined only on the moment of harvest; planted crops have no quality, which means the perk will apply to crops planted before obtaining this profession.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Artisan --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/artisan.png"/> <b>Artisan (Lv10)</b> - Artisan machines work 10% faster. Machine output quality can be as good as input ingredient quality.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Hopper-automated machines work 25% faster. Machine output quality is always as good as input ingredient quality.
+</font>
+
+<font size="2">
+<details>
+
+The quality of the output is based on your Farming level. The lowest possible quality is 2 stages below the input quality, and the highest is 1 stage above at a flat 5% chance. For reference, the chance to *match* input quality at Farming level 10 is 30%. Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; i.e., only Artisans themselves can preserve the ingredient quality, and they can do so on any machine, but non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
+
+In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Rancher --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/rancher.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2x more quickly.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/rancher_p.png"/> <b>Master Rancher (Lv15)</b> - Befriend animals <s>2×</s> → 3x more quickly.
+</font>
+
+<font size="2">
+<details>
+
+Grants double mood *and* friendship points from petting. Newborn animals are born with a non-zero, randomized initial friendship.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Breeder --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2x faster and natural pregnancy 3x more likely. Increase value of animals at high friendship.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/breeder_p.png"/> <b>Progenitor (Lv20)</b> - Hatched or bred animals are always worth maximum value. Deluxe Barn capacity +2.
+</font>
+
+<font size="2">
+<details>
+
+At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Producer --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/producer.png"/> <b>Producer (Lv10)</b> - Happy animals produce 2x as frequently. Produce is worth 5% more for every full barn or coop.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/producer_p.png"/> <b>Yieldmeister (Lv20)</b> - Happy animals produce <s>2x</s> → 3x as frequently. Deluxe Coop capacity +2.
+</font>
+
+<font size="2">
+<details>
+
+Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship. This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the bonus value.
+</details>
+</font>
+
+</ul>
+</details>
+
+</ul>
+
+### ![](https://i.imgur.com/jf88nPt.png) Foraging
+
+<ul>
+
+<!--- Forager --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Forager (Lv5)</b>- 20% chance for double yield of foraged items.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/forager_p.png"/> <b>Master Forager (Lv15)</b> - <s>20%</s> → 40% chance for double yield of foraged items.
+</font>
+
+<font size="2">
+<details>
+
+Other than the name, this profession is unchanged from vanilla.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Ecologist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/ecologist.png"/> <b>Ecologist (Lv10)</b> - Foraged items restore 50% more health and energy. The quality of foraged items increases as new varieties are uncovered.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/ecologist_p.png"/> <b>Bioharmonist (Lv20)</b> - Foraged items restore <s>50%</s> → 100% more health and energy and also afford buffs.
+</font>
+
+<font size="2">
+<details>
+
+All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage. Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off of palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession.
+
+For Bioharmonist, a buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Scavenger --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/scavenger.png"/> <b>Scavenger (Lv10)</b> - Location of forageable items revealed. Occasionally detect buried treasure.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/scavenger_p.png"/> <b>Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts. Find increasingly more forageables on a high streak.
+</font>
+
+<font size="2">
+<details>
+
+Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Lumberjack --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/lumberjack.png"/> <b>Lumberjack (Lv5)</b> - Felled trees yield 25% more wood.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/lumberjack_p.png"/> <b>Master Lumberjack (Lv15)</b> - Felled trees yield <s>25%</s> → 50% more wood.
+</font>
+
+<font size="2">
+<details>
+
+Other than the name, this profession is unchanged from vanilla.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Arborist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/arborist.png"/> <b>Arborist (Lv10)</b> - Planted trees grow 25% faster. All trees have a chance to drop hardwood.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/arborist_p.png"/> <b>Silviculturist (Lv20)</b> - All trees can drop even more hardwood. The Green Rain may fall in any season if Green Rain Trees are grown on the farm.
+</font>
+
+<font size="2">
+<details>
+
+Applies to both common trees and fruit trees. Note that common trees grow randomly, and so gain 25% bonus chance to advance a stage each night. Fruit trees, on the other hand, grow on a fixed schedule, in which case the perk simply causes every 4th day to be skipped so as to preserve that predictable nature.
+
+For Silviculturist, every fully-grown Green Rain Tree on the Farm adds a 1.5% chance to convert any rainy weather, even those caused by Rain Totems, to Green Rain, up to a maximum of 21%.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Tapper --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/tapper.png"/> <b>Tapper (Lv10)</b> - Tappers are cheaper to craft. Tapped trees produce syrup 25% faster.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/tapper_p.png"/> <b>Syrupwright (Lv20)</b> - Tapped trees produce syrup <s>25%</s> → 50% faster. Double yield from recipes that consume syrups.
+</font>
+
+<font size="2">
+<details>
+
+New regular recipe: x25 wood, x1 copper bar.
+New Heavy recipe: x18 hardwood, x1 radioactive bar.
+
+In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which makes it more in line with the new Heavy Furnace and, honestly, just makes more sense. This is enabled by default.
+</details>
+</font>
+
+</ul>
+</details>
+
+</ul>
+
+### ![](https://i.imgur.com/TidtIw0.png) Mining
+
+<ul>
+
+<!--- Miner --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/miner.png"/> <b>Miner (Lv5)</b> - +1 ore per ore vein.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/miner_p.png"/> <b>Master Miner (Lv15)</b> - <s>+1</s> → +2 ore per ore vein.
+</font>
+
+<font size="2">
+<details>
+
+This profession is completely unchanged from vanilla.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Spelunker --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris upon exiting.
+</font>
+
+<font size="2">
+<details>
+
+Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface. Increased safe room chance applies only to Skull Caverns.
+
+For Cavewarden, any items left behind while mining have a 20% chance to spawn back at the Mines or Skull Caverns entrance.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Prospector --->
+
+<details>
+<summary>
+<img src="./resources/assets/sprites/loose/prospector.png"/> <b>Prospector (Lv10)</b> - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/prospector_p.png"/> <b>Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts. Find increasingly more mining nodes on a high streak.
+</font>
+
+<font size="2">
+<details>
+
+This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
+
+You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Blaster --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/blaster.png"/> <b>Blaster (Lv5)</b> - Craft twice as many explosives. Exploded rocks yield 2× as much coal.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/blaster_p.png"/> <b>Master Blaster (Lv15)</b> - Exploded rocks yield <s>2×</s> → 3× as much coal.
+</font>
+
+<font size="2">
+<details>
+
+A new style of mining which also tries to alleviate the lack of coal from having removed the vanilla Prospector profession.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Demolitionist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. Exploded rocks yield 20% more resources.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/demolitionist_p.png"/> <b>Pyrotechnician (Lv20)</b> - Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.
+</font>
+
+<font size="2">
+<details>
+
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftCtrl) before placing them on the ground.
+
+For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
+
+All perks also apply to Explosive Ammo.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Gemologist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/gemologist.png"/> <b>Gemologist (Lv10)</b> - Chance for gems to appear in pairs. The quality of mined gemstones increases as new mineral varieties are uncovered.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/gemologist_p.png"/> <b>Crystallographer (Lv20)</b> - Chance for gems to appear in triplets. Crystalaria produce perfect replicas.
+</font>
+
+<font size="2">
+<details>
+
+The mining-equivalent of Ecologist. All gems and minerals mined from nodes will have the same deterministic quality, starting at silver and gradually increasing to iridium as you collect and study new varieties of gemstones. Note that this bonus applies only to gems and minerals that have been physically mined.
+
+For Crystallographer, a "perfect replica" refers to quality preservation.
+</details>
+</font>
+
+</ul>
+</details>
+
+</ul>
+
+### ![](https://i.imgur.com/XvdVsAn.png) Fishing
+
+<ul>
+
+<!--- Fisher --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b> - Baits are 2× more effective when fishing.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/fisher_p.png"/> <b>Master Fisher (Lv15)</b> - Baits are <s>2×</s> → 3× more effective when fishing.
+</font>
+
+<font size="2">
+<details>
+
+Doubles the chance to attract fish normally associated with every bait, as well as the double catch chance of Wild Bait and the bonus treasure chance of Magnet.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Angler --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b> - Fish are 0.5% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/angler_p.png"/> <b>Rodmancer (Lv20)</b> - Up to two tackle effects can linger on the fishing rod. Chance to re-encounter legendary fish.
+</font>
+
+<font size="2">
+<details>
+
+Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk. Legendary fish are worth 4 regular fish; i.e., 2% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
+
+Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Aquarist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/aquarist.png"/> <b>Aquarist (Lv10)</b> - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.
+</summary>
+
+<ul>
+
+<font color="gold">
+<b>⭐ <img src="./resources/assets/sprites/loose/aquarist_p.png"/> Ichthyologist (Lv20)</b> - Fish pond max capacity <s>+2</s> → +4. Fish species raised to max pond capacity are reeled instantly.
+</font>
+
+<font size="2">
+<details>
+
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the Ars Aquari companion mod, you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+
+For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Trapper --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/trapper.png"/> <b>Trapper (Lv5)</b> - Crab pots are cheaper to craft. Can trap higher-quality fish.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/trapper_p.png"/> <b>Master Trapper (Lv15)</b> - Can trap best-quality haul.
+</font>
+
+<font size="2">
+<details>
+
+All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The crab pot recipe part of the perk is unchanged from vanilla.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Luremaster --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/luremaster.png"/> <b>Luremaster (Lv10)</b> - Baited Crab pots can produce 2x per day. Unlock new bait effects.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/luremaster_p.png"/> <b>Baitweaver (Lv20)</b> - Baited Crab pots can produce <s>2x</s> → 3x per day. Double yield from machines which produce bait.
+</font>
+
+<font size="2">
+<details>
+
+Each type bait will also apply its regular fishing effects:
+- **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
+- **Wild bait:** 50% chance to also double the haul.
+- **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
+- **Magic bait:** Chance to catch high-level fish of any location or season.
+
+All baits, with the exception of Magnet, also prevent collecting junk.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Conservationist --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/conservationist.png"/> <b>Conservationist (Lv10)</b> - Crab pots without bait can trap junk. Clean the Valley's waters to earn the favor of villager's and merit tax deductions.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/conservationist_p.png"/> <b>Oceanographer (Lv20)</b> - Crab pots without bait can also trap fish. Special conditions apply during rainy or full-moon days.
+</font>
+
+<font size="2">
+<details>
+
+By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod Tributa Realia is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+
+For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
+</details>
+</font>
+
+</ul>
+</details>
+
+</ul>
+
+### ![](https://i.imgur.com/fUnZSTj.png) Combat
+
+<ul>
+
+<!--- Fighter --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/fighter.png"/> <b>Fighter (Lv5)</b> - Damage +10%. +15 HP.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/fighter_p.png"/> <b>Master Fighter (Lv15)</b> - Damage <s>+10%</s> → +20%.
+</font>
+
+<font size="2">
+<details>
+
+Completely unchanged from vanilla.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Brute --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute | Amazon (Lv10)</b> - Become enraged as you suffer damage, which gradually increases your own damage and attack speed. +25 HP.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/brute_p.png"/> <b>Wildheart (Lv20)</b> - Stay enraged for twice as long.
+</font>
+
+<font size="2">
+<details>
+
+**Rage:** Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds, increasing to 40 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Poacher --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b> - Crit. chance +50%. Chance to poach an item from the enemy with each attack.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/poacher_p.png"/> <b>Saboteur (Lv20)</b> - Enemies can be poached twice. Inflict deadly poison on a successful poach.
+</font>
+
+<font size="2">
+<details>
+
+**Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
+
+**Deadly Poison:** Deals tick damage every second. On second application causes instant-death.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Rascal --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/rascal.png"/> <b>Rascal (Lv5)</b> - Gain one additional ammo slot. 35% chance to recover spent ammo.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/rascal_p.png"/> <b>Master Rascal (Lv15)</b> - <s>35%</s> → 55% chance to recover spent ammo. Can fire both ammo slots at once.
+</font>
+
+<font size="2">
+<details>
+
+Press the mod key (default LeftCtrl) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime, which this profession can also fire to causes a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+
+If prestiged, holding the mod key while shooting will fire both ammo slots at once. Doing so with Monster Musk equipped to the second slot, which is a "hidden" feature of this profession, will grant the primary ammo the **musked** property.
+
+**Musked Ammo:** When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Desperado --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/desperado.png"/> <b>Desperado (Lv10)</b> - Damage +50% from hip-fired shots that hit a new target within 0.8 seconds of the last. Can overcharge the slingshot.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/desperado_p.png"/> <b>Deadeye (Lv20)</b> - Hip-fired shots can ricochet. Double damage from rebound or pierced shots.
+</font>
+
+<font size="2">
+<details>
+
+**Hip-firing:** Refers to shots that are released as early as possible (before the overcharge meter appears). When any shot hits an enemy, your next hip-fired shot against a different enemy receives a 50% damage buff if it hits a target within 0.8 seconds. This rewards expert quick-shooting and quickly switching targets, as you would expect of a Desperado.
+
+**Overcharge:** Continue holding the fire button past the normal charge threshold to reveal the overcharge meter. A fully overcharged shot gains up to two times the original speed, damage and knockback, and can also **pierce** enemies.
+
+**Piercing Shot:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot ignores enemy resistance and can damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+
+**Rebound Shot:** Hold the mod key (Default LeftCtrl) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
+</details>
+</font>
+
+</ul>
+</details>
+
+<!--- Piper --->
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Slimes are not immediately aggressive and may follow you in combat. Slime Hutch capacity +50%.
+</summary>
+
+<ul>
+
+<font color="gold">
+<img src="./resources/assets/sprites/loose/piper_p.png"/> <b>Slime Conductor | Enchantress (Lv20)</b> - One additional Slime may follow you in combat. Obtain special colored items from Slime Balls.
+</font>
+
+<font size="2">
+<details>
+
+The most unique of out of all new professions.
+Each Slime raised in a hutch owned by the player adds a chance to spawn an extra Slime in dungeons and dangeorus areas. Slimes will not attack you unless attacked first. The first Slime you approach will also become **Piped**.
+
+**Piped Slimes:** A Piped Slime will follow you around, collect left-behind items and defend you from enemies. Slimes have a 10-slot inventory which can be retrieved by defeating it. Slimes will fight approaching enemies and divert their attention, but in doing so can be defeated themselves. Keep an eye out for their health; they can be healed by being shot with a Slime from a slingshot.
+
+Also doubles the damage from Slime ammo.
+</details>
+</font>
+
+</ul>
+</details>
+
+</ul>
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+## Skill Progression
+
+### Skill Reset
+
+If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) is replaced by the **Statue of [Transcendance](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass)**.
+
+<div align="center">
+
+<img src="resources/screenshots/prestige_statue.gif" alt="prestige_statue.gif" width="67%">
+</div>
+
+<br>
+
+Instead of changing your profession choices, the Statue of Transcendance will reset your level 10 skills back to level 0, for a price. Why would you want to do that? Because you get to keep every profession you already have (yes, including level 5), and you can then level up again to acquire a different profession. By doing this enough times, you will eventually have acquired all professions in that skill.
+
+Note that you will inevitably need to choose each 5th-level profession twice on your way to getting both corresponding 10th-level professions. When this happens, **you do NOT gain the level 5 perks twice**. These perks are acquired only once, on the first time you choose that profession.
+
+You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, reseting a skill will also cause you to forget all associated recipes, but that can also be turned off.
+
+For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a colorful new star.
+
+Keep in mind that **once a skill has been Mastered it can no longer be reset**.
+
+All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
+
+### Prestige Progression
+
+If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats via **Prestige Levels**. Other perks of these levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be offered the choice of a **Prestige Profession**.
+
+<div align="center">
+
+<img src="resources/screenshots/skills_prestige.gif" alt="skills_prestige.gif" width="67%">
+</div>
+
+<br>
+
+You may choose only **one** Prestige Profession per skill (i.e., you cannot reset to acquire more than one). You will be able to change your prestige choices back at the Statue of Transcendence only once all 5 vanilla skills have been Mastered, for a modest fee of 20,000g (also configurable).
+
+Custom skill mods based on SpaceCore are **not** compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+### Limit Breaks
+
+In addition to Prestige Progression, Mastering the Combat skill may also optionally unlock a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak); powerful abilities that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
+
+Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time. Visit the Statue of Transcendence to select or change your Limit Break.
+
+The four Limit Breaks are:
+
+<ul>
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
+</summary>
+
+<ul>
+<font size="2">
+
+Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
+</ul>
+</font>
+</details>
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. This effect ends prematurely if you attack an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
+</summary>
+
+<ul>
+<font size="2">
+
+Charged by scoring critical hits, and the charge amount is proportional to crit. power.
+</ul>
+</font>
+</details>
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.
+</summary>
+
+<ul>
+<font size="2">
+
+- Journey of the Prairie King, "IRL".
+- Charged by hitting monsters with projectiles. Charges more quickly when low on health.
+</ul>
+</font>
+</details>
+
+<details>
+<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
+</summary>
+
+<ul>
+<font size="2">
+
+- If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes.
+- Nearby Big Slimes burst immediately when activated.
+- Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
+</ul>
+</font>
+</details>
+
+</ul>
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+
+## Compatibility
+
+- Compatible with custom [SpaceCore](mod:spacecore) skills.
+- Compatible with [Stardew Valley Expanded](mod:sve).
+- Compatible with any Content Patcher mod.
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+
+## For Mod Authors
+
+### Contentsmiths
+
+The following mod textures can be targeted by CP mods:
+
+- `DaLion.Professions/HudPointer`: changes the texture of the arrow which tracks Scavenger and Prospector objectives. You can use this to provide larger or different-shaped arrows. The provided texture should be grey, as it will be colored in dynamically.
+- `DaLion.Professions/MaxIcon`: changes the texture of the "MAX" icon used in the fishing collection tab.
+- `DaLion.Professions/PrestigeRibbons`: changes the ribbon or star texture shown to the right of each skill in the skills page menu. Pay attention to the fact that ribbon and star versions each use different dimensions. I don't recommend changing these.
+- `DaLion.Professions/ProfessionIcons`: changes the profession icons for regular and Prestige professions.
+- `DaLion.Professions/SkillBars`: changes the texture of Prestige-level skill bars (blue / green rectangles) in the skill page menu.
+- `DaLion.Professions/LimitGauge`: changes the texture of the Limit Charge gauge.
+
+### Blacksmiths
+
+The module exposes an API to facilitate integration with other mods. Currently exposed endpoints include:
+
+- Checking the current quality of Ecologist forage or Gemologist minerals.
+- Checking the current tax deduction bracket for Conservationist.
+- Forcing new Treasure Hunt events, or interrupting active Treasure Hunts.
+- Triggering events when a Treasure Hunt starts or ends.
+- Checking a player's registered Ultimate ability.
+- Triggering events when a player's [Limit Break](#limit-breaks) gains charge, becomes active or inactive.
+- Checking whether the Limit Charge gauge is currently being displayed. This is useful for mods with custom HUD elements, to decide how to position those elements.
+- Checking the player's config settings for this mod.
+
+To consume the API, copy the [API interface](IProfessionsApi.cs) to your project and [ask SMAPI for a proxy][wiki:integrations-api]. Remove any methods you do not need to improve compatibility.
+
+<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+
+
+## F.A.Q.
+
+<details>
+<summary><b>Do Ecologist and Gemologist professions count forages/gems acquired before the profession?</b></summary>
+
+No.
+</details>
+
+<details>
+<summary><b>Do Artisan/Producer/Aquarist and similar professions based on ownership of a machine or building, apply retroactively to machines/buildings that have already been crafted/built?</b></summary>
+
+Yes.
+</details>
+
+<details>
+<summary><b>Can Luremaster and Conservationist work together?</b></summary>
+
+Of course. Luremaster applies only to crab pots with bait. Conservationist applies only to crab pots without.
+</details>
+
+<details>
+<summary><b>Can I obtain all prestige professions simultaneously?</b></summary>
+
+No, sorry. Making tough choices is part of this mod's design.
+You can cheat them in with console commands if you really want (`profs add -p all`).  
+</details>
+
+<details>
+<summary><b>Can I obtain all Limit Breaks simultaneously?</b></summary>
+
+Obviously not.
+</details>
+
+<details>
+<summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
+
+They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
+With the exception of Angler when placed together with Ms. Angler (requires Ars Aquari), they do not reproduce.
+</details>
+
+<!-- MOD LINKS -->
+[mod:ordinator]: <https://www.nexusmods.com/skyrimspecialedition/mods/1137> "Ordinator"
+[mod:w3ee]: <https://www.nexusmods.com/witcher3/mods/3522> "W3EE"
+[mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
+[mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/1348> "SpaceCore"
+[mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/4163> "Profession Icons Redone"
+
+<!-- USER LINKS -->
+[user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"
+[user:reaperanon]: <https://www.nexusmods.com/witcher3/users/54536917> "ReaperAnon"
+[user:illogicalmoodswing]: <https://www.nexusmods.com/stardewvalley/users/38784845> "IllogicalMoodSwing"
+
+<!-- OTHER LINKS -->
+[url:league]: <https://www.leagueoflegends.com/> "League Of Legends"
+[url:diablo]: <https://diablo2.blizzard.com/> "Diablo II"
+[url:ragnarok]: <https://ro.gnjoy.com/index.asp> "Ragnarok Online"
+[wiki:fishponddata]: <https://stardewvalleywiki.com/Modding:Fish_Pond_data> "Fish Pond Data"
+[wiki:integrations-api]: <https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations> "APIs - Integrations"
+
+[🔼 Back to top](#margo--professions-prfs)
