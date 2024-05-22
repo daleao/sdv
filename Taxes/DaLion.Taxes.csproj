@@ -15,8 +15,8 @@
     <Name>Serfdom</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Taxes</UniqueId>
-    <Description>Provides realistic income and property taxation systems.</Description>
-    <UpdateKeys>Nexus:23054</UpdateKeys>
+    <Description>Provides realistic income and property taxation mechanics.</Description>
+    <UpdateKeys>Nexus:24357</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

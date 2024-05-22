@@ -1,19 +1,14 @@
 <div align="center">
 
-<div align="center">
-
 <img src="resources/covers/title_wol_r.png" alt="title.png" width="67%">
-</div>
 
 <br>
 
-<span width="67%">
 <img src="https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png" width="5%"/>
 <img src="https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
 <img src="https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png" width="5%"/>
 <img src="https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png" width="5%"/>
 <img src="https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png" width="5%"/>
-</span>
 
 </div>
 
@@ -44,7 +39,7 @@
 
 ## What this is
 
-This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and provide opportunities to explore entirely new styles of gameplay which engage and also scale with the player until the very late-game.
+This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and providing opportunities to explore entirely new styles of gameplay which engage and also scale with the player until the very late-game.
 
 Every profession follows a clear theme or vanilla mechanic, and expands upon that mechanic with perks that enable entirely new styles of gameplay, provide scale with player, provide new end-game objectives and steer the player towards new playstyles.
 
@@ -76,7 +71,7 @@ Click on any profession below to expand for more details. Golden professions ref
 <font size="2">
 <details>
 
-Equivalent in value to vanilla's 10% price bonus on average, while also providing value if you choose not to sell raw crops.
+Equivalent in value to vanilla's 10% price bonus on average, while also providing value should you choose not to sell raw crops.
 </details>
 </font>
 
@@ -98,7 +93,7 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <font size="2">
 <details>
 
-Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. Chance is equivalent to half of the chance with Deluxe Fertilizer, which means that fertilizers are **by no means** obsolete. Note that quality is determined only on the moment of harvest; planted crops have no quality, which means the perk will apply to crops planted before obtaining this profession.
+Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. Chance is equivalent to half of the chance with Deluxe Fertilizer, which means that **fertilizers are by no means obsolete**. Note that quality is determined only on the moment of harvest; planted crops have no quality, which means the perk will apply to crops planted before obtaining this profession.
 </details>
 </font>
 
@@ -122,7 +117,7 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 
 The quality of the output is based on your Farming level. The lowest possible quality is 2 stages below the input quality, and the highest is 1 stage above at a flat 5% chance. For reference, the chance to *match* input quality at Farming level 10 is 30%. Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; i.e., only Artisans themselves can preserve the ingredient quality, and they can do so on any machine, but non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
 
-In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
+In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
 </details>
 </font>
 
@@ -154,7 +149,7 @@ Grants double mood *and* friendship points from petting. Newborn animals are bor
 <!--- Breeder --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2x faster and natural pregnancy 3x more likely. Increase value of animals at high friendship.
+<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2x faster and natural pregnancy 3x more likely. Friendly animals are valued significantly higher.
 </summary>
 
 <ul>
@@ -166,7 +161,7 @@ Grants double mood *and* friendship points from petting. Newborn animals are bor
 <font size="2">
 <details>
 
-At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession.
+At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession. Prestige eliminates the friendship requirement.
 </details>
 </font>
 
@@ -188,7 +183,7 @@ At max friendship animals are worth 10x their base price, compared to vanilla's 
 <font size="2">
 <details>
 
-Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship. This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meat from Animal Husbandry or PPJA Fresh Meat. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the bonus value.
+Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship. This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meats. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the price bonus.
 </details>
 </font>
 
@@ -204,7 +199,7 @@ Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is *
 <!--- Forager --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Forager (Lv5)</b>- 20% chance for double yield of foraged items.
+<summary><img src="./resources/assets/sprites/loose/forager.png"/> <b>Forager (Lv5)</b> - 20% chance for double yield of foraged items.
 </summary>
 
 <ul>
@@ -250,13 +245,13 @@ For Bioharmonist, a buff will be chosen at random the first time a forage is con
 <!--- Scavenger --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/scavenger.png"/> <b>Scavenger (Lv10)</b> - Location of forageable items revealed. Occasionally detect buried treasure.
+<summary><img src="./resources/assets/sprites/loose/scavenger.png"/> <b>Scavenger (Lv10)</b> - Location of forageable items revealed. Occasionally detect buried treasures.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/scavenger_p.png"/> <b>Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts. Find increasingly more forageables on a high streak.
+<img src="./resources/assets/sprites/loose/scavenger_p.png"/> <b>Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.
 </font>
 
 <font size="2">
@@ -377,7 +372,7 @@ This profession is completely unchanged from vanilla.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris upon exiting.
+<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris.
 </font>
 
 <font size="2">
@@ -396,19 +391,19 @@ For Cavewarden, any items left behind while mining have a 20% chance to spawn ba
 
 <details>
 <summary>
-<img src="./resources/assets/sprites/loose/prospector.png"/> <b>Prospector (Lv10)</b> - Location of ladders and mining nodes revealed. Occasionally detect rocks with valuable minerals.
+<img src="./resources/assets/sprites/loose/prospector.png"/> <b>Prospector (Lv10)</b> - Location of ladders and mining nodes revealed. Occasionally detect mineral treasures.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/prospector_p.png"/> <b>Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts. Find increasingly more mining nodes on a high streak.
+<img src="./resources/assets/sprites/loose/prospector_p.png"/> <b>Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.
 </font>
 
 <font size="2">
 <details>
 
-This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
+This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with a yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
 
 You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
 </details>
@@ -420,13 +415,13 @@ You also gain the ability to hold a mod key (LeftCtrl by default) to highlight a
 <!--- Blaster --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/blaster.png"/> <b>Blaster (Lv5)</b> - Craft twice as many explosives. Exploded rocks yield 2× as much coal.
+<summary><img src="./resources/assets/sprites/loose/blaster.png"/> <b>Blaster (Lv5)</b> - Craft twice as many explosives. Exploded rocks yield 2x as much coal.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/blaster_p.png"/> <b>Master Blaster (Lv15)</b> - Exploded rocks yield <s>2×</s> → 3× as much coal.
+<img src="./resources/assets/sprites/loose/blaster_p.png"/> <b>Master Blaster (Lv15)</b> - Exploded rocks yield <s>2x</s> → 3x as much coal.
 </font>
 
 <font size="2">
@@ -442,7 +437,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <!--- Demolitionist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. Exploded rocks yield 20% more resources.
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
 </summary>
 
 <ul>
@@ -498,19 +493,19 @@ For Crystallographer, a "perfect replica" refers to quality preservation.
 <!--- Fisher --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b> - Baits are 2× more effective when fishing.
+<summary><img src="./resources/assets/sprites/loose/fisher.png"/> <b>Fisher (Lv5)</b> - Baits are 2x more effective when fishing.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/fisher_p.png"/> <b>Master Fisher (Lv15)</b> - Baits are <s>2×</s> → 3× more effective when fishing.
+<img src="./resources/assets/sprites/loose/fisher_p.png"/> <b>Master Fisher (Lv15)</b> - Baits are <s>2x</s> → 3x more effective when fishing.
 </font>
 
 <font size="2">
 <details>
 
-Doubles the chance to attract fish normally associated with every bait, as well as the double catch chance of Wild Bait and the bonus treasure chance of Magnet.
+Doubles the chance to attract fish normally associated with every bait, as well as the double catch chance of Wild Bait and the bonus treasure chance of Magnet. Triple when prestiged.
 </details>
 </font>
 
@@ -526,7 +521,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/angler_p.png"/> <b>Rodmancer (Lv20)</b> - Up to two tackle effects can linger on the fishing rod. Chance to re-encounter legendary fish.
+<img src="./resources/assets/sprites/loose/angler_p.png"/> <b>Rodmancer (Lv20)</b> - Up to two tackle effects can linger on the fishing rod. Can re-encounter legendary fish.
 </font>
 
 <font size="2">
@@ -550,13 +545,13 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 <ul>
 
 <font color="gold">
-<b>⭐ <img src="./resources/assets/sprites/loose/aquarist_p.png"/> Ichthyologist (Lv20)</b> - Fish pond max capacity <s>+2</s> → +4. Fish species raised to max pond capacity are reeled instantly.
+<img src="./resources/assets/sprites/loose/aquarist_p.png"/> <b>Ichthyologist (Lv20)</b> - Fish pond max capacity <s>+2</s> → +4. Fish species raised to max pond capacity are reeled instantly.
 </font>
 
 <font size="2">
 <details>
 
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the Ars Aquari companion mod, you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the [Aquarism](../Ponds) companion mod, you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
 
 For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
 </details>
@@ -574,13 +569,13 @@ For Ichthyologist profession, an instant catch also automatically catches treasu
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/trapper_p.png"/> <b>Master Trapper (Lv15)</b> - Can trap best-quality haul.
+<img src="./resources/assets/sprites/loose/trapper_p.png"/> <b>Master Trapper (Lv15)</b> - Increased minimum quality of trapped fish.
 </font>
 
 <font size="2">
 <details>
 
-All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The crab pot recipe part of the perk is unchanged from vanilla.
+All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The Crab Pot recipe part of the perk is unchanged from vanilla.
 </details>
 </font>
 
@@ -602,11 +597,11 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 <font size="2">
 <details>
 
-Each type bait will also apply its regular fishing effects:
-- **Regular bait:** 25% chance to catch fish, subject to the same location and season limitations as regular fishing.
-- **Wild bait:** 50% chance to also double the haul.
+Each type of bait will also apply its regular fishing effects:
+- **Regular bait:** 25% chance to catch (non-Crab Pot) fish, subject to the same location and season limitations as regular fishing.
+- **Wild bait:** 50% chance to also double the stack.
 - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
-- **Magic bait:** Chance to catch high-level fish of any location or season.
+- **Magic bait:** Chance to catch higher-level (non-Crab Pot) fish of any location or season.
 
 All baits, with the exception of Magnet, also prevent collecting junk.
 </details>
@@ -618,7 +613,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 <!--- Conservationist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/conservationist.png"/> <b>Conservationist (Lv10)</b> - Crab pots without bait can trap junk. Clean the Valley's waters to earn the favor of villager's and merit tax deductions.
+<summary><img src="./resources/assets/sprites/loose/conservationist.png"/> <b>Conservationist (Lv10)</b> - Crab pots without bait can trap junk. Clean the Valley's waters to earn the village's favor and merit tax deductions.
 </summary>
 
 <ul>
@@ -630,7 +625,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 <font size="2">
 <details>
 
-By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod Tributa Realia is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [Serfdom](../Taxes) is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
 For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
 </details>
@@ -676,7 +671,7 @@ Completely unchanged from vanilla.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/brute_p.png"/> <b>Wildheart (Lv20)</b> - Stay enraged for twice as long.
+<img src="./resources/assets/sprites/loose/brute_p.png"/> <b>Wildheart (Lv20)</b> - Stay enraged for twice as long. Rage can be expended to perform a special move while on cooldown.
 </font>
 
 <font size="2">
@@ -704,7 +699,7 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-**Poaching:** Each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
+**Poaching:** Unless prestiged, each monster can only be poached once. Poach chance is increased by your critical strike chance and luck (**not** Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 
 **Deadly Poison:** Deals tick damage every second. On second application causes instant-death.
 </details>
@@ -728,9 +723,9 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-Press the mod key (default LeftCtrl) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime, which this profession can also fire to causes a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Press the mod key (default LeftCtrl) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-If prestiged, holding the mod key while shooting will fire both ammo slots at once. Doing so with Monster Musk equipped to the second slot, which is a "hidden" feature of this profession, will grant the primary ammo the **musked** property.
+If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant the primary ammo the **musked** property.
 
 **Musked Ammo:** When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.
 </details>
@@ -756,9 +751,9 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 **Hip-firing:** Refers to shots that are released as early as possible (before the overcharge meter appears). When any shot hits an enemy, your next hip-fired shot against a different enemy receives a 50% damage buff if it hits a target within 0.8 seconds. This rewards expert quick-shooting and quickly switching targets, as you would expect of a Desperado.
 
-**Overcharge:** Continue holding the fire button past the normal charge threshold to reveal the overcharge meter. A fully overcharged shot gains up to two times the original speed, damage and knockback, and can also **pierce** enemies.
+**Overcharge:** Continue holding the fire button past the normal charge threshold to reveal the overcharge meter. Overcharged shots gain up to 2x the original speed, damage and knockback, and can also **pierce** enemies.
 
-**Piercing Shot:** Piercing chance depends on overcharge percentage and enemy resistance. A piercing shot ignores enemy resistance and can damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+**Piercing Shot:** Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 **Rebound Shot:** Hold the mod key (Default LeftCtrl) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
 </details>
@@ -825,7 +820,7 @@ All custom mod skills based on SpaceCore are compatible with Skill Reset by defa
 
 ### Prestige Progression
 
-If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats via **Prestige Levels**. Other perks of these levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). On top of that, at levels 15 and 20 you will be offered the choice of a **Prestige Profession**.
+If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats via **Prestige Levels**. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). More importantly, at levels 15 and 20 you will be offered the choice of a **Prestige Profession**.
 
 <div align="center">
 
@@ -842,7 +837,7 @@ Custom skill mods based on SpaceCore are **not** compatible with the Prestige Pr
 
 ### Limit Breaks
 
-In addition to Prestige Progression, Mastering the Combat skill may also optionally unlock a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak); powerful abilities that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
+In addition to Prestige Progression, mastery over the Combat skill also unlocks a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak) for each profession. A Limit Break is a powerful ability that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
 
 Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time. Visit the Statue of Transcendence to select or change your Limit Break.
 
@@ -983,7 +978,7 @@ Obviously not.
 <summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
 
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
-With the exception of Angler when placed together with Ms. Angler (requires Ars Aquari), they do not reproduce.
+With the exception of Angler when placed together with Ms. Angler (requires [Aquarism](../Ponds), they do not reproduce.
 </details>
 
 <!-- MOD LINKS -->
@@ -991,7 +986,7 @@ With the exception of Angler when placed together with Ms. Angler (requires Ars 
 [mod:w3ee]: <https://www.nexusmods.com/witcher3/mods/3522> "W3EE"
 [mod:sve]: <https://www.nexusmods.com/stardewvalley/mods/3753> "Stardew Valley Expanded"
 [mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/1348> "SpaceCore"
-[mod:spacecore]: <https://www.nexusmods.com/stardewvalley/mods/4163> "Profession Icons Redone"
+[mod:icons-redone]: <https://www.nexusmods.com/stardewvalley/mods/4163> "Profession Icons Redone"
 
 <!-- USER LINKS -->
 [user:enai]: <https://www.nexusmods.com/skyrimspecialedition/users/3959191> "Enai Siaion"

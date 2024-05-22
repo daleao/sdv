@@ -8,7 +8,7 @@
 
 This mod implements a "simple" taxation system. Includes the expected Income Tax, as well as a novel Property Tax.
 
-This mod was conceived as an add-on for [Walk Of Life]()'s Conservationist profession, but can be used without it. It provides an extra layer of challenge while also enriching gameplay by establishing a strategic reason to prefer engaging in business with local vendors rather than the Shipping Bin.
+This mod was conceived as an add-on for [Walk Of Life](../Professions)'s Conservationist profession, but can be used without it. It provides an extra layer of challenge while also enriching gameplay by establishing a strategic reason to prefer engaging in business with local vendors rather than the Shipping Bin.
 
 ## How it works
 

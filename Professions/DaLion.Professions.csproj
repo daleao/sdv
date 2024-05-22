@@ -15,8 +15,8 @@
     <Name>Walk Of Life - Rebirth</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Professions</UniqueId>
-    <Description>Overhaul of Stardew Valley professions, skills and mastery systems.</Description>
-    <UpdateKeys>Nexus:23049</UpdateKeys>
+    <Description>An extensive overhaul of Stardew Valley profession trees and skill progression systems.</Description>
+    <UpdateKeys>Nexus:24355</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

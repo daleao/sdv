@@ -1,12 +1,13 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "DaLion.Core",
-  "Name": "Ars Nuclei",
+  "Name": "Lionheart",
   "Author": "DaLion",
   "Version": "1.0.0",
   "Description": "Provides core functionality required by DaLion mods.",
   "EntryDll": "DaLion.Core.dll",
   "UpdateKeys": [
+    "Nexus:24332",
     "???"
   ]
 }

@@ -15,8 +15,8 @@
     <Name>Aquarism</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Ponds</UniqueId>
-    <Description>Allows Fish Ponds to remember fish qualities, scaling roe production, spontaneously grow algae, and even enrich metallic nuclei.</Description>
-    <UpdateKeys>Nexus:23051</UpdateKeys>
+    <Description>Adds persistant fish qualities, scaling roe production, spontaneous algae growth, and radioactive enrichment to Fish Ponds.</Description>
+    <UpdateKeys>Nexus:24356</UpdateKeys>
     <Dependencies_AlwaysIncludeRequire>true</Dependencies_AlwaysIncludeRequire>
     <ManifestComment>false</ManifestComment>
 

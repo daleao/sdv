@@ -1,7 +1,7 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
   "UniqueID": "DaLion.Ponds",
-  "Name": "Ars Aquaria",
+  "Name": "Aquarism",
   "Author": "DaLion",
   "Version": "1.0.0-Debug",
   "Description": "Allows Fish Ponds to remember fish qualities, scaling roe production, spontaneously grow algae, and even enrich metallic nuclei.",
@@ -13,6 +13,7 @@
     }
   ],
   "UpdateKeys": [
+    "Nexus:24356",
     "???"
   ]
 }

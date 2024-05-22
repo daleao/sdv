@@ -4,7 +4,7 @@
   "Name": "Walk Of Life - Rebirth",
   "Author": "DaLion",
   "Version": "0.1.0-Debug",
-  "Description": "Overhaul of Stardew Valley professions, skills and mastery systems.",
+  "Description": "An extensive overhaul of Stardew Valley profession trees and skill progression systems.",
   "EntryDll": "DaLion.Professions.dll",
   "Dependencies": [
     {
@@ -19,6 +19,7 @@
     }
   ],
   "UpdateKeys": [
+    "Nexus:24355",
     "???"
   ]
 }

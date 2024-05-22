@@ -6,7 +6,7 @@
 
 ## What this is
 
-This mod is a companion to the Aquarist profession from Ars Magisteri, but can be used without it. It makes Fish Ponds more useful and immersive.
+This mod is a companion to [Walk Of Life](../Professions)'s Aquarist profession, but can be used without it. It makes Fish Ponds actually viable as income source and significantly more interesting as a mechanic and playstyle.
 
 
 ## What it does
@@ -34,7 +34,7 @@ This mod is a companion to the Aquarist profession from Ars Magisteri, but can b
     - Ponds containing Radioactive or Mutant fish species are able to enrich any ores dropped inside, turning them into radioactive ore after a few days.
     - Enrichment time is longer for cheaper ore, and is also reduced the higher the pond's population.
 6. **Family sharing:**
-    - If the player has Ars Magisteri's Aquarist profession, which allows Legendary Fish Ponds, then extended family pairs can be raised together (in the same pond) with their legendary counterparts. An Angler (Angler + Ms. Angler) couple will be able to mate under these conditions.
+    - If the player has [Walk Of Life](../Professions)'s Aquarist profession, which allows Legendary Fish Ponds, then extended family pairs can be raised together (in the same pond) with their legendary counterparts. An Angler (Angler + Ms. Angler) couple will be able to mate under these conditions.
     - If [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578) is installed, Tui and La count as a family pair. They produce essences instead of roe, and, if placed together in the same pond, may produce a Galaxy Soul instead.
 
 
