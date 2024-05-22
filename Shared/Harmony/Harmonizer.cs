@@ -131,13 +131,13 @@ public sealed class Harmonizer
             .Where(t => t.IsAssignableTo(typeof(IHarmonyPatcher)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.T($"[Harmonizer]: Found {patchTypes.Length} patch classes.");
+        this.Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes.");
         if (patchTypes.Length == 0)
         {
             return this;
         }
 
-        this.Log.T("[Harmonizer]: Applying patches...");
+        this.Log.D("[Harmonizer]: Applying patches...");
         foreach (var patchType in patchTypes)
         {
 #if RELEASE
@@ -160,7 +160,7 @@ public sealed class Harmonizer
             {
                 if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
-                    this.Log.T(
+                    this.Log.D(
                         $"[Harmonizer]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
@@ -182,7 +182,7 @@ public sealed class Harmonizer
             {
                 if (this._modRegistry.IsLoaded(modConflictAttribute.UniqueId))
                 {
-                    this.Log.T(
+                    this.Log.D(
                         $"[Harmonizer]: The conflicting mod {modConflictAttribute.UniqueId} is loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
@@ -195,7 +195,7 @@ public sealed class Harmonizer
                     .Invoke([this]);
                 if (patch.Apply(this.Harmony))
                 {
-                    this.Log.T($"[Harmonizer]: Applied {patchType.Name} to {patch.Target!.GetFullName()}.");
+                    this.Log.D($"[Harmonizer]: Applied {patchType.Name} to {patch.Target!.GetFullName()}.");
                 }
                 else
                 {
@@ -236,7 +236,7 @@ public sealed class Harmonizer
         var patchedMethodsCount = this.Harmony.GetPatchedMethods().Count();
         var totalApplied = this.AppliedPrefixes + this.AppliedPostfixes + this.AppliedTranspilers +
                            this.AppliedFinalizers;
-        this.Log.I($"[Harmonizer]: {this.HarmonyId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
+        this.Log.D($"[Harmonizer]: {this.HarmonyId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
               $"\n\tApplied {totalApplied} patches to {patchedMethodsCount} methods, of which" +
               $"\n\t- {this.AppliedPrefixes} prefixes" +
               $"\n\t- {this.AppliedPostfixes} postfixes" +

@@ -77,7 +77,7 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(101)]
-    public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
+    public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
 
     /// <summary>Gets a value indicating whether the Masteries Break is activated by holding the <see cref="LimitBreakKey"/>, as opposed to simply pressing.</summary>
     [JsonProperty]

@@ -217,13 +217,13 @@ public sealed class CommandHandler
             .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.T($"[CommandHandler]: Found {commandTypes.Length} command classes.");
+        this.Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes.");
         if (commandTypes.Length == 0)
         {
             return this;
         }
 
-        this.Log.T("[CommandHandler]: Instantiating commands...");
+        this.Log.D("[CommandHandler]: Instantiating commands...");
         foreach (var commandType in commandTypes)
         {
             try
@@ -251,7 +251,7 @@ public sealed class CommandHandler
                     this._handledCommands.Add(trigger, command);
                 }
 
-                this.Log.T($"[CommandHandler]: Now handling {command.GetType().Name}");
+                this.Log.D($"[CommandHandler]: Now handling {command.GetType().Name}");
             }
             catch (Exception ex)
             {
@@ -259,7 +259,7 @@ public sealed class CommandHandler
             }
         }
 
-        this.Log.T("[CommandHandler]: Command initialization completed.");
+        this.Log.D("[CommandHandler]: Command initialization completed.");
         return this;
     }
 }

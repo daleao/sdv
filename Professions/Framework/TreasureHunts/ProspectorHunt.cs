@@ -101,7 +101,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 #if DEBUG
         this.TimeLimit = int.MaxValue;
 #else
-        this.TimeLimit = (uint)(this.Location.Objects.Count() * Config.ProspectorHuntHandicap);
+        this.TimeLimit = (uint)(this.Location!.Objects.Count() * Config.ProspectorHuntHandicap);
 #endif
 
         return this.TimeLimit;

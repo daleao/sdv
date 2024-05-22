@@ -26,6 +26,7 @@ internal sealed class PathfinderRenderedWorldEvent(EventManager manager)
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
+#if DEBUG
         if (Pathfinder!.Start is null || Pathfinder.Goal is null)
         {
             return;
@@ -64,5 +65,6 @@ internal sealed class PathfinderRenderedWorldEvent(EventManager manager)
                 1f,
                 Color.White);
         }
+#endif
     }
 }

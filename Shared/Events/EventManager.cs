@@ -517,13 +517,13 @@ public sealed class EventManager
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.T($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled.");
+        this.Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled.");
         if (eventTypes.Length == 0)
         {
             return;
         }
 
-        this.Log.T("[EventManager]: Instantiating events....");
+        this.Log.D("[EventManager]: Instantiating events....");
         foreach (var eventType in eventTypes)
         {
 #if RELEASE
@@ -545,7 +545,7 @@ public sealed class EventManager
             {
                 if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
-                    this.Log.T(
+                    this.Log.D(
                         $"[EventManager]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                     continue;
                 }
@@ -583,7 +583,7 @@ public sealed class EventManager
         }
 
         this._eventCache.Add(eventType, instance);
-        this.Log.T($"[EventManager]: Now managing {eventType.Name}.");
+        this.Log.D($"[EventManager]: Now managing {eventType.Name}.");
 
         return instance;
     }
@@ -636,7 +636,7 @@ public sealed class EventManager
 
         if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
         {
-            this.Log.T(
+            this.Log.D(
                 $"[EventManager]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
             return null;
         }

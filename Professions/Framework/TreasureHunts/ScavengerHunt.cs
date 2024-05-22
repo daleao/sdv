@@ -109,7 +109,7 @@ internal sealed class ScavengerHunt : TreasureHunt
 #if DEBUG
         this.TimeLimit = uint.MaxValue;
 #else
-        this.TimeLimit = (uint)(this.Location.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
+        this.TimeLimit = (uint)(this.Location!.Map.DisplaySize.Area / Math.Pow(Game1.tileSize, 2) / 100 *
                                 Config.ScavengerHuntHandicap);
         this.TimeLimit = Math.Max(this.TimeLimit, 30);
 #endif

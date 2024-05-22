@@ -87,7 +87,7 @@ public abstract class ModIntegration<TIntegration> : IModIntegration
         var uniqueId = modRequirementAttribute.UniqueId;
         if (!modRegistry.IsLoaded(uniqueId))
         {
-            Log.T($"{modRequirementAttribute.Name} is not installed. The mod integration will not be initialized.");
+            Log.D($"{modRequirementAttribute.Name} is not installed. The mod integration will not be initialized.");
             return null;
         }
 

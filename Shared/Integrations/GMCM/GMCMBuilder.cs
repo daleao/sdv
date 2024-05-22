@@ -1908,7 +1908,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
 
         this.ModApi.Unregister(this.Manifest);
         this.IsRegistered = false;
-        Log.T("[GMCM]: The config menu has been unregistered.");
+        Log.D("[GMCM]: The config menu has been unregistered.");
         return (TGenericModConfigMenu)this;
     }
 }
