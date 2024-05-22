@@ -234,6 +234,8 @@ Each Slime raised in a hutch owned by the player adds a chance to spawn an extra
 
 [b]Piped Slimes:[/b] A Piped Slime will follow you around, collect left-behind items and defend you from enemies. Slimes have a 10-slot inventory which can be retrieved by defeating it. Slimes will fight approaching enemies and divert their attention, but in doing so can be defeated themselves. Keep an eye out for their health; they can be healed by being shot with a Slime from a slingshot.
 
+[b]Colored Item Drops:[/b] If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [url=https://stardewvalleywiki.com/Dyeing]Dyeing List[/url]. This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may require some intelligent [url=https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results]breeding[/url].
+
 Also doubles the damage from Slime ammo.
 [/spoiler]
 [/size][/spoiler][/list]
