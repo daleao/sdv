@@ -9,7 +9,12 @@
 * Similarly, the Limit Break is now a reward for Mastering the Combat skill.
 * All prestiged profession variants, and a few base variants, have been reworked. Prestige professions are now much more impactful end-game rewards. Please review the section [Professions](README.md#professions) of the README to learn more.
 * Misc. code improvements.
-  
+
+### Removed
+
+* Removed support for Luck skill and Love of Cooking. I might re-add Love of Cooking support if it gets updated.
+* Removed alost all third-party mod integrations since I don't know which of them were/will be updated. I might re-add Automate integration later, or I might not.
+
 
 [🔼 Back to top](#profs-changelog)
 

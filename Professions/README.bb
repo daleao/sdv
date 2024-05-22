@@ -2,19 +2,19 @@
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/covers/title_wol_r.png[/img]
 
 [img]https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
-
+[quote][i][size=3]﻿This update is in Beta. There will likely be bugs! If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports to help me iron-out these issues, then I suggest you wait a couple more months before trying this mod. For everyone else, I appreciate your help with identifying any lingering issues.[/size][/i][/quote]
 [size=6][font=bebas_neuebook]What this is[/font][/size]
 
 This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and providing opportunities to explore entirely new styles of game-play which engage and also scale with the player until the very late-game.
 
-Every profession follows a clear theme or vanilla mechanic, and expands upon that mechanic with perks that enable entirely new styles of game-play, provide scale with player, provide new end-game objectives and steer the player towards new play-styles.
+Optionally, this mod also brings classic progression tropes like [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Classes[/url], [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset]Class Change Level Reset[/url], and [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Breaks[/url].
 
 This module was inspired by such great overhaul mods as [url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion's[/url] [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url] mod for Skyrim and [url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon's[/url] [url=https://www.nexusmods.com/witcher3/mods/3522]W3EE[/url]. It borrows many ideas and assets from the classic [url=https://ro.gnjoy.com/index.asp]Ragnarok Online[/url], and also includes new improved profession icons by [url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] ([b]please visit and endorse [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]![/b]).
 
 
 [size=6][font=bebas_neuebook]The Professions[/font][/size]
 
-Click on any profession below to expand for more details. Golden professions refer to [b]Prestige[/b] variants (see next section).
+Click on any profession below to expand for more details. Golden professions refer to [b]Prestige Professions[/b] (read more about them in the next section).
 
 [size=5][img]https://i.imgur.com/p9QdB6L.png[/img] [font=bebas_neuebook]Farming[/font][/size]
 
@@ -35,6 +35,8 @@ Allows harvesting iridium-quality crops, normally only possible with Deluxe Fert
 The quality of the output is based on your Farming level. The lowest possible quality is 2 stages below the input quality, and the highest is 1 stage above at a flat 5% chance. For reference, the chance to [i]match[/i] input quality at Farming level 10 is 30%. Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; i.e., only Artisans themselves can preserve the ingredient quality, and they can do so on any machine, but non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
 
 In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
+
+[b]Please be aware that Hopper behavior is improved by the core mod [url=https://www.nexusmods.com/stardewvalley/mods/24332]Lionheart[/url].[/b]
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rancher.png[/img] [b]Rancher (Lv5)[/b] - Befriend animals 2x more quickly.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rancher_p.png[/img] [b]Master Rancher (Lv15)[/b] - Befriend animals [s]2×[/s] → 3x more quickly.[/color][size=2]
@@ -235,16 +237,16 @@ Each Slime raised in a hutch owned by the player adds a chance to spawn an extra
 Also doubles the damage from Slime ammo.
 [/spoiler]
 [/size][/spoiler][/list]
-[size=6][font=bebas_neuebook]Skill Progression[/font][/size]
+[size=6][font=bebas_neuebook]Skill Progression Tropes[/font][/size]
 
-[size=5][font=bebas_neuebook]Skill Reset[/font][/size]
+[size=5][font=bebas_neuebook]Profession Change Skill Reset[/font][/size]
 
 If enabled, the [url=https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty]Statue of Uncertainty[/url] is replaced by the [b]Statue of Transcendance[/b].
 
 [center]
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/prestige_statue.gif[/img][/center]
 
-Instead of changing your profession choices, the Statue of Transcendance will reset your level 10 skills back to level 0, for a price. Why would you want to do that? Because you get to keep every profession you already have (yes, including level 5), and you can then level up again to acquire a different profession. By doing this enough times, you will eventually have acquired all professions in that skill.
+Instead of changing your profession choices, the Statue of Transcendance will [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset]reset[/url] your level 10 skills back to level 0, for a price. Why would you want to do that? Because you get to keep every profession you already have (yes, including level 5), and you can then level up again to acquire a different profession. By doing this enough times, you will eventually have acquired all professions in that skill.
 
 Note that you will inevitably need to choose each 5th-level profession twice on your way to getting both corresponding 10th-level professions. When this happens, [b]you do NOT gain the level 5 perks twice[/b]. These perks are acquired only once, on the first time you choose that profession.
 
@@ -257,21 +259,21 @@ Keep in mind that [b]once a skill has been Mastered it can no longer be reset[/b
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
 
-[size=5][font=bebas_neuebook]Prestige Progression[/font][/size]
+[size=5][font=bebas_neuebook]Prestige Professions[/font][/size]
 
-If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats via [b][url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige[/url] Levels[/b]. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting Limit Breaks (see next section). More importantly, at levels 15 and 20 you will be offered the choice of a [b]Prestige Profession[/b].
+If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [b]Limit Breaks[/b] (read about them in the next section). More importantly, at levels 15 and 20 you will be offered the choice of a [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Profession[/url].
 
 [center]
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/skills_prestige.gif[/img][/center]
 
-You may choose only [b]one[/b] Prestige Profession per skill (i.e., you cannot reset to acquire more than one). You will be able to change your prestige choices back at the Statue of Transcendence only once all 5 vanilla skills have been Mastered, for a modest fee of 20,000g (also configurable).
+[b]You may choose only one Prestige Profession per skill[/b] (i.e., you cannot reset to acquire more than one) [b]and can only choose from among those you already have the base version of[/b]; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requiires a modest fee of 20,000g (also configurable).
 
 Custom skill mods based on SpaceCore are [b]not[/b] compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
 
 [size=5][font=bebas_neuebook]Limit Breaks[/font][/size]
 
-In addition to Prestige Progression, mastery over the Combat skill also unlocks a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak) for each profession. A Limit Break is a; powerful ability that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
+In addition to Prestige Progression, mastery over the Combat skill also unlocks a unique [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Break[/url] for each profession; a powerful ability that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
 
 Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time. Visit the Statue of Transcendence to select or change your Limit Break.
 
@@ -291,6 +293,15 @@ Journey of the Prairie King, "IRL". Charged by hitting monsters with projectiles
 [size=2][spoiler]
 If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes. Nearby Big Slimes burst immediately when activated. Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
 [/spoiler][/size][/list]
+[font=bebas_neuebook][size=6]Misc. Changes[/size][/font]
+
+In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
+
+[list]
+[*][b]Large dairy goods[/b], including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
+[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implement for the sake of making the Artisan profession more consistent.
+[*][b]Heavy Tapper behavior[/b] is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of the halving the production time. This is implemented to avoid redundancy with the Tapper profession.
+[/list]
 [size=6][font=bebas_neuebook]Compatibility[/font][/size]
 
 [list]
