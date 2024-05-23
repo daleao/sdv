@@ -71,7 +71,7 @@ internal sealed class PrintCommand(CommandHandler handler)
 
     private void PrintProfessionsList(string[] args)
     {
-        if (Game1.player.professions.Count == 0)
+        if (args.Length == 0 && Game1.player.professions.Count == 0)
         {
             this.Handler.Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
             return;

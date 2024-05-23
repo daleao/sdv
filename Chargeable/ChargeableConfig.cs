@@ -4,6 +4,8 @@
 
 using System.Linq;
 using DaLion.Chargeable.Framework.Configs;
+using DaLion.Shared.Integrations.GMCM.Attributes;
+using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -12,18 +14,29 @@ using StardewModdingAPI.Utilities;
 public sealed class ChargeableConfig
 {
     /// <inheritdoc cref="AxeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Tools/Axe", "tols.axe", true)]
     public AxeConfig Axe { get; internal set; } = new();
 
     /// <inheritdoc cref="PickaxeConfig"/>
+    [JsonProperty]
+    [GMCMInnerConfig("DaLion.Tools/Pick", "tols.pick", true)]
     public PickaxeConfig Pick { get; internal set; } = new();
 
     /// <summary>Gets a value indicating whether determines whether charging requires a mod key to activate.</summary>
-    public bool RequireModkey { get; internal set; } = true;
+    [JsonProperty]
+    [GMCMPriority(0)]
+    public bool RequireModKey { get; internal set; } = true;
 
     /// <summary>Gets the chosen mod key(s).</summary>
-    public KeybindList Modkey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
+    [JsonProperty]
+    [GMCMPriority(1)]
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
 
     /// <summary>Gets the number of update ticks between each peak of the shockwave. Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
+    [JsonProperty]
+    [GMCMPriority(2)]
+    [GMCMRange(0, 10)]
     public uint TicksBetweenWaves { get; internal set; } = 4;
 
     /// <summary>Validate the config settings, replacing invalid values if necessary.</summary>
@@ -47,11 +60,11 @@ public sealed class ChargeableConfig
             isValid = false;
         }
 
-        if (this.RequireModkey && !this.Modkey.IsBound)
+        if (this.RequireModKey && !this.ModKey.IsBound)
         {
             Log.W(
                 "'RequireModkey' setting is set to true, but no Modkey is bound. Default keybind will be restored. To disable the Modkey, set this value to false.");
-            this.Modkey = KeybindList.ForSingle(SButton.LeftControl);
+            this.ModKey = KeybindList.ForSingle(SButton.LeftControl);
             isValid = false;
         }
 

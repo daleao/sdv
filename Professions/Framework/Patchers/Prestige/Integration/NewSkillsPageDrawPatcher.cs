@@ -13,7 +13,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SpaceCore;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 
@@ -100,8 +99,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldarg_1), // load b
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(SkillsPageDrawPatcher
-                                .DrawExtendedLevelBars))),
+                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawExtendedLevelBars))),
                     ],
                     labels);
         }
@@ -263,7 +261,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                     [
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(Skills.Skill).RequirePropertyGetter(nameof(Skills.Skill.ExperienceCurve))),
+                            typeof(SCSkill).RequirePropertyGetter(nameof(SCSkill.ExperienceCurve))),
                     ],
                     ILHelper.SearchOption.First)
                 .Remove(3)
@@ -284,11 +282,10 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 
     #region injections
 
-    [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
-    internal static void DrawExtendedLevelBars(
+    private static void DrawExtendedLevelBars(
         int levelIndex, int indexWithLuckSkill, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!Config.Masteries.UnlockPrestigeLevels)
+        if (!Config.Masteries.EnablePrestigeLevels)
         {
             return;
         }
@@ -304,7 +301,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         {
             b.Draw(
                 Textures.SkillBars,
-                new Vector2(x + addedX + (levelIndex * 36), y + (indexWithLuckSkill * 68) - 4),
+                new Vector2(x + addedX + (levelIndex * 36), y + (indexWithLuckSkill * 56) - 4),
                 new Rectangle(0, 0, 8, 9),
                 Color.White,
                 0f,
@@ -315,21 +312,21 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    internal static void DrawRibbons(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
+    private static void DrawRibbons(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
     {
-        if (!EnableSkillReset)
+        if (!ShouldEnableSkillReset)
         {
             return;
         }
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
+                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset - 12,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
-                Textures.PROGRESSION_VERTICAL_OFFSET);
+                Textures.PROGRESSION_VERTICAL_OFFSET + 12);
         var lastVisibleSkillIndex =
             Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("LastVisibleSkillIndex").Invoke(page);
-        const int verticalSpacing = 68;
+        const int verticalSpacing = 56;
         for (var i = 0; i < 5; i++)
         {
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
@@ -354,7 +351,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var sourceRect = new Rectangle(0, (count - 1) * 16, (count + 1) * 4, 16);
+            var sourceRect = new Rectangle(0, (count - 1) * 8, (count + 1) * 4, 8);
             var scale = Textures.STARS_SCALE;
             b.Draw(
                 Textures.PrestigeRibbons,

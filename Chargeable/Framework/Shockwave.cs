@@ -106,13 +106,6 @@ internal class Shockwave
             });
 
             var pixelPosition = new Vector2(tile.X * Game1.tileSize, tile.Y * Game1.tileSize);
-
-            if ((this._tool is Axe && !Config.Axe.PlayShockwaveAnimation) ||
-                (this._tool is Pickaxe && !Config.Pick.PlayShockwaveAnimation))
-            {
-                continue;
-            }
-
             this._location.temporarySprites.Add(new TemporaryAnimatedSprite(
                 12,
                 pixelPosition,

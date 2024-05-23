@@ -24,7 +24,7 @@ internal sealed class FarmerCheckForLevelGainPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerCheckForLevelGainPostfix(ref int __result, int oldXP, int newXP)
     {
-        if (!EnablePrestigeLevels)
+        if (!ShouldEnablePrestigeLevels)
         {
             return;
         }

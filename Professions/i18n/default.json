@@ -221,18 +221,19 @@
   "poacher.limit.title.female": "Ambuscade",
   "poacher.limit.desc.hidden": "Hidden.",
   "poacher.limit.desc.revealed": "Crit. power x2.",
-  "poacher.limit.explain": "Become invisible and untargetable for 30s. If an enemy is attacked your invisibility is lost, but your crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining this effect immediately recovers 25% Limit charge.",
+  "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining this effect immediately recovers 25% Limit charge.",
   "desperado.limit.title.male": "Deadly Blossom",
   "desperado.limit.title.female": "Deadly Blossom",
   "desperado.limit.desc": "Auto-fire in eight cardinal directions at once.",
   "desperado.limit.explain": "For 15s, you can auto-fire and all shots fire in eight simultaneous cardinal directions at no additional ammo cost.",
   "piper.limit.title.male": "Hamelin Concerto",
   "piper.limit.title.female": "Pheromonious Fever",
-  "piper.limit.desc": "Empower and enthrall nearby slimes.",
+  "piper.limit.desc": "Enthrall and empower all nearby Slimes for 15s.",
   "piper.limit.explain": "Charm all nearby Slimes for 15s, empowering and turning them into allies.",
 
   "ulti.canteat": "Can't do that right now.",
-  "prestige.mastery.choice": "Choose a Limit Break...",
+  "prestige.mastery.choose": "Choose your Limit Break",
+  "prestige.mastery.cant": "Profession not acquired.",
 
   // other
   "treasure_hunt.broadcast.started": "{{player}} is hunting for treasure!",
@@ -316,14 +317,15 @@
 
   // conservationist
   "gmcm.sections.prfs.conservationist": "Conservationist",
-  "gmcm.trash_trash_needed_per_tax_deduction.title": "Trash per Tax Deduction %",
-  "gmcm.trash_trash_needed_per_tax_deduction.desc": "Conservationists must collect this much trash for every 1% tax deduction the following season.",
-  "gmcm.trash_trash_needed_per_friendship_point.title": "Trash per Friendship Point",
-  "gmcm.trash_trash_needed_per_friendship_point.desc": "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
+  "gmcm.conservationist_trash_needed_per_tax_deduction.title": "Trash per Tax Deduction %",
+  "gmcm.conservationist_trash_needed_per_tax_deduction.desc": "Conservationists must collect this much trash for every 1% tax deduction the following season.",
+  "gmcm.conservationist_trash_needed_per_friendship_point.title": "Trash per Friendship Point",
+  "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Tax Deduction Ceiling",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "The maximum tax deduction allowed by the Ferngill Revenue Service, in percentage (ignored if Taxes mod is installed).",
 
   // tapper
+  "gmcm.sections.prfs.tapper": "Tapper",
   "gmcm.immersive_heavy_tapper_yield.title": "Immersive Heavy Tapper Yield",
   "gmcm.immersive_heavy_tapper_yield.desc": "Causes Heavy Tapper to double syrup output stack instead of halving the production frequency. This makes it more consistent with the new Heavy Furnance and less redundant with the Tapper profession.",
   "gmcm.aging_trees_quality_syrups.title": "Quality Syrups From Aging Trees",
@@ -353,7 +355,7 @@
 
   // limit break
   "gmcm.sections.prfs.limit_break": "Limit Break",
-  "gmcm.enable_limit_breaks.title": "Unlock Limit Breaks",
+  "gmcm.enable_limit_breaks.title": "Enable Limit Breaks",
   "gmcm.enable_limit_breaks.desc": "Whether the player can use their combat profession Limit Break after mastering the combat skill.",
   "gmcm.limit_break_key.title": "Activation Key",
   "gmcm.limit_break_key.desc": "The key used to activate the Limit Break.",
@@ -371,15 +373,15 @@
   "gmcm.limit_gauge_offset.desc": "Use this to adjust the X and Y coordinates of the Limit Gauge if using other mods which also add HUD bars.",
 
   // prestige
-  "gmcm.sections.prfs.prestige": "Prestige",
-  "gmcm.enable_prestige_levels.title": "Unlock Prestige Levels",
+  "gmcm.sections.prfs.prestige": "Prestige Progression",
+  "gmcm.enable_prestige_levels.title": "Enable Prestige Levels",
   "gmcm.enable_prestige_levels.desc": "Whether the player can continue gaining levels up to 20 after achieving skill mastery.",
   "gmcm.exp_per_prestige_level.title": "Required Exp per Extended Level",
   "gmcm.exp_per_prestige_level.desc": "How much skill experience is required for each level-up above level 10.",
   "gmcm.prestige_respec_cost.title": "Cost of Prestige Respec",
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
   "gmcm.prestige_icon_style.title": "Icon Style",
-  "gmcm.prestige_icon_style.desc": "Determines the style of the sprite used for Prestige profession variants.",
+  "gmcm.prestige_icon_style.desc": "Determines the style of the sprite used for Prestige Professions.",
   "gmcm.icon_style.metallic_gold": "Metallic Gold",
   "gmcm.icon_style.posister_gold": "Posister Gold",
 

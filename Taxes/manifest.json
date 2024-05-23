@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Taxes",
   "Name": "Serfdom",
   "Author": "DaLion",
-  "Version": "1.0.0",
+  "Version": "1.0.0-Debug",
   "Description": "Provides realistic income and property taxation mechanics.",
   "EntryDll": "DaLion.Taxes.dll",
   "Dependencies": [

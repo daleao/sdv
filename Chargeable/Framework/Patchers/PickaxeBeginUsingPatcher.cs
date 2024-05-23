@@ -14,8 +14,8 @@ internal sealed class PickaxeBeginUsingPatcher
     private static bool Prefix(Tool __instance, Farmer who)
     {
         if (!Config.Pick.EnableCharging ||
-            (Config.RequireModkey && !Config.Modkey.IsDown()) ||
-            __instance.UpgradeLevel < (int)Config.Pick.RequiredUpgradeForCharging)
+            (Config.RequireModKey && !Config.ModKey.IsDown()) ||
+            __instance.UpgradeLevel == 0)
         {
             return true; // run original logic
         }

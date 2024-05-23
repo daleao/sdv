@@ -14,8 +14,8 @@ internal sealed class AxeBeginUsingPatcher
     private static bool Prefix(Tool __instance, Farmer who)
     {
         if (!Config.Axe.EnableCharging ||
-            (Config.RequireModkey && !Config.Modkey.IsDown()) ||
-            __instance.UpgradeLevel < (int)Config.Axe.RequiredUpgradeForCharging)
+            (Config.RequireModKey && !Config.ModKey.IsDown()) ||
+            __instance.UpgradeLevel == 0)
         {
             return true; // run original logic
         }

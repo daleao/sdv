@@ -762,7 +762,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddIntSlider<TConfig>(
@@ -773,7 +773,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         int? min = null,
         int? max = null,
-        int? interval = null,
+        int? step = null,
         string? id = null)
     {
         this.AssertLoaded();
@@ -785,7 +785,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             setValue: value => setValue(getConfig(), value),
             min: min,
             max: max,
-            interval: interval,
+            step: step,
             fieldId: id);
 
         return (TGenericModConfigMenu)this;
@@ -820,8 +820,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        int? interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? (int)intervalAttribute.Interval
+        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? (int)stepAttribute.Step
             : null;
 
         this.AddIntSlider(
@@ -832,7 +832,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 
@@ -846,7 +846,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddIntSliderGroupFromArray<TConfig>(
@@ -858,7 +858,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         int? min = null,
         int? max = null,
-        int? interval = null,
+        int? step = null,
         string? id = null)
     {
         this.AssertLoaded();
@@ -872,7 +872,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -909,8 +909,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        int? interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? (int)intervalAttribute.Interval
+        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? (int)stepAttribute.Step
             : null;
 
         this.AddIntSliderGroupFromArray(
@@ -922,7 +922,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 
@@ -936,7 +936,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddIntSliderGroupFromIntDict<TConfig>(
@@ -948,7 +948,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         int? min = null,
         int? max = null,
-        int? interval = null,
+        int? step = null,
         string? id = null)
     {
         this.AssertLoaded();
@@ -962,7 +962,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -1000,8 +1000,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        int? interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? (int)intervalAttribute.Interval
+        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? (int)stepAttribute.Step
             : null;
 
         this.AddIntSliderGroupFromIntDict(
@@ -1013,7 +1013,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min: min,
             max: max,
-            interval: interval,
+            step: step,
             property.Name);
     }
 
@@ -1027,7 +1027,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddIntSliderGroupFromStringDict<TConfig>(
@@ -1039,7 +1039,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         int? min = null,
         int? max = null,
-        int? interval = null,
+        int? step = null,
         string? id = null)
     {
         this.AssertLoaded();
@@ -1053,7 +1053,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -1091,8 +1091,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        int? interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? (int)intervalAttribute.Interval
+        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? (int)stepAttribute.Step
             : null;
 
         this.AddIntSliderGroupFromStringDict(
@@ -1112,7 +1112,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min: min,
             max: max,
-            interval: interval,
+            step: step,
             property.Name);
     }
 
@@ -1125,7 +1125,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddFloatSlider<TConfig>(
@@ -1136,7 +1136,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         float? min = null,
         float? max = null,
-        float interval = 0.1f,
+        float step = 0.1f,
         string? id = null)
     {
         this.AssertLoaded();
@@ -1148,7 +1148,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             setValue: value => setValue(getConfig(), value),
             min: min,
             max: max,
-            interval: interval,
+            step: step,
             fieldId: id);
 
         return (TGenericModConfigMenu)this;
@@ -1183,8 +1183,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        var interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? intervalAttribute.Interval
+        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? stepAttribute.Step
             : 0.1f;
 
         this.AddFloatSlider(
@@ -1195,7 +1195,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 
@@ -1209,7 +1209,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddFloatSliderGroupFromArray<TConfig>(
@@ -1221,7 +1221,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         float? min = null,
         float? max = null,
-        float interval = 0.1f,
+        float step = 0.1f,
         string? id = null)
     {
         this.AssertLoaded();
@@ -1235,7 +1235,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -1272,8 +1272,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        var interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? intervalAttribute.Interval
+        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? stepAttribute.Step
             : 0.1f;
 
         this.AddFloatSliderGroupFromArray(
@@ -1285,7 +1285,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 
@@ -1299,7 +1299,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddFloatSliderGroupFromIntDict<TConfig>(
@@ -1311,7 +1311,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         float? min = null,
         float? max = null,
-        float interval = 0.1f,
+        float step = 0.1f,
         string? id = null)
     {
         this.AssertLoaded();
@@ -1325,7 +1325,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -1363,8 +1363,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        var interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? intervalAttribute.Interval
+        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? stepAttribute.Step
             : 0.1f;
 
         this.AddFloatSliderGroupFromIntDict(
@@ -1376,7 +1376,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 
@@ -1390,7 +1390,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <param name="getConfig">Gets the config instance.</param>
     /// <param name="min">The minimum allowed value.</param>
     /// <param name="max">The maximum allowed value.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The step between values that can be selected.</param>
     /// <param name="id">An optional id for this field.</param>
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     protected TGenericModConfigMenu AddFloatSliderGroupFromStringDict<TConfig>(
@@ -1402,7 +1402,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         Func<TConfig> getConfig,
         float? min = null,
         float? max = null,
-        float interval = 0.1f,
+        float step = 0.1f,
         string? id = null)
     {
         this.AssertLoaded();
@@ -1416,7 +1416,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 getConfig,
                 min: min,
                 max: max,
-                interval: interval,
+                step: step,
                 id);
         }
 
@@ -1454,8 +1454,8 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             max = null;
         }
 
-        var interval = property.GetCustomAttribute<GMCMIntervalAttribute>() is { } intervalAttribute
-            ? intervalAttribute.Interval
+        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
+            ? stepAttribute.Step
             : 0.1f;
 
         this.AddFloatSliderGroupFromStringDict(
@@ -1475,7 +1475,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             getConfig,
             min,
             max,
-            interval,
+            step,
             property.Name);
     }
 

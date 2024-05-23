@@ -28,9 +28,9 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     {
         try
         {
-            if (!EnablePrestigeLevels)
+            if (!ShouldEnablePrestigeLevels)
             {
-                if (!EnableSkillReset)
+                if (!ShouldEnableSkillReset)
                 {
                     return true; // run original logic
                 }

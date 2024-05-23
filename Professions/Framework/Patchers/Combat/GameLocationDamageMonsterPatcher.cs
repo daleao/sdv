@@ -238,7 +238,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void HandleBrute(Monster monster, Farmer who)
     {
-        if (!Config.Masteries.UnlockLimitBreaks || who.CurrentTool is not MeleeWeapon weapon ||
+        if (!Config.Masteries.EnableLimitBreaks || who.CurrentTool is not MeleeWeapon weapon ||
             State.LimitBreak is not BruteFrenzy frenzy || monster.Health > 0)
         {
             return;
@@ -262,7 +262,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         var poached = TryPoach(monster, who, r);
 
         // increment Poacher Limit Break meter
-        if (!Config.Masteries.UnlockLimitBreaks || State.LimitBreak is not PoacherAmbush { IsActive: false } ambush)
+        if (!Config.Masteries.EnableLimitBreaks || State.LimitBreak is not PoacherAmbush { IsActive: false } ambush)
         {
             return;
         }
@@ -286,7 +286,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     private static void HandlePiper(Monster monster, Farmer who, Random r)
     {
-        if (!Config.Masteries.UnlockLimitBreaks ||
+        if (!Config.Masteries.EnableLimitBreaks ||
             State.LimitBreak is not PiperConcerto { IsActive: false } concerto)
         {
             return;

@@ -121,7 +121,7 @@ internal sealed class ProfessionsState
 
             this._limitBreak = value;
             Data.Write(Game1.player, DataKeys.LimitBreakId, value.Id.ToString());
-            if (Config.Masteries.UnlockLimitBreaks)
+            if (Config.Masteries.EnableLimitBreaks)
             {
                 EventManager.Enable<LimitWarpedEvent>();
             }

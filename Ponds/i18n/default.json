@@ -1,3 +1,7 @@
 {
-  "algae": "Algae"
+  "algae": "Algae",
+  "gmcm.days_until_algae_spawn.title": "Days Until Algae Spawn",
+  "gmcm.days_until_algae_spawn.desc": "The number of days until an empty pond will begin spawning algae.",
+  "gmcm.roe_production_chance_multiplier.title": "Roe Production Chance Multiplier",
+  "gmcm.roe_production_chance_multiplier.desc": "A multiplier to a fish's base chance to produce roe each day."
 }

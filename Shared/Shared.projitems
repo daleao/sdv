@@ -175,7 +175,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMSectionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMRangeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMIntervalAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMStepAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\DynamicListOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\DynamicKeyValuePairListOptionRenderedActiveMenuEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\GMCMPage.cs" />

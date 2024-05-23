@@ -38,7 +38,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
         ClickableTextureComponent ___scrollBar,
         ref Rectangle ___scrollBarRunner)
     {
-        if (EnableSkillReset)
+        if (ShouldEnableSkillReset)
         {
             ISkill? maxSkill = null;
             var maxLength = 0;
@@ -70,7 +70,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
 
             if (maxLength > 0)
             {
-                var addedWidth = (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE;
+                var addedWidth = (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE + 12;
                 __instance.width += addedWidth;
                 ___upButton.bounds.X += addedWidth;
                 ___downButton.bounds.X += addedWidth;
@@ -80,7 +80,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
             }
         }
 
-        if (!EnablePrestigeLevels)
+        if (!ShouldEnablePrestigeLevels)
         {
             return;
         }

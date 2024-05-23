@@ -9,7 +9,7 @@ using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
 
-internal class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
+internal sealed class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
 {
     /// <summary>Initializes a new instance of the <see cref="TaxesConfigMenu"/> class.</summary>
     internal TaxesConfigMenu()

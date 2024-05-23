@@ -29,7 +29,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string[] action, Farmer who, Location tileLocation)
     {
-        if (!EnableSkillReset || __instance.ShouldIgnoreAction(action, who, tileLocation) ||
+        if (!ShouldEnableSkillReset || __instance.ShouldIgnoreAction(action, who, tileLocation) ||
             !ArgUtility.TryGet(action, 0, out var actionType, out _) || !actionType.Contains("DogStatue") ||
             !who.IsLocalPlayer)
         {
@@ -89,7 +89,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         var message = I18n.Prestige_DogStatue_What();
         var options = Array.Empty<Response>();
 
-        if (Config.Masteries.UnlockLimitBreaks && Skill.Combat.CanGainPrestigeLevels() &&
+        if (Config.Masteries.EnableLimitBreaks && Skill.Combat.CanGainPrestigeLevels() &&
             Game1.player.professions.Intersect(((ISkill)Skill.Combat).TierTwoProfessionIds).Count() is var count &&
             (count > 1 || (count == 1 && State.LimitBreak is null)))
         {
@@ -108,7 +108,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             ];
         }
 
-        if (Config.Masteries.UnlockPrestigeLevels && Skill.List.Any(s => GameLocation.canRespec(s)))
+        if (Config.Masteries.EnablePrestigeLevels && Skill.List.Any(s => GameLocation.canRespec(s)))
         {
             options =
             [

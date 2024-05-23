@@ -29,7 +29,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SkillsPageCtorPostfix(SkillsPage __instance)
     {
-        if (EnableSkillReset)
+        if (ShouldEnableSkillReset)
         {
             Skill? maxSkill = null;
             var maxLength = 0;
@@ -54,7 +54,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
 
         }
 
-        if (!EnablePrestigeLevels)
+        if (!ShouldEnablePrestigeLevels)
         {
             return;
         }

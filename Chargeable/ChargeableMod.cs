@@ -59,6 +59,7 @@ public sealed class ChargeableMod : Mod
             return;
         }
 
+        I18n.Init(helper.Translation);
         Config = helper.ReadConfig<ChargeableConfig>();
         Config.Validate(helper);
         PerScreenState = new PerScreen<ChargeableState>(() => new ChargeableState());

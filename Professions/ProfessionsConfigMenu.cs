@@ -8,7 +8,7 @@ using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
 
-internal class ProfessionsConfigMenu : GMCMBuilder<ProfessionsConfigMenu>
+internal sealed class ProfessionsConfigMenu : GMCMBuilder<ProfessionsConfigMenu>
 {
     private readonly Dictionary<string, object> _changedFields = [];
     private bool _reload;

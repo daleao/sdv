@@ -85,7 +85,7 @@ public interface IGenericModConfigMenuApi
     /// </param>
     /// <param name="min">The minimum allowed value, or <see langword="null"/> to allow any.</param>
     /// <param name="max">The maximum allowed value, or <see langword="null"/> to allow any.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The interval of values that can be selected.</param>
     /// <param name="formatValue">Get the display text to show for a value, or <see langword="null"/> to show the number as-is.</param>
     /// <param name="fieldId">
     ///     The unique field ID for use with <see cref="OnFieldChanged"/>, or <see langword="null"/> to auto-generate a
@@ -99,7 +99,7 @@ public interface IGenericModConfigMenuApi
         Func<string>? tooltip = null,
         int? min = null,
         int? max = null,
-        int? interval = null,
+        int? step = null,
         Func<int, string>? formatValue = null,
         string? fieldId = null);
 
@@ -114,7 +114,7 @@ public interface IGenericModConfigMenuApi
     /// </param>
     /// <param name="min">The minimum allowed value, or <see langword="null"/> to allow any.</param>
     /// <param name="max">The maximum allowed value, or <see langword="null"/> to allow any.</param>
-    /// <param name="interval">The interval of values that can be selected.</param>
+    /// <param name="step">The interval of values that can be selected.</param>
     /// <param name="formatValue">Get the display text to show for a value, or <see langword="null"/> to show the number as-is.</param>
     /// <param name="fieldId">
     ///     The unique field ID for use with <see cref="OnFieldChanged"/>, or <see langword="null"/> to auto-generate a
@@ -128,7 +128,7 @@ public interface IGenericModConfigMenuApi
         Func<string>? tooltip = null,
         float? min = null,
         float? max = null,
-        float? interval = null,
+        float? step = null,
         Func<float, string>? formatValue = null,
         string? fieldId = null);
 

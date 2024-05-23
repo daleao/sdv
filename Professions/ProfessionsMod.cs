@@ -67,13 +67,13 @@ public sealed class ProfessionsMod : Mod
     internal static ITranslationHelper _I18n => ModHelper.Translation;
 
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
-    internal static bool EnableSkillReset => Config.Skills.EnableSkillReset;
+    internal static bool ShouldEnableSkillReset => Config.Skills.EnableSkillReset;
 
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
-    internal static bool EnablePrestigeLevels => Config.Masteries.UnlockPrestigeLevels;
+    internal static bool ShouldEnablePrestigeLevels => Config.Masteries.EnablePrestigeLevels;
 
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
-    internal static bool EnableLimitBreaks => Config.Masteries.UnlockLimitBreaks;
+    internal static bool ShouldEnableLimitBreaks => Config.Masteries.EnableLimitBreaks;
 
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>

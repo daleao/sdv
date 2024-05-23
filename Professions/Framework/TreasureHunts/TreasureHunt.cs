@@ -4,6 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using DaLion.Professions.Framework.TreasureHunts.Events;
+using DaLion.Professions.Framework.UI;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;

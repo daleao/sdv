@@ -34,7 +34,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         ref bool __result,
         string? questionAndAnswer)
     {
-        if (!EnableSkillReset ||
+        if (!ShouldEnableSkillReset ||
             questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true)
         {
             return true; // run original logic

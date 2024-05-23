@@ -53,19 +53,23 @@ public interface ISkill : IEquatable<ISkill>
     /// <summary>Gets the <see cref="IProfession"/>s associated with this skill.</summary>
     IList<IProfession> Professions { get; }
 
-    /// <summary>Gets integer ids used in-game to track professions acquired by the player.</summary>
+    /// <summary>Enumerates the integer IDs used in-game to track professions acquired by the player.</summary>
     IEnumerable<int> ProfessionIds => this.Professions.Select(p => p.Id);
 
-    /// <summary>Gets subset of <see cref="ProfessionIds"/> containing only the level five profession ids.</summary>
-    /// <remarks>Should always contain exactly 2 elements.</remarks>
+    /// <summary>Enumerates the subset of <see cref="Profession"/> pertainig only to level 5 professions.</summary>
+    /// <remarks>Should always enumerate exactly 2 elements.</remarks>
+    IEnumerable<IProfession> TierOneProfessions => this.Professions.Take(2);
+
+    /// <summary>Enumerates the subset of <see cref="ProfessionIds"/> pertainig only to level 5 professions.</summary>
+    /// <remarks>Should always enumerate exactly 2 elements.</remarks>
     IEnumerable<int> TierOneProfessionIds => this.ProfessionIds.Take(2);
 
-    /// <summary>Gets subset of <see cref="ProfessionIds"/> containing only the level ten profession ids.</summary>
-    /// <remarks>
-    ///     Should always contains exactly 4 elements. The elements are assumed to be ordered correctly with respect to
-    ///     <see cref="TierOneProfessionIds"/>, such that elements 0 and 1 in this array correspond to branches of element 0
-    ///     in the latter, and elements 2 and 3 correspond to branches of element 1.
-    /// </remarks>
+    /// <summary>Enumerates the subset of <see cref="Professions"/> pertainig only to level 10 professions.</summary>
+    /// <remarks>Should always enumerate exactly 4 elements.</remarks>
+    IEnumerable<IProfession> TierTwoProfessions => this.Professions.TakeLast(4);
+
+    /// <summary>Enumerates the subset of <see cref="ProfessionIds"/> pertainig only to level 10 professions.</summary>
+    /// <remarks>Should always enumerate exactly 4 elements.</remarks>
     IEnumerable<int> TierTwoProfessionIds => this.ProfessionIds.TakeLast(4);
 
     /// <summary>Gets a dictionary of the <see cref="ProfessionPair"/>s offered by this skill indexed by the corresponding level 5 profession.</summary>

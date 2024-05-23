@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;

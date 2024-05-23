@@ -27,8 +27,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
     <EnableHarmony>true</EnableHarmony>
+    <EnableTranslation>true</EnableTranslation>
     <BundleExtraAssemblies>System</BundleExtraAssemblies>
-    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IgnoreModFilePatterns>
       \.xcf$, <!-- GIMP files -->
       System.*.dll$, <!-- System would bundle these. -->
@@ -88,6 +89,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup Condition="$(EnableTranslation) == 'True'">
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
+  </ItemGroup>
+
   <!-- global usings directives -->
   <ItemGroup>
     <Using Include="System" />
@@ -103,6 +108,12 @@
     <Compile Remove="resources\**" />
     <EmbeddedResource Remove="resources\**" />
     <None Remove="resources\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="i18n\default.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="i18n\default.json" />
   </ItemGroup>
 
 </Project>

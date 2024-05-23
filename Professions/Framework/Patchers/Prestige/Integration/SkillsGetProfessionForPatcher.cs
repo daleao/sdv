@@ -26,7 +26,7 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool SkillsGetProfessionForPrefix(ref SCProfession? __result, SCSkill skill, int level)
     {
-        if (!EnableSkillReset)
+        if (!ShouldEnableSkillReset)
         {
             return true; // run original logic
         }

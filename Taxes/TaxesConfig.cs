@@ -80,7 +80,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(1)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float IncomeTaxLatenessFine
     {
         get => this._incomeLatenessFine;
@@ -95,7 +95,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(2)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float DeductibleAnimalExpenses
     {
         get => this._deductibleAnimalExpenses;
@@ -110,7 +110,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(3)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float DeductibleBuildingExpenses
     {
         get => this._deductibleBuildingExpenses;
@@ -125,7 +125,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(4)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float DeductibleSeedExpenses
     {
         get => this._deductibleSeedExpenses;
@@ -140,7 +140,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(5)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float DeductibleToolExpenses
     {
         get => this._deductibleToolExpenses;
@@ -155,7 +155,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.income")]
     [GMCMPriority(6)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     [GMCMOverride(typeof(TaxesConfigMenu), "DeductibleExtrasOverride")]
     [GMCMIgnore]
     public Dictionary<string, float> DeductibleExtras
@@ -179,7 +179,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.property")]
     [GMCMPriority(10)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float PropertyTaxLatenessFine
     {
         get => this._propertyLatenessFine;
@@ -194,7 +194,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.property")]
     [GMCMPriority(11)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float UnusedTileTaxRate
     {
         get => this._unusedTileTaxRate;
@@ -209,7 +209,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.property")]
     [GMCMPriority(12)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float UsedTileTaxRate
     {
         get => this._usedTileTaxRate;
@@ -224,7 +224,7 @@ public sealed class TaxesConfig
     [GMCMSection("txs.property")]
     [GMCMPriority(13)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float BuildingTaxRate
     {
         get => this._buildingTaxRate;
@@ -252,7 +252,7 @@ public sealed class TaxesConfig
     [GMCMSection("other")]
     [GMCMPriority(50)]
     [GMCMRange(0f, 2f)]
-    [GMCMInterval(0.01f)]
+    [GMCMStep(0.01f)]
     public float AnnualInterest
     {
         get => this._annualInterest;

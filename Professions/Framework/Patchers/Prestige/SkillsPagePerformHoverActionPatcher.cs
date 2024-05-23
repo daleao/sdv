@@ -27,7 +27,7 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
     private static void SkillsPagePerformHoverActionPostfix(int x, int y, ref string ___hoverText)
     {
         ___hoverText = ___hoverText.Truncate(90);
-        if (!EnableSkillReset)
+        if (!ShouldEnableSkillReset)
         {
             return;
         }

@@ -45,5 +45,3 @@ Lateness fines are generally higher for property taxes (configurable). But since
 ## For Mod Authors
 
 C# mod authors may request the [Mod API](/ITaxesApi.cs) to calculate the player's current taxes. This can be useful for authors who wish to add in-game methods of checking your taxes, as **I personally will not be doing that**.
-
-[🔼 Back to top](#margo--taxes-txs)

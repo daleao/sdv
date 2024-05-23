@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework;
+﻿namespace DaLion.Professions.Framework.UI;
 
 #region using directives
 

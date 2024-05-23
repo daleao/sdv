@@ -11,7 +11,7 @@ internal static class Textures
     internal const float STARS_SCALE = 3f;
     internal const int STARS_WIDTH = 20;
     internal const int PROGRESSION_HORIZONTAL_OFFSET = -104;
-    internal const int PROGRESSION_VERTICAL_OFFSET = -86;
+    internal const int PROGRESSION_VERTICAL_OFFSET = -74;
 
     private static Lazy<Texture2D> _prestigeRibbons =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/PrestigeRibbons"));

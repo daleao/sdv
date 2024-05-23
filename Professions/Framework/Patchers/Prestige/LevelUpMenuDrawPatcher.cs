@@ -28,7 +28,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to increase the height of Level Up Menu to fit longer profession descriptions.</summary>
+    /// <summary>Patch to increase the height of Level Up Menu to fit longer profession descriptions + choose single profession.</summary>
     [HarmonyPrefix]
     private static bool LevelUpMenuDrawPrefix(
         LevelUpMenu __instance,
@@ -277,7 +277,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSubroutine(LevelUpMenu menu, int currentLevel, SpriteBatch b)
     {
-        if (!EnableSkillReset || !menu.isProfessionChooser || currentLevel > 10)
+        if (!ShouldEnableSkillReset || !menu.isProfessionChooser || currentLevel > 10)
         {
             return;
         }

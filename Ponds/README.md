@@ -41,5 +41,3 @@ This mod is a companion to [Walk Of Life](../Professions)'s Aquarist profession,
 ## Compatibility
 
 - Compatible with Content Patcher mods which apply visual changes to Fish Ponds or which edit Fish Pond Data.
-
-[🔼 Back to top](#margo--ponds-pnds)

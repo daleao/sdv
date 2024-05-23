@@ -14,7 +14,7 @@ public sealed class CoreConfig
     /// <summary>Gets the chance a crop may wither per day left un-watered.</summary>
     [JsonProperty]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.05f)]
+    [GMCMStep(0.05f)]
     public float CropWitherChance { get; internal set; }
 
     /// <summary>Gets the key used to engage Debug Mode.</summary>

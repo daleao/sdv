@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.UI;
 using Microsoft.Xna.Framework;
 
 #endregion using directives

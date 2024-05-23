@@ -177,13 +177,13 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
     internal static int AdjustForRibbonWidth()
     {
-        return EnableSkillReset ? Textures.STARS_WIDTH : 0;
+        return ShouldEnableSkillReset ? Textures.STARS_WIDTH : 0;
     }
 
-    internal static void DrawExtendedLevelBars(
+    private static void DrawExtendedLevelBars(
         int levelIndex, int skillIndex, int x, int y, int addedX, int skillLevel, SpriteBatch b)
     {
-        if (!EnablePrestigeLevels)
+        if (!ShouldEnablePrestigeLevels)
         {
             return;
         }
@@ -210,9 +210,9 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    internal static void DrawRibbons(SkillsPage page, SpriteBatch b)
+    private static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
-        if (!EnableSkillReset)
+        if (!ShouldEnableSkillReset)
         {
             return;
         }
@@ -240,7 +240,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var sourceRect = new Rectangle(0, (count - 1) * 16, (count + 1) * 4, 16);
+            var sourceRect = new Rectangle(0, (count - 1) * 8, (count + 1) * 4, 8);
             b.Draw(
                 Textures.PrestigeRibbons,
                 position,

@@ -18,7 +18,7 @@ internal sealed class LimitWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => Config.Masteries.UnlockLimitBreaks && State.LimitBreak is not null;
+    public override bool IsEnabled => Config.Masteries.EnableLimitBreaks && State.LimitBreak is not null;
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

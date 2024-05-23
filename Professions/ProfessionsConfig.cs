@@ -4,6 +4,7 @@
 
 using System.Collections.Generic;
 using DaLion.Professions.Framework.Configs;
+using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -37,7 +38,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(0)]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftCtrl, LeftShoulder");
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
 
     /// <summary>
     ///     Gets a value indicating whether if enabled, machine and building ownership will be ignored when determining whether to apply profession
@@ -123,7 +124,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.ecologist_gemologist")]
     [GMCMPriority(200)]
     [GMCMRange(0, 100)]
-    [GMCMInterval(10)]
+    [GMCMStep(10)]
     public uint ForagesNeededForBestQuality { get; internal set; } = 30;
 
     /// <summary>Gets the number of minerals that must be mined before mined minerals become iridium-quality.</summary>
@@ -131,7 +132,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.ecologist_gemologist")]
     [GMCMPriority(201)]
     [GMCMRange(0, 100)]
-    [GMCMInterval(10)]
+    [GMCMStep(10)]
     public uint MineralsNeededForBestQuality { get; internal set; } = 30;
 
     /// <summary>Gets the chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
@@ -139,7 +140,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(300)]
     [GMCMRange(0f, 1f)]
-    [GMCMInterval(0.05f)]
+    [GMCMStep(0.05f)]
     public double ChanceToStartTreasureHunt { get; internal set; } = 0.1;
 
     /// <summary>Gets a value indicating whether determines whether a Scavenger Hunt can trigger while entering a farm map.</summary>
@@ -160,7 +161,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(303)]
     [GMCMRange(0.5f, 3f)]
-    [GMCMInterval(0.2f)]
+    [GMCMStep(0.2f)]
     public float ScavengerHuntHandicap
     {
         get => this._scavengerHuntHandicap;
@@ -182,7 +183,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(305)]
     [GMCMRange(0.5f, 3f)]
-    [GMCMInterval(0.2f)]
+    [GMCMStep(0.2f)]
     public float ProspectorHuntHandicap
     {
         get => this._prospectorHuntHandicap;
@@ -197,7 +198,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(306)]
     [GMCMRange(0.2f, 5f)]
-    [GMCMInterval(0.2f)]
+    [GMCMStep(0.2f)]
     public float TrackingPointerScale
     {
         get => this._trackingPointerScale;
@@ -216,7 +217,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(307)]
     [GMCMRange(0.5f, 2f)]
-    [GMCMInterval(0.05f)]
+    [GMCMStep(0.05f)]
     public float TrackingPointerBobRate
     {
         get => this._trackingPointerBobRate;
@@ -250,7 +251,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.angler_aquarist")]
     [GMCMPriority(500)]
     [GMCMRange(0.25f, 4f)]
-    [GMCMInterval(0.25f)]
+    [GMCMStep(0.25f)]
     public float AnglerPriceBonusCeiling
     {
         get => this._anglerPriceBonusCeiling;
@@ -283,7 +284,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(600)]
     [GMCMRange(10, 1000)]
-    [GMCMInterval(10)]
+    [GMCMStep(10)]
     public uint ConservationistTrashNeededPerTaxDeduction { get; internal set; } = 100;
 
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1 point of friendship towards villagers.</summary>
@@ -291,7 +292,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(601)]
     [GMCMRange(10, 1000)]
-    [GMCMInterval(10)]
+    [GMCMStep(10)]
     public uint ConservationistTrashNeededPerFriendshipPoint { get; internal set; } = 100;
 
     /// <summary>Gets the maximum income deduction allowed by the Ferngill Revenue Service.</summary>
@@ -299,7 +300,7 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(602)]
     [GMCMRange(0.1f, 1f)]
-    [GMCMInterval(0.05f)]
+    [GMCMStep(0.05f)]
     public float ConservationistTaxDeductionCeiling
     {
         get => this._conservationistTaxDeductionCeiling;

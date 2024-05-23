@@ -6,7 +6,7 @@ using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
 
-internal class PondsConfigMenu : GMCMBuilder<PondsConfigMenu>
+internal sealed class PondsConfigMenu : GMCMBuilder<PondsConfigMenu>
 {
     /// <summary>Initializes a new instance of the <see cref="PondsConfigMenu"/> class.</summary>
     internal PondsConfigMenu()

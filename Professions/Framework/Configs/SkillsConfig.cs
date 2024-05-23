@@ -59,7 +59,7 @@ public sealed class SkillsConfig
     [GMCMSection("prfs.skill_reset")]
     [GMCMPriority(104)]
     [GMCMRange(0.5f, 2f)]
-    [GMCMInterval(0.1f)]
+    [GMCMStep(0.1f)]
     public float SkillExpMultiplierPerReset
     {
         get => this._skillExpMultiplierPerReset;

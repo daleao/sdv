@@ -26,7 +26,7 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void SkillsAddExperiencePrefix(string skillName, ref int amt)
     {
-        if (!EnableSkillReset || !CustomSkill.Loaded.TryGetValue(skillName, out var skill) ||
+        if (!ShouldEnableSkillReset || !CustomSkill.Loaded.TryGetValue(skillName, out var skill) ||
             amt <= 0)
         {
             return;

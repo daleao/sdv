@@ -1,5 +1,16 @@
 ﻿# PRFS Changelog
 
+## 0.1.1
+
+### Added
+
+* Added Mastery Limit Select menu when mastering the Combat skill.
+
+### Fixed
+
+* Fixed player not gaining experience.
+
+
 ## 0.1.0 - Beta release for 1.6
 
 ### Changed

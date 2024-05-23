@@ -256,7 +256,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     private static void DrawSubroutine(SkillLevelUpMenu menu, int currentLevel, SpriteBatch b)
     {
-        if (!EnableSkillReset || !menu.isProfessionChooser || currentLevel > 10)
+        if (!ShouldEnableSkillReset || !menu.isProfessionChooser || currentLevel > 10)
         {
             return;
         }

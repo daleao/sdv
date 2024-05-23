@@ -84,7 +84,7 @@ public abstract class LimitBreak : ILimitBreak
         get => this._chargeValue;
         set
         {
-            if (!Config.Masteries.UnlockLimitBreaks)
+            if (!Config.Masteries.EnableLimitBreaks)
             {
                 return;
             }
@@ -250,7 +250,7 @@ public abstract class LimitBreak : ILimitBreak
     /// <summary>Detects and handles activation input.</summary>
     internal void CheckForActivation()
     {
-        if (!Config.Masteries.UnlockLimitBreaks)
+        if (!Config.Masteries.EnableLimitBreaks)
         {
             return;
         }

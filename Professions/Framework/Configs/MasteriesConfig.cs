@@ -15,7 +15,7 @@ using StardewModdingAPI.Utilities;
 /// <summary>The Mastery-related settings for PRFS.</summary>
 public sealed class MasteriesConfig
 {
-    private bool _unlockLimitBreaks = true;
+    private bool _enableLimitBreaks = true;
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
     private IconStyle _prestigeIconStyle = IconStyle.MetallicGold;
@@ -38,17 +38,17 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(100)]
-    public bool UnlockLimitBreaks
+    public bool EnableLimitBreaks
     {
-        get => this._unlockLimitBreaks;
+        get => this._enableLimitBreaks;
         internal set
         {
-            if (value == this._unlockLimitBreaks)
+            if (value == this._enableLimitBreaks)
             {
                 return;
             }
 
-            this._unlockLimitBreaks = value;
+            this._enableLimitBreaks = value;
             if (!Context.IsWorldReady || State.LimitBreak is null)
             {
                 return;
@@ -90,7 +90,7 @@ public sealed class MasteriesConfig
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(103)]
     [GMCMRange(250, 2000)]
-    [GMCMInterval(50)]
+    [GMCMStep(50)]
     public uint HoldDelayMilliseconds { get; internal set; } = 250;
 
     /// <summary>
@@ -132,7 +132,7 @@ public sealed class MasteriesConfig
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(106)]
     [GMCMRange(0, 100000)]
-    [GMCMInterval(1000)]
+    [GMCMStep(1000)]
     public uint LimitRespecCost { get; internal set; } = 0;
 
     /// <summary>Gets the offset that should be applied to the Masteries Gauge's position.</summary>
@@ -146,14 +146,14 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(200)]
-    public bool UnlockPrestigeLevels { get; internal set; } = true;
+    public bool EnablePrestigeLevels { get; internal set; } = true;
 
     /// <summary>Gets how much skill experience is required for each level up beyond 10.</summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(202)]
     [GMCMRange(1000, 10000)]
-    [GMCMInterval(500)]
+    [GMCMStep(500)]
     public uint ExpPerPrestigeLevel { get; internal set; } = 5000;
 
     /// <summary>Gets the monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
@@ -161,7 +161,7 @@ public sealed class MasteriesConfig
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(201)]
     [GMCMRange(0, 100000)]
-    [GMCMInterval(1000)]
+    [GMCMStep(1000)]
     public uint PrestigeRespecCost { get; internal set; } = 20000;
 
     /// <summary>

@@ -12,6 +12,7 @@
 
 </div>
 
+<a id="top"/>
 <!-- TABLE OF CONTENTS -->
 <details  open="open"  align="left">
 <summary>Table of Contents</summary>
@@ -28,15 +29,15 @@
 		</ol>
 	</li>
 	<li>
-		<a href="#skill-progression">Skill Progression</a>
+		<a href="#skill-progression-tropes">Skill Progression Tropes</a>
 		<ol>
-			<li><a href="#skill-reset">Skill Reset</a></li>
-			<li><a href="#prestige-progression">Prestige Progression</a></li>
+			<li><a href="#profession-change-skill-reset">Profession Change Skill Reset</a></li>
+			<li><a href="#prestige-professions">Prestige Professions</a></li>
 			<li><a href="#limit-breaks">Limit Breaks</a></li>
 		</ol>
 	</li>
+	<li><a href="#misc-changes">Misc. Changes</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-	<li><a href="#recommended-mods">Recommended Mods</a></li>
 	<li><a href="#for-mod-authors">For Mod Authors</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -51,7 +52,7 @@ Optionally, this mod also brings classic progression tropes like [Prestige Class
 
 This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] mod for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
 ## The Professions
@@ -801,7 +802,7 @@ Also doubles the damage from Slime ammo.
 
 </ul>
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
 ## Skill Progression Tropes
@@ -844,7 +845,7 @@ If enabled, Mastering a skill will also unlock it's progression up to level 20, 
 
 Custom skill mods based on SpaceCore are **not** compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 ### Limit Breaks
 
@@ -909,7 +910,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 
 </ul>
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
 ## Misc. Changes
@@ -927,7 +928,7 @@ In case you didn't read every single profession description above, please be awa
 - Compatible with [Stardew Valley Expanded](mod:sve).
 - Compatible with any Content Patcher mod.
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-prfs)</sup></sup>
 
 
 ## For Mod Authors
@@ -958,7 +959,7 @@ The module exposes an API to facilitate integration with other mods. Currently e
 
 To consume the API, copy the [API interface](IProfessionsApi.cs) to your project and [ask SMAPI for a proxy][wiki:integrations-api]. Remove any methods you do not need to improve compatibility.
 
-<sup><sup>[🔼 Back to top](#margo--professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
 ## F.A.Q.
@@ -1020,4 +1021,4 @@ With the exception of Angler when placed together with Ms. Angler (requires [Aqu
 [wiki:fishponddata]: <https://stardewvalleywiki.com/Modding:Fish_Pond_data> "Fish Pond Data"
 [wiki:integrations-api]: <https://stardewvalleywiki.com/Modding:Modder_Guide/APIs/Integrations> "APIs - Integrations"
 
-[🔼 Back to top](#margo--professions-prfs)
+[🔼 Back to top](#top)
