@@ -69,12 +69,12 @@ internal abstract class TreasureHunt : ITreasureHunt
     [MemberNotNullWhen(true, nameof(Location), nameof(TreasureTile))]
     public virtual bool TryStart(double chance)
     {
-        if (this.IsActive || !this.Random.NextBool(chance))
+        if (this.IsActive || !this.Random.NextBool(chance * Config.TreasureHuntStartChanceMultiplier))
         {
             return false;
         }
 
-        if (!this.TrySetTreasureTile())
+        if (!this.TrySetTreasureTile(Game1.currentLocation))
         {
             return false;
         }
@@ -136,9 +136,10 @@ internal abstract class TreasureHunt : ITreasureHunt
     }
 
     /// <summary>Attempts to select the target treasure tile.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <returns><see langword="true"/> if a valid tile was set, other <see langword="false"/>.</returns>
     [MemberNotNullWhen(true, nameof(TreasureTile))]
-    protected abstract bool TrySetTreasureTile();
+    protected abstract bool TrySetTreasureTile(GameLocation location);
 
     /// <summary>Sets the <see cref="TimeLimit"/> for this hunt.</summary>
     /// <returns>The set time limit, for convenience.</returns>

@@ -16,7 +16,7 @@ internal sealed class ScavengerWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger, true);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Scavenger);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
@@ -32,8 +32,8 @@ internal sealed class ScavengerWarpedEvent(EventManager? manager = null)
             State.ScavengerHunt.Fail();
         }
 
-        if (e.NewLocation.currentEvent is not null || !e.NewLocation.IsOutdoors ||
-            (e.NewLocation.IsFarm && !Config.AllowScavengerHuntsOnFarm))
+        if (!e.Player.HasProfession(Profession.Scavenger, true) || e.NewLocation.currentEvent is not null ||
+            !e.NewLocation.IsOutdoors || e.NewLocation.IsFarm)
         {
             return;
         }

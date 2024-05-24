@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Chargeable",
   "Name": "Chargeable Resource Tools",
   "Author": "DaLion",
-  "Version": "1.0.0-Debug",
+  "Version": "1.0.0",
   "Description": "Charge the Axe and Pickaxe to break debris within an area.",
   "EntryDll": "DaLion.Chargeable.dll",
   "Dependencies": [
@@ -14,7 +14,6 @@
     }
   ],
   "UpdateKeys": [
-    "Nexus:23048",
-    "???"
+    "Nexus:23048"
   ]
 }

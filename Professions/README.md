@@ -46,11 +46,11 @@
 
 ## What this is
 
-This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and providing opportunities to explore entirely new styles of gameplay which engage and also scale with the player until the very late-game.
+This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
 
 Optionally, this mod also brings classic progression tropes like [Prestige Classes](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass), [Class Change Level Reset](https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset), and [Limit Breaks](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak).
 
-This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] mod for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
+This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
 
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
@@ -266,7 +266,7 @@ For Bioharmonist, a buff will be chosen at random the first time a forage is con
 <font size="2">
 <details>
 
-Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
 </details>
 </font>
 
@@ -414,7 +414,7 @@ For Cavewarden, any items left behind while mining have a 20% chance to spawn ba
 
 This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with a yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
 
-You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
 </details>
 </font>
 
@@ -458,7 +458,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <font size="2">
 <details>
 
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftCtrl) before placing them on the ground.
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftShift) before placing them on the ground.
 
 For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 
@@ -732,7 +732,7 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-Press the mod key (default LeftCtrl) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant the primary ammo the **musked** property.
 
@@ -764,7 +764,7 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 **Piercing Shot:** Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-**Rebound Shot:** Hold the mod key (Default LeftCtrl) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
+**Rebound Shot:** Hold the mod key (Default LeftShift) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
 </details>
 </font>
 
@@ -849,11 +849,9 @@ Custom skill mods based on SpaceCore are **not** compatible with the Prestige Pr
 
 ### Limit Breaks
 
-In addition to Prestige Progression, mastery over the Combat skill also unlocks a unique [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak) for each profession; a powerful ability that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
+In addition to Prestige Progression, mastery over the Combat skill may optionally unlock a [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak); a powerful ability that must be charged by performing certain actions during combat. Each combat profession has its own unique Limit Break, from which you will be prompted to choose **one** upon claiming your Mastery. You may only choose Limit Breaks from among the professions you have already acquired. In case you are eligible for more than 1, you will be able to change your selection, also at the Statue of Transcendance, for free (although a cost can be configured).
 
-Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time. Visit the Statue of Transcendence to select or change your Limit Break.
-
-The four Limit Breaks are:
+During combat you can track the current Limit charge by the HUD bar labeled "L". Once it is full, press **and hold** the Mod Key (default LeftShift) to activate it. Alternatively, you may configure a separate Limit Break Key to activate by a simple press.
 
 <ul>
 
@@ -870,7 +868,7 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. This effect ends prematurely if you attack an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.
 </summary>
 
 <ul>

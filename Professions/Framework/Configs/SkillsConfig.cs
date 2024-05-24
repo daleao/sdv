@@ -20,7 +20,7 @@ public sealed class SkillsConfig
     };
 
     private float _skillResetCostMultiplier = 1f;
-    private float _skillExpMultiplierPerReset = 0.1f;
+    private float _skillExpMultiplierPerReset = 1.25f;
 
     /// <summary>Gets a value indicating whether the player can reset their skills to gain a new profession.</summary>
     [JsonProperty]
@@ -59,7 +59,7 @@ public sealed class SkillsConfig
     [GMCMSection("prfs.skill_reset")]
     [GMCMPriority(104)]
     [GMCMRange(0.5f, 2f)]
-    [GMCMStep(0.1f)]
+    [GMCMStep(0.05f)]
     public float SkillExpMultiplierPerReset
     {
         get => this._skillExpMultiplierPerReset;
@@ -73,7 +73,8 @@ public sealed class SkillsConfig
     [JsonProperty]
     [GMCMSection("prfs.skill_exp")]
     [GMCMPriority(200)]
-    [GMCMRange(0.2f, 2f)]
+    [GMCMRange(0.5f, 2f)]
+    [GMCMStep(0.05f)]
     [GMCMOverride(typeof(ProfessionsConfigMenu), "SkillExpMultipliersOverride")]
     public Dictionary<string, float> BaseMultipliers
     {

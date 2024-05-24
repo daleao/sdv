@@ -340,13 +340,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     public string GetTitle(bool? prestiged = null)
     {
         prestiged ??= this.IsPrestiged;
-        return LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.en
-            ? this.Level == 10
-                ? _I18n.Get(this.Name.ToLower() + ".title." + (prestiged.Value ? "prestiged." : Empty) +
-                            (Game1.player.IsMale ? "male" : "female"))
-                : (prestiged.Value ? I18n.Prestiged_Title() : Empty) +
-                  _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"))
-            : _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
+        return this.Level == 10
+            ? _I18n.Get(this.Name.ToLower() + ".title." + (prestiged.Value ? "prestiged." : Empty) +
+                        (Game1.player.IsMale ? "male" : "female"))
+            : (prestiged.Value ? I18n.Prestiged_Title() : Empty) +
+              _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
     }
 
     /// <summary>Gets the localized description text for this profession.</summary>

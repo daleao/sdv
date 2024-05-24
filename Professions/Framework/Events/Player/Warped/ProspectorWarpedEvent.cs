@@ -20,7 +20,7 @@ internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector, true);
+    public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
@@ -36,8 +36,8 @@ internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
             State.ProspectorHunt.Fail();
         }
 
-        if (e.NewLocation.currentEvent is not null || e.NewLocation is not MineShaft shaft ||
-            shaft.IsTreasureOrSafeRoom())
+        if (!e.Player.HasProfession(Profession.Prospector) || e.NewLocation.currentEvent is not null ||
+            e.NewLocation is not MineShaft shaft || shaft.IsTreasureOrSafeRoom())
         {
             return;
         }

@@ -269,7 +269,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
         if (monster.Health <= 0 && ambush.SecondsOutOfAmbush < 0.5d)
         {
-            ambush.ChargeValue += LimitBreak.MaxCharge / 4d;
+            ambush.ChargeValue += LimitBreak.MaxCharge / 2d;
             ambush.SecondsOutOfAmbush = double.MaxValue;
         }
 

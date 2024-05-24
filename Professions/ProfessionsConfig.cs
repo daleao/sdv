@@ -38,7 +38,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.general")]
     [GMCMPriority(0)]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>
     ///     Gets a value indicating whether if enabled, machine and building ownership will be ignored when determining whether to apply profession
@@ -135,13 +135,13 @@ public sealed class ProfessionsConfig
     [GMCMStep(10)]
     public uint MineralsNeededForBestQuality { get; internal set; } = 30;
 
-    /// <summary>Gets the chance that a scavenger or prospector hunt will trigger in the right conditions.</summary>
+    /// <summary>Gets a multiplier applied to the base chance that a Scavenger or Prospector hunt will trigger in the right conditions.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(300)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.05f)]
-    public double ChanceToStartTreasureHunt { get; internal set; } = 0.1;
+    [GMCMRange(0.5f, 3f)]
+    [GMCMStep(0.25f)]
+    public double TreasureHuntStartChanceMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether determines whether a Scavenger Hunt can trigger while entering a farm map.</summary>
     [JsonProperty]

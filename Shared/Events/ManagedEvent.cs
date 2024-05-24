@@ -45,18 +45,6 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
     /// <returns><see langword="true"/> if the instances are not equal; <see langword="false"/> otherwise.</returns>
     public static bool operator !=(ManagedEvent? left, ManagedEvent? right) => !(left == right);
 
-    /// <summary>Determines whether two <see cref="ManagedEvent"/> instances are equal.</summary>
-    /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
-    /// <returns>
-    ///     <see langword="true"/> if <paramref name="other"/> has the same type as this instance, otherwise
-    ///     <see langword="false"/>.
-    /// </returns>
-    public virtual bool Equals(ManagedEvent? other)
-    {
-        // ReSharper disable once CheckForReferenceEqualityInstead.1
-        return this.GetType().Equals(other?.GetType());
-    }
-
     /// <inheritdoc />
     public bool IsEnabledForScreen(int screenId)
     {
@@ -172,6 +160,18 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
     public int CompareTo(ManagedEvent? other)
     {
         return string.Compare(this.GetType().Name, other?.GetType().Name, StringComparison.Ordinal);
+    }
+
+    /// <summary>Determines whether two <see cref="ManagedEvent"/> instances are equal.</summary>
+    /// <param name="other">A <see cref="ManagedEvent"/> to compare to this instance.</param>
+    /// <returns>
+    ///     <see langword="true"/> if <paramref name="other"/> has the same type as this instance, otherwise
+    ///     <see langword="false"/>.
+    /// </returns>
+    public virtual bool Equals(ManagedEvent? other)
+    {
+        // ReSharper disable once CheckForReferenceEqualityInstead.1
+        return this.GetType().Equals(other?.GetType());
     }
 
     /// <inheritdoc />

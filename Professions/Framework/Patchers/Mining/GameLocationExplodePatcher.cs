@@ -90,7 +90,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
         }
 
-        if (who.HasProfession(Profession.Demolitionist, true) && radius > 2)
+        if (isPrestigedDemolitionist && radius >= 2)
         {
             State.ChainedExplosions.Add(new ChainedExplosion(__instance, tileLocation, radius, damage_amount, who));
         }

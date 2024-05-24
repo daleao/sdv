@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 using DaLion.Professions.Framework.Events.Display.RenderedHud;
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
+using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
 using DaLion.Professions.Framework.Events.Player.Warped;
@@ -138,7 +138,7 @@ internal sealed class ProfessionsState
             if (value is null)
             {
                 EventManager.Disable(
-                    typeof(ProspectorHuntOneSecondUpdateTickedEvent),
+                    typeof(ProspectorHuntTimeChangedEvent),
                     typeof(ProspectorRenderedHudEvent));
                 if (!Game1.player.HasProfession(Profession.Scavenger))
                 {
@@ -148,7 +148,7 @@ internal sealed class ProfessionsState
             else
             {
                 EventManager.Enable(
-                    typeof(ProspectorHuntOneSecondUpdateTickedEvent),
+                    typeof(ProspectorHuntTimeChangedEvent),
                     typeof(ProspectorRenderedHudEvent),
                     typeof(TrackerButtonsChangedEvent));
             }
@@ -165,7 +165,7 @@ internal sealed class ProfessionsState
             if (value is null)
             {
                 EventManager.Disable(
-                    typeof(ScavengerHuntOneSecondUpdateTickedEvent),
+                    typeof(ScavengerHuntTimeChangedEvent),
                     typeof(ScavengerRenderedHudEvent));
                 if (!Game1.player.HasProfession(Profession.Prospector))
                 {
@@ -175,7 +175,7 @@ internal sealed class ProfessionsState
             else
             {
                 EventManager.Enable(
-                    typeof(ScavengerHuntOneSecondUpdateTickedEvent),
+                    typeof(ScavengerHuntTimeChangedEvent),
                     typeof(ScavengerRenderedHudEvent),
                     typeof(TrackerButtonsChangedEvent));
             }

@@ -256,19 +256,19 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                 __instance.readyToClose())
             {
                 __instance.okButtonClicked();
-                var root = player.GetCurrentRootProfessionForSkill(Skill.FromValue(___currentSkill));
+                var rootId = player.GetCurrentRootProfessionForSkill(Skill.FromValue(___currentSkill));
                 switch (___currentLevel)
                 {
                     case 15:
-                        if (player.professions.AddOrReplace(root + 100))
+                        if (player.professions.AddOrReplace(rootId + 100))
                         {
-                            __instance.getImmediateProfessionPerk(root + 100);
+                            __instance.getImmediateProfessionPerk(rootId + 100);
                         }
 
                         break;
                     case 20:
                         var branch =
-                            player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(root));
+                            player.GetCurrentBranchingProfessionForRoot(Profession.FromValue(rootId));
                         ___professionsToChoose.Add(branch);
                         if (player.professions.AddOrReplace(branch + 100))
                         {

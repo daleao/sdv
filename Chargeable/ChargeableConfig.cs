@@ -31,7 +31,7 @@ public sealed class ChargeableConfig
     /// <summary>Gets the chosen mod key(s).</summary>
     [JsonProperty]
     [GMCMPriority(1)]
-    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftControl, LeftShoulder");
+    public KeybindList ModKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
     /// <summary>Gets the number of update ticks between each peak of the shockwave. Affects the shockwave travel speed. Lower is faster. Set to 0 for instant.</summary>
     [JsonProperty]
@@ -64,7 +64,7 @@ public sealed class ChargeableConfig
         {
             Log.W(
                 "'RequireModkey' setting is set to true, but no Modkey is bound. Default keybind will be restored. To disable the Modkey, set this value to false.");
-            this.ModKey = KeybindList.ForSingle(SButton.LeftControl);
+            this.ModKey = KeybindList.ForSingle(SButton.LeftShift);
             isValid = false;
         }
 

@@ -15,7 +15,7 @@ public sealed class CoreConfig
     [JsonProperty]
     [GMCMRange(0f, 1f)]
     [GMCMStep(0.05f)]
-    public float CropWitherChance { get; internal set; }
+    public float CropWitherChance { get; internal set; } = 0f;
 
     /// <summary>Gets the key used to engage Debug Mode.</summary>
     [JsonProperty]

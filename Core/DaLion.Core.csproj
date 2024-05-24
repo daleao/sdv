@@ -12,7 +12,7 @@
     <SmapiVersion>4.0</SmapiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Lionheart</Name>
+    <Name>DaLionheart</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Core</UniqueId>
     <Description>Provides core functionality required by DaLion mods.</Description>

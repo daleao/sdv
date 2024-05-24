@@ -37,7 +37,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
             tapper.heldObject.Value.Quality = __instance.GetQualityFromAge();
         }
 
-        if (Config.ImmersiveHeavyTapperYield)
+        if (tapper.QualifiedItemId == QualifiedBigCraftableIds.HeavyTapper && Config.ImmersiveHeavyTapperYield)
         {
             tapper.heldObject.Value.Stack *= 2;
         }

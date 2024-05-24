@@ -17,7 +17,7 @@ This mod is inspired by the tool progression system of Harvest Moon: Friends of 
 </figure>
 </div>
 
-By default you must hold a mod key (Default LeftCtrl) and *then* hold the use-tool key to begin charging. This is to avoid overriding the vanilla tool-spam behavior when you hold the use-tool key, which can also be pretty useful. You may choose to override this in the mod's settings to not require the mod key.
+By default you must hold a mod key (Default LeftShift) and *then* hold the use-tool key to begin charging. This is to avoid overriding the vanilla tool-spam behavior when you hold the use-tool key, which can also be pretty useful. You may choose to override this in the mod's settings to not require the mod key.
 
 The radius of each charge level can also be configured. By default, each tool upgrade adds 1 to the maximum radius. The resulting area is similar to a bomb.
 
@@ -28,7 +28,7 @@ As you might expect, the larger the area the more stamina is consumed.
 
 - **'RadiusAtEachLevel':**  Allows you to specify the shockwave radius at each charging level.
 - **'RequireModKey':** Set to false if you want charging behavior to be the default when holding down the tool button. Set to true if you prefer the vanilla tool spamming behavior.
-- **'ModKey':** If 'RequireModKey' is true, you must hold this key in order to charge (default LeftCtrl). If you play with a gamepad controller you can set this to LeftTrigger or LeftShoulder. Check [here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings) for a list of available keybinds. You can set multiple comma-separated keys.
+- **'ModKey':** If 'RequireModKey' is true, you must hold this key in order to charge (default LeftShift). If you play with a gamepad controller you can set this to LeftTrigger or LeftShoulder. Check [here](https://stardewcommunitywiki.com/Modding:Player_Guide/Key_Bindings) for a list of available keybinds. You can set multiple comma-separated keys.
 - **'StaminaCostMultiplier':** By default, charging multiplies your tool's base stamina cost by the charging level. Use this multiplier to adjust the cost of the shockwave *only*. Set to zero to make it free (you will still lose stamina equal to the base tool cost).
 - **'TicksBetweenWaves':** The number of game ticks before the shockwave grows by 1 tile. Higher numbers cause the shockwave to travel slower. Setting this to 0 replicates the original behavior from older versions.
 

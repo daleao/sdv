@@ -88,16 +88,11 @@ internal sealed class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override bool TrySetTreasureTile()
+    protected override bool TrySetTreasureTile(GameLocation location)
     {
-        if (this.Location is null)
-        {
-            return false;
-        }
-
-        var mapWidth = this.Location.Map.DisplaySize.Width;
-        var mapHeight = this.Location.Map.DisplaySize.Height;
-        var boundary = (Vector2 tile) => !this.Location.IsTileBlockedBy(tile) && this.Location.IsTileValidForTreasure(tile);
+        var mapWidth = location.Map.Layers[0].LayerWidth;
+        var mapHeight = location.Map.Layers[0].LayerHeight;
+        var boundary = (Vector2 tile) => !location.IsTileBlockedBy(tile) && location.IsTileValidForTreasure(tile);
         var validTiles = Game1.player.Tile.FloodFill(mapWidth, mapHeight, boundary, 50, 100).ToHashSet();
         this.TreasureTile = validTiles.Count > 0 ? validTiles.Choose() : null;
         return this.TreasureTile is not null;

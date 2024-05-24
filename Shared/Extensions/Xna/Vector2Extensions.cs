@@ -199,16 +199,20 @@ public static class Vector2Extensions
     public static IReadOnlyList<Vector2> FloodFill(this Vector2 origin, int width, int height, Func<Vector2, bool> boundary, int minDistance = 0, int maxDistance = int.MaxValue)
     {
         var flooded = new List<Vector2>();
-        var tested = new HashSet<Vector2>();
+        var tested = new HashSet<Vector2> { origin };
         var queue = new Queue<Vector2>();
         var distanceByTile = new Dictionary<Vector2, int>();
-        queue.Enqueue(origin);
-        distanceByTile[origin] = 0;
+        foreach (var neighbor in origin.GetEightNeighbors(width, height))
+        {
+            queue.Enqueue(neighbor);
+            distanceByTile[neighbor] = 1;
+        }
+
         while (queue.Count > 0)
         {
             var tile = queue.Dequeue();
             if (tile.X < 0 || tile.Y < 0 || tile.X >= width || tile.Y >= height || !tested.Add(tile) ||
-                !boundary(tile) || distanceByTile[tile] < minDistance || distanceByTile[tile] > maxDistance)
+                !boundary(tile))
             {
                 continue;
             }
@@ -216,7 +220,7 @@ public static class Vector2Extensions
             flooded.Add(tile);
             foreach (var neighbor in tile.GetEightNeighbors(width, height))
             {
-                if (tested.Contains(neighbor))
+                if (tested.Contains(neighbor) || queue.Contains(neighbor))
                 {
                     continue;
                 }
@@ -226,6 +230,6 @@ public static class Vector2Extensions
             }
         }
 
-        return flooded;
+        return flooded.Where(tile => distanceByTile[tile] < minDistance || distanceByTile[tile] > maxDistance).ToList();
     }
 }

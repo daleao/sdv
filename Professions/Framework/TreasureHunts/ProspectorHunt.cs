@@ -79,18 +79,13 @@ internal sealed class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override bool TrySetTreasureTile()
+    protected override bool TrySetTreasureTile(GameLocation location)
     {
-        if (this.Location is null)
-        {
-            return false;
-        }
-
-        var mapWidth = this.Location.Map.DisplaySize.Width;
-        var mapHeight = this.Location.Map.DisplaySize.Height;
-        var boundary = (Vector2 tile) => !this.Location.isTilePassable(tile) && this.Location.IsTileValidForTreasure(tile);
+        var mapWidth = location.Map.DisplaySize.Width;
+        var mapHeight = location.Map.DisplaySize.Height;
+        var boundary = (Vector2 tile) => !location.isTilePassable(tile) && location.IsTileValidForTreasure(tile);
         var validTiles = Game1.player.Tile.FloodFill(mapWidth, mapHeight, boundary, 15, 50).Where(tile =>
-            this.Location.Objects.TryGetValue(tile, out var @object) && @object.IsStone()).ToHashSet();
+            location.Objects.TryGetValue(tile, out var @object) && @object.IsStone()).ToHashSet();
         this.TreasureTile = validTiles.Count > 0 ? validTiles.Choose() : null;
         return this.TreasureTile is not null;
     }

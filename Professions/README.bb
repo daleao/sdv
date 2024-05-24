@@ -2,14 +2,15 @@
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/covers/title_wol_r.png[/img]
 
 [img]https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
-[quote][i][size=3]﻿This update is in Beta. There will likely be bugs! If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports to help me iron-out these issues, then I suggest you wait a couple more months before trying this mod. For everyone else, I appreciate your help with identifying any lingering issues.[/size][/i][/quote]
+[quote][i][size=3]﻿This is phase 1 of the official MARGO 1.6 update.
+This update is in Beta.[b]There are likely bugs! [/b]If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports then I suggest you wait a couple more weeks before trying this mod. For everyone else, I appreciate the support.[/size][/i][/quote]
 [size=6][font=bebas_neuebook]What this is[/font][/size]
 
-This mod is an extensive overhaul of the skill progression and profession tree systems. It seeks to fix the problem of there being a single optimal or "correct" (gold-wise) path for each skill. And while it is not guaranteed that a new optimal path does not exist, it does at the very least ensure that every choice is unique, interesting and impactful, expanding upon overlooked vanilla mechanics and providing opportunities to explore entirely new styles of game-play which engage and also scale with the player until the very late-game.
+This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
 
 Optionally, this mod also brings classic progression tropes like [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Classes[/url], [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset]Class Change Level Reset[/url], and [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Breaks[/url].
 
-This module was inspired by such great overhaul mods as [url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion's[/url] [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url] mod for Skyrim and [url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon's[/url] [url=https://www.nexusmods.com/witcher3/mods/3522]W3EE[/url]. It borrows many ideas and assets from the classic [url=https://ro.gnjoy.com/index.asp]Ragnarok Online[/url], and also includes new improved profession icons by [url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] ([b]please visit and endorse [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]![/b]).
+This module was inspired by such great overhaul mods as [url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion's[/url] [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url] for Skyrim and [url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon's[/url] [url=https://www.nexusmods.com/witcher3/mods/3522]W3EE[/url]. It borrows many ideas and assets from the classic [url=https://ro.gnjoy.com/index.asp]Ragnarok Online[/url], and also includes new improved profession icons by [url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] ([b]please visit and endorse [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]![/b]).
 
 
 [size=6][font=bebas_neuebook]The Professions[/font][/size]
@@ -275,17 +276,15 @@ Custom skill mods based on SpaceCore are [b]not[/b] compatible with the Prestige
 
 [size=5][font=bebas_neuebook]Limit Breaks[/font][/size]
 
-In addition to Prestige Progression, mastery over the Combat skill also unlocks a unique [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Break[/url] for each profession; a powerful ability that must be charged by performing certain actions during combat. You can track the current charge by the HUD bar labeled "L".
+In addition to Prestige Progression, mastery over the Combat skill may optionally unlock a [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Break[/url]; a powerful ability that must be charged by performing certain actions during combat. Each combat profession has its own unique Limit Break, from which you will be prompted to choose [b]one[/b] upon claiming your Mastery. You may only choose Limit Breaks from among the professions you have already acquired. In case you are eligible for more than one, you will be able to change your selection, also at the Statue of Transcendance, for free (although a cost can be configured).
 
-Note that, though all combat professions can be acquired via skill reset, only one Limit Break can be registered at any time. Visit the Statue of Transcendence to select or change your Limit Break.
-
-The four Limit Breaks are:
+During combat you can track the current Limit charge by the HUD bar labeled "L". Once it is full, press [b]and hold[/b] the Mod Key (default LeftShift) to activate it. Alternatively, you may configure a separate Limit Break Key to activate by a simple press.
 
 [list]
 [*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/undyingrage.png[/img] [b]Undying Frenzy (Brute / Amazon)[/b] - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
 [size=2][spoiler]
 Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
-[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/cloaking.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. This effect ends prematurely if you attack an enemy. When the effect ends, gain a 2x crit. power buff that lasts for twice the leftover invisibility duration. If an enemy is slain within 0.5s out of Ambush, immediately regain 25% Limit charge.
+[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/cloaking.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.
 [size=2][spoiler]
 Charged by scoring critical hits, and the charge amount is proportional to crit. power.
 [/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/bullettime.png[/img] [b]Death Blossom (Desperado)[/b] - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.

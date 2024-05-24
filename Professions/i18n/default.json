@@ -221,7 +221,7 @@
   "poacher.limit.title.female": "Ambuscade",
   "poacher.limit.desc.hidden": "Hidden.",
   "poacher.limit.desc.revealed": "Crit. power x2.",
-  "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining this effect immediately recovers 25% Limit charge.",
+  "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.",
   "desperado.limit.title.male": "Deadly Blossom",
   "desperado.limit.title.female": "Deadly Blossom",
   "desperado.limit.desc": "Auto-fire in eight cardinal directions at once.",
@@ -285,8 +285,8 @@
 
   // scavenger & prospector
   "gmcm.sections.prfs.scavenger_prospector": "Scavenger & Prospector",
-  "gmcm.chance_to_start_treasure_hunt.title": "Chance to Start Treasure Hunt",
-  "gmcm.chance_to_start_treasure_hunt.desc": "The chance that your Scavenger or Prospector hunt senses will start to tingling.",
+  "gmcm.treasure_hunt_start_chance_multiplier.title": "Treasure Hunt Start Chance Multiplier",
+  "gmcm.treasure_hunt_start_chance_multiplier.desc": "Multiplies the base chance that your Scavenger or Prospector hunt senses will start to tingle.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Allow Scavenger Hunts on Farm",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "Whether a Scavenger Hunt can trigger while entering the farm map.",
   "gmcm.scavenger_detection_distance.title": "Scavenger Detection Distance",
