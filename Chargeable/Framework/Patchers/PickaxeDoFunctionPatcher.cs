@@ -20,8 +20,7 @@ internal sealed class PickaxeDoFunctionPatcher
         }
 
         who.Stamina -=
-            (int)Math.Round(Math.Sqrt(Math.Max((2 * (power + 1)) - (who.MiningLevel * 0.1f), 0.1f) *
-                                      (int)Math.Pow(2d * (power + 1), 2d))) *
+            (int)Math.Sqrt(Math.Max((2 * (power + 1)) - (who.MiningLevel * 0.1f), 0.1f)) * 2 * (power + 1) *
             (float)Math.Pow(Config.Pick.StaminaCostMultiplier, power);
     }
 }

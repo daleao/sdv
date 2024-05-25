@@ -29,6 +29,11 @@ internal sealed class FishPondDoFishSpecificWaterColoringPatcher : HarmonyPatche
     [HarmonyPostfix]
     private static void FishPondDoFishSpecificWaterColoringPostfix(FishPond __instance)
     {
+        if (string.IsNullOrEmpty(__instance.fishType.Value))
+        {
+            return;
+        }
+
         if (__instance.fishType.Value.IsAlgaeId())
         {
             var shift = -(5 + (3 * __instance.FishCount));

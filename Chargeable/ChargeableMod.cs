@@ -6,6 +6,7 @@ namespace DaLion.Chargeable;
 
 #region using directives
 
+using System.Reflection;
 using DaLion.Shared;
 using HarmonyLib;
 using StardewModdingAPI.Events;
@@ -66,7 +67,7 @@ public sealed class ChargeableMod : Mod
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;
         helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
         helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
-        new Harmony(this.ModManifest.UniqueID).PatchAll();
+        new Harmony(this.ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
     }
 
     private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)

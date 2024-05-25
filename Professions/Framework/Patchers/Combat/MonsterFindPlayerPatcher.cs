@@ -33,6 +33,11 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [HarmonyBefore("Esca.FarmTypeManager")]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
+        if (__instance.currentLocation is not { } location)
+        {
+            return true; // run original logic
+        }
+
         if ((Game1.ticks + __instance.currentLocation.characters.IndexOf(__instance)) % 30 != 0)
         {
             __result = __instance.Get_Target();
@@ -41,7 +46,6 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
 
         try
         {
-            var location = __instance.currentLocation;
             Farmer? target = null;
 
             var closestMusk = __instance.GetClosest(

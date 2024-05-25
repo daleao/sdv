@@ -22,7 +22,7 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses a legendary fish species, otherwise <see langword="false"/>.</returns>
     internal static bool HasLegendaryFish(this FishPond pond)
     {
-        return Lookups.LegendaryFishes.Contains(pond.GetFishObject().QualifiedItemId);
+        return !string.IsNullOrEmpty(pond.fishType.Value) && Lookups.LegendaryFishes.Contains(pond.GetFishObject().QualifiedItemId);
     }
 
     /// <summary>Determines whether this <paramref name="pond"/> is infested with algae.</summary>
@@ -30,7 +30,7 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses any algae, otherwise <see langword="false"/>.</returns>
     internal static bool HasAlgae(this FishPond pond)
     {
-        return pond.GetFishObject().IsAlgae();
+        return !string.IsNullOrEmpty(pond.fishType.Value) && pond.GetFishObject().IsAlgae();
     }
 
     /// <summary>Determines whether the <paramref name="pond"/>'s radioactivity is sufficient to enrich metallic nuclei.</summary>
@@ -38,7 +38,7 @@ internal static class FishPondExtensions
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses a mutant or radioactive fish species, otherwise <see langword="false"/>.</returns>
     internal static bool IsRadioactive(this FishPond pond)
     {
-        return pond.GetFishObject().IsRadioactiveFish() && pond.FishCount > 1;
+        return !string.IsNullOrEmpty(pond.fishType.Value) && pond.GetFishObject().IsRadioactiveFish() && pond.FishCount > 1;
     }
 
     /// <summary>Gets the number of days required to enrich a given <paramref name="metal"/> resource.</summary>
@@ -117,9 +117,8 @@ internal static class FishPondExtensions
             var inventory = new List<Item> { pond.output.Value };
             try
             {
-                for (var i = 0; i < held.Count; i++)
+                foreach (var item in held)
                 {
-                    var item = held[i];
                     if (item.QualifiedItemId == QualifiedObjectIds.Roe)
                     {
                         var roe = ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(pond.GetFishObject());

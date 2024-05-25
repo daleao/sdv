@@ -2,6 +2,12 @@
 
 ## 0.2.1
 
+## Fixed
+
+* Fixed possible crash when selecting Prestiged Harvester profession.
+* Fixed possible OutOfRange exception in FarmerCurrentToolSetterPostfix.
+* Fixed possible Null-Ref exception in MonsterFindPlayerPrefix.
+
 ## Changed
 
 * Changed Sewer Statue logic to be more compatible with different configurations of Skill Reset / Prestige / Limit Break.

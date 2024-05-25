@@ -26,6 +26,7 @@ If not enough funds are present in the farmer's account, they will be fined and 
 
 If used together with [Walk Of Life](../Professions) and the player has the Conservationist profession, the professions' tax deduction perk will change from a % value increase to all items, to a more immersive % deduction of taxable income. Environmentalist activities can be used to deduct taxable income up to 100%. This means that farmers can be tax-exempt by collecting enough trash from oceans or rivers.
 
+Upcoming income taxes can be checked by running the console command `txs do income`.
 
 ### Property Tax
 
@@ -40,6 +41,8 @@ Farming activities in Ginger Island and other properties will not be charged.
 Property taxes are not eligible for deductions.
 
 Lateness fines are generally higher for property taxes (configurable). But since all debts are purchased by the same bank (canonically the Bank of Stardew), interest rates are always the same.
+
+Upcoming property taxes can be checked by running the console command `txs do property`.
 
 
 ## For Mod Authors

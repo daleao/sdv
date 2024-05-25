@@ -13,11 +13,11 @@ using StardewValley.Objects;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
+internal sealed class MenuWithInventoryReadyToClosePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="ItemGrabMenuReadyToClosePatcher"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MenuWithInventoryReadyToClosePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ItemGrabMenuReadyToClosePatcher(Harmonizer harmonizer)
+    internal MenuWithInventoryReadyToClosePatcher(Harmonizer harmonizer)
         : base(harmonizer)
     {
         this.Target = this.RequireMethod<MenuWithInventory>(nameof(MenuWithInventory.readyToClose));
@@ -27,14 +27,14 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
 
     /// <summary>Update ItemsHeld data on grab menu close.</summary>
     [HarmonyPostfix]
-    private static void ItemGrabMenuReadyToClosePostfix(ItemGrabMenu __instance, ref bool __result)
+    private static void MenuWithInventoryToClosePostfix(MenuWithInventory __instance, ref bool __result)
     {
-        if (__instance.context is not FishPond pond)
+        if (__instance is not ItemGrabMenu grabMenu || grabMenu.context is not FishPond pond)
         {
             return;
         }
 
-        var inventory = __instance.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
+        var inventory = grabMenu.ItemsToGrabMenu?.actualInventory.WhereNotNull().ToList();
         if (inventory?.Count is not > 0)
         {
             Data.Write(pond, DataKeys.ItemsHeld, null);
@@ -44,7 +44,7 @@ internal sealed class ItemGrabMenuReadyToClosePatcher : HarmonyPatcher
 
         var output = inventory
             .OrderByDescending(i => i is ColoredObject
-                ? ItemRegistry.Create<SObject>(i.QualifiedItemId, 1).salePrice()
+                ? ItemRegistry.Create<SObject>(i.QualifiedItemId).salePrice()
                 : i.salePrice())
             .First() as SObject;
         inventory.Remove(output!);

@@ -42,7 +42,8 @@ internal sealed class ResetPondDataCommand(CommandHandler handler)
         Data.Write(nearest, DataKeys.CheckedToday, null);
         Data.Write(nearest, DataKeys.ItemsHeld, null);
         Data.Write(nearest, DataKeys.MetalsHeld, null);
-        Log.I($"The mod data for nearby {nearest.GetFishObject().Name} pond has been reset.");
+        var label = string.IsNullOrEmpty(nearest.fishType.Value) ? "empty" : nearest.GetFishObject().Name;
+        Log.I($"The mod data for nearby {label} pond has been reset.");
         return true;
     }
 }

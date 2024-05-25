@@ -32,7 +32,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
     /// <summary>Reset held items each morning.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static void FishPondDayUpdatePrefix(FishPond __instance, int dayOfMonth)
+    private static void FishPondDayUpdatePrefix(FishPond __instance)
     {
         if (!__instance.IsRadioactive())
         {
@@ -61,7 +61,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FishPondDayUpdatePostfix(FishPond __instance, ref FishPondData? ____fishPondData)
     {
-        if (__instance.currentOccupants.Value != 0)
+        if (!string.IsNullOrEmpty(__instance.fishType.Value) || __instance.currentOccupants.Value != 0)
         {
             return;
         }

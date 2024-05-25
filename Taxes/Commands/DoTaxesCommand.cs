@@ -91,6 +91,7 @@ internal sealed class DoTaxesCommand(CommandHandler handler)
             }
 
             case "property":
+            case "estate":
             {
                 var farm = Game1.getFarm();
                 var (agricultureValue, livestockValue, buildingValue, usedTiles) = farm.Appraise(false);

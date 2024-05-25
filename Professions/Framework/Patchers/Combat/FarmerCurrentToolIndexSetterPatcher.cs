@@ -25,7 +25,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void FarmerCurrentToolIndexPostfix(Farmer __instance, int value)
     {
-        if (value < 0 || value > __instance.Items.Count || __instance.Items[value] is not Slingshot slingshot)
+        if (value < 0 || value >= __instance.Items.Count || __instance.Items[value] is not Slingshot slingshot)
         {
             return;
         }

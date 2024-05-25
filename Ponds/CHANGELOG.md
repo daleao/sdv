@@ -1,5 +1,12 @@
 ﻿# PONDS Changelog
 
+## 1.0.1
+
+### Fixed
+
+* Fixed some possible Null-Ref exceptions if pond is empty.
+
+
 ## 1.0.0 - Initial 1.6 release
 
 ### Changed
