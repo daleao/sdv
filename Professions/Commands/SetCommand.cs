@@ -124,9 +124,9 @@ internal sealed class SetCommand(CommandHandler handler)
         sb.Append(
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} conservationist 100 => sets ConservationistTrashCollectedThisSeason to 100");
         sb.Append(
-            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax caught => sets the record size of fish caught so far to the maximum value (for testing Angler profession)");
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishdex caught => sets the record size of fish caught so far to the maximum value (for testing Angler profession)");
         sb.Append(
-            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishmax all => sets the record size of all to the maximum value, even if not yet caught (for testing Angler profession)");
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishdex all => sets the record size of all to the maximum value, even if not yet caught (for testing Angler profession)");
         sb.Append(
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} rodmem 856 => sets the tackle memory of the currently held fishing rod to the value 856 (Curiosity Lure, for testing Angler profession)");
         sb.Append(
@@ -251,7 +251,8 @@ internal sealed class SetCommand(CommandHandler handler)
         var fishCaught = Game1.player.fishCaught;
         foreach (var (key, values) in DataLoader.Fish(Game1.content))
         {
-            if (key.IsTrashId() || values.Contains("trap") || (caughtOnly && !fishCaught.ContainsKey(key)))
+            if (key.IsTrashId() || key.IsAlgaeId() || values.Contains("trap") ||
+                (caughtOnly && !fishCaught.ContainsKey(key)))
             {
                 continue;
             }

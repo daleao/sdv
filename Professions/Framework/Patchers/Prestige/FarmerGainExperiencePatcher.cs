@@ -29,6 +29,11 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
     {
         try
         {
+            if (!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels)
+            {
+                return true; // run original logic
+            }
+
             if (which == Farmer.luckSkill || howMuch <= 0)
             {
                 return false; // don't run original logic
@@ -41,7 +46,6 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
             }
 
             var skill = Skill.FromValue(which);
-            
             howMuch = Math.Max((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).BonusExperienceMultiplier), 1);
             if (skill.CurrentLevel == skill.MaxLevel && !skill.CanGainPrestigeLevels() && __instance.Level >= 25)
             {

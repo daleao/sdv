@@ -22,7 +22,7 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to change Statue of Uncertainty respec from (less than) 10 to (greater than) 10.</summary>
+    /// <summary>Patch to change Statue of Transcendance respec from (less than) 10 to (greater than) 10.</summary>
     [HarmonyPrefix]
     private static bool GameLocationCanRespecPrefix(ref bool __result, int skill_index)
     {
@@ -40,11 +40,17 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
             }
 
             var player = Game1.player;
+            var skill = Skill.FromValue(skill_index);
+            if (!ShouldEnableSkillReset && !skill.CanGainPrestigeLevels())
+            {
+                return true; // run original logic
+            }
+
             __result = player.GetUnmodifiedSkillLevel(skill_index) >= 15 &&
                        !player.newLevels.Contains(new Point(skill_index, 15)) &&
                        !player.newLevels.Contains(new Point(skill_index, 20)) &&
                        player.professions
-                           .Intersect(((ISkill)Skill.FromValue(skill_index)).TierTwoProfessionIds)
+                           .Intersect(((ISkill)skill).TierTwoProfessionIds)
                            .Count() > 1;
             return false; // don't run original logic;
         }

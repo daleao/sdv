@@ -1,5 +1,17 @@
 ﻿# PRFS Changelog
 
+## 0.2.1
+
+## Changed
+
+* Changed Sewer Statue logic to be more compatible with different configurations of Skill Reset / Prestige / Limit Break.
+
+
+## 0.2.0 - Beta release for 1.6
+
+* No changes.
+
+
 ## 0.1.1
 
 ### Added
@@ -11,7 +23,7 @@
 * Fixed player not gaining experience.
 
 
-## 0.1.0 - Beta release for 1.6
+## 0.1.0 - Alpha release for 1.6
 
 ### Changed
 

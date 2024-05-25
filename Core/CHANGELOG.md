@@ -1,5 +1,12 @@
 ﻿# CORE Changelog
 
+## 1.1.0
+
+### Removed
+
+* Removed Ring recipe patchers. Apparently that was added in 1.6. Also removed the Glow/Magnet Ring recipe changes.
+
+
 ## 1.0.0 - Initial 1.6 release
 
 ### Added

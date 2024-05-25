@@ -73,7 +73,7 @@ For Bioharmonist, a buff will be chosen at random the first time a forage is con
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/scavenger.png[/img] [b]Scavenger (Lv10)[/b] - Location of forageable items revealed. Occasionally detect buried treasures.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/scavenger_p.png[/img] [b]Relicseeker (Lv20)[/b] - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.[/color][size=2]
 [spoiler]
-Whenever you are outside there is a chance to trigger a [b]Scavenger Hunt[/b] minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+Whenever you are outside there is a chance to trigger a [b]Scavenger Hunt[/b] minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/lumberjack.png[/img] [b]Lumberjack (Lv5)[/b] - Felled trees yield 25% more wood.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/lumberjack_p.png[/img] [b]Master Lumberjack (Lv15)[/b] - Felled trees yield [s]25%[/s] → 50% more wood.[/color][size=2]
@@ -116,7 +116,7 @@ For Cavewarden, any items left behind while mining have a 20% chance to spawn ba
 [spoiler]
 This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with a yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
 
-You also gain the ability to hold a mod key (LeftCtrl by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/blaster.png[/img] [b]Blaster (Lv5)[/b] - Craft twice as many explosives. Exploded rocks yield 2x as much coal.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/blaster_p.png[/img] [b]Master Blaster (Lv15)[/b] - Exploded rocks yield [s]2x[/s] → 3x as much coal.[/color][size=2]
@@ -126,7 +126,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/demolitionist.png[/img] [b]Demolitionist (Lv10)[/b] - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/demolitionist_p.png[/img] [b]Pyrotechnician (Lv20)[/b] - Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.[/color][size=2]
 [spoiler]
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftCtrl) before placing them on the ground.
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftShift) before placing them on the ground.
 
 For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 
@@ -210,7 +210,7 @@ Completely unchanged from vanilla.
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rascal.png[/img] [b]Rascal (Lv5)[/b] - Gain one additional ammo slot. 35% chance to recover spent ammo.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rascal_p.png[/img] [b]Master Rascal (Lv15)[/b] - [s]35%[/s] → 55% chance to recover spent ammo. Can fire both ammo slots at once.[/color][size=2]
 [spoiler]
-Press the mod key (default LeftCtrl) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant the primary ammo the [b]musked[/b] property.
 
@@ -225,7 +225,7 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 [b]Piercing Shot:[/b] Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-[b]Rebound Shot:[/b] Hold the mod key (Default LeftCtrl) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
+[b]Rebound Shot:[/b] Hold the mod key (Default LeftShift) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Slimes are not immediately aggressive and may follow you in combat. Slime Hutch capacity +50%.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper_p.png[/img] [b]Slime Conductor | Enchantress (Lv20)[/b] - One additional Slime may follow you in combat. Obtain special colored items from Slime Balls.[/color][size=2]
@@ -339,3 +339,6 @@ Obviously not.
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
 With the exception of Angler when placed together with Ms. Angler (requires [Aquarism](../Ponds), they do not reproduce.
 [/spoiler]
+
+
+[b][url=https://github.com/daleao/sdv/tree/main/Professions]Source code[/url][/b]

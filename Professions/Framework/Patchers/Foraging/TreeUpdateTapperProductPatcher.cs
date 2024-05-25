@@ -39,7 +39,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
 
         if (tapper.QualifiedItemId == QualifiedBigCraftableIds.HeavyTapper && Config.ImmersiveHeavyTapperYield)
         {
-            tapper.heldObject.Value.Stack *= 2;
+            tapper.heldObject.Value.Stack = 2;
         }
 
         var owner = tapper.GetOwner();

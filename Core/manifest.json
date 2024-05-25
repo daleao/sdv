@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Core",
   "Name": "DaLionheart",
   "Author": "DaLion",
-  "Version": "1.0.0",
+  "Version": "1.1.0",
   "Description": "Provides core functionality required by DaLion mods.",
   "EntryDll": "DaLion.Core.dll",
   "UpdateKeys": [

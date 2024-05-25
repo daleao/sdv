@@ -27,14 +27,14 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to change Statue of Uncertainty into Statue of Masteries.</summary>
+    /// <summary>Patch to change Statue of Uncertainty into Statue of Transcendance.</summary>
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialogueActionPrefix(
         GameLocation __instance,
         ref bool __result,
         string? questionAndAnswer)
     {
-        if (!ShouldEnableSkillReset ||
+        if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks) ||
             questionAndAnswer?.StartsWithAnyOf("dogStatue", "prestigeRespec", "skillReset") != true)
         {
             return true; // run original logic
@@ -284,17 +284,33 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             GameLocation.RemoveProfession(100 + (skill * 6) + i);
         }
 
+        if (!ShouldEnableSkillReset)
+        {
+            for (var i = 0; i < 6; i++)
+            {
+                GameLocation.RemoveProfession((skill * 6) + i);
+            }
+        }
+
         var currentLevel = skill.CurrentLevel;
 
         // re-add prestige levels
         if (currentLevel >= 15)
         {
             player.newLevels.Add(new Point(skill, 15));
+            if (!ShouldEnableSkillReset)
+            {
+                player.newLevels.Add(new Point(skill, 5));
+            }
         }
 
         if (currentLevel >= 20)
         {
             player.newLevels.Add(new Point(skill, 20));
+            if (!ShouldEnableSkillReset)
+            {
+                player.newLevels.Add(new Point(skill, 10));
+            }
         }
 
         // play sound effect

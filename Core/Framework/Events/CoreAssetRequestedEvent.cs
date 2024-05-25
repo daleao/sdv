@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
+using StardewValley.GameData.Objects;
 
 #endregion using directives
 
@@ -17,7 +18,7 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void Initialize()
     {
-        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData));
+        this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
 
         this.Provide(
             $"{Manifest.UniqueID}/BleedAnimation",
@@ -33,14 +34,10 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
             new ModTextureProvider(() => "assets/sprites/poison.png"));
     }
 
-    /// <summary>Edits crafting recipes with new ring recipes.</summary>
-    private static void EditCraftingRecipesData(IAssetData asset)
+    /// <summary>Makes seaweed an algae item.</summary>
+    private static void EditObjectsData(IAssetData asset)
     {
-        var data = asset.AsDictionary<string, string>().Data;
-        data["Small Glow Ring"] = "336 2 768 5/Home/516/Ring/Mining 2";
-        data["Small Magnet Ring"] = "335 2 769 5/Home/518/Ring/Mining 2";
-        data["Glow Ring"] = "516 2 768 10/Home/517/Ring/Mining 4";
-        data["Magnet Ring"] = "518 2 769 10/Home/519/Ring/Mining 4";
-        data["Glowstone Ring"] = "517 1 519 1 768 20 769 20/Home/888/Ring/Mining 6";
+        var data = asset.AsDictionary<string, ObjectData>().Data;
+        data["152"].ContextTags.Add("algae_item");
     }
 }

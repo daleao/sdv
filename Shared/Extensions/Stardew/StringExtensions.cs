@@ -42,8 +42,7 @@ public static class StringExtensions
     /// <returns><see langword="true"/> if the <paramref name="id"/> corresponds to an algae or seaweed, otherwise <see langword="false"/>.</returns>
     public static bool IsAlgaeId(this string id)
     {
-        return id is QualifiedObjectIds.Seaweed or QualifiedObjectIds.GreenAlgae or QualifiedObjectIds.WhiteAlgae ||
-               ItemContextTagManager.HasBaseTag(id, "algae_item");
+        return ItemContextTagManager.HasBaseTag(id, "algae_item");
     }
 
     /// <summary>Determines whether the object <paramref name="id"/> corresponds to a trash id.</summary>

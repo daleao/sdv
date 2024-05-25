@@ -23,7 +23,7 @@ internal sealed class GameLocationAnswerDialoguePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to change Statue of Uncertainty into Statue of Masteries.</summary>
+    /// <summary>Patch to change Statue of Uncertainty into Statue of Transcendance.</summary>
     [HarmonyPrefix]
     private static bool GameLocationAnswerDialoguePrefix(
         GameLocation __instance,

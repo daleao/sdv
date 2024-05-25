@@ -239,8 +239,7 @@ internal static class FarmerExtensions
     /// <returns>A <see cref="float"/> multiplier for fish prices.</returns>
     internal static float GetAnglerSaleBonus(this Farmer farmer)
     {
-        var fishData = Game1.content
-            .Load<Dictionary<string, string>>("Data\\Fish");
+        var fishData = DataLoader.Fish(Game1.content);
         var bonus = 0f;
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {

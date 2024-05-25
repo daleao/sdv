@@ -29,7 +29,8 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string[] action, Farmer who, Location tileLocation)
     {
-        if (!ShouldEnableSkillReset || __instance.ShouldIgnoreAction(action, who, tileLocation) ||
+        if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks) ||
+            __instance.ShouldIgnoreAction(action, who, tileLocation) ||
             !ArgUtility.TryGet(action, 0, out var actionType, out _) || !actionType.Contains("DogStatue") ||
             !who.IsLocalPlayer)
         {
@@ -39,16 +40,29 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         try
         {
             string message;
-            if (!Config.Skills.AllowMultipleResets && State.SkillsToReset.Count > 0)
+            if (ShouldEnableSkillReset)
             {
-                message = I18n.Prestige_DogStatue_Dismiss();
-                Game1.drawObjectDialogue(message);
+                if (!Config.Skills.AllowMultipleResets && State.SkillsToReset.Count > 0)
+                {
+                    message = I18n.Prestige_DogStatue_Dismiss();
+                    Game1.drawObjectDialogue(message);
+                    return false; // don't run original logic
+                }
+
+                if (TryOfferSkillReset(__instance))
+                {
+                    return false; // don't run original logic
+                }
+            }
+
+            if ((ShouldEnablePrestigeLevels || ShouldEnableLimitBreaks) && TryOfferRespecOptions(__instance))
+            {
                 return false; // don't run original logic
             }
 
-            if (TryOfferSkillReset(__instance) || TryOfferRespecOptions(__instance))
+            if (!ShouldEnableSkillReset)
             {
-                return false; // don't run original logic
+                return true; // run original logic
             }
 
             message = I18n.Prestige_DogStatue_First();
@@ -86,10 +100,12 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static bool TryOfferRespecOptions(GameLocation location)
     {
-        var message = I18n.Prestige_DogStatue_What();
+        var message = ShouldEnableSkillReset
+            ? I18n.Prestige_DogStatue_Transcendance()
+            : I18n.Prestige_DogStatue_Vanilla();
         var options = Array.Empty<Response>();
 
-        if (Config.Masteries.EnableLimitBreaks && Skill.Combat.CanGainPrestigeLevels() &&
+        if (ShouldEnableLimitBreaks && Skill.Combat.CanGainPrestigeLevels() &&
             Game1.player.professions.Intersect(((ISkill)Skill.Combat).TierTwoProfessionIds).Count() is var count &&
             (count > 1 || (count == 1 && State.LimitBreak is null)))
         {
@@ -108,7 +124,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             ];
         }
 
-        if (Config.Masteries.EnablePrestigeLevels && Skill.List.Any(s => GameLocation.canRespec(s)))
+        if (ShouldEnablePrestigeLevels && Skill.List.Any(s => GameLocation.canRespec(s)))
         {
             options =
             [
