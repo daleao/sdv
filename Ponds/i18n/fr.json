@@ -1,0 +1,7 @@
+{
+  "algae": "Algue",
+  "gmcm.days_until_algae_spawn.title": "Jours avant apparition d’algue",
+  "gmcm.days_until_algae_spawn.desc": "Le nombre de jours avant que des algues commencent à apparaître dans un étang vide",
+  "gmcm.roe_production_chance_multiplier.title": "Multiplicateur chance de \nproduction d’œufs de poissons",
+  "gmcm.roe_production_chance_multiplier.desc": "Un multiplicateur à la chance de base d’un poisson de produire des œufs de poissons chaque jour."
+}
