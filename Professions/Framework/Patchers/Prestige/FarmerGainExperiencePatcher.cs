@@ -47,7 +47,8 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
 
             var skill = Skill.FromValue(which);
             howMuch = Math.Max((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).BonusExperienceMultiplier), 1);
-            if (skill.CurrentLevel == 10 && !skill.CanGainPrestigeLevels() && __instance.Level >= 25)
+            if (((skill.CurrentLevel == 10 && !skill.CanGainPrestigeLevels()) || skill.CurrentLevel == 20) &&
+                Skill.List.All(s => __instance.professions.Intersect(((ISkill)s).TierTwoProfessionIds).Any()))
             {
                 var old = MasteryTrackerMenu.getCurrentMasteryLevel();
                 Game1.stats.Increment("MasteryExp", howMuch);

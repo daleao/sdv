@@ -31,7 +31,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     {
         if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks) ||
             __instance.ShouldIgnoreAction(action, who, tileLocation) ||
-            !ArgUtility.TryGet(action, 0, out var actionType, out _) || !actionType.Contains("DogStatue") ||
+            !ArgUtility.TryGet(action, 0, out var actionType, out _) ||
             !who.IsLocalPlayer)
         {
             return true; // run original logic
@@ -39,6 +39,28 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
         try
         {
+            if (actionType == "MasteryRoom")
+            {
+                var totalSkills =
+                    Skill.List.Count(s => who.professions.Intersect(((ISkill)s).TierTwoProfessionIds).Any());
+                if (totalSkills >= 5)
+                {
+                    Game1.playSound("doorClose");
+                    Game1.warpFarmer("MasteryCave", 7, 11, 0);
+                }
+                else
+                {
+                    Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\1_6_Strings:MasteryCave", totalSkills));
+                }
+
+                return false; // don't run original logic
+            }
+
+            if (!actionType.Contains("DogStatue"))
+            {
+                return false; // don't run original logic
+            }
+
             string message;
             if (ShouldEnableSkillReset)
             {

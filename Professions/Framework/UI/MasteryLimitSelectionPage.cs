@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Reflection.Metadata.Ecma335;
 using DaLion.Professions.Framework.Limits;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -154,12 +153,12 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         base.draw(b);
         if (this._hoverText.Length > 0)
         {
-            NewDrawHoverText(
+            DrawCustomBoxHoverText(
                 b,
                 Game1.parseText(this._hoverText, Game1.smallFont, 500),
                 Game1.smallFont,
                 boxTexture: Game1.mouseCursors_1_6,
-                boxSourceRect: new Rectangle(1, 85,21, 21),
+                boxSourceRect: new Rectangle(1, 85, 21, 21),
                 textColor: Color.Black,
                 textShadowColor: Color.Black * 0.15f,
                 boxScale: 2f);
@@ -312,7 +311,7 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
             0.88f);
     }
 
-    private static void NewDrawHoverText(
+    private static void DrawCustomBoxHoverText(
         SpriteBatch b,
         string text,
         SpriteFont font,
@@ -376,7 +375,9 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
             drawTextureBox(
                 b,
                 boxTexture,
-                boxSourceRect.Value, x - 8, y + 8,
+                boxSourceRect.Value,
+                x - 8,
+                y + 8,
                 textWidth,
                 textHeight,
                 boxShadowColor.Value * 0.5f * alpha,
@@ -398,7 +399,8 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         if (boldTitleText != null)
         {
             drawTextureBox(
-                b, boxTexture,
+                b,
+                boxTexture,
                 boxSourceRect.Value,
                 x,
                 y + 4,
@@ -434,7 +436,8 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
 
             b.DrawString(
                 Game1.dialogueFont,
-                boldTitleText, new Vector2(x + 16, y + 16 + 4),
+                boldTitleText,
+                new Vector2(x + 16, y + 16 + 4),
                 textColor.Value * 0.9f * alpha);
             y += (int)Game1.dialogueFont.MeasureString(boldTitleText).Y + 16;
         }

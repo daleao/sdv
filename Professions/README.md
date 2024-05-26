@@ -38,6 +38,7 @@
 	</li>
 	<li><a href="#misc-changes">Misc. Changes</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
+    <li><a href="#credits--special-thanks">Credits & Special Thanks</a></li>
 	<li><a href="#for-mod-authors">For Mod Authors</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
@@ -920,17 +921,33 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
 
 - **Large dairy goods**, including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
-- **Golden Mayo and Ostrich Mayo**, known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implement for the sake of making the Artisan profession more consistent.
+- **Golden Mayo and Ostrich Mayo**, known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [ughitsmegan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303)﻿ (**please visit and endorse [Ostrich Mayo and Golden Mayo﻿](https://www.nexusmods.com/stardewvalley/mods/7660)!**).
 - **Heavy Tapper** behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
 - **Common Trees** age like [Fruit Trees](https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price)﻿, which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 
+
 ## Compatibility
 
-- Compatible with custom [SpaceCore](mod:spacecore) skills.
-- Compatible with [Stardew Valley Expanded](mod:sve).
-- Compatible with any Content Patcher mod.
+Compatible with all custom [SpaceCore](mod:spacecore) skills. They can be reset, but cannot be Prestiged. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it.
+
+For any mods that affect professions, skills or Masteries, use common sense. Mods which add alternative ways to acquire multiple professions, such as All Professions, Skill Prestige and Mastery Extended, will obviously conflict with Change Profession Skill Reset, so either remove those mods or disable Skill Reset in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as Level Extender or Level Forever, will obviously conflict with Prestige level progression, and consequently, Prestige Professions. Either remove those mods or disable Prestige Levels in this mod's settings. For any other specific combinations, try it for yourself and see what happens. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
+
+The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
+
+Yes, it's compatible with [Stardew Valley Expanded](mod:sve).
+Yes, it should work in multiplayer.
+No, it does not work on Android.
 
 <sup><sup>[🔼 Back to top](#professions-prfs)</sup></sup>
+
+
+## Credit & Special Thanks
+
+- [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
+- [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303)﻿ and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660)﻿.
+- [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303)﻿ for [Slime Produce﻿](https://www.nexusmods.com/stardewvalley/mods/7634).
+- [Enai Siaion](https://www.nexusmods.com/skyrimspecialedition/users/3959191) and [ReaperAnon](https://www.nexusmods.com/witcher3/users/54536917) for inspiration.
+- [Gravity](https://ro.gnjoy.com/index.asp) ﻿for my childhood.
 
 
 ## For Mod Authors
@@ -962,6 +979,8 @@ The module exposes an API to facilitate integration with other mods. Currently e
 To consume the API, copy the [API interface](IProfessionsApi.cs) to your project and [ask SMAPI for a proxy][wiki:integrations-api]. Remove any methods you do not need to improve compatibility.
 
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
+
+
 
 
 ## F.A.Q.
