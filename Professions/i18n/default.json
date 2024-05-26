@@ -156,7 +156,7 @@
   "brute.title.female": "Amazon",
   "brute.title.prestiged.male": "Wildheart",
   "brute.title.prestiged.female": "Wildheart",
-  "brute.desc": "Become enraged as you take damage, which gradually increases your own damage and attack speed. +25 HP.",
+  "brute.desc": "Become enraged as you take damage, gradually increasing your own damage and attack speed. +25 HP.",
   "brute.desc.prestiged": "Stay enraged for twice as long. Rage can be expended to perform a special move while on cooldown.",
   "brute.buff.name": "Rage",
   "brute.buff.desc": "Damage +{{damage}}. Attack Speed +{{speed}}.",
@@ -165,7 +165,7 @@
   "poacher.title.prestiged.male": "Saboteur", // alternatives: Infiltrator
   "poacher.title.prestiged.female": "Saboteur",
   "poacher.desc": "Crit. chance +50%. Chance to poach an item from the enemy with each attack.",
-  "poacher.desc.prestiged": "Enemies can be poached twice. Inflict deadly poison on a successful poach.",
+  "poacher.desc.prestiged": "Enemies can be poached twice. Inflict deadly poison with each successful poach.",
 
   "rascal.title.male": "Rascal",
   "rascal.title.female": "Rascal",

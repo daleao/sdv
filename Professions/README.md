@@ -674,7 +674,7 @@ Completely unchanged from vanilla.
 <!--- Brute --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute | Amazon (Lv10)</b> - Become enraged as you suffer damage, which gradually increases your own damage and attack speed. +25 HP.
+<summary><img src="./resources/assets/sprites/loose/brute.png"/> <b>Brute | Amazon (Lv10)</b> - Become enraged as you suffer damage, gradually increasing your own damage and attack speed. +25 HP.
 </summary>
 
 <ul>
@@ -702,7 +702,7 @@ Completely unchanged from vanilla.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/poacher_p.png"/> <b>Saboteur (Lv20)</b> - Enemies can be poached twice. Inflict deadly poison on a successful poach.
+<img src="./resources/assets/sprites/loose/poacher_p.png"/> <b>Saboteur (Lv20)</b> - Enemies can be poached twice. Inflict deadly poison with each successful poach.
 </font>
 
 <font size="2">
@@ -734,7 +734,7 @@ Completely unchanged from vanilla.
 
 Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant the primary ammo the **musked** property.
+If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the **musked** property.
 
 **Musked Ammo:** When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.
 </details>
@@ -824,9 +824,11 @@ Note that you will inevitably need to choose each 5th-level profession twice on 
 
 You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, reseting a skill will also cause you to forget all associated recipes, but that can also be turned off.
 
-For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a colorful new star.
+For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired).
 
-Keep in mind that **once a skill has been Mastered it can no longer be reset**.
+Keep in mind that **once a skill has been Mastered it can no longer be reset**. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
+
+Note also that **resetting a skill temporarily prevents it from contributing towards Mastery experience**, until it once again reaches level 10.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
@@ -841,7 +843,9 @@ If enabled, Mastering a skill will also unlock it's progression up to level 20, 
 
 <br>
 
-**You may choose only one Prestige Profession per skill** (i.e., you cannot reset to acquire more than one) **and can only choose from among those you already have the base version of**; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requiires a modest fee of 20,000g (also configurable).
+**You may choose only one Prestige Profession per skill** (i.e., you cannot reset to acquire more than one) **and can only choose from among those you already have the base version of**; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requires a modest fee of 20,000g (also configurable).
+
+Note that **Mastered skills no longer contribute to Mastery experience**.
 
 Custom skill mods based on SpaceCore are **not** compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
@@ -917,7 +921,7 @@ In case you didn't read every single profession description above, please be awa
 
 - **Large dairy goods**, including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
 - **Golden Mayo and Ostrich Mayo**, known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implement for the sake of making the Artisan profession more consistent.
-- **Heavy Tapper** behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of the halving the production time. This is implemented to avoid redundancy with the Tapper profession.
+- **Heavy Tapper** behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
 - **Common Trees** age like [Fruit Trees](https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price)﻿, which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 
 ## Compatibility
