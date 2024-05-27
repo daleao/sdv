@@ -127,9 +127,9 @@ internal static class FarmerExtensions
         for (var i = professions.Count - 1; i >= 0; i--)
         {
             var profession = professions[i];
-            if (roots.Contains(profession))
+            if (roots.Contains(profession) || roots.Contains(profession - 100))
             {
-                return profession >= 100 ? profession - 100 : profession;
+                return profession;
             }
         }
 

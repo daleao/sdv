@@ -98,15 +98,16 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                     // need to do this bullshit switch because mining and fishing are inverted in the skills page
                     skillIndex = skillIndex switch
                     {
-                        1 => 3,
-                        3 => 1,
+                        1 => Farmer.miningSkill,
+                        3 => Farmer.fishingSkill,
                         _ => skillIndex,
                     };
 
                     skillLevel = skillIndex switch
                     {
-                        < 5 => Game1.player.GetUnmodifiedSkillLevel(skillIndex),
-                        _ => SCSkills.GetSkillLevel(Game1.player, skills[skillIndex - 5]),
+                        < Farmer.luckSkill => Game1.player.GetUnmodifiedSkillLevel(skillIndex),
+                        > Farmer.luckSkill => SCSkills.GetSkillLevel(Game1.player, skills[skillIndex - Farmer.luckSkill - 1]), // -5 for vanilla skills and -1 for zero-index
+                        _ => 0,
                     };
 
                     if (skillLevel >= 15)
@@ -123,15 +124,16 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                     // need to do this bullshit switch because mining and fishing are inverted in the skills page
                     skillIndex = skillIndex switch
                     {
-                        1 => 3,
-                        3 => 1,
+                        1 => Farmer.miningSkill,
+                        3 => Farmer.fishingSkill,
                         _ => skillIndex,
                     };
 
                     skillLevel = skillIndex switch
                     {
                         < 5 => Game1.player.GetUnmodifiedSkillLevel(skillIndex),
-                        _ => SCSkills.GetSkillLevel(Game1.player, skills[skillIndex - 5]),
+                        > Farmer.luckSkill => SCSkills.GetSkillLevel(Game1.player, skills[skillIndex - Farmer.luckSkill - 1]), // -5 for vanilla skills and -1 for zero-index
+                        _ => 0,
                     };
 
                     if (skillLevel >= 20)

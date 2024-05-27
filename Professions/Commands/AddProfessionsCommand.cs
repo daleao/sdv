@@ -61,7 +61,8 @@ internal sealed class AddProfessionsCommand(CommandHandler handler)
             }
 
             if (Profession.TryFromName(arg, true, out var profession) ||
-                Profession.TryFromLocalizedName(arg, true, out profession))
+                Profession.TryFromLocalizedName(arg, true, out profession) ||
+                (int.TryParse(arg, out var id) && Profession.TryFromValue(id, out profession)))
             {
                 if ((!prestige && Game1.player.HasProfession(profession)) ||
                     (prestige && Game1.player.HasProfession(profession, true)))
@@ -83,7 +84,8 @@ internal sealed class AddProfessionsCommand(CommandHandler handler)
             {
                 var customProfession = CustomProfession.List.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
+                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    (int.TryParse(arg, out id) && id == p.Id));
                 if (customProfession is null)
                 {
                     this.Handler.Log.W($"{arg} is not a valid profession name.");

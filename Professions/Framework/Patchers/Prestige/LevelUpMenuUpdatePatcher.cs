@@ -500,7 +500,14 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     private static int GetCurrentBranchForSkill(int currentSkill)
     {
-        return Game1.player.GetCurrentRootProfessionForSkill(Skill.FromValue(currentSkill));
+        if (currentSkill < Farmer.luckSkill)
+        {
+            return Game1.player.GetCurrentRootProfessionForSkill(Skill.FromValue(currentSkill));
+        }
+
+        var branch1 = currentSkill * 6;
+        return Game1.player.professions.Contains(branch1) ? branch1 : branch1 + 1;
+
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel)

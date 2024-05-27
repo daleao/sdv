@@ -125,7 +125,7 @@ internal sealed class PrintCommand(CommandHandler handler)
                     Empty,
                     (current, next) =>
                         current +
-                        $"{(next.Level == 5 ? "\n>" : "\n - ")} {next.StringId} {(next.Id < 100 && Game1.player.professions.Contains(next.Id + 100) ? "(P) " : string.Empty)}(LV{next.Level} / ID: {next.Id})");
+                        $"{(next.Level == 5 ? "\n>" : "\n - ")} {next.StringId} {(Game1.player.professions.Contains(next.Id + 100) ? "(P) " : string.Empty)}(LV{next.Level} / ID: {next.Id})");
                 sb.Append(list);
             }
         }
@@ -145,7 +145,10 @@ internal sealed class PrintCommand(CommandHandler handler)
                 else if (CustomProfession.Loaded.TryGetValue(pid, out var customProfession) ||
                          CustomProfession.Loaded.TryGetValue(pid - 100, out customProfession))
                 {
-                    professions.Add(customProfession);
+                    if (pid == customProfession.Id)
+                    {
+                        professions.Add(customProfession);
+                    }
                 }
                 else
                 {
@@ -158,7 +161,7 @@ internal sealed class PrintCommand(CommandHandler handler)
             {
                 sb.Append(
                     $"\n- {profession.StringId} ({profession.ParentSkill.StringId} LV{profession.Level} / ID: {profession.Id})");
-                if (profession.Id < 100 && Game1.player.professions.Contains(profession.Id + 100))
+                if (Game1.player.professions.Contains(profession.Id + 100))
                 {
                     sb.Append(
                         $"\n- Prestiged {profession.StringId} ({profession.ParentSkill.StringId} LV{profession.Level + 10} / ID: {profession.Id + 100})");

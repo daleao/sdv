@@ -41,6 +41,7 @@ public sealed class CustomProfession : IProfession
         this.ParentSkill = skill;
         this._titleGetter = getTitle;
         this._descriptionGetter = getDescription;
+        Log.D($"Initialized custom profession {stringId} (ID: {id}).");
     }
 
     /// <summary>Initializes a new instance of the <see cref="CustomProfession"/> class from an equivalent <see cref="SCProfession"/>.</summary>
@@ -58,6 +59,7 @@ public sealed class CustomProfession : IProfession
         this._descriptionGetter = scProfession.GetDescription;
         Loaded[this.Id] = this;
         FromSpaceCore[scProfession] = this;
+        Log.D($"Initialized custom profession {scProfession.Id} (ID: {this.Id}).");
     }
 
     /// <summary>Enumerates all the loaded instances of <see cref="CustomProfession"/>.</summary>

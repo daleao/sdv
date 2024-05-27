@@ -71,8 +71,8 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                     // need to do this bullshit switch because mining and fishing are inverted in the skills page
                     skillIndex = skillIndex switch
                     {
-                        1 => 3,
-                        3 => 1,
+                        1 => Farmer.miningSkill,
+                        3 => Farmer.fishingSkill,
                         _ => skillIndex,
                     };
 
@@ -90,8 +90,8 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                     // need to do this bullshit switch because mining and fishing are inverted in the skills page
                     skillIndex = skillIndex switch
                     {
-                        1 => 3,
-                        3 => 1,
+                        1 => Farmer.miningSkill,
+                        3 => Farmer.fishingSkill,
                         _ => skillIndex,
                     };
 

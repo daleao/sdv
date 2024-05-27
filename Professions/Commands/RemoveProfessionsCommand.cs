@@ -70,15 +70,16 @@ internal sealed class RemoveProfessionsCommand(CommandHandler handler)
             {
                 var range = Game1.player.professions
                     .Where(pid =>
-                        !Profession.TryFromValue(pid, out _) &&
-                        CustomProfession.List.All(p => pid != p.Id))
+                        !Profession.TryFromValue(pid, out _) && !Profession.TryFromValue(pid + 100, out _) &&
+                        CustomProfession.List.All(p => pid != p.Id && pid != p.Id + 100))
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
                 this.Handler.Log.I($"Removed unknown professions from {Game1.player.Name}.");
             }
             else if (Profession.TryFromName(arg, true, out var profession) ||
-                     Profession.TryFromLocalizedName(arg, true, out profession))
+                     Profession.TryFromLocalizedName(arg, true, out profession) ||
+                     (int.TryParse(arg, out var id) && Profession.TryFromValue(id, out profession)))
             {
                 professionsToRemove.Add(profession.Id);
                 professionsToRemove.Add(profession.Id + 100);
@@ -88,7 +89,8 @@ internal sealed class RemoveProfessionsCommand(CommandHandler handler)
             {
                 var customProfession = CustomProfession.List.FirstOrDefault(p =>
                     string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase));
+                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    (int.TryParse(arg, out id) && id == p.Id));
                 if (customProfession is null)
                 {
                     this.Handler.Log.W($"Ignoring unknown profession {arg}.");

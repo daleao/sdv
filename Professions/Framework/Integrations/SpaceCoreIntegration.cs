@@ -31,8 +31,7 @@ internal sealed class SpaceCoreIntegration()
                 continue;
             }
 
-            CustomSkill.Loaded[skillId] = new CustomSkill(skillId);
-            Log.D($"Successfully loaded the custom skill {skillId}.");
+            CustomSkill.Initialize(skillId);
             anyLoaded = true;
         }
 

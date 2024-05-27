@@ -28,7 +28,7 @@ internal sealed class NewSkillsPagePerformHoverActionPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void NewSkillsPagePerformHoverActionPostfix(int x, int y, ref string ___hoverText)
     {
-        ___hoverText = ___hoverText.Truncate(90);
+        ___hoverText = Game1.parseText(___hoverText, Game1.smallFont, 500);
         if (!ShouldEnableSkillReset)
         {
             return;

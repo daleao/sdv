@@ -1,5 +1,18 @@
 ﻿# PRFS Changelog
 
+## 0.2.6
+
+### Changed
+
+* Profession tooltips in the Skills Page now display and properly wrap the entire tooltip text, instead of truncating at 90 characters.
+
+### Fixed
+
+* Fixed a possible Out-Of-Range exception in SkillsPageCtorPatcher
+* Added a failsafe that should prevent errors with Luck Skill. But note that Luck Skill is **not** officially supported, and will not be.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 0.2.5
 
 ### Changed
