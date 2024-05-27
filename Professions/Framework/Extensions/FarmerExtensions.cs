@@ -175,7 +175,7 @@ internal static class FarmerExtensions
     internal static IProfession[] GetProfessionsForSkill(
         this Farmer farmer, ISkill skill, bool excludeTierOneProfessions = false)
     {
-        var x = farmer.professions
+        return farmer.professions
             .Intersect(excludeTierOneProfessions ? skill.TierTwoProfessionIds : skill.ProfessionIds)
             .Select<int, IProfession?>(id =>
                 Profession.TryFromValue(id, out var vanilla)
@@ -183,7 +183,6 @@ internal static class FarmerExtensions
                     : CustomProfession.Loaded.GetValueOrDefault(id))
             .WhereNotNull()
             .ToArray();
-        return x;
     }
 
     /// <summary>
@@ -195,7 +194,8 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the fish with the specified <paramref name="fishId"/> has been caught with max size, otherwise <see langword="false"/>.</returns>
     internal static bool HasCaughtMaxSized(this Farmer farmer, string fishId)
     {
-        if (!farmer.fishCaught.ContainsKey(fishId) || farmer.fishCaught[fishId][1] <= 0)
+        var qid = $"(O){fishId}";
+        if (!farmer.fishCaught.ContainsKey(qid) || farmer.fishCaught[qid][1] <= 0)
         {
             return false;
         }
@@ -210,8 +210,8 @@ internal static class FarmerExtensions
 
         var rawSplit = specificFishData.SplitWithoutAllocation('/');
         return fishId.IsTrapFishId()
-            ? farmer.fishCaught[fishId][1] >= int.Parse(rawSplit[6])
-            : farmer.fishCaught[fishId][1] >= int.Parse(rawSplit[4]);
+            ? farmer.fishCaught[qid][1] > int.Parse(rawSplit[6])
+            : farmer.fishCaught[qid][1] > int.Parse(rawSplit[4]);
     }
 
     /// <summary>Gets the price bonus applied to animal produce sold by <see cref="Profession.Producer"/>.</summary>
@@ -243,7 +243,13 @@ internal static class FarmerExtensions
         var bonus = 0f;
         foreach (var (key, value) in farmer.fishCaught.Pairs)
         {
-            if (key.IsAlgaeId() || !fishData.TryGetValue(key, out var specificFishData))
+            if (key.Split("(O)") is not { Length: 2 } split)
+            {
+                continue;
+            }
+
+            var id = split[1];
+            if (id.IsAlgaeId() || !fishData.TryGetValue(id, out var specificFishData))
             {
                 continue;
             }
@@ -254,11 +260,11 @@ internal static class FarmerExtensions
                 continue;
             }
 
-            if (key.IsBossFishId())
+            if (id.IsBossFishId())
             {
                 bonus += 0.02f;
             }
-            else if (value[1] >= maxSize)
+            else if (value[1] > maxSize)
             {
                 bonus += 0.005f;
             }

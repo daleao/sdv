@@ -45,7 +45,8 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (!CustomProfession.Loaded.TryGetValue(root, out var tierOneProfession))
+        if (!CustomProfession.Loaded.TryGetValue(root, out var tierOneProfession) &&
+            !CustomProfession.Loaded.TryGetValue(root - 100, out tierOneProfession))
         {
             Log.W($"The profession {root} was not found within the loaded SpaceCore professions.");
             return true; // run original logic
@@ -65,7 +66,8 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
                     return false; // don't run original logic
                 }
 
-                if (!CustomProfession.Loaded.TryGetValue(branch, out var tierTwoProfession))
+                if (!CustomProfession.Loaded.TryGetValue(branch, out var tierTwoProfession) &&
+                    !CustomProfession.Loaded.TryGetValue(branch - 100, out tierTwoProfession))
                 {
                     Log.W($"The profession {branch} was not found within the loaded SpaceCore professions.");
                     return true; // run original logic

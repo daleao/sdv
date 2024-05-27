@@ -30,27 +30,27 @@ internal sealed class GameLocationAnswerDialoguePatcher : HarmonyPatcher
         ref bool __result,
         Response answer)
     {
+        if (__instance.lastQuestionKey != "ConfirmChangeLimit")
+        {
+            return true; // run original logic
+        }
+
+        var choice = answer.responseKey;
+        if (choice == "Return")
+        {
+            __instance.lastQuestionKey = "dogStatue_changeUlt";
+            return true; // don't run original logic
+        }
+
+        var split = choice.Split('_');
+        if (split.Length != 2)
+        {
+            __result = false;
+            return false; // don't run original logic
+        }
+
         try
         {
-            if (__instance.lastQuestionKey != "ConfirmChangeLimit")
-            {
-                return true; // run original logic
-            }
-
-            var choice = answer.responseKey;
-            if (choice == "Return")
-            {
-                __instance.lastQuestionKey = "dogStatue_changeUlt";
-                return true; // don't run original logic
-            }
-
-            var split = choice.Split('_');
-            if (split.Length != 2)
-            {
-                __result = false;
-                return false; // don't run original logic
-            }
-
             var player = Game1.player;
             player.Money = Math.Max(0, player.Money - (int)Config.Masteries.LimitRespecCost);
 

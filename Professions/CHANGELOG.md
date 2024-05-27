@@ -1,14 +1,36 @@
 ﻿# PRFS Changelog
 
+## 0.2.3
+
+### Fixed
+
+* Fixed max-sized fish not being counted correctly.
+
+## 0.2.2
+
+### Added
+
+* Added Chinese, French and Korean translations. Credits added to [README](../Professions).
+
+### Changed
+
+* Additional slingshot ammo slot now draws horizontally in the slingshot's tooltip instead of vertically, matching the style of the Advanced Iridium Rod and saving some vertical space.
+* "Memorized" fishing rod tackle now draw correctly in the rod's tooltip.
+
+### Fixed
+
+* Fixed various issues with custom skills.
+
+
 ## 0.2.1
 
-## Fixed
+### Fixed
 
 * Fixed possible crash when selecting Prestiged Harvester profession.
 * Fixed possible OutOfRange exception in FarmerCurrentToolSetterPostfix.
 * Fixed possible Null-Ref exception in MonsterFindPlayerPrefix.
 
-## Changed
+### Changed
 
 * Changed Sewer Statue logic to be more compatible with different configurations of Skill Reset / Prestige / Limit Break.
 

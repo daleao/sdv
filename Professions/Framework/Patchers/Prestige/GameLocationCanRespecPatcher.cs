@@ -26,19 +26,19 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool GameLocationCanRespecPrefix(ref bool __result, int skill_index)
     {
-        try
+        if (!ShouldEnablePrestigeLevels)
         {
-            if (!ShouldEnablePrestigeLevels)
+            if (!ShouldEnableSkillReset)
             {
-                if (!ShouldEnableSkillReset)
-                {
-                    return true; // run original logic
-                }
-
-                __result = false;
-                return false;
+                return true; // run original logic
             }
 
+            __result = false;
+            return false;
+        }
+
+        try
+        {
             var player = Game1.player;
             var skill = Skill.FromValue(skill_index);
             if (!ShouldEnableSkillReset && !skill.CanGainPrestigeLevels())

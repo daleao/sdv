@@ -29,21 +29,21 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool CrabPotDayUpdatePrefix(CrabPot __instance)
     {
+        if (__instance.heldObject.Value is not null)
+        {
+            return false; // don't run original logic
+        }
+
+        var location = __instance.Location;
+        var owner = __instance.GetOwner();
+        var isConservationist = owner.HasProfessionOrLax(Profession.Conservationist);
+        if (__instance.bait.Value is null && !isConservationist)
+        {
+            return false; // don't run original logic
+        }
+
         try
         {
-            if (__instance.heldObject.Value is not null)
-            {
-                return false; // don't run original logic
-            }
-
-            var location = __instance.Location;
-            var owner = __instance.GetOwner();
-            var isConservationist = owner.HasProfessionOrLax(Profession.Conservationist);
-            if (__instance.bait.Value is null && !isConservationist)
-            {
-                return false; // don't run original logic
-            }
-
             var r = new Random(Guid.NewGuid().GetHashCode());
             var isLuremaster = false;
             var caught = string.Empty;

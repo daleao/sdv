@@ -28,13 +28,13 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
     private static bool LevelUpMenuAddProfessionDescriptionsPrefix(
         List<string> descriptions, string professionName)
     {
+        if (!Profession.TryFromName(professionName, true, out var profession))
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (!Profession.TryFromName(professionName, true, out var profession))
-            {
-                return true; // run original logic
-            }
-
             //var currentLevel = profession.ParentSkill.CurrentLevel;
             var prestiged = Game1.player.HasProfession(profession, true) ||
                             (Game1.activeClickableMenu is LevelUpMenu menu && Reflector

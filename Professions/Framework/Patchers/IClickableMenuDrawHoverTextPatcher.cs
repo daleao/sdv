@@ -1,15 +1,19 @@
-﻿namespace DaLion.Professions.Framework.Patchers.Foraging;
+﻿namespace DaLion.Professions.Framework.Patchers;
 
 #region using directives
 
 using System.Globalization;
+using System.Reflection;
+using System.Reflection.Emit;
 using System.Text;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
 using StardewValley.Menus;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -121,6 +125,51 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             default:
                 return;
         }
+    }
+
+    /// <summary>Patch to flush Rascal slingshot tooltip.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            var notSlingshot = generator.DefineLabel();
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Item).RequireMethod(nameof(Item.attachmentSlots))),
+                ])
+                .Move(-2)
+                .GetOperand(out var notFishingRod)
+                .PatternMatch([ new CodeInstruction(OpCodes.Br_S)])
+                .GetOperand(out var resumeExecution)
+                .LabelMatch((Label)notFishingRod)
+                .StripLabels(out _)
+                .AddLabels(notSlingshot)
+                .Insert(
+                    [
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
+                        new CodeInstruction(OpCodes.Isinst, typeof(Slingshot)),
+                        new CodeInstruction(OpCodes.Brfalse_S, notSlingshot),
+                        new CodeInstruction(OpCodes.Ldloc_2),
+                        new CodeInstruction(OpCodes.Ldc_I4_S, 68),
+                        new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Stloc_2),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    ],
+                    [(Label)notFishingRod]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed flushing Rascal slingshot tooltip height.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
     }
 
     #endregion harmony patches

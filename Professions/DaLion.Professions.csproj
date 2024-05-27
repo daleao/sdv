@@ -7,7 +7,7 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Professions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>0.2.1</Version>
+    <Version>0.2.3</Version>
     <GameVersion>1.6</GameVersion>
     <SmapiVersion>4.0</SmapiVersion>
 
@@ -122,6 +122,6 @@
     <None Remove="lib\**" />
     <None Remove="resources\**" />
   </ItemGroup>
-  <ProjectExtensions><VisualStudio><UserProperties i18n_4default_1json__JsonSchema="https://alec016.github.io/Custom-Machinery/Json%20Schema/src/main/resources/schemas/custom_machinery_machine.json" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

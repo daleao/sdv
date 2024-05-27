@@ -352,7 +352,6 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
             }
 
             var sourceRect = new Rectangle(0, (count - 1) * 8, (count + 1) * 4, 8);
-            var scale = Textures.STARS_SCALE;
             b.Draw(
                 Textures.PrestigeRibbons,
                 position,
@@ -360,15 +359,15 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                scale,
+                Textures.STARS_SCALE,
                 SpriteEffects.None,
                 1f);
 
             RibbonTargetRectBySkill[skill] = new Rectangle(
                 (int)position.X,
                 (int)position.Y,
-                (int)(sourceRect.Width * scale),
-                (int)(sourceRect.Height * scale));
+                (int)(sourceRect.Width * Textures.STARS_SCALE),
+                (int)(sourceRect.Height * Textures.STARS_SCALE));
         }
 
         if (CustomSkill.Loaded.Count == 0)
@@ -399,8 +398,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 continue;
             }
 
-            var sourceRect = new Rectangle(0, (count - 1) * 16, (count + 1) * 4, 16);
-            var scale = Textures.STARS_SCALE;
+            var sourceRect = new Rectangle(0, (count - 1) * 8, (count + 1) * 4, 8);
             b.Draw(
                 Textures.PrestigeRibbons,
                 position,
@@ -408,15 +406,15 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 Color.White,
                 0f,
                 Vector2.Zero,
-                scale,
+                Textures.STARS_SCALE,
                 SpriteEffects.None,
                 1f);
 
             RibbonTargetRectBySkill[skill] = new Rectangle(
                 (int)position.X,
                 (int)position.Y,
-                (int)(sourceRect.Width * scale),
-                (int)(sourceRect.Height * scale));
+                (int)(sourceRect.Width * Textures.STARS_SCALE),
+                (int)(sourceRect.Height * Textures.STARS_SCALE));
             customSkillIndex++;
         }
     }

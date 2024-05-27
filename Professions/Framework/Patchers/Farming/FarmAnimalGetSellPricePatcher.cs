@@ -26,13 +26,13 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmAnimalGetSellPricePrefix(FarmAnimal __instance, ref int __result)
     {
+        if (!__instance.GetOwner().HasProfessionOrLax(Profession.Breeder))
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (!__instance.GetOwner().HasProfessionOrLax(Profession.Breeder))
-            {
-                return true; // run original logic
-            }
-
             __result = (int)((__instance.GetAnimalData()?.SellPrice ?? 1) * __instance.GetBreederAdjustedFriendship());
             return false; // don't run original logic
         }

@@ -39,14 +39,14 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
         Farmer who,
         bool justCheckingForActivity)
     {
+        if (__instance.Location is not { } location || __instance.tileIndexToShow != 714 ||
+            justCheckingForActivity || !__instance.HasSpecialLuremasterCatch())
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (__instance.Location is not { } location || __instance.tileIndexToShow != 714 ||
-                justCheckingForActivity || !__instance.HasSpecialLuremasterCatch())
-            {
-                return true; // run original logic
-            }
-
             var held = __instance.heldObject.Value;
             if (held is not null)
             {

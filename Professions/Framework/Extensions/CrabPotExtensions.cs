@@ -183,7 +183,7 @@ internal static class CrabPotExtensions
                         continue;
                     }
                 }
-                else if (!Game1.random.NextBool(chance))
+                else if (!r.NextBool(chance))
                 {
                     continue;
                 }

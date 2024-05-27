@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -26,22 +25,14 @@ internal sealed class LevelUpMenuGetProfessionTitleFromNumberPatcher : HarmonyPa
     [HarmonyPrefix]
     private static bool LevelUpMenuGetProfessionTitleFromNumberPrefix(ref string __result, int whichProfession)
     {
-        try
+        if (!Profession.TryFromValue(whichProfession, out var profession) ||
+            (Skill)profession.ParentSkill == Farmer.luckSkill)
         {
-            if (!Profession.TryFromValue(whichProfession, out var profession) ||
-                (VanillaSkill)profession.ParentSkill == Farmer.luckSkill)
-            {
-                return true; // run original logic
-            }
+            return true; // run original logic
+        }
 
-            __result = profession.Title;
-            return false; // don't run original logic
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
-        }
+        __result = profession.Title;
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

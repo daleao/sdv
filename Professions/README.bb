@@ -15,7 +15,7 @@ This module was inspired by such great overhaul mods as [url=https://www.nexusmo
 
 [size=6][font=bebas_neuebook]The Professions[/font][/size]
 
-Click on any profession below to expand for more details. Golden professions refer to [b]Prestige Professions[/b] (read more about them in the next section).
+Click on any profession below to expand for more details. Golden professions refer to [b]Prestige Professions[/b] (read more about them in the next section). All perks are cumulative except when written [s]with strikethrough[/s].
 
 [size=5][img]https://i.imgur.com/p9QdB6L.png[/img] [font=bebas_neuebook]Farming[/font][/size]
 
@@ -195,13 +195,13 @@ For Oceanographer, the fish that can be caught are limited to those ordinarily c
 [spoiler]
 Completely unchanged from vanilla.
 [/spoiler]
-[/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/brute.png[/img] [b]Brute | Amazon (Lv10)[/b] - Become enraged as you suffer damage, which gradually increases your own damage and attack speed. +25 HP.
+[/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/brute.png[/img] [b]Brute | Amazon (Lv10)[/b] - Become enraged as you suffer damage, gradually increasing your own damage and attack speed. +25 HP.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/brute_p.png[/img] [b]Wildheart (Lv20)[/b] - Stay enraged for twice as long. Rage can be expended to perform a special move while on cooldown.[/color][size=2]
 [spoiler]
 [b]Rage:[/b] Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds, increasing to 40 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/poacher.png[/img] [b]Bushwhacker (Lv10)[/b] - Crit. chance +50%. Chance to poach an item from the enemy with each attack.
-[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/poacher_p.png[/img] [b]Saboteur (Lv20)[/b] - Enemies can be poached twice. Inflict deadly poison on a successful poach.[/color][size=2]
+[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/poacher_p.png[/img] [b]Saboteur (Lv20)[/b] - Enemies can be poached twice. Inflict deadly poison with each successful poach.[/color][size=2]
 [spoiler]
 [b]Poaching:[/b] Unless prestiged, each monster can only be poached once. Poach chance is increased by your critical strike chance and luck ([b]not[/b] Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
 
@@ -212,7 +212,7 @@ Completely unchanged from vanilla.
 [spoiler]
 Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant the primary ammo the [b]musked[/b] property.
+If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the [b]musked[/b] property.
 
 [b]Musked Ammo:[/b] When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.
 [/spoiler]
@@ -255,9 +255,11 @@ Note that you will inevitably need to choose each 5th-level profession twice on 
 
 You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, reseting a skill will also cause you to forget all associated recipes, but that can also be turned off.
 
-For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu, either by a colorful new star.
+For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired).
 
-Keep in mind that [b]once a skill has been Mastered it can no longer be reset[/b].
+Keep in mind that [b]once a skill has been Mastered it can no longer be reset[/b]. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
+
+Note also that [b]resetting a skill temporarily prevents it from contributing towards Mastery experience[/b], until it once again reaches level 10.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
@@ -269,7 +271,9 @@ If enabled, Mastering a skill will also unlock it's progression up to level 20, 
 [center]
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/skills_prestige.gif[/img][/center]
 
-[b]You may choose only one Prestige Profession per skill[/b] (i.e., you cannot reset to acquire more than one) [b]and can only choose from among those you already have the base version of[/b]; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requiires a modest fee of 20,000g (also configurable).
+[b]You may choose only one Prestige Profession per skill[/b] (i.e., you cannot reset to acquire more than one) [b]and can only choose from among those you already have the base version of[/b]; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requires a modest fee of 20,000g (also configurable).
+
+Note that [b]Mastered skills no longer contribute to Mastery experience[/b].
 
 Custom skill mods based on SpaceCore are [b]not[/b] compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
@@ -300,16 +304,43 @@ In case you didn't read every single profession description above, please be awa
 
 [list]
 [*][b]Large dairy goods[/b], including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
-[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implement for the sake of making the Artisan profession more consistent.
-[*][b]Heavy Tapper[/b] behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of the halving the production time. This is implemented to avoid redundancy with the Tapper profession.
+[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿﻿ and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b]﻿![/b]).
+[*][b]Heavy Tapper[/b] behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
 [*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url]﻿, which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 [/list]
 [size=6][font=bebas_neuebook]Compatibility[/font][/size]
 
+Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it.
+
+For any mods that affect professions, skills or Masteries, [b]use common sense[/b]. Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings. For any other specific combinations, [b]try it for yourself and see what happens[/b]. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
+
+The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
+
+Yes, it's compatible with [url=https://www.nexusmods.com/stardewvalley/mods/3753]Stardew Valley Expanded[/url].
+Yes, it should work in multiplayer.
+No, it does not work on Android.
+
+
+[font=bebas_neuebook][size=6]Credit & Special Thanks[/size][/font]
+
+Credits to the following asset contributors:[list]
+[*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
+[*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿ and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
+[*][url=https://ro.gnjoy.com/index.asp]Gravity[/url] ﻿for sound effects and skill icons
+[/list]
+Credits to the following code contributors:[list]
+[*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]﻿ for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce﻿[/url]
+[/list]
+Credits to the following translators:[list]
+[*][url=https://github.com/CaranudLapin]CaranudLapin[/url] for French [img]https://i.imgur.com/ezVo9Fb.png[/img]
+[*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303]twinklesky6[/url] for Korean [img]https://i.imgur.com/Jvsm5YJ.png[/img]
+[*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303]Awassakura[/url] for Chinese [img]https://i.imgur.com/zuQC9Di.png[/img]
+[/list]
+Special thanks to the following visionaries:
 [list]
-[*]Compatible with custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills.
-[*]Compatible with [url=https://www.nexusmods.com/stardewvalley/mods/3753]Stardew Valley Expanded[/url].
-[*]Compatible with any Content Patcher mod.
+[*][url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion[/url] for [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url]
+[*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url]﻿ for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]﻿﻿
+[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url]﻿for my childhood
 [/list]
 [size=6][font=bebas_neuebook]F.A.Q.[/font][/size]
 
@@ -337,7 +368,11 @@ Obviously not.
 [b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
 [spoiler]
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
-With the exception of Angler when placed together with Ms. Angler (requires [Aquarism](../Ponds), they do not reproduce.
+With the exception of Angler when placed together with Ms. Angler (requires [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url], they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
+[/spoiler]
+[b]Does it work with XYZ mod?[/b]
+[spoiler]
+Why don't you try it and let me know.
 [/spoiler]
 
 

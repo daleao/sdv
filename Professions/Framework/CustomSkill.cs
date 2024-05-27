@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using Integrations;
 using SpaceCore.Interface;
 
 #endregion using directives
@@ -97,9 +98,8 @@ public sealed class CustomSkill : ISkill
     public float BaseExperienceMultiplier => Config.Skills.BaseMultipliers.GetValueOrDefault(this.StringId, 1f);
 
     /// <inheritdoc />
-    public IEnumerable<int> NewLevels => Reflector
-        .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-        .Invoke()
+    public IEnumerable<int> NewLevels => SpaceCoreIntegration.Instance!
+        .GetNewLevels()
         .Where(pair => pair.Key == this.StringId)
         .Select(pair => pair.Value);
 
@@ -135,19 +135,7 @@ public sealed class CustomSkill : ISkill
     /// <inheritdoc />
     public void SetLevel(int level)
     {
-        level = Math.Min(level, this.MaxLevel);
-        var newLevels = Reflector
-            .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-            .Invoke();
-        for (var l = this.CurrentLevel + 1; l <= level; l++)
-        {
-            var kvp = new KeyValuePair<string, int>(this.StringId, l);
-            if (!newLevels.Contains(kvp))
-            {
-                newLevels.Add(kvp);
-            }
-        }
-
+        level = Math.Min(level, this.MaxLevel); 
         var diff = ISkill.ExperienceCurve[level] - this.CurrentExp;
         this.AddExperience(diff);
     }
@@ -159,13 +147,8 @@ public sealed class CustomSkill : ISkill
         this.AddExperience(-this.CurrentExp);
 
         // reset new levels
-        var newLevels = Reflector
-            .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-            .Invoke();
-        Reflector
-            .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-            .Invoke(newLevels.Where(pair => pair.Key != this.StringId).ToList());
-
+        var newLevels = SpaceCoreIntegration.Instance!.GetNewLevels();
+        SpaceCoreIntegration.Instance.SetNewLevels(newLevels.Where(pair => pair.Key != this.StringId).ToList());
         // reset recipes
         if (Config.Skills.ForgetRecipesOnSkillReset)
         {

@@ -63,146 +63,162 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        #region choose single profession
+        try
+        {
+            #region choose single profession
 
-        var xPositionOnScreen = __instance.xPositionOnScreen;
-        var yPositionOnScreen = __instance.yPositionOnScreen;
-        var width = __instance.width;
-        var height = __instance.height;
-        b.Draw(Game1.fadeToBlackRect, new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height), Color.Black * 0.5f);
-        foreach (var littleStar in ___littleStars)
-        {
-            littleStar.draw(b);
-        }
-
-        b.Draw(
-            Game1.mouseCursors,
-            new Vector2(
-                xPositionOnScreen + (width / 2) - 116,
-                yPositionOnScreen - 32 + 12),
-            new Rectangle(363, 87, 58, 22),
-            Color.White,
-            0f,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            1f);
-        if (!__instance.informationUp && __instance.isActive && __instance.starIcon != null)
-        {
-            __instance.starIcon.draw(b);
-        }
-        else
-        {
-            if (!__instance.informationUp)
+            var xPositionOnScreen = __instance.xPositionOnScreen;
+            var yPositionOnScreen = __instance.yPositionOnScreen;
+            var width = __instance.width;
+            var height = __instance.height;
+            b.Draw(
+                Game1.fadeToBlackRect,
+                new Rectangle(0, 0, Game1.uiViewport.Width, Game1.uiViewport.Height),
+                Color.Black * 0.5f);
+            foreach (var littleStar in ___littleStars)
             {
-                return false;
+                littleStar.draw(b);
             }
 
-            Game1.drawDialogueBox(xPositionOnScreen, yPositionOnScreen, width, height, speaker: false, drawOnlyBox: true);
-            Reflector
-                .GetUnboundMethodDelegate<Action<SkillLevelUpMenu, SpriteBatch, int, bool, int, int, int>>(
-                    __instance,
-                    "drawHorizontalPartition").Invoke(__instance, b, yPositionOnScreen + 192, false, -1, -1, -1);
-
-            var skillsByName = Reflector
-                .GetStaticFieldGetter<Dictionary<string, SCSkill>>(typeof(SCSkills), "SkillsByName")
-                .Invoke();
-            var icon = skillsByName[___currentSkill].Icon;
-            if (icon is not null)
-            {
-                Utility.drawWithShadow(
-                    b,
-                    icon,
-                    new Vector2(
-                        xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + IClickableMenu.borderWidth,
-                        yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16),
-                    icon.Bounds,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    flipped: false,
-                    0.88f);
-            }
-
-            b.DrawString(
-                Game1.dialogueFont,
-                ___title,
+            b.Draw(
+                Game1.mouseCursors,
                 new Vector2(
-                    xPositionOnScreen + (width / 2) - (Game1.dialogueFont.MeasureString(___title).X / 2f),
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16),
-                Game1.textColor);
-
-            if (icon is not null)
+                    xPositionOnScreen + (width / 2) - 116,
+                    yPositionOnScreen - 32 + 12),
+                new Rectangle(363, 87, 58, 22),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                SpriteEffects.None,
+                1f);
+            if (!__instance.informationUp && __instance.isActive && __instance.starIcon != null)
             {
-                Utility.drawWithShadow(
-                    b,
-                    icon,
+                __instance.starIcon.draw(b);
+            }
+            else
+            {
+                if (!__instance.informationUp)
+                {
+                    return false;
+                }
+
+                Game1.drawDialogueBox(xPositionOnScreen, yPositionOnScreen, width, height, speaker: false,
+                    drawOnlyBox: true);
+                Reflector
+                    .GetUnboundMethodDelegate<Action<SkillLevelUpMenu, SpriteBatch, int, bool, int, int, int>>(
+                        __instance,
+                        "drawHorizontalPartition").Invoke(__instance, b, yPositionOnScreen + 192, false, -1, -1, -1);
+
+                var skillsByName = Reflector
+                    .GetStaticFieldGetter<Dictionary<string, SCSkill>>(typeof(SCSkills), "SkillsByName")
+                    .Invoke();
+                var icon = skillsByName[___currentSkill].Icon;
+                if (icon is not null)
+                {
+                    Utility.drawWithShadow(
+                        b,
+                        icon,
+                        new Vector2(
+                            xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + IClickableMenu.borderWidth,
+                            yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16),
+                        icon.Bounds,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        4f,
+                        flipped: false,
+                        0.88f);
+                }
+
+                b.DrawString(
+                    Game1.dialogueFont,
+                    ___title,
                     new Vector2(
-                        xPositionOnScreen + __instance.width - IClickableMenu.spaceToClearSideBorder - IClickableMenu.borderWidth - 64,
+                        xPositionOnScreen + (width / 2) - (Game1.dialogueFont.MeasureString(___title).X / 2f),
                         __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16),
-                    icon.Bounds,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    flipped: false,
-                    0.88f);
-            }
+                    Game1.textColor);
 
-            var chooseProfession = I18n.Prestige_LevelUp_Single();
-            b.DrawString(
-                Game1.smallFont,
-                chooseProfession,
-                new Vector2(
-                    xPositionOnScreen + (__instance.width / 2) -
-                    (Game1.smallFont.MeasureString(chooseProfession).X / 2f),
-                    __instance.yPositionOnScreen + 64 + IClickableMenu.spaceToClearTopBorder),
-                Game1.textColor);
+                if (icon is not null)
+                {
+                    Utility.drawWithShadow(
+                        b,
+                        icon,
+                        new Vector2(
+                            xPositionOnScreen + __instance.width - IClickableMenu.spaceToClearSideBorder -
+                            IClickableMenu.borderWidth - 64,
+                            __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 16),
+                        icon.Bounds,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        4f,
+                        flipped: false,
+                        0.88f);
+                }
 
-            b.DrawString(
-                Game1.dialogueFont,
-                ___leftProfessionDescription[0],
-                new Vector2(
-                    xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + 32 + (width / 4),
-                    __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 160),
-                ___leftProfessionColor);
-
-            var scProfession = ___profPair.First.GetVanillaId() == ___professionsToChoose[0] ? ___profPair.First : ___profPair.Second;
-            if (scProfession.Icon is not null)
-            {
-                b.Draw(
-                    scProfession.Icon,
-                    new Vector2(
-                        xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + (width / 2) - 112 + (width / 4),
-                        __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 160 - 16),
-                    scProfession.Icon.Bounds,
-                    Color.White,
-                    0f,
-                    Vector2.Zero,
-                    4f,
-                    SpriteEffects.None,
-                    1f);
-            }
-
-            for (var j = 1; j < ___leftProfessionDescription.Count; j++)
-            {
+                var chooseProfession = I18n.Prestige_LevelUp_Single();
                 b.DrawString(
                     Game1.smallFont,
-                    Game1.parseText(___leftProfessionDescription[j], Game1.smallFont, (__instance.width / 2) - 64),
+                    chooseProfession,
                     new Vector2(
-                        -4 + xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + 32 + (width / 4),
-                        __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 128 + 8 + (64 * (j + 1))),
+                        xPositionOnScreen + (__instance.width / 2) -
+                        (Game1.smallFont.MeasureString(chooseProfession).X / 2f),
+                        __instance.yPositionOnScreen + 64 + IClickableMenu.spaceToClearTopBorder),
+                    Game1.textColor);
+
+                b.DrawString(
+                    Game1.dialogueFont,
+                    ___leftProfessionDescription[0],
+                    new Vector2(
+                        xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + 32 + (width / 4),
+                        __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 160),
                     ___leftProfessionColor);
+
+                var scProfession = ___profPair.First.GetVanillaId() == ___professionsToChoose[0]
+                    ? ___profPair.First
+                    : ___profPair.Second;
+                if (scProfession.Icon is not null)
+                {
+                    b.Draw(
+                        scProfession.Icon,
+                        new Vector2(
+                            xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + (width / 2) - 112 + (width / 4),
+                            __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 160 - 16),
+                        scProfession.Icon.Bounds,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        4f,
+                        SpriteEffects.None,
+                        1f);
+                }
+
+                for (var j = 1; j < ___leftProfessionDescription.Count; j++)
+                {
+                    b.DrawString(
+                        Game1.smallFont,
+                        Game1.parseText(___leftProfessionDescription[j], Game1.smallFont, (__instance.width / 2) - 64),
+                        new Vector2(
+                            -4 + xPositionOnScreen + IClickableMenu.spaceToClearSideBorder + 32 + (width / 4),
+                            __instance.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + 128 + 8 +
+                            (64 * (j + 1))),
+                        ___leftProfessionColor);
+                }
+
+                __instance.okButton.draw(b);
+                __instance.drawMouse(b);
             }
 
-            __instance.okButton.draw(b);
-            __instance.drawMouse(b);
+            #endregion choose single profession
+
+            return false; // don't run original logic
         }
-
-        #endregion choose single profession
-
-        return false; // don't run original logic
+        catch (Exception ex)
+        {
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
+        }
     }
 
     /// <summary>Patch to draw acquired profession tooltips during profession selection.</summary>

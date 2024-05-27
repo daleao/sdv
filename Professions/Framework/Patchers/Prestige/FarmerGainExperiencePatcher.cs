@@ -27,24 +27,24 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.LowerThanNormal)]
     private static bool FarmerGainExperiencePrefix(Farmer __instance, int which, ref int howMuch)
     {
+        if (!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels)
+        {
+            return true; // run original logic
+        }
+
+        if (which == Farmer.luckSkill || howMuch <= 0)
+        {
+            return false; // don't run original logic
+        }
+
+        if (!__instance.IsLocalPlayer && Game1.IsServer)
+        {
+            __instance.queueMessage(17, Game1.player, which, howMuch);
+            return false; // don't run original logic
+        }
+
         try
         {
-            if (!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels)
-            {
-                return true; // run original logic
-            }
-
-            if (which == Farmer.luckSkill || howMuch <= 0)
-            {
-                return false; // don't run original logic
-            }
-
-            if (!__instance.IsLocalPlayer && Game1.IsServer)
-            {
-                __instance.queueMessage(17, Game1.player, which, howMuch);
-                return false; // don't run original logic
-            }
-
             var skill = Skill.FromValue(which);
             howMuch = Math.Max((int)(howMuch * skill.BaseExperienceMultiplier * ((ISkill)skill).BonusExperienceMultiplier), 1);
             if (((skill.CurrentLevel == 10 && !skill.CanGainPrestigeLevels()) || skill.CurrentLevel == 20) &&

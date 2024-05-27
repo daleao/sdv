@@ -142,7 +142,8 @@ internal sealed class PrintCommand(CommandHandler handler)
                         professions.Add(vanillaProfession);
                     }
                 }
-                else if (CustomProfession.Loaded.TryGetValue(pid, out var customProfession))
+                else if (CustomProfession.Loaded.TryGetValue(pid, out var customProfession) ||
+                         CustomProfession.Loaded.TryGetValue(pid - 100, out customProfession))
                 {
                     professions.Add(customProfession);
                 }

@@ -27,13 +27,13 @@ internal sealed class SlimeHutchPerformToolActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool SlimeHutchPerformToolActionPrefix(SlimeHutch __instance, ref bool __result, Tool t, int tileX, int tileY)
     {
+        if (__instance.waterSpots.Length != 6)
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (__instance.waterSpots.Length != 6)
-            {
-                return true; // run original logic
-            }
-
             if (t is WateringCan && tileX == 16 && tileY.IsIn(5..10))
             {
                 __instance.waterSpots[tileY - 5] = true;

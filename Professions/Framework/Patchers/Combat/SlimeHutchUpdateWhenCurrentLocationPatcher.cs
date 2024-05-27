@@ -27,13 +27,13 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
     [HarmonyPrefix]
     private static bool SlimeHutchUpdateWhenCurrentLocationPostfix(SlimeHutch __instance, GameTime time)
     {
+        if (!__instance.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper, true))
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (!__instance.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper, true))
-            {
-                return true; // run original logic
-            }
-
             GameLocationUpdateWhenCurrentLocationPatcher.GameLocationUpdateWhenCurrentLocationReverse(
                 __instance,
                 time);

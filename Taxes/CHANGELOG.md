@@ -1,5 +1,12 @@
 ﻿# TAXES Changelog
 
+## 1.0.1
+
+### Added
+
+* Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
+
+
 ## 1.0.0 - Initial 1.6 release
 
 ### Fixed

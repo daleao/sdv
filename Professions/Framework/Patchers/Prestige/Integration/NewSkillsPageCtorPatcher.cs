@@ -70,7 +70,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
 
             if (maxLength > 0)
             {
-                var addedWidth = (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE + 12;
+                var addedWidth = ((maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE) + 12;
                 __instance.width += addedWidth;
                 ___upButton.bounds.X += addedWidth;
                 ___downButton.bounds.X += addedWidth;
@@ -86,7 +86,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
         }
 
         var sourceRect = new Rectangle(16, 0, 14, 9);
-        var skills = Skills.GetSkillList();
+        var skills = SCSkills.GetSkillList();
         foreach (var component in __instance.skillBars)
         {
             int skillIndex, skillLevel;

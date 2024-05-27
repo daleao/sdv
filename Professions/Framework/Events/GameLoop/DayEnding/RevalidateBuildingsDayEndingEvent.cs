@@ -51,26 +51,32 @@ internal sealed class RevalidateBuildingsDayEndingEvent(EventManager? manager = 
             switch (indoors)
             {
                 case AnimalHouse barn when barn.Name.Contains("Barn"):
-                    if (areThereAnyPrestigedBreeders && barn.animalLimit.Value == 12)
+                    switch (areThereAnyPrestigedBreeders)
                     {
-                        barn.animalLimit.Value = 14;
-                        if (barn.Objects.TryGetValue(new Vector2(6, 3), out var hopper))
+                        case true when barn.animalLimit.Value == 12:
                         {
-                            barn.Objects.Remove(hopper.TileLocation);
-                            hopper.TileLocation = new Vector2(4, 3);
-                            barn.Objects[hopper.TileLocation] = hopper;
-                        }
-                    }
-                    else if (!areThereAnyPrestigedBreeders && barn.animalLimit.Value == 14)
-                    {
-                        barn.animalLimit.Value = 12;
-                        {
-                            if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
+                            barn.animalLimit.Value = 14;
+                            if (barn.Objects.TryGetValue(new Vector2(6, 3), out var hopper))
                             {
                                 barn.Objects.Remove(hopper.TileLocation);
-                                hopper.TileLocation = new Vector2(6, 3);
+                                hopper.TileLocation = new Vector2(4, 3);
                                 barn.Objects[hopper.TileLocation] = hopper;
                             }
+
+                            break;
+                        }
+                        case false when barn.animalLimit.Value == 14:
+                        {
+                            barn.animalLimit.Value = 12;
+                            {
+                                if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
+                                {
+                                    barn.Objects.Remove(hopper.TileLocation);
+                                    hopper.TileLocation = new Vector2(6, 3);
+                                    barn.Objects[hopper.TileLocation] = hopper;
+                                }
+                            }
+                            break;
                         }
                     }
 

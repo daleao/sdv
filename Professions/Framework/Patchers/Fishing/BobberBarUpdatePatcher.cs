@@ -39,9 +39,8 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
 
         Utility.ForEachBuilding(b =>
         {
-            if (b is not FishPond pond || !pond.HasUnlockedFinalPopulationGate() ||
-                pond.fishType.Value != __instance.whichFish ||
-                pond.currentOccupants.Value < pond.maxOccupants.Value)
+            if (b is not FishPond pond || pond.fishType.Value != __instance.whichFish ||
+                !pond.HasUnlockedFinalPopulationGate() || pond.currentOccupants.Value < pond.maxOccupants.Value)
             {
                 return true;
             }

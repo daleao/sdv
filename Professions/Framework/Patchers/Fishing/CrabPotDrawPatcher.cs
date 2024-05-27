@@ -32,19 +32,18 @@ internal sealed class CrabPotDrawPatcher : HarmonyPatcher
     private static bool CrabPotDrawPrefix(
         CrabPot __instance, Vector2 ___shake, ref float ___yBob, SpriteBatch spriteBatch, int x, int y)
     {
+        if (__instance.Location is not { } location)
+        {
+            return false; // don't run original logic
+        }
+
+        if (!__instance.readyForHarvest.Value || __instance.heldObject.Value?.ItemId is not ("14" or "51"))
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            var location = __instance.Location;
-            if (location is null)
-            {
-                return false; // don't run original logic
-            }
-
-            if (!__instance.readyForHarvest.Value || __instance.heldObject.Value?.ItemId is not ("14" or "51"))
-            {
-                return true; // run original logic
-            }
-
             __instance.tileIndexToShow = 714;
             ___yBob = (float)((Math.Sin((Game1.currentGameTime.TotalGameTime.TotalMilliseconds / 500d) + (x * 64)) *
                                8d) + 8d);

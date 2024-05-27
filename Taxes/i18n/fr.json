@@ -1,0 +1,61 @@
+{
+  // mail
+  "mail.frs.intro": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Cette lettre a pour but de vous informer que votre récent changement d'adresse à Pélicanville, Vallée des rosées, a été enregistré. Toute future correspondance sera adressée à la ferme {{farm}}.^^Nous vous rappelons aimablement que les contributions fédérales à l'impôt sur le revenu sont dues à la fin de la journée du 1er de chaque saison. Pour votre commodité, vos obligations dues seront automatiquement déduites de votre solde. Si votre solde est insuffisant, vous serez sanctionné conformément à la section 501(c)(1) du Code des recettes de Ferngill au taux de {{fine}}, et un prêt sera émis en votre nom auprès de la Banque de Stardew, soumis à des frais d'intérêt nominaux de {{interest}} par an.^^^Cordialement,^^Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques[#]Confirmation de changement d'adresse",
+  "mail.frs.notice": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Cette lettre a pour but de vous informer que votre impôt sur le revenu total dû pour la saison en cours, d'un montant de {{due}} po, a été automatiquement déduit de votre solde.^^Veuillez conserver cette lettre dans vos archives au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques[#]Avis mensuel du SRF",
+  "mail.frs.outstanding": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Cette lettre a pour but de vous informer que votre impôt sur le revenu total dû pour la saison en cours, d'un montant de {{due}} po, n'a pas pu être entièrement déduit de votre solde. Conformément à la section 501(c)(1) du Code des recettes de Ferngill, vous serez sanctionné d'un montant supplémentaire de {{fine}}, et tous les revenus futurs de la ferme {{farm}} seront ponctionnés jusqu'à ce que votre dette en cours, totalisant {{outstanding}} po, soit complètement réglée. Veuillez garder à l'esprit qu'il est dans votre intérêt de régler toute dette en cours dès que possible afin d'éviter l'accumulation d'intérêts au taux de {{interest}} par an.^^Veuillez conserver cette lettre dans vos archives au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques[#]Avis mensuel du SRF",
+  "mail.frs.deduction": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous sommes heureux de vous informer que, après examen de vos activités environnementalistes, nous avons déterminé que vous êtes éligible à une déduction fiscale de {{deductible}} conformément à la section 501(c)(3) du Code des recettes de Ferngill.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques[#]Avis de déduction du SRF",
+  "mail.frs.deduction.max": "Direction Générale des Finances Publiques de Ferngill^^^{{honorific}} @,^^Nous sommes heureux de vous informer que, après examen de vos activités environnementalistes, nous avons déterminé que vous êtes exonéré de l'impôt fédéral sur le revenu conformément à la section 501(c)(3) du Code des recettes de Ferngill. En conséquence, aucun prélèvement ne sera effectué sur votre solde pour la saison en cours.^^Veuillez conserver cette lettre dans vos dossiers permanents au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice exécutive, Direction Générale des Finances Publiques[#]Avis de déduction du FRS",
+  "mail.lewis.intro": "@,^Bienvenue à Pélican Ville! J'espère que tu t’installes bien dans ta nouvelle maison. Juste un petit rappel amical : en tant que nouveau propriétaire de {{farm}}, tu es responsable des taxes foncières de la ferme. Chaque année, la région effectue une évaluation de la valeur d'utilisation (ÉVU) des terres agricoles locales, ce qui signifie que les taxes sont calculées en fonction de l'utilisation de la propriété pour l'agriculture ; en d'autres termes, les terres non utilisées seront généralement taxées *plus* que les terres activement utilisées, alors il vaut mieux commencer à déblayer ces débris !^^Ton défunt grand-père s'est occupé de toutes les taxes, y compris celles de l'année dernière, donc tu n'as rien à craindre jusqu'à l'année prochaine. J'ai également envoyé un paquet de démarrage qui, j'espère, t’aidera à t’installer. J'ai hâte de te voir prospérer ! ^ Cordialement, M. Lewis[#]Avis de taxe foncière municipale\n",
+  "mail.lewis.notice": "@,^Comme tu le sais, l'une de mes tâches en tant que maire de Pélican Ville est de lever des taxes sur toutes les propriétés de la ville. Au cours de l'année fiscale précédente, l'évaluation de la région sur la propriété de la ferme {{farm}} a déterminé une évaluation ÉVU de {{valuation}} po. En conséquence, tu es redevable de {{due}} po au titre des taxes foncières totales pour la période fiscale applicable. J'ai pris la liberté de débiter directement ton compte. ^Au nom de Pélican Ville, je suis profondément reconnaissant pour tes contributions continues à notre communauté. ^ Cordialement, M. Lewis[#]Avis de taxe foncière municipale",
+  "mail.lewis.outstanding": "@,^Comme tu le sais, l'une de mes tâches en tant que maire de Pélican Ville est de lever des taxes sur toutes les propriétés de la ville. Au cours de l'année fiscale précédente, l'évaluation de la région sur la propriété de la ferme {{farm}} a déterminé une évaluation ÉVU de {{valuation}} po. En conséquence, tu es redevable de {{due}} po au titre des taxes foncières totales pour la période fiscale applicable. ^Malheureusement, ton compte n'a pas suffisamment de fonds pour couvrir la totalité du montant. Conformément à la politique de la région, je ne prends aucun plaisir à t’informer que tu seras sanctionné d'un montant supplémentaire de {{fine}}. La totalité de ta dette, totalisant {{outstanding}} po, sera vendue à la Banque de Stardew, qui est autorisée à saisir tous les revenus d'expédition jusqu'à ce que le montant dû soit intégralement payé, avec un taux d'intérêt annuel de {{interest}}. ^Sache que les habitants de Pélican Ville sont là pour te soutenir si tu traverses des moments difficiles. ^ Cordialement, M. Lewis[#]Avis de taxe foncière municipale",
+
+  // other
+  "hud.debt.debit": "Votre solde a été débité de {{amount}} po pour des dettes impayées.",
+  "honorific.male": "Monsieur",
+  "honorific.female": "Madame",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  // income
+  "gmcm.sections.txs.income": "Impôt sur le revenu",
+  "gmcm.tax_rate_per_income_bracket.title": "Taux d'imposition par tranche de revenu",
+  "gmcm.tax_rate_per_income_bracket.desc": "Les taux d'imposition appliqués à chaque tranche de revenu. Dans chaque paire, le premier nombre représente le plafond de revenu pour cette tranche et le second nombre représente le pourcentage imposable des revenus dans cette tranche.",
+  "gmcm.income_bracket.title": "Tranche",
+  "gmcm.income_bracket.desc": "Le plafond de revenu pour cette tranche. Tous les revenus entre la tranche précédente et ce nombre seront taxés au taux d'imposition correspondant.",
+  "gmcm.tax_rate.title": "Taux",
+  "gmcm.tax_rate.desc": "Le pourcentage imposable des revenus dans cette tranche.",
+  "gmcm.income_tax_lateness_fine.title": "Amende pour retard",
+  "gmcm.income_tax_lateness_fine.desc": "Un taux de pénalité unique appliqué sur le montant impayé lorsque les impôts sur le revenu ne sont pas payés à temps.",
+  "gmcm.deductible_animal_expenses.title": "Dépenses déductibles (animaux)",
+  "gmcm.deductible_animal_expenses.desc": "Quel pourcentage de l'or dépensé pour l'achat d'animaux et de fournitures doit être déductible des impôts.",
+  "gmcm.deductible_building_expenses.title": "Dépenses déductibles (bâtiments)",
+  "gmcm.deductible_building_expenses.desc": "Quel pourcentage de l'or dépensé pour la construction de bâtiments de ferme doit être déductible des impôts.",
+  "gmcm.deductible_seed_expenses.title": "Dépenses déductibles (graines)",
+  "gmcm.deductible_seed_expenses.desc": "Quel pourcentage de l'or dépensé pour l'achat de semences doit être déductible des impôts.",
+  "gmcm.deductible_tool_expenses.title": "Dépenses déductibles (outils)",
+  "gmcm.deductible_tool_expenses.desc": "Quel pourcentage de l'or dépensé pour l'achat d’amélioration d’outils doit être déductible des impôts.",
+  "gmcm.deductible_extras.title": "Dépenses déductibles (autres)",
+  "gmcm.deductible_extras.desc": "Quel pourcentage de l'or dépensé pour l'objet spécifique doit être déductible des impôts. Les objets doivent être ajoutés manuellement à cette liste.",
+  "gmcm.deductible_extras.label.key": "Nom de l'objet",
+  "gmcm.deductible_extras.label.value": "% déductible",
+
+  // property
+  "gmcm.sections.txs.property": "Impôt foncier",
+  "gmcm.property_tax_lateness_fine.title": "Amende pour retard",
+  "gmcm.property_tax_lateness_fine.desc": "Un taux de pénalité unique appliqué sur le montant impayé lorsque les impôts fonciers ne sont pas payés à temps.",
+  "gmcm.unused_tile_tax_rate.title": "Taux d'imposition (inactivité)",
+  "gmcm.unused_tile_tax_rate.desc": "Le taux d'imposition appliqué sur une parcelle non utilisée de manière productive.",
+  "gmcm.used_tile_tax_rate.title": "Taux d'imposition (activité)",
+  "gmcm.used_tile_tax_rate.desc": "Le taux d'imposition appliqué sur une parcelle utilisée activement pour l'agriculture, l'élevage ou la sylviculture.",
+  "gmcm.building_tax_rate.title": "Taux d'imposition (bâtiments)",
+  "gmcm.building_tax_rate.desc": "Le taux d'imposition appliqué sur une parcelle occupée par un bâtiment construit.",
+  "gmcm.exempt_magical_buildings.title": "Exempter les bâtiments magiques",
+  "gmcm.exempt_magical_buildings.desc": "Indique si les bâtiments magiques (c'est-à-dire ceux invoqués à la Tour du Sorcier) sont exonérés d'impôts fonciers.",
+
+  // other
+  "gmcm.annual_interest.title": "Intérêt annuel",
+  "gmcm.annual_interest.desc": "Le taux d'intérêt appliqué annuellement sur toute dette impayée. Les intérêts sont accumulés quotidiennement à un taux de 1/112 du taux annuel."
+}

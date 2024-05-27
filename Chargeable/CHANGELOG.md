@@ -1,5 +1,12 @@
 ﻿# CHARGEABLE Changelog
 
+## 1.0.2
+
+### Added
+
+* Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
+
+
 ## 1.0.1
 
 ### Fixed

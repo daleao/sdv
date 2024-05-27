@@ -27,15 +27,14 @@ internal sealed class NpcWithinPlayerThresholdPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool NPCWithinPlayerThresholdPrefix(NPC __instance, ref bool __result)
     {
+        if (__instance is not Monster { IsMonster: true } monster)
+        {
+            return true; // run original method
+        }
+
         try
         {
-            if (__instance is not Monster { IsMonster: true } monster)
-            {
-                return true; // run original method
-            }
-
-            var player = monster.Get_Target();
-            if (!player.IsAmbushing())
+            if (!monster.Get_Target().IsAmbushing())
             {
                 return true; // run original method
             }

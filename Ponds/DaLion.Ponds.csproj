@@ -110,8 +110,5 @@
     <EmbeddedResource Remove="resources\**" />
     <None Remove="resources\**" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="i18n\" />
-  </ItemGroup>
 
 </Project>

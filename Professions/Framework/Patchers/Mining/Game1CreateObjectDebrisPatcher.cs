@@ -30,20 +30,20 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
     private static bool Game1CreateObjectDebrisPrefix(
         string id, int xTile, int yTile, long whichPlayer, GameLocation location)
     {
+        var who = Game1.getFarmer(whichPlayer);
+        if (!who.HasProfession(Profession.Gemologist))
+        {
+            return true; // run original logic
+        }
+
+        var debris = ItemRegistry.Create(id);
+        if (!debris.IsGemOrMineral())
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            var who = Game1.getFarmer(whichPlayer);
-            if (!who.HasProfession(Profession.Gemologist))
-            {
-                return true; // run original logic
-            }
-
-            var debris = ItemRegistry.Create(id);
-            if (!debris.IsGemOrMineral())
-            {
-                return true; // run original logic
-            }
-
             Data.AppendToGemologistMineralsCollected(debris.ItemId, who);
             location.debris.Add(new Debris(
                 id,

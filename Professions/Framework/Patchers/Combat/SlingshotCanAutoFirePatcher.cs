@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Reflection;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -29,22 +28,13 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     [HarmonyBefore("DaLion.Combat")]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
-        try
+        if (!__instance.lastUser.IsLocalPlayer)
         {
-            var user = __instance.lastUser;
-            if (!user.IsLocalPlayer)
-            {
-                return true; // run original logic
-            }
+            return true; // run original logic
+        }
 
-            __result = State.LimitBreak is DesperadoBlossom { IsActive: true };
-            return !__result;
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
-        }
+        __result = State.LimitBreak is DesperadoBlossom { IsActive: true };
+        return !__result;
     }
 
     #endregion harmony patches

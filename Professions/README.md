@@ -943,10 +943,22 @@ No, it does not work on Android.
 
 ## Credit & Special Thanks
 
+Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
 - [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303)﻿ and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660)﻿.
+- [Gravity](https://ro.gnjoy.com/index.asp) ﻿for sound effects and skill icons.
+
+Credits to the following code contributors:
 - [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303)﻿ for [Slime Produce﻿](https://www.nexusmods.com/stardewvalley/mods/7634).
-- [Enai Siaion](https://www.nexusmods.com/skyrimspecialedition/users/3959191) and [ReaperAnon](https://www.nexusmods.com/witcher3/users/54536917) for inspiration.
+
+Credits to the following translators:
+- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://i.imgur.com/Jvsm5YJ.png) [twinklesky6](https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303) for Korean.
+- ![](https://i.imgur.com/zuQC9Di.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.
+
+Special thanks to the following visionaries:
+- [Enai Siaion](https://www.nexusmods.com/skyrimspecialedition/users/3959191) for [Ordinator](https://www.nexusmods.com/skyrimspecialedition/mods/1137)
+- [ReaperAnon](https://www.nexusmods.com/witcher3/users/54536917) and [Kolaris](https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952) for [W3EE](https://www.nexusmods.com/witcher3/mods/5802).
 - [Gravity](https://ro.gnjoy.com/index.asp) ﻿for my childhood.
 
 
@@ -979,8 +991,6 @@ The module exposes an API to facilitate integration with other mods. Currently e
 To consume the API, copy the [API interface](IProfessionsApi.cs) to your project and [ask SMAPI for a proxy][wiki:integrations-api]. Remove any methods you do not need to improve compatibility.
 
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
-
-
 
 
 ## F.A.Q.

@@ -74,8 +74,8 @@ internal sealed class SetCommand(CommandHandler handler)
         }
 
         var customSkill = CustomSkill.Loaded.Values.FirstOrDefault(s =>
-            s.StringId.ToLower().Contains(value.ToLowerInvariant()) ||
-            s.DisplayName.ToLower().Contains(value.ToLowerInvariant()));
+            s.StringId.ToLower().Contains(key.ToLowerInvariant()) ||
+            s.DisplayName.ToLower().Contains(key.ToLowerInvariant()));
         if (customSkill is not null && int.TryParse(value, out level))
         {
             customSkill.SetLevel(level);
@@ -428,7 +428,7 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        if (value is not "686" or "687" or "691" or "692" or "693" or "694" or "695" or "856" or "877" or "SonarBobber")
+        if (value is not ("686" or "687" or "691" or "692" or "693" or "694" or "695" or "856" or "877" or "SonarBobber"))
         {
             this.Handler.Log.W($"{value} is not a valid tackle ID.");
             return;
@@ -436,7 +436,7 @@ internal sealed class SetCommand(CommandHandler handler)
 
         if (!string.IsNullOrEmpty(Data.Read(rod, DataKeys.FirstMemorizedTackle)))
         {
-            if (rod.AttachmentSlotsCount > 2 && !string.IsNullOrEmpty(Data.Read(rod, DataKeys.SecondMemorizedTackle)))
+            if (rod.AttachmentSlotsCount > 2)
             {
                 Data.Write(rod, DataKeys.SecondMemorizedTackle, value);
                 Data.Write(rod, DataKeys.SecondMemorizedTackleUses, (FishingRod.maxTackleUses / 2).ToString());

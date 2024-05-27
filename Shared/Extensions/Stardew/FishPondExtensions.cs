@@ -17,7 +17,7 @@ public static class FishPondExtensions
     public static bool HasUnlockedFinalPopulationGate(this FishPond pond)
     {
         var data = pond.GetFishPondData();
-        return data.PopulationGates is null ||
-               pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max();
+        return data is not null && (data.PopulationGates is null ||
+               pond.lastUnlockedPopulationGate.Value >= data.PopulationGates.Keys.Max());
     }
 }

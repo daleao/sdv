@@ -39,6 +39,23 @@ internal sealed class SpaceCoreIntegration()
         return anyLoaded;
     }
 
+    /// <summary>Gets SpaceCore's internal list of unrealized new levels.</summary>
+    /// <returns>A <see cref="List{T}"/> of <see cref="KeyValuePair"/>s with <see cref="SCSkill"/> ID <see cref="string"/> keys and <see cref="int"/> level values.</returns>
+    internal List<KeyValuePair<string, int>> GetNewLevels()
+    {
+        return Reflector
+            .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
+            .Invoke();
+    }
+
+    /// <summary>Sets SpaceCore's internal list of unrealized new levels.</summary>
+    internal void SetNewLevels(List<KeyValuePair<string, int>> newLevels)
+    {
+        Reflector
+            .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
+            .Invoke(newLevels);
+    }
+
     /// <inheritdoc />
     protected override bool RegisterImpl()
     {

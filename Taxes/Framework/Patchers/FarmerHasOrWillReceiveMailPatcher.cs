@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -25,21 +24,13 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
     {
-        try
+        if (!id.Contains(UniqueId))
         {
-            if (!id.Contains(UniqueId))
-            {
-                return true; // run original logic
-            }
+            return true; // run original logic
+        }
 
-            __result = true;
-            return false; // don't run original logic
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
-        }
+        __result = true;
+        return false; // don't run original logic
     }
 
     #endregion harmony patches

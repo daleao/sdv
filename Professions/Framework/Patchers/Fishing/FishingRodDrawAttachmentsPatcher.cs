@@ -31,30 +31,80 @@ internal sealed class FishingRodDrawAttachmentsPatcher : HarmonyPatcher
         ref int x,
         ref int y)
     {
-        if (__instance is not FishingRod { UpgradeLevel: > 2, numAttachmentSlots.Value: > 1 } rod)
+        if (__instance is not FishingRod rod || !rod.CanUseTackle() || !Game1.player.HasProfession(Profession.Angler))
         {
             return;
         }
 
+        Item memorized;
+        float transparency;
         var memorizedTackle = Data.Read(rod, DataKeys.FirstMemorizedTackle);
+        var pixel = new Vector2(x, y);
+        b.Draw(
+            Game1.menuTexture,
+            pixel,
+            Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 57),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            1f,
+            SpriteEffects.None,
+            0.86f);
         if (!string.IsNullOrEmpty(memorizedTackle))
         {
-            var memorized = ItemRegistry.Create<SObject>(memorizedTackle);
-            var transparency = 2f * Data.ReadAs<float>(rod, DataKeys.FirstMemorizedTackleUses) / FishingRod.maxTackleUses;
-            memorized.drawInMenu(b, new Vector2(x + 68, y + 68), 1f, transparency, 0.9f);
+            memorized = ItemRegistry.Create<SObject>(memorizedTackle);
+            transparency = 2f * Data.ReadAs<float>(rod, DataKeys.FirstMemorizedTackleUses) / FishingRod.maxTackleUses;
+            memorized.drawInMenu(b, pixel, 1f, transparency, 0.9f);
+        }
+        else
+        {
+            b.Draw(
+                Game1.menuTexture,
+                pixel,
+                Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 37),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0.86f);
         }
 
-        if (rod.AttachmentSlotsCount < 3)
+        if (rod.AttachmentSlotsCount <= 2 || !Game1.player.HasProfession(Profession.Angler, true))
         {
             return;
         }
 
         memorizedTackle = Data.Read(rod, DataKeys.SecondMemorizedTackle);
+        pixel.X += 68;
+        b.Draw(
+            Game1.menuTexture,
+            pixel,
+            Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 57),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            1f,
+            SpriteEffects.None,
+            0.86f);
         if (!string.IsNullOrEmpty(memorizedTackle))
         {
-            var memorized = ItemRegistry.Create<SObject>(memorizedTackle);
-            var transparency = 2f * Data.ReadAs<float>(rod, DataKeys.SecondMemorizedTackleUses) / FishingRod.maxTackleUses;
-            memorized.drawInMenu(b, new Vector2(x + 68, y + 136), 1f, transparency, 0.9f);
+            memorized = ItemRegistry.Create<SObject>(memorizedTackle);
+            transparency = 2f * Data.ReadAs<float>(rod, DataKeys.SecondMemorizedTackleUses) / FishingRod.maxTackleUses;
+            memorized.drawInMenu(b, new Vector2(x + 68, y), 1f, transparency, 0.9f);
+        }
+        else
+        {
+            b.Draw(
+                Game1.menuTexture,
+                pixel,
+                Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 37),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                1f,
+                SpriteEffects.None,
+                0.86f);
         }
     }
 

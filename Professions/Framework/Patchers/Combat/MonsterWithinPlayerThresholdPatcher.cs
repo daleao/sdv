@@ -27,13 +27,13 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool MonsterWithinPlayerThresholdPrefix(Monster __instance, ref bool __result)
     {
+        if (__instance is Ghost)
+        {
+            return true; // run original logic
+        }
+
         try
         {
-            if (__instance is Ghost)
-            {
-                return true; // run original logic
-            }
-
             if (!__instance.Get_Target().IsAmbushing())
             {
                 return true; // run original method
