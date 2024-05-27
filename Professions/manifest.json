@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Professions",
   "Name": "Walk Of Life - Rebirth",
   "Author": "DaLion",
-  "Version": "0.2.3",
+  "Version": "0.2.4",
   "Description": "An extensive overhaul of Stardew Valley profession trees and skill progression systems.",
   "EntryDll": "DaLion.Professions.dll",
   "Dependencies": [

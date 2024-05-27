@@ -7,7 +7,7 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Professions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>0.2.3</Version>
+    <Version>0.2.4</Version>
     <GameVersion>1.6</GameVersion>
     <SmapiVersion>4.0</SmapiVersion>
 

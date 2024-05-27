@@ -1,10 +1,20 @@
 ﻿# PRFS Changelog
 
-## 0.2.3
+## 0.2.4
+
+### Fixed
+
+* Fixed possible Null-Ref exception in MineShaftCheckStoneForItemsPatcher.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
+## 0.2.3 
 
 ### Fixed
 
 * Fixed max-sized fish not being counted correctly.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 0.2.2
 
@@ -21,24 +31,27 @@
 
 * Fixed various issues with custom skills.
 
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 0.2.1
 
 ### Fixed
 
 * Fixed possible crash when selecting Prestiged Harvester profession.
-* Fixed possible OutOfRange exception in FarmerCurrentToolSetterPostfix.
-* Fixed possible Null-Ref exception in MonsterFindPlayerPrefix.
+* Fixed possible Out-Of-Range exception in FarmerCurrentToolSetterPatcher.
+* Fixed possible Null-Ref exception in MonsterFindPlayerPatcher.
 
 ### Changed
 
 * Changed Sewer Statue logic to be more compatible with different configurations of Skill Reset / Prestige / Limit Break.
 
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 0.2.0 - Beta release for 1.6
 
 * No changes.
 
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 0.1.1
 
@@ -50,6 +63,7 @@
 
 * Fixed player not gaining experience.
 
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 
 ## 0.1.0 - Alpha release for 1.6
 
