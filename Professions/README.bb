@@ -321,7 +321,7 @@ Yes, it should work in multiplayer.
 No, it does not work on Android.
 
 
-[font=bebas_neuebook][size=6]Credit & Special Thanks[/size][/font]
+[font=bebas_neuebook][size=6]Credits & Special Thanks[/size][/font]
 
 Credits to the following asset contributors:[list]
 [*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
