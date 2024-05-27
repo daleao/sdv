@@ -1,5 +1,17 @@
 ﻿# PRFS Changelog
 
+## 0.2.5
+
+### Changed
+
+* Updated Chinese translations.
+
+### Fixed
+
+* Fixed issue preventing location interactions introduced in 0.2.3.
+
+<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+
 ## 0.2.4
 
 ### Fixed

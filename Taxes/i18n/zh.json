@@ -1,0 +1,61 @@
+﻿{
+  // mail
+  "mail.frs.intro": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^此信是为了通知您，您迁往星露谷鹈鹕镇的新地址已经记录在案。自此，所有后续通信将发送至您的{{farm}}农场。^^我们温馨提醒您，联邦所得税的缴纳截止日期为每个季节的第一天晚上。为了方便，您应缴纳的税款将自动从您的余额中扣除。如果您的余额不足，您将根据芬吉尔税法第501(c)(1)条被罚款{{fine}}，并且将以您的名义在星露谷银行发出贷款，年利率为{{interest}}。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]地址变更确认",
+  "mail.frs.notice": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^此信是为了通知您，您上个季节末应缴纳的总收入税{{due}}g已经自动从您的余额中扣除。^^请将此信保存在您的永久记录中，以便在需要解决有关您财务状况的任何问题时参考。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]FRS每月通知",
+  "mail.frs.outstanding": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^此信是为了通知您，您上一季应缴的所得税总额{{due}}g未能从您的账户余额中全额扣除。根据芬吉尔税法第501(c)(1)条，您需额外支付{{fine}}罚款，并且直至您的未清债务总额{{outstanding}}g完全结清为止，{{farm}}农场的所有未来收入都将被征收。请注意，尽快清偿未清债务以避免按{{interest}}年利率累积利息，这对您最为有利^^请将此信保存在您的永久记录中，以便在需要解决有关您财务状况的任何问题时参考。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]FRS每月通知",
+  "mail.frs.deduction": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^经审查您的环保活动，我们高兴地通知您，根据芬吉尔税法第501(c)(3)条，您被免除联邦所得税。^^请将此信保存在您的永久记录中，以便在需要解决有关您财务状况的任何问题时参考。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]FRS减免通知",
+  "mail.frs.deduction.max": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^经审查您的环保活动，我们高兴地通知您，，我们确定您根据芬吉尔税法第501(c)(3)条免于联邦所得税。因此，对于结束的季节，您的账户将不会有任何费用。^^请将此信保存在您的永久记录中，以便在需要解决有关您财务状况的任何问题时参考。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]FRS减免通知",
+  "mail.lewis.intro": "@,^欢迎来到鹈鹕镇！希望您在新家安顿顺利。友情提醒：作为{{farm}}的新主人，您需要负责农场的财产税。每年，县政府都会对当地农田进行使用价值评估（UVA），这意味着税收将根据土地的农业用途来计算；换言之，未耕种的土地通常会比积极耕种的土地被征收更高的税费，所以您最好开始清理那些杂物！^^您已故的祖父已经结清了包括去年在内的所有税费，所以直到明年您都无需担心。我还寄送了一个启动包，希望能助您一臂之力。期待见证您的蓬勃发展！^  此致，刘易斯先生[#]市政财产税通知",
+  "mail.lewis.notice": "@,^正如您所知，作为鹈鹕镇镇长，我的职责之一是对镇上的所有财产征税。上一财政年度，{{farm}}农场的财产经过县政府评估，使用价值评估（UVA）的估值为{{valuation}}g。因此，您需要为相应的税收周期缴纳总计{{due}}g的财产税。我已经直接从您的账户扣除了这笔费用。^我代表鹈鹕镇，衷心感谢您对我们社区的持续贡献。^  此致，刘易斯先生[#]市政财产税通知",
+  "mail.lewis.outstanding": "@,^正如您所知，作为鹈鹕镇镇长，我的职责之一是对镇上的所有财产征税。上一财政年度，{{farm}}农场的财产经过县政府评估，使用价值评估（UVA）的估值为{{valuation}}g。因此，您需要为相应的税收周期缴纳总计{{due}}g的财产税。^遗憾的是，您的账户余额不足以支付全部金额。根据县政策，我很遗憾地通知您，您将被额外罚款{{fine}}。您的全部债务，总计{{outstanding}}g，将被出售给星露谷银行，该银行有权在未偿金额全额支付之前，扣押您所有的运输收入，并按{{interest}}的年利率计算利息。^如果您遇到困难，鹈鹕镇的村民会在这里支持您。^  此致，刘易斯先生[#]市政财产税通知",
+
+  // other
+  "hud.debt.debit": "您的账户因未清偿债务被借记了{{amount}}g。",
+  "honorific.male": "尊敬的",
+  "honorific.female": "尊敬的",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  // income
+  "gmcm.sections.txs.income": "所得税",
+  "gmcm.tax_rate_per_income_bracket.title": "收入区间税率",
+  "gmcm.tax_rate_per_income_bracket.desc": "每个收入区间适用的税率。在每一对数字中，第一个数字表示该区间的收入上限，第二个数字表示该区间内收入的应税比率。",
+  "gmcm.income_bracket.title": "收入上限",
+  "gmcm.income_bracket.desc": "此区间的收入上限。介于前一区间和此数值之间的所有收入将按照相应的税率征税。",
+  "gmcm.tax_rate.title": "税率",
+  "gmcm.tax_rate.desc": "该区间内收入的应税比率。",
+  "gmcm.income_tax_lateness_fine.title": "逾期罚款",
+  "gmcm.income_tax_lateness_fine.desc": "当所得税未按时支付时，对未付金额征收的一次性罚款比率。",
+  "gmcm.deductible_animal_expenses.title": "动物相关费用扣除",
+  "gmcm.deductible_animal_expenses.desc": "用于动物购买和维护的金币中，可以有多少百分比作为税前扣除。",
+  "gmcm.deductible_building_expenses.title": "建筑相关费用扣除",
+  "gmcm.deductible_building_expenses.desc": "用于农场建筑建造的金币中，可以有多少百分比作为税前扣除。",
+  "gmcm.deductible_seed_expenses.title": "种子相关费用扣除",
+  "gmcm.deductible_seed_expenses.desc": "用于种子购买的金币中，可以有多少百分比作为税前扣除。",
+  "gmcm.deductible_tool_expenses.title": "工具相关费用扣除",
+  "gmcm.deductible_tool_expenses.desc": "用于工具购买和升级的金币中，可以有多少百分比作为税前扣除。",
+  "gmcm.deductible_extras.title": "其他可扣除项目",
+  "gmcm.deductible_extras.desc": "用于特定项目的金币中，可以有多少百分比作为税前扣除。要应用此列表，项目必须手动添加。",
+  "gmcm.deductible_extras.label.key": "物品名称",
+  "gmcm.deductible_extras.label.value": "扣除百分比",
+
+  // property
+  "gmcm.sections.txs.property": "财产税",
+  "gmcm.property_tax_lateness_fine.title": "逾期罚款",
+  "gmcm.property_tax_lateness_fine.desc": "未按时缴纳财产税时，对未付金额一次性征收的罚款税率。",
+  "gmcm.unused_tile_tax_rate.title": "未利用地块税率",
+  "gmcm.unused_tile_tax_rate.desc": "对未被积极用于生产目的的地块征收的税率。",
+  "gmcm.used_tile_tax_rate.title": "已利用地块税率",
+  "gmcm.used_tile_tax_rate.desc": "对积极用于农业、畜牧业或林业的地块征收的税率。",
+  "gmcm.building_tax_rate.title": "建筑地块税率",
+  "gmcm.building_tax_rate.desc": "对被建筑占据的地块征收的税率（魔法建筑是...",
+  "gmcm.exempt_magical_buildings.title": "魔法建筑免税",
+  "gmcm.exempt_magical_buildings.desc": "是否对魔法建筑（即在巫师塔召唤的那些）免征财产税。",
+
+  // other
+  "gmcm.annual_interest.title": "年利率",
+  "gmcm.annual_interest.desc": "对任何未偿债务每年征收的利率。利息按年利率的1/112的日利率累积。"
+}

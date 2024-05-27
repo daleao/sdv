@@ -25,7 +25,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to change Statue of Uncertainty into Statue of Masteries.</summary>
+    /// <summary>Patch to change Statue of Uncertainty into Statue of Transcendance.</summary>
     [HarmonyPrefix]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string[] action, Farmer who, Location tileLocation)
     {
@@ -58,7 +58,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
             if (!actionType.Contains("DogStatue"))
             {
-                return false; // don't run original logic
+                return true; // run original logic
             }
 
             string message;
