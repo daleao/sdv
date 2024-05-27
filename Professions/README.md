@@ -941,7 +941,7 @@ No, it does not work on Android.
 <sup><sup>[🔼 Back to top](#professions-prfs)</sup></sup>
 
 
-## Credit & Special Thanks
+## Credits & Special Thanks
 
 Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
