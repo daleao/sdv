@@ -32,6 +32,12 @@ internal sealed class ToolDrawAttachmentsPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
+        if (__instance.AttachmentSlotsCount != __instance.attachments.Length)
+        {
+            Log.W("The slingshot instance's attachments slots are corrupted. Please run the console command `prfs fix_slingshots` to resolve.");
+            return false; // don't run original logic
+        }
+
         y += __instance.enchantments.Any() ? 8 : 4;
         var pixel = new Vector2(x, y);
         for (var slot = 0; slot < __instance.AttachmentSlotsCount; slot++)

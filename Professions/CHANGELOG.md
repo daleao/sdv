@@ -2,6 +2,10 @@
 
 ## 0.2.6
 
+### Added
+
+* Fisher profession now also applies to the bonus bobber bar height granted by Deluxe Bait.
+
 ### Changed
 
 * Profession tooltips in the Skills Page now display and properly wrap the entire tooltip text, instead of truncating at 90 characters.
@@ -10,6 +14,7 @@
 
 * Fixed a possible Out-Of-Range exception in SkillsPageCtorPatcher
 * Added a failsafe that should prevent errors with Luck Skill. But note that Luck Skill is **not** officially supported, and will not be.
+* Fixed an issue where farmhand slingshots would not update to the correct number of attachment slots. Added the console command `prfs fix_slingshots` as a workaround for existing saves with this issue.
 
 <sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
 

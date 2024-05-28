@@ -373,9 +373,17 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Rascal).Then(() =>
             {
-                if (who.CurrentTool is Slingshot { AttachmentSlotsCount: 1 } slingshot)
+                for (var i = 0; i < who.Items.Count; i++)
                 {
-                    slingshot.AttachmentSlotsCount = 2;
+                    var item = who.Items[i];
+                    if (item is not Slingshot slingshot)
+                    {
+                        continue;
+                    }
+
+                    var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+                    replacement.AttachmentSlotsCount = 2;
+                    who.Items[i] = replacement;
                 }
             })
             .When(Piper).Then(() =>
@@ -406,29 +414,34 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Rascal).Then(() =>
             {
-                if (who.CurrentTool is not Slingshot { AttachmentSlotsCount: 2 } slingshot)
+                for (var i = 0; i < who.Items.Count; i++)
                 {
-                    return;
-                }
-
-                var replacement = new Slingshot(slingshot.QualifiedItemId);
-                if (slingshot.attachments[0] is { } ammo1)
-                {
-                    replacement.attachments[0] = (SObject)ammo1.getOne();
-                    replacement.attachments[0].Stack = ammo1.Stack;
-                }
-
-                if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
-                {
-                    var drop = (SObject)ammo2.getOne();
-                    drop.Stack = ammo2.Stack;
-                    if (!who.addItemToInventoryBool(drop))
+                    var item = who.Items[i];
+                    if (item is not Slingshot slingshot ||
+                        (slingshot.AttachmentSlotsCount == 1 && slingshot.attachments.Length == 1))
                     {
-                        Game1.createItemDebris(drop, who.getStandingPosition(), -1, who.currentLocation);
+                        continue;
                     }
-                }
 
-                who.Items[who.CurrentToolIndex] = replacement;
+                    var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+                    if (slingshot.attachments[0] is { } ammo1)
+                    {
+                        replacement.attachments[0] = (SObject)ammo1.getOne();
+                        replacement.attachments[0].Stack = ammo1.Stack;
+                    }
+
+                    if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
+                    {
+                        var drop = (SObject)ammo2.getOne();
+                        drop.Stack = ammo2.Stack;
+                        if (!who.addItemToInventoryBool(drop))
+                        {
+                            Game1.createItemDebris(drop, who.getStandingPosition(), -1, who.currentLocation);
+                        }
+                    }
+
+                    who.Items[i] = replacement;
+                }
             })
             .When(Piper).Then(() =>
             {

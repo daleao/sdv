@@ -26,11 +26,16 @@ internal sealed class RascalInventoryChangedEvent(EventManager? manager = null)
                 continue;
             }
 
-            if (player.HasProfession(Profession.Rascal) && slingshot.AttachmentSlotsCount != 2)
+            var index = player.getIndexOfInventoryItem(item);
+            if (player.HasProfession(Profession.Rascal) &&
+                (slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2))
             {
-                slingshot.AttachmentSlotsCount = 2;
+                var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+                replacement.AttachmentSlotsCount = 2;
+                player.Items[index] = replacement;
             }
-            else if (!player.HasProfession(Profession.Rascal) && slingshot.AttachmentSlotsCount == 2)
+            else if (!player.HasProfession(Profession.Rascal) &&
+                     (slingshot.AttachmentSlotsCount == 2 || slingshot.attachments.Length == 2))
             {
                 var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
 
@@ -50,7 +55,6 @@ internal sealed class RascalInventoryChangedEvent(EventManager? manager = null)
                     }
                 }
 
-                var index = player.getIndexOfInventoryItem(item);
                 player.Items[index] = replacement;
             }
         }

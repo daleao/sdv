@@ -28,7 +28,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to for Prestiged Aquarist instant catch.</summary>
+    /// <summary>Patch for Prestiged Aquarist instant catch.</summary>
     [HarmonyPostfix]
     private static void BobberBarUpdatePostfix(BobberBar __instance)
     {

@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -30,11 +31,15 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.HasProfession(Profession.Rascal) && slingshot.AttachmentSlotsCount != 2)
+        if (__instance.HasProfession(Profession.Rascal) &&
+            (slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2))
         {
-            slingshot.AttachmentSlotsCount = 2;
+            var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+            replacement.AttachmentSlotsCount = 2;
+            __instance.Items[value] = replacement;
         }
-        else if (!__instance.HasProfession(Profession.Rascal) && slingshot.AttachmentSlotsCount == 2)
+        else if (!__instance.HasProfession(Profession.Rascal) &&
+                 (slingshot.AttachmentSlotsCount == 2 || slingshot.attachments.Length == 2))
         {
             var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
             if (slingshot.attachments[0] is { } ammo1)
