@@ -1,0 +1,7 @@
+﻿{
+  "algae": "해초",
+  "gmcm.days_until_algae_spawn.title": "해초 생성까지의 일수",
+  "gmcm.days_until_algae_spawn.desc": "빈 연못에 해초가 생성되기까지의 일수입니다.",
+  "gmcm.roe_production_chance_multiplier.title": "어란 생산 확률 배수",
+  "gmcm.roe_production_chance_multiplier.desc": "매일 물고기가 어란을 생산할 기본 확률에 적용되는 배수입니다."
+}

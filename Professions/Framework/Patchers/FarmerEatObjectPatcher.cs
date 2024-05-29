@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -38,7 +39,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void FarmerEatObjectPostfix(Farmer __instance, SObject o)
     {
-        if (!o.isForage() || !__instance.HasProfession(Profession.Ecologist, true))
+        if (!o.IsForage() || !__instance.HasProfession(Profession.Ecologist, true))
         {
             return;
         }

@@ -18,18 +18,28 @@ public sealed class MasteriesConfig
     private bool _enableLimitBreaks = true;
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
-    private IconStyle _prestigeIconStyle = IconStyle.MetallicGold;
+    private ProfessionIconStyle _prestigeProfessionIconStyle = ProfessionIconStyle.MetallicGold;
 
     #region dropdown enums
 
-    /// <summary>The style used for Skills profession icons.</summary>
-    public enum IconStyle
+    /// <summary>The style used for prestiged profession icons.</summary>
+    public enum ProfessionIconStyle
     {
         /// <summary>The original, high-contrast metallic gold style.</summary>
         MetallicGold,
 
         /// <summary>Posister's cleaner, hand-colored gold style.</summary>
         PosisterGold,
+    }
+
+    /// <summary>The style used for mastered skill icons.</summary>
+    public enum SkillIconStyle
+    {
+        /// <summary>Gold palette made by silicon.</summary>
+        SiliconGold,
+
+        /// <summary>Rose-gold palette made by KawaiiMuski.</summary>
+        KawaiiRoseGold,
     }
 
     #endregion dropdown enums
@@ -165,24 +175,32 @@ public sealed class MasteriesConfig
     public uint PrestigeRespecCost { get; internal set; } = 20000;
 
     /// <summary>
-    ///     Gets the style of the sprite used for Skills profession variants. Accepted values: "MetallicGold", "PosisterGold".
+    ///     Gets the style of the sprite used for prestiged profession variants. Accepted values: "MetallicGold", "PosisterGold".
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(203)]
-    public IconStyle PrestigeIconStyle
+    public ProfessionIconStyle PrestigeProfessionIconStyle
     {
-        get => this._prestigeIconStyle;
+        get => this._prestigeProfessionIconStyle;
         internal set
         {
-            if (value == this._prestigeIconStyle)
+            if (value == this._prestigeProfessionIconStyle)
             {
                 return;
             }
 
-            this._prestigeIconStyle = value;
+            this._prestigeProfessionIconStyle = value;
             ModHelper.GameContent.InvalidateCache($"{UniqueId}/ProfessionIcons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
+
+    /// <summary>
+    ///     Gets the style of the sprite used for mastered skill variants. Accepted values: "SiliconGold", "KawaiiRoseGold".
+    /// </summary>
+    [JsonProperty]
+    [GMCMSection("prfs.prestige")]
+    [GMCMPriority(204)]
+    public SkillIconStyle MasteredSkillIconStyle { get; set; }
 }

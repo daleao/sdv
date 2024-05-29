@@ -380,10 +380,14 @@
   "gmcm.exp_per_prestige_level.desc": "레벨 10 이상부터 스킬 레벨 상승시 요구되는 경험치의 양을 설정합니다.",
   "gmcm.prestige_respec_cost.title": "위신 재설정 비용",
   "gmcm.prestige_respec_cost.desc": "기술 위신을 재설정하는 데 드는 비용을 조절합니다. 0으로 하면 공짜입니다.",
-  "gmcm.prestige_icon_style.title": "아이콘 스타일",
-  "gmcm.prestige_icon_style.desc": "위신 진척 정도 표기에 사용되는 아이콘의 스타일을 변경합니다.",
-  "gmcm.icon_style.metallic_gold": "메탈릭 골드",
-  "gmcm.icon_style.posister_gold": "포시스터 골드",
+  "gmcm.prestige_profession_icon_style.title": "아이콘 스타일",
+  "gmcm.prestige_profession_icon_style.desc": "위신 진척 정도 표기에 사용되는 아이콘의 스타일을 변경합니다.",
+  "gmcm.profession_icon_style.metallic_gold": "메탈릭 골드",
+  "gmcm.profession_icon_style.posister_gold": "포시스터 골드",
+  "gmcm.mastered_skill_icon_style.title": "Mastered Skill Icon Style",
+  "gmcm.mastered_skill_icon_style.desc": "Determines the style of the sprite used for Mastered skills.",
+  "gmcm.skill_icon_style.silicon_gold": "Silicon Gold",
+  "gmcm.skill_icon_style.kawaii_rose_gold": "Kawaii Rose Gold",
 
   // links
   "gmcm.go_to.prfs.skills": "스킬 세팅으로 이동",

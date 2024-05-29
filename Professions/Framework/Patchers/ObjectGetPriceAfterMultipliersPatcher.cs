@@ -6,6 +6,7 @@ using System.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using static StardewValley.Object;
 
 #endregion using directives
 
@@ -61,7 +62,8 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                     multiplier += farmer.GetProducerSaleBonus();
                 }
 
-                if (farmer.HasProfession(Profession.Angler) && __instance.IsFish())
+                if (farmer.HasProfession(Profession.Angler) && (__instance.IsFish() ||
+                                                                __instance.preserve?.Value == PreserveType.SmokedFish))
                 {
                     multiplier += farmer.GetAnglerSaleBonus();
                 }

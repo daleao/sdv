@@ -41,3 +41,11 @@ This mod is a companion to [Walk Of Life](../Professions)'s Aquarist profession,
 ## Compatibility
 
 - Compatible with Content Patcher mods which apply visual changes to Fish Ponds or which edit Fish Pond Data.
+
+
+## Credits & Special Thanks
+
+Credits to the following translators:
+- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://i.imgur.com/Jvsm5YJ.png) [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.
+- ![](https://i.imgur.com/zuQC9Di.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.

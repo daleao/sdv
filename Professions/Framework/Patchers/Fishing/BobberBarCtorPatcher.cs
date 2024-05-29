@@ -23,7 +23,15 @@ internal sealed class BobberBarCtorPatcher : HarmonyPatcher
     internal BobberBarCtorPatcher(Harmonizer harmonizer)
         : base(harmonizer)
     {
-        this.Target = this.RequireConstructor<BobberBar>();
+        this.Target = this.RequireConstructor<BobberBar>(
+            typeof(string),
+            typeof(float),
+            typeof(bool),
+            typeof(List<string>),
+            typeof(string),
+            typeof(bool),
+            typeof(string),
+            typeof(bool));
     }
 
     #region harmony patches

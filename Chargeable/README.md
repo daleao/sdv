@@ -38,3 +38,9 @@ Other settings are self-explanatory. Use [Generic Mod Config Menu](https://www.n
 ## Compatibility
 
 This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that also directly patch Tool behavior might be incompatible.
+
+
+## Credits & Special Thanks
+
+Credits to the following translators:
+- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.

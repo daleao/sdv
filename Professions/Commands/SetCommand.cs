@@ -90,7 +90,15 @@ internal sealed class SetCommand(CommandHandler handler)
 
             case "fishingdex":
             case "fishdex":
-                this.SetFishPokedex(value);
+                if (args.Length > 2 && args.Any(arg => arg is "-t" or "--trap"))
+                {
+                    this.SetFishPokedex(value, true);
+                }
+                else
+                {
+                    this.SetFishPokedex(value);
+                }
+
                 break;
 
             case "rodmemory":
@@ -245,25 +253,25 @@ internal sealed class SetCommand(CommandHandler handler)
         State.LimitBreak = limit;
     }
 
-    private void SetFishPokedex(string value)
+    private void SetFishPokedex(string value, bool trap = false)
     {
         var caughtOnly = string.Equals(value, "caught", StringComparison.InvariantCultureIgnoreCase);
         var fishCaught = Game1.player.fishCaught;
         foreach (var (key, values) in DataLoader.Fish(Game1.content))
         {
-            if (key.IsTrashId() || key.IsAlgaeId() || values.Contains("trap") ||
-                (caughtOnly && !fishCaught.ContainsKey(key)))
+            if (key.IsTrashId() || key.IsAlgaeId() || (values.Contains("trap") && !trap) ||
+                (!values.Contains("trap") && trap) || (caughtOnly && !fishCaught.ContainsKey(key)))
             {
                 continue;
             }
 
+            var qid = "(O)" + key;
             var split = values.SplitWithoutAllocation('/');
-
-            if (!fishCaught.TryAdd(key, [1, int.Parse(split[4]) + 1]))
+            if (!fishCaught.TryAdd(qid, [1, int.Parse(split[4]) + 1, 1]))
             {
-                var caught = fishCaught[key];
+                var caught = fishCaught[qid];
                 caught[1] = int.Parse(split[4]) + 1;
-                fishCaught[key] = caught;
+                fishCaught[qid] = caught;
             }
 
             Game1.stats.checkForFishingAchievements();

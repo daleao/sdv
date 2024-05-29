@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using Integrations;
 
 #endregion using directives
 
@@ -50,6 +51,7 @@ internal static class SObjectExtensions
         return (profession == Profession.Scavenger && ((@object.IsSpawnedObject && !@object.IsForagedMineral()) ||
                                                        @object.QualifiedItemId is QualifiedObjectIds.SpringOnion or QualifiedObjectIds.ArtifactSpot)) ||
                (profession == Profession.Prospector && ((@object.IsStone() && @object.IsResourceNode()) ||
+                                                        (ItemExtensionsIntegration.Instance?.IsLoaded == true && ItemExtensionsIntegration.Instance.ModApi.IsResource(@object.ItemId, out _, out _)) ||
                                                         @object.IsForagedMineral() || @object.QualifiedItemId is QualifiedObjectIds.ArtifactSpot));
     }
 

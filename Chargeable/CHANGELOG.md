@@ -6,6 +6,7 @@
 
 * Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
 
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 1.0.1
 
@@ -13,6 +14,7 @@
 
 * Fixed Harmony patches not applying in Release mode.
 
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 1.0.0 - Initial 1.6 release
 

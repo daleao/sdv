@@ -65,6 +65,17 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
             new ProfessionPair(this.Professions[2], this.Professions[3], this.Professions[0], 10);
         this.ProfessionPairByRoot[this.Professions[1]] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
+
+        this.SourceSheetRect = new Rectangle(value * 10, 0, 10, 10);
+        this.TargetSheetRect = value switch
+        {
+            Farmer.farmingSkill => new Rectangle(10, 428, 10, 10),
+            Farmer.fishingSkill => new Rectangle(20, 428, 10, 10),
+            Farmer.foragingSkill => new Rectangle(60, 428, 10, 10),
+            Farmer.miningSkill => new Rectangle(30, 428, 10, 10),
+            Farmer.combatSkill => new Rectangle(120, 428, 10, 10),
+            _ => Rectangle.Empty,
+        };
     }
 
     /// <inheritdoc />
@@ -100,6 +111,12 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     /// <inheritdoc />
     public IDictionary<IProfession, ProfessionPair> ProfessionPairByRoot { get; } = new Dictionary<IProfession, ProfessionPair>();
 
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Skill"/>'s icon in the mod's Skills spritesheet.</summary>
+    public Rectangle SourceSheetRect { get; }
+
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Skill"/>'s icon in the vanilla Cursors spritesheet.</summary>
+    public Rectangle TargetSheetRect { get; }
+
     /// <summary>Gets the range of indices corresponding to vanilla skills.</summary>
     /// <returns>A <see cref="IEnumerable{T}"/> of all vanilla skill indices.</returns>
     public static IEnumerable<int> GetRange()
@@ -112,7 +129,6 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     {
         return this.Id == other?.Id;
     }
-
 
     /// <inheritdoc />
     public void AddExperience(int amount)

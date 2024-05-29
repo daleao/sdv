@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using Configs;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Content;
 using DaLion.Shared.Enums;
@@ -56,7 +57,10 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             new ModTextureProvider(() => "assets/sprites/StackedStars.png"));
         this.Provide(
             $"{UniqueId}/ProfessionIcons",
-            new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.PrestigeIconStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.PrestigeProfessionIconStyle}.png"));
+        this.Provide(
+            $"{UniqueId}/MasteredSkillIcons",
+            new ModTextureProvider(() => $"assets/sprites/skills_{Config.Masteries.MasteredSkillIconStyle}.png"));
         this.Provide(
             $"{UniqueId}/SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -146,6 +150,24 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             sourceArea = profession.SourceSheetRect;
             sourceArea.Y += 80;
             targetArea = profession.TargetSheetRect;
+            editor.PatchImage(sourceTx, sourceArea, targetArea);
+        }
+
+        if (Game1.activeClickableMenu is not GameMenu)
+        {
+            return;
+        }
+
+        sourceTx = ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons");
+        foreach (var skill in Skill.List)
+        {
+            if (!skill.CanGainPrestigeLevels())
+            {
+                continue;
+            }
+
+            sourceArea = skill.SourceSheetRect;
+            targetArea = skill.TargetSheetRect;
             editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
     }

@@ -61,7 +61,11 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                         OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))))
                 .Insert([
+                    // set edibility
                     new CodeInstruction(OpCodes.Ldarg_3),
+                    new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.ApplyEcologistEdibility))),
+                    // append to foraged items
                     new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(Data))),
                     new CodeInstruction(OpCodes.Ldloc_3),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Item).RequirePropertyGetter(nameof(Item.ItemId))),
@@ -71,6 +75,8 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                         typeof(ModDataManagerExtensions).RequireMethod(
                             nameof(ModDataManagerExtensions
                                 .AppendToEcologistItemsForaged))),
+                    // prepare to set quality
+                    new CodeInstruction(OpCodes.Ldarg_3),
                 ])
                 .Move(2)
                 .GetOperand(out var temp);

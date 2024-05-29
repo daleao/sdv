@@ -15,6 +15,7 @@ using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Tools;
 using static System.String;
@@ -142,12 +143,6 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     /// <inheritdoc />
     public string Description => this.GetDescription(this.IsPrestiged);
 
-    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the mod's Professions spritesheet.</summary>
-    public Rectangle SourceSheetRect { get; }
-
-    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the vanilla Cursors spritesheet.</summary>
-    public Rectangle TargetSheetRect { get; }
-
     /// <inheritdoc />
     public int Level { get; }
 
@@ -156,6 +151,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
 
     /// <summary>Gets a value indicating whether the local player has Prestiged this <see cref="Profession"/>.</summary>
     public bool IsPrestiged => Game1.player.HasProfession(this, true);
+
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the mod's Professions spritesheet.</summary>
+    public Rectangle SourceSheetRect { get; }
+
+    /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Profession"/>'s icon in the vanilla Cursors spritesheet.</summary>
+    public Rectangle TargetSheetRect { get; }
 
     /// <summary>Gets the <see cref="Profession"/> with the specified localized name.</summary>
     /// <param name="name">A localized profession name.</param>

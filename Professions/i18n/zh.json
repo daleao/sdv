@@ -381,10 +381,14 @@
   "gmcm.exp_per_prestige_level.desc": "10级以上每升一级所需的技能经验。",
   "gmcm.prestige_respec_cost.title": "声望重置成本",
   "gmcm.prestige_respec_cost.desc": "更改技能声望职业选择的金钱成本。设为0即可免费重置。",
-  "gmcm.prestige_icon_style.title": "图标风格",
-  "gmcm.prestige_icon_style.desc": "确定用于声望职业的图标风格。",
-  "gmcm.icon_style.metallic_gold": "金属金",
-  "gmcm.icon_style.posister_gold": "波希米亚金",
+  "gmcm.prestige_profession_icon_style.title": "图标风格",
+  "gmcm.prestige_profession_icon_style.desc": "确定用于声望职业的图标风格。",
+  "gmcm.profession_icon_style.metallic_gold": "金属金",
+  "gmcm.profession_icon_style.posister_gold": "波希米亚金",
+  "gmcm.mastered_skill_icon_style.title": "Mastered Skill Icon Style",
+  "gmcm.mastered_skill_icon_style.desc": "Determines the style of the sprite used for Mastered skills.",
+  "gmcm.skill_icon_style.silicon_gold": "Silicon Gold",
+  "gmcm.skill_icon_style.kawaii_rose_gold": "Kawaii Rose Gold",
 
   // links
   "gmcm.go_to.prfs.skills": "前往技能设置",

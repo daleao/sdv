@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using DaLion.Chargeable.Framework.Configs;
 using DaLion.Shared.Extensions.Stardew;
+using Integrations;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Objects;
@@ -43,7 +44,8 @@ internal sealed class PickaxeEffect : IToolEffect
         Farmer who)
     {
         // clear debris
-        if (this.Config.ClearDebris && (tileObj?.IsStone() == true || tileObj?.IsWeed() == true))
+        if (this.Config.ClearDebris && tileObj is not null && (tileObj.IsStone() || tileObj.IsWeed() ||
+            (ItemExtensionsIntegration.Instance?.IsLoaded == true && ItemExtensionsIntegration.Instance.ModApi.IsStone(tileObj.ItemId))))
         {
             return tool.UseOnTile(tile, location, who);
         }

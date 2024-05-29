@@ -1,10 +1,45 @@
-﻿# PRFS Changelog
+﻿# PROFESSIONS Changelog
 
-## 0.2.6
+## 0.2.9
+
+### Added
+
+* Mastered skills now display a gold icon in the Skills Page menu. Thanks to [silicon](https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303) and [KawaiiMuski](https://next.nexusmods.com/profile/KawaiiMuski/about-me) for the icons.
+* `set fishdex` command now accepts a flag `-t` for trap fish.
+
+### Changed
+
+* Ecologist now only applies edibility changes to gathered forage items instead of all forage items added to inventory. But those changes are now permanent, instead of being lost when the Ecologist deposits the item.
+* Angler sell price bonus now also applies to Smoked Fish.
+
+### Fixed
+
+* Fixed an issue causing incorrect level 20 prestige options to be offered.
+* Fixed issue of items not stacking when the player has the Ecologist profession.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 0.2.8
+
+### Fixed
+
+* Hotfix for BobberBarCtorPatcher.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 0.2.7
 
 ### Added
 
 * Fisher profession now also applies to the bonus bobber bar height granted by Deluxe Bait.
+
+### Fixed
+
+* Fixed an issue where farmhand slingshots would not update to the correct number of attachment slots. Added the console command `professions fix_slingshots` as a workaround for existing saves with this issue.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 0.2.6
 
 ### Changed
 
@@ -14,9 +49,8 @@
 
 * Fixed a possible Out-Of-Range exception in SkillsPageCtorPatcher
 * Added a failsafe that should prevent errors with Luck Skill. But note that Luck Skill is **not** officially supported, and will not be.
-* Fixed an issue where farmhand slingshots would not update to the correct number of attachment slots. Added the console command `prfs fix_slingshots` as a workaround for existing saves with this issue.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.5
 
@@ -28,7 +62,7 @@
 
 * Fixed issue preventing location interactions introduced in 0.2.3.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.4
 
@@ -36,7 +70,7 @@
 
 * Fixed possible Null-Ref exception in MineShaftCheckStoneForItemsPatcher.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.3 
 
@@ -44,7 +78,7 @@
 
 * Fixed max-sized fish not being counted correctly.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.2
 
@@ -61,7 +95,7 @@
 
 * Fixed various issues with custom skills.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.1
 
@@ -75,13 +109,13 @@
 
 * Changed Sewer Statue logic to be more compatible with different configurations of Skill Reset / Prestige / Limit Break.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.2.0 - Beta release for 1.6
 
 * No changes.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.1.1
 
@@ -93,7 +127,7 @@
 
 * Fixed player not gaining experience.
 
-<sup><sup>[🔼 Back to top](#profs-changelog)</sup></sup>
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 0.1.0 - Alpha release for 1.6
 
@@ -112,6 +146,6 @@
 * Removed alost all third-party mod integrations since I don't know which of them were/will be updated. I might re-add Automate integration later, or I might not.
 
 
-[🔼 Back to top](#profs-changelog)
+[🔼 Back to top](#professions-changelog)
 
 [View the 1.5 Changelog](resources/CHANGELOG_old.md)

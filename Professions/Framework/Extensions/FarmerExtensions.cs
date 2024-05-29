@@ -308,6 +308,21 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
+    /// <summary>Applies bonus edibility to an item gathered by <see cref="Profession.Ecologist"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="object">The <see cref="SObject"/>>.</param>
+    internal static void ApplyEcologistEdibility(this Farmer farmer, SObject @object)
+    {
+        if (@object.Edibility <= 0)
+        {
+            return;
+        }
+
+        @object.Edibility = farmer.HasProfession(Profession.Ecologist, true)
+            ? @object.Edibility * 2
+            : (int)(@object.Edibility * 1.5f);
+    }
+
     /// <summary>Applies one of the Prestiged <see cref="Profession.Ecologist"/> food buffs to the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="buffIndex">The buff index.</param>

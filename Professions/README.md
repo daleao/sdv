@@ -946,6 +946,9 @@ No, it does not work on Android.
 Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
 - [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303)﻿ and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660)﻿.
+- [silicon](https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303) for golden skill icons.
+- [KawaiiMuski](https://next.nexusmods.com/profile/KawaiiMuski/about-me) for rose-golden skill icons.
+- **Posister** for alternate golden profession icons.
 - [Gravity](https://ro.gnjoy.com/index.asp) ﻿for sound effects and skill icons.
 
 Credits to the following code contributors:

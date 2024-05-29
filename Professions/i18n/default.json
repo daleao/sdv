@@ -381,10 +381,14 @@
   "gmcm.exp_per_prestige_level.desc": "How much skill experience is required for each level-up above level 10.",
   "gmcm.prestige_respec_cost.title": "Cost of Prestige Respec",
   "gmcm.prestige_respec_cost.desc": "Monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.",
-  "gmcm.prestige_icon_style.title": "Icon Style",
-  "gmcm.prestige_icon_style.desc": "Determines the style of the sprite used for Prestige Professions.",
-  "gmcm.icon_style.metallic_gold": "Metallic Gold",
-  "gmcm.icon_style.posister_gold": "Posister Gold",
+  "gmcm.prestige_profession_icon_style.title": "Prestiged Profession Icon Style",
+  "gmcm.prestige_profession_icon_style.desc": "Determines the style of the sprite used for Prestige Professions.",
+  "gmcm.profession_icon_style.metallic_gold": "Metallic Gold",
+  "gmcm.profession_icon_style.posister_gold": "Posister Gold",
+  "gmcm.mastered_skill_icon_style.title": "Mastered Skill Icon Style",
+  "gmcm.mastered_skill_icon_style.desc": "Determines the style of the sprite used for Mastered skills.",
+  "gmcm.skill_icon_style.silicon_gold": "Silicon Gold",
+  "gmcm.skill_icon_style.kawaii_rose_gold": "Kawaii Rose Gold",
 
   // links
   "gmcm.go_to.prfs.skills": "Go to Skill Settings",

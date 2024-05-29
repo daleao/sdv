@@ -13,6 +13,14 @@ using StardewValley.TerrainFeatures;
 /// <summary>Extensions for the <see cref="SObject"/> class.</summary>
 public static class SObjectExtensions
 {
+    /// <summary>Checks whether the <paramref name="object"/> is a spawned forageable item.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/> is a forage item and is a spawned object, otherwise <see langword="false"/>.</returns>
+    public static bool IsForage(this SObject @object)
+    {
+        return @object.IsSpawnedObject && @object.isForage();
+    }
+
     /// <summary>Gets the <see cref="Farmer"/> instance who owns this <paramref name="object"/>.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <returns>The <see cref="Farmer"/> instance who purchased, found or crafted the <paramref name="object"/>, or the host of the game session if not found.</returns>
@@ -22,7 +30,7 @@ public static class SObjectExtensions
     }
 
     /// <summary>Checks whether the <paramref name="object"/> is owned by the specified <see cref="Farmer"/>.</summary>
-    /// <param name="object">The <see cref="Building"/>.</param>
+    /// <param name="object">The <see cref="SObject"/>.</param>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="object"/>'s owner value is equal to the unique ID of the <paramref name="farmer"/>, otherwise <see langword="false"/>.</returns>
     public static bool IsOwnedBy(this SObject @object, Farmer farmer)
@@ -33,7 +41,7 @@ public static class SObjectExtensions
     /// <summary>
     ///     Gets the squared pixel distance between this <paramref name="object"/> and the target <paramref name="position"/>.
     /// </summary>
-    /// <param name="object">The <see cref="Character"/>.</param>
+    /// <param name="object">The <see cref="SObject"/>.</param>
     /// <param name="position">The target tile.</param>
     /// <returns>The squared pixel distance between <paramref name="object"/> and the <paramref name="position"/>.</returns>
     public static float SquaredPixelDistance(this SObject @object, Vector2 position)
@@ -46,7 +54,7 @@ public static class SObjectExtensions
     /// <summary>
     ///     Gets the squared tile distance between this <paramref name="object"/> and the target <paramref name="tile"/>.
     /// </summary>
-    /// <param name="object">The <see cref="Character"/>.</param>
+    /// <param name="object">The <see cref="SObject"/>.</param>
     /// <param name="tile">The target tile.</param>
     /// <returns>The squared tile distance between <paramref name="object"/> and the <paramref name="tile"/>.</returns>
     public static float SquaredTileDistance(this SObject @object, Vector2 tile)
@@ -88,7 +96,7 @@ public static class SObjectExtensions
     /// </summary>
     /// <typeparam name="T">The target type.</typeparam>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see cref="T"/>s, if already available.</param>
     /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
     /// <param name="distance">The actual tile distance to the closest candidate found.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -127,7 +135,7 @@ public static class SObjectExtensions
     /// </summary>
     /// <typeparam name="TBuilding">A subtype of <see cref="Building"/>.</typeparam>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="candidates">The candidate <see cref="Building"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see cref="TBuilding"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TBuilding? GetClosestBuilding<TBuilding>(
@@ -146,7 +154,7 @@ public static class SObjectExtensions
     /// </summary>
     /// <typeparam name="TCharacter">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="candidates">The candidate <see cref="Character"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see cref="TCharacter"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TCharacter? GetClosestCharacter<TCharacter>(
@@ -183,7 +191,7 @@ public static class SObjectExtensions
     /// </summary>
     /// <typeparam name="TObject">A subtype of <see cref="SObject"/>.</typeparam>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="candidates">The candidate <see cref="SObject"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see cref="TObject"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TObject? GetClosestObject<TObject>(
@@ -207,7 +215,7 @@ public static class SObjectExtensions
     /// </summary>
     /// <typeparam name="TTerrainFeature">A subtype of <see cref="TerrainFeature"/>.</typeparam>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="candidates">The candidate <see cref="TerrainFeature"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see cref="TTerrainFeature"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="object"/>.</returns>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(

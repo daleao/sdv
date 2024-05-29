@@ -49,9 +49,14 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                         OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))))
                 .Insert([
+                    // set edibility
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Dup), // prepare to set quality
+                    new CodeInstruction(OpCodes.Ldloc_1),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.ApplyEcologistEdibility))),
+                    // append to items foraged
                     new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(Data))),
                     new CodeInstruction(OpCodes.Ldstr, "399"),
                     new CodeInstruction(OpCodes.Ldnull),

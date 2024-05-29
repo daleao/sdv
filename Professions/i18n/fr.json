@@ -381,10 +381,14 @@
   "gmcm.exp_per_prestige_level.desc": "Combien d'expérience de compétence est requise pour chaque niveau au-dessus du niveau 10.",
   "gmcm.prestige_respec_cost.title": "Coût de réinitialisation",
   "gmcm.prestige_respec_cost.desc": "Coût monétaire de la réinitialisation des choix de profession de prestige pour une compétence. Réglez sur 0 pour réinitialiser gratuitement.",
-  "gmcm.prestige_icon_style.title": "Style d’icône",
-  "gmcm.prestige_icon_style.desc": "Détermin le style d’icône utilisé pour les professions de prestige.",
-  "gmcm.icon_style.metallic_gold": "Or métallique",
-  "gmcm.icon_style.posister_gold": "Or « posister »",
+  "gmcm.prestige_profession_icon_style.title": "Style d’icône de prestige",
+  "gmcm.prestige_profession_icon_style.desc": "Détermin le style d’icône utilisé pour les professions de prestige.",
+  "gmcm.profession_icon_style.metallic_gold": "Or métallique",
+  "gmcm.profession_icon_style.posister_gold": "Or « posister »",
+  "gmcm.mastered_skill_icon_style.title": "Style d’icône de maîtrise",
+  "gmcm.mastered_skill_icon_style.desc": "Détermin le style d’icône utilisé pour les compétences maîtrisées.",
+  "gmcm.skill_icon_style.silicon_gold": "Or « silicon »",
+  "gmcm.skill_icon_style.kawaii_rose_gold": "Or rose « Kawaii »",
 
   // links
   "gmcm.go_to.prfs.skills": "Aller aux paramètres de compétences",

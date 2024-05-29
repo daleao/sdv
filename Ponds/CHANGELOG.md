@@ -5,7 +5,10 @@
 ### Added
 
 * Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
+* Added Chinese translations by [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303).
+* Added Korean translation by [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303).
 
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 
 ## 1.0.1
 
@@ -13,6 +16,7 @@
 
 * Fixed some possible Null-Ref exceptions if pond is empty.
 
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 
 ## 1.0.0 - Initial 1.6 release
 
