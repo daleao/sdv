@@ -561,7 +561,9 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 <font size="2">
 <details>
 
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the [Aquarism](../Ponds) companion mod, you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings.
+
+Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
 
 For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
 </details>
@@ -933,6 +935,8 @@ Compatible with all custom [SpaceCore](mod:spacecore) skills. They can be reset,
 For any mods that affect professions, skills or Masteries, use common sense. Mods which add alternative ways to acquire multiple professions, such as All Professions, Skill Prestige and Mastery Extended, will obviously conflict with Change Profession Skill Reset, so either remove those mods or disable Skill Reset in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as Level Extender or Level Forever, will obviously conflict with Prestige level progression, and consequently, Prestige Professions. Either remove those mods or disable Prestige Levels in this mod's settings. For any other specific combinations, try it for yourself and see what happens. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
 
 The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
+
+[Automate](https://www.nexusmods.com/stardewvalley/mods/1063) should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
 
 Yes, it's compatible with [Stardew Valley Expanded](mod:sve).
 Yes, it should work in multiplayer.

@@ -25,6 +25,9 @@ internal static class Textures
     private static Lazy<Texture2D> _limitGauge =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/LimitGauge"));
 
+    private static Lazy<Texture2D> _masteredSkillIcons =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons"));
+
     internal static Texture2D PrestigeRibbons => _prestigeRibbons.Value;
 
     internal static Texture2D MaxIcon => _maxIcon.Value;
@@ -32,6 +35,8 @@ internal static class Textures
     internal static Texture2D SkillBars => _skillBars.Value;
 
     internal static Texture2D LimitGauge => _limitGauge.Value;
+
+    internal static Texture2D MasteredSkillIcons => _masteredSkillIcons.Value;
 
     internal static void Reload(IEnumerable<IAssetName> assets)
     {
@@ -58,6 +63,12 @@ internal static class Textures
         {
             _limitGauge = new Lazy<Texture2D>(() =>
                 ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/LimitGauge"));
+        }
+
+        if (names.Contains("MasteredSkillIcons"))
+        {
+            _masteredSkillIcons = new Lazy<Texture2D>(() =>
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons"));
         }
     }
 }

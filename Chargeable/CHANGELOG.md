@@ -4,6 +4,7 @@
 
 ### Added
 
+* Added initial compatibility for Item Extensions.
 * Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
 
 <sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>

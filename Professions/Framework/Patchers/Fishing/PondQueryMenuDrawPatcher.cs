@@ -17,7 +17,6 @@ using StardewValley.Menus;
 #endregion using directives
 
 [UsedImplicitly]
-[ModConflict("DaLion.Ponds")]
 internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="PondQueryMenuDrawPatcher"/> class.</summary>
@@ -26,7 +25,6 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
         : base(harmonizer)
     {
         this.Target = this.RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), [typeof(SpriteBatch)]);
-        this.Prefix!.priority = Priority.High;
     }
 
     private delegate void DrawHorizontalPartitionDelegate(
@@ -123,17 +121,20 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             var slotsToDraw = ____pond.maxOccupants.Value;
             var columns = Math.Min(slotsToDraw, 5);
             const int slotSpacing = 13;
-            SObject? itemToDraw;
+            SObject? itemToDraw, familyItemToDraw;
             if (isLegendaryPond)
             {
                 familyCount = Data.ReadAs<int>(____pond, DataKeys.FamilyLivingHere);
-                itemToDraw = ____fishItem;
+                familyItemToDraw = Lookups.FamilyPairs.TryGetValue(____fishItem.QualifiedItemId, out var pairId)
+                    ? ItemRegistry.Create<SObject>(pairId)
+                    : ____fishItem;
             }
             else
             {
-                itemToDraw = ____fishItem;
+                familyItemToDraw = ____fishItem;
             }
 
+            itemToDraw = ____fishItem;
             for (var i = 0; i < slotsToDraw; ++i)
             {
                 var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
@@ -144,10 +145,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 {
                     if (isLegendaryPond && familyCount > 0 && i == ____pond.FishCount - familyCount)
                     {
-                        itemToDraw = ItemRegistry.Create<SObject>(
-                                Lookups.FamilyPairs.TryGetValue(____fishItem.QualifiedItemId, out var pairId)
-                                    ? pairId
-                                    : ____fishItem.QualifiedItemId);
+                        itemToDraw = familyItemToDraw;
                     }
 
                     itemToDraw!.drawInMenu(

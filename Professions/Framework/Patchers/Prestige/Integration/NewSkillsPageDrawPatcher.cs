@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Professions.Framework.Integrations;
@@ -15,6 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SpaceCore.Interface;
 using StardewValley.Menus;
+using static StardewValley.LocalizedContentManager;
 
 #endregion using directives
 
@@ -216,7 +216,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
             return null;
         }
 
-        // Injected: DrawRibbonsSubroutine(b);
+        // Injected: DrawExtrasSubroutine(b);
         // Before: if (hoverText.Length > 0)
         try
         {
@@ -241,7 +241,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                             typeof(NewSkillsPage).RequireField("skillScrollOffset")),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))),
+                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawExtras))),
                     ],
                     labels);
         }
@@ -312,8 +312,41 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    private static void DrawRibbons(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
+    private static void DrawExtras(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
     {
+        var x = CurrentLanguageCode == LanguageCode.ru
+            ? (page.xPositionOnScreen + page.width - 448 - 48)
+            : page.xPositionOnScreen + IClickableMenu.borderWidth + IClickableMenu.spaceToClearTopBorder + 256 - 8;
+        var y = page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth - 8;
+
+        const int verticalSpacing = 56;
+        y -= skillScrollOffset * verticalSpacing;
+        for (var i = 0; i < 5; i++)
+        {
+            var skill = i switch
+            {
+                1 => Skill.Mining,
+                3 => Skill.Fishing,
+                _ => Skill.FromValue(i),
+            };
+
+            if (!skill.CanGainPrestigeLevels() || skill < skillScrollOffset)
+            {
+                continue;
+            }
+
+            b.Draw(
+                Textures.MasteredSkillIcons,
+                new Vector2(x - 52, y - 4 + (i * verticalSpacing)),
+                skill.SourceSheetRect,
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                SpriteEffects.None,
+                0.87f);
+        }
+
         if (!ShouldEnableSkillReset)
         {
             return;
@@ -326,7 +359,6 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 Textures.PROGRESSION_VERTICAL_OFFSET + 12);
         var lastVisibleSkillIndex =
             Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("LastVisibleSkillIndex").Invoke(page);
-        const int verticalSpacing = 56;
         for (var i = 0; i < 5; i++)
         {
             // need to do this bullshit switch because mining and fishing are inverted in the skills page

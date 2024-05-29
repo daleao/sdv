@@ -190,11 +190,6 @@ public sealed class PondsMod : Mod
                 pond.ResetPondFishData();
             }
 
-            if (pond.fishType.Value is "160" or "899")
-            {
-                pond.SetAnglerSpawnTime();
-            }
-
             return true;
         });
     }

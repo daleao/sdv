@@ -21,7 +21,6 @@ internal sealed class DataKeys
     internal const string SecondMemorizedTackleUses = "SecondMemorizedTackleUses";
     internal const string MuskUses = "MuskTimesUsed";
     internal const string PersistedCoals = "PersistedCoals";
-    internal const string EcologistBuffed = "EcologistBuffed";
 
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";

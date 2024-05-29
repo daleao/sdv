@@ -24,9 +24,6 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         this.Target = this.RequireMethod<FishPond>(nameof(FishPond.doAction));
     }
 
-    private delegate void ShowObjectThrownIntoPondAnimationDelegate(
-        FishPond instance, Farmer who, SObject whichObject, Action? callback = null);
-
     #region harmony patches
 
     /// <summary>Allow legendary fish to share a pond with their extended families.</summary>

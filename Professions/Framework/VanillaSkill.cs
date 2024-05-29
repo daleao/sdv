@@ -117,11 +117,15 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     /// <summary>Gets a <see cref="Rectangle"/> representing the coordinates of the <see cref="Skill"/>'s icon in the vanilla Cursors spritesheet.</summary>
     public Rectangle TargetSheetRect { get; }
 
-    /// <summary>Gets the range of indices corresponding to vanilla skills.</summary>
-    /// <returns>A <see cref="IEnumerable{T}"/> of all vanilla skill indices.</returns>
-    public static IEnumerable<int> GetRange()
+    /// <summary>Enumerates all skills in order by which they appear in the <see cref="SkillsPage"/> menu.</summary>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Skill"/>.</returns>
+    public static IEnumerable<Skill> OrderedBySkillsPage()
     {
-        return Enumerable.Range(0, 5);
+        yield return Farming;
+        yield return Mining;
+        yield return Foraging;
+        yield return Fishing;
+        yield return Combat;
     }
 
     /// <inheritdoc />

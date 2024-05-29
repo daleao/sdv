@@ -24,31 +24,18 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
 
     /// <summary>Fix for Professions compatibility.</summary>
     [HarmonyPostfix]
-    [HarmonyBefore("DaLion.Professions")]
-    private static void FishPondUpdateMaximumOccupancyPrefix(FishPond __instance, ref int __state)
-    {
-        __state = __instance.FishCount;
-    }
-
-    /// <summary>Set Tui-La pond capacity.</summary>
-    [HarmonyPostfix]
     [HarmonyAfter("DaLion.Professions")]
     private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance, int __state)
     {
-        if (__instance.fishType.Value is "MNF.MoreNewFish_tui" or "MNF.MoreNewFish_la")
-        {
-            __instance.maxOccupants.Set(2);
-        }
-
-        if (__instance.FishCount >= __state)
+        var fishes = __instance.ParsePondFishes();
+        if (__instance.FishCount == fishes.Count)
         {
             return;
         }
 
-        var fish = __instance.ParsePondFishes();
-        fish.SortDescending();
-        fish = fish.Take(__instance.FishCount).ToList();
-        Data.Write(__instance, DataKeys.PondFish, string.Join(';', fish));
+        fishes.SortDescending();
+        fishes = fishes.Take(__instance.FishCount).ToList();
+        Data.Write(__instance, DataKeys.PondFish, string.Join(';', fishes));
     }
 
     #endregion harmony patches

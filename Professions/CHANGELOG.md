@@ -1,5 +1,24 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.2.10
+
+### Added
+
+* Added Angler + Ms. Angler mating in legendary ponds.
+* Added initial compatibility for Item Extensions.
+
+### Changed
+
+* Removed cache invalidation when opening the Game Menu.
+* Some changes to PondQueryMenuDraw.
+
+### Fixed
+
+* Fixed 1.6 level up message not showing in the HUD.
+* Fixed issues related to PondQueryMenuDraw for legendary ponds.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.2.9
 
 ### Added

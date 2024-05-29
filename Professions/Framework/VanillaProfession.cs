@@ -364,7 +364,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
-            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Aquarist).Then(() =>
+            {
+                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                ModHelper.GameContent.InvalidateCache("Data/Objects");
+            })
             .When(Luremaster).Then(() => EventManager.Enable(
                 typeof(LuremasterDayStartedEvent),
                 typeof(LuremasterTimeChangedEvent)))
@@ -408,7 +412,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
-            .When(Aquarist).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Aquarist).Then(() =>
+            {
+                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                ModHelper.GameContent.InvalidateCache("Data/Objects");
+            })
             .When(Prospector).Then(() => State.ProspectorHunt = null)
             .When(Scavenger).Then(() => State.ScavengerHunt = null)
             .When(Fighter).Then(() => Game1.player.maxHealth -= 15)

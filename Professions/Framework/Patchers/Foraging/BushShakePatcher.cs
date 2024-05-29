@@ -32,7 +32,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From:item.Quality = 4;
+        // From: item.Quality = 4;
         // To: item.Quality = Game1.player.GetEcologistForageQuality(); Data.IncrementField<uint>(DataKeys.EcologistItemsForaged);
         try
         {
@@ -46,7 +46,14 @@ internal sealed class BushShakePatcher : HarmonyPatcher
                         OpCodes.Call,
                         typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.GetEcologistForageQuality))))
                 .Insert([
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    // set edibility
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
+                    new CodeInstruction(OpCodes.Dup), // prepare to set quality
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[4]),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmerExtensions).RequireMethod(nameof(FarmerExtensions.ApplyEcologistEdibility))),
+                    // append to items foraged
                     new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(Data))),
                     new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[4]),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Item).RequirePropertyGetter(nameof(Item.ItemId))),

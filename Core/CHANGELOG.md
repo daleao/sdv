@@ -1,5 +1,11 @@
 ﻿# CORE Changelog
 
+## 1.1.1
+
+### Added
+
+* Added `SObject.IsForage` extension.
+
 ## 1.1.0
 
 ### Removed

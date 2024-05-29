@@ -23,7 +23,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch for Aquarist increased max fish pond capacity.</summary>
+    /// <summary>Patch for Aquarist increased Fish Pond capacity.</summary>
     [HarmonyPostfix]
     [HarmonyBefore("DaLion.Ponds")]
     private static void FishPondUpdateMaximumOccupancyPostfix(
@@ -32,6 +32,12 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
         if (____fishPondData is null || !__instance.HasUnlockedFinalPopulationGate())
         {
             return;
+        }
+
+        if (__instance.fishType.Value is "MNF.MoreNewFish_tui" or "MNF.MoreNewFish_la")
+        {
+            __instance.maxOccupants.Set(2);
+            __instance.currentOccupants.Set(Math.Min(__instance.currentOccupants.Value, __instance.maxOccupants.Value));
         }
 
         var owner = __instance.GetOwner();

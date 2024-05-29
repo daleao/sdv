@@ -183,33 +183,13 @@ internal static class FishPondExtensions
         return a / (cappedValue + b) * (1d + ((neighbors - 1) / 11d)) * Config.RoeProductionChanceMultiplier;
     }
 
-    /// <summary>Sets the spawn time to account for Angler couples.</summary>
-    /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <param name="data">The <see cref="FishPondData"/>, if available.</param>
-    internal static void SetAnglerSpawnTime(this FishPond pond, FishPondData? data = null)
-    {
-        // enable reproduction for Mr. and Ms. Angler
-        var anglers = pond.ParsePondFishes();
-        var males = anglers.Where(f => f?.Id == "160");
-        var females = anglers.Where(f => f?.Id == "899");
-        var mates = Math.Min(males.Count(), females.Count());
-        if (mates == 0)
-        {
-            return;
-        }
-
-        data ??= pond.GetFishPondData();
-        data.SpawnTime = 18 / mates;
-    }
-
     /// <summary>Parses the stored <see cref="PondFish"/> data from this <paramref name="pond"/>.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <returns>A <see cref="List"/> of parsed <see cref="PondFish"/>.</returns>
+    /// <returns>A <see cref="List{T}"/> of parsed <see cref="PondFish"/>.</returns>
     internal static List<PondFish> ParsePondFishes(this FishPond pond)
     {
         return Data.Read(pond, DataKeys.PondFish).Split(';').Select(PondFish.FromString).WhereNotNull().ToList();
     }
-
 
     /// <summary>Resets the <see cref="PondFish"/> data back to default values, effectively erasing stores qualities.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
@@ -217,8 +197,7 @@ internal static class FishPondExtensions
     {
         var fish = Enumerable.Repeat(new PondFish(pond.fishType.Value, SObject.lowQuality), pond.FishCount);
         if (pond.HasLegendaryFish() &&
-            Data.ReadAs<int>(pond, "FamilyLivingHere", modId: "DaLion.Professions") is var familyLivingHere &&
-            familyLivingHere > 0)
+            Data.ReadAs<int>(pond, "FamilyLivingHere", modId: "DaLion.Professions") is var familyLivingHere and > 0)
         {
             fish = fish
                 .Take(pond.FishCount - familyLivingHere)

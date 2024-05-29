@@ -50,8 +50,15 @@ internal static class Lookups
         QualifiedObjectIds.LegendII,
         QualifiedObjectIds.GlacierfishJr,
         QualifiedObjectIds.RadioactiveCarp,
+        "MNF.MoreNewFish_mushu",
+        "MNF.MoreNewFish_shinidamachu",
+        "MNF.MoreNewFish_goblin_shark_pup",
+        "MNF.MoreNewFish_bonnethead_pup",
+        "MNF.MoreNewFish_spiny_dogfish_pup",
+        "MNF.MoreNewFish_manta_ray_pup",
         "MNF.MoreNewFish_tui",
         "MNF.MoreNewFish_la",
+        "MNF.MoreNewFish_iridiumfish",
     ];
 
     /// <summary>Gets a map from a legendary fish ID to that of its corresponding extended family pair.</summary>
@@ -104,38 +111,4 @@ internal static class Lookups
 
     /// <summary>Gets or sets the ids of (valuable) resource clumps.</summary>
     internal static HashSet<int> ResourceClumpIds { get; set; } = [];
-
-    /// <summary>Gets a map from stone node ID to its corresponding resource ID.</summary>
-    internal static Dictionary<string, string> ResourceFromNode { get; } = new()
-    {
-        { QualifiedObjectIds.Stone_Node_Regular0, QualifiedObjectIds.Stone },
-        { QualifiedObjectIds.Stone_Node_Regular1, QualifiedObjectIds.Stone },
-        { QualifiedObjectIds.Stone_Node_Regular2, QualifiedObjectIds.Stone },
-        { QualifiedObjectIds.Stone_Node_Regular3, QualifiedObjectIds.Stone },
-        { QualifiedObjectIds.Stone_Node_Regular4, QualifiedObjectIds.Stone },
-        { QualifiedObjectIds.Stone_Node_Copper0, QualifiedObjectIds.CopperOre },
-        { QualifiedObjectIds.Stone_Node_Copper1, QualifiedObjectIds.CopperOre },
-        { QualifiedObjectIds.Stone_Node_Iron0, QualifiedObjectIds.IronOre },
-        { QualifiedObjectIds.Stone_Node_Iron1, QualifiedObjectIds.IronOre },
-        { QualifiedObjectIds.Stone_Node_Gold, QualifiedObjectIds.GoldOre },
-        { QualifiedObjectIds.Stone_Node_Iridium, QualifiedObjectIds.IridiumOre },
-        { QualifiedObjectIds.Stone_Node_Radioactive, QualifiedObjectIds.RadioactiveOre },
-        { QualifiedObjectIds.Stone_Node_Geode, QualifiedObjectIds.Geode },
-        { QualifiedObjectIds.Stone_Node_FrozenGeode, QualifiedObjectIds.FrozenGeode },
-        { QualifiedObjectIds.Stone_Node_MagmaGeode, QualifiedObjectIds.MagmaGeode },
-        { QualifiedObjectIds.Stone_Node_OmniGeode, QualifiedObjectIds.OmniGeode },
-        { QualifiedObjectIds.Stone_Node_Amethyst, QualifiedObjectIds.Amethyst },
-        { QualifiedObjectIds.Stone_Node_Topaz, QualifiedObjectIds.Topaz },
-        { QualifiedObjectIds.Stone_Node_Emerald, QualifiedObjectIds.Emerald },
-        { QualifiedObjectIds.Stone_Node_Aquamarine, QualifiedObjectIds.Aquamarine },
-        { QualifiedObjectIds.Stone_Node_Jade, QualifiedObjectIds.Jade },
-        { QualifiedObjectIds.Stone_Node_Ruby, QualifiedObjectIds.Ruby },
-        { QualifiedObjectIds.Stone_Node_Diamond, QualifiedObjectIds.Diamond },
-        { QualifiedObjectIds.Stone_Node_Mussel, QualifiedObjectIds.Mussel },
-        { QualifiedObjectIds.Stone_Node_BoneFragment0, QualifiedObjectIds.BoneFragment },
-        { QualifiedObjectIds.Stone_Node_BoneFragment1, QualifiedObjectIds.BoneFragment },
-        { QualifiedObjectIds.Stone_Node_Clay, QualifiedObjectIds.Clay },
-        { QualifiedObjectIds.Stone_Node_CinderShard0, QualifiedObjectIds.CinderShard },
-        { QualifiedObjectIds.Stone_Node_CinderShard1, QualifiedObjectIds.CinderShard },
-    };
 }

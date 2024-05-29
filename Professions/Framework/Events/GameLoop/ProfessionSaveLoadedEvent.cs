@@ -1,19 +1,18 @@
 ﻿namespace DaLion.Professions.Framework.Events.GameLoop;
 
-
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
+using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 using StardewValley;
-using World.ObjectListChanged;
 
 #endregion using directives
 
@@ -59,6 +58,11 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         if (player.HasProfession(Profession.Scavenger))
         {
             State.ScavengerHunt = new ScavengerHunt();
+        }
+
+        if (player.HasProfession(Profession.Aquarist))
+        {
+            ModHelper.GameContent.InvalidateCache("Data/Objects");
         }
 
         if (!Context.IsMainPlayer)

@@ -26,20 +26,13 @@ internal sealed class Game1ActiveClickbleMenuSetterPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void Game1ActiveClickbleMenuSetterPostfix(IClickableMenu? value)
     {
-        switch (value)
+        if (value is LevelUpMenu { isProfessionChooser: true } levelup)
         {
-            case LevelUpMenu { isProfessionChooser: true } levelup:
-                var level = Reflector.GetUnboundFieldGetter<LevelUpMenu, int>("currentLevel").Invoke(levelup);
-                if (level > 10)
-                {
-                    ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
-                }
-
-                break;
-            case GameMenu:
-            case null:
+            var level = Reflector.GetUnboundFieldGetter<LevelUpMenu, int>("currentLevel").Invoke(levelup);
+            if (level > 10)
+            {
                 ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
-                break;
+            }
         }
     }
 

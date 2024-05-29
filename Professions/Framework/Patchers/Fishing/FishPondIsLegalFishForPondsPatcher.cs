@@ -22,7 +22,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch for prestiged Aquarist to raise legendary fish.</summary>
+    /// <summary>Patch for Aquarist to raise legendary fish.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool FishPondIsLegalFishForPondsPrefix(FishPond __instance, ref bool __result, string itemId)

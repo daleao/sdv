@@ -73,6 +73,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
 
             skill.AddExperience(howMuch);
             skill.SetLevel(newLevel);
+            Game1.showGlobalMessage(Game1.content.LoadString("Strings\\1_6_Strings:NewIdeas"));
             return false; // don't run original logic
         }
         catch (Exception ex)

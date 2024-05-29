@@ -39,7 +39,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a mining node containing precious resources, otherwise <see langword="false"/>.</returns>
     internal static bool IsResourceNode(this SObject @object)
     {
-        return Lookups.ResourceNodeIds.Contains(@object.QualifiedItemId);
+        return Lookups.ResourceNodeIds.Contains(@object.QualifiedItemId) || (ItemExtensionsIntegration.Instance?.IsLoaded == true && ItemExtensionsIntegration.Instance.ModApi.IsResource(@object.ItemId, out _, out _));
     }
 
     /// <summary>Determines whether the <paramref name="profession"/> should track <paramref name="object"/>.</summary>
@@ -51,7 +51,6 @@ internal static class SObjectExtensions
         return (profession == Profession.Scavenger && ((@object.IsSpawnedObject && !@object.IsForagedMineral()) ||
                                                        @object.QualifiedItemId is QualifiedObjectIds.SpringOnion or QualifiedObjectIds.ArtifactSpot)) ||
                (profession == Profession.Prospector && ((@object.IsStone() && @object.IsResourceNode()) ||
-                                                        (ItemExtensionsIntegration.Instance?.IsLoaded == true && ItemExtensionsIntegration.Instance.ModApi.IsResource(@object.ItemId, out _, out _)) ||
                                                         @object.IsForagedMineral() || @object.QualifiedItemId is QualifiedObjectIds.ArtifactSpot));
     }
 

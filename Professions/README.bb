@@ -3,7 +3,7 @@
 
 [img]https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
 [quote][i][size=3]﻿This is phase 1 of the official MARGO 1.6 update.
-This update is in Beta.[b]There are likely bugs! [/b]If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports then I suggest you wait a couple more weeks before trying this mod. For everyone else, I appreciate the support.[/size][/i][/quote]
+This update is in Beta. [b]There are likely bugs! [/b]If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports then I suggest you wait a couple more weeks before trying this mod. For everyone else, I appreciate the support.[/size][/i][/quote]
 [size=6][font=bebas_neuebook]What this is[/font][/size]
 
 This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
@@ -310,11 +310,13 @@ In case you didn't read every single profession description above, please be awa
 [/list]
 [size=6][font=bebas_neuebook]Compatibility[/font][/size]
 
-Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it.
+Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it. Note that [url=https://www.nexusmods.com/stardewvalley/mods/521?tab=files]Luck Skill[/url] [b]is not a SpaceCore skill and is *not* supported[/b].
 
 For any mods that affect professions, skills or Masteries, [b]use common sense[/b]. Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings. For any other specific combinations, [b]try it for yourself and see what happens[/b]. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
 
 The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
+
+[url=https://www.nexusmods.com/stardewvalley/mods/1063]Automate[/url] should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
 
 Yes, it's compatible with [url=https://www.nexusmods.com/stardewvalley/mods/3753]Stardew Valley Expanded[/url].
 Yes, it should work in multiplayer.
@@ -326,6 +328,9 @@ No, it does not work on Android.
 Credits to the following asset contributors:[list]
 [*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
 [*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿ and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
+[*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url]﻿ for golden skill icons
+[*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url]﻿ for rose-golden skill icons
+[*][b]Posister[/b] for alternate golden profession icons
 [*][url=https://ro.gnjoy.com/index.asp]Gravity[/url] ﻿for sound effects and skill icons
 [/list]
 Credits to the following code contributors:[list]
@@ -344,7 +349,11 @@ Special thanks to the following visionaries:
 [/list]
 [size=6][font=bebas_neuebook]F.A.Q.[/font][/size]
 
-[b]Do Ecologist and Gemologist professions count forages/gems acquired before the profession?[/b]
+[b][b]Can I add this to an existing save?[/b]
+[/b][spoiler]
+Yes. A new save is recommended, but not required. You may just miss out on part of the intended experience of progression.
+[/spoiler][b]
+Do Ecologist and Gemologist professions count forages/gems acquired before the profession?[/b]
 [spoiler]
 No.
 [/spoiler]

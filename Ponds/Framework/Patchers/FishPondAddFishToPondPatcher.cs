@@ -22,18 +22,12 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Increment total Fish Pond quality ratings.</summary>
+    /// <summary>Add to PondFish data.</summary>
     [HarmonyPostfix]
     private static void FishPondAddFishToPondPostfix(FishPond __instance, FishPondData ____fishPondData, SObject fish)
     {
-
         var added = new PondFish(fish.ItemId, fish.Quality);
         Data.Append(__instance, DataKeys.PondFish, added.ToString(), ';');
-        if (fish.ItemId is "160" or "899")
-        {
-           __instance.SetAnglerSpawnTime(____fishPondData);
-        }
-
         if (Data.Read(__instance, DataKeys.PondFish).Split(';').Length == __instance.FishCount)
         {
             return;

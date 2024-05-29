@@ -19,6 +19,7 @@ public sealed class MasteriesConfig
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
     private ProfessionIconStyle _prestigeProfessionIconStyle = ProfessionIconStyle.MetallicGold;
+    private SkillIconStyle _masteredSkillIconStyle = SkillIconStyle.SiliconGold;
 
     #region dropdown enums
 
@@ -202,5 +203,18 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(204)]
-    public SkillIconStyle MasteredSkillIconStyle { get; set; }
+    public SkillIconStyle MasteredSkillIconStyle
+    {
+        get => this._masteredSkillIconStyle;
+        internal set
+        {
+            if (value == this._masteredSkillIconStyle)
+            {
+                return;
+            }
+
+            this._masteredSkillIconStyle = value;
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}/MasteredSkillIcons");
+        }
+    }
 }

@@ -1,5 +1,15 @@
 ﻿# PONDS Changelog
 
+## 1.0.3
+
+### Changed
+
+* Some changes to PondQueryMenuDraw.
+
+### Removed
+
+* Removed Angler + Ms. Angler mating. Added to Professions mod.
+
 ## 1.0.2
 
 ### Added

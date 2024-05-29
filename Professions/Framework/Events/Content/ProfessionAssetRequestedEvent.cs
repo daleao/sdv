@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Collections.Generic;
-using Configs;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Content;
 using DaLion.Shared.Enums;
@@ -133,7 +132,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         var sourceArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
         editor.PatchImage(sourceTx, sourceArea, targetArea);
-
         if (!Context.IsWorldReady || Game1.player is null)
         {
             return;
@@ -150,24 +148,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             sourceArea = profession.SourceSheetRect;
             sourceArea.Y += 80;
             targetArea = profession.TargetSheetRect;
-            editor.PatchImage(sourceTx, sourceArea, targetArea);
-        }
-
-        if (Game1.activeClickableMenu is not GameMenu)
-        {
-            return;
-        }
-
-        sourceTx = ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons");
-        foreach (var skill in Skill.List)
-        {
-            if (!skill.CanGainPrestigeLevels())
-            {
-                continue;
-            }
-
-            sourceArea = skill.SourceSheetRect;
-            targetArea = skill.TargetSheetRect;
             editor.PatchImage(sourceTx, sourceArea, targetArea);
         }
     }
@@ -229,9 +209,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static void EditFishPondDataData(IAssetData asset)
     {
         ((List<FishPondData>)asset.Data).AddRange(
-            new List<FishPondData>
-            {
-                new()
+            [
+                new FishPondData
                 {
                     Id = UniqueId + "/Angler",
                     PopulationGates = null,
@@ -281,7 +260,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/Glacierfish",
                     PopulationGates = null,
@@ -349,7 +328,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/Crimsonfish",
                     PopulationGates = null,
@@ -435,7 +414,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/Legend",
                     PopulationGates = null,
@@ -476,7 +455,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/MutantCarp",
                     PopulationGates = null,
@@ -517,7 +496,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/Tui",
                     PopulationGates = null,
@@ -549,7 +528,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     Id = UniqueId + "/La",
                     PopulationGates = null,
@@ -581,7 +560,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 0,
                 },
-                new()
+                new FishPondData
                 {
                     PopulationGates = null,
                     ProducedItems =
@@ -596,7 +575,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     SpawnTime = 999999,
                     Precedence = 100,
                 },
-            });
+            ]);
     }
 
     /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
@@ -661,6 +640,19 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 "mayo_item",
             ],
         };
+
+        if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))
+        {
+            return;
+        }
+
+        foreach (var value in data.Values)
+        {
+            if (value.ContextTags?.Contains("fish_legendary") == true)
+            {
+                value.ContextTags.Remove("fish_pond_ignore");
+            }
+        }
     }
 
     #endregion editor callbacks

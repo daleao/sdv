@@ -23,14 +23,14 @@ internal sealed class FishPondCreateFishInstancePatcher : HarmonyPatcher
 
     /// <summary>Spawn extended family when the pond is cleared.</summary>
     [HarmonyPrefix]
-    private static bool FishPondClearPondTranspiler(FishPond __instance, ref Item __result)
+    private static bool FishPondCreateFishInstancePrefix(FishPond __instance, ref Item __result)
     {
         if (Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere) <= 0)
         {
             return true; // run original logic
         }
 
-        __result = new SObject(Lookups.FamilyPairs[$"(O){__instance.fishType.Value}"], 1);
+        __result = ItemRegistry.Create<SObject>(Lookups.FamilyPairs[$"(O){__instance.fishType.Value}"]);
         Data.Increment(__instance, DataKeys.FamilyLivingHere, -1);
         return false; // don't run original logic
     }
