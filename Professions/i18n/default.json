@@ -119,7 +119,7 @@
   "angler.title.female": "Angler",
   "angler.title.prestiged.male": "Rodmancer",
   "angler.title.prestiged.female": "Rodmancer",
-  "angler.desc": "Fish are 0.5% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.",
+  "angler.desc": "Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.",
   "angler.desc.prestiged": "Up to two tackle effects can linger on the fishing rod. Can re-encounter legendary fish.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquarist",
