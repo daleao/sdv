@@ -19,6 +19,7 @@ public sealed class ProfessionsConfig
     private float _scavengerHuntHandicap = 1f;
     private float _prospectorHuntHandicap = 1f;
     private float _anglerPriceBonusCeiling = 1f;
+    private float _anglerPriceScalingPerFish = 0.5f;
     private float _conservationistTaxDeductionCeiling = 1f;
     private float _trackingPointerScale = 1.2f;
     private float _trackingPointerBobRate = 1f;
@@ -262,12 +263,30 @@ public sealed class ProfessionsConfig
     }
 
     /// <summary>
+    ///     Gets the percentage multiplier that will be added per each maxed out fish.
+    ///     Legendary fish always add 4X this value. Setting this value to 0 disables the price multiplier
+    /// </summary>
+    [JsonProperty]
+    [GMCMSection("prfs.angler_aquarist")]
+    [GMCMPriority(501)]
+    [GMCMRange(0f, 3f)]
+    [GMCMStep(0.5f)]
+    public float AnglerPercentagePriceScalingPerFish
+    {
+        get => this._anglerPriceScalingPerFish;
+        internal set
+        {
+            this._anglerPriceScalingPerFish = Math.Abs(value);
+        }
+    }
+
+    /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
     ///     maximum size.
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
-    [GMCMPriority(501)]
+    [GMCMPriority(502)]
     public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
 
     /// <summary>
@@ -275,7 +294,7 @@ public sealed class ProfessionsConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
-    [GMCMPriority(502)]
+    [GMCMPriority(503)]
     [GMCMRange(0, 24f)]
     public uint AquaristFishPondCeiling { get; internal set; } = 12;
 

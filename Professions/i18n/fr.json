@@ -119,7 +119,7 @@
   "angler.title.female": "Pêcheuse à la Ligne",
   "angler.title.prestiged.male": "Cannemancien",
   "angler.title.prestiged.female": "Cannemancienne",
-  "angler.desc": "Les poissons valent 1% de plus pour chaque espèce de taille maximale unique pêchée. Utiliser entièrement un appât permet à ses effets de persister sur la canne à pêche.",
+  "angler.desc": "Les poissons valent 0,5% de plus pour chaque espèce de taille maximale unique pêchée. Utiliser entièrement un appât permet à ses effets de persister sur la canne à pêche.",
   "angler.desc.prestiged": "Jusqu'à deux effets d'appâts peuvent persister sur la canne à pêche. Peut rencontrer à nouveau des poissons légendaires.",
   "aquarist.title.male": "Aquariophile",
   "aquarist.title.female": "Aquariophile",

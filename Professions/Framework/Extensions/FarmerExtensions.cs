@@ -262,11 +262,11 @@ internal static class FarmerExtensions
 
             if (id.IsBossFishId())
             {
-                bonus += 0.04f;
+                bonus += Config.AnglerPercentagePriceScalingPerFish / 100f * 4f;
             }
             else if (value[1] > maxSize)
             {
-                bonus += 0.01f;
+                bonus += Config.AnglerPercentagePriceScalingPerFish / 100f;
             }
         }
 
