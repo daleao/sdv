@@ -15,18 +15,23 @@ internal sealed class ToolEndUsingPatcher
     private static void Postfix(Farmer who)
     {
         var tool = who.CurrentTool;
-        if (who.toolPower.Value <= 0 || tool is not (Axe or Pickaxe))
+        var power = who.toolPower.Value;
+        if (power <= 0 || tool is not (Axe or Pickaxe))
         {
             return;
         }
 
-        var power = who.toolPower.Value;
         uint radius = tool switch
         {
             Axe => Config.Axe.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
             Pickaxe => Config.Pick.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
             _ => 1,
         };
+
+        if (radius <= 0)
+        {
+            return;
+        }
 
         State.Shockwaves.Add(
             new Shockwave(radius, who, Game1.currentGameTime.TotalGameTime.TotalMilliseconds));

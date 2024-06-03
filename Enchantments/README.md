@@ -19,7 +19,7 @@ In addition, this mod optionally replaces the generic vanilla "Forged" text in w
 | Blasting | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion. |
 | Carving | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero. |
 | Cleaving | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
-| Mammonite | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold increases by 1%, resetting when you take damage.* |
+| Mammonite | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.* |
 | Shocking | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area. |
 | Stabbing | Replaces the defensive parry special move with a stabbing lunge attack. **Sword only**.
 | Vampiric | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |

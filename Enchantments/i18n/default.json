@@ -6,7 +6,7 @@
   "enchantments.explosive.name": "Blasting",
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Mammonite", // alternates: "Greedy"
-  "enchantments.stabbing.name": "Piercing", // alternates: "Fencing", "Lunging"
+  "enchantments.stabbing.name": "Piercing", // alternates: "Fencing", "Lunging", "Stabbing"
   "enchantments.steadfast.name": "Steadfast",
   "enchantments.vampiric.name": "Vampiric", // alternates: "Bloodthirsty"
   "enchantments.wabbajack.name": "Wabbajack",

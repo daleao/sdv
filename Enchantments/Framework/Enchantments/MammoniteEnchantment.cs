@@ -10,7 +10,7 @@ using StardewValley.Monsters;
 
 /// <summary>
 ///     Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold.
-///     Consecutive takedowns without taking damage increase this health threshold by 1%.
+///     Consecutive takedowns without taking damage increase the health threshold by 1%.
 /// </summary>
 [XmlType("Mods_DaLion_MammoniteEnchantment")]
 public sealed class MammoniteEnchantment : BaseWeaponEnchantment
