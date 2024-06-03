@@ -97,7 +97,7 @@ public sealed class EventManager
     {
         this.Log.D("[EventManager]: Gathering all events...");
         this.ManageImplicitly(assembly, t =>
-            t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(FirstSecondUpdateTickedEvent)) ||
+            t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(FirstSecondUpdateTickedEvent), typeof(SecondSecondUpdateTickedEvent)) ||
             t.HasAttribute<AlwaysEnabledEventAttribute>() ||
             t.GetProperty(nameof(IManagedEvent.IsEnabled))!.DeclaringType == t);
         return this;

@@ -10,7 +10,6 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="ProfessionGameLaunchedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
     : GameLaunchedEvent(manager ?? ProfessionsMod.EventManager)
 {

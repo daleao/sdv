@@ -1,0 +1,24 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "DaLion.Enchantments",
+  "Name": "Springmyst",
+  "Author": "DaLion",
+  "Version": "1.0.0",
+  "Description": "Adds some actually interesting enchantments.",
+  "EntryDll": "DaLion.Enchantments.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "DaLion.Core",
+      "MinimumVersion": "1.2.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.23.0",
+      "IsRequired": true
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:24832"
+  ]
+}

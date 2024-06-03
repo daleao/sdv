@@ -8,7 +8,6 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Buildings;
-using StardewValley.GameData.FishPonds;
 using StardewValley.Menus;
 using StardewValley.Mods;
 
@@ -20,9 +19,9 @@ internal static class FishPondExtensions
     /// <summary>Determines whether a legendary fish lives in this <paramref name="pond"/>.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="pond"/> houses a legendary fish species, otherwise <see langword="false"/>.</returns>
-    internal static bool HasLegendaryFish(this FishPond pond)
+    internal static bool HasBossFish(this FishPond pond)
     {
-        return !string.IsNullOrEmpty(pond.fishType.Value) && Lookups.LegendaryFishes.Contains(pond.GetFishObject().QualifiedItemId);
+        return !string.IsNullOrEmpty(pond.fishType.Value) && pond.GetFishObject().IsBossFish();
     }
 
     /// <summary>Determines whether this <paramref name="pond"/> is infested with algae.</summary>
@@ -196,7 +195,7 @@ internal static class FishPondExtensions
     internal static void ResetPondFishData(this FishPond pond)
     {
         var fish = Enumerable.Repeat(new PondFish(pond.fishType.Value, SObject.lowQuality), pond.FishCount);
-        if (pond.HasLegendaryFish() &&
+        if (pond.HasBossFish() &&
             Data.ReadAs<int>(pond, "FamilyLivingHere", modId: "DaLion.Professions") is var familyLivingHere and > 0)
         {
             fish = fish

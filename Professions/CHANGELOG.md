@@ -1,5 +1,35 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.3.0
+
+### Added
+
+* Updated few lines of Korean translation by [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303).
+* Added Russian translations by [darthalex2014](https://forums.nexusmods.com/profile/122957028-darthalex2014/).
+* Added console command to set/unset mastered skills.
+* Added compatibility for new [Enchantments](../Enchantments) mod.
+* Fish Smoker no longer mentions that it preserves quality, since it doesn't with this mod.
+
+### Changed
+
+* Changed the colors of tracking pointers.
+    * **Yellow:** Foraging stuff (Scavenger)
+    * **Orange:** Mining stuff (Prospector)
+    * **Blue:** Panning spots (Prospector), ladders/shafts (Prospector), artifact spots (both)
+* Removed Golden Mayo from the list of required items for Perfection.
+* Spelunker buff is now a stackable buff.
+* Massive performance improvement (7x) in enemy AI code ~~by undoing a stupid "optimization" I had done a while back~~.
+* Brute rage decay lowered to 15s from 20s.
+
+### Fixed
+
+* Hopefully fixed possible issue caused bad badly-coded fish mods that don't properly assign context tags to their fish.
+* Fixed Ostrich and Golden Mayo items not being produced correctly.
+* Fixed typo in file `skills_KawaiiRoseGold.png`.
+* Fixed an issue causing incorrect level 10 profession choices to be offerred. Apparently this also fixes people being stuck at 5/6.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.2.10
 
 ### Added

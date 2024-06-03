@@ -49,9 +49,9 @@ internal static class SObjectExtensions
     internal static bool ShouldBeTrackedBy(this SObject @object, Profession profession)
     {
         return (profession == Profession.Scavenger && ((@object.IsSpawnedObject && !@object.IsForagedMineral()) ||
-                                                       @object.QualifiedItemId is QualifiedObjectIds.SpringOnion or QualifiedObjectIds.ArtifactSpot)) ||
+                                                       @object.QualifiedItemId == QualifiedObjectIds.SpringOnion)) ||
                (profession == Profession.Prospector && ((@object.IsStone() && @object.IsResourceNode()) ||
-                                                        @object.IsForagedMineral() || @object.QualifiedItemId is QualifiedObjectIds.ArtifactSpot));
+                                                        @object.IsForagedMineral()));
     }
 
     /// <summary>Determines whether the owner of this <paramref name="object"/> has the specified <paramref name="profession"/>.</summary>

@@ -25,7 +25,7 @@ internal sealed class BruteRageUpdateTickedEvent(EventManager? manager = null)
         var player = Game1.player;
 
         // decay counter every 5 seconds after 25 seconds out of combat
-        var expiry = player.HasProfession(Profession.Brute, true) ? 40 : 20;
+        var expiry = player.HasProfession(Profession.Brute, true) ? 30 : 15;
         if (Game1.game1.ShouldTimePass() && CoreMod.State.SecondsOutOfCombat > expiry && e.IsMultipleOf(300))
         {
             State.BruteRageCounter--;

@@ -1,0 +1,31 @@
+{
+  "enchantments.carving.name": "Carving",
+  "enchantments.cleaving.name": "Cleaving",
+  "enchantments.energized.name": "Shocking", // alternates: "Statikk", "Thunderlord's"
+  "enchantments.energized.desc": "Energy accumulated: {{counter}}",
+  "enchantments.explosive.name": "Blasting",
+  "enchantments.explosive.desc": "Blast radius: {{counter}}",
+  "enchantments.mammonite.name": "Mammonite", // alternates: "Greedy"
+  "enchantments.stabbing.name": "Piercing", // alternates: "Fencing", "Lunging"
+  "enchantments.steadfast.name": "Steadfast",
+  "enchantments.vampiric.name": "Vampiric", // alternates: "Bloodthirsty"
+  "enchantments.wabbajack.name": "Wabbajack",
+  "enchantments.chilling.name": "Chilling", // alternates: "Freljord"
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.runaan.name": "Reverberant", // alternates: "Echoing"
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  "gmcm.gemstone_socket_style.title": "Gemstone Socket Style",
+  "gmcm.gemstone_socket_style.desc": "Replaces the generic vanilla \"Forged\" text in weapon tooltips with actual gemstone socket icons in various styles.",
+  "gmcm.socket_style.diamond": "Diamond",
+  "gmcm.socket_style.round": "Round",
+  "gmcm.socket_style.iridium": "Iridium",
+  "gmcm.gemstone_socket_position.title": "Gemstone Socket Position",
+  "gmcm.gemstone_socket_position.desc": "Determines the relative position where gemstones sockets should be drawn, if enabled.",
+  "gmcm.socket_position.standard": "Standard",
+  "gmcm.socket_position.above_separator": "Above Separator"
+}

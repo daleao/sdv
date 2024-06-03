@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 1.0.4
+
+### Fixed
+
+* Fixed a parsing error related to metal enrichment.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 1.0.3
 
 ### Changed
@@ -9,6 +17,8 @@
 ### Removed
 
 * Removed Angler + Ms. Angler mating. Added to Professions mod.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 
 ## 1.0.2
 

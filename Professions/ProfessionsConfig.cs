@@ -16,6 +16,8 @@ public sealed class ProfessionsConfig
 {
     private HashSet<string> _artisanMachines = ["(BC)ExampleMod.ExampleMachine"];
     private HashSet<string> _animalDerivedGoods = ["(O)ExampleMod.ExampleProduce"];
+    private bool _enableGoldenOstrichMayo = true;
+    private bool _immersiveDairyYield = true;
     private float _scavengerHuntHandicap = 1f;
     private float _prospectorHuntHandicap = 1f;
     private float _anglerPriceBonusCeiling = 1f;
@@ -81,19 +83,36 @@ public sealed class ProfessionsConfig
     /// <summary>Gets a value indicating whether to set golden and ostrich egg machine outputs to corresponding new mayo items.</summary>
     [JsonProperty]
     [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(103)]
-    public bool EnableGoldenOstrichMayo { get; internal set; } = true;
+    [GMCMPriority(102)]
+    public bool EnableGoldenOstrichMayo
+    {
+        get => this._enableGoldenOstrichMayo;
+        internal set
+        {
+            this._enableGoldenOstrichMayo = value;
+            ModHelper.GameContent.InvalidateCache("Data/Machines");
+            ModHelper.GameContent.InvalidateCache("Data/Objects");
+        }
+    }
 
     /// <summary>Gets a value indicating whether large eggs and milk should yield twice the output stack instead of higher quality.</summary>
     [JsonProperty]
     [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(104)]
-    public bool ImmersiveDairyYield { get; internal set; } = true;
+    [GMCMPriority(103)]
+    public bool ImmersiveDairyYield
+    {
+        get => this._immersiveDairyYield;
+        internal set
+        {
+            this._immersiveDairyYield = value;
+            ModHelper.GameContent.InvalidateCache("Data/Machines");
+        }
+    }
 
     /// <summary>Gets a list of (qualified) IDs of artisan goods derived from animal produce. Add to this list the animal-derived goods from third-party mods you are using to make them compatible with the Producer profession.</summary>
     [JsonProperty]
     [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(102)]
+    [GMCMPriority(104)]
     [GMCMOverride(typeof(ProfessionsConfigMenu), "AnimalDerivedGoodsOverride")]
     public HashSet<string> AnimalDerivedGoods
     {
@@ -333,4 +352,10 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.tapper")]
     [GMCMPriority(701)]
     public bool AgingTreesQualitySyrups { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to draw the currently equipped ammo over the slingshot's tooltip.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.rascal")]
+    [GMCMPriority(800)]
+    public bool ShowEquippedAmmo { get; internal set; } = true;
 }

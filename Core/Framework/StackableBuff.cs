@@ -41,11 +41,12 @@ public abstract class StackableBuff : Buff
         this._getStacks = getStacks;
         this._getDescription = getDescription;
         this.description = this._getDescription?.Invoke(this._getStacks());
+        this.MaxStacks = maxStacks;
     }
 
     /// <summary>Gets the current number of stacks.</summary>
     public int Stacks => this._getStacks();
 
     /// <summary>Gets the maximum number of stacks for this buff.</summary>
-    public abstract int MaxStacks { get; }
+    public virtual int MaxStacks { get; }
 }

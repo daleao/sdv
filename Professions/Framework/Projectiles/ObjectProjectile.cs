@@ -2,12 +2,14 @@
 
 #region using directives
 
+using System.Globalization;
 using DaLion.Core.Framework.Extensions;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
@@ -79,6 +81,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.xVelocity.Value *= overcharge;
             this.yVelocity.Value *= overcharge;
             this.tailLength.Value = (int)((overcharge - 1f) * 5f);
+            Data.Write(this, DataKeys.Overcharge, overcharge.ToString(CultureInfo.InvariantCulture));
         }
 
         this.IsSquishyOrExplosive =
@@ -119,6 +122,11 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             base.behaviorOnCollisionWithMonster(n, location);
             return;
+        }
+
+        if (Data.ReadAs<bool>(this, "Energized", modId: "DaLion.Enchantments"))
+        {
+            location.DoLightningBarrage(monster.Tile, 6, this.Firer);
         }
 
         if (this.Ammo.QualifiedItemId != QualifiedObjectIds.ExplosiveAmmo)
@@ -189,7 +197,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             Log.D("Pierced!");
 
-            // !!! COMBAT INTERVENTION NEEDED
             this.Damage += monster.resilience.Value; // ignore defense
             if (isTargetArmored)
             {

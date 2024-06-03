@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
@@ -26,22 +25,28 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
 
         var shouldHighlightOnScreen = Config.ModKey.IsDown();
 
-        // track objects
+        // track spawned objects
         foreach (var (tile, @object) in Game1.currentLocation.Objects.Pairs)
         {
-            if (!@object.ShouldBeTrackedBy(Profession.Scavenger))
+            if (@object.ShouldBeTrackedBy(Profession.Scavenger))
             {
-                continue;
+                tile.TrackWhenOffScreen(Color.Yellow);
+                if (shouldHighlightOnScreen)
+                {
+                    tile.TrackWhenOnScreen(Color.Yellow);
+                }
             }
-
-            HudPointer.Instance.DrawAsTrackingPointer(tile, Color.Yellow);
-            if (shouldHighlightOnScreen)
+            else if (@object.QualifiedItemId == QualifiedObjectIds.ArtifactSpot)
             {
-                HudPointer.Instance.DrawOverTile(tile, Color.Yellow);
+                tile.TrackWhenOffScreen(Color.Cyan);
+                if (shouldHighlightOnScreen)
+                {
+                    tile.TrackWhenOnScreen(Color.Cyan);
+                }
             }
         }
 
-        //track berries
+        // track berries
         foreach (var feature in Game1.currentLocation.largeTerrainFeatures)
         {
             if (feature is not Bush bush || bush.townBush.Value || bush.tileSheetOffset.Value != 1 ||
@@ -50,10 +55,11 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                 continue;
             }
 
-            HudPointer.Instance.DrawAsTrackingPointer(bush.Tile, Color.Yellow);
+            var tile = bush.Tile + new Vector2(0.5f, -1f);
+            tile.TrackWhenOffScreen(Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                HudPointer.Instance.DrawOverTile(bush.Tile + new Vector2(0.5f, -1f), Color.Yellow);
+                tile.TrackWhenOnScreen(Color.Yellow);
             }
         }
 
@@ -65,10 +71,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                 continue;
             }
 
-            HudPointer.Instance.DrawAsTrackingPointer(dirt.Tile, Color.Yellow);
+            dirt.Tile.TrackWhenOffScreen(Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                HudPointer.Instance.DrawOverTile(dirt.Tile, Color.Yellow);
+                dirt.Tile.TrackWhenOnScreen(Color.Yellow);
             }
         }
 
@@ -80,10 +86,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                 continue;
             }
 
-            HudPointer.Instance.DrawAsTrackingPointer(tree.Tile, Color.Yellow);
+            tree.Tile.TrackWhenOffScreen(Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                HudPointer.Instance.DrawOverTile(tree.Tile, Color.Yellow);
+                tree.Tile.TrackWhenOnScreen(Color.Yellow);
             }
         }
     }

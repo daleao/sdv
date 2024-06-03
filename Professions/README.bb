@@ -172,10 +172,10 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 [spoiler]
 Each type of bait will also apply its regular fishing effects:
 [list]
-[*][b]Regular bait:[/b] 25% chance to catch ordinary (non-Crab Pot) fish, subject to the same location and season limitations as regular fishing.
-[*][b]Wild bait:[/b] 50% chance to also double the stack.
+[*][b]Wild bait:[/b] (25 + DailyLuck / 2)% chance to double the stack.
 [*][b]Magnet:[/b] Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
-[*][b]Magic bait:[/b] Chance to catch higher-level [size=2](non-Crab Pot)[/size] fish of any location or season.
+[*][b]Magic bait:[/b] Catches [size=2]non-Crab Pot[/size] fish of any location or season.
+[*][b]Deluxe bait:[/b] Quality is boosted by one additional stage.
 [/list]
 All baits, with the exception of Magnet, also prevent collecting junk.
 [/spoiler]
@@ -337,9 +337,9 @@ Credits to the following code contributors:[list]
 [*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]﻿ for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce﻿[/url]
 [/list]
 Credits to the following translators:[list]
-[*][url=https://github.com/CaranudLapin]CaranudLapin[/url] for French [img]https://i.imgur.com/ezVo9Fb.png[/img]
-[*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303]twinklesky6[/url] for Korean [img]https://i.imgur.com/Jvsm5YJ.png[/img]
-[*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303]Awassakura[/url] for Chinese [img]https://i.imgur.com/zuQC9Di.png[/img]
+[*][url=https://github.com/CaranudLapin][img]https://i.imgur.com/ezVo9Fb.png[/img]CaranudLapin[/url] for French
+[*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303][img]https://i.imgur.com/Jvsm5YJ.png[/img]twinklesky6[/url] for Korean
+[*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303][img]https://i.imgur.com/zuQC9Di.png[/img]Awassakura[/url] for Chinese
 [/list]
 Special thanks to the following visionaries:
 [list]
@@ -377,7 +377,7 @@ Obviously not.
 [b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
 [spoiler]
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
-With the exception of Angler when placed together with Ms. Angler (requires [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url], they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
+With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
 [/spoiler]
 [b]Does it work with XYZ mod?[/b]
 [spoiler]

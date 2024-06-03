@@ -23,26 +23,27 @@ internal sealed class CombatLevelChangedEvent(EventManager? manager = null)
             return;
         }
 
+        var player = Game1.player;
         var delta = e.NewLevel - e.OldLevel;
         if (delta > 0)
         {
-            Game1.player.maxHealth += 5;
+            player.maxHealth += 50;
             if (delta > 5)
             {
-                Game1.player.maxHealth += 5;
+                player.maxHealth += 5;
             }
 
-            Game1.player.health = Game1.player.maxHealth;
+            player.health = player.maxHealth;
         }
         else if (delta < 0)
         {
-            Game1.player.maxHealth -= 5;
+            player.maxHealth -= 5;
             if (delta < -5)
             {
-                Game1.player.maxHealth -= 5;
+                player.maxHealth -= 5;
             }
 
-            Game1.player.health = Math.Max(Game1.player.health, Game1.player.maxHealth);
+            player.health = Math.Min(player.health, player.maxHealth);
         }
     }
 }

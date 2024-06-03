@@ -26,8 +26,9 @@ internal sealed class RascalButtonPressedEvent(EventManager? manager = null)
         }
 
         var player = Game1.player;
-        if (Game1.activeClickableMenu is not null || player.CurrentTool is not Slingshot slingshot ||
-            slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2)
+        if (Game1.activeClickableMenu is not null ||
+            player.CurrentTool is not Slingshot { AttachmentSlotsCount: 2 } slingshot ||
+            slingshot.attachments.Length != 2 || slingshot.attachments[1] is null)
         {
             return;
         }
@@ -40,7 +41,5 @@ internal sealed class RascalButtonPressedEvent(EventManager? manager = null)
 
         (slingshot.attachments[0], slingshot.attachments[1]) = (slingshot.attachments[1], slingshot.attachments[0]);
         Game1.playSound("button1");
-
-        // !!! COMBAT INTERVENTION NEEDED
     }
 }

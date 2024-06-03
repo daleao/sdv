@@ -9,7 +9,7 @@
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "1.1.2",
+      "MinimumVersion": "1.2.0",
       "IsRequired": true
     }
   ],

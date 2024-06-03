@@ -3,7 +3,10 @@
 #region using directives
 
 using System.Reflection;
+using DaLion.Core;
+using DaLion.Core.Framework.Enchantments;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.Projectiles;
 using DaLion.Shared.Extensions.Xna;
@@ -29,17 +32,19 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and LimitBreak.</summary>
     [HarmonyPrefix]
-    [HarmonyPriority(Priority.High)]
-    [HarmonyBefore("DaLion.Combat")]
+    [HarmonyPriority(Priority.First)]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
-        // !! COMBAT INTERVENTION HERE
-
         try
         {
-            var hasSecondaryAmmo = __instance.attachments.Length > 1 && __instance.attachments[1] is not null;
-            if (__instance.attachments[0] is null)
+            var canDoQuincy = EnchantmentsIntegration.Instance?.IsLoaded == true &&
+                              __instance.enchantments
+                                  .OfType<BaseSlingshotEnchantment>()
+                                  .Any(e => e.GetType().Name.Contains("Quincy")) &&
+                              CoreMod.State.AreEnemiesNearby;
+            var hasSecondaryAmmo = __instance.attachments.Length > 1 && (__instance.attachments[1] is not null || canDoQuincy);
+            if (__instance.attachments[0] is null && !canDoQuincy)
             {
                 if (hasSecondaryAmmo && __instance.attachments[1].QualifiedItemId != QualifiedObjectIds.MonsterMusk)
                 {
@@ -73,14 +78,14 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 (15 + Game1.random.Next(4, 6)) * (1f + who.buffs.WeaponSpeedMultiplier));
 
             // get and spend ammo
-            var ammo = (SObject)__instance.attachments[0].getOne();
-            if (--__instance.attachments[0].Stack <= 0)
+            var ammo = (SObject?)__instance.attachments[0]?.getOne() ?? null;
+            if (ammo is not null && --__instance.attachments[0].Stack <= 0)
             {
                 __instance.attachments[0] = null;
             }
 
             // calculate damage
-            var damageBase = __instance.GetAmmoDamage(ammo);
+            var damageBase = ammo is not null ? __instance.GetAmmoDamage(ammo) : 1;
             var damageMod = __instance.QualifiedItemId switch
             {
                 QualifiedWeaponIds.MasterSlingshot => 2f,
@@ -109,7 +114,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
             var isMusked = false;
             var isLimitActive = State.LimitBreak is DesperadoBlossom { IsActive: true };
-            if (!isLimitActive && Config.ModKey.IsDown() && hasSecondaryAmmo && __instance.attachments[1] is
+            if (ammo is not null && !isLimitActive && Config.ModKey.IsDown() && hasSecondaryAmmo && __instance.attachments[1] is
                     { QualifiedItemId: QualifiedObjectIds.MonsterMusk } musk)
             {
                 var uses = Data.ReadAs(musk, DataKeys.MuskUses, 10);
@@ -122,7 +127,15 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 Data.Write(musk, DataKeys.MuskUses, uses.ToString());
             }
 
-            var projectile = new ObjectProjectile(
+            var projectile = ammo is null
+                ? EnchantmentsIntegration.Instance!.ModApi!.CreateQuincyProjectile(
+                    who,
+                    startingPosition,
+                    xVelocity,
+                    yVelocity,
+                    rotationVelocity,
+                    overcharge * overcharge)
+                : new ObjectProjectile(
                     ammo,
                     __instance,
                     who,
@@ -155,16 +168,24 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
                     damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                     rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-                    var petal = new ObjectProjectile(
-                        ammo,
-                        __instance,
-                        who,
-                        damage,
-                        0f,
-                        startingPosition,
-                        velocity.X,
-                        velocity.Y,
-                        rotationVelocity);
+                    var petal = ammo is null
+                        ? EnchantmentsIntegration.Instance!.ModApi!.CreateQuincyProjectile(
+                            who,
+                            startingPosition,
+                            xVelocity,
+                            yVelocity,
+                            rotationVelocity,
+                            overcharge * overcharge)
+                        : new ObjectProjectile(
+                            ammo,
+                            __instance,
+                            who,
+                            damage,
+                            0f,
+                            startingPosition,
+                            velocity.X,
+                            velocity.Y,
+                            rotationVelocity);
 
                     if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
                     {
@@ -174,14 +195,14 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                     who.currentLocation.projectiles.Add(petal);
                 }
             }
-
+            else
             // do Prestiged Rascsal double shot
-            if (!isLimitActive && who.HasProfession(Profession.Rascal, true) && Config.ModKey.IsDown() &&
+            if (who.HasProfession(Profession.Rascal, true) && Config.ModKey.IsDown() &&
                 hasSecondaryAmmo && !isMusked)
             {
                 // get and spend ammo
-                ammo = (SObject)__instance.attachments[1].getOne();
-                if (--__instance.attachments[1].Stack <= 0)
+                ammo = (SObject?)__instance.attachments[1]?.getOne() ?? null;
+                if (ammo is not null && --__instance.attachments[1].Stack <= 0)
                 {
                     __instance.attachments[1] = null;
                 }
@@ -190,16 +211,24 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 damageBase = __instance.GetAmmoDamage(ammo);
                 damage = (damageBase + Game1.random.Next(-damageBase / 2, damageBase + 2)) * damageMod;
                 rotationVelocity = (float)(Math.PI / (64f + Game1.random.Next(-63, 64)));
-                var secondProjectile = new ObjectProjectile(
-                    ammo,
-                    __instance,
-                    who,
-                    damage,
-                    overcharge,
-                    startingPosition,
-                    xVelocity,
-                    yVelocity,
-                    rotationVelocity);
+                var secondProjectile = ammo is null
+                    ? EnchantmentsIntegration.Instance!.ModApi!.CreateQuincyProjectile(
+                        who,
+                        startingPosition,
+                        xVelocity,
+                        yVelocity,
+                        rotationVelocity,
+                        overcharge * overcharge)
+                    : new ObjectProjectile(
+                        ammo,
+                        __instance,
+                        who,
+                        damage,
+                        overcharge,
+                        startingPosition,
+                        xVelocity,
+                        yVelocity,
+                        rotationVelocity);
 
                 if (Game1.currentLocation.currentEvent is not null || Game1.currentMinigame is not null)
                 {
@@ -207,6 +236,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 }
 
                 Game1.delayedActions.Add(new DelayedAction(225, () => location.projectiles.Add(secondProjectile)));
+            }
+
+            foreach (var enchantment in __instance.enchantments.OfType<BaseSlingshotEnchantment>())
+            {
+                enchantment.OnFire(__instance, projectile, location, who);
             }
 
             ___canPlaySound = true;

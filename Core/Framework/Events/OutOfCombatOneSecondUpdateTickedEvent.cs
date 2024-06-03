@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -14,23 +15,11 @@ internal sealed class OutOfCombatOneSecondUpdateTickedEvent(EventManager? manage
     : OneSecondUpdateTickedEvent(manager ?? CoreMod.EventManager)
 {
     /// <inheritdoc />
-    protected override void OnEnabled()
-    {
-        State.SecondsOutOfCombat = 0;
-    }
-
-    /// <inheritdoc />
-    protected override void OnDisabled()
-    {
-        State.SecondsOutOfCombat = int.MaxValue;
-    }
+    public override bool IsEnabled => Context.IsWorldReady && Game1.game1.ShouldTimePass() && State.SecondsOutOfCombat < 300;
 
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        if (++State.SecondsOutOfCombat > 300)
-        {
-            this.Disable();
-        }
+        State.SecondsOutOfCombat++;
     }
 }

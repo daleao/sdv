@@ -441,7 +441,7 @@ internal static class CrabPotExtensions
         r ??= Game1.random;
         return isSpecialOceanographerCondition
             ? r.Next(20)
-            : crabPot.HasWildBait() && r.NextDouble() < (isLuremaster ? 0.5 : 0.25)
+            : crabPot.HasWildBait() && isLuremaster && r.NextBool(0.25 + (owner.DailyLuck / 2d))
                 ? 2
                 : TrapperPirateTreasureTable.TryGetValue(trap, out var treasureData)
                     ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1)

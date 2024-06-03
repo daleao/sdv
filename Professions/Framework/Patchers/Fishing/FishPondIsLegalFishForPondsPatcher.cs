@@ -27,7 +27,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool FishPondIsLegalFishForPondsPrefix(FishPond __instance, ref bool __result, string itemId)
     {
-        if (!Lookups.LegendaryFishes.Contains($"(O){itemId}"))
+        if (!ItemContextTagManager.HasBaseTag(itemId, "fish_legendary"))
         {
             return true; // run original logic
         }

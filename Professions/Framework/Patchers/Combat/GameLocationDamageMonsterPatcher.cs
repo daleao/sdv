@@ -310,7 +310,6 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return false;
         }
 
-        // !! COMBAT INTERVENTION HERE
         var effectiveCritChance = weapon.critChance.Value;
         if (weapon.type.Value == (int)WeaponType.Dagger)
         {

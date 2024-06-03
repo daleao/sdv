@@ -107,7 +107,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         {
             var fish = pond.ParsePondFishes();
             fish.SortDescending();
-            var pulled = pond.HasLegendaryFish()
+            var pulled = pond.HasBossFish()
                 ? Game1.random.NextBool()
                     ? fish.Last(f => $"(O){f?.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]) ?? fish.Last()
                     : fish.Last(f => f?.Id == pond.fishType.Value) ?? fish.Last()

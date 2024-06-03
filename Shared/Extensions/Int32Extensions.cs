@@ -19,6 +19,26 @@ public static class Int32Extensions
         return value >= range.Start.Value && value <= range.End.Value;
     }
 
+    /// <summary>Determines whether the <paramref name="value"/> contains the specified <paramref name="digit"/>.</summary>
+    /// <param name="value">The value to check.</param>
+    /// <param name="digit">The desired digit.</param>
+    /// <returns><see langword="true"/> if <paramref name="value"/> contains <paramref name="digit"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsDigit(this int value, int digit)
+    {
+        while (value != 0)
+        {
+            var current = value % 10;
+            if (current == digit)
+            {
+                return true;
+            }
+
+            value /= 10;
+        }
+
+        return false;
+    }
+
     /// <summary>Finds the first common <see cref="int"/>eger between the <paramref name="collection"/> and the specified <paramref name="candidates"/>. If none are found, returns the specified <paramref name="default"/> value.</summary>
     /// <param name="collection">A <see cref="ICollection{T}"/> of <see cref="int"/>egers.</param>
     /// <param name="candidates">The candidate <see cref="int"/>egers.</param>

@@ -79,4 +79,78 @@ public static class Vector2Extensions
             ? x < 0 ? FacingDirection.Left : FacingDirection.Right
             : y > 0 ? FacingDirection.Down : FacingDirection.Up;
     }
+
+    /// <summary>
+    ///     Finds the closest from among the specified <paramref name="candidates"/> to this
+    ///     <paramref name="vector"/>.
+    /// </summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="candidates">The candidates.</param>
+    /// <param name="distance">The actual tile distance to the closest candidate found.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The closest target from among the specified <paramref name="candidates"/> to this <paramref name="vector"/>.</returns>
+    public static Vector2? GetClosest(
+        this Vector2 vector,
+        IEnumerable<Vector2> candidates,
+        out float distance,
+        Func<Vector2, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        candidates = candidates.Where(c => predicate(c));
+        Vector2? closest = null;
+        var distanceToClosest = float.MaxValue;
+        foreach (var candidate in candidates)
+        {
+            var distanceToThisCandidate = (vector - candidate).LengthSquared();
+            if (distanceToThisCandidate >= distanceToClosest)
+            {
+                continue;
+            }
+
+            closest = candidate;
+            distanceToClosest = distanceToThisCandidate;
+        }
+
+        distance = (int)Math.Sqrt(distanceToClosest);
+        return closest;
+    }
+
+    /// <summary>
+    ///     Finds the closest target from among the specified <paramref name="candidates"/> to this
+    ///     <paramref name="vector"/>.
+    /// </summary>
+    /// <typeparam name="T">The target type.</typeparam>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="candidates">The candidate <see cref="T"/>s, if already available.</param>
+    /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
+    /// <param name="distance">The actual tile distance to the closest candidate found.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The closest target from among the specified <paramref name="candidates"/> to this <paramref name="vector"/>.</returns>
+    public static T? GetClosest<T>(
+        this Vector2 vector,
+        IEnumerable<T> candidates,
+        Func<T, Vector2> getPosition,
+        out float distance,
+        Func<T, bool>? predicate = null)
+        where T : class
+    {
+        predicate ??= _ => true;
+        candidates = candidates.Where(c => predicate(c));
+        T? closest = null;
+        var distanceToClosest = float.MaxValue;
+        foreach (var candidate in candidates)
+        {
+            var distanceToThisCandidate = (vector - getPosition(candidate)).LengthSquared();
+            if (distanceToThisCandidate >= distanceToClosest)
+            {
+                continue;
+            }
+
+            closest = candidate;
+            distanceToClosest = distanceToThisCandidate;
+        }
+
+        distance = (int)Math.Sqrt(distanceToClosest);
+        return closest;
+    }
 }

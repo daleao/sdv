@@ -1,8 +1,9 @@
-﻿namespace DaLion.Professions.Framework.Events.GameLoop;
+﻿namespace DaLion.Professions.Framework.Events.Player;
 
 #region using directives
 
 using System;
+using DaLion.Professions;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
@@ -38,19 +39,15 @@ internal sealed class ProfessionsChangedEvent : ManagedEvent
     /// <param name="added">The index of the added profession.</param>
     private void OnProfessionAdded(int added)
     {
-        if (State.OrderedProfessions.AddOrReplace(added))
+        if (Profession.TryFromValue(added, out var profession))
         {
-            if (Profession.TryFromValue(added, out var profession))
-            {
-                profession.OnAdded(Game1.player);
-            }
-            else if (Profession.TryFromValue(added - 100, out profession))
-            {
-                profession.OnAdded(Game1.player, true);
-            }
+            profession.OnAdded(Game1.player);
+        }
+        else if (Profession.TryFromValue(added - 100, out profession))
+        {
+            profession.OnAdded(Game1.player, true);
         }
 
-        Data.Write(Game1.player, DataKeys.OrderedProfessions, string.Join(',', State.OrderedProfessions));
         if (added.IsIn(Profession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
@@ -61,19 +58,15 @@ internal sealed class ProfessionsChangedEvent : ManagedEvent
     /// <param name="removed">The index of the removed profession.</param>
     private void OnProfessionRemoved(int removed)
     {
-        if (State.OrderedProfessions.Remove(removed))
+        if (Profession.TryFromValue(removed, out var profession))
         {
-            if (Profession.TryFromValue(removed, out var profession))
-            {
-                profession.OnRemoved(Game1.player);
-            }
-            else if (Profession.TryFromValue(removed - 100, out profession))
-            {
-                profession.OnRemoved(Game1.player, true);
-            }
+            profession.OnRemoved(Game1.player);
+        }
+        else if (Profession.TryFromValue(removed - 100, out profession))
+        {
+            profession.OnRemoved(Game1.player, true);
         }
 
-        Data.Write(Game1.player, DataKeys.OrderedProfessions, string.Join(',', State.OrderedProfessions));
         if (removed.IsIn(Profession.GetRange(true)))
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");

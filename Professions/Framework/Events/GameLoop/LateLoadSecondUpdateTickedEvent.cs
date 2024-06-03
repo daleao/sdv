@@ -11,7 +11,6 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="LateLoadSecondUpdateTickedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = null)
     : SecondSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {

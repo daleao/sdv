@@ -24,42 +24,35 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
     /// <summary>Set Rascal ammo slots.</summary>
     [HarmonyPrefix]
-    private static void FarmerCurrentToolIndexPostfix(Farmer __instance, int value)
+    private static void FarmerCurrentToolIndexPrefix(Farmer __instance, int value)
     {
         if (value < 0 || value >= __instance.Items.Count || __instance.Items[value] is not Slingshot slingshot)
         {
             return;
         }
 
-        if (__instance.HasProfession(Profession.Rascal) &&
-            (slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2))
+        if (!__instance.HasProfession(Profession.Rascal) ||
+            (slingshot.AttachmentSlotsCount == 2 && slingshot.attachments.Length == 2))
         {
-            var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
-            replacement.AttachmentSlotsCount = 2;
-            __instance.Items[value] = replacement;
+            return;
         }
-        else if (!__instance.HasProfession(Profession.Rascal) &&
-                 (slingshot.AttachmentSlotsCount == 2 || slingshot.attachments.Length == 2))
+
+        var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+        replacement.AttachmentSlotsCount = 2;
+        if (slingshot.attachments[0] is { } ammo)
         {
-            var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
-            if (slingshot.attachments[0] is { } ammo1)
-            {
-                replacement.attachments[0] = (SObject)ammo1.getOne();
-                replacement.attachments[0].Stack = ammo1.Stack;
-            }
-
-            if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
-            {
-                var drop = (SObject)ammo2.getOne();
-                drop.Stack = ammo2.Stack;
-                if (!__instance.addItemToInventoryBool(drop))
-                {
-                    Game1.createItemDebris(drop, __instance.getStandingPosition(), -1, __instance.currentLocation);
-                }
-            }
-
-            __instance.Items[value] = replacement;
+            replacement.attachments[0] = (SObject)ammo.getOne();
+            replacement.attachments[0].Stack = ammo.Stack;
         }
+
+        for (var j = slingshot.enchantments.Count - 1; j >= 0; j--)
+        {
+            var enchantment = slingshot.enchantments[j];
+            replacement.AddEnchantment(enchantment);
+            slingshot.RemoveEnchantment(enchantment);
+        }
+
+        __instance.Items[value] = replacement;
     }
 
     #endregion harmony patches
