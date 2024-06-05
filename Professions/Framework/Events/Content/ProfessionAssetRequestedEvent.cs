@@ -16,6 +16,7 @@ using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Buildings;
 using StardewValley.GameData.FarmAnimals;
 using StardewValley.GameData.FishPonds;
+using StardewValley.GameData.Machines;
 using StardewValley.GameData.Objects;
 using StardewValley.Menus;
 using xTile;
@@ -38,12 +39,14 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
+        this.Edit("Data/Machines", new AssetEditor(EditMachinesData));
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap));
         this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap));
         this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
+        this.Edit("Strings/1_6_Strings", new AssetEditor(Edit_1_6_Strings));
 
         this.Provide(
             $"{UniqueId}/HudPointer",
@@ -599,29 +602,61 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         data[$"{UniqueId}/ConservationistTaxNotice"] = message;
     }
 
+    /// <summary>Patches machine rules for new mayo objects.</summary>
+    private static void EditMachinesData(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, MachineData>().Data;
+
+        if (Config.EnableGoldenOstrichMayo)
+        {
+            var rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+                .OutputRules
+                .First(rule => rule.Id == "Default_OstrichEgg");
+            var output = rule.OutputItem.Single();
+            output.Id = $"{UniqueId}/OstrichMayo";
+            output.ItemId = $"{UniqueId}/OstrichMayo";
+            output.MinStack = -1;
+            output.CopyQuality = false;
+
+            rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+                .OutputRules
+                .First(rule => rule.Id == "Default_GoldenEgg");
+            output = rule.OutputItem.Single();
+            output.Id = $"{UniqueId}/GoldenMayo";
+            output.ItemId = $"{UniqueId}/GoldenMayo";
+            output.MinStack = -1;
+            output.Quality = -1;
+        }
+
+        if (Config.ImmersiveDairyYield)
+        {
+            var rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+                .OutputRules
+                .First(rule => rule.Id == "Default_LargeEgg");
+            var output = rule.OutputItem.Single();
+            output.Quality = -1;
+            output.MinStack = 2;
+
+            rule = data[QualifiedBigCraftableIds.CheesePress]
+                .OutputRules
+                .First(rule => rule.Id == "Default_LargeMilk");
+            output = rule.OutputItem.Single();
+            output.Quality = -1;
+            output.MinStack = 2;
+
+            rule = data[QualifiedBigCraftableIds.CheesePress]
+                .OutputRules
+                .First(rule => rule.Id == "Default_LargeGoatMilk");
+            output = rule.OutputItem.Single();
+            output.Quality = -1;
+            output.MinStack = 2;
+        }
+    }
+
     /// <summary>Patches new mayo objects.</summary>
     private static void EditObjectsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
-        data[$"{UniqueId}/GoldenMayo"] = new ObjectData
-        {
-            Name = "Shiny Mayonnaise",
-            DisplayName = I18n.Objects_Goldenmayo_Name(),
-            Description = I18n.Objects_Goldenmayo_Desc(),
-            Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
-            Price = 2500,
-            Texture = $"{UniqueId}/Mayo",
-            SpriteIndex = 0,
-            Edibility = 20,
-            IsDrink = true,
-            ContextTags =
-            [
-                "color_gold",
-                "mayo_item",
-            ],
-        };
-
         data[$"{UniqueId}/OstrichMayo"] = new ObjectData
         {
             Name = "Delight Mayonnaise",
@@ -641,6 +676,26 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             ],
         };
 
+        data[$"{UniqueId}/GoldenMayo"] = new ObjectData
+        {
+            Name = "Shiny Mayonnaise",
+            DisplayName = I18n.Objects_Goldenmayo_Name(),
+            Description = I18n.Objects_Goldenmayo_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 2500,
+            Texture = $"{UniqueId}/Mayo",
+            SpriteIndex = 0,
+            Edibility = 20,
+            IsDrink = true,
+            ContextTags =
+            [
+                "color_gold",
+                "mayo_item",
+            ],
+            ExcludeFromShippingCollection = true,
+        };
+
         if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))
         {
             return;
@@ -653,6 +708,20 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 value.ContextTags.Remove("fish_pond_ignore");
             }
         }
+    }
+
+    /// <summary>Removes reference to quality preservation from Fish Smoker.</summary>
+    private static void Edit_1_6_Strings(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        var text = data["FishSmoker_Description"];
+        data["FishSmoker_Description"] =
+            LocalizedContentManager.CurrentLanguageCode switch
+            {
+                LocalizedContentManager.LanguageCode.ja => text.Split('。')[0] + '。',
+                LocalizedContentManager.LanguageCode.zh => text.Split(',')[0] + '。',
+                _ => text.Split('.')[0] + '.',
+            };
     }
 
     #endregion editor callbacks

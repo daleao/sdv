@@ -267,7 +267,13 @@ For Bioharmonist, a buff will be chosen at random the first time a forage is con
 <font size="2">
 <details>
 
-Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak.
+
+You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+
+Pointer colors:
+- **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
+- **Blue:** Artifact spots
 </details>
 </font>
 
@@ -413,9 +419,13 @@ For Cavewarden, any items left behind while mining have a 20% chance to spawn ba
 <font size="2">
 <details>
 
-This is the mining-equivalent of Scavenger. All mining nodes and mineral forages off-screen will be tracked with a yellow pointer. Ladders, shafts and panning spots are tracked with a green pointer. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
+This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
 
 You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+
+Pointer colors:
+- **Orange:** Mining nodes and forage minerals
+- **Blue:** Ladders/shafts, panning spots, artifact spots
 </details>
 </font>
 
@@ -610,10 +620,10 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 <details>
 
 Each type of bait will also apply its regular fishing effects:
-- **Regular bait:** 25% chance to catch (non-Crab Pot) fish, subject to the same location and season limitations as regular fishing.
-- **Wild bait:** 50% chance to also double the stack.
+- **Wild bait:** (25 + DailyLuck / 2)% chance to double the stack.
 - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
-- **Magic bait:** Chance to catch higher-level (non-Crab Pot) fish of any location or season.
+- **Magic bait:** Catches non-Crab Pot fish of any location or season.
+- **Deluxe bait:** Quality is boosted by one additional stage.
 
 All baits, with the exception of Magnet, also prevent collecting junk.
 </details>
@@ -689,7 +699,7 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-**Rage:** Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds, increasing to 40 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
+**Rage:** Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 15 seconds, increasing to 30 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
 </details>
 </font>
 
@@ -1037,7 +1047,7 @@ Obviously not.
 <summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
 
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
-With the exception of Angler when placed together with Ms. Angler (requires [Aquarism](../Ponds), they do not reproduce.
+With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
 </details>
 
 <!-- MOD LINKS -->

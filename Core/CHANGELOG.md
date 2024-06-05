@@ -1,5 +1,21 @@
 ﻿# CORE Changelog
 
+## 1.2.0
+
+### Added
+
+* Added functionality for new [Enchantments](../Enchantments) mod.
+
+### Changed
+
+* OutOfCombat counter now runs continuously (no longer spams Enabled/Disabled) in the console.
+
+## 1.1.2
+
+### Changed
+
+* Removed some drops from Tiger Slime Ball loot table.
+
 ## 1.1.1
 
 ### Added

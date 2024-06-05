@@ -42,6 +42,20 @@ internal sealed class ToolDrawAttachmentsPatcher : HarmonyPatcher
         var pixel = new Vector2(x, y);
         for (var slot = 0; slot < __instance.AttachmentSlotsCount; slot++)
         {
+            if (slot == 1 && !Game1.player.HasProfession(Profession.Rascal))
+            {
+                b.Draw(
+                    Game1.menuTexture,
+                    pixel,
+                    Game1.getSourceRectForStandardTileSheet(Game1.menuTexture, 57),
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    1f,
+                    SpriteEffects.None,
+                    0.86f);
+            }
+
             b.Draw(
                 Game1.menuTexture,
                 pixel,

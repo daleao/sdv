@@ -17,8 +17,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Netcode;
 using SpaceCore.Interface;
-using StardewValley.Menus;
 using SCPair = SCSkill.ProfessionPair;
+using CollectionExtensions = DaLion.Shared.Extensions.Collections.CollectionExtensions;
 
 #endregion using directives
 
@@ -359,9 +359,11 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
         helper.GoTo(0);
 
         var chosenProfession = generator.DeclareLocal(typeof(int));
+        var chosenProfessionAdjusted = generator.DeclareLocal(typeof(int));
 
         // From: Game1.player.professions.Add(professionsToChoose[i]);
-        // To: Game1.player.professions.Add(currentLevel > 10 ? professionsToChoose[i] + 100 : professionsToChoose[i]);
+        // To: Game1.player.professions.Add(temp = currentLevel > 10 ? professionsToChoose[i] + 100 : professionsToChoose[i]);
+        // + State.OrderedProfessions.AddOrReplace(temp)
         try
         {
             helper
@@ -381,7 +383,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                                     typeof(NetHashSet<int>).RequireMethod("Add")),
                             ])
                             .Move()
-                            .AddLabels(isNotPrestigeLevel)
                             .Insert([
                                 // duplicate chosen profession
                                 new CodeInstruction(OpCodes.Dup),
@@ -395,7 +396,27 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                                 new CodeInstruction(OpCodes.Ble_Un_S, isNotPrestigeLevel), // branch out if not
                                 new CodeInstruction(OpCodes.Ldc_I4_S, 100),
                                 new CodeInstruction(OpCodes.Add),
-                            ]);
+                            ])
+                            .Insert(
+                                [
+                                    // mirror to ordered professions
+                                    new CodeInstruction(OpCodes.Dup),
+                                    new CodeInstruction(OpCodes.Stloc_S, chosenProfessionAdjusted),
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(ProfessionsMod).RequirePropertyGetter(nameof(State))),
+                                    new CodeInstruction(
+                                        OpCodes.Callvirt,
+                                        typeof(ProfessionsState).RequirePropertyGetter(
+                                            nameof(State.OrderedProfessions))),
+                                    new CodeInstruction(OpCodes.Ldloc_S, chosenProfessionAdjusted),
+                                    new CodeInstruction(
+                                        OpCodes.Call,
+                                        typeof(CollectionExtensions).RequireMethod(
+                                            nameof(CollectionExtensions.AddOrReplace)).MakeGenericMethod(typeof(int))),
+                                    new CodeInstruction(OpCodes.Pop),
+                                ],
+                                [isNotPrestigeLevel]);
                     });
         }
         catch (Exception ex)

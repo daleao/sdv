@@ -27,6 +27,4 @@ internal sealed class BruteRageBuff : StackableBuff
                 I18n.Brute_Buff_Desc((stacks * 0.01f).ToString("P1"), (stacks * 0.005f).ToString("P1")))
     {
     }
-
-    public override int MaxStacks => MAX_STACKS;
 }

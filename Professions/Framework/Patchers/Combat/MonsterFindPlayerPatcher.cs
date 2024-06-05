@@ -38,7 +38,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             return true; // run original logic
         }
 
-        if ((Game1.ticks + __instance.currentLocation.characters.IndexOf(__instance)) % 30 != 0)
+        if ((Game1.ticks + __instance.GetHashCode()) % 30 != 0)
         {
             __result = __instance.Get_Target();
             return false; // don't run original logic

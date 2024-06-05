@@ -42,7 +42,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         var heldMetals =
             Data.Read(__instance, DataKeys.MetalsHeld)
                 .ParseList<string>(';')
-                .Select(li => li?.ParseTuple<int, int>())
+                .Select(li => li?.ParseTuple<string, int>())
                 .WhereNotNull()
                 .ToList();
         for (var i = 0; i < heldMetals.Count; i++)

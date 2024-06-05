@@ -11,6 +11,7 @@ using DaLion.Shared.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 
@@ -62,7 +63,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
             var hasUnresolvedNeeds = ____pond.neededItem.Value is not null && ____pond.HasUnresolvedNeeds() &&
                                      !____pond.hasCompletedRequest.Value;
-            var isLegendaryPond = ____fishItem.HasContextTag("fish_legendary");
+            var isLegendaryPond = ____fishItem.IsBossFish();
             var pondNameText = Game1.content.LoadString(
                     "Strings\\UI:PondQuery_Name",
                     ____fishItem.DisplayName);

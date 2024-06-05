@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Chargeable", "Charge
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Ponds", "Ponds\DaLion.Ponds.csproj", "{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Enchantments", "Enchantments\DaLion.Enchantments.csproj", "{A5121739-1577-4478-8F21-F7D3F8E1636C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,10 @@ Global
 		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7221A7CB-D0A7-4E1C-984C-19471F4A4DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

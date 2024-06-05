@@ -7,6 +7,7 @@ using StardewModdingAPI;
 using StardewValley;
 using StardewValley.Buildings;
 using StardewValley.Mods;
+using StardewValley.Projectiles;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives
@@ -1168,6 +1169,166 @@ public class ModDataManager
     public void Increment(Crop crop, string key, string? modId = null)
     {
         this.Increment(crop, key, 1, modId);
+    }
+
+    #endregion crop rw
+
+    #region projectile rw
+
+    /// <summary>
+    ///     Reads from a <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/> as <see cref="string"/>.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="defaultValue">The value to return if the <paramref name="key"/> does not exist.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns>The value of the <paramref name="key"/> as a <see cref="string"/>, if it exists, or <paramref name="defaultValue"/> if not.</returns>
+    public string Read(Projectile projectile, string key, string defaultValue = "", string? modId = null)
+    {
+        modId ??= this._id;
+        this.AssertKeyNotEmpty(key);
+        var value = projectile.modData.Read($"{modId}/{key}", defaultValue);
+        if (this._readCallbacks.TryGetValue(key, out var callback))
+        {
+            callback(value);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    ///     Reads from a <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/> as <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">The expected type for the <paramref name="key"/>'s value. This should most likely be a primitive.</typeparam>
+    /// <param name = "projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="defaultValue"> The value to return if the <paramref name="key"/> does not exist.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns>The value of the <paramref name="key"/> as <typeparamref name="T"/>, if it exists, or <paramref name="defaultValue"/> if not.</returns>
+    public T ReadAs<T>(Projectile projectile, string key, T defaultValue = default, string? modId = null)
+        where T : struct
+    {
+        modId ??= this._id;
+        this.AssertKeyNotEmpty(key);
+        var value = projectile.modData.Read($"{modId}/{key}", defaultValue);
+        if (this._readCallbacks.TryGetValue(key, out var callback))
+        {
+            callback(value.ToString() ?? string.Empty);
+        }
+
+        return value;
+    }
+
+    /// <summary>
+    ///     Writes to a <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/>, or removes it if supplied a null or empty <paramref name="newValue"/>.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to write to.</param>
+    /// <param name="newValue">The value to write, or <see langword="null"/> to remove the <paramref name="key"/>.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    public void Write(Projectile projectile, string key, string? newValue, string? modId = null)
+    {
+        modId ??= this._id;
+        this.AssertKeyNotEmpty(key);
+        var oldValue = projectile.modData.Read($"{modId}/{key}");
+        projectile.modData.Write($"{modId}/{key}", newValue);
+        this._log.V(string.IsNullOrEmpty(newValue)
+            ? $"[ModDataManager]: Cleared crop's {key}."
+            : $"[ModDataManager]: crop's {key} changed from {oldValue} to {newValue}.");
+        if (this._writeCallbacks.TryGetValue(key, out var callback))
+        {
+            callback(oldValue, newValue ?? string.Empty);
+        }
+    }
+
+    /// <summary>
+    ///     Writes to a <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/>, only if it doesn't yet have a value.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to write to.</param>
+    /// <param name="value">The value to write, or <see langword="null"/> to remove the <paramref name="key"/>.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> was written to, otherwise <see langword="false"/>.</returns>
+    public bool WriteIfNotExists(Projectile projectile, string key, string? value, string? modId = null)
+    {
+        modId ??= this._id;
+        if (projectile.modData.ContainsKey($"{modId}/{key}"))
+        {
+            this._log.V($"[ModDataManager]: The data key {key} already existed.");
+            return false;
+        }
+
+        this.Write(projectile, key, value, modId);
+        return true;
+    }
+
+    /// <summary>
+    ///     Appends a <paramref name="value"/> to an existing <paramref name="key"/> in the
+    ///     <paramref name="projectile"/>'s <see cref="ModDataDictionary"/>, or initializes it with that
+    ///     <paramref name="value"/>.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to update.</param>
+    /// <param name="value">The value to append.</param>
+    /// <param name="separator">A <see cref="string"/> with which to separate appended values.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    public void Append(Projectile projectile, string key, string value, char separator = ',', string? modId = null)
+    {
+        modId ??= this._id;
+        this.AssertKeyNotEmpty(key);
+        if (this.WriteIfNotExists(projectile, key, value))
+        {
+            return;
+        }
+
+        var oldValue = projectile.modData.Read($"{modId}/{key}");
+        var newValue = oldValue + separator + value;
+        projectile.modData.Write($"{modId}/{key}", newValue);
+        this._log.V($"[ModDataManager]: Appended crop's {key} with {value}");
+        if (this._writeCallbacks.TryGetValue(key, out var callback))
+        {
+            callback(oldValue, newValue);
+        }
+    }
+
+    /// <summary>
+    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/> by an arbitrary <paramref name="amount"/>.
+    /// </summary>
+    /// <typeparam name="T">A numeric type with which to increment the <paramref name="key"/>. This should most likely be an integer type.</typeparam>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to update.</param>
+    /// <param name="amount">The amount to increment by.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    public void Increment<T>(Projectile projectile, string key, T amount, string? modId = null)
+        where T : struct
+    {
+        modId ??= this._id;
+        this.AssertKeyNotEmpty(key);
+        var oldValue = projectile.modData.Read<T>($"{modId}/{key}");
+        var newValue = oldValue.GenericAdd(amount);
+        projectile.modData.Write($"{modId}/{key}", newValue.ToString());
+        this._log.V($"[ModDataManager]: Incremented crop's {key} by {amount}.");
+        if (this._writeCallbacks.TryGetValue(key, out var callback))
+        {
+            callback(oldValue.ToString() ?? "0", newValue.ToString() ?? amount.ToString() ?? "0");
+        }
+    }
+
+    /// <summary>
+    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="projectile"/>'s
+    ///     <see cref="ModDataDictionary"/> by 1.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to update.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    public void Increment(Projectile projectile, string key, string? modId = null)
+    {
+        this.Increment(projectile, key, 1, modId);
     }
 
     #endregion crop rw

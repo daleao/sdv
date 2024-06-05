@@ -61,34 +61,16 @@ public class SlimeBall
                 drops.Add(QualifiedObjectIds.MangoSapling, 1);
             }
 
-            drops.Add(QualifiedObjectIds.Sap, r.Next(15, 26));
-            drops.Add(QualifiedObjectIds.Jade, r.Next(1, 3));
-            if (r.NextBool(0.65))
-            {
-                drops.Add(QualifiedObjectIds.Ginger, r.Next(4, 9));
-            }
 
+            drops.Add(QualifiedObjectIds.Sap, r.Next(15, 26));
             if (!this.IsFirstGeneration)
             {
                 return drops;
             }
 
-            if (r.NextBool())
-            {
-                drops.Add(QualifiedObjectIds.CinderShard, r.Next(5, 11));
-            }
-
-            if (r.NextBool(0.33))
-            {
-                drops.Add(QualifiedObjectIds.MagmaCap, r.Next(1, 3));
-            }
-
-            if (r.NextBool(0.33))
-            {
-                drops.Add(QualifiedObjectIds.DragonTooth, r.Next(1, 3));
-            }
-
+            drops.Add(QualifiedObjectIds.Jade, 1);
             return drops;
+
         }
 
         var purple = new ColorRange([151, 255], [0, 49], [181, 255]);

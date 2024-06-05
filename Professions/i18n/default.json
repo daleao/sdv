@@ -334,6 +334,11 @@
   "gmcm.aging_trees_quality_syrups.title": "Quality Syrups From Aging Trees",
   "gmcm.aging_trees_quality_syrups.desc": "Causes regular trees to age like Fruit Trees, which will increase the quality of produced syrups by 1 per year.",
 
+  // rascal
+  "gmcm.sections.prfs.rascal": "Rascal",
+  "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
+  "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
+
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Skill Reset",
   "gmcm.enable_skill_reset.title": "Enable Skill Reset",

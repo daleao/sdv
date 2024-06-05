@@ -8,7 +8,7 @@ public sealed class CoreState
     public bool AreEnemiesNearby { get; internal set; }
 
     /// <summary>Gets the number of seconds since the last taking or receiving damage.</summary>
-    public int SecondsOutOfCombat { get; internal set; }
+    public int SecondsOutOfCombat { get; internal set; } = int.MaxValue;
 
     internal bool DebugMode { get; set; }
 

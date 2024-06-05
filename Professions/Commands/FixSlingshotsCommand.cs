@@ -27,38 +27,57 @@ internal sealed class FixSlingshotsCommand(CommandHandler handler)
         for (var i = 0; i < player.Items.Count; i++)
         {
             var item = player.Items[i];
-            if (item is Slingshot slingshot)
+            if (item is not Slingshot slingshot)
             {
-                if (player.HasProfession(Profession.Rascal) &&
-                    (slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2))
-                {
-                    var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
-                    replacement.AttachmentSlotsCount = 2;
-                    player.Items[i] = replacement;
-                }
-                else if (!player.HasProfession(Profession.Rascal) &&
-                         (slingshot.AttachmentSlotsCount == 2 || slingshot.attachments.Length == 2))
-                {
-                    var replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
-                    if (slingshot.attachments[0] is { } ammo1)
-                    {
-                        replacement.attachments[0] = (SObject)ammo1.getOne();
-                        replacement.attachments[0].Stack = ammo1.Stack;
-                    }
+                continue;
+            }
 
-                    if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
-                    {
-                        var drop = (SObject)ammo2.getOne();
-                        drop.Stack = ammo2.Stack;
-                        if (!player.addItemToInventoryBool(drop))
-                        {
-                            Game1.createItemDebris(drop, player.getStandingPosition(), -1, player.currentLocation);
-                        }
-                    }
-
-                    player.Items[i] = replacement;
+            Slingshot? replacement = null;
+            if (player.HasProfession(Profession.Rascal) &&
+                (slingshot.AttachmentSlotsCount != 2 || slingshot.attachments.Length != 2))
+            {
+                replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+                replacement.AttachmentSlotsCount = 2;
+                if (slingshot.attachments[0] is { } ammo)
+                {
+                    replacement.attachments[0] = (SObject)ammo.getOne();
+                    replacement.attachments[0].Stack = ammo.Stack;
                 }
             }
+            else if (!player.HasProfession(Profession.Rascal) &&
+                     (slingshot.AttachmentSlotsCount == 2 || slingshot.attachments.Length == 2))
+            {
+                replacement = ItemRegistry.Create<Slingshot>(slingshot.QualifiedItemId);
+                if (slingshot.attachments[0] is { } ammo1)
+                {
+                    replacement.attachments[0] = (SObject)ammo1.getOne();
+                    replacement.attachments[0].Stack = ammo1.Stack;
+                }
+
+                if (slingshot.attachments.Length > 1 && slingshot.attachments[1] is { } ammo2)
+                {
+                    var drop = (SObject)ammo2.getOne();
+                    drop.Stack = ammo2.Stack;
+                    if (!player.addItemToInventoryBool(drop))
+                    {
+                        Game1.createItemDebris(drop, player.getStandingPosition(), -1, player.currentLocation);
+                    }
+                }
+            }
+
+            if (replacement is null)
+            {
+                continue;
+            }
+
+            for (var j = slingshot.enchantments.Count - 1; j >= 0; j--)
+            {
+                var enchantment = slingshot.enchantments[j];
+                replacement.AddEnchantment(enchantment);
+                slingshot.RemoveEnchantment(enchantment);
+            }
+
+            player.Items[i] = replacement;
         }
 
         return true;

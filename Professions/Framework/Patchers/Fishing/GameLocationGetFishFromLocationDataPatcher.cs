@@ -24,11 +24,12 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
     internal GameLocationGetFishFromLocationDataPatcher(Harmonizer harmonizer)
         : base(harmonizer)
     {
-        this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.GetFishFromLocationData),
-        [
-            typeof(string), typeof(Vector2), typeof(int), typeof(Farmer), typeof(bool), typeof(bool),
-            typeof(GameLocation), typeof(ItemQueryContext),
-        ]);
+        this.Target = this.RequireMethod<GameLocation>(
+            nameof(GameLocation.GetFishFromLocationData),
+            [
+                typeof(string), typeof(Vector2), typeof(int), typeof(Farmer), typeof(bool), typeof(bool),
+                typeof(GameLocation), typeof(ItemQueryContext),
+            ]);
     }
 
     #region harmony patches

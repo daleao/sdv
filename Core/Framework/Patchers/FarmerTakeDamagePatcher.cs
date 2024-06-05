@@ -27,7 +27,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     {
         if (__instance.IsLocalPlayer)
         {
-            EventManager.Enable<OutOfCombatOneSecondUpdateTickedEvent>();
+            State.SecondsOutOfCombat = 0;
         }
     }
 

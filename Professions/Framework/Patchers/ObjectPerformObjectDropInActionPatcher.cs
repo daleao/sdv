@@ -45,8 +45,6 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             return;
         }
 
-        HandleImmersiveDairyYield(__instance, input, ref output);
-
         var user = who;
         var owner = __instance.GetOwner();
         var r = new Random(Guid.NewGuid().GetHashCode());
@@ -84,50 +82,4 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
-
-    #region injections
-
-    private static void HandleImmersiveDairyYield(SObject machine, SObject input, ref SObject output)
-    {
-        // large milk/eggs give double output at normal quality
-        if (input.Category is SObject.EggCategory or SObject.MilkCategory && input.Name.ContainsAnyOf("Large", "L.") &&
-            Config.ImmersiveDairyYield)
-        {
-            output.Stack = 2;
-            output.Quality = SObject.lowQuality;
-        }
-        else if (machine.QualifiedItemId == QualifiedBigCraftableIds.MayonnaiseMachine)
-        {
-            switch (input.QualifiedItemId)
-            {
-                // ostrich mayonnaise keeps giving x10 output but doesn't respect input quality without Artisan
-                case QualifiedObjectIds.OstrichEgg:
-                    if (Config.EnableGoldenOstrichMayo)
-                    {
-                        output = ItemRegistry.Create<SObject>($"{UniqueId}/OstrichMayo");
-                    }
-                    else if (Config.ImmersiveDairyYield)
-                    {
-                        output.Quality = SObject.lowQuality;
-                    }
-
-                    break;
-                // golden mayonnaise gives single output but maxes quality
-                case QualifiedObjectIds.GoldenEgg:
-                    if (Config.EnableGoldenOstrichMayo)
-                    {
-                        output = ItemRegistry.Create<SObject>($"{UniqueId}/GoldenMayo");
-                    }
-                    else if (Config.ImmersiveDairyYield)
-                    {
-                        output.Stack = 1;
-                        output.Quality = SObject.bestQuality;
-                    }
-
-                    break;
-            }
-        }
-    }
-
-    #endregion injections
 }

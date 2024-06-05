@@ -1,6 +1,12 @@
 ﻿namespace DaLion.Professions.Framework.Buffs;
 
-internal sealed class SpelunkerStreakBuff : Buff
+#region using directives
+
+using DaLion.Core.Framework;
+
+#endregion using directives
+
+internal sealed class SpelunkerStreakBuff : StackableBuff
 {
     internal const string ID = "DaLion.Professions.Buffs.SpelunkerStreak";
     private const int SHEET_INDEX = 56;
@@ -8,13 +14,14 @@ internal sealed class SpelunkerStreakBuff : Buff
     internal SpelunkerStreakBuff()
         : base(
             id: ID,
+            getStacks: () => State.SpelunkerLadderStreak,
+            maxStacks: int.MaxValue,
             source: "Spelunker",
             displaySource: _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")),
+            duration: 17,
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
-            duration: 17)
+            getDescription: stacks => I18n.Spelunker_Buff_Desc((stacks * 0.005f).ToString("P1")))
     {
-        this.description =
-            I18n.Spelunker_Buff_Desc((State.SpelunkerLadderStreak * 0.005f).ToString("P1"));
     }
 }
