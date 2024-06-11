@@ -21,6 +21,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 {
     internal static Dictionary<ISkill, Rectangle> RibbonTargetRectBySkill = [];
     internal static int RibbonXOffset;
+    internal static bool ShouldDrawRibbons;
 
     /// <summary>Initializes a new instance of the <see cref="SkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
@@ -177,7 +178,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
     internal static int AdjustForRibbonWidth()
     {
-        return ShouldEnableSkillReset ? Textures.STARS_WIDTH : 0;
+        return ShouldEnableSkillReset && ShouldDrawRibbons ? Textures.STARS_WIDTH : 0;
     }
 
     private static void DrawExtendedLevelBars(
@@ -243,7 +244,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 0.87f);
         }
 
-        if (!ShouldEnableSkillReset)
+        if (!ShouldEnableSkillReset || !ShouldDrawRibbons)
         {
             return;
         }

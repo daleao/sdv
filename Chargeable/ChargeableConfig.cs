@@ -43,7 +43,7 @@ public sealed class ChargeableConfig
     {
         var isValid = true;
 
-        Log.T("[Tools]: Verifying tool configs...");
+        Log.T("Verifying tool configs...");
 
         if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
         {

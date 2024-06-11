@@ -153,7 +153,7 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         base.draw(b);
         if (this._hoverText.Length > 0)
         {
-            DrawCustomBoxHoverText(
+            DrawMasteryTrackerHoverText(
                 b,
                 Game1.parseText(this._hoverText, Game1.smallFont, 500),
                 Game1.smallFont,
@@ -232,9 +232,20 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
             {
                 Game1.activeClickableMenu = null;
                 Game1.playSound("discoverMineral");
-                //Game1.delayedActions.Add(new DelayedAction(
-                //    350,
-                //    () => Game1.drawObjectDialogue(I18n.Prestige_Mastery_Unlocked(skill.DisplayName))));
+                if (MasteryTrackerMenu.hasCompletedAllMasteryPlaques())
+                {
+                    DelayedAction.functionAfterDelay(() => MasteryTrackerMenu.addSpiritCandles(), 500);
+                    Game1.player.freezePause = 2000;
+                    DelayedAction.functionAfterDelay(() => Game1.changeMusicTrack("grandpas_theme"), 2000);
+                    DelayedAction.functionAfterDelay(
+                        () =>
+                        {
+                            Game1.showGlobalMessage(
+                                Game1.content.LoadString("Strings\\1_6_Strings:MasteryCompleteToast"));
+                            Game1.playSound("newArtifact");
+                        },
+                        4000);
+                }
             }
         }
 
@@ -250,68 +261,7 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         base.update(time);
     }
 
-    /// <summary>Draws the menu background.</summary>
-    /// <param name="b">The <see cref="SpriteBatch"/>.</param>
-    private void BackgroundDraw(SpriteBatch b)
-    {
-        if (!Game1.options.showClearBackgrounds)
-        {
-            b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.6f);
-        }
-
-        drawTextureBox(
-            b,
-            Game1.mouseCursors_1_6,
-            new Rectangle(1, 85, 21, 21),
-            this.xPositionOnScreen,
-            this.yPositionOnScreen,
-            this.width,
-            this.height,
-            Color.White,
-            4f);
-        b.Draw(
-            Game1.mouseCursors_1_6,
-            this.Position + (new Vector2(6f, 7f) * 4f),
-            new Rectangle(0, 144, 23, 23),
-            Color.White,
-            0f,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            0.88f);
-        b.Draw(
-            Game1.mouseCursors_1_6,
-            this.Position + new Vector2(24f, this.height - 24),
-            new Rectangle(0, 144, 23, 23),
-            Color.White,
-            -(float)Math.PI / 2f,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            0.88f);
-        b.Draw(
-            Game1.mouseCursors_1_6,
-            this.Position + new Vector2(this.width - 24, 28f),
-            new Rectangle(0, 144, 23, 23),
-            Color.White,
-            -4.712389f,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            0.88f);
-        b.Draw(
-            Game1.mouseCursors_1_6,
-            this.Position + new Vector2(this.width - 24, this.height - 24),
-            new Rectangle(0, 144, 23, 23),
-            Color.White,
-            (float)Math.PI,
-            Vector2.Zero,
-            4f,
-            SpriteEffects.None,
-            0.88f);
-    }
-
-    private static void DrawCustomBoxHoverText(
+    private static void DrawMasteryTrackerHoverText(
         SpriteBatch b,
         string text,
         SpriteFont font,
@@ -396,7 +346,7 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
             boxColor.Value * alpha,
             boxScale,
             drawShadow: false);
-        if (boldTitleText != null)
+        if (boldTitleText is not null)
         {
             drawTextureBox(
                 b,
@@ -445,7 +395,7 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         if (drawTextShadow)
         {
             b.DrawString(
-                font, 
+                font,
                 text,
                 new Vector2(x + 16, y + 16 + 4) + new Vector2(2f, 2f),
                 textShadowColor.Value * alpha);
@@ -462,5 +412,66 @@ public sealed class MasteryLimitSelectionPage : IClickableMenu
         }
 
         b.DrawString(font, text, new Vector2(x + 16, y + 16 + 4), textColor.Value * 0.9f * alpha);
+    }
+
+    /// <summary>Draws the menu background.</summary>
+    /// <param name="b">The <see cref="SpriteBatch"/>.</param>
+    private void BackgroundDraw(SpriteBatch b)
+    {
+        if (!Game1.options.showClearBackgrounds)
+        {
+            b.Draw(Game1.fadeToBlackRect, Game1.graphics.GraphicsDevice.Viewport.Bounds, Color.Black * 0.6f);
+        }
+
+        drawTextureBox(
+            b,
+            Game1.mouseCursors_1_6,
+            new Rectangle(1, 85, 21, 21),
+            this.xPositionOnScreen,
+            this.yPositionOnScreen,
+            this.width,
+            this.height,
+            Color.White,
+            4f);
+        b.Draw(
+            Game1.mouseCursors_1_6,
+            this.Position + (new Vector2(6f, 7f) * 4f),
+            new Rectangle(0, 144, 23, 23),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            4f,
+            SpriteEffects.None,
+            0.88f);
+        b.Draw(
+            Game1.mouseCursors_1_6,
+            this.Position + new Vector2(24f, this.height - 24),
+            new Rectangle(0, 144, 23, 23),
+            Color.White,
+            -(float)Math.PI / 2f,
+            Vector2.Zero,
+            4f,
+            SpriteEffects.None,
+            0.88f);
+        b.Draw(
+            Game1.mouseCursors_1_6,
+            this.Position + new Vector2(this.width - 24, 28f),
+            new Rectangle(0, 144, 23, 23),
+            Color.White,
+            -4.712389f,
+            Vector2.Zero,
+            4f,
+            SpriteEffects.None,
+            0.88f);
+        b.Draw(
+            Game1.mouseCursors_1_6,
+            this.Position + new Vector2(this.width - 24, this.height - 24),
+            new Rectangle(0, 144, 23, 23),
+            Color.White,
+            (float)Math.PI,
+            Vector2.Zero,
+            4f,
+            SpriteEffects.None,
+            0.88f);
     }
 }

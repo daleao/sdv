@@ -2,7 +2,10 @@
 
 #region using directives
 
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Professions.Framework.UI;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -24,19 +27,47 @@ internal sealed class MasteryTrackerMenuClaimRewardPatcher : HarmonyPatcher
 
     /// <summary>Patch for post-Mastery unlocks.</summary>
     [HarmonyPostfix]
-    private static void MasteryTrackerMenuPostfix(MasteryTrackerMenu __instance, int ___which)
+    private static void MasteryTrackerMenuClaimRewardPostfix(int ___which)
     {
-        var skill = Skill.FromValue(___which);
-        if (skill == Skill.Combat && ShouldEnableLimitBreaks)
+        if (___which == Skill.Combat && ShouldEnableLimitBreaks)
         {
             Game1.activeClickableMenu = new MasteryLimitSelectionPage();
         }
-        else if (ShouldEnablePrestigeLevels)
+    }
+
+    /// <summary>Patch to wait for Limit selection before spirit candles.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? MasteryTrackerMenuClaimRewardTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
         {
-            //Game1.delayedActions.Add(new DelayedAction(
-            //    350,
-            //    () => Game1.drawObjectDialogue(I18n.Prestige_Mastery_Unlocked(skill.DisplayName))));
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(MasteryTrackerMenu).RequireMethod(
+                            nameof(MasteryTrackerMenu.hasCompletedAllMasteryPlaques)))
+                ])
+                .Move()
+                .GetOperand(out var dontTurnOnCandles)
+                .Return()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(MasteryTrackerMenu).RequireField("which")),
+                    new CodeInstruction(OpCodes.Ldc_I4_4), // combat skill index
+                    new CodeInstruction(OpCodes.Beq, dontTurnOnCandles),
+                ]);
         }
+        catch (Exception ex)
+        {
+            Log.E($"Failed delaying spirit candles.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
     }
 
     #endregion harmony patches

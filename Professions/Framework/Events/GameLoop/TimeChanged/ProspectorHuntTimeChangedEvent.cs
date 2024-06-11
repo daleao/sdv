@@ -32,7 +32,7 @@ internal sealed class ProspectorHuntTimeChangedEvent(EventManager? manager = nul
 
         var delta = Game1.player.stats.RocksCrushed - _previousHuntRocksCrushed;
         State.ProspectorHunt ??= new ProspectorHunt();
-        if (State.ProspectorHunt.TryStart(Math.Pow(1.0016, delta) - 1d))
+        if (State.ProspectorHunt.TryStart(Math.Pow(1.001, delta) - 1d))
         {
             _previousHuntRocksCrushed += delta;
         }

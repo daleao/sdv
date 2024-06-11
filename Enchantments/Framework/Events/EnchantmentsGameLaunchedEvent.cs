@@ -18,5 +18,9 @@ internal sealed class EnchantmentsGameLaunchedEvent(EventManager? manager = null
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         SpaceCoreIntegration.Instance!.Register();
+        if (EnchantmentsConfigMenu.Instance?.IsLoaded == true)
+        {
+            EnchantmentsConfigMenu.Instance.Register();
+        }
     }
 }

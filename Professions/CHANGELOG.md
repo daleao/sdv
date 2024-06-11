@@ -1,5 +1,28 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.3.1
+
+### Added
+
+* All shaken fruits are now considered forage for the purpose of Ecologist perks.
+* Added a warning dialogue before claiming a skill Mastery to inform players that skill resetting will become unavailable. No excuses now.
+
+### Changed
+
+* Angler bonus increased from 0.5% to 1% per unique max-size fish, and from 2% to 5% per Legendary fish.
+* Can no longer enter the Mastery Cave unless all skills are level 10 (vanilla behavior). Otherwise this would allow players to claim Mastery of skills at any level, unless I messed around with vanilla code even more, which just isn't worth it.
+* Skill Reset stars will no longer appear until the player has 2 or more professions in any skill. This is to avoid players getting stuck looking at bronze stars if they don't plan on resetting any time soon.
+
+### Fixed
+
+* Fixed Farmhands not being able to complete Scavenger Hunts.
+* Fixed Delight and Shiny Mayo still being present in the game when disabled.
+* Trash fished out of Fish Ponds no longer counts towards Conservationist perks.
+* Fixed a possible issue in Tree.shake patcher.
+* Updated incorrect description in README for Ecologist profession which stated that it affects Mushroom Boxes. It doesn't.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.3.0
 
 ### Added

@@ -55,7 +55,7 @@ internal sealed class ProfessionsConfigMenu : GMCMBuilder<ProfessionsConfigMenu>
         if (this._changedFields.Count > 0)
         {
             var changedText = this._changedFields.Aggregate(
-                "[Config]: Changed the following config settings:",
+                "Changed the following config settings:",
                 (current, next) => current + $"\n\"{next.Key}\": \"{next.Value}\"");
             Log.D(changedText);
             this._changedFields.Clear();

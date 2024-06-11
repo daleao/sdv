@@ -1,4 +1,4 @@
-<div align="center">
+﻿<div align="center">
 
 # Springmyst
 
@@ -44,7 +44,7 @@ In addition, this mod optionally replaces the generic vanilla "Forged" text in w
 
 <font size="1">
 
-\* *Quincy projectiles have no knockback. Damage increase by 50% below 2/3 max health, and again to by 100% when below 1/3 (the projectile will change color to reflect this). If [Professions](../Professions) mod is installed and the player has the Rascal profession, Quincy projectiles can be fired even if a different ammo is equipped in the second ammo slot. If the player also has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead of** its velocity and knockback.*
+\* *Quincy projectiles have no knockback. Damage increase by 50% below 2/3 max health, and again to by 100% when below 1/3 (the projectile will change color to reflect this). If [Professions](../Professions) mod is installed and the player has the Rascal profession, Quincy projectiles can be fired even if a different ammo is equipped in the second ammo slot. If the player also has the Desperado profession, the Quincy projectile's size will be increased proportionally by overcharge **instead  of** its velocity and knockback.*
 
 \** *Echo projectiles inherit 60% of the main projectile's damage.*
 </font>
@@ -57,4 +57,11 @@ N/A.
 
 ## Credits & Special Thanks
 
-N/A.
+Credits to the following translators:
+- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+
+Credits and special thanks to the following for inspiration and assets:
+- [Bethesda Game Studios](https://www.bethesdagamestudios.com/)﻿ for [Skyrim](https://elderscrolls.bethesda.net/en)
+- [Gravity](https://ro.gnjoy.com/index.asp)﻿ for **Ragnarok Online**
+- [Riot Games](https://www.riotgames.com/en)﻿ for [League Of Legends](https://www.leagueoflegends.com/en-us/)﻿
+- [Tite Kubo](https://en.wikipedia.org/wiki/Tite_Kubo) for [Bleach](https://www.crunchyroll.com/series/G63VGG2NY/bleach)﻿

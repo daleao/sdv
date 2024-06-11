@@ -340,6 +340,7 @@ Credits to the following translators:[list]
 [*][url=https://github.com/CaranudLapin][img]https://i.imgur.com/ezVo9Fb.png[/img]CaranudLapin[/url] for French
 [*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303][img]https://i.imgur.com/Jvsm5YJ.png[/img]twinklesky6[/url] for Korean
 [*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303][img]https://i.imgur.com/zuQC9Di.png[/img]Awassakura[/url] for Chinese
+[*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/][img]https://i.imgur.com/cXhDLc5.png[/img]﻿darthalex2014[/url]﻿ for Russian
 [/list]
 Special thanks to the following visionaries:
 [list]

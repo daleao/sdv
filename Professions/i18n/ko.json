@@ -236,7 +236,7 @@
   "prestige.mastery.cant": "직업 조건이 충족되지 않았습니다.",
 
   // other
-  "treasure_hunt.broadcast.started": "{{player}}이(가) 보물 사냥에 성공했습니다!",
+  "treasure_hunt.broadcast.started": "{{player}}이(가) 보물 사냥을 시작했습니다!",
   "treasure_hunt.broadcast.ended.success": "{{player}}이(가) 보물을 찾았습니다!",
   "treasure_hunt.broadcast.ended.failure": "{{player}}이(가) 보물 찾기에 실패했습니다...",
 

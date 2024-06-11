@@ -29,7 +29,7 @@ internal sealed class FarmhandScavengerHuntUpdateTickedEvent(EventManager? manag
             return;
         }
 
-        if (Game1.player.currentLocation.terrainFeatures.TryGetValue(hunt.TreasureTile.Value, out var feature) ||
+        if (!Game1.player.currentLocation.terrainFeatures.TryGetValue(hunt.TreasureTile.Value, out var feature) ||
             feature is not HoeDirt)
         {
             return;

@@ -210,6 +210,7 @@
   "prestige.level_up.choose": "Choose a profession to prestige:",
   "prestige.level_up.single": "Gained Prestige",
 
+  "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
   "prestige.mastery.unlocked": "Can now develop the {{skill}} skill further.",
   "prestiged.title": "Master ",
 

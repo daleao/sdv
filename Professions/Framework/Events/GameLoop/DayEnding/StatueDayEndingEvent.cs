@@ -28,7 +28,7 @@ internal sealed class StatueDayEndingEvent(EventManager? manager = null)
         {
             var toReset = ToReset.Dequeue();
             toReset.Reset();
-            Log.D($"[Masteries]: {Game1.player.Name}'s {toReset.DisplayName} skill has been reset.");
+            Log.D($"{Game1.player.Name}'s {toReset.DisplayName} skill has been reset.");
         }
     }
 }

@@ -31,7 +31,7 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: SetGingerQuality(obj);
+        // Injected: if (game1.player.professions.Contains(Farmer.botanist)) obj.Quality = Game1.player.GetEcologistForageQuality;
         // Between: obj = new SObject(829, 1);
         try
         {
@@ -43,6 +43,15 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.botanist)
                 .Insert([
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+                    new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(Data))),
+                    new CodeInstruction(OpCodes.Ldloc_0),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Item).RequirePropertyGetter(nameof(Item.ItemId))),
+                    new CodeInstruction(OpCodes.Ldnull),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ModDataManagerExtensions).RequireMethod(
+                            nameof(ModDataManagerExtensions
+                                .AppendToEcologistItemsForaged))),
                     new CodeInstruction(OpCodes.Ldloc_0),
                     new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                     new CodeInstruction(

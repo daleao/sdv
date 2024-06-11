@@ -97,6 +97,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution1),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
                     new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.isScythe))),
+                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution1),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.GetMaxForges))),
                     new CodeInstruction(OpCodes.Ldc_I4_0),
                     new CodeInstruction(OpCodes.Ble_S, resumeExecution1),
@@ -130,6 +134,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
                     new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
                     new CodeInstruction(OpCodes.Brfalse_S, resumeExecution2),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
+                    new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.isScythe))),
+                    new CodeInstruction(OpCodes.Brtrue_S, resumeExecution2),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)9),
                     new CodeInstruction(OpCodes.Isinst, typeof(Tool)),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Tool).RequireMethod(nameof(Tool.GetMaxForges))),
@@ -238,7 +246,8 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                                         nameof(EnchantmentsConfig.GemstoneSocketStyle))),
                                 new CodeInstruction(OpCodes.Ldc_I4_0),
                                 new CodeInstruction(OpCodes.Beq_S, callTotalForgeLevels),
-                                new CodeInstruction(OpCodes.Callvirt,
+                                new CodeInstruction(
+                                    OpCodes.Callvirt,
                                     typeof(Tool).RequireMethod(nameof(Tool.GetMaxForges))),
                                 new CodeInstruction(OpCodes.Br_S, resumeExecution),
                             ])
@@ -261,6 +270,11 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     private static void DrawForgeIcons(Tool tool, int x, ref int y, SpriteBatch b, SpriteFont font)
     {
+        if (tool.isScythe())
+        {
+            return;
+        }
+
         var position = new Vector2(x + 20, y + 24);
         if (Config.GemstoneSocketPosition == EnchantmentsConfig.SocketPosition.AboveSeparator)
         {

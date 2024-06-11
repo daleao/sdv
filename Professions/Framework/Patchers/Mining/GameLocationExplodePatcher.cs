@@ -165,7 +165,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
 
             location.OnStoneDestroyed(tileObj.ItemId, tileX, tileY, who);
-            Log.D("[Demolitionist]: Invoked additional call to OnStoneDestroyed");
+            Log.D("Demolitionist invoked additional call to OnStoneDestroyed");
         }
     }
 
@@ -201,7 +201,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                 tileY,
                 who.UniqueMultiplayerID,
                 location);
-            Log.D("[Blaster]: Made extra coal from MineShaft.checkStoneForItems!");
+            Log.D("Blaster made extra coal from MineShaft.checkStoneForItems!");
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
@@ -210,7 +210,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     tileY,
                     who.UniqueMultiplayerID,
                     location);
-                Log.D("[Blaster]: Made extra prestiged coal from MineShaft.checkStoneForItems!");
+                Log.D("Blaster made extra prestiged coal from MineShaft.checkStoneForItems!");
             }
 
             Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
@@ -255,7 +255,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                 tileY,
                 who.UniqueMultiplayerID,
                 location);
-            Log.D("[Blaster]: Made extra coal from GameLocation.OnStoneDestroyed!");
+            Log.D("Blaster made extra coal from GameLocation.OnStoneDestroyed!");
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
@@ -264,7 +264,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     tileY,
                     who.UniqueMultiplayerID,
                     location);
-                Log.D("[Blaster]: Made extra prestiged coal from GameLocation.OnStoneDestroyed!");
+                Log.D("Blaster made extra prestiged coal from GameLocation.OnStoneDestroyed!");
             }
         }
     }
@@ -288,7 +288,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                 tileY,
                 who.UniqueMultiplayerID,
                 location);
-            Log.D("[Blaster]: Made extra coal from GameLocation.breakStone!");
+            Log.D("Blaster made extra coal from GameLocation.breakStone!");
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
@@ -297,7 +297,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                     tileY,
                     who.UniqueMultiplayerID,
                     location);
-                Log.D("[Blaster]: Made extra prestiged coal from GameLocation.breakStone!");
+                Log.D("Blaster made extra prestiged coal from GameLocation.breakStone!");
             }
         }
     }

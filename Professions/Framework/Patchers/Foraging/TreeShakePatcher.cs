@@ -25,7 +25,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to apply Ecologist perk to coconuts from shaken trees.</summary>
+    /// <summary>Patch to apply Ecologist perk to shaken trees.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
@@ -39,7 +39,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
                     [
                         new CodeInstruction(OpCodes.Callvirt, typeof(Item).RequirePropertySetter(nameof(Item.Quality)))
                     ],
-                    _ => helper
+                    i => helper
                         .Move(-1)
                         .ReplaceWith(
                             new CodeInstruction(
@@ -51,7 +51,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
                                 OpCodes.Call,
                                 typeof(Game1).RequirePropertyGetter(nameof(Game1.player))),
                             new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(Data))),
-                            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[13]),
+                            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[i == 0 ? 13 : 15]),
                             new CodeInstruction(OpCodes.Callvirt, typeof(Item).RequirePropertyGetter(nameof(Item.ItemId))),
                             new CodeInstruction(OpCodes.Ldnull),
                             new CodeInstruction(

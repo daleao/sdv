@@ -79,11 +79,6 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         {
             var algae = pond.ParsePondFishes();
             var pulled = algae.Choose();
-            if (pulled is null)
-            {
-                ThrowHelper.ThrowInvalidOperationException("Chose null algae data from Pond Fish.");
-            }
-
             id = pulled.Id;
             algae.Remove(pulled);
             if (algae.Count != pond.FishCount)
@@ -105,27 +100,35 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     {
         try
         {
-            var fish = pond.ParsePondFishes();
-            fish.SortDescending();
-            var pulled = pond.HasBossFish()
-                ? Game1.random.NextBool()
-                    ? fish.Last(f => $"(O){f?.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]) ?? fish.Last()
-                    : fish.Last(f => f?.Id == pond.fishType.Value) ?? fish.Last()
-                : fish.Last();
-            if (pulled is null)
+            var fishes = pond.ParsePondFishes();
+            fishes.SortDescending();
+            PondFish pulled;
+            if (pond.HasBossFish())
             {
-                ThrowHelper.ThrowInvalidOperationException("Chose null fish data from Pond Fish.");
+                if (Data.ReadAs<int>(pond, "FamilyLivingHere") > 0 && Game1.random.NextBool())
+                {
+                    pulled = fishes.Last(f => $"(O){f.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]);
+                    Data.Increment(pond, "FamilyLivingHere", -1);
+                }
+                else
+                {
+                    pulled = fishes.Last(f => f.Id == pond.fishType.Value);
+                }
+            }
+            else
+            {
+                pulled = fishes.Last();
             }
 
             (id, quality) = pulled;
-            fish.Remove(pulled);
-            if (fish.Count != pond.FishCount)
+            fishes.Remove(pulled);
+            if (fishes.Count != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
                     "Mismatch between fish population data and actual population.");
             }
 
-            Data.Write(pond, DataKeys.PondFish, string.Join(';', fish));
+            Data.Write(pond, DataKeys.PondFish, string.Join(';', fishes));
         }
         catch (InvalidDataException ex)
         {

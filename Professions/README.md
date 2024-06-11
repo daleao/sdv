@@ -243,7 +243,7 @@ Other than the name, this profession is unchanged from vanilla.
 <font size="2">
 <details>
 
-All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage. Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger), Coconuts shaken off of palm trees, and mushrooms produced by Mushroom Boxes, but only if the cave owner (i.e., the host player) has the profession.
+All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage. Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger) and shaken fruits from Fruit Trees.
 
 For Bioharmonist, a buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
 </details>
@@ -535,7 +535,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <!--- Angler --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b> - Fish are 0.5% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
+<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b> - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
 </summary>
 
 <ul>
@@ -547,7 +547,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <font size="2">
 <details>
 
-Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk. Legendary fish are worth 4 regular fish; i.e., 2% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
+Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk. Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. By default, the bonus caps at 100%, but this can be configured.
 
 Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
 </details>
@@ -970,8 +970,9 @@ Credits to the following code contributors:
 
 Credits to the following translators:
 - ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
-- ![](https://i.imgur.com/Jvsm5YJ.png) [twinklesky6](https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303) for Korean.
+- ![](https://i.imgur.com/Jvsm5YJ.png) [twinklesky6](https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303) and [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.
 - ![](https://i.imgur.com/zuQC9Di.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.
+- ![](https://i.imgur.com/cXhDLc5.png) [darthalex2014](https://forums.nexusmods.com/profile/122957028-darthalex2014/) for Russian.
 
 Special thanks to the following visionaries:
 - [Enai Siaion](https://www.nexusmods.com/skyrimspecialedition/users/3959191) for [Ordinator](https://www.nexusmods.com/skyrimspecialedition/mods/1137)

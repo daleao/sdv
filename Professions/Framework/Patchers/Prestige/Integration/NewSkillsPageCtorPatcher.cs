@@ -68,7 +68,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                 }
             }
 
-            if (maxLength > 0)
+            if (maxLength > 1)
             {
                 var addedWidth = ((maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE) + 12;
                 __instance.width += addedWidth;
@@ -77,6 +77,11 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                 ___scrollBar.bounds.X += addedWidth;
                 ___scrollBarRunner.X += addedWidth;
                 NewSkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
+                SkillsPageDrawPatcher.ShouldDrawRibbons = true;
+            }
+            else
+            {
+                SkillsPageDrawPatcher.ShouldDrawRibbons = false;
             }
         }
 

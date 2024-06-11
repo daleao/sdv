@@ -373,13 +373,17 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out _))
+        var parsed = 0;
+        if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out parsed))
         {
             this.Handler.Log.W($"{value} is not a valid integer value.");
             return;
         }
 
-        Data.Write(Game1.player, DataKeys.EcologistVarietiesForaged, value);
+        Data.Write(
+            Game1.player,
+            DataKeys.EcologistVarietiesForaged,
+            string.IsNullOrEmpty(value) ? value : string.Join(',', Enumerable.Range(0, parsed)));
         this.Handler.Log.I($"Varieties foraged as Ecologist was set to {value}.");
     }
 
@@ -391,13 +395,17 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out _))
+        var parsed = 0;
+        if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out parsed))
         {
             this.Handler.Log.W($"{value} is not a valid integer value.");
             return;
         }
 
-        Data.Write(Game1.player, DataKeys.GemologistMineralsStudied, value);
+        Data.Write(
+            Game1.player,
+            DataKeys.GemologistMineralsStudied,
+            string.IsNullOrEmpty(value) ? value : string.Join(',', Enumerable.Range(0, parsed)));
         this.Handler.Log.I($"Minerals collected as Gemologist was set to {value}.");
     }
 

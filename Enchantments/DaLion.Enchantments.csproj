@@ -121,5 +121,11 @@
     <None Remove="lib\**" />
     <None Remove="resources\**" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="i18n\fr.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="i18n\fr.json" />
+  </ItemGroup>
 
 </Project>

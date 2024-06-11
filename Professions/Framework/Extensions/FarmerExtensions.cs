@@ -262,11 +262,11 @@ internal static class FarmerExtensions
 
             if (id.IsBossFishId())
             {
-                bonus += 0.02f;
+                bonus += 0.05f;
             }
             else if (value[1] > maxSize)
             {
-                bonus += 0.005f;
+                bonus += 0.01f;
             }
         }
 

@@ -657,45 +657,48 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static void EditObjectsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
-        data[$"{UniqueId}/OstrichMayo"] = new ObjectData
+        if (Config.EnableGoldenOstrichMayo)
         {
-            Name = "Delight Mayonnaise",
-            DisplayName = I18n.Objects_Ostrichmayo_Name(),
-            Description = I18n.Objects_Ostrichmayo_Desc(),
-            Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
-            Price = 2000,
-            Texture = $"{UniqueId}/Mayo",
-            SpriteIndex = 1,
-            Edibility = 50,
-            IsDrink = true,
-            ContextTags =
-            [
-                "color_white",
-                "mayo_item",
-            ],
-        };
+            data[$"{UniqueId}/OstrichMayo"] = new ObjectData
+            {
+                Name = "Delight Mayonnaise",
+                DisplayName = I18n.Objects_Ostrichmayo_Name(),
+                Description = I18n.Objects_Ostrichmayo_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.ArtisanGoods,
+                Price = 2000,
+                Texture = $"{UniqueId}/Mayo",
+                SpriteIndex = 1,
+                Edibility = 50,
+                IsDrink = true,
+                ContextTags =
+                [
+                    "color_white",
+                    "mayo_item",
+                ],
+            };
 
-        data[$"{UniqueId}/GoldenMayo"] = new ObjectData
-        {
-            Name = "Shiny Mayonnaise",
-            DisplayName = I18n.Objects_Goldenmayo_Name(),
-            Description = I18n.Objects_Goldenmayo_Desc(),
-            Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
-            Price = 2500,
-            Texture = $"{UniqueId}/Mayo",
-            SpriteIndex = 0,
-            Edibility = 20,
-            IsDrink = true,
-            ContextTags =
-            [
-                "color_gold",
-                "mayo_item",
-            ],
-            ExcludeFromShippingCollection = true,
-        };
-
+            data[$"{UniqueId}/GoldenMayo"] = new ObjectData
+            {
+                Name = "Shiny Mayonnaise",
+                DisplayName = I18n.Objects_Goldenmayo_Name(),
+                Description = I18n.Objects_Goldenmayo_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.ArtisanGoods,
+                Price = 2500,
+                Texture = $"{UniqueId}/Mayo",
+                SpriteIndex = 0,
+                Edibility = 20,
+                IsDrink = true,
+                ContextTags =
+                [
+                    "color_gold",
+                    "mayo_item",
+                ],
+                ExcludeFromShippingCollection = true,
+            };
+        }
+        
         if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))
         {
             return;

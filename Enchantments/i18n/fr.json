@@ -1,0 +1,31 @@
+{
+  "enchantments.carving.name": "Entaille",
+  "enchantments.cleaving.name": "Tranchage",
+  "enchantments.energized.name": "Électrocution",
+  "enchantments.energized.desc": "Énergie accumulée : {{counter}}",
+  "enchantments.explosive.name": "Explosion",
+  "enchantments.explosive.desc": "Rayon de l’explosion : {{counter}}",
+  "enchantments.mammonite.name": "Mammonite",
+  "enchantments.stabbing.name": "Perforation",
+  "enchantments.steadfast.name": "Inébranlable",
+  "enchantments.vampiric.name": "Vampirique",
+  "enchantments.wabbajack.name": "Wabbajack",
+  "enchantments.chilling.name": "Glaçant",
+  "enchantments.quincy.name": "Énergétique",
+  "enchantments.runaan.name": "Écho",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  "gmcm.gemstone_socket_style.title": "Style d’emplacement de gemme",
+  "gmcm.gemstone_socket_style.desc": "Remplace le texte générique de base \"Forgé\" dans les infobulles des armes par des icônes de cavité de gemmes de différents styles.",
+  "gmcm.socket_style.diamond": "Diamant",
+  "gmcm.socket_style.round": "Rond",
+  "gmcm.socket_style.iridium": "Iridium",
+  "gmcm.gemstone_socket_position.title": "Position de l’emplacement\nde gemme",
+  "gmcm.gemstone_socket_position.desc": "Détermine la position relative où les cavité de gemmes doivent être dessinées, si activé.",
+  "gmcm.socket_position.standard": "Classique",
+  "gmcm.socket_position.above_separator": "Au-dessus du séparateur"
+}

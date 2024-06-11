@@ -5,6 +5,7 @@
 ### Fixed
 
 * Fixed a parsing error related to metal enrichment.
+* Fixed cleared pond fishes not having quality.
 
 <sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 

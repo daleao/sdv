@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Ponds",
   "Name": "Aquarism",
   "Author": "DaLion",
-  "Version": "1.0.4",
+  "Version": "1.0.4-Debug",
   "Description": "Adds persistant fish qualities, scaling roe production, spontaneous algae growth, and radioactive enrichment to Fish Ponds.",
   "EntryDll": "DaLion.Ponds.dll",
   "Dependencies": [

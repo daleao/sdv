@@ -76,6 +76,6 @@ internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
             }
         }
 
-        Log.D($"[Prospector]: Spawned {count} resource nodes.");
+        Log.D($"Prospector spawned {count} resource nodes.");
     }
 }

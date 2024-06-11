@@ -173,7 +173,7 @@ public sealed class CustomSkill : ISkill
             this.ForgetRecipes();
         }
 
-        Log.D($"[Skills]: {Game1.player.Name}'s {this.DisplayName} skill has been reset.");
+        Log.D($"{Game1.player.Name}'s {this.DisplayName} skill has been reset.");
     }
 
     /// <inheritdoc />

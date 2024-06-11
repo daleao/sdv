@@ -24,6 +24,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 {
     internal static Dictionary<ISkill, Rectangle> RibbonTargetRectBySkill = [];
     internal static int RibbonXOffset = 0;
+    internal static bool ShouldDrawRibbons;
 
     /// <summary>Initializes a new instance of the <see cref="NewSkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
@@ -347,7 +348,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 0.87f);
         }
 
-        if (!ShouldEnableSkillReset)
+        if (!ShouldEnableSkillReset || !ShouldDrawRibbons)
         {
             return;
         }

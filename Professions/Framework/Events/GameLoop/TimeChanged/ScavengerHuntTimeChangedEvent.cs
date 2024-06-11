@@ -35,7 +35,7 @@ internal sealed class ScavengerHuntTimeChangedEvent(EventManager? manager = null
 
         var delta = Game1.player.stats.StepsTaken - _previousHuntStepsTaken;
         State.ScavengerHunt ??= new ScavengerHunt();
-        if (State.ScavengerHunt.TryStart(Math.Pow(1.0016, delta) - 1d))
+        if (State.ScavengerHunt.TryStart(Math.Pow(1.001, delta) - 1d))
         {
             _previousHuntStepsTaken += delta;
         }

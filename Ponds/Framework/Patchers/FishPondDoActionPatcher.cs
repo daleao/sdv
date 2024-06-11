@@ -143,8 +143,8 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                 .WhereNotNull()
                 .Where(li => !string.IsNullOrEmpty(li.Item1))
                 .ToList();
-        var count = heldMinerals.Sum(m => Game1.objectData[m.Item1!].Name.Contains("Bar") ? 4 : 1);
-        if (count >= 40)
+        var count = heldMinerals.Sum(_ => 1);
+        if (count >= 10)
         {
             Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\Buildings:PondFull"));
             return true;

@@ -26,12 +26,12 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SkillsPagePerformHoverActionPostfix(int x, int y, ref string ___hoverText)
     {
-        ___hoverText = Game1.parseText(___hoverText, Game1.smallFont, 500);
-        if (!ShouldEnableSkillReset)
+        if (!ShouldEnableSkillReset || !SkillsPageDrawPatcher.ShouldDrawRibbons)
         {
             return;
         }
 
+        ___hoverText = Game1.parseText(___hoverText, Game1.smallFont, 500);
         foreach (var (skill, bounds) in SkillsPageDrawPatcher.RibbonTargetRectBySkill)
         {
             if (!bounds.Contains(x, y))
