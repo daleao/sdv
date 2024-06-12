@@ -1014,6 +1014,15 @@ To consume the API, copy the [API interface](IProfessionsApi.cs) to your project
 ## F.A.Q.
 
 <details>
+<summary><b>Can I add this to an existing save?</b></summary>
+
+A new save is recommended, but not required. You may just miss out on part of the intended experience of progression. If you add this to a very late-game save with Mastered skills, don't be surprised to find those skills recalculated to levels 11-20.
+
+But keep in mind that, in general, you should avoid adding or removing mods to/from existing saves. That's a good way to corrupt your save.
+Choose the mods you want before you start, and stick with that mod list for that save.
+</details>
+
+<details>
 <summary><b>Do Ecologist and Gemologist professions count forages/gems acquired before the profession?</b></summary>
 
 No.
@@ -1050,6 +1059,13 @@ Obviously not.
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
 With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
 </details>
+
+<details>
+<summary><b>Does it work with XYZ mod?</b></summary>
+
+Why don't you try it and let me know.
+</details>
+
 
 <!-- MOD LINKS -->
 [mod:ordinator]: <https://www.nexusmods.com/skyrimspecialedition/mods/1137> "Ordinator"

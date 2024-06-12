@@ -6,6 +6,7 @@
 
 * All shaken fruits are now considered forage for the purpose of Ecologist perks.
 * Added a warning dialogue before claiming a skill Mastery to inform players that skill resetting will become unavailable. No excuses now.
+* Added back UiInfoSuite2 compatibility.
 
 ### Changed
 

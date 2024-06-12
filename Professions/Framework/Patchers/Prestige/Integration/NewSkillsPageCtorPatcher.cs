@@ -77,11 +77,11 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                 ___scrollBar.bounds.X += addedWidth;
                 ___scrollBarRunner.X += addedWidth;
                 NewSkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
-                SkillsPageDrawPatcher.ShouldDrawRibbons = true;
+                NewSkillsPageDrawPatcher.ShouldDrawRibbons = true;
             }
             else
             {
-                SkillsPageDrawPatcher.ShouldDrawRibbons = false;
+                NewSkillsPageDrawPatcher.ShouldDrawRibbons = false;
             }
         }
 

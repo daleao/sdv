@@ -19,8 +19,7 @@ internal sealed class AxeDoFunctionPatcher
             return;
         }
 
-        who.Stamina -=
-            (int)Math.Sqrt(Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) * (int)Math.Pow(2d * (power + 1), 2d)) *
-            (float)Math.Pow(Config.Axe.StaminaCostMultiplier, power);
+        who.Stamina -= (int)Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) * (int)Math.Pow(power, 2d) *
+                       Config.Axe.StaminaCostMultiplier;
     }
 }
