@@ -112,11 +112,11 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
     /// <inheritdoc />
     protected override string GetUsage()
     {
-        var result = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <enchantment>");
-        result.Append("\n\nParameters:");
-        result.Append("\n\t- <enchantment>: a weapon or slingshot enchantment");
-        result.Append("\n\nExample:");
-        result.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} vampiric");
-        return result.ToString();
+        var sb = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <enchantment>");
+        sb.Append("\n\nParameters:");
+        sb.Append("\n\t- <enchantment>: a weapon or slingshot enchantment");
+        sb.Append("\n\nExample:");
+        sb.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} vampiric");
+        return sb.ToString();
     }
 }

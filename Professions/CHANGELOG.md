@@ -1,5 +1,14 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.3.2
+
+### Fixed
+
+* Add/remove Mastery commands now also correctly changes Mastery level.
+    * You can either use `prfs set <skill> <mastered/unmastered>` to add or remove a mastery, **OR** you can use `prfs add mastery <skill>` / `prfs remove mastery <skill>`. Both commands do the same thing, except that `add` and `remove` commands can accept the parameter `all` instead of a skill name to process all 5 skills at once. Obviously do not use `<>` when actually running these commands.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.3.1
 
 ### Added

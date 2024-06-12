@@ -23,7 +23,7 @@ internal sealed class PrintCommand(CommandHandler handler)
     public override string[] Triggers { get; } = ["print", "read", "show", "log", "list"];
 
     /// <inheritdoc />
-    public override string Documentation => "Print the specified information." + this.GetUsage();
+    public override string Documentation => "Print the specified information.";
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)

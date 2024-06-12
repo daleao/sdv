@@ -8,14 +8,15 @@ using System.Text;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
+using StardewValley.Constants;
 using StardewValley.Menus;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="RemoveProfessionsCommand"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="RemoveCommand"/> class.</summary>
 /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
-internal sealed class RemoveProfessionsCommand(CommandHandler handler)
+internal sealed class RemoveCommand(CommandHandler handler)
     : ConsoleCommand(handler)
 {
     /// <inheritdoc />
@@ -23,7 +24,7 @@ internal sealed class RemoveProfessionsCommand(CommandHandler handler)
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Remove the specified professions from the player. Does not affect skill levels." + this.GetUsage();
+        "Remove the specified professions from the player without affecting skill levels. Can also be used to remove masteries from the specified skills using the keyword \"mastery\".";
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
@@ -46,6 +47,49 @@ internal sealed class RemoveProfessionsCommand(CommandHandler handler)
         {
             this.Handler.Log.W("You must specify at least one profession.");
             return false;
+        }
+
+        if (args[0].ToLower() is "mastery" or "masteries")
+        {
+            args = args.Skip(1).ToArray();
+            foreach (var arg in args)
+            {
+                if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    foreach (var skill1 in Skill.List)
+                    {
+                        if (skill1.CanGainPrestigeLevels())
+                        {
+                            continue;
+                        }
+
+                        Game1.player.stats.Set(StatKeys.Mastery(skill1), 0);
+                        this.Handler.Log.I($"Unmastered the {skill1} skill.");
+                    }
+
+                    Game1.player.stats.Set(StatKeys.MasteryExp, 0);
+                    return true;
+                }
+
+                if (Skill.TryFromName(arg, true, out var skill2))
+                {
+                    if (!skill2.CanGainPrestigeLevels())
+                    {
+                        this.Handler.Log.I($"{skill2} skill has not been mastered.");
+                        return true;
+                    }
+
+                    Game1.player.stats.Set(StatKeys.Mastery(skill2), 0);
+                    Game1.player.stats.Set(
+                        StatKeys.MasteryExp,
+                        MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
+                    this.Handler.Log.I($"Unmastered the {skill2} skill.");
+                }
+                else
+                {
+                    this.Handler.Log.I($"Ignoring unknown vanilla skill \"{skill2}\".");
+                }
+            }
         }
 
         List<int> professionsToRemove = [];
@@ -128,6 +172,12 @@ internal sealed class RemoveProfessionsCommand(CommandHandler handler)
         sb.Append("\n\nExamples:");
         sb.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} artisan brute");
         sb.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} -p all");
+
+        sb.Append($"\n\nAlternative usage: {this.Handler.EntryCommand} {this.Triggers[0]} mastery <skill1> <skill2> ... <skillN>");
+        sb.Append("\n\nParameters:");
+        sb.Append("\n\t- <skill>\t- a valid vanilla skill name, or `all`");
+        sb.Append("\n\nExamples:");
+        sb.Append($"\n\t- {this.Handler.EntryCommand} {this.Triggers[0]} mastery farming");
         return sb.ToString();
     }
 }

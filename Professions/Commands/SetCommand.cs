@@ -9,6 +9,7 @@ using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Constants;
+using StardewValley.Menus;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -80,11 +81,29 @@ internal sealed class SetCommand(CommandHandler handler)
             switch (value)
             {
                 case "mastered":
+                    if (vanillaSkill.CanGainPrestigeLevels())
+                    {
+                        return true;
+                    }
+
                     Game1.player.stats.Set(StatKeys.Mastery(vanillaSkill), 1);
+                    Game1.player.stats.Set(
+                        StatKeys.MasteryExp,
+                        MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
+                    this.Handler.Log.I($"Mastered the {vanillaSkill} skill.");
                     return true;
                 case "unmastered":
                 case "brainfart":
+                    if (!vanillaSkill.CanGainPrestigeLevels())
+                    {
+                        return true;
+                    }
+
                     Game1.player.stats.Set(StatKeys.Mastery(vanillaSkill), 0);
+                    Game1.player.stats.Set(
+                        StatKeys.MasteryExp,
+                        MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
+                    this.Handler.Log.I($"Unmastered the {vanillaSkill} skill.");
                     return true;
             }
 
