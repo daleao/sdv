@@ -33,6 +33,11 @@ internal sealed class MasteryTrackerMenuReceiveLeftClickPatcher : HarmonyPatcher
         int y,
         int ___which)
     {
+        if (___which == -1)
+        {
+            return true;
+        }
+
         if (State.WarningBox is not null)
         {
             return false; // don't run original logic
