@@ -123,7 +123,7 @@ internal static class FarmerExtensions
         }
 
         var professions = State.OrderedProfessions;
-        var roots = skill.TierOneProfessionIds.Concat(skill.TierOneProfessionIds.Select(id => id + 100)).ToHashSet();
+        var roots = skill.TierOneProfessionIds.ToHashSet();
         for (var i = professions.Count - 1; i >= 0; i--)
         {
             var profession = professions[i];
@@ -153,14 +153,13 @@ internal static class FarmerExtensions
         var professions = State.OrderedProfessions;
         var branches = root.GetBranchingProfessions
             .Select(p => p.Id)
-            .Concat(root.GetBranchingProfessions.Select(p => p.Id + 100))
             .ToHashSet();
         for (var i = professions.Count - 1; i >= 0; i--)
         {
             var profession = professions[i];
-            if (branches.Contains(profession))
+            if (branches.Contains(profession) || branches.Contains(profession - 100))
             {
-                return profession > 100 ? profession - 100 : profession;
+                return profession;
             }
         }
 

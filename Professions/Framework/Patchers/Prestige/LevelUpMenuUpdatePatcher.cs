@@ -84,7 +84,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                         break;
                     case 20:
                         var rootId = player.GetCurrentRootProfessionForSkill(skill);
-                        IProfession root = Profession.FromValue(rootId - 100);
+                        IProfession root = Profession.FromValue(rootId);
                         ___professionsToChoose.AddRange(root.GetBranchingProfessions
                             .Select(p => p.Id)
                             .Where(player.professions.Contains));

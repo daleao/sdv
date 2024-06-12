@@ -1,5 +1,13 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.3.3
+
+### Fixed
+
+* Fixed possible issue in LevelUpMenu code.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.3.2
 
 ### Fixed
