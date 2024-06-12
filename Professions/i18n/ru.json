@@ -210,6 +210,7 @@
   "prestige.level_up.choose": "Выберите профессию для престижа:",
   "prestige.level_up.single": "Престиж получен",
 
+  "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
   "prestige.mastery.unlocked": "Теперь вы можете развивать навык {{skill}} дальше.",
   "prestiged.title": "Мастер ",
 
@@ -331,6 +332,11 @@
   "gmcm.immersive_heavy_tapper_yield.desc": "Тяжелый подсочник удваивает количество получаемого сиропа вместо того, чтобы вдвое сокращать время производства. Это делает его более совместимым с новой Тяжелой печью и менее избыточным с профессией Сборщика сока.",
   "gmcm.aging_trees_quality_syrups.title": "Качественный сироп со стареющих деревьев",
   "gmcm.aging_trees_quality_syrups.desc": "Обычные деревья стареют, как фруктовые деревья, что повышает качество получаемого сиропа на 1 единицу в год.",
+
+  // rascal
+  "gmcm.sections.prfs.rascal": "Rascal",
+  "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
+  "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Сброс навыков",

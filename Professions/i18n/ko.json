@@ -209,6 +209,7 @@
   "prestige.level_up.choose": "위신 직업을 선택하라 : ",
   "prestige.level_up.single": "위신 획득",
 
+  "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
   "prestige.mastery.unlocked": "이제 {{skill}} 기술을 더 발전시킬 수 있다.",
   "prestiged.title": "마스터 ",
 
@@ -330,6 +331,11 @@
   "gmcm.immersive_heavy_tapper_yield.desc": "중형 수액 채취기가 수액을 두 배로 채취할지 여부 설정",
   "gmcm.aging_trees_quality_syrups.title": "오래된 나무에서 채취하는 수액의 품질 향상",
   "gmcm.aging_trees_quality_syrups.desc": "일반 나무에서 채취하는 수액도 과일 나무처럼 1년이 지날 때마다 품질이 향상됩니다.",
+
+  // rascal
+  "gmcm.sections.prfs.rascal": "Rascal",
+  "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
+  "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "스킬 리셋",

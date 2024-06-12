@@ -210,6 +210,7 @@
   "prestige.level_up.choose": "Choisissez une profession à approfondir en prestige :",
   "prestige.level_up.single": "Prestige gagné",
 
+  "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
   "prestige.mastery.unlocked": "Peut maintenant développer davantage la compétence {{skill}}.",
   "prestiged.title": "Expert",
 
@@ -331,6 +332,11 @@
   "gmcm.immersive_heavy_tapper_yield.desc": "Fait en sorte que le Tappeur Lourd double la production de sirop au lieu de diviser par deux la fréquence de production. Cela le rend plus cohérent avec le nouveau four avancé et moins redondant avec la profession de Saigneur.",
   "gmcm.aging_trees_quality_syrups.title": "Sirops de qualité d’arbres murs",
   "gmcm.aging_trees_quality_syrups.desc": "Fait en sorte que les arbres normaux vieillissent comme les arbres fruitiers, ce qui augmentera la qualité des sirops produits de 1 par an.",
+
+  // rascal
+  "gmcm.sections.prfs.rascal": "Rascal",
+  "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
+  "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Réinitialisation des compétences",

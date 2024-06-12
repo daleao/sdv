@@ -38,7 +38,7 @@ internal sealed class MasteryTrackerMenuReceiveLeftClickPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (___destroyTimer > 0f || __instance.mainButton is null || !__instance.mainButton.containsPoint(x, y) ||
+        if (___which == -1 || ___destroyTimer > 0f || __instance.mainButton is null || !__instance.mainButton.containsPoint(x, y) ||
             ___pressedButtonTimer > 0f || !___canClaim ||
             Game1.player.HasAllProfessionsInSkill(Skill.FromValue(___which)))
         {

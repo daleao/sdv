@@ -210,6 +210,7 @@
   "prestige.level_up.choose": "选择一个职业进行声望升级：",
   "prestige.level_up.single": "获得声望",
 
+  "prestige.mastery.warning": "精通这项技能将阻止其被重置。是否继续?",
   "prestige.mastery.unlocked": "现在可以进一步发展 {{skill}} 技能。",
   "prestiged.title": "大师 ",
 
@@ -331,6 +332,11 @@
   "gmcm.immersive_heavy_tapper_yield.desc": "使重型树液采集器的树液产量翻倍，而不是减少生产频率。这使其与新的重型熔炉更加一致，且与采液者职业不那么重复。",
   "gmcm.aging_trees_quality_syrups.title": "老树产生的高品质树脂",
   "gmcm.aging_trees_quality_syrups.desc": "使普通树木像果树一样增长树龄，这将使每年生产的树脂品质提高1。",
+
+  // rascal
+  "gmcm.sections.prfs.rascal": "淘气鬼",
+  "gmcm.show_equipped_ammo.title": "显示装备的弹药",
+  "gmcm.show_equipped_ammo.desc": "是否在弹弓的提示信息上绘制当前装备的弹药。",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "技能重置",
