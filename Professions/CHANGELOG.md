@@ -5,6 +5,7 @@
 ### Fixed
 
 * Fixed possible issue in LevelUpMenu code.
+* Added missing translation keys. Updated Chinese translation, thanks to Awassakura.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
