@@ -29,8 +29,8 @@ internal sealed class SkillLevelUpMenuCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuCtorTranspiler(
+        IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 

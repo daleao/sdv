@@ -21,8 +21,7 @@ internal sealed class TrackerButtonsChangedEvent(EventManager? manager = null)
         {
             HudPointer.Instance.ShouldBob = true;
         }
-        else if (Config.ModKey.GetState() == SButtonState.Released &&
-                 State.ProspectorHunt?.IsActive != true && State.ScavengerHunt?.IsActive != true)
+        else if (Config.ModKey.GetState() == SButtonState.Released && State.ProspectorHunt?.IsActive != true && State.ScavengerHunt?.IsActive != true)
         {
             HudPointer.Instance.ShouldBob = false;
         }

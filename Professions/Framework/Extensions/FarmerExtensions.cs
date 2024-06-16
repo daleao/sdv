@@ -97,12 +97,11 @@ internal static class FarmerExtensions
     /// <returns>The last acquired profession, or -1 if none was found.</returns>
     internal static int GetMostRecentProfession(this Farmer farmer, IEnumerable<int>? subset = null)
     {
-        if (!farmer.IsLocalPlayer)
-        {
-            return -1;
-        }
+        var orderedProfessions = !farmer.IsLocalPlayer
+            ? Data.Read(farmer, DataKeys.OrderedProfessions).ParseList<int>()
+            : State.OrderedProfessions;
 
-        var professions = State.OrderedProfessions;
+        var professions = orderedProfessions;
         return subset is null
             ? professions[^1]
             : professions.Intersect(subset).DefaultIfEmpty(-1).Last();
@@ -117,19 +116,23 @@ internal static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     internal static int GetCurrentRootProfessionForSkill(this Farmer farmer, ISkill skill)
     {
-        if (!farmer.IsLocalPlayer)
-        {
-            return -1;
-        }
+        var orderedProfessions = !farmer.IsLocalPlayer
+            ? Data.Read(farmer, DataKeys.OrderedProfessions).ParseList<int>()
+            : State.OrderedProfessions;
 
-        var professions = State.OrderedProfessions;
+        var professions = orderedProfessions;
         var roots = skill.TierOneProfessionIds.ToHashSet();
         for (var i = professions.Count - 1; i >= 0; i--)
         {
             var profession = professions[i];
-            if (roots.Contains(profession) || roots.Contains(profession - 100))
+            if (roots.Contains(profession))
             {
                 return profession;
+            }
+
+            if (roots.Contains(profession - 100))
+            {
+                return profession - 100;
             }
         }
 
@@ -145,19 +148,23 @@ internal static class FarmerExtensions
     /// <returns>The last acquired profession index, or -1 if none was found.</returns>
     internal static int GetCurrentBranchingProfessionForRoot(this Farmer farmer, IProfession root)
     {
-        if (!farmer.IsLocalPlayer)
-        {
-            return -1;
-        }
+        var orderedProfessions = !farmer.IsLocalPlayer
+            ? Data.Read(farmer, DataKeys.OrderedProfessions).ParseList<int>()
+            : State.OrderedProfessions;
 
-        var professions = State.OrderedProfessions;
+        var professions = orderedProfessions;
         var branches = root.GetBranchingProfessions
             .Select(p => p.Id)
             .ToHashSet();
         for (var i = professions.Count - 1; i >= 0; i--)
         {
             var profession = professions[i];
-            if (branches.Contains(profession) || branches.Contains(profession - 100))
+            if (branches.Contains(profession))
+            {
+                return profession;
+            }
+
+            if (branches.Contains(profession - 100))
             {
                 return profession;
             }

@@ -6,6 +6,11 @@
 
 * Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
 
+### Changed
+
+* Wabbajack cheese conversion now creates individual cheese items instead of a single stack of cheese. I think it's funnnier this way.
+* Tweaked some of the odds of different Wabbajack effects.
+
 ### Fixed
 
 * Prevent showing gemstone forges in Scythe tooltips.

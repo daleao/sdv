@@ -32,14 +32,10 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
 
         var skill = Skill.FromValue(skillType);
         var rootIndex = __instance.GetCurrentRootProfessionForSkill(skill);
-        switch (rootIndex)
+        if (rootIndex == -1)
         {
-            case < 0:
-                __result = -1;
-                return false; // don't run original logic
-            case >= 100:
-                rootIndex -= 100;
-                break;
+            __result = -1;
+            return false; // don't run original logic
         }
 
         var root = Profession.FromValue(rootIndex);

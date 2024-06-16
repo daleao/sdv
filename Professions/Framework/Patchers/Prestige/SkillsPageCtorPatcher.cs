@@ -31,7 +31,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     {
         if (ShouldEnableSkillReset)
         {
-            Skill? maxSkill = null;
+            ISkill? maxSkill = null;
             var maxLength = 0;
             foreach (var skill in Skill.List)
             {
@@ -46,7 +46,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                 maxLength = length;
             }
 
-            if (maxLength > 1)
+            if (maxLength > 1 && maxSkill?.HasBeenReset() == true)
             {
                 __instance.width += (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE;
                 SkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);

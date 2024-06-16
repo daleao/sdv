@@ -17,8 +17,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Netcode;
 using SpaceCore.Interface;
-using SCPair = SCSkill.ProfessionPair;
 using CollectionExtensions = DaLion.Shared.Extensions.Collections.CollectionExtensions;
+using SCPair = SCSkill.ProfessionPair;
 
 #endregion using directives
 
@@ -38,7 +38,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to idiot-proof the level-up menu. </summary>
     [HarmonyPrefix]
-    private static bool LevelUpMenuUpdatePrefix(
+    private static bool SkillLevelUpMenuUpdatePrefix(
         SkillLevelUpMenu __instance,
         List<int> ___professionsToChoose,
         List<TemporaryAnimatedSprite> ___littleStars,
@@ -88,16 +88,8 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 if (___profPair is not null)
                 {
                     ___isProfessionChooser = true;
-
-                    if (player.professions.Contains(___profPair.First.GetVanillaId()))
-                    {
-                        ___professionsToChoose.Add(___profPair.First.GetVanillaId());
-                    }
-
-                    if (player.professions.Contains(___profPair.Second.GetVanillaId()))
-                    {
-                        ___professionsToChoose.Add(___profPair.Second.GetVanillaId());
-                    }
+                    ___professionsToChoose.Add(___profPair.First.GetVanillaId());
+                    ___professionsToChoose.Add(___profPair.Second.GetVanillaId());
                 }
                 else
                 {
@@ -127,9 +119,6 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
                 ___hasUpdatedProfessions = true;
             }
-
-            var p = ___currentLevel > 10 ? ___professionsToChoose[0] + 100 : ___professionsToChoose[0];
-
 
             if (___professionsToChoose.Count != 1)
             {

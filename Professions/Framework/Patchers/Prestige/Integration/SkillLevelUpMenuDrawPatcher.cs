@@ -35,7 +35,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase the height of Level Up Menu to fit longer profession descriptions.</summary>
     [HarmonyPrefix]
-    private static bool LevelUpMenuDrawPrefix(
+    private static bool SkillLevelUpMenuDrawPrefix(
         SkillLevelUpMenu __instance,
         int ___currentLevel,
         string ___currentSkill,
@@ -223,7 +223,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw acquired profession tooltips during profession selection.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? LevelUpMenuDrawTranspiler(
+    private static IEnumerable<CodeInstruction>? SkillLevelUpMenuDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -237,9 +237,8 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
                     [
                         new CodeInstruction(
                             OpCodes.Ldfld,
-                            "SkillLevelUpMenu"
-                                .ToType()
-                                .RequireField(nameof(LevelUpMenu.isProfessionChooser))),
+                            typeof(SkillLevelUpMenu)
+                                .RequireField(nameof(SkillLevelUpMenu.isProfessionChooser))),
                     ])
                 .Move()
                 .GetOperand(out var isNotProfessionChooser)
@@ -249,7 +248,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
                     [
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
+                        new CodeInstruction(OpCodes.Ldfld, typeof(SkillLevelUpMenu).RequireField("currentLevel")),
                         new CodeInstruction(OpCodes.Ldarg_1),
                         new CodeInstruction(
                             OpCodes.Call,
@@ -296,7 +295,6 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
                 (menu.width / 2) - 40,
                 menu.height - 264);
             b.Draw(Game1.staminaRect, selectionArea, new Color(Color.Black, 0.3f));
-
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 var hoverText = leftProfession.Level == 10
@@ -315,7 +313,6 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
                 (menu.width / 2) - 40,
                 menu.height - 264);
             b.Draw(Game1.staminaRect, selectionArea, new Color(Color.Black, 0.3f));
-
             if (selectionArea.Contains(Game1.getMouseX(), Game1.getMouseY()))
             {
                 var hoverText = leftProfession.Level == 10

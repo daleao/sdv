@@ -68,7 +68,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                 }
             }
 
-            if (maxLength > 1)
+            if (maxLength > 1 && maxSkill?.HasBeenReset() == true)
             {
                 var addedWidth = ((maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE) + 12;
                 __instance.width += addedWidth;

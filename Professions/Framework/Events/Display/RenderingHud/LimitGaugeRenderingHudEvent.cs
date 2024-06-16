@@ -18,6 +18,9 @@ internal sealed class LimitGaugeRenderingHudEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
     {
-        State.LimitBreak!.Gauge.Draw(e.SpriteBatch);
+        if (!Game1.game1.takingMapScreenshot && !Game1.game1.ScreenshotBusy)
+        {
+            State.LimitBreak!.Gauge.Draw(e.SpriteBatch);
+        }
     }
 }

@@ -259,7 +259,7 @@ public sealed class ProfessionsConfig
     /// <summary>Gets a value indicating whether to restore the legacy purple arrow for Prospector Hunts, instead of the new audio cues.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(309)]
+    [GMCMPriority(310)]
     public bool UseLegacyProspectorHunt { get; internal set; } = false;
 
     /// <summary>

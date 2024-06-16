@@ -1,5 +1,31 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.3.5
+
+### Changed
+
+* Players can no longer gain Mastery Exp if one or more vanilla skills are not at level 10 or above.
+* Players can no longer enter the Mastery Cave if one ore more vanilla skills are not at level 10 or above.
+
+### Fixed
+
+* Fixed mod not allowing player to gain any Luck exp. **Luck Skill is still not supported.**
+* Fixed Limit Gauge rendering during screenshots.
+* Fixed an issue with multiplayer farmhands getting repeated level ups.
+* Fixed an issue during prestige profession selection introduced in the previous version.
+* Fixed professions stars not appearing after the first skill reset.
+* Fixed minor issues in SpaceCore's SkillLevelUpMenu.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 0.3.4
+
+### Fixed
+
+* I fixed something. I forgot what it was.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.3.3
 
 ### Fixed

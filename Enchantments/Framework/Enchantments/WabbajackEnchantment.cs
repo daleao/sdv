@@ -45,6 +45,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                 return;
             }
 
+            // lucky 7 damage or heal
             if (amount.ContainsDigit(7))
             {
                 switch (r.Next(3))
@@ -67,6 +68,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                 return;
             }
 
+            // transformations
             location.temporarySprites.Add(new TemporaryAnimatedSprite(
                 5,
                 monster.Position,
@@ -77,40 +79,44 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
             location.playSound("wand");
             switch (r.Next(10))
             {
-                case 0: // debuff/shrink/grow/clone
+                // debuff
+                case 0:
                 case 1:
-                case 2:
-                case 3:
-                    switch (r.Next(4))
+                    switch (r.Next(7))
                     {
                         case 0:
-                            switch (r.Next(7))
-                            {
-                                case 0:
-                                    monster.Bleed(who);
-                                    break;
-                                case 1:
-                                    monster.Burn(who);
-                                    break;
-                                case 2:
-                                    monster.Fear();
-                                    break;
-                                case 3:
-                                    monster.Freeze();
-                                    break;
-                                case 4:
-                                    monster.Poison(who);
-                                    break;
-                                case 5:
-                                    monster.Slow();
-                                    break;
-                                case 6:
-                                    monster.Stun();
-                                    break;
-                            }
-
+                            monster.Bleed(who);
                             break;
+                        case 1:
+                            monster.Burn(who);
+                            break;
+                        case 2:
+                            monster.Fear();
+                            break;
+                        case 3:
+                            monster.Freeze();
+                            break;
+                        case 4:
+                            monster.Poison(who);
+                            break;
+                        case 5:
+                            monster.Slow();
+                            break;
+                        case 6:
+                            monster.Stun();
+                            break;
+                    }
 
+                    break;
+
+                // shrink/grow/clone
+                case 2:
+                case 3:
+                case 4:
+                    switch (r.Next(4))
+                    {
+                        // shrink
+                        case 0:
                         case 1:
                             monster.Scale *= 0.5f;
                             monster.Speed += 2;
@@ -118,6 +124,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             monster.DamageToFarmer = 1;
                             break;
 
+                        // grow
                         case 2:
                             monster.Scale *= 2f;
                             monster.Speed -= 2;
@@ -125,6 +132,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             monster.DamageToFarmer *= 2;
                             break;
 
+                        // clone
                         case 3:
                             var clone = monster.DeepClone();
                             location.characters.Add(clone);
@@ -134,12 +142,14 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
 
                     break;
 
-                case 4:
+                // transfigure
                 case 5:
-                case 6: // transform into critter/farm animal/cheese
+                case 6:
+                case 7:
                     location.characters.Remove(monster);
                     switch (r.Next(3))
                     {
+                        // critter
                         case 0:
                             Critter critter;
                             switch (r.Next(5))
@@ -167,6 +177,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             Log.D($"{monster.Name} became a {critter.GetType().Name}.");
                             break;
 
+                        // farm animal
                         case 1:
                             var animal = new FarmAnimal(AnimalNames.Value.Choose(r), -1, -1)
                             {
@@ -179,17 +190,22 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             Log.D($"{monster.Name} became a {animal.displayName}.");
                             break;
 
+                        // cheese
                         case 2:
-                            var cheese = ItemRegistry.Create<SObject>(
-                                r.NextBool()
-                                    ? QualifiedObjectIds.Cheese
-                                    : QualifiedObjectIds.GoatCheese,
-                                (int)Math.Exp(r.Next(100) * 0.03));
-                            location.debris.Add(
-                                new Debris(
-                                    cheese,
-                                    new Vector2((int)monster.Position.X, (int)monster.Position.Y),
-                                    who.getStandingPosition()));
+                            var stack = (int)Math.Exp(r.Next(100) * 0.03);
+                            for (var i = 0; i < stack; i++)
+                            {
+                                var cheese = ItemRegistry.Create<SObject>(
+                                    r.NextBool()
+                                        ? QualifiedObjectIds.Cheese
+                                        : QualifiedObjectIds.GoatCheese);
+                                location.debris.Add(
+                                    new Debris(
+                                        cheese,
+                                        new Vector2((int)monster.Position.X, (int)monster.Position.Y),
+                                        who.getStandingPosition()));
+                            }
+
                             Log.D($"{monster.Name} became cheese.");
                             break;
                     }
