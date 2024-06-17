@@ -46,9 +46,9 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
                 maxLength = length;
             }
 
-            if (maxLength > 1 && maxSkill?.HasBeenReset() == true)
+            if (maxLength > 1 || maxSkill?.HasBeenReset() == true)
             {
-                __instance.width += (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * 4 * (int)Textures.STARS_SCALE;
+                __instance.width += (maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
                 SkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
                 SkillsPageDrawPatcher.ShouldDrawRibbons = true;
             }

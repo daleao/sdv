@@ -63,6 +63,7 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 "mammonite" or "mammon" => new MammoniteEnchantment(),
                 "wabbajack" or "wabba" or "wab" or "wb" or "wj" => new WabbajackEnchantment(),
                 "stabbing" or "stabby" => new StabbingEnchantment(),
+                "sunburst" => new SunburstEnchantment(),
 
                 // slingshot enchants
                 "chilling" or "freezing" or "freljord" => new ChillingEnchantment(),

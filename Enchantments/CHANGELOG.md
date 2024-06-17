@@ -1,10 +1,12 @@
 ﻿# ENCHANTMENTS Changelog
 
-## 1.0.1
+## 1.1.0
 
 ### Added
 
+* Added Sunburst enchantment.
 * Added French translations by [CaranudLapin](https://github.com/CaranudLapin).
+* Added FakeFarmer.
 
 ### Changed
 

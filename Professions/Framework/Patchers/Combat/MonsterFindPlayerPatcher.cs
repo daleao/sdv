@@ -4,6 +4,8 @@
 
 using System.Linq;
 using System.Reflection;
+using DaLion.Core.Framework;
+using DaLion.Core.Framework.VirtualProperties;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
@@ -30,6 +32,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     /// <summary>Patch to override monster aggro.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [HarmonyAfter("DaLion.Core")]
     [HarmonyBefore("Esca.FarmTypeManager")]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {

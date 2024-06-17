@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Core.Framework;
 using DaLion.Professions.Framework.VirtualProperties;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;

@@ -355,7 +355,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 
         var position =
             new Vector2(
-                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset - 12,
+                page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
                 Textures.PROGRESSION_VERTICAL_OFFSET + 12);
         var lastVisibleSkillIndex =

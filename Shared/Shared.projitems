@@ -19,7 +19,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ColorRange.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Classes\Countdown.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Classes\Timer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\Quadtree.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />

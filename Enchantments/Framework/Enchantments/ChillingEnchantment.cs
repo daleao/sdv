@@ -22,6 +22,7 @@ public sealed class ChillingEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
+        base._OnDealDamage(monster, location, who, ref amount);
         monster.Chill(2000, 0.2f, 0.5f);
         SoundBox.ChillingShot.PlayLocal(location);
     }

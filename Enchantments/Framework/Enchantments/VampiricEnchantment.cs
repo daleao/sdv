@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Enchantments.Framework.Enchantments;
 
+using System.Threading;
+
 #region using directives
 
 using System.Xml.Serialization;
@@ -28,11 +30,7 @@ public sealed class VampiricEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnMonsterSlay(Monster m, GameLocation location, Farmer who)
     {
-        if (!who.IsLocalPlayer)
-        {
-            return;
-        }
-
+        base._OnMonsterSlay(m, location, who);
         var lifeSteal = Math.Max((int)(m.MaxHealth * this._random.NextFloat(0.01f, 0.05f)), 1);
         who.health = Math.Min(who.health + lifeSteal, (int)(who.maxHealth * 1.2f));
         location.debris.Add(new Debris(

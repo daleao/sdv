@@ -22,6 +22,7 @@ In addition, this mod optionally replaces the generic vanilla "Forged" text in w
 | Mammonite | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.* |
 | Shocking | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area. |
 | Stabbing | Replaces the defensive parry special move with a stabbing lunge attack. **Sword only**.
+| Sunburst | Deal 50% more damage to shadow and undead monsters. Weapon swings create a mid-range sunlight projectile which blinds enemies upon collision. Prevents Mummies from resurrecting. |
 | Vampiric | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |
 | Wabbajack | Causes unpredictable effects.** |
 

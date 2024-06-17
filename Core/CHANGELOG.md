@@ -1,5 +1,19 @@
 ﻿# CORE Changelog
 
+## 1.3.0
+
+### Added
+
+* Added Blind status.
+* Added API.
+* Added README.md
+
+### Fixed
+
+* Fixed Fear status never actually counting down.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 1.2.0
 
 ### Added
@@ -10,17 +24,23 @@
 
 * OutOfCombat counter now runs continuously (no longer spams Enabled/Disabled) in the console.
 
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 1.1.2
 
 ### Changed
 
 * Removed some drops from Tiger Slime Ball loot table.
 
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 1.1.1
 
 ### Added
 
 * Added `SObject.IsForage` extension.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 1.1.0
 

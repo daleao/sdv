@@ -38,10 +38,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
             }
             else if (@object.QualifiedItemId == QualifiedObjectIds.ArtifactSpot)
             {
-                tile.TrackWhenOffScreen(Color.Cyan);
+                tile.TrackWhenOffScreen(Color.Lime);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Cyan);
+                    tile.TrackWhenOnScreen(Color.Lime);
                 }
             }
         }

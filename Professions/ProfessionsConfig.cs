@@ -22,7 +22,7 @@ public sealed class ProfessionsConfig
     private float _prospectorHuntHandicap = 1f;
     private float _anglerPriceBonusCeiling = 1f;
     private float _conservationistTaxDeductionCeiling = 1f;
-    private float _trackingPointerScale = 1.2f;
+    private float _trackingPointerScale = 1f;
     private float _trackingPointerBobRate = 1f;
     private bool _immersiveHeavyTapperYield = true;
 

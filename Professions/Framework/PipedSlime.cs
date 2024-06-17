@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Core.Framework;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
-using SpaceCore.Interface;
 using StardewValley.Extensions;
 using StardewValley.Monsters;
 

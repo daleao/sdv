@@ -32,18 +32,18 @@ internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
         {
             if (@object.ShouldBeTrackedBy(Profession.Prospector))
             {
-                tile.TrackWhenOffScreen(Color.Orange);
+                tile.TrackWhenOffScreen(Color.OrangeRed);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Orange);
+                    tile.TrackWhenOnScreen(Color.OrangeRed);
                 }
             }
             else if (@object.QualifiedItemId == QualifiedObjectIds.ArtifactSpot)
             {
-                tile.TrackWhenOffScreen(Color.Cyan);
+                tile.TrackWhenOffScreen(Color.Lime);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Cyan);
+                    tile.TrackWhenOnScreen(Color.Lime);
                 }
             }
         }

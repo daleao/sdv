@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.VirtualProperties;
+﻿namespace DaLion.Core.Framework.VirtualProperties;
 
 #region using directives
 
@@ -8,16 +8,16 @@ using StardewValley.Monsters;
 #endregion using directives
 
 // ReSharper disable once InconsistentNaming
-internal static class Monster_Target
+public static class Monster_Target
 {
     internal static ConditionalWeakTable<Monster, Farmer?> Values { get; } = [];
 
-    internal static Farmer Get_Target(this Monster monster)
+    public static Farmer Get_Target(this Monster monster)
     {
         return Values.GetOrCreateValue(monster) ?? Game1.player;
     }
 
-    internal static void Set_Target(this Monster monster, Farmer? target)
+    public static void Set_Target(this Monster monster, Farmer? target)
     {
         Values.AddOrUpdate(monster, target);
     }

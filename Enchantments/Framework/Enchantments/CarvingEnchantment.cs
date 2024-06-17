@@ -24,11 +24,7 @@ public sealed class CarvingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (!who.IsLocalPlayer)
-        {
-            return;
-        }
-
+        base._OnDealDamage(monster, location, who, ref amount);
         monster.resilience.Value--;
         switch (monster)
         {

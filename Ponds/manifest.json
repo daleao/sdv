@@ -9,7 +9,7 @@
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "1.2.0"
+      "MinimumVersion": "1.3.0"
     }
   ],
   "UpdateKeys": [

@@ -4,8 +4,10 @@
 
 using System.Collections.Generic;
 using DaLion.Core.Framework.Debuffs;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
+using Netcode;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -17,7 +19,7 @@ public static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="bleeder">The <see cref="Farmer"/> who caused the bleeding.</param>
     /// <param name="duration">The duration in milliseconds.</param>
-    /// <param name="stacks">The intensity of the bleeding effect (how many stacks).</param>
+    /// <param name="stacks">The number of bleeding stacks.</param>
     /// <param name="maxStacks">The max number of allowed stacks.</param>
     public static void Bleed(
         this Monster monster,
@@ -54,6 +56,58 @@ public static class MonsterExtensions
         return monster.Get_BleedStacks().Value > 0;
     }
 
+    /// <summary>Blinds the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <param name="duration">The duration in milliseconds.</param>
+    public static void Blind(this Monster monster, int duration = 5000)
+    {
+        if (monster is Bat or Duggy)
+        {
+            return;
+        }
+
+        monster.Get_BlindTimer().Value = duration;
+        monster.focusedOnFarmers = false;
+        switch (monster)
+        {
+            case Bat:
+            case RockGolem:
+                ModHelper.Reflection.GetField<NetBool>(monster, "seenPlayer").GetValue().Value = false;
+                break;
+            case DustSpirit:
+                ModHelper.Reflection.GetField<bool>(monster, "seenFarmer").SetValue(false);
+                ModHelper.Reflection.GetField<bool>(monster, "chargingFarmer").SetValue(false);
+                break;
+            case ShadowGuy:
+            case ShadowShaman:
+            case Skeleton:
+                ModHelper.Reflection.GetField<bool>(monster, "spottedPlayer").SetValue(false);
+                break;
+        }
+
+        monster.startGlowing(Color.Black, true, 0.05f);
+        State.Timers.Add(new Timer(
+            () => monster.Get_BlindTimer().Value,
+            value => monster.Get_BlindTimer().Value = value,
+            monster.Unblind));
+    }
+
+    /// <summary>Removes blind from <paramref name="monster"/>.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    public static void Unblind(this Monster monster)
+    {
+        monster.stopGlowing();
+        monster.Get_BlindTimer().Value = -1;
+    }
+
+    /// <summary>Checks whether the <paramref name="monster"/> is blinded.</summary>
+    /// <param name="monster">The <see cref="Monster"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero blind timer, otherwise <see langword="false"/>.</returns>
+    public static bool IsBlinded(this Monster monster)
+    {
+        return monster.Get_BlindTimer().Value > 0;
+    }
+
     /// <summary>Burns the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="burner">The <see cref="Farmer"/> who inflicted the burn.</param>
@@ -75,7 +129,7 @@ public static class MonsterExtensions
         }
 
         monster.Set_Burnt(duration, burner);
-        monster.startGlowing(Color.Yellow, true, 0.05f);
+        monster.startGlowing(Color.OrangeRed, true, 0.05f);
         monster.jitteriness.Value *= 2;
         switch (monster)
         {
@@ -86,14 +140,14 @@ public static class MonsterExtensions
                     burnList.Add(new BurnAnimation(serpent, duration, i));
                 }
 
-                burnList.Add(new(monster, duration));
+                burnList.Add(new BurnAnimation(monster, duration));
                 BurnAnimation.BurnAnimationsByMonster.AddOrUpdate(monster, burnList);
                 break;
 
             default:
                 BurnAnimation.BurnAnimationsByMonster.AddOrUpdate(
                     monster,
-                    [new(monster, duration)]);
+                    [new BurnAnimation(monster, duration)]);
                 break;
         }
     }
@@ -145,7 +199,7 @@ public static class MonsterExtensions
             if (monster.Get_SlowIntensity().Value >= freezeThreshold)
             {
                 monster.Get_Frozen().Value = true;
-                monster.Get_SlowTimer().Value *= 5;
+                monster.Get_SlowTimer().Value *= 3;
                 switch (monster)
                 {
                     case BigSlime:
@@ -239,12 +293,18 @@ public static class MonsterExtensions
     public static void Fear(this Monster monster, int duration = 5000)
     {
         monster.Get_FearTimer().Value = duration;
+        monster.Speed *= 2;
+        State.Timers.Add(new Timer(
+            () => monster.Get_FearTimer().Value,
+            value => monster.Get_FearTimer().Value = value,
+            monster.Unfear));
     }
 
     /// <summary>Removes fear from <paramref name="monster"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     public static void Unfear(this Monster monster)
     {
+        monster.Speed /= 2;
         monster.Get_FearTimer().Value = -1;
     }
 
@@ -290,7 +350,7 @@ public static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="poisoner">The <see cref="Farmer"/> who inflicted the poison.</param>
     /// <param name="duration">The duration in milliseconds.</param>
-    /// <param name="stacks">The intensity of the poison effect (how many stacks).</param>
+    /// <param name="stacks">The number of poison stacks.</param>
     /// <param name="maxStacks">This number of stacks will immediately kill the monster.</param>
     public static void Poison(
         this Monster monster,
@@ -299,7 +359,7 @@ public static class MonsterExtensions
         int stacks = 1,
         int maxStacks = int.MaxValue)
     {
-        if (monster is Ghost)
+        if (monster is Ghost or Skeleton)
         {
             return;
         }
@@ -335,7 +395,7 @@ public static class MonsterExtensions
     /// <summary>Slows the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
-    /// <param name="intensity">The intensity of the slow effect.</param>
+    /// <param name="intensity">The intensity of the slow effect; i.e. the percentage by which the target will be slowed.</param>
     public static void Slow(this Monster monster, int duration = 5000, float intensity = 0.5f)
     {
         monster.Set_Slowed(duration, intensity);

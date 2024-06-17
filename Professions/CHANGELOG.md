@@ -1,5 +1,20 @@
 ﻿# PROFESSIONS Changelog
 
+## 0.4.0
+
+Updated for DaLionheart 1.3.0.
+
+### Changed
+
+* Tweaked tracking arrow colors a bit. Artifacts spots are now always tracked with green, and are the only thing tracked with that color. Prospector mining nodes is now a darker orange for better contrast with Scavenger forage.
+* Default tracking arrow size was reduced to x1 (default vanilla size), down from x1.2.
+
+### Removed
+
+* Removed FakeFarmer (moved to Core mod).
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 0.3.5
 
 ### Changed

@@ -22,11 +22,7 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (!who.IsLocalPlayer)
-        {
-            return;
-        }
-
+        base._OnDealDamage(monster, location, who, ref amount);
         for (var i = location.characters.Count - 1; i >= 0; i--)
         {
             var character = location.characters[i];

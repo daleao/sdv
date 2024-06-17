@@ -273,7 +273,7 @@ You also gain the ability to hold a mod key (LeftShift by default) to highlight 
 
 Pointer colors:
 - **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
-- **Blue:** Artifact spots
+- **Green:** Artifact spots
 </details>
 </font>
 
@@ -425,7 +425,8 @@ You also gain the ability to hold a mod key (LeftShift by default) to highlight 
 
 Pointer colors:
 - **Orange:** Mining nodes and forage minerals
-- **Blue:** Ladders/shafts, panning spots, artifact spots
+- **Blue:** Ladders/shafts, panning spots
+- **Green:** Artifact spots
 </details>
 </font>
 

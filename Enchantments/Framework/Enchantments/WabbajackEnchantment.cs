@@ -77,32 +77,36 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                 r.NextBool(),
                 50f));
             location.playSound("wand");
-            switch (r.Next(10))
+            switch (r.Next(9))
             {
                 // debuff
                 case 0:
                 case 1:
-                    switch (r.Next(7))
+                case 2:
+                    switch (r.Next(8))
                     {
                         case 0:
                             monster.Bleed(who);
                             break;
                         case 1:
-                            monster.Burn(who);
+                            monster.Blind();
                             break;
                         case 2:
-                            monster.Fear();
+                            monster.Burn(who);
                             break;
                         case 3:
-                            monster.Freeze();
+                            monster.Fear();
                             break;
                         case 4:
-                            monster.Poison(who);
+                            monster.Freeze();
                             break;
                         case 5:
-                            monster.Slow();
+                            monster.Poison(who);
                             break;
                         case 6:
+                            monster.Slow();
+                            break;
+                        case 7:
                             monster.Stun();
                             break;
                     }
@@ -110,9 +114,9 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                     break;
 
                 // shrink/grow/clone
-                case 2:
                 case 3:
                 case 4:
+                case 5:
                     switch (r.Next(4))
                     {
                         // shrink
@@ -143,9 +147,9 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                     break;
 
                 // transfigure
-                case 5:
                 case 6:
                 case 7:
+                case 8:
                     location.characters.Remove(monster);
                     switch (r.Next(3))
                     {
@@ -222,12 +226,8 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (!who.IsLocalPlayer)
-        {
-            return;
-        }
-
-        var chance = ((MathConstants.PHI - 1d) / (4d * MathConstants.PHI)) - Game1.player.DailyLuck;
+        base._OnDealDamage(monster, location, who, ref amount);
+        var chance = ((MathConstants.PHI - 1d) / (4d * MathConstants.PHI)) - who.DailyLuck;
         if (this._random.NextBool(chance))
         {
             DoWabbajack(monster, location, who, ref amount, chance, this._random);

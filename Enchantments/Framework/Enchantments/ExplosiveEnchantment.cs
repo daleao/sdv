@@ -91,11 +91,9 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     protected override void _OnUnequip(Farmer who)
     {
         base._OnUnequip(who);
-        if (!who.IsLocalPlayer)
+        if (who.IsLocalPlayer)
         {
-            return;
+            EventManager.Disable<ExplosiveUpdateTickedEvent>();
         }
-
-        EventManager.Disable<ExplosiveUpdateTickedEvent>();
     }
 }

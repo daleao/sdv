@@ -3,8 +3,12 @@
 #region using directives
 
 using System.Xml.Serialization;
-using Netcode;
+using Microsoft.Xna.Framework;
+using Projectiles;
+using StardewValley;
 using StardewValley.Monsters;
+using StardewValley.Projectiles;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -23,43 +27,36 @@ public sealed class SunburstEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
     {
-        if (!who.IsLocalPlayer)
+        base._OnDealDamage(monster, location, who, ref amount);
+        if (monster is Ghost or Skeleton or Mummy or ShadowBrute or ShadowShaman or ShadowGirl or ShadowGuy or Shooter)
         {
-            return;
+            amount = (int)(amount * 1.5f);
         }
+    }
 
-        monster.resilience.Value--;
-        switch (monster)
+    /// <inheritdoc />
+    protected override void _OnSwing(MeleeWeapon weapon, Farmer farmer)
+    {
+        base._OnSwing(weapon, farmer);
+        var origin = farmer.getStandingPosition() - new Vector2(32f, 32f);
+        var velocity = default(Vector2);
+        switch (farmer.facingDirection.Value)
         {
-            case Bug { isArmoredBug.Value: true, resilience.Value: < -3 } bug:
-                bug.isArmoredBug.Value = false;
+            case 0:
+                velocity.Y = -1f;
                 break;
-            case RockCrab crab:
-                var shellHealth = Reflector
-                    .GetUnboundFieldGetter<RockCrab, NetInt>("shellHealth")
-                    .Invoke(crab).Value;
-                if (shellHealth <= 0)
-                {
-                    break;
-                }
-
-                shellHealth--;
-                Reflector
-                    .GetUnboundFieldGetter<RockCrab, NetInt>("shellHealth")
-                    .Invoke(crab).Value = shellHealth;
-                crab.shake(500);
-                if (shellHealth <= 0)
-                {
-                    Reflector
-                        .GetUnboundFieldGetter<RockCrab, NetBool>("shellGone")
-                        .Invoke(crab).Value = true;
-                    crab.moveTowardPlayer(-1);
-                    location.playSound("stoneCrack");
-                    Game1.createRadialDebris(location, 14, (int)crab.Tile.X, (int)crab.Tile.Y, Game1.random.Next(2, 7), resource: false);
-                    Game1.createRadialDebris(location, 14, (int)crab.Tile.X, (int)crab.Tile.Y, Game1.random.Next(2, 7), resource: false);
-                }
-
+            case 1:
+                velocity.X = 1f;
+                break;
+            case 3:
+                velocity.X = -1f;
+                break;
+            case 2:
+                velocity.Y = 1f;
                 break;
         }
+
+        velocity *= 10f;
+        farmer.currentLocation.projectiles.Add(new SunburstProjectile(farmer, weapon, origin, velocity, 32f));
     }
 }
