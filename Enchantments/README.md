@@ -30,7 +30,7 @@ In addition, this mod optionally replaces the generic vanilla "Forged" text in w
 
 \* *Hard caps at 1000 HP. To prevent cheesing boss monsters from expansion mods, this is implemented as a percentage chance per hit, with the chance being near-zero close to the 1000 HP hard cap and near 100% for regular monsters.*
 
-\** *Example effects: execute or fully-heal the enemy; apply a random debuff; grow or shrink the enemy; transform into a random animal; transform into a random amount of cheese.*
+\** *Example effects: execute or fully-heal the enemy; apply a random [debuff](../Core); grow or shrink the enemy; split the enemy in two; transform the enemy into a random animal; transform the enemy into a random amount of cheese.*
 </font>
 
 

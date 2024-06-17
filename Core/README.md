@@ -22,7 +22,7 @@ If the above concerns you, really ask yourself how often do you ever forget to w
 
 ## Status Effects
 
-Taking inspiration from classic game tropes, this module adds a framework for causing various status conditions to enemies. These effects are used by the various DaLion mods.
+Taking inspiration from classic game tropes, this mod adds a framework for causing various status conditions to enemies. These effects will be used by the various DaLion mods, and can also be used by any C# mod which consumed the provided [API](/ICoreApi).
 
 | Status | Effect |
 | ------ | ------ |
