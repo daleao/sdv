@@ -402,8 +402,8 @@ public sealed class ILHelper
 
     /// <summary>
     ///     Removes the <see cref="CodeInstruction"/>s from current pointer index up to and including the first
-    ///     occurrence of the specified <paramref name="pattern"/> in the active <see cref="CodeInstruction"/>
-    ///     list according to the specified <see cref="SearchOption"/>.
+    ///     instructions in the first occurrence of the specified <paramref name="pattern"/> in the active
+    ///     <see cref="CodeInstruction"/> list according to the specified <see cref="SearchOption"/>.
     /// </summary>
     /// <param name="pattern">A pattern of <see cref="CodeInstruction"/>s to match.</param>
     /// <param name="option">The <see cref="SearchOption"/>.</param>

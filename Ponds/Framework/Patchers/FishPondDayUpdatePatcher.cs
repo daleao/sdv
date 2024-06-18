@@ -2,13 +2,9 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Emit;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
@@ -32,8 +28,9 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
     /// <summary>Reset held items each morning.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static void FishPondDayUpdatePrefix(FishPond __instance)
+    private static void FishPondDayUpdatePrefix(FishPond __instance, ref Item? __state)
     {
+        __state = __instance.output.Value;
         if (!__instance.IsRadioactive())
         {
             return;
@@ -59,14 +56,21 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Spontaneously grow algae.</summary>
     [HarmonyPostfix]
-    private static void FishPondDayUpdatePostfix(FishPond __instance, ref FishPondData? ____fishPondData)
+    private static void FishPondDayUpdatePostfix(FishPond __instance, Item __state, ref FishPondData? ____fishPondData)
     {
+        var r = Utility.CreateDaySaveRandom(__instance.tileX.Value * 1000, __instance.tileY.Value * 2000);
+        // if pond is not empty, override output
+        if (__instance.currentOccupants.Value > 0 && ____fishPondData is not null)
+        {
+            __instance.output.Value = __state;
+            __instance.output.Value = __instance.GetProduce(r);
+            return;
+        }
+
         if (!string.IsNullOrEmpty(__instance.fishType.Value) || __instance.currentOccupants.Value != 0)
         {
             return;
         }
-
-        var r = new Random(Guid.NewGuid().GetHashCode());
 
         // if pond is empty, spontaneously grow algae/seaweed
         Data.Increment(__instance, DataKeys.DaysEmpty);
@@ -82,42 +86,6 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
         __instance.currentOccupants.Value++;
         Data.Append(__instance, DataKeys.PondFish, spawned.ToString(), ';');
         Data.Write(__instance, DataKeys.DaysEmpty, null);
-    }
-
-    /// <summary>
-    ///     Removes population-based roll from <see cref="FishPond.dayUpdate"/> (moved to
-    ///     <see cref="FishPond.GetFishProduce"/>).
-    /// </summary>
-    private static IEnumerable<CodeInstruction>? FishPondDayUpdateTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
-    {
-        var helper = new ILHelper(original, instructions);
-
-        try
-        {
-            helper
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-                ])
-                .RemoveUntil([
-                    new CodeInstruction(OpCodes.Blt_S),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(FishPond).RequireField(nameof(FishPond.goldenAnimalCracker))),
-                ])
-                .StripLabels();
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed removing day update production roll.\nHelper returned {ex}");
-            return null;
-        }
-
-        return helper.Flush();
     }
 
     #endregion harmony patches

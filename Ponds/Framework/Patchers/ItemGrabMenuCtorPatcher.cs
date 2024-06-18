@@ -27,10 +27,17 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void ItemGrabMenuCtorPostfix(ItemGrabMenu __instance)
     {
-        if (__instance.context is FishPond)
+        if (__instance.context is not FishPond)
         {
-            __instance.canExitOnKey = true;
+            return;
         }
+
+        __instance.ItemsToGrabMenu.capacity = 12;
+        __instance.ItemsToGrabMenu.height -= 2 * Game1.tileSize;
+        __instance.ItemsToGrabMenu.rows = 1;
+        __instance.ItemsToGrabMenu.showGrayedOutSlots = false;
+        __instance.ItemsToGrabMenu.xPositionOnScreen += 4;
+        __instance.canExitOnKey = true;
     }
 
     #endregion harmony patches

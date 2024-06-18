@@ -26,9 +26,9 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Implement blind status.</summary>
     [HarmonyPrefix]
-    private static bool FarmerTakeDamagePrefix(Farmer __instance, ref int damage, Monster damager)
+    private static bool FarmerTakeDamagePrefix(Farmer __instance, ref int damage, Monster? damager)
     {
-        if (!damager.IsBlinded() || !Game1.random.NextBool())
+        if (damager?.IsBlinded() != true || !Game1.random.NextBool())
         {
             return true; // run original logic
         }

@@ -1,5 +1,13 @@
 ﻿# CORE Changelog
 
+## 1.3.1
+
+### Fixed
+
+* Fixed Null-Reference exception when taking damage from a source that is not a monster.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 1.3.0
 
 ### Added

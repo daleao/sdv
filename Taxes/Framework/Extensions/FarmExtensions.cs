@@ -1,10 +1,13 @@
 ﻿namespace DaLion.Taxes.Framework.Extensions;
 
+using System;
+
 #region using directives
 
 using System.Linq;
 using StardewValley;
 using StardewValley.TerrainFeatures;
+using xTile.Tiles;
 
 #endregion using directives
 
@@ -20,7 +23,7 @@ internal static class FarmExtensions
         var totalAgricultureValue = 0;
         var totalLivestockValue = 0;
         var totalBuildingValue = 0;
-        var usedTiles = 54;
+        var usedTiles = 45; // discount farmhouse tiles
         foreach (var dirt in farm.terrainFeatures.Values.OfType<HoeDirt>())
         {
             if (dirt.crop is not { } crop)
@@ -66,7 +69,66 @@ internal static class FarmExtensions
             totalAgricultureValue += (int)(averageFruitValue * 28);
         }
 
-        usedTiles += farm.terrainFeatures.Values.OfType<Tree>().Count();
+        foreach (var tree in farm.terrainFeatures.Values.OfType<Tree>())
+        {
+            usedTiles++;
+            if (!tree.tapped.Value)
+            {
+                continue;
+            }
+
+            var tapper = tree.Location.getObjectAtTile((int)tree.Tile.X, (int)tree.Tile.Y);
+            if (tapper is null || !tapper.IsTapper())
+            {
+                continue;
+            }
+
+            Item tapperProduct;
+            float yield;
+            switch (tree.treeType.Value)
+            {
+                case Tree.bushyTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.OakResin);
+                    yield = 28f / 7f;
+                    break;
+
+                case Tree.leafyTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.MapleSyrup);
+                    yield = 28f / 9f;
+                    break;
+
+                case Tree.pineTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.PineTar);
+                    yield = 28f / 5f;
+                    break;
+
+                case Tree.mushroomTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.CommonMushroom);
+                    yield = 28f / 2f;
+                    break;
+
+                case Tree.mahoganyTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.Sap);
+                    yield = 28f / 1f;
+                    break;
+
+                case Tree.greenRainTreeFern:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.FiddleheadFern);
+                    yield = 28f / 2f;
+                    break;
+
+                case Tree.mysticTree:
+                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.FiddleheadFern);
+                    yield = 28f / 7f;
+                    break;
+
+                default:
+                    continue;
+            }
+
+            var averageTapperValue = (int)(tapperProduct.salePrice() * yield);
+            totalAgricultureValue += averageTapperValue;
+        }
 
         foreach (var building in farm.buildings)
         {

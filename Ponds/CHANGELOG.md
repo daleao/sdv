@@ -1,5 +1,19 @@
 ﻿# PONDS Changelog
 
+## 1.0.6
+
+### Changed
+
+* Chum bucket capacity reduced to 12 down from 36. This is to prevent players from leaving their ponds unattended for too long. If the number of distinct produced items exceeds this capacity, always the lowest-valued item will be discarded.
+* Golden Animal Cracker now doubles every produced item, instead of just the most valuable one.
+
+### Fixed
+
+* Fixed Golden Animal Cracker doubling the output item cumulatively every day when uncollected.
+* Other bug fixes.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 1.0.5
 
 ### Fixed
