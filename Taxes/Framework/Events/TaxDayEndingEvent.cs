@@ -8,6 +8,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using DaLion.Taxes.Framework.Integrations;
 using StardewModdingAPI.Events;
+using StardewValley;
 
 #endregion using directives
 
@@ -50,26 +51,22 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                 : $"No items were sold on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
 
         var dayIncome = amountSold;
+        if (Game1.currentSeason == "spring" && Game1.year == 1)
+        {
+            goto skipSwitch;
+        }
+
         switch (Game1.dayOfMonth)
         {
             // handle Conservationist profession
-            case 28 when ProfessionsIntegration.IsValueCreated && taxpayer.professions.Contains(Farmer.mariner):
+            case 28:
             {
-                CheckDeductions(taxpayer);
-                goto default;
-            }
-
-            case 1:
-            {
-                if (Game1.currentSeason == "spring" && Game1.year == 1)
+                CheckIncomeStatement(taxpayer);
+                PostalService.Send(CheckDeductions(taxpayer) ? Mail.FrsDeduction : Mail.FrsNotice);
+                if (Game1.currentSeason == "spring")
                 {
-                    break;
-                }
-
-                CheckIncomeStatement(taxpayer, ref dayIncome);
-                if (taxpayer.IsMainPlayer && Game1.currentSeason == "spring")
-                {
-                    CheckPropertyStatement(taxpayer, ref dayIncome);
+                    CheckPropertyStatement(taxpayer);
+                    PostalService.Send(Mail.LewisNotice);
                 }
 
                 goto default;
@@ -88,14 +85,25 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
 
             default:
             {
-                CheckOutstanding(taxpayer, ref dayIncome);
+                if (Game1.dayOfMonth == Config.IncomeTaxDay)
+                {
+                    DebitIncomeStatement(taxpayer, ref dayIncome);
+                }
+
+                if (taxpayer.IsMainPlayer && Game1.currentSeason == "spring" && Game1.dayOfMonth == Config.PropertyTaxDay)
+                {
+                    DebitPropertyStatement(taxpayer, ref dayIncome);
+                }
+
+                DebitOutstanding(taxpayer, ref dayIncome);
                 break;
             }
         }
 
+        skipSwitch:
         if (dayIncome < amountSold)
         {
-            Data.Write(taxpayer, DataKeys.LatestAmountWithheld, (amountSold - dayIncome).ToString());
+            Data.Write(taxpayer, DataKeys.Withheld, (amountSold - dayIncome).ToString());
             TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
             Log.T(dayIncome > 0
                 ? $"Actual income was decreased by {amountSold - dayIncome}g after debts and payments."
@@ -105,18 +113,19 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
         Data.Increment(taxpayer, DataKeys.SeasonIncome, dayIncome);
     }
 
-    private static void CheckDeductions(Farmer taxpayer)
+    private static bool CheckDeductions(Farmer taxpayer)
     {
-        var professionsApi = ProfessionsIntegration.Instance?.ModApi;
-        if (professionsApi is null)
+        if (!ProfessionsIntegration.IsValueCreated || !ProfessionsIntegration.Instance.IsLoaded ||
+            !taxpayer.professions.Contains(Farmer.mariner))
         {
-            return;
+            return false;
         }
 
+        var professionsApi = ProfessionsIntegration.Instance.ModApi;
         var deductible = professionsApi.GetConservationistTaxDeduction();
         if (deductible <= 0f)
         {
-            return;
+            return false;
         }
 
         deductible = Math.Min(
@@ -124,20 +133,24 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             professionsApi.GetConfig().ConservationistTaxDeductionCeiling);
 
         Data.Write(taxpayer, DataKeys.PercentDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-        Data.Write(taxpayer, DataKeys.LatestTaxDeductions, deductible.ToString(CultureInfo.InvariantCulture));
-        PostalService.Send(Mail.FrsDeduction);
         Log.I(
             FormattableString.CurrentCulture(
                 $"Farmer {taxpayer.Name} is eligible for income tax deductions of {deductible:0.0%}.") +
             (deductible >= 1f
                 ? $" No income taxes will be charged for {Game1.currentSeason}."
                 : string.Empty));
+        return true;
     }
 
-    private static void CheckIncomeStatement(Farmer taxpayer, ref int dayIncome)
+    private static void CheckIncomeStatement(Farmer taxpayer)
     {
         var (amountDue, _, _, _, _) = RevenueService.CalculateTaxes(taxpayer);
-        Data.Write(taxpayer, DataKeys.LatestDueIncomeTax, amountDue.ToString());
+        Data.Write(taxpayer, DataKeys.AccruedIncomeTax, amountDue.ToString());
+    }
+
+    private static void DebitIncomeStatement(Farmer taxpayer, ref int dayIncome)
+    {
+        var amountDue = Data.ReadAs<int>(taxpayer, DataKeys.AccruedIncomeTax);
         if (amountDue <= 0)
         {
             return;
@@ -149,7 +162,6 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             taxpayer.Money -= amountDue;
             amountPaid = amountDue;
             amountDue = 0;
-            PostalService.Send(Mail.FrsNotice);
             Log.I("Income tax due was paid in full.");
         }
         else
@@ -163,7 +175,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                 dayIncome = 0;
                 var penalties = Math.Max((int)(outstanding * Config.IncomeTaxLatenessFine), 100);
                 Data.Increment(taxpayer, DataKeys.DebtOutstanding, outstanding + penalties);
-                Data.Write(taxpayer, DataKeys.LatestOutstandingIncomeTax, (outstanding + penalties).ToString());
+                Data.Write(taxpayer, DataKeys.OutstandingIncomeTax, (outstanding + penalties).ToString());
                 PostalService.Send(Mail.FrsOutstanding);
                 Log.I(
                     $"{taxpayer.Name} did not carry enough funds to cover the income tax due." +
@@ -176,11 +188,12 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             }
         }
 
+        TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
         Data.Write(taxpayer, DataKeys.SeasonIncome, "0");
         Data.Write(taxpayer, DataKeys.BusinessExpenses, "0");
     }
 
-    private static void CheckPropertyStatement(Farmer taxpayer, ref int dayIncome)
+    private static void CheckPropertyStatement(Farmer taxpayer)
     {
         var farm = Game1.getFarm();
         var agricultureValue = Data.ReadAs<int>(farm, DataKeys.AgricultureValue);
@@ -201,7 +214,12 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
         var amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * Config.UsedTileTaxRate) +
                               ((agricultureValue + livestockValue) * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
                               (buildingValue * Config.BuildingTaxRate));
-        Data.Write(taxpayer, DataKeys.LatestDuePropertyTax, amountDue.ToString());
+        Data.Write(taxpayer, DataKeys.AccruedPropertyTax, amountDue.ToString());
+    }
+
+    private static void DebitPropertyStatement(Farmer taxpayer, ref int dayIncome)
+    {
+        var amountDue = Data.ReadAs<int>(taxpayer, DataKeys.AccruedPropertyTax);
         if (amountDue <= 0)
         {
             return;
@@ -213,7 +231,6 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             taxpayer.Money -= amountDue;
             amountPaid = amountDue;
             amountDue = 0;
-            PostalService.Send(Mail.LewisNotice);
             Log.I("Property tax due was paid in full.");
         }
         else
@@ -227,7 +244,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                 dayIncome = 0;
                 var penalties = Math.Max((int)(outstanding * Config.PropertyTaxLatenessFine), 500);
                 Data.Increment(taxpayer, DataKeys.DebtOutstanding, outstanding + penalties);
-                Data.Write(taxpayer, DataKeys.LatestOutstandingPropertyTax, (outstanding + penalties).ToString());
+                Data.Write(taxpayer, DataKeys.OutstandingPropertyTax, (outstanding + penalties).ToString());
                 PostalService.Send(Mail.LewisOutstanding);
                 Log.I(
                     $"{taxpayer.Name} did not carry enough funds to cover the property tax due." +
@@ -240,13 +257,15 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             }
         }
 
+        TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
+        var farm = Game1.getFarm();
         Data.Write(farm, DataKeys.AgricultureValue, "0");
         Data.Write(farm, DataKeys.LivestockValue, "0");
         Data.Write(farm, DataKeys.BuildingValue, "0");
         Data.Write(farm, DataKeys.UsedTiles, "0");
     }
 
-    private static void CheckOutstanding(Farmer taxpayer, ref int dayIncome)
+    private static void DebitOutstanding(Farmer taxpayer, ref int dayIncome)
     {
         var debtOutstanding = Data.ReadAs<int>(taxpayer, DataKeys.DebtOutstanding);
         if (debtOutstanding <= 0)

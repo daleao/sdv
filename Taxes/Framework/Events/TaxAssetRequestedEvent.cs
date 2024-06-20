@@ -39,10 +39,23 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
                 CurrentCulture($"{Config.IncomeTaxLatenessFine:0.#%}"),
                 interest);
 
-        var due = Data.ReadAs<int>(player, DataKeys.LatestDueIncomeTax);
-        data[$"{UniqueId}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due);
+        var due = Data.ReadAs<int>(player, DataKeys.AccruedIncomeTax);
+        var when = Config.IncomeTaxDay == 1
+            ? I18n.When_Tonight()
+            : I18n.When_Day(toDayOfMonthString(Config.IncomeTaxDay));
+        data[$"{UniqueId}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due, when);
 
-        var outstanding = Data.ReadAs<int>(player, DataKeys.LatestOutstandingIncomeTax);
+        var deductions = Data.ReadAs<float>(player, DataKeys.PercentDeductions);
+        data[$"{UniqueId}/{Mail.FrsDeduction}"] = deductions >= 1f
+            ? I18n.Mail_Frs_Deduction_Max(honorific, due)
+            : I18n.Mail_Frs_Deduction(
+                honorific,
+                due,
+                CurrentCulture($"{deductions:0.#%}"),
+                (int)(due * (1f - deductions)),
+                when);
+
+        var outstanding = Data.ReadAs<int>(player, DataKeys.OutstandingIncomeTax);
         data[$"{UniqueId}/{Mail.FrsOutstanding}"] =
             I18n.Mail_Frs_Outstanding(
                 honorific,
@@ -52,35 +65,34 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
                 outstanding,
                 interest);
 
-        var deductions = Data.ReadAs<float>(player, DataKeys.LatestTaxDeductions);
-        data[$"{UniqueId}/{Mail.FrsDeduction}"] = deductions switch
-        {
-            >= 1f => I18n.Mail_Frs_Deduction_Max(honorific),
-            >= 0f => I18n.Mail_Frs_Deduction(honorific, CurrentCulture($"{deductions:0.#%}")),
-            _ => string.Empty,
-        };
-
         // county letters
-        due = Data.ReadAs<int>(player, DataKeys.LatestDuePropertyTax);
+        due = Data.ReadAs<int>(player, DataKeys.AccruedPropertyTax);
         var agricultureValue = Data.ReadAs<int>(farm, DataKeys.AgricultureValue);
         var livestockValue = Data.ReadAs<int>(farm, DataKeys.LivestockValue);
         var buildingValue = Data.ReadAs<int>(farm, DataKeys.BuildingValue);
         var valuation = agricultureValue + livestockValue + buildingValue;
-        data[$"{UniqueId}/{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(player.farmName.Value, valuation, due);
-
-        outstanding = Data.ReadAs<int>(player, DataKeys.LatestOutstandingPropertyTax);
-        data[$"{UniqueId}/{Mail.LewisOutstanding}"] = I18n.Mail_Lewis_Outstanding(
+        data[$"{UniqueId}/{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(
             player.farmName.Value,
             valuation,
             due,
-            CurrentCulture($"{Config.PropertyTaxLatenessFine:0.#%}"),
-            outstanding,
-            interest);
+            toDayOfMonthString(Config.PropertyTaxDay));
 
-        Data.Write(player, DataKeys.LatestDueIncomeTax, string.Empty);
-        Data.Write(player, DataKeys.LatestOutstandingIncomeTax, string.Empty);
-        Data.Write(player, DataKeys.LatestDuePropertyTax, string.Empty);
-        Data.Write(player, DataKeys.LatestOutstandingPropertyTax, string.Empty);
-        Data.Write(player, DataKeys.LatestTaxDeductions, string.Empty);
+        outstanding = Data.ReadAs<int>(player, DataKeys.OutstandingPropertyTax);
+        data[$"{UniqueId}/{Mail.LewisOutstanding}"] =
+            I18n.Mail_Lewis_Outstanding(
+                CurrentCulture($"{Config.PropertyTaxLatenessFine:0.#%}"),
+                outstanding,
+                interest);
+
+        string toDayOfMonthString(int dayNumber)
+        {
+            return dayNumber switch
+            {
+                1 => "1st",
+                2 => "2nd",
+                3 => "3rd",
+                _ => $"{dayNumber}th",
+            };
+        }
     }
 }

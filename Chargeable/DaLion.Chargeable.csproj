@@ -109,11 +109,5 @@
     <EmbeddedResource Remove="resources\**" />
     <None Remove="resources\**" />
   </ItemGroup>
-  <ItemGroup>
-    <None Remove="i18n\default.json" />
-  </ItemGroup>
-  <ItemGroup>
-    <AdditionalFiles Include="i18n\default.json" />
-  </ItemGroup>
 
 </Project>

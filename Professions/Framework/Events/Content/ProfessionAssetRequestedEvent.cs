@@ -92,7 +92,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         data[title.GetDeterministicHashCode()] = newEntry;
     }
 
-    /// <summary>Patches new mayo objects.</summary>
+    /// <summary>Removes Heavy Tapper multiplier.</summary>
     private static void EditBigCraftablesData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, BigCraftableData>().Data;

@@ -17,7 +17,7 @@ public interface IEnchantmentsApi
     /// <param name="yVelocity">The projectile's starting velocity in the vertical direction.</param>
     /// <param name="rotationVelocity">The projectile's starting rotational velocity.</param>
     /// <param name="scale">The projectile's starting scale.</param>
-    /// <returns>The amount of income tax due in gold, along with total income, business expenses, eligible deductions and total taxable amount (in that order).</returns>
+    /// <returns>A new instance of a Quincy projectile.</returns>
     BasicProjectile CreateQuincyProjectile(
         Farmer firer, Vector2 startingPosition, float xVelocity, float yVelocity, float rotationVelocity, float scale);
 }

@@ -17,7 +17,7 @@ internal sealed class TaxSaveLoadedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        if (Data.ReadAs<int>(Game1.player, DataKeys.LatestAmountWithheld) > 0)
+        if (Data.ReadAs<int>(Game1.player, DataKeys.OvernightDebit) > 0 || Data.ReadAs<int>(Game1.player, DataKeys.Withheld) > 0)
         {
             TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
         }

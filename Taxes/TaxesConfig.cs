@@ -170,6 +170,13 @@ public sealed class TaxesConfig
         }
     }
 
+    /// <summary>Gets the day of the season when income taxes are charged.</summary>
+    [JsonProperty]
+    [GMCMSection("txs.income")]
+    [GMCMPriority(7)]
+    [GMCMRange(1, 27)]
+    public int IncomeTaxDay { get; set; } = 5;
+
     #endregion income
 
     #region property
@@ -239,6 +246,13 @@ public sealed class TaxesConfig
     [GMCMSection("txs.property")]
     [GMCMPriority(14)]
     public bool ExemptMagicalBuildings { get; internal set; } = true;
+
+    /// <summary>Gets the day of the season when property taxes are charged.</summary>
+    [JsonProperty]
+    [GMCMSection("txs.property")]
+    [GMCMPriority(15)]
+    [GMCMRange(1, 27)]
+    public int PropertyTaxDay { get; set; } = 20;
 
     #endregion property
 

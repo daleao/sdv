@@ -7,13 +7,12 @@ internal sealed class DataKeys
     internal const string BusinessExpenses = "BusinessExpenses";
     internal const string PercentDeductions = "PercentDeductions";
     internal const string DebtOutstanding = "DebtOutstanding";
-
-    internal const string LatestDueIncomeTax = "LatestDueIncomeTax";
-    internal const string LatestOutstandingIncomeTax = "LatestOutstandingIncomeTax";
-    internal const string LatestTaxDeductions = "LatestTaxDeductions";
-    internal const string LatestDuePropertyTax = "LatestDuePropertyTax";
-    internal const string LatestOutstandingPropertyTax = "LatestOutstandingPropertyTax";
-    internal const string LatestAmountWithheld = "LatestAmountWithheld";
+    internal const string AccruedIncomeTax = "AccruedIncomeTax";
+    internal const string OutstandingIncomeTax = "OutstandingIncomeTax";
+    internal const string AccruedPropertyTax = "AccruedPropertyTax";
+    internal const string OutstandingPropertyTax = "OutstandingPropertyTax";
+    internal const string OvernightDebit = "OvernightDebit";
+    internal const string Withheld = "Withheld";
 
     // farm
     internal const string AgricultureValue = "AgricultureValue";

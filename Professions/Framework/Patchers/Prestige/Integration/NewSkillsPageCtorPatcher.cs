@@ -44,24 +44,28 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
             var maxLength = 0;
             foreach (var skill in Skill.List)
             {
+                var length = Game1.player.GetProfessionsForSkill(skill, true).Length;
                 if (maxSkill is null)
                 {
                     maxSkill = skill;
+                    maxLength = length;
                     continue;
                 }
 
-                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
-                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill.CurrentLevel)))
+                if (length <= maxLength &&
+                    (length != maxLength || maxSkill.HasBeenReset() || !((ISkill)skill).HasBeenReset()))
                 {
-                    maxSkill = skill;
-                    maxLength = length;
+                    continue;
                 }
+
+                maxSkill = skill;
+                maxLength = length;
             }
 
             foreach (var skill in CustomSkill.Loaded.Values)
             {
                 if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
-                    (length > maxLength || (length == maxLength && skill.CurrentLevel > maxSkill!.CurrentLevel)))
+                    (length > maxLength || (length == maxLength && !maxSkill!.HasBeenReset() && ((ISkill)skill).HasBeenReset())))
                 {
                     maxSkill = skill;
                     maxLength = length;
@@ -70,7 +74,10 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
 
             if (maxLength > 1 || maxSkill?.HasBeenReset() == true)
             {
-                var addedWidth = ((maxLength + (maxSkill!.CurrentLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4);
+                var highestLevel = Skill.List.Cast<ISkill>()
+                    .Concat(CustomSkill.Loaded.Values)
+                    .Max(skill => skill.CurrentLevel);
+                var addedWidth = (maxLength + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
                 __instance.width += addedWidth;
                 ___upButton.bounds.X += addedWidth;
                 ___downButton.bounds.X += addedWidth;

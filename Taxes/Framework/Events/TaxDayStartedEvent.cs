@@ -17,18 +17,27 @@ internal sealed class TaxDayStartedEvent(EventManager? manager = null)
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
         var player = Game1.player;
-        var toDebit = Data.ReadAs<int>(player, DataKeys.LatestAmountWithheld);
-        if (toDebit <= 0)
+        if (Data.ReadAs<int>(player, DataKeys.OvernightDebit) is var debited and > 0)
         {
-            return;
+            Game1.addHUDMessage(
+                new HUDMessage(
+                        I18n.Hud_Tax_Debit(debited.ToString()),
+                        HUDMessage.newQuest_type)
+                    { timeLeft = HUDMessage.defaultTime * 2 });
+            Data.Write(player, DataKeys.OvernightDebit, string.Empty);
         }
 
-        player.Money -= toDebit;
-        Game1.addHUDMessage(
-            new HUDMessage(
-                I18n.Hud_Debt_Debit(toDebit.ToString()),
-                HUDMessage.newQuest_type) { timeLeft = HUDMessage.defaultTime * 2 });
-        Data.Write(player, DataKeys.LatestAmountWithheld, string.Empty);
+        if (Data.ReadAs<int>(player, DataKeys.Withheld) is var withheld and > 0)
+        {
+            player.Money -= withheld;
+            Game1.addHUDMessage(
+                new HUDMessage(
+                        I18n.Hud_Debt_Debit(withheld.ToString()),
+                        HUDMessage.newQuest_type)
+                    { timeLeft = HUDMessage.defaultTime * 2 });
+            Data.Write(player, DataKeys.Withheld, string.Empty);
+        }
+        
         this.Disable();
     }
 }

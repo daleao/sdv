@@ -55,8 +55,7 @@ internal sealed class DoTaxesCommand(CommandHandler handler)
                         ProfessionsIntegration.Instance!.ModApi!.GetConfig().ConservationistTaxDeductionCeiling);
                 }
 
-                var taxable = (int)((seasonIncome - businessExpenses) * (1f - deductible));
-
+                var taxable = (int)(Math.Max(seasonIncome - businessExpenses, 0) * (1f - deductible));
                 var dueF = 0f;
                 var tax = 0f;
                 var temp = taxable;

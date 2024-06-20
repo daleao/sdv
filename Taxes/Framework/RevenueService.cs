@@ -21,8 +21,7 @@ internal static class RevenueService
         var income = Data.ReadAs<int>(farmer, DataKeys.SeasonIncome);
         var expenses = Math.Min(Data.ReadAs<int>(farmer, DataKeys.BusinessExpenses), income);
         var deductions = Data.ReadAs<float>(farmer, DataKeys.PercentDeductions);
-        var taxable = (int)((income - expenses) * (1f - deductions));
-
+        var taxable = (int)(Math.Max(income - expenses, 0) * (1f - deductions));
         var dueF = 0f;
         var tax = 0f;
         var temp = taxable;
