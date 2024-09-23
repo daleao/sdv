@@ -1,0 +1,68 @@
+{
+  // mail
+  "mail.frs.intro": "Ministério da Fazenda^Ferngill Receita Federal^^^{{honorific}} Contribuinte,^^Esta carta é para informa-lo de que sua mudança de endereço para a Vila Pelicanos, Stardew Valley foi processada e registrada. Todas correspondências futuras serão direcionadas à Fazenda {{farm}}.^^Nós carinhosamente lembramo-vos que o prazo para as contribuições ao imposto de renda ocorrem ao final do primeiro dia de cada estação. Para a sua convêniencia, seus encargos tributários serão debitados automáticamente de seu saldo. Se seu saldo for insufuciente, você será multado segundo a seção 501(c)(1) do código tributário da República Ferngill no valor de {{fine}} e um empréstimo será emitido em seu nome com o Banco de Stardew, sujeito aos juros nominais de {{interest}} ao ano.^^^Cordialmente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]Confirmação da Mudança de Endereço",
+  "mail.frs.notice": "Ministério da Fazenda^Ferngill Receita Federal^^^{{honorific}} Contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra no valor de {{due}}g será debitado automáticamente de seu saldo {{when}}.^^Por favor, guarde esta carta em seus registros caso necessite resolver quaisquer questionamentos relativos ao seu estado fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]RFF Aviso Mensal",
+  "mail.frs.deduction": "Ministério da Fazenda^Ferngill Receita Federal^^^{{honorific}} Contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra no valor de {{accrued}}g. Em razão de suas atividades ecológicas recentes, você qualifica para uma dedução de {{deductible}} segundo a seção 501(c)(3) do Código Tributário da República Ferngill^^Assim sendo, o valor final de suas contribuições {{final}}g será debitado de seu saldo automáticamente em {{when}}.^^Por favor, guarde esta carta em seus registros caso necessite resolver quaisquer questionamentos relativos ao seu estado fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]RFF Aviso de Dedução",
+  "mail.frs.deduction.max": "Ministério da Fazenda^Ferngill Receita Federal^^^{{honorific}} Contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra no valor de {{accrued}}g. Em razão de suas atividades ecológicas recentes, você qualifica para a completa dedução de suas contribuições segundo a seção 501(c)(3) do Código Tributário da República Ferngill. Assim sendo, nenhuma cobrança será debitada de seu saldo durante a estaçãao atual.^^Por favor, guarde esta carta em seus registros caso necessite resolver quaisquer questionamentos relativos ao seu estado fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]RFF Aviso de Dedução",
+  "mail.frs.outstanding": "Ministério da Fazenda^Ferngill Receita Federal^^^{{honorific}} Contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação anterior no valor de {{due}}g não pôde ser completamente debitado de seu saldo. Em acordo com a seção 501(c)(1)  do Código Tributário da República Ferngill, você será multado um valor adicional de {{fine}} e toda a renda futura da fazenda {{farm}} será tributada até que sua dívida, totalizando {{outstanding}}g, seja completamente resolvida. Tenha em mente que é em seu melhor interesse quitar quasiquer dívidas assim que puder para evitar os juros de {{interest}} ao ano.^^Por favor, guarde esta carta em seus registros caso necessite resolver quaisquer questionamentos relativos ao seu estado fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]RFF Aviso Mensal",
+  "mail.lewis.intro": "@,^Bem-Vindo à Vila Pelicanos! Eu espero que esteja se acomodando direitinho na sua nova casa. Só um lembrete amigável: Sendo o novo dono da {{farm}} você é responsável pelos tributos sobre a prorpiedade rural. Todo ano, o condado executa uma Avaliação de Valor Agregado(AVA) das fazendas locais, o que quer dizer que os impostos são calculados baseado no uso da propiedade para agropecúaria; em outras palavras, terra não utilizada vai ser taxada *mais* que terra ativamente usada, então está no seu melhor interesse começar a limpar aqueles detritos!^^ Seu avô falecido tomou conta de todos os impostos incluindo os do último ano, então você não precisa se estressar até o proximo ano. Eu também enviei um pacote que eu espero que vai ajudar você começar. Estou de olho no seu sucesso!  ^  Cordialmente, Sr. Lewis[#]Aviso do Imposto Municipal sobre Propriedade",
+  "mail.lewis.notice": "@,^Como está ciênte, uma das minhas funções como prefeito da Vila Pelicanos é cobrar imposto sobre todas as propriedades na cidade. Durante o ano fiscal anterior, a avaliação do condado da propiedade da fazenda {{farm}} determinou um AVA avaliado em {{valuation}}g. Assim sendo, você é responável por {{due}}g em imposto sobre propriedades pelo período aplicável. Esse valor será cobrado de sua conta no dia {{day}} da primavera. ^Em nome da Vila Pelicanos, sou eternamente grato por suas contínuas contribuições a nossa comunidade.  ^  Cordialmente, Sr. Lewis[#]Aviso do Imposto Municipal sobre Propriedade",
+  "mail.lewis.outstanding": "@,Parece que sua conta não tinha fundos suficientes para cobrir completamente o valor de seu imposto sobre propriedade para o período atual. Em acordo com as normas do condado, eu tenho o desprazer de lhe informar que você será multado um valor adicional de {{fine}} em moratórios. O valor total de {{outstanding}}g será vendido ao Banco de Stardew, que está autorizado a apreender todos os lucros sobre as remessas até que a dívida seja paga, sujeito a cobrance de {{interest}} juros ao ano. ^Saiba que as pessoas da Vila Pelicanos estão aqui para te ajudar em tempos magros.  ^  Cordialmente, Sr. Lewis[#]Aviso do Imposto Municipal sobre Propriedade",
+
+  // other
+  "hud.tax.debit": "{{amount}}g foi debitado de sua conta para pagar os impostos.",
+  "hud.debt.debit": "{{amount}}g foram retidos da remessa de ontem em função de dívidas abertas.",
+  "honorific.male": "Caro",
+    "honorific.female": "Cara",
+  "when.tonight": "Hoje à noite",
+  "when.day": "no dia {{day}} da estação atual",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  // income
+  "gmcm.sections.txs.income": "Imposto sobre Renda",
+  "gmcm.tax_rate_per_income_bracket.title": "Alíquota por Faixa de Renda",
+  "gmcm.tax_rate_per_income_bracket.desc": "The tax rates applied at each income bracket. In each pair, the first number represents the incoming ceiling for that bracket, and the second number represents the taxable percentage of income within that bracket.",
+  "gmcm.income_bracket.title": "Bracket",
+  "gmcm.income_bracket.desc": "The income ceiling for this bracket. All income between the previous bracket and this number will be taxed at the correponding tax rate.",
+  "gmcm.tax_rate.title": "Tax Rate",
+  "gmcm.tax_rate.desc": "The taxable percentage of income within this bracket.",
+  "gmcm.income_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.income_tax_lateness_fine.desc": "A one-time penalty rate charged over the unpaid amount when income taxes are not paid on-time.",
+  "gmcm.deductible_animal_expenses.title": "Deductible Animal Expenses",
+  "gmcm.deductible_animal_expenses.desc": "What percentage of gold spent on animal purchases and supplies should be tax-deductible.",
+  "gmcm.deductible_building_expenses.title": "Deductible Building Expenses",
+  "gmcm.deductible_building_expenses.desc": "What percentage of gold spent constructing farm buildings is tax-deductible.",
+  "gmcm.deductible_seed_expenses.title": "Deductible Seed Expenses",
+  "gmcm.deductible_seed_expenses.desc": "What percentage of gold spent on seed purchases should be tax-deductible.",
+  "gmcm.deductible_tool_expenses.title": "Deductible Tool Expenses",
+  "gmcm.deductible_tool_expenses.desc": "What percentage of gold spent on tool purchases and upgrades should be tax-deductible.",
+  "gmcm.deductible_extras.title": "Other Deductibles",
+  "gmcm.deductible_extras.desc": "What percentage of gold spent on the specific item should be tax-deductible. Items must be added manually to do this list.",
+  "gmcm.deductible_extras.label.key": "Object Name",
+  "gmcm.deductible_extras.label.value": "Deductible Pct",
+  "gmcm.income_tax_day.title": "Due Date",
+  "gmcm.income_tax_day.desc": "The day of the season when income taxes are charged.",
+
+  // property
+  "gmcm.sections.txs.property": "Property Tax",
+  "gmcm.property_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.property_tax_lateness_fine.desc": "A one-time penalty rate charged once over the unpaid amount, when property taxes are not paid on-time.",
+  "gmcm.unused_tile_tax_rate.title": "Unused Tile Tax Rate",
+  "gmcm.unused_tile_tax_rate.desc": "The tax rate charged over a tile not actively used for productive means.",
+  "gmcm.used_tile_tax_rate.title": "Used Tile Tax Rate",
+  "gmcm.used_tile_tax_rate.desc": "The tax rate charged over a tile actively used for agriculture, livestock or forestry.",
+  "gmcm.building_tax_rate.title": "Building Tile Tax Rate",
+  "gmcm.building_tax_rate.desc": "The tax rate charged over a tile occupied by a constructed building (magical buildings are.",
+  "gmcm.exempt_magical_buildings.title": "Exempt Magical Buildings",
+  "gmcm.exempt_magical_buildings.desc": "Whether or not magical buildings (i.e., those summoned at the Wizard's Tower) are exempt from property taxes.",
+  "gmcm.property_tax_day.title": "Due Date",
+  "gmcm.property_tax_day.desc": "The day of the season when property taxes are charged.",
+
+  // other
+  "gmcm.annual_interest.title": "Annual Intereset",
+  "gmcm.annual_interest.desc": "The interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the annual rate."
+}
