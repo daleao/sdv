@@ -3,8 +3,9 @@
   "UniqueID": "DaLion.Chargeable",
   "Name": "Chargeable Resource Tools",
   "Author": "DaLion",
-  "Version": "1.0.4",
+  "Version": "1.0.4-Debug",
   "Description": "Charge the Axe and Pickaxe to break debris within an area.",
+  "MinimumGameVersion": "1.6",
   "EntryDll": "DaLion.Chargeable.dll",
   "Dependencies": [
     {

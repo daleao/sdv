@@ -33,11 +33,11 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
         {
             if (@object.QualifiedItemId == QualifiedBigCraftableIds.SlimeBall)
             {
-                @object.orderData.Set(getSlimeString(slimes.Choose(r)));
+                @object.orderData.Set(GetSlimeString(slimes.Choose(r)));
             }
         }
 
-        string getSlimeString(GreenSlime slime)
+        string GetSlimeString(GreenSlime slime)
         {
             var color = slime.color.Value;
             var isTiger = slime.Name == "Tiger Slime";

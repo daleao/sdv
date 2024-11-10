@@ -27,7 +27,7 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
     [HarmonyPrefix]
     private static bool SlimeHutchUpdateWhenCurrentLocationPostfix(SlimeHutch __instance, GameTime time)
     {
-        if (!__instance.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper, true))
+        if (!__instance.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper, true))
         {
             return true; // run original logic
         }
@@ -39,7 +39,7 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
                 time);
             for (var i = 0; i < __instance.waterSpots.Length; i++)
             {
-                __instance.setMapTileIndex(16, 5 + i, __instance.waterSpots[i] ? 2135 : 2134, "Buildings");
+                __instance.setMapTile(16, 5 + i, __instance.waterSpots[i] ? 2135 : 2134, "Buildings", "-1");
             }
 
             return false; // don't run original logic

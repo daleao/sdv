@@ -42,7 +42,7 @@ internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = n
                 continue;
             }
 
-            var drops = hutch.GetContainingBuilding().GetOwner().HasProfessionOrLax(Profession.Piper, true)
+            var drops = hutch.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper, true)
                 ? new ChromaBall(value, key).GetDrops()
                 : new SlimeBall(value, key).GetDrops();
             foreach (var (id, stack) in drops)
