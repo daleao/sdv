@@ -81,7 +81,7 @@ public static class MonsterExtensions
         var location = monster.currentLocation;
         if (ReferenceEquals(location, Game1.player.currentLocation) && !location.IsFarm)
         {
-            Game1.player.checkForQuestComplete(null, 1, 1, null, monster.Name, 4);
+            Game1.player.NotifyQuests(quest => quest.OnMonsterSlain(location, monster, false, false));
             var specialOrders = Game1.player.team.specialOrders;
             if (specialOrders is not null)
             {
@@ -94,7 +94,7 @@ public static class MonsterExtensions
 
         foreach (var enchantment in killer.enchantments)
         {
-            enchantment.OnMonsterSlay(monster, location, killer);
+            enchantment.OnMonsterSlay(monster, location, killer, false);
         }
 
         killer.leftRing.Value?.onMonsterSlay(monster, location, killer);

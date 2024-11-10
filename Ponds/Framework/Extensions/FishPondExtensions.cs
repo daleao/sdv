@@ -323,7 +323,7 @@ internal static class FishPondExtensions
                 continue;
             }
 
-            held.Add(ItemRegistry.Create<SObject>(reward.ItemId, r.Next(reward.MinQuantity, reward.MaxQuantity + 1)));
+            held.Add(ItemRegistry.Create<SObject>(reward.ItemId, r.Next(reward.MinStack, reward.MaxStack + 1)));
             if (pond.goldenAnimalCracker.Value)
             {
                 held.Last().Stack *= 2;

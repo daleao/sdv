@@ -3,14 +3,19 @@
   "UniqueID": "DaLion.Taxes",
   "Name": "Serfdom",
   "Author": "DaLion",
-  "Version": "1.1.0",
+  "Version": "1.1.0-Debug",
   "Description": "Provides realistic income and property taxation mechanics.",
+  "MinimumGameVersion": "1.6",
   "EntryDll": "DaLion.Taxes.dll",
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
       "MinimumVersion": "1.3.1",
       "IsRequired": true
+    },
+    {
+      "UniqueID": "spacechase0.SpaceCore",
+      "MinimumVersion": "1.26.1"
     }
   ],
   "UpdateKeys": [

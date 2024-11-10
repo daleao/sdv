@@ -46,9 +46,9 @@
 
   <!-- paths -->
   <PropertyGroup>
-    <GamePath>G:\Steam\steamapps\common\Stardew Valley</GamePath>
-    <GameModsPath>$(GamePath)/Mods - Build/$(Configuration)</GameModsPath>
-    <ModZipPath>$(GamePath)/Mods - Build/Archive</ModZipPath>
+    <GamePath>C:\Program Files (x86)\Steam\steamapps\common\Stardew Valley</GamePath>
+    <GameModsPath>$(GamePath)/mods</GameModsPath>
+    <ModZipPath>$(GamePath)/mods</ModZipPath>
   </PropertyGroup>
 
   <!-- debug settings -->
@@ -72,16 +72,18 @@
 
   <!-- third-party package references -->
   <ItemGroup>
-    <PackageReference Include="Ardalis.SmartEnum" Version="8.0.0" />
-    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
-    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
+    <PackageReference Include="Ardalis.SmartEnum" Version="8.1.0" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.4.0-preview1" />
+    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="4.2.2" />
     <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
-    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.1.0" />
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.4.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" ExcludeAssets="all" />
-    <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="compile;runtime" />
+    <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta11" PrivateAssets="all" ExcludeAssets="compile;runtime">
+      <IncludeAssets>build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -89,19 +91,16 @@
       <HintPath>$(GamePath)\smapi-internal\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <Reference Include="SpaceCore">
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Stardew Valley\Mods\SpaceCore\SpaceCore.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup Condition="$(EnableTranslation) == 'True'">
-    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
   </ItemGroup>
 
   <!-- mod dependencies -->
-  <ItemGroup>
-    <Reference Include="SpaceCore">
-      <HintPath>lib\SpaceCore\SpaceCore.dll</HintPath>
-      <Private>false</Private>
-    </Reference>
-  </ItemGroup>
 
   <!-- global usings directives -->
   <ItemGroup>

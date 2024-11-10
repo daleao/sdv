@@ -19,7 +19,7 @@ public static class BuildingExtensions
     /// <returns>The <see cref="Farmer"/> instance who constructed the <paramref name="building"/>, or the host of the game session if not found.</returns>
     public static Farmer GetOwner(this Building building)
     {
-        return Game1.getFarmerMaybeOffline(building.owner.Value) ?? Game1.MasterPlayer;
+        return Game1.GetPlayer(building.owner.Value) ?? Game1.MasterPlayer;
     }
 
     /// <summary>Checks whether the <paramref name="building"/> is owned by the specified <see cref="Farmer"/>.</summary>
