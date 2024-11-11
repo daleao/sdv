@@ -8,8 +8,8 @@
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Taxes</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Version>1.1.0</Version>
-    <GameVersion>1.6</GameVersion>
-    <SmapiVersion>4.0</SmapiVersion>
+    <GameVersion>1.6.13</GameVersion>
+    <SmapiVersion>4.1.6</SmapiVersion>
 
     <!-- mod manifest fields -->
     <Name>Serfdom</Name>
@@ -79,7 +79,7 @@
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" ExcludeAssets="all" />
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="compile;runtime" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

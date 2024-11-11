@@ -20,7 +20,7 @@ internal sealed class PrestigeTreasureHuntPeerDisconnectedEvent(EventManager? ma
     /// <inheritdoc />
     protected override void OnPeerDisconnectedImpl(object? sender, PeerDisconnectedEventArgs e)
     {
-        var who = Game1.getFarmerMaybeOffline(e.Peer.PlayerID);
+        var who = Game1.GetPlayer(e.Peer.PlayerID);
         if (who is null)
         {
             Log.W($"Unknown player {e.Peer.PlayerID} has disconnected.");

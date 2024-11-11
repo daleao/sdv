@@ -3,8 +3,9 @@
   "UniqueID": "DaLion.Enchantments",
   "Name": "Springmyst",
   "Author": "DaLion",
-  "Version": "1.1.0",
+  "Version": "1.1.0-Debug",
   "Description": "Adds some actually interesting enchantments.",
+  "MinimumApiVersion": "4.1.6",
   "EntryDll": "DaLion.Enchantments.dll",
   "Dependencies": [
     {
@@ -14,7 +15,7 @@
     },
     {
       "UniqueID": "spacechase0.SpaceCore",
-      "MinimumVersion": "1.23.0",
+      "MinimumVersion": "1.26.2",
       "IsRequired": true
     }
   ],

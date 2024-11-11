@@ -5,6 +5,7 @@
   "Author": "DaLion",
   "Version": "1.0.4",
   "Description": "Charge the Axe and Pickaxe to break debris within an area.",
+  "MinimumApiVersion": "4.1.6",
   "EntryDll": "DaLion.Chargeable.dll",
   "Dependencies": [
     {

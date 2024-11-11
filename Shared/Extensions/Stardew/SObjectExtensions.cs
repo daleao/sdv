@@ -26,7 +26,7 @@ public static class SObjectExtensions
     /// <returns>The <see cref="Farmer"/> instance who purchased, found or crafted the <paramref name="object"/>, or the host of the game session if not found.</returns>
     public static Farmer GetOwner(this SObject @object)
     {
-        return Game1.getFarmerMaybeOffline(@object.owner.Value) ?? Game1.MasterPlayer;
+        return Game1.GetPlayer(@object.owner.Value) ?? Game1.MasterPlayer;
     }
 
     /// <summary>Checks whether the <paramref name="object"/> is owned by the specified <see cref="Farmer"/>.</summary>

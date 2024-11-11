@@ -25,7 +25,7 @@ internal sealed class LimitToggledModMessageReceivedEvent(EventManager? manager 
             return;
         }
 
-        var who = Game1.getFarmer(e.FromPlayerID);
+        var who = Game1.GetPlayer(e.FromPlayerID);
         if (who is null)
         {
             Log.W($"Unknown player {e.FromPlayerID} has toggled their LimitBreak ability.");

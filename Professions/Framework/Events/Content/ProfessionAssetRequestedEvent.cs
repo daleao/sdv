@@ -224,8 +224,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.1f,
                             ItemId = QualifiedObjectIds.CopperOre,
-                            MinQuantity = 10,
-                            MaxQuantity = 15,
+                            MinStack = 10,
+                            MaxStack = 15,
                         },
 
                         new FishPondReward
@@ -233,8 +233,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.01f,
                             ItemId = QualifiedObjectIds.SolarEssence,
-                            MinQuantity = 10,
-                            MaxQuantity = 20,
+                            MinStack = 10,
+                            MaxStack = 20,
                         },
 
                         new FishPondReward
@@ -242,8 +242,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1.0f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -251,8 +251,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -274,8 +274,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.05f,
                             ItemId = QualifiedObjectIds.FrozenGeode,
-                            MinQuantity = 5,
-                            MaxQuantity = 10,
+                            MinStack = 5,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -283,8 +283,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.075f,
                             ItemId = QualifiedObjectIds.FrozenTear,
-                            MinQuantity = 5,
-                            MaxQuantity = 10,
+                            MinStack = 5,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -292,8 +292,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.1f,
                             ItemId = QualifiedObjectIds.IronOre,
-                            MinQuantity = 10,
-                            MaxQuantity = 10,
+                            MinStack = 10,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -301,8 +301,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.01f,
                             ItemId = QualifiedObjectIds.Diamond,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -310,8 +310,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1.0f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -319,8 +319,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -342,8 +342,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.05f,
                             ItemId = QualifiedObjectIds.MagmaGeode,
-                            MinQuantity = 5,
-                            MaxQuantity = 10,
+                            MinStack = 5,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -351,8 +351,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.075f,
                             ItemId = QualifiedObjectIds.FireQuartz,
-                            MinQuantity = 5,
-                            MaxQuantity = 10,
+                            MinStack = 5,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -360,8 +360,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.1f,
                             ItemId = QualifiedObjectIds.GoldOre,
-                            MinQuantity = 10,
-                            MaxQuantity = 10,
+                            MinStack = 10,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -369,8 +369,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.033f,
                             ItemId = QualifiedObjectIds.CherryBomb,
-                            MinQuantity = 1,
-                            MaxQuantity = 3,
+                            MinStack = 1,
+                            MaxStack = 3,
                         },
 
                         new FishPondReward
@@ -378,8 +378,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.02f,
                             ItemId = QualifiedObjectIds.ExplosiveAmmo,
-                            MinQuantity = 1,
-                            MaxQuantity = 3,
+                            MinStack = 1,
+                            MaxStack = 3,
                         },
 
                         new FishPondReward
@@ -387,8 +387,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.01f,
                             ItemId = QualifiedObjectIds.MegaBomb,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -396,8 +396,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1.0f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -405,8 +405,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -428,8 +428,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.1f,
                             ItemId = QualifiedObjectIds.IridiumOre,
-                            MinQuantity = 5,
-                            MaxQuantity = 10,
+                            MinStack = 5,
+                            MaxStack = 10,
                         },
 
                         new FishPondReward
@@ -437,8 +437,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1.0f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -446,8 +446,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -469,8 +469,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.1f,
                             ItemId = QualifiedObjectIds.RadioactiveOre,
-                            MinQuantity = 5,
-                            MaxQuantity = 15,
+                            MinStack = 5,
+                            MaxStack = 15,
                         },
 
                         new FishPondReward
@@ -478,8 +478,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1.0f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -487,8 +487,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.Roe,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -510,8 +510,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1f,
                             ItemId = QualifiedObjectIds.SolarEssence,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -519,8 +519,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.SolarEssence,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -542,8 +542,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 1f,
                             ItemId = QualifiedObjectIds.VoidEssence,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                         new FishPondReward
@@ -551,8 +551,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             RequiredPopulation = 0,
                             Chance = 0.8f,
                             ItemId = QualifiedObjectIds.VoidEssence,
-                            MinQuantity = 1,
-                            MaxQuantity = 1,
+                            MinStack = 1,
+                            MaxStack = 1,
                         },
 
                     ],
@@ -570,7 +570,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         new FishPondReward
                         {
-                            Chance = 1f, ItemId = QualifiedObjectIds.Roe, MinQuantity = 1, MaxQuantity = 1,
+                            Chance = 1f, ItemId = QualifiedObjectIds.Roe, MinStack = 1, MaxStack = 1,
                         },
 
                     ],
@@ -698,7 +698,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 ExcludeFromShippingCollection = true,
             };
         }
-        
+
         if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))
         {
             return;

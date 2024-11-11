@@ -25,6 +25,6 @@ internal static class JunimoHarvesterExtensions
             return Game1.MasterPlayer;
         }
 
-        return Game1.getFarmerMaybeOffline(home.owner.Value) ?? Game1.MasterPlayer;
+        return Game1.GetPlayer(home.owner.Value) ?? Game1.MasterPlayer;
     }
 }

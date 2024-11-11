@@ -5,6 +5,7 @@
   "Author": "DaLion",
   "Version": "0.4.0",
   "Description": "An extensive overhaul of Stardew Valley profession trees and skill progression systems.",
+  "MinimumApiVersion": "4.1.6",
   "EntryDll": "DaLion.Professions.dll",
   "Dependencies": [
     {
@@ -14,7 +15,7 @@
     },
     {
       "UniqueID": "spacechase0.SpaceCore",
-      "MinimumVersion": "1.23.0",
+      "MinimumVersion": "1.26.2",
       "IsRequired": true
     }
   ],

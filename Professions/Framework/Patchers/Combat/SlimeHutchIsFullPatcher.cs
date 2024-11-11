@@ -25,7 +25,7 @@ internal sealed class SlimeHutchIsFullPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static void GreenSlimeUpdatePrefix(SlimeHutch __instance, ref int ____slimeCapacity)
     {
-        var building = __instance.GetContainingBuilding();
+        var building = __instance.ParentBuilding;
         if (building?.GetOwner().HasProfessionOrLax(Profession.Piper, true) != true)
         {
             return;

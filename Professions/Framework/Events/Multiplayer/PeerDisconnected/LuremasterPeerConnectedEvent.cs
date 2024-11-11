@@ -19,7 +19,9 @@ internal sealed class LuremasterPeerConnectedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnPeerConnectedImpl(object? sender, PeerConnectedEventArgs e)
     {
-        if (!Game1.getFarmer(e.Peer.PlayerID).HasProfession(Profession.Luremaster))
+        Farmer? player = Game1.GetPlayer(e.Peer.PlayerID);
+
+        if (!FarmerExtensions.HasProfession(player ?? Game1.MasterPlayer, Profession.Luremaster))
         {
             return;
         }

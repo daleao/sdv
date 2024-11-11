@@ -28,7 +28,7 @@ internal sealed class DebugModMessageReceivedEvent(EventManager? manager = null)
         }
 
         var command = e.Type.Split('/')[1];
-        var who = Game1.getFarmer(e.FromPlayerID);
+        var who = Game1.GetPlayer(e.FromPlayerID);
         if (who is null)
         {
             Log.W($"Unknown player {e.FromPlayerID} sent debug {command} message.");

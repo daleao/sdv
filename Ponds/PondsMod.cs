@@ -110,7 +110,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.Seaweed, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.Seaweed, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_seaweed"],
@@ -126,7 +126,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.GreenAlgae, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.GreenAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_green_algae"],
@@ -142,7 +142,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.WhiteAlgae, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.WhiteAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_white_algae"],

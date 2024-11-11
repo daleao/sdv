@@ -27,7 +27,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void SlimeHutchDayUpdatePostfix(SlimeHutch __instance)
     {
-        var owner = __instance.GetContainingBuilding().GetOwner();
+        var owner = __instance.ParentBuilding.GetOwner();
         if (!owner.HasProfessionOrLax(Profession.Piper))
         {
             return;
