@@ -6,6 +6,10 @@
 
 * Added `recipe` console command for adding Gemstone ring recipes to the crafting menu, for players already past the required levels. The entry command is `hrmn`. E.g., `hrmn recipe garnet`.
 
+### Changed
+
+* Take-two on adjusting the Garnet node spawn frequency.
+
 ### Fixed
 
 * Added the missing Garnet Ring recipe.

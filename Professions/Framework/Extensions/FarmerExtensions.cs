@@ -166,7 +166,7 @@ internal static class FarmerExtensions
 
             if (branches.Contains(profession - 100))
             {
-                return profession;
+                return profession - 100;
             }
         }
 
