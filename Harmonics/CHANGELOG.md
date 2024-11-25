@@ -9,10 +9,12 @@
 ### Changed
 
 * Take-two on adjusting the Garnet node spawn frequency.
+* The item ID of the Infinity Band was changed to avoid an issue with how the game parses data. This will unfortunately convert any Infinity Bands you already have into Error Items. You will have to discard them and create them anew. Sorry for inconvenience!
 
 ### Fixed
 
 * Added the missing Garnet Ring recipe.
+* "Garnet Gemstone" renamed to simply "Garnet".
 
 ## 1.0.1
 

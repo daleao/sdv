@@ -104,9 +104,9 @@ public sealed class HarmonicsMod : Mod
             "hrmn");
         this.ValidateMultiplayer();
 
-        GarnetStoneId = $"{UniqueId}/GarnetGemstone";
-        GarnetRingId = $"{UniqueId}/GarnetRing";
-        InfinityBandId = $"{UniqueId}/InfinityBand";
+        GarnetStoneId = $"{UniqueId}_GarnetGemstone";
+        GarnetRingId = $"{UniqueId}_GarnetRing";
+        InfinityBandId = $"{UniqueId}_InfinityBand";
         RingTextureStyle = helper.ModRegistry.IsLoaded("BBR.BetterRings")
             ? TextureStyle.BetterRings
             : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks")

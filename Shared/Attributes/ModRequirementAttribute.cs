@@ -7,12 +7,12 @@ public sealed class ModRequirementAttribute : Attribute
     /// <summary>Initializes a new instance of the <see cref="ModRequirementAttribute"/> class.</summary>
     /// <param name="uniqueId">The required mod's unique ID.</param>
     /// <param name="name">A human-readable name for the mod.</param>
-    /// <param name="version">The minimum required version.</param>
-    public ModRequirementAttribute(string uniqueId, string? name = null, string? version = null)
+    /// <param name="minimumVersion">The minimum required version.</param>
+    public ModRequirementAttribute(string uniqueId, string? name = null, string? minimumVersion = null)
     {
         this.UniqueId = uniqueId;
         this.Name = name ?? uniqueId;
-        this.Version = version ?? string.Empty;
+        this.Version = minimumVersion ?? string.Empty;
     }
 
     /// <summary>Gets the required mod's unique ID.</summary>

@@ -13,7 +13,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
-[ModRequirement("Annosz.UiInfoSuite2", version: "2.3.3")]
+[ModRequirement("Annosz.UiInfoSuite2", minimumVersion: "2.3.3")]
 internal sealed class ExperienceBarDrawExperienceBarPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ExperienceBarDrawExperienceBarPatcher"/> class.</summary>

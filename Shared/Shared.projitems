@@ -185,8 +185,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\MultiPageLinkOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\MultiCheckboxOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModIntegration.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\GMCMBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\IGenericModConfigMenuApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />

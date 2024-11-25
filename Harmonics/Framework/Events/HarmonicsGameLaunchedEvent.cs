@@ -18,6 +18,7 @@ internal sealed class HarmonicsGameLaunchedEvent(EventManager? manager = null)
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
         SpaceCoreIntegration.Instance!.Register();
+        BetterCraftingIntegration.Instance?.Register();
         if (HarmonicsConfigMenu.Instance?.IsLoaded == true)
         {
             HarmonicsConfigMenu.Instance.Register();
