@@ -28,7 +28,7 @@ The Infinity Band cannot be combined with any non-gemstone ring. In most cases, 
 
 ## Garnet & Gemstone Resonance Theory
 
-Compensating for the removal of the vanilla Acrobat profession when using [Walk Of Life](../Professions), this mod introduces a seventh gemstone, the **Garnet**, which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves.
+Compensating for the removal of the vanilla Acrobat profession when using [Walk Of Life](../Professions), this mod introduces a seventh gemstone, the [Garnet](https://finalfantasy.fandom.com/wiki/Garnet_Til_Alexandros_XVII), which can be mined upwards of Mine level 80. Socketed to a ring or a weapon, it will grant 10% cooldown reduction to special moves.
 
 With the addition of Garnet, the seven gemstones together form a [Diatonic Scale](https://en.wikipedia.org/wiki/Diatonic_scale), with each gemstone functioning as a musical note:
 
@@ -144,10 +144,11 @@ Note that crafting is the only way to obtain the Garnet Ring, and therefore disa
 
 ## Compatibility
 
-Compatible with [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642) and [Vanilla Tweaks](https://www.nexusmods.com/stardewvalley/mods/10852).
-Incompatible with other ring re-texture mods.
+Compatible with [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642) and [Vanilla Tweaks](https://www.nexusmods.com/stardewvalley/mods/10852). Incompatible with other ring re-texture mods.
+Compatible with [Wear More Rings](https://www.nexusmods.com/stardewvalley/mods/3214).
 
 
 ## Credits & Special Thanks
 
 Credits to the following translators:
+- None yet.

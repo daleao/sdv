@@ -62,6 +62,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
         data["Amethyst Ring"] = "66 1 334 5/Home/529/Ring/Combat 2";
         data["Topaz Ring"] = "68 1 334 5/Home/530/Ring/Combat 2";
         data["Jade Ring"] = "70 1 335 5/Home/532/Ring/Combat 4";
+        data["Garnet Ring"] = $"{GarnetStoneId} 1 335 5/Home/{GarnetRingId}/Ring/Combat 7";
     }
 
     /// <summary>Patches new Garnet gemstone object.</summary>
@@ -200,7 +201,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.918, AdditionalChancePerLevel = 0.001, Type = MineType.All,
+                    Floors = "80/77376", SpawnFrequency = 0.018, AdditionalChancePerLevel = 0.001, Type = MineType.All,
                 },
             ],
         };

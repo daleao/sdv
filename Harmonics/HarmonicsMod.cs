@@ -101,7 +101,7 @@ public sealed class HarmonicsMod : Mod
             helper.ConsoleCommands,
             Log,
             UniqueId,
-            "ench");
+            "hrmn");
         this.ValidateMultiplayer();
 
         GarnetStoneId = $"{UniqueId}/GarnetGemstone";

@@ -1,5 +1,13 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.0.1
+
+### Fixed
+
+* Fixed a small display issue in the Skill Page menu which caused all level 10 professions to show as "Desperado".
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.0.0
 
 Updated for game version 1.6.14.
