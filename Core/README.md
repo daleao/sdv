@@ -4,20 +4,21 @@
 
 </div>
 
-## What this is
+## What This Is
 
 This is the core mod which provides shared functionality required by other DaLion mods.
 
-By itself, also adds the following non-controversial features which should've been part of the vanilla game all along:
+By itself, this mod carries the following non-controversial features:
 - **Improved Hoppers:** Adds the ability for Hoppers to pull items back out from machines, allowing them to fully automate a single machine at a time and transforming them from completely useless into a more balanced version of Automate﻿.
 - **Colored Slime Balls:** Causes Slime Balls to take on the color of the Slimes which produced them, and adds regular color-based Slime drops﻿ to Slime Ball loot tables.
 
-These features are required for the functionality of certain [Professions](../Professions) and therefore are not-configurable and non-negotiable.
+The features above should've been part of the vanilla game all along, and are required functionality for mods like [Walk Of Life](../Professions) and therefore are not-configurable and non-negotiable.
 
-This mod also adds one "controversial" but entirely optional and disabled by default feature:
-- **Witherable Crops:** Crops may wither if left un-watered.
-
-If the above concerns you, really ask yourself how often do you ever forget to water crops? If the answer is not "never" then you deserve the consequences.
+The following optional features are also included:
+- **Witherable Crops:** Crops may wither if left un-watered. This is disabled by default.
+- **Rational Damage Mitigation Formula:** Replaces the linear vanilla defense formula with a rational formula. This allows a single point of defense to be consistently useful at any damage range, instead of falling off in the mid/late game. This also enables fractional defense, which is required by mods like [Gemstone Harmonics](../Harmonics).
+    - Vanilla formula: `damage -= defense`
+    - New formula: `damage *= 10 / (10 + defense)`
 
 
 ## Status Effects

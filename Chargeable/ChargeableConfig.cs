@@ -39,6 +39,7 @@ public sealed class ChargeableConfig
     public uint TicksBetweenWaves { get; internal set; } = 4;
 
     /// <summary>Validate the config settings, replacing invalid values if necessary.</summary>
+    /// <param name="helper">The <see cref="IModHelper"/>.</param>
     internal void Validate(IModHelper helper)
     {
         var isValid = true;

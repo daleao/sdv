@@ -90,7 +90,6 @@ public sealed class AxeConfig
     /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
     [JsonProperty]
     [GMCMPriority(201)]
-    [GMCMRange(0f, 2f)]
-    [GMCMStep(0.05f)]
+    [GMCMRange(0f, 2f, 0.05f)]
     public float StaminaCostMultiplier { get; internal set; } = 1f;
 }

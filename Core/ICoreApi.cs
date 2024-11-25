@@ -11,7 +11,7 @@ public interface ICoreApi
 {
     #region status effects
 
-    /// <summary>Causes bleeding on the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <summary>Causes bleeding on the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="bleeder">The <see cref="Farmer"/> who caused the bleeding.</param>
     /// <param name="duration">The duration in milliseconds.</param>
@@ -102,7 +102,7 @@ public interface ICoreApi
     /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero freeze stacks, otherwise <see langword="false"/>.</returns>
     public bool IsFrozen(Monster monster);
 
-    /// <summary>Poisons the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <summary>Poisons the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="poisoner">The <see cref="Farmer"/> who inflicted the poison.</param>
     /// <param name="duration">The duration in milliseconds.</param>
@@ -119,7 +119,7 @@ public interface ICoreApi
     /// <returns><see langword="true"/> if the <paramref name="monster"/> has non-zero poison stacks, otherwise <see langword="false"/>.</returns>
     public bool IsPoisoned(Monster monster);
 
-    /// <summary>Slows the <paramref name="monster"/> for the specified <paramref name="duration"/> and with the specified <paramref name="intensity"/>.</summary>
+    /// <summary>Slows the <paramref name="monster"/> for the specified <paramref name="duration"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="duration">The duration in milliseconds.</param>
     /// <param name="intensity">The intensity of the slow effect; i.e. the percentage by which the target will be slowed.</param>

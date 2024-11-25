@@ -1,25 +1,12 @@
 ﻿namespace DaLion.Professions.Framework.Integrations;
 
-#region using directives
-
-using System.Collections.Generic;
-using Microsoft.Xna.Framework;
-
-#endregion using directives
-
+/// <summary>The public interface for the ItemExtensions mod API.</summary>
 public interface IItemExtensionsApi
 {
-    bool IsStone(string id);
-
+    /// <summary>Checks for resource data in the mod.</summary>
+    /// <param name="id">Qualified item ID.</param>
+    /// <param name="health">MinutesUntilReady value.</param>
+    /// <param name="itemDropped">Item dropped by ore.</param>
+    /// <returns>Whether the object has resource data.</returns>
     bool IsResource(string id, out int? health, out string itemDropped);
-
-    bool HasBehavior(string qualifiedItemId, string target);
-
-    bool IsClump(string qualifiedItemId);
-
-    bool TrySpawnClump(string itemId, Vector2 position, string locationName, out string error, bool avoidOverlap = false);
-
-    bool TrySpawnClump(string itemId, Vector2 position, GameLocation location, out string error, bool avoidOverlap = false);
-
-    List<string> GetCustomSeeds(string itemId, bool includeSource, bool parseConditions = true);
 }

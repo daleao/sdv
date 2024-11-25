@@ -22,11 +22,8 @@ internal sealed class EcologistLuckLevelBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { LuckLevel = { current.effects.LuckLevel.Value + added } };
-        }
-
-        return new BuffEffects { LuckLevel = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { LuckLevel = { current.effects.LuckLevel.Value + added } }
+            : new BuffEffects { LuckLevel = { added } };
     }
 }

@@ -2,7 +2,7 @@
 
 #region using directives
 
-using Shared.Classes;
+using DaLion.Shared.Classes;
 
 #endregion using directives
 

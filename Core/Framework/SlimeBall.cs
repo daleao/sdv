@@ -61,7 +61,6 @@ public class SlimeBall
                 drops.Add(QualifiedObjectIds.MangoSapling, 1);
             }
 
-
             drops.Add(QualifiedObjectIds.Sap, r.Next(15, 26));
             if (!this.IsFirstGeneration)
             {
@@ -70,7 +69,6 @@ public class SlimeBall
 
             drops.Add(QualifiedObjectIds.Jade, 1);
             return drops;
-
         }
 
         var purple = new ColorRange([151, 255], [0, 49], [181, 255]);
@@ -117,8 +115,7 @@ public class SlimeBall
             drops.Add(QualifiedObjectIds.GoldOre, r.Next(10, 21));
             while (r.NextBool(0.05))
             {
-                drops.           
-                    AddOrUpdate(QualifiedObjectIds.GoldBar, r.Next(1, 3), (a, b) => a + b);
+                drops.AddOrUpdate(QualifiedObjectIds.GoldBar, r.Next(1, 3), (a, b) => a + b);
             }
         }
 

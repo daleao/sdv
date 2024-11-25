@@ -4,7 +4,7 @@
 
 </div>
 
-## What this is
+## What This Is
 
 This mod implements a "simple" taxation system. Includes the expected Income Tax, as well as a novel Property Tax.
 

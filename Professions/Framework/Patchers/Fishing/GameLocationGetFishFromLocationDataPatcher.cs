@@ -58,17 +58,20 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
                 .GetOperand(out var disallowCatch)
                 .ReplaceWith(new CodeInstruction(OpCodes.Blt_S, allowCatch))
                 .Move()
-                .Insert([
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]),
-                    new CodeInstruction(OpCodes.Ldfld, "<>c__DisplayClass495_1".ToType().RequireField("spawn")),
-                    new CodeInstruction(OpCodes.Ldarg_3),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(GameLocationGetFishFromLocationDataPatcher).RequireMethod(
-                            nameof(PassesPrestigedAnglerCheck))),
-                    new CodeInstruction(OpCodes.Brfalse_S, disallowCatch),
-                ]);
+                .Insert(
+                    [
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]),
+                        new CodeInstruction(OpCodes.Ldfld, "<>c__DisplayClass502_1".ToType().RequireField("spawn")),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)3),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(GameLocationGetFishFromLocationDataPatcher).RequireMethod(
+                                nameof(PassesPrestigedAnglerCheck))),
+                        new CodeInstruction(OpCodes.Pop),
+                        new CodeInstruction(OpCodes.Ldc_I4_0),
+                        new CodeInstruction(OpCodes.Brfalse_S, disallowCatch),
+                    ]);
         }
         catch (Exception ex)
         {
@@ -90,7 +93,7 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
             return false;
         }
 
-        var chance = 0.01 * (1 + Utility.getStringCountInList(
+        var chance = 0.05 * (1 + Utility.getStringCountInList(
             rod.GetTackleQualifiedItemIDs(),
             QualifiedObjectIds.CuriosityLure));
         return Game1.random.NextBool(chance);

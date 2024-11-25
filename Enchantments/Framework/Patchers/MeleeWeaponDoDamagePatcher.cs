@@ -50,8 +50,8 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldfld, typeof(MeleeWeapon).RequireField(nameof(MeleeWeapon.type))),
                     new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(NetInt).RequireMethod("op_Implicit")),
+                        OpCodes.Callvirt,
+                        typeof(NetInt).RequireMethod("get_Value")),
                     new CodeInstruction(OpCodes.Ldc_I4_3), // 3 = MeleeWeapon.defenseSword
                     new CodeInstruction(OpCodes.Ceq),
                     new CodeInstruction(OpCodes.Ldarg_0),

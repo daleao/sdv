@@ -22,11 +22,8 @@ internal sealed class EcologistMiningBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { MiningLevel = { current.effects.MiningLevel.Value + added } };
-        }
-
-        return new BuffEffects { MiningLevel = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { MiningLevel = { current.effects.MiningLevel.Value + added } }
+            : new BuffEffects { MiningLevel = { added } };
     }
 }

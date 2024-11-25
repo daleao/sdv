@@ -7,9 +7,9 @@ namespace DaLion.Professions.Framework;
 
 using System.Collections.Generic;
 using System.Linq;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
-using Integrations;
 using SpaceCore.Interface;
 
 #endregion using directives
@@ -116,20 +116,6 @@ public sealed class CustomSkill : ISkill
     /// <summary>Gets the currently loaded <see cref="CustomSkill"/>s.</summary>
     internal static Dictionary<string, CustomSkill> Loaded { get; } = [];
 
-    /// <summary>Initializes the custom SpaceCore skill with specified <see cref="string"/> <paramref name="id"/>.</summary>
-    /// <param name="id">The <see cref="string"/> ID of the custom SpaceCore skill.</param>
-    internal static void Initialize(string id)
-    {
-        _ = new CustomSkill(id);
-    }
-
-    /// <summary>Initializes the custom SpaceCore skill from the <see cref="SCSkill"/> instance of the custom SpaceCore skill.</summary>
-    /// <param name="scSkill">The <see cref="SCSkill"/> instance the custom SpaceCore skill.</param>
-    internal static void Initialize(SCSkill scSkill)
-    {
-        _ = new CustomSkill(scSkill);
-    }
-
     /// <summary>Gets the <see cref="CustomSkill"/> equivalent to the specified <see cref="SCSkill"/>.</summary>
     /// <param name="scSkill">The <see cref="SCSkill"/>.</param>
     /// <returns>The equivalent <see cref="CustomSkill"/>.</returns>
@@ -153,7 +139,7 @@ public sealed class CustomSkill : ISkill
     /// <inheritdoc />
     public void SetLevel(int level)
     {
-        level = Math.Min(level, this.MaxLevel); 
+        level = Math.Min(level, this.MaxLevel);
         var diff = ISkill.ExperienceCurve[level] - this.CurrentExp;
         this.AddExperience(diff);
     }
@@ -243,5 +229,19 @@ public sealed class CustomSkill : ISkill
     public SCSkill ToSpaceCore()
     {
         return this._scSkill;
+    }
+
+    /// <summary>Initializes the custom SpaceCore skill with specified <see cref="string"/> <paramref name="id"/>.</summary>
+    /// <param name="id">The <see cref="string"/> ID of the custom SpaceCore skill.</param>
+    internal static void Initialize(string id)
+    {
+        _ = new CustomSkill(id);
+    }
+
+    /// <summary>Initializes the custom SpaceCore skill from the <see cref="SCSkill"/> instance of the custom SpaceCore skill.</summary>
+    /// <param name="scSkill">The <see cref="SCSkill"/> instance the custom SpaceCore skill.</param>
+    internal static void Initialize(SCSkill scSkill)
+    {
+        _ = new CustomSkill(scSkill);
     }
 }

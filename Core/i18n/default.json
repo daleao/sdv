@@ -1,0 +1,6 @@
+{
+  "gmcm.crop_wither_chance.title": "Crop Wither Chance",
+  "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered.",
+  "gmcm.use_rational_mitigation_formula.title": "Use Rational Mitigation Formula",
+  "gmcm.use_rational_mitigation_formula.desc": "Replace the linear damage mitigation formula with a rational formula that gives more impactful but diminishing returns from the defense stat. *BEFORE: Damage -= Defense; AFTER: Damage *= 10 / (10 + Defense)*"
+}

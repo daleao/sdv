@@ -1,13 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat.Configs;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.Resonance;
+using DaLion.Harmonics.Framework;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -21,7 +20,9 @@ using StardewValley.Objects;
 internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuUpdatePatcher"/> class.</summary>
-    internal ForgeMenuUpdatePatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ForgeMenuUpdatePatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
     }
@@ -35,62 +36,37 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: if (ModEntry.Config.Rings.TheOneInfinityBand && Globals.InfinityBandIndex.Value && ring.ParentSheetIndex == Globals.InfinityBandIndex.Value)
-        //               UnforgeInfinityBand(ring);
+        // Injected: if (ring.QualifiedItemId == InfinityBandIndex)
+        //               UnforgeInfinityBand(leftRing);
         //           else ...
-        // After: if (leftIngredientSpot.item is CombinedRing ring)
+        // After: if (leftIngredientSpot.item is CombinedRing leftRing)
         try
         {
             var vanillaUnforge = generator.DefineLabel();
-            var infinityBandIndex = generator.DeclareLocal(typeof(int?));
             helper
-                .Match(
-                    new[] { new CodeInstruction(OpCodes.Stloc_S, helper.Locals[14]) }) // local 14 = CombinedRing ring
-                .Match(new[] { new CodeInstruction(OpCodes.Brfalse_S) })
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[11]), // local 11 = CombinedRing leftRing
+                ])
+                .PatternMatch([new CodeInstruction(OpCodes.Brfalse_S)])
                 .GetOperand(out var resumeExecution)
                 .Move()
                 .AddLabels(vanillaUnforge)
-                .Insert(
-                    new[]
-                    {
-                        new CodeInstruction(OpCodes.Call, typeof(ModEntry).RequirePropertyGetter(nameof(ModEntry.Config))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(ModConfig).RequirePropertyGetter(nameof(ModConfig.Combat))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.RingsEnchantments))),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(RingsEnchantmentsConfig).RequirePropertyGetter(nameof(RingsEnchantmentsConfig.EnableInfinityBand))),
-                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
-                        new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
-                        new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
-                        new CodeInstruction(OpCodes.Call, typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.HasValue))),
-                        new CodeInstruction(OpCodes.Brfalse_S, vanillaUnforge),
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Item).RequirePropertyGetter(nameof(Item.ParentSheetIndex))),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(JsonAssetsIntegration).RequirePropertyGetter(nameof(JsonAssetsIntegration.InfinityBandIndex))),
-                        new CodeInstruction(OpCodes.Stloc_S, infinityBandIndex),
-                        new CodeInstruction(OpCodes.Ldloca_S, infinityBandIndex),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(int?).RequirePropertyGetter(nameof(Nullable<int>.Value))),
-                        new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
-                        new CodeInstruction(OpCodes.Ldarg_0),
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[14]),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
-                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                    });
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Item).RequirePropertyGetter(nameof(Item.QualifiedItemId))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(HarmonicsMod).RequirePropertyGetter(nameof(InfinityBandId))),
+                    new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
+                    new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                ]);
         }
         catch (Exception ex)
         {
@@ -107,16 +83,15 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     private static void UnforgeInfinityBand(ForgeMenu menu, CombinedRing infinity)
     {
-        for (var i = 0; i < infinity.combinedRings.Count; i++)
+        foreach (var ring in infinity.combinedRings)
         {
-            var ring = infinity.combinedRings[i];
-            var gemstone = Gemstone.FromRing(ring.ParentSheetIndex);
-            Utility.CollectOrDrop(new SObject(gemstone, 1));
-            Utility.CollectOrDrop(new SObject(848, 5));
+            var gemstone = Gemstone.FromRing(ring.QualifiedItemId);
+            Utility.CollectOrDrop(ItemRegistry.Create<SObject>(gemstone.ObjectId));
+            Utility.CollectOrDrop(ItemRegistry.Create<SObject>(QualifiedObjectIds.CinderShard, 5));
         }
 
         infinity.combinedRings.Clear();
-        Utility.CollectOrDrop(new Ring(JsonAssetsIntegration.InfinityBandIndex!.Value));
+        Utility.CollectOrDrop(ItemRegistry.Create<Ring>(InfinityBandId));
         menu.leftIngredientSpot.item = null;
         Game1.playSound("coin");
     }

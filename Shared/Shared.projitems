@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuffEffectsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\NpcExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderRenderedWorldEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\MTDStarLite.cs" />
@@ -175,12 +176,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMSectionAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMRangeAttribute.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\Attributes\GMCMStepAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\DynamicListOption.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\DynamicKeyValuePairListOptionRenderedActiveMenuEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\GMCMPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\DynamicKeyValuePairListOption.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomResourceNodes\ICustomResourceClumpsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\GMCMOptionsIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\IGenericModConfigMenuOptionsApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\MultiPageLinkOption.cs" />
@@ -188,7 +187,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\ModIntegration.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCrafting.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\BetterCrafting\IBetterCraftingApi.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Integrations\CustomOreNodes\ICustomOreNodesApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\GMCMBuilder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\GMCM\IGenericModConfigMenuApi.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Integrations\IModIntegration.cs" />

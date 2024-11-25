@@ -71,7 +71,7 @@ public static class TerrainFeatureExtensions
     /// </summary>
     /// <typeparam name="T">The target type.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="candidates">The candidate <see cref="T"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <typeparamref name="T"/>s, if already available.</param>
     /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
     /// <param name="distance">The actual tile distance to the closest candidate found.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
@@ -110,7 +110,7 @@ public static class TerrainFeatureExtensions
     /// </summary>
     /// <typeparam name="TBuilding">A subtype of <see cref="Building"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="candidates">The candidate <see cref="TBuilding"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <typeparamref name="TBuilding"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TBuilding? GetClosestBuilding<TBuilding>(
@@ -129,7 +129,7 @@ public static class TerrainFeatureExtensions
     /// </summary>
     /// <typeparam name="TCharacter">A subtype of <see cref="Character"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="candidates">The candidate <see cref="TCharacter"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <typeparamref name="TCharacter"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TCharacter? GetClosestCharacter<TCharacter>(
@@ -165,7 +165,7 @@ public static class TerrainFeatureExtensions
     /// </summary>
     /// <typeparam name="TObject">A subtype of <see cref="SObject"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="candidates">The candidate <see cref="TObject"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <typeparamref name="TObject"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TObject? GetClosestObject<TObject>(
@@ -184,7 +184,7 @@ public static class TerrainFeatureExtensions
     /// </summary>
     /// <typeparam name="TTerrainFeature">A subtype of <see cref="SObject"/>.</typeparam>
     /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
-    /// <param name="candidates">The candidate <see cref="TTerrainFeature"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <typeparamref name="TTerrainFeature"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="terrainFeature"/>.</returns>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(

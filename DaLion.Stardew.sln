@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Ponds", "Ponds\DaLio
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Enchantments", "Enchantments\DaLion.Enchantments.csproj", "{A5121739-1577-4478-8F21-F7D3F8E1636C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DaLion.Harmonics", "Harmonics\DaLion.Harmonics.csproj", "{5C689BFD-075F-41E5-AC23-736CCC03DB9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5121739-1577-4478-8F21-F7D3F8E1636C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C689BFD-075F-41E5-AC23-736CCC03DB9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C689BFD-075F-41E5-AC23-736CCC03DB9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C689BFD-075F-41E5-AC23-736CCC03DB9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C689BFD-075F-41E5-AC23-736CCC03DB9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

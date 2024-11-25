@@ -530,7 +530,6 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
         var branch = currentSkill * 6;
         return Game1.player.professions.Contains(branch) ? branch : branch + 1;
-
     }
 
     private static bool ShouldSuppressClick(int hovered, int currentLevel)

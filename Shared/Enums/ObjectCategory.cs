@@ -3,6 +3,9 @@
 /// <summary>A <see cref="SObject"/> category.</summary>
 public enum ObjectCategory
 {
+    /// <summary>No particular category.</summary>
+    None = 0,
+
     /// <summary>The category for gemstones.</summary>
     Gems = SObject.GemCategory, // -2
 

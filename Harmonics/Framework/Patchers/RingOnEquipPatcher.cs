@@ -1,10 +1,7 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -16,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class RingOnEquipPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingOnEquipPatcher"/> class.</summary>
-    internal RingOnEquipPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal RingOnEquipPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.onEquip));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -24,47 +23,12 @@ internal sealed class RingOnEquipPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Rebalances Jade and Topaz rings.</summary>
+    /// <summary>Iridium Band does nothing.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
-    private static bool RingOnEquipPrefix(Ring __instance, Farmer who)
+    private static bool RingOnEquipPrefix(Ring __instance)
     {
-        if (CombatModule.Config.RingsEnchantments.EnableInfinityBand &&
-            __instance.indexInTileSheet.Value == ObjectIds.IridiumBand)
-        {
-            return false; // don't run original logic
-        }
-
-        if (!CombatModule.Config.RingsEnchantments.RebalancedRings)
-        {
-            return true; // run original logic
-        }
-
-        switch (__instance.indexInTileSheet.Value)
-        {
-            case ObjectIds.TopazRing: // topaz to give defense
-                who.resilience += 3;
-                return false; // don't run original logic
-            case ObjectIds.JadeRing: // jade ring to give +50% crit. power
-                who.critPowerModifier += 0.5f;
-                return false; // don't run original logic
-            case ObjectIds.WarriorRing: // reset warrior kill count
-                CombatModule.State.WarriorKillCount = 0;
-                EventManager.Enable<WarriorWarpedEvent>();
-                return true;
-            //case ObjectIds.ImmunityRing:
-            //    who.immunity += 10;
-            //    return false;
-            default:
-                if (!JsonAssetsIntegration.GarnetRingIndex.HasValue || __instance.ParentSheetIndex != JsonAssetsIntegration.GarnetRingIndex)
-                {
-                    return true; // run original logic
-                }
-
-                // garnet ring to give +10% cdr
-                who.IncrementCooldownReduction();
-                return false; // don't run original logic
-        }
+        return __instance.QualifiedItemId != QualifiedObjectIds.IridiumBand;
     }
 
     #endregion harmony patches

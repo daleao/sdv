@@ -1,85 +1,125 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Resonance;
+﻿namespace DaLion.Harmonics.Framework;
 
 #region using directives
 
 using System.Linq;
+using DaLion.Shared.Extensions;
 
 #endregion using directives
 
 /// <summary>A buffer for aggregating stat bonuses.</summary>
 public sealed class StatBuffer
 {
-    private readonly float[] _stats = new float[10];
+    private readonly float[] _stats = new float[8];
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="StatBuffer"/> class.Constructs an instance, initializing all
-    ///     stat bonuses to zero.
-    /// </summary>
+    /// <summary>Initializes a new instance of the <see cref="StatBuffer"/> class with all stats set to zero.</summary>
     public StatBuffer()
     {
     }
 
-    /// <summary>
-    ///     Initializes a new instance of the <see cref="StatBuffer"/> class.Constructs an instance, initializing all
-    ///     stat bonuses to the specified values.
-    /// </summary>
-    /// <param name="damageModifier">The damage modifier.</param>
-    /// <param name="critChanceModifier">The critical chance modifier.</param>
-    /// <param name="critPowerModifier">The critical power modifier.</param>
-    /// <param name="knockbackModifier">The knockback modifier.</param>
-    /// <param name="precisionModifier">The precision modifier.</param>
-    /// <param name="swingSpeedModifier">The swing speed modifier.</param>
-    /// <param name="cooldownReduction">The cooldown reduction.</param>
-    /// <param name="defenseModifier">The added defense.</param>
-    /// <param name="addedMagneticRadius">The added magnetic radius.</param>
-    internal StatBuffer(
-        float damageModifier,
-        float critChanceModifier,
-        float critPowerModifier,
-        float precisionModifier,
-        float knockbackModifier,
-        float swingSpeedModifier,
-        float cooldownReduction,
-        float defenseModifier,
-        int addedMagneticRadius)
+    /// <summary>Initializes a new instance of the <see cref="StatBuffer"/> class with all stats set to the specified array values.</summary>
+    /// <param name="stats">An array with exactly 9 float values corresponding to each stat bonus.</param>
+    public StatBuffer(float[] stats)
     {
-        this._stats[0] = damageModifier;
-        this._stats[1] = critChanceModifier;
-        this._stats[2] = critPowerModifier;
-        this._stats[3] = swingSpeedModifier;
-        this._stats[4] = knockbackModifier;
-        this._stats[5] = precisionModifier;
-        this._stats[6] = cooldownReduction;
-        this._stats[7] = defenseModifier;
-        this._stats[8] = addedMagneticRadius;
+        if (stats.Length != 8)
+        {
+            ThrowHelper.ThrowInvalidOperationException();
+        }
+
+        this._stats = stats;
     }
 
-    /// <summary>Gets or sets the added magnetic radius.</summary>
-    public int MagneticRadius { get => (int)this._stats[8]; set => this._stats[8] = value; }
+    /// <summary>Initializes a new instance of the <see cref="StatBuffer"/> class with all stats set to the specified individual values.</summary>
+    /// <param name="attackMultiplier">The attack multiplier.</param>
+    /// <param name="cooldownReduction">The cooldown reduction.</param>
+    /// <param name="critChanceMultiplier">The critical chance multiplier.</param>
+    /// <param name="critPowerMultiplier">The critical power multiplier.</param>
+    /// <param name="defense">The added defense.</param>
+    /// <param name="knockbackMultiplier">The knockback multiplier.</param>
+    /// <param name="magneticRadius">The added magnetic radius.</param>
+    /// <param name="weaponSpeedMultiplier">The weapon speed multiplier.</param>
+    internal StatBuffer(
+        float attackMultiplier,
+        float cooldownReduction,
+        float critChanceMultiplier,
+        float critPowerMultiplier,
+        float defense,
+        float knockbackMultiplier,
+        float magneticRadius,
+        float weaponSpeedMultiplier)
+    {
+        this._stats[0] = attackMultiplier;
+        this._stats[1] = critChanceMultiplier;
+        this._stats[2] = critPowerMultiplier;
+        this._stats[3] = cooldownReduction;
+        this._stats[4] = defense;
+        this._stats[5] = knockbackMultiplier;
+        this._stats[6] = magneticRadius;
+        this._stats[7] = weaponSpeedMultiplier;
+    }
+
+    /// <summary>Gets or sets the attack multiplier.</summary>
+    public float AttackMultiplier { get => this._stats[0]; set => this._stats[0] = value; }
 
     /// <summary>Gets or sets the cooldown reduction.</summary>
-    public float CooldownReduction { get => this._stats[6]; set => this._stats[6] = value; }
+    public float CooldownReduction { get => this._stats[1]; set => this._stats[1] = value; }
 
-    /// <summary>Gets or sets the critical chance modifier.</summary>
-    public float CritChanceModifier { get => this._stats[1]; set => this._stats[1] = value; }
+    /// <summary>Gets or sets the critical chance multiplier.</summary>
+    public float CriticalChanceMultiplier { get => this._stats[2]; set => this._stats[2] = value; }
 
-    /// <summary>Gets or sets the critical power modifier.</summary>
-    public float CritPowerModifier { get => this._stats[2]; set => this._stats[2] = value; }
-
-    /// <summary>Gets or sets the damage modifier.</summary>
-    public float DamageModifier { get => this._stats[0]; set => this._stats[0] = value; }
+    /// <summary>Gets or sets the critical power multiplier.</summary>
+    public float CriticalPowerMultiplier { get => this._stats[3]; set => this._stats[3] = value; }
 
     /// <summary>Gets or sets the added defense.</summary>
-    public float DefenseModifier { get => this._stats[7]; set => this._stats[7] = value; }
+    public float Defense { get => this._stats[4]; set => this._stats[4] = value; }
 
-    /// <summary>Gets or sets the knockback modifier.</summary>
-    public float KnockbackModifier { get => this._stats[4]; set => this._stats[4] = value; }
+    /// <summary>Gets or sets the knockback multiplier.</summary>
+    public float KnockbackMultiplier { get => this._stats[5]; set => this._stats[5] = value; }
 
-    /// <summary>Gets or sets the precision modifier.</summary>
-    public float PrecisionModifier { get => this._stats[5]; set => this._stats[5] = value; }
+    /// <summary>Gets or sets the added magnetic radius.</summary>
+    public float MagneticRadius { get => (int)this._stats[6]; set => this._stats[6] = value; }
 
-    /// <summary>Gets or sets the swing speed modifier.</summary>
-    public float SwingSpeedModifier { get => this._stats[3]; set => this._stats[3] = value; }
+    /// <summary>Gets or sets the weapon speed multiplier.</summary>
+    public float WeaponSpeedMultiplier { get => this._stats[7]; set => this._stats[7] = value; }
+
+    /// <summary>Adds two <see cref="StatBuffer"/>s.</summary>
+    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the add sign.</param>
+    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the add sign.</param>
+    /// <returns>Sum of the vectors.</returns>
+    public static StatBuffer operator +(StatBuffer left, StatBuffer right)
+    {
+        return new StatBuffer(left._stats.ElementwiseAdd(right._stats));
+    }
+
+    /// <summary>Compares two <see cref="StatBuffer"/>s.</summary>
+    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the add sign.</param>
+    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the add sign.</param>
+    /// <returns>Sum of the vectors.</returns>
+    public static bool operator ==(StatBuffer left, StatBuffer right)
+    {
+        return left._stats == right._stats;
+    }
+
+    /// <summary>Compares two <see cref="StatBuffer"/>s.</summary>
+    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the add sign.</param>
+    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the add sign.</param>
+    /// <returns>Sum of the vectors.</returns>
+    public static bool operator !=(StatBuffer left, StatBuffer right)
+    {
+        return !(left == right);
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? @object)
+    {
+        return @object is StatBuffer buffer && this == buffer;
+    }
+
+    /// <inheritdoc />
+    public override int GetHashCode()
+    {
+        return this._stats.GetHashCode();
+    }
 
     /// <summary>Determines whether any of the buffered stats is non-zero.</summary>
     /// <returns><see langword="true"/> if at least one of the buffered stats is greater than zero, otherwise <see langword="false"/>.</returns>

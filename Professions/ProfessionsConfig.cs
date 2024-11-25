@@ -14,8 +14,39 @@ using StardewModdingAPI.Utilities;
 /// <summary>Config schema for the Professions mod.</summary>
 public sealed class ProfessionsConfig
 {
-    private HashSet<string> _artisanMachines = ["(BC)ExampleMod.ExampleMachine"];
-    private HashSet<string> _animalDerivedGoods = ["(O)ExampleMod.ExampleProduce"];
+    private HashSet<string> _artisanMachines = [
+        "(BC)Cornucopia_Alembic",
+        "(BC)Cornucopia_ButterChurn",
+        "(BC)Cornucopia_CompactMill",
+        "(BC)Cornucopia_DeluxeSmoker",
+        "(BC)Cornucopia_DryingRack",
+        "(BC)Cornucopia_Extruder",
+        "(BC)Cornucopia_Juicer",
+        "(BC)Cornucopia_VinegarKeg",
+        "(BC)Cornucopia_WaxBarrel",
+        "(BC)Cornucopia_YogurtJar",
+    ];
+
+    private HashSet<string> _animalDerivedGoods = [
+        "(O)Cornucopia_Butter",
+        "(O)Cornucopia_HoneyButter",
+        "(O)Cornucopia_PlainYogurt",
+        "(O)Cornucopia_FlavoredYogurt",
+        "(O)Cornucopia_SmokedCheese",
+        "(O)Cornucopia_SmokedEgg",
+        "(O)Cornucopia_SmokedMeat",
+        "(O)Cornucopia_AvocadoMayonnaise",
+        "(O)Cornucopia_BlackPepperMayonnaise",
+        "(O)Cornucopia_DillMayonnaise",
+        "(O)Cornucopia_GarlicMayonnaise",
+        "(O)Cornucopia_OliveOilMayonnaise",
+        "(O)Cornucopia_SpicyMayonnaise",
+        "(O)Cornucopia_TruffleMayonnaise",
+        "(O)Cornucopia_WasabiMayonnaise",
+        "(O)Cornucopia_PickledEggs",
+        "(O)Cornucopia_CenturyEgg",
+    ];
+
     private bool _enableGoldenOstrichMayo = true;
     private bool _immersiveDairyYield = true;
     private float _scavengerHuntHandicap = 1f;
@@ -142,24 +173,21 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.ecologist_gemologist")]
     [GMCMPriority(200)]
-    [GMCMRange(0, 100)]
-    [GMCMStep(10)]
+    [GMCMRange(0, 100, 10)]
     public uint ForagesNeededForBestQuality { get; internal set; } = 30;
 
     /// <summary>Gets the number of minerals that must be mined before mined minerals become iridium-quality.</summary>
     [JsonProperty]
     [GMCMSection("prfs.ecologist_gemologist")]
     [GMCMPriority(201)]
-    [GMCMRange(0, 100)]
-    [GMCMStep(10)]
+    [GMCMRange(0, 100, 10)]
     public uint MineralsNeededForBestQuality { get; internal set; } = 30;
 
     /// <summary>Gets a multiplier applied to the base chance that a Scavenger or Prospector hunt will trigger in the right conditions.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(300)]
-    [GMCMRange(0.5f, 3f)]
-    [GMCMStep(0.25f)]
+    [GMCMRange(0.5f, 3f, 0.25f)]
     public double TreasureHuntStartChanceMultiplier { get; internal set; } = 1f;
 
     /// <summary>Gets a value indicating whether determines whether a Scavenger Hunt can trigger while entering a farm map.</summary>
@@ -179,8 +207,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(303)]
-    [GMCMRange(0.5f, 3f)]
-    [GMCMStep(0.2f)]
+    [GMCMRange(0.5f, 3f, 0.2f)]
     public float ScavengerHuntHandicap
     {
         get => this._scavengerHuntHandicap;
@@ -201,8 +228,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(305)]
-    [GMCMRange(0.5f, 3f)]
-    [GMCMStep(0.2f)]
+    [GMCMRange(0.5f, 3f, 0.2f)]
     public float ProspectorHuntHandicap
     {
         get => this._prospectorHuntHandicap;
@@ -216,8 +242,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(306)]
-    [GMCMRange(0.2f, 5f)]
-    [GMCMStep(0.2f)]
+    [GMCMRange(0.2f, 5f, 0.2f)]
     public float TrackingPointerScale
     {
         get => this._trackingPointerScale;
@@ -235,8 +260,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(307)]
-    [GMCMRange(0.5f, 2f)]
-    [GMCMStep(0.05f)]
+    [GMCMRange(0.5f, 2f, 0.05f)]
     public float TrackingPointerBobRate
     {
         get => this._trackingPointerBobRate;
@@ -269,8 +293,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
     [GMCMPriority(500)]
-    [GMCMRange(0.25f, 4f)]
-    [GMCMStep(0.25f)]
+    [GMCMRange(0.25f, 4f, 0.25f)]
     public float AnglerPriceBonusCeiling
     {
         get => this._anglerPriceBonusCeiling;
@@ -302,24 +325,21 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(600)]
-    [GMCMRange(10, 1000)]
-    [GMCMStep(10)]
+    [GMCMRange(10, 1000, 10)]
     public uint ConservationistTrashNeededPerTaxDeduction { get; internal set; } = 100;
 
     /// <summary>Gets the amount of junk items that must be collected from crab pots for every 1 point of friendship towards villagers.</summary>
     [JsonProperty]
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(601)]
-    [GMCMRange(10, 1000)]
-    [GMCMStep(10)]
+    [GMCMRange(10, 1000, 10)]
     public uint ConservationistTrashNeededPerFriendshipPoint { get; internal set; } = 100;
 
     /// <summary>Gets the maximum income deduction allowed by the Ferngill Revenue Service.</summary>
     [JsonProperty]
     [GMCMSection("prfs.conservationist")]
     [GMCMPriority(602)]
-    [GMCMRange(0.1f, 1f)]
-    [GMCMStep(0.05f)]
+    [GMCMRange(0.1f, 1f, 0.05f)]
     public float ConservationistTaxDeductionCeiling
     {
         get => this._conservationistTaxDeductionCeiling;

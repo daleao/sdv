@@ -82,7 +82,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             helper
                 .PatternMatch([
                     // find index of Crop.fertilizerQualityLevel >= 3
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
                     new CodeInstruction(OpCodes.Ldc_I4_3),
                     new CodeInstruction(OpCodes.Blt_S),
                 ])
@@ -96,9 +96,9 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.agriculturist, [checkForAgriculturist])
                 .Insert([
                     new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
                     new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[12]),
                     new CodeInstruction(OpCodes.Ldc_R8, 3d),
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
@@ -114,7 +114,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         // After: ExtraHarvestChance loop;
         try
         {
-            var numToHarvest = helper.Locals[14];
+            var numToHarvest = helper.Locals[15];
             var dontIncreaseNumToHarvest = generator.DefineLabel();
             helper
                 .PatternMatch([
@@ -127,7 +127,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                 .Insert(
                     [
                         new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = JunimoHarvester junimoHarvester
-                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]), // local 9 = Random r
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]), // local 9 = Random r
                         new CodeInstruction(
                             OpCodes.Call,
                             typeof(CropHarvestPatcher).RequireMethod(nameof(ShouldIncreaseHarvestYield))),

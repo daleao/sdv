@@ -1,5 +1,5 @@
 ﻿#pragma warning disable SA1611
-namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
@@ -17,7 +17,9 @@ using StardewValley.Objects;
 internal sealed class RingDrawInMenuPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingDrawInMenuPatcher"/> class.</summary>
-    internal RingDrawInMenuPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal RingDrawInMenuPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Ring>(
             nameof(Ring.drawInMenu),

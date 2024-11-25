@@ -22,11 +22,8 @@ internal sealed class EcologistFarmingBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { FarmingLevel = { current.effects.FarmingLevel.Value + added } };
-        }
-
-        return new BuffEffects { FarmingLevel = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { FarmingLevel = { current.effects.FarmingLevel.Value + added } }
+            : new BuffEffects { FarmingLevel = { added } };
     }
 }

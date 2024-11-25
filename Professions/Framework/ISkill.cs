@@ -54,6 +54,7 @@ public interface ISkill : IEquatable<ISkill>
     /// <summary>Gets the <see cref="IProfession"/>s associated with this skill.</summary>
     IList<IProfession> Professions { get; }
 
+#pragma warning disable SA1623 // Property summary documentation should match accessors
     /// <summary>Enumerates the integer IDs used in-game to track professions acquired by the player.</summary>
     IEnumerable<int> ProfessionIds => this.Professions.Select(p => p.Id);
 
@@ -72,6 +73,7 @@ public interface ISkill : IEquatable<ISkill>
     /// <summary>Enumerates the subset of <see cref="ProfessionIds"/> pertainig only to level 10 professions.</summary>
     /// <remarks>Should always enumerate exactly 4 elements.</remarks>
     IEnumerable<int> TierTwoProfessionIds => this.ProfessionIds.TakeLast(4);
+#pragma warning restore SA1623 // Property summary documentation should match accessors
 
     /// <summary>Gets a dictionary of the <see cref="ProfessionPair"/>s offered by this skill indexed by the corresponding level 5 profession.</summary>
     IDictionary<IProfession, ProfessionPair> ProfessionPairByRoot { get; }

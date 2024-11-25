@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Resonance;
+﻿namespace DaLion.Harmonics.Framework;
 
 #region using directives
 
@@ -6,16 +6,17 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Combat.Enchantments;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using StardewValley;
+using StardewValley.Buffs;
+using StardewValley.Enchantments;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -52,10 +53,10 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     #endregion enum entries
 
     /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a <see cref="SObject"/> index.</summary>
-    private static readonly Dictionary<int, Gemstone> FromObjectDict;
+    private static readonly Dictionary<string, Gemstone> FromObjectDict;
 
     /// <summary>Look-up to obtain the corresponding <see cref="Gemstone"/> from a <see cref="Ring"/> index.</summary>
-    private static readonly Dictionary<int, Gemstone> FromRingDict;
+    private static readonly Dictionary<string, Gemstone> FromRingDict;
 
     /// <summary>The canonical <see cref="DiatonicScale"/> with <see cref="Ruby"/> as the root.</summary>
     private static readonly DiatonicScale RubyScale;
@@ -72,8 +73,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
     static Gemstone()
     {
-        FromObjectDict = new Dictionary<int, Gemstone>();
-        FromRingDict = new Dictionary<int, Gemstone>();
+        FromObjectDict = [];
+        FromRingDict = [];
 
         Ruby = new RubyGemstone();
         Aquamarine = new AquamarineGemstone();
@@ -89,28 +90,28 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     /// <summary>Initializes a new instance of the <see cref="Gemstone"/> class.</summary>
     /// <param name="name">The gemstone's name.</param>
     /// <param name="value">The gemstone's canonical index in the <see cref="DiatonicScale"/> of <see cref="Ruby"/>.</param>
-    /// <param name="objectIndex">The index of the corresponding <see cref="SObject"/>.</param>
-    /// <param name="ringIndex">The index of the corresponding <see cref="Ring"/>.</param>
+    /// <param name="objectId">The qualified ID of the corresponding <see cref="SObject"/>.</param>
+    /// <param name="ringId">The qualified ID of the corresponding <see cref="Ring"/>.</param>
     /// <param name="glowFrequency">The characteristic wavelength with which the <see cref="Gemstone"/> vibrates.</param>
     /// <param name="stoneColor">The characteristic color of the stone itself.</param>
     /// <param name="glowColor">The characteristic glow of the emitted lightsource.</param>
     protected Gemstone(
         string name,
         int value,
-        int objectIndex,
-        int ringIndex,
+        string objectId,
+        string ringId,
         float glowFrequency,
         Color stoneColor,
         Color glowColor)
         : base(name, value)
     {
-        this.ObjectIndex = objectIndex;
-        FromObjectDict[objectIndex] = this;
+        this.ObjectId = objectId;
+        FromObjectDict[objectId] = this;
 
-        this.RingIndex = ringIndex;
-        FromRingDict[ringIndex] = this;
+        this.RingId = ringId;
+        FromRingDict[ringId] = this;
 
-        this.DisplayName = _I18n.Get("gems." + name.ToLower() + ".name");
+        this.DisplayName = _I18n.Get("ui." + name.ToLower());
         this.GlowFrequency = glowFrequency;
         this.StoneColor = stoneColor;
         this.GlowColor = glowColor.Inverse();
@@ -127,10 +128,10 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     public string DisplayName { get; }
 
     /// <summary>Gets the index of the corresponding <see cref="SObject"/>.</summary>
-    public int ObjectIndex { get; }
+    public string ObjectId { get; }
 
     /// <summary>Gets the index of the corresponding <see cref="Ring"/>.</summary>
-    public int RingIndex { get; }
+    public string RingId { get; }
 
     /// <summary>Gets the pitch adjustment to the game's 440 Hz sine wave in order to produce the natural frequency for this <see cref="Gemstone"/>.</summary>
     public int NaturalPitch { get; }
@@ -201,37 +202,37 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     }
 
     /// <summary>Gets the gemstone associated with the specified object index.</summary>
-    /// <param name="objectIndex">The index of an object.</param>
-    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="SObject"/> with the specified <paramref name="objectIndex"/>.</returns>
-    internal static Gemstone FromObject(int objectIndex)
+    /// <param name="objectId">The qualified ID of a gemstone object.</param>
+    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="SObject"/> with the specified <paramref name="objectId"/>.</returns>
+    internal static Gemstone FromObject(string objectId)
     {
-        return FromObjectDict[objectIndex];
+        return FromObjectDict[objectId];
     }
 
     /// <summary>Try to get the gemstone associated with the specified object index.</summary>
-    /// <param name="objectIndex">The index of an object.</param>
+    /// <param name="objectId">The qualified ID of a gemstone object.</param>
     /// <param name="gemstone">The matched gemstone, if any.</param>
     /// <returns><see langword="true"/> if a matching gemstone exists, otherwise <see langword="false"/>.</returns>
-    internal static bool TryFromObject(int objectIndex, [NotNullWhen(true)] out Gemstone? gemstone)
+    internal static bool TryFromObject(string objectId, [NotNullWhen(true)] out Gemstone? gemstone)
     {
-        return FromObjectDict.TryGetValue(objectIndex, out gemstone);
+        return FromObjectDict.TryGetValue(objectId, out gemstone);
     }
 
     /// <summary>Gets the gemstone associated with the specified ring index.</summary>
-    /// <param name="ringIndex">The index of a gemstone ring.</param>
-    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="Ring"/> with the specified <paramref name="ringIndex"/>.</returns>
-    internal static Gemstone FromRing(int ringIndex)
+    /// <param name="ringId">The qualified ID of a gemstone ring.</param>
+    /// <returns>The <see cref="Gemstone"/> which embedded in the <see cref="Ring"/> with the specified <paramref name="ringId"/>.</returns>
+    internal static Gemstone FromRing(string ringId)
     {
-        return FromRingDict[ringIndex];
+        return FromRingDict[ringId];
     }
 
     /// <summary>Try to get the gemstone associated with the specified ring index.</summary>
-    /// <param name="ringIndex">The index of a gemstone ring.</param>
+    /// <param name="ringId">The qualified ID of a gemstone ring.</param>
     /// <param name="gemstone">The matched gemstone, if any.</param>
     /// <returns><see langword="true"/> if a matching gemstone exists, otherwise <see langword="false"/>.</returns>
-    internal static bool TryFromRing(int ringIndex, [NotNullWhen(true)] out Gemstone? gemstone)
+    internal static bool TryFromRing(string ringId, [NotNullWhen(true)] out Gemstone? gemstone)
     {
-        return FromRingDict.TryGetValue(ringIndex, out gemstone);
+        return FromRingDict.TryGetValue(ringId, out gemstone);
     }
 
     /// <summary>Gets the static gemstone instance with the specified <paramref name="type"/>.</summary>
@@ -243,22 +244,33 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     }
 
     /// <summary>
-    ///     Resonates with the specified <paramref name="amplitude"/>, adding the corresponding stat bonuses to
-    ///     <paramref name="who"/>.
+    ///     Resonates with the specified <paramref name="amplitude"/>, adding the corresponding stat bonuses to a
+    ///     <see cref="BuffEffects"/> object.
     /// </summary>
-    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <param name="effects">The <see cref="BuffEffects"/>.</param>
     /// <param name="amplitude">The resonance amplitude.</param>
-    internal abstract void Resonate(Farmer who, float amplitude);
+    internal abstract void Resonate(BuffEffects effects, float amplitude);
 
-    /// <summary>Removes the corresponding resonance stat bonuses from <paramref name="who"/>.</summary>
-    /// <param name="who">The <see cref="Farmer"/>.</param>
-    /// <param name="amplitude">The resonance amplitude.</param>
-    internal abstract void Dissonate(Farmer who, float amplitude);
+    /// <summary>
+    ///     Resonates with a forge, adding the corresponding stat bonuses to the
+    ///     <see cref="weapon"/>.
+    /// </summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
+    internal abstract void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge);
 
-    /// <summary>Adds the <see cref="Gemstone"/>'s stat bonus to a buffer.</summary>
+    /// <summary>
+    ///     Quenches a forge resonance, removing the corresponding stat bonuses from the
+    ///     <see cref="weapon"/>.
+    /// </summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
+    internal abstract void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge);
+
+    /// <summary>Adds the <see cref="Gemstone"/>'s corresponding stat bonus to the specified <see cref="StatBuffer"/>.</summary>
     /// <param name="buffer">Shared buffer of aggregated stat modifiers.</param>
-    /// <param name="magnitude">A multiplier over the base stat modifiers.</param>
-    internal abstract void Buffer(StatBuffer buffer, float magnitude = 1f);
+    /// <param name="multiplier">Optional value to multiply the default stat bonus.</param>
+    internal abstract void Buffer(StatBuffer buffer, float multiplier = 1f);
 
     /// <summary>Begins playback of the sine wave <see cref="ICue"/> for this <see cref="Gemstone"/>.</summary>
     internal void PlayCue()
@@ -343,8 +355,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Ruby",
                 0,
-                ObjectIds.Ruby,
-                ObjectIds.RubyRing,
+                QualifiedObjectIds.Ruby,
+                QualifiedObjectIds.RubyRing,
                 1f,
                 new Color(225, 57, 57),
                 new Color(245, 75, 20, 230))
@@ -355,21 +367,45 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(RubyEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.attackIncreaseModifier += 0.1f * amplitude;
+            effects.AttackMultiplier.Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.attackIncreaseModifier -= 0.1f * amplitude;
+            var data = weapon.GetData();
+            if (data == null)
+            {
+                return;
+            }
+
+            var baseMin = data.MinDamage;
+            var baseMax = data.MaxDamage;
+            weapon.minDamage.Value += Math.Max(1, (int)(baseMin * 0.05f)) * forge.GetLevel();
+            weapon.maxDamage.Value += Math.Max(1, (int)(baseMax * 0.05f)) * forge.GetLevel();
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.DamageModifier += 0.1f * magnitude;
+            var data = weapon.GetData();
+            if (data == null)
+            {
+                return;
+            }
+
+            var baseMin = data.MinDamage;
+            var baseMax = data.MaxDamage;
+            weapon.minDamage.Value -= Math.Max(1, (int)(baseMin * 0.05f)) * forge.GetLevel();
+            weapon.maxDamage.Value -= Math.Max(1, (int)(baseMax * 0.05f)) * forge.GetLevel();
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.AttackMultiplier += 0.1f * multiplier;
         }
     }
 
@@ -385,8 +421,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Aquamarine",
                 1,
-                ObjectIds.Aquamarine,
-                ObjectIds.AquamarineRing,
+                QualifiedObjectIds.Aquamarine,
+                QualifiedObjectIds.AquamarineRing,
                 9f / 8f,
                 new Color(35, 144, 170),
                 new Color(18, 160, 250, 240))
@@ -397,21 +433,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(AquamarineEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.critChanceModifier += 0.1f * amplitude;
+            effects.CriticalChanceMultiplier.Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.critChanceModifier -= 0.1f * amplitude;
+            weapon.critChance.Value += (int)(0.023f * forge.GetLevel());
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.CritChanceModifier += 0.1f * magnitude;
+            weapon.critChance.Value -= (int)(0.023f * forge.GetLevel());
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.CriticalChanceMultiplier += 0.1f * multiplier;
         }
     }
 
@@ -427,8 +469,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Amethyst",
                 2,
-                ObjectIds.Amethyst,
-                ObjectIds.AmethystRing,
+                QualifiedObjectIds.Amethyst,
+                QualifiedObjectIds.AmethystRing,
                 5f / 4f,
                 new Color(111, 60, 196),
                 new Color(220, 50, 250, 240))
@@ -439,21 +481,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(AmethystEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.knockbackModifier += 0.1f * amplitude;
+            effects.KnockbackMultiplier.Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.knockbackModifier -= 0.1f * amplitude;
+            weapon.knockback.Value += 0.5f * forge.GetLevel();
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.KnockbackModifier += 0.1f * magnitude;
+            weapon.knockback.Value -= 0.5f * forge.GetLevel();
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.KnockbackMultiplier += 0.1f * multiplier;
         }
     }
 
@@ -469,8 +517,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Garnet",
                 3,
-                JsonAssetsIntegration.GarnetIndex ?? ObjectIds.Ruby,
-                JsonAssetsIntegration.GarnetRingIndex ?? ObjectIds.RubyRing,
+                GarnetStoneId,
+                GarnetRingId,
                 4f / 3f,
                 new Color(152, 29, 45),
                 new Color(245, 75, 20, 230))
@@ -481,21 +529,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(GarnetEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.IncrementCooldownReduction(amplitude);
+            effects.Get_CooldownReduction().Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.IncrementCooldownReduction(-amplitude);
+            weapon.Get_CooldownReduction().Value += 0.05f * forge.GetLevel();
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.CooldownReduction += 0.1f * magnitude;
+            weapon.Get_CooldownReduction().Value -= 0.05f * forge.GetLevel();
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.CooldownReduction += 0.1f * multiplier;
         }
     }
 
@@ -511,8 +565,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Emerald",
                 4,
-                ObjectIds.Emerald,
-                ObjectIds.EmeraldRing,
+                QualifiedObjectIds.Emerald,
+                QualifiedObjectIds.EmeraldRing,
                 3f / 2f,
                 new Color(4, 128, 54),
                 new Color(10, 220, 40, 220))
@@ -523,21 +577,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(EmeraldEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.weaponSpeedModifier += 0.1f * amplitude;
+            effects.WeaponSpeedMultiplier.Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.weaponSpeedModifier -= 0.1f * amplitude;
+            weapon.speed.Value += (int)(2.5f * forge.GetLevel());
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.SwingSpeedModifier += 0.1f * magnitude;
+            weapon.speed.Value -= (int)(2.5f * forge.GetLevel());
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.WeaponSpeedMultiplier += 0.1f * multiplier;
         }
     }
 
@@ -553,8 +613,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Jade",
                 5,
-                ObjectIds.Jade,
-                ObjectIds.JadeRing,
+                QualifiedObjectIds.Jade,
+                QualifiedObjectIds.JadeRing,
                 5f / 3f,
                 new Color(117, 150, 99),
                 new Color(10, 220, 40, 220))
@@ -565,21 +625,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(JadeEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            who.critPowerModifier += 0.5f * amplitude;
+            effects.CriticalPowerMultiplier.Value += 0.5f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            who.critPowerModifier -= 0.5f * amplitude;
+            weapon.critMultiplier.Value += (int)(0.25f * forge.GetLevel());
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            buffer.CritPowerModifier += 0.5f * magnitude;
+            weapon.critMultiplier.Value += (int)(0.25f * forge.GetLevel());
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.CriticalPowerMultiplier += 0.5f * multiplier;
         }
     }
 
@@ -595,8 +661,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Topaz",
                 6,
-                ObjectIds.Topaz,
-                ObjectIds.TopazRing,
+                QualifiedObjectIds.Topaz,
+                QualifiedObjectIds.TopazRing,
                 15f / 8f,
                 new Color(220, 143, 8),
                 new Color(255, 150, 10, 220))
@@ -607,63 +673,27 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         public override Type EnchantmentType => typeof(TopazEnchantment);
 
         /// <inheritdoc />
-        internal override void Resonate(Farmer who, float amplitude)
+        internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
-            {
-                if (CombatModule.Config.NewResistanceFormula)
-                {
-                    who.IncrementResonantResilience(amplitude);
-                }
-                else
-                {
-                    who.resilience += 1;
-                }
-            }
-            else
-            {
-                who.weaponPrecisionModifier += 0.1f * amplitude;
-            }
+            effects.Defense.Value += 1f * amplitude;
         }
 
         /// <inheritdoc />
-        internal override void Dissonate(Farmer who, float amplitude)
+        internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
-            {
-                if (CombatModule.Config.NewResistanceFormula)
-                {
-                    who.IncrementResonantResilience(-amplitude);
-                }
-                else
-                {
-                    who.resilience -= 1;
-                }
-            }
-            else
-            {
-                who.weaponPrecisionModifier -= 0.1f * amplitude;
-            }
+            weapon.addedDefense.Value += (int)(0.5f * forge.GetLevel());
         }
 
         /// <inheritdoc />
-        internal override void Buffer(StatBuffer buffer, float magnitude = 1f)
+        internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            if (CombatModule.Config.RingsEnchantments.RebalancedRings)
-            {
-                if (CombatModule.Config.NewResistanceFormula)
-                {
-                    buffer.DefenseModifier += 0.1f * magnitude;
-                }
-                else
-                {
-                    buffer.DefenseModifier += 1f;
-                }
-            }
-            else
-            {
-                buffer.PrecisionModifier += 0.1f * magnitude;
-            }
+            weapon.addedDefense.Value += (int)(0.5f * forge.GetLevel());
+        }
+
+        /// <inheritdoc />
+        internal override void Buffer(StatBuffer buffer, float multiplier = 1f)
+        {
+            buffer.Defense += 1f * multiplier;
         }
     }
 

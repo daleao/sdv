@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Diagnostics.CodeAnalysis;
 using System.Xml.Serialization;
 using DaLion.Shared.Constants;
 using StardewValley.Enchantments;
@@ -26,22 +25,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <param name="firedProjectile">The fired <see cref="BasicProjectile"/>.</param>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired the shot.</param>
-    public void OnFire(
-        Slingshot slingshot,
-        BasicProjectile firedProjectile,
-        GameLocation location,
-        Farmer firer)
-    {
-        this._OnFire(
-            slingshot,
-            firedProjectile,
-            location,
-            firer);
-    }
-
-    /// <inheritdoc cref="OnFire"/>
-    [SuppressMessage("StyleCop.CSharp.NamingRules", "SA1300:Element should begin with upper-case letter", Justification = "Copies vanilla style.")]
-    protected virtual void _OnFire(
+    public virtual void OnFire(
         Slingshot slingshot,
         BasicProjectile firedProjectile,
         GameLocation location,

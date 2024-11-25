@@ -22,11 +22,8 @@ internal sealed class EcologistMagneticRadiusBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { MagneticRadius = { current.effects.MagneticRadius.Value + added }, };
-        }
-
-        return new BuffEffects { MagneticRadius = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { MagneticRadius = { current.effects.MagneticRadius.Value + added }, }
+            : new BuffEffects { MagneticRadius = { added } };
     }
 }

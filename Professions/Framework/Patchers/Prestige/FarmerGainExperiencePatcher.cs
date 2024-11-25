@@ -5,7 +5,6 @@
 using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Extensions;
 using StardewValley.Menus;
 
 #endregion using directives

@@ -131,7 +131,7 @@ internal static class CrabPotExtensions
         owner ??= crabPot.GetOwner();
         r ??= Game1.random;
         var location = crabPot.Location;
-        var itemQueryContext = new ItemQueryContext(location, null, Game1.random);
+        var itemQueryContext = new ItemQueryContext(location, owner, r, null);
         var dictionary = DataLoader.Locations(Game1.content);
         var locationData = location.GetData();
         var allFishData = DataLoader.Fish(Game1.content);
@@ -151,7 +151,7 @@ internal static class CrabPotExtensions
         }
 
         possibleFish = from p in possibleFish
-            orderby p.Precedence, Game1.random.Next()
+            orderby p.Precedence, r.Next()
             select p;
         var targetedBaitTries = 0;
         var ignoreQueryKeys =

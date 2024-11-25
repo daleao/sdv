@@ -45,7 +45,7 @@
 </details>
 
 
-## What this is
+## What This Is
 
 This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
 

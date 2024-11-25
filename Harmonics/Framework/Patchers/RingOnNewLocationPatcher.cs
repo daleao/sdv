@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
@@ -13,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class RingOnNewLocationPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingOnNewLocationPatcher"/> class.</summary>
-    internal RingOnNewLocationPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal RingOnNewLocationPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.onNewLocation));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -21,13 +23,12 @@ internal sealed class RingOnNewLocationPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Rebalances Jade and Topaz rings.</summary>
+    /// <summary>Iridium Band does nothing.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnNewLocationPrefix(Ring __instance)
     {
-        return !CombatModule.Config.RingsEnchantments.EnableInfinityBand ||
-               __instance.indexInTileSheet.Value != ObjectIds.IridiumBand;
+        return __instance.QualifiedItemId != QualifiedObjectIds.IridiumBand;
     }
 
     #endregion harmony patches

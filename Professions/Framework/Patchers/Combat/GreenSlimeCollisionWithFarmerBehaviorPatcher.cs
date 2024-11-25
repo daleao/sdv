@@ -4,11 +4,11 @@
 
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Limits;
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
-using VirtualProperties;
 
 #endregion using directives
 

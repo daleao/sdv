@@ -15,6 +15,7 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
@@ -82,11 +83,5 @@ public sealed class EnchantmentsMod : Mod
             UniqueId,
             "ench");
         this.ValidateMultiplayer();
-    }
-
-    /// <inheritdoc />
-    public override object GetApi()
-    {
-        return new EnchantmentsApi();
     }
 }

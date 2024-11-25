@@ -808,21 +808,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
 
         var getterDelegate = getterInfo.CompileUnboundDelegate<Func<TConfig, int>>();
         var setterDelegate = setterInfo.CompileUnboundDelegate<Action<TConfig, int>>();
-        int? min, max;
+        int? min, max, step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = (int)rangeAttribute.Min;
             max = (int)rangeAttribute.Max;
+            step = (int)Math.Max(rangeAttribute.Step, 1f);
         }
         else
         {
             min = null;
             max = null;
+            step = null;
         }
-
-        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? (int)stepAttribute.Step
-            : null;
 
         this.AddIntSlider(
             () => this._I18n.Get($"gmcm.{property.Name.CamelToSnakeCase()}.title"),
@@ -897,21 +895,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var arrayGetterDelegate = getterInfo.CompileUnboundDelegate<Func<TConfig, int[]>>();
         var length = arrayGetterDelegate(getConfig()).Length;
 
-        int? min, max;
+        int? min, max, step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = (int)rangeAttribute.Min;
             max = (int)rangeAttribute.Max;
+            step = (int)Math.Max(rangeAttribute.Step, 1f);
         }
         else
         {
             min = null;
             max = null;
+            step = null;
         }
-
-        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? (int)stepAttribute.Step
-            : null;
 
         this.AddIntSliderGroupFromArray(
             length,
@@ -988,21 +984,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var dictGetterDelegate = getterInfo.CompileUnboundDelegate<Func<TConfig, Dictionary<int, int>>>();
         var keys = dictGetterDelegate(getConfig()).Keys;
 
-        int? min, max;
+        int? min, max, step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = (int)rangeAttribute.Min;
             max = (int)rangeAttribute.Max;
+            step = (int)Math.Max(rangeAttribute.Step, 1f);
         }
         else
         {
             min = null;
             max = null;
+            step = null;
         }
-
-        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? (int)stepAttribute.Step
-            : null;
 
         this.AddIntSliderGroupFromIntDict(
             keys,
@@ -1079,21 +1073,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var dictGetterDelegate = getterInfo.CompileUnboundDelegate<Func<TConfig, Dictionary<string, int>>>();
         var keys = dictGetterDelegate(getConfig()).Keys;
 
-        int? min, max;
+        int? min, max, step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = (int)rangeAttribute.Min;
             max = (int)rangeAttribute.Max;
+            step = (int)Math.Max(rangeAttribute.Step, 1f);
         }
         else
         {
             min = null;
             max = null;
+            step = null;
         }
-
-        int? step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? (int)stepAttribute.Step
-            : null;
 
         this.AddIntSliderGroupFromStringDict(
             keys,
@@ -1172,20 +1164,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var getterDelegate = getterInfo.CompileUnboundDelegate<Func<TConfig, float>>();
         var setterDelegate = setterInfo.CompileUnboundDelegate<Action<TConfig, float>>();
         float? min, max;
+        float step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = rangeAttribute.Min;
             max = rangeAttribute.Max;
+            step = rangeAttribute.Step;
         }
         else
         {
             min = null;
             max = null;
+            step = 0.1f;
         }
-
-        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? stepAttribute.Step
-            : 0.1f;
 
         this.AddFloatSlider(
             () => this._I18n.Get($"gmcm.{property.Name.CamelToSnakeCase()}.title"),
@@ -1261,20 +1252,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var length = arrayGetterDelegate(getConfig()).Length;
 
         float? min, max;
+        float step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = rangeAttribute.Min;
             max = rangeAttribute.Max;
+            step = rangeAttribute.Step;
         }
         else
         {
             min = null;
             max = null;
+            step = 0.1f;
         }
-
-        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? stepAttribute.Step
-            : 0.1f;
 
         this.AddFloatSliderGroupFromArray(
             length,
@@ -1352,20 +1342,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var keys = arrayGetterDelegate(getConfig()).Keys;
 
         float? min, max;
+        float step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = rangeAttribute.Min;
             max = rangeAttribute.Max;
+            step = rangeAttribute.Step;
         }
         else
         {
             min = null;
             max = null;
+            step = 0.1f;
         }
-
-        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? stepAttribute.Step
-            : 0.1f;
 
         this.AddFloatSliderGroupFromIntDict(
             keys,
@@ -1443,20 +1432,19 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
         var keys = arrayGetterDelegate(getConfig()).Keys;
 
         float? min, max;
+        float step;
         if (property.GetCustomAttribute<GMCMRangeAttribute>() is { } rangeAttribute)
         {
             min = rangeAttribute.Min;
             max = rangeAttribute.Max;
+            step = rangeAttribute.Step;
         }
         else
         {
             min = null;
             max = null;
+            step = 0.1f;
         }
-
-        var step = property.GetCustomAttribute<GMCMStepAttribute>() is { } stepAttribute
-            ? stepAttribute.Step
-            : 0.1f;
 
         this.AddFloatSliderGroupFromStringDict(
             keys,

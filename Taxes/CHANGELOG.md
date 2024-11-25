@@ -1,5 +1,9 @@
 ﻿# TAXES Changelog
 
+## 2.0.0
+
+Updated for game version 1.6.14.
+
 ## 1.1.0
 
 ### Added

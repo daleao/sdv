@@ -4,14 +4,13 @@ namespace DaLion.Professions.Framework.Patchers.Fishing;
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions.Stardew;
 using StardewValley.Buildings;
 using StardewValley.Menus;
 

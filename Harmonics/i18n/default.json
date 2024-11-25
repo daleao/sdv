@@ -1,10 +1,64 @@
 {
+  "objects.garnet.name": "Garnet Gemstone",
+  "objects.garnet.desc": "The namesake of a beautiful princess from a faraway land.",
+  "rings.garnet.name": "Garnet Ring",
+  "rings.garnet.desc": "Decreases special move cooldown by 10%.",
+  "rings.infinity.name": "Infinity Band",
+  "rings.infinity.desc": "A vessel for great power.",
 
+  "rings.amethyst.ring.desc": "A copper ring adorned with an amethyst gemstone.",
+  "rings.topaz.ring.desc": "A copper ring adorned with a topaz gemstone.",
+  "rings.aquamarine.ring.desc": "A silver ring adorned with an aquamarine gemstone.",
+  "rings.jade.ring.desc": "A silver ring adorned with a jade gemstone.",
+  "rings.emerald.ring.desc": "A gold ring adorned with an emerald gemstone.",
+  "rings.ruby.ring.desc": "A gold ring adorned with a ruby gemstone.",
+  "rings.iridium.ring.desc": "An ordinary band of iridium.",
 
+  "node.garnet.name": "Garnet Node",
+  "node.garnet.desc": "A clump of Garnets encased in stone.",
+
+  "ui.resonance": "Resonance",
+  "ui.ruby": "Ruby",
+  "ui.aquamarine": "Aquamarine",
+  "ui.jade": "Jade",
+  "ui.emerald": "Emerald",
+  "ui.amethyst": "Amethyst",
+  "ui.topaz": "Topaz",
+  "ui.garnet": "Garnet",
+  "ui.item_hover.damage": "{{amount}} Damage",
+  "ui.item_hover.c_rate": "{{amount}} Crit. Chance",
+  "ui.item_hover.c_pow": "{{amount}} Crit. Power",
+  "ui.item_hover.knockback": "{{amount}} Knockback",
+  "ui.item_hover.attack_speed": "{{amount}} Attack Speed",
+  "ui.item_hover.cdr": "{{amount}} Cooldown",
+  "ui.item_hover.resist": "{{amount}} Defense",
+  "ui.item_hover.light": "Emits Light",
+  "ui.item_hover.magnetic": "Magnetic",
+
+  "dialogue.emily.gemstones.first": "Have you ever noticed how gemstones can evoke different feelings? Like the calmness of a topaz or the fieriness of a ruby!#$b#Gemstones have this incredible way of resonating with our energies. It's like nature's palette of emotions.",
+  "dialogue.emily.gemstones.second": "Every gemstone has a different vibration. When you connect with a gemstone, it resonates with the frequencies of our internal emotions.#$b#If you listen closely, you can even hear it!",
+  "dialogue.emily.gemstones.third": "How do you connect with a gemstone?#$b#$h#By keeping it close to you, of course!#$b#$0$#You can wear it as a ring or a necklace and carry it around with you. It's like having a little piece of nature's harmony with you wherever you go!",
+  "dialogue.emily.gemstones.fourth": "Most jewelry can only house one gemstone.#$b#Clint says it's because most metals aren't strong enough to resist the vibrations of multiple gemstones.",
+  "dialogue.qi.gemstones.first": "I see you've made yourself a couple of Iridium Bands.#$b#Have you discovered their true purpose?",
+  "dialogue.qi.gemstones.second": "It may not look like anything special, but given some cosmic power the Iridium Band can be extraordinarily powerful...",
+
+  "global.infinitycraft": "{{someone}} forged an Infinity Band.",
 
   /************
   *** GMCM ***
   ************/
 
-
+  "gmcm.craftable_gemstone_rings.title": "Craftable Gemstone Rings",
+  "gmcm.craftable_gemstone_rings.desc": "Add new combat recipes for crafting gemstone rings.",
+  "gmcm.audible_gemstones.title": "Audible Gemstones",
+  "gmcm.audible_gemstones.desc": "Whether gemstone frequencies can be heard.",
+  "gmcm.chord_sound_duration.title": "Chord Sound Duration",
+  "gmcm.chord_sound_duration.desc": "The duration of the chord sound cue, in milliseconds.",
+  "gmcm.colorful_resonances.title": "Colorful Resonances",
+  "gmcm.colorful_resonances.desc": "Whether the resonance glow should inherit the root note's color.",
+  "gmcm.resonance_lightsource_texture.title": "Resonance Lightsource Texture",
+  "gmcm.resonance_lightsource_texture.desc": "The texture that will be used for the resonance light source.",
+  "gmcm.lightsource_texture.sconce": "Sconce",
+  "gmcm.lightsource_texture.stronger": "Stronger",
+  "gmcm.lightsource_texture.patterned": "Patterned"
 }

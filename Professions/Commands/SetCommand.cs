@@ -442,7 +442,6 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-
         Data.Write(Game1.player, DataKeys.ProspectorHuntStreak, value);
         this.Handler.Log.I($"Prospector Hunt was streak set to {value}.");
     }

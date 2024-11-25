@@ -1,15 +1,13 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.VirtualProperties;
+﻿namespace DaLion.Harmonics.Framework.VirtualProperties;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.Resonance;
+using DaLion.Harmonics.Framework.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
-using StardewValley;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -26,9 +24,21 @@ internal static class Farmer_ResonatingChords
 
     private static List<Chord> Create(Farmer farmer)
     {
-        var rings = WearMoreRingsIntegration.Instance
-            ?.ModApi
-            ?.GetAllRings(farmer) ?? farmer.leftRing.Value.Collect(farmer.rightRing.Value);
+        IEnumerable<Ring> rings;
+        if (WearMoreRingsIntegration.Instance?.IsLoaded == true)
+        {
+            rings = [];
+            WearMoreRingsIntegration.Instance.AssertLoaded();
+            for (var slot = 0; slot < WearMoreRingsIntegration.Instance.ModApi.RingSlotCount(); slot++)
+            {
+                rings = WearMoreRingsIntegration.Instance.ModApi.GetRing(slot).Collect(rings);
+            }
+        }
+        else
+        {
+            rings = farmer.leftRing.Value.Collect(farmer.rightRing.Value);
+        }
+
         return rings.OfType<CombinedRing>().Select(ring => ring.Get_Chord()).WhereNotNull().ToList();
     }
 }

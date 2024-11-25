@@ -20,7 +20,6 @@ internal static class Lookups
         QualifiedBigCraftableIds.PreservesJar,
         QualifiedBigCraftableIds.Keg,
         QualifiedBigCraftableIds.Dehydrator,
-        QualifiedBigCraftableIds.FishSmoker,
     ];
 
     /// <summary>Gets the qualified IDs of artisan goods derived from animal produce.</summary>

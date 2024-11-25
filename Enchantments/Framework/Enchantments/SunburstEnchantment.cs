@@ -25,9 +25,9 @@ public sealed class SunburstEnchantment : BaseWeaponEnchantment
     }
 
     /// <inheritdoc />
-    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
+    public override void OnCalculateDamage(Monster monster, GameLocation location, Farmer who, bool fromBomb, ref int amount)
     {
-        base._OnDealDamage(monster, location, who, ref amount);
+        base.OnCalculateDamage(monster, location, who, fromBomb, ref amount);
         if (monster is Ghost or Skeleton or Mummy or ShadowBrute or ShadowShaman or ShadowGirl or ShadowGuy or Shooter)
         {
             amount = (int)(amount * 1.5f);

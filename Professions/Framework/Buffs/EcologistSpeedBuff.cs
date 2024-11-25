@@ -22,11 +22,8 @@ internal sealed class EcologistSpeedBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { Speed = { current.effects.Speed.Value + added } };
-        }
-
-        return new BuffEffects { Speed = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { Speed = { current.effects.Speed.Value + added } }
+            : new BuffEffects { Speed = { added } };
     }
 }

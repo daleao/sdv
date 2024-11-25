@@ -4,11 +4,13 @@
 
 </div>
 
-## What this is
+## What This Is
 
 This mod replaces vanilla weapon enchantments with an entirely new and significantly more interesting collection. It also adds a few slingshot-exclusive enchantments.
 
-In addition, this mod optionally replaces the generic vanilla "Forged" text in weapon tooltips with actual configurable gemstone sockets.
+In addition, this mod rebalances the Jade gemstone enchantment, increase it's 10% bonus to 50%. The vanilla version is completely useless at 10% because it's the same amount given by Ruby Enchantment, except that the Ruby applies to every hit, while the Jade only applies to critical hits. This change in non-optional.
+
+Finally, this mod optionally replaces the generic vanilla "Forged" text in weapon tooltips with actual configurable gemstone sockets.
 
 
 ## Melee Weapon Enchantments

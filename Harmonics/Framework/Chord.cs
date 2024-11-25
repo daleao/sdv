@@ -1,10 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Resonance;
+﻿namespace DaLion.Harmonics.Framework;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;
@@ -12,6 +12,9 @@ using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using StardewValley;
+using StardewValley.Buffs;
+using StardewValley.Enchantments;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -21,9 +24,11 @@ public sealed class Chord : IChord
     private static readonly double[] Range = Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
 
     private static List<double> _linSpace =
-        MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100).ToList();
+        MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100).ToList();
 
     private readonly ICue[] _cues;
+    private readonly string _id;
+
     private int[] _pitches;
     private int _fadeStepIndex;
     private int _position;
@@ -47,6 +52,8 @@ public sealed class Chord : IChord
 
         this._pitches = new int[2];
         this.Harmonize();
+
+        this._id = this.GetHashCode().ToString();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Triad instance.</summary>
@@ -64,6 +71,8 @@ public sealed class Chord : IChord
 
         this._pitches = new int[3];
         this.Harmonize();
+
+        this._id = this.GetHashCode().ToString();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Tetrad instance.</summary>
@@ -82,6 +91,8 @@ public sealed class Chord : IChord
 
         this._pitches = new int[4];
         this.Harmonize();
+
+        this._id = this.GetHashCode().ToString();
     }
 
     /// <inheritdoc />
@@ -93,6 +104,9 @@ public sealed class Chord : IChord
     /// <inheritdoc />
     public double Amplitude { get; private set; }
 
+    /// <summary>Gets the ID of the corresponding <see cref="Buff"/> instance.</summary>
+    internal string BuffId => "{UniqueId}/{this._id}";
+
     /// <summary>Gets the total resonance of each <see cref="Gemstone"/> due to interference with its neighbors.</summary>
     internal Dictionary<Gemstone, double> ResonanceByGemstone { get; } = new();
 
@@ -102,48 +116,136 @@ public sealed class Chord : IChord
 
     internal static void RecalculateLinSpace()
     {
-        _linSpace = MathUtils.LinSpace(0d, 1d, (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100).ToList();
+        _linSpace = MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100).ToList();
     }
 
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="who">The <see cref="Farmer"/>.</param>
-    internal void Apply(GameLocation location, Farmer who)
+    internal void Resonate(Farmer who)
     {
+        var effects = new BuffEffects { MagneticRadius = { this._richness * 32f } };
+        this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(effects, (float)pair.Value));
+        who.applyBuff(new Buff(this.BuffId, effects: effects));
         who.Get_ResonatingChords().Add(this);
-        this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(who, (float)pair.Value));
-        this.PlayCues();
-        who.MagneticRadius += this._richness * 32;
-        this.InitializeLightSource();
-        if (this._lightSource is null)
+        if (this._lightSource is not null)
         {
-            return;
+            who.currentLocation.sharedLights[this._lightSource.Id] = this._lightSource;
         }
 
-        while (location.sharedLights.ContainsKey(this._lightSource.Identifier))
+        if (Config.AudibleGemstones)
         {
-            this._lightSource.Identifier++;
+            this.PlayCues();
         }
 
-        location.sharedLights[this._lightSource.Identifier] = this._lightSource;
+        if (who.CurrentTool is MeleeWeapon weapon)
+        {
+            this.ResonateAllForges(weapon);
+        }
     }
 
     /// <summary>Removes resonating stat bonuses from the farmer.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="who">The <see cref="Farmer"/>.</param>
-    internal void Unapply(GameLocation location, Farmer who)
+    internal void Quench(Farmer who)
     {
-        who.Get_ResonatingChords().Remove(this);
-        this.ResonanceByGemstone.ForEach(pair => pair.Key.Dissonate(who, (float)pair.Value));
-        this.StopCues();
-        who.MagneticRadius -= this._richness * 32;
-        if (this._lightSource is null)
+        if (!who.buffs.AppliedBuffs.TryGetValue(this.BuffId, out var buff))
         {
             return;
         }
 
-        location.removeLightSource(this._lightSource.Identifier);
-        this._lightSource = null;
+        who.buffs.Remove(buff.id);
+        who.Get_ResonatingChords().Remove(this);
+        if (this._lightSource is not null)
+        {
+            who.currentLocation.removeLightSource(this._lightSource.Id);
+        }
+
+        if (Config.AudibleGemstones)
+        {
+            this.StopCues();
+        }
+
+        if (who.CurrentTool is MeleeWeapon weapon)
+        {
+            this.QuenchAllForges(weapon);
+        }
+    }
+
+    /// <summary>Attempts to resonate with a single <paramref name="forge"/> in the specified <paramref name="weapon"/>.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
+    internal void ResonateSingleForge(MeleeWeapon weapon, BaseWeaponEnchantment forge)
+    {
+        if (this.Root?.EnchantmentType != forge.GetType())
+        {
+            return;
+        }
+
+        this.Root.Resonate(weapon, forge);
+        weapon.Get_ResonatingChords().Add(this);
+    }
+
+    /// <summary>Attempts to resonate with all enchantments in the specified <paramref name="weapon"/>.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    internal void ResonateAllForges(MeleeWeapon weapon)
+    {
+        if (this.Root is null)
+        {
+            return;
+        }
+
+        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+        {
+            if (enchantment.GetType() != this.Root.EnchantmentType)
+            {
+                continue;
+            }
+
+            this.Root.Resonate(weapon, enchantment);
+            weapon.Get_ResonatingChords().Add(this);
+        }
+    }
+
+    /// <summary>Attempts to resonate with a single <paramref name="forge"/> in the specified <paramref name="weapon"/>.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
+    internal void QuenchSingleForge(MeleeWeapon weapon, BaseWeaponEnchantment forge)
+    {
+        if (this.Root?.EnchantmentType != forge.GetType())
+        {
+            return;
+        }
+
+        this.Root.Quench(weapon, forge);
+        weapon.Get_ResonatingChords().Remove(this);
+    }
+
+    /// <summary>Adds resonance stat bonuses to the farmer.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    internal void QuenchAllForges(MeleeWeapon weapon)
+    {
+        if (this.Root is null)
+        {
+            return;
+        }
+
+        foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
+        {
+            if (enchantment.GetType() != this.Root.EnchantmentType)
+            {
+                continue;
+            }
+
+            this.Root.Quench(weapon, enchantment);
+            weapon.Get_ResonatingChords().Remove(this);
+        }
+    }
+
+    /// <summary>Adds the total resonance stat bonuses to the <paramref name="buffer"/>.</summary>
+    /// <param name="buffer">A <see cref="StatBuffer"/> for aggregating stat bonuses.</param>
+    internal void Buffer(StatBuffer buffer)
+    {
+        this.ResonanceByGemstone.ForEach(pair => pair.Key.Buffer(buffer, (float)pair.Value));
+        buffer.MagneticRadius += this._richness * 32f;
     }
 
     /// <summary>Adds resonance effects to the new <paramref name="location"/>.</summary>
@@ -155,12 +257,7 @@ public sealed class Chord : IChord
             return;
         }
 
-        while (location.sharedLights.ContainsKey(this._lightSource.Identifier))
-        {
-            this._lightSource.Identifier++;
-        }
-
-        location.sharedLights[this._lightSource.Identifier] = this._lightSource;
+        location.sharedLights[this._lightSource.Id] = this._lightSource;
     }
 
     /// <summary>Removes resonance effects from the old <paramref name="location"/>.</summary>
@@ -172,17 +269,12 @@ public sealed class Chord : IChord
             return;
         }
 
-        location.removeLightSource(this._lightSource.Identifier);
+        location.removeLightSource(this._lightSource.Id);
     }
 
     /// <summary>Begins playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>
     internal void PlayCues()
     {
-        if (!CombatModule.Config.RingsEnchantments.AudibleGemstones)
-        {
-            return;
-        }
-
         // copied from Game1.playSoundPitched in order to manipulate the instance volume
         try
         {
@@ -224,7 +316,7 @@ public sealed class Chord : IChord
             Log.E(ex.ToString());
         }
 
-        var fadeSteps = (int)CombatModule.Config.RingsEnchantments.ChordSoundDuration / 100;
+        var fadeSteps = (int)Config.ChordSoundDuration / 100;
         foreach (var step in Enumerable.Range(0, fadeSteps))
         {
             DelayedAction.functionAfterDelay(
@@ -244,49 +336,17 @@ public sealed class Chord : IChord
 
         this._position = (int)((this._position + 1) % this._period);
         this._phase = Range[this._position];
-        if (this._lightSource is null)
+        if (this._lightSource is not null)
         {
-            this.InitializeLightSource();
-            while (who.currentLocation.sharedLights.ContainsKey(this._lightSource!.Identifier))
+            this._lightSource.radius.Value = this.LightSourceRadius;
+            var offset = Vector2.Zero;
+            if (who.shouldShadowBeOffset)
             {
-                this._lightSource.Identifier++;
+                offset += who.drawOffset;
             }
 
-            who.currentLocation.sharedLights[this._lightSource.Identifier] = this._lightSource;
+            this._lightSource.position.Value = new Vector2(who.Position.X + 32f, who.Position.Y + 32) + offset;
         }
-
-        this._lightSource.radius.Value = this.LightSourceRadius;
-        var offset = Vector2.Zero;
-        if (who.shouldShadowBeOffset)
-        {
-            offset += who.drawOffset.Value;
-        }
-
-        this._lightSource.position.Value = new Vector2(who.Position.X + 32f, who.Position.Y + 32) + offset;
-    }
-
-    /// <summary>Adds the total resonance stat bonuses to the <paramref name="buffer"/>.</summary>
-    /// <param name="buffer">A <see cref="StatBuffer"/> for aggregating stat bonuses.</param>
-    internal void Buffer(StatBuffer buffer)
-    {
-        this.ResonanceByGemstone.ForEach(pair => pair.Key.Buffer(buffer, (float)pair.Value));
-        buffer.MagneticRadius += this._richness * 32;
-    }
-
-    /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
-    internal void InitializeLightSource()
-    {
-        if (this.Root is null)
-        {
-            return;
-        }
-
-        this._lightSource = new LightSource(
-            (int)CombatModule.Config.RingsEnchantments.ResonanceLightsourceTexture,
-            Vector2.Zero,
-            (float)this.Amplitude,
-            CombatModule.Config.RingsEnchantments.ColorfulResonances ? this.Root.GlowColor : Color.Black,
-            playerID: Game1.player.UniqueMultiplayerID);
     }
 
     /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
@@ -297,8 +357,7 @@ public sealed class Chord : IChord
             return;
         }
 
-        var location = Game1.player.currentLocation;
-        location.removeLightSource(this._lightSource.Identifier);
+        Game1.player.currentLocation.removeLightSource(this._lightSource.Id);
         this._lightSource = null;
     }
 
@@ -310,9 +369,9 @@ public sealed class Chord : IChord
         var distinctNotes = groupedNotes.Select(g => g.Key).ToArray();
 
         // initialize resonances
-        for (var i = 0; i < distinctNotes.Length; i++)
+        foreach (var note in distinctNotes)
         {
-            this.ResonanceByGemstone[distinctNotes[i]] = 0f;
+            this.ResonanceByGemstone[note] = 0f;
         }
 
         // build interval matrix
@@ -381,9 +440,9 @@ public sealed class Chord : IChord
             GroupByGemstone()
             .ForEach(group =>
             {
-                var numbers = group
-                    .Select(i => i.Number)
-                    .ToHashSet();
+                //var numbers = group
+                //    .Select(i => i.Number)
+                //    .ToHashSet();
                 group.ForEach(i =>
                 {
                     var resonance = 0d;
@@ -454,6 +513,13 @@ public sealed class Chord : IChord
 
         this.Amplitude = this.ResonanceByGemstone[this.Root];
         this._period = 360d / this.Root.GlowFrequency;
+        this._lightSource = new LightSource(
+            this._id,
+            (int)Config.ResonanceLightsourceTexture,
+            Vector2.Zero,
+            (float)this.Amplitude,
+            Config.ColorfulResonances ? this.Root.GlowColor : Color.Black,
+            playerID: Game1.player.UniqueMultiplayerID);
     }
 
     /// <summary>Ceases playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>

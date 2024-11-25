@@ -1,5 +1,30 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.0.0
+
+Updated for game version 1.6.14.
+
+### Changed
+
+* Angler boss fish recatch chance increase from 1% to 5%.
+* Due to vanilla changes in 1.6.9, the default behavior of automated Conservationist Crab Pots has been changed to consume bait if available.
+
+### Fixed
+
+* Fixed an issue with Prestiged Miner perk not working correctly.
+* Fixed an issue with Gemologist perk counting items that are not minerals obtained from breaking geodes.
+* Fixed a possible Null-Reference Exception in SpelunkerWarpedEvent.
+* Fixed a possible Null-Reference Exception in RecordTackleMemory.
+* Fixed an exploit where Desperado's Limit Break allowed multiplying ammo.
+* Fixed an issue with level 5 combat incorrectly awarding 50 health points.
+* Fixed an unconfirmed issue with AnimalDerivedGoods config, and added Cornucopia items by default.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+### Removed
+
+* Removed the changes to Fish Smoker which caused it to no longer preserve quality; Fish Smoker is no longer affected by any Artisan profession perks.
+
 ## 0.4.0
 
 Updated for DaLionheart 1.3.0.
