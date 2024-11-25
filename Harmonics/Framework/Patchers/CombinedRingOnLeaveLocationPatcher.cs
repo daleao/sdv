@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -13,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class CombinedRingOnLeaveLocationPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CombinedRingOnLeaveLocationPatcher"/> class.</summary>
-    internal CombinedRingOnLeaveLocationPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal CombinedRingOnLeaveLocationPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<CombinedRing>(nameof(CombinedRing.onLeaveLocation));
     }

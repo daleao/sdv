@@ -22,11 +22,8 @@ internal sealed class EcologistAttackBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { Attack = { current.effects.Attack.Value + added } };
-        }
-
-        return new BuffEffects { Attack = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { Attack = { current.effects.Attack.Value + added } }
+            : new BuffEffects { Attack = { added } };
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Resonance;
+﻿namespace DaLion.Harmonics.Framework;
 
 #region using directives
 
@@ -13,11 +13,11 @@ using Microsoft.Xna.Framework;
 /// </remarks>
 public interface IGemstone
 {
-    /// <summary>Gets the index of the corresponding <see cref="SObject"/>.</summary>
-    int ObjectIndex { get; }
+    /// <summary>Gets the qualified ID of the corresponding <see cref="SObject"/>.</summary>
+    string ObjectId { get; }
 
-    /// <summary>Gets the index of the corresponding <see cref="StardewValley.Objects.Ring"/>.</summary>
-    int RingIndex { get; }
+    /// <summary>Gets the qualified ID of the corresponding <see cref="StardewValley.Objects.Ring"/>.</summary>
+    string RingId { get; }
 
     /// <summary>Gets the characteristic frequency with which the <see cref="Gemstone"/> vibrates.</summary>
     /// <remarks>Measured in units of inverse <see cref="Gemstone.Ruby"/> wavelengths.</remarks>

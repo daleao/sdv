@@ -1,8 +1,7 @@
 ﻿global using DaLion.Shared.Reflection;
-global using StardewValley.Enchantments;
-global using static DaLion.Enchantments.EnchantmentsMod;
+global using static DaLion.Harmonics.HarmonicsMod;
 
-namespace DaLion.Enchantments;
+namespace DaLion.Harmonics;
 
 #region using directives
 
@@ -15,17 +14,31 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
+using StardewModdingAPI.Events;
 
 #endregion using directives
 
 /// <summary>The mod entry point.</summary>
-public sealed class EnchantmentsMod : Mod
+public sealed class HarmonicsMod : Mod
 {
-    /// <summary>Gets the static <see cref="EnchantmentsMod"/> instance.</summary>
-    internal static EnchantmentsMod Instance { get; private set; } = null!; // set in Entry
+    /// <summary>The user's current ring texture style, based on installed texture mods.</summary>
+    internal enum TextureStyle
+    {
+        /// <summary>No ring texture mods installed.</summary>
+        Vanilla,
 
-    /// <summary>Gets or sets the <see cref="EnchantmentsConfig"/> instance.</summary>
-    internal static EnchantmentsConfig Config { get; set; } = null!; // set in Entry
+        /// <summary>Better Rings by BBR installed.</summary>
+        BetterRings,
+
+        /// <summary>Vanilla Tweaks by Taiyokun installed.</summary>
+        VanillaTweaks,
+    }
+
+    /// <summary>Gets the static <see cref="HarmonicsMod"/> instance.</summary>
+    internal static HarmonicsMod Instance { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="HarmonicsConfig"/> instance.</summary>
+    internal static HarmonicsConfig Config { get; set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="ModDataManager"/> instance.</summary>
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
@@ -53,6 +66,14 @@ public sealed class EnchantmentsMod : Mod
     // ReSharper disable once InconsistentNaming
     internal static ITranslationHelper _I18n => ModHelper.Translation;
 
+    internal static string GarnetStoneId { get; private set; } = null!; // set in Entry;
+
+    internal static string GarnetRingId { get; private set; } = null!; // set in Entry;
+
+    internal static string InfinityBandId { get; private set; } = null!; // set in Entry;
+
+    internal static TextureStyle RingTextureStyle { get; private set; }
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -70,7 +91,7 @@ public sealed class EnchantmentsMod : Mod
 
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<EnchantmentsConfig>();
+        Config = helper.ReadConfig<HarmonicsConfig>();
         Data = new ModDataManager(UniqueId, Log);
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
@@ -82,11 +103,14 @@ public sealed class EnchantmentsMod : Mod
             UniqueId,
             "ench");
         this.ValidateMultiplayer();
-    }
 
-    /// <inheritdoc />
-    public override object GetApi()
-    {
-        return new EnchantmentsApi();
+        GarnetStoneId = $"{UniqueId}/GarnetGemstone";
+        GarnetRingId = $"{UniqueId}/GarnetRing";
+        InfinityBandId = $"{UniqueId}/InfinityBand";
+        RingTextureStyle = helper.ModRegistry.IsLoaded("BBR.BetterRings")
+            ? TextureStyle.BetterRings
+            : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks")
+                ? TextureStyle.VanillaTweaks
+                : TextureStyle.Vanilla;
     }
 }

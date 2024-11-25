@@ -58,8 +58,7 @@ public sealed class SkillsConfig
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
     [GMCMPriority(104)]
-    [GMCMRange(0.5f, 2f)]
-    [GMCMStep(0.05f)]
+    [GMCMRange(0.5f, 2f, 0.05f)]
     public float SkillExpMultiplierPerReset
     {
         get => this._skillExpMultiplierPerReset;
@@ -73,8 +72,7 @@ public sealed class SkillsConfig
     [JsonProperty]
     [GMCMSection("prfs.skill_exp")]
     [GMCMPriority(200)]
-    [GMCMRange(0.5f, 2f)]
-    [GMCMStep(0.05f)]
+    [GMCMRange(0.5f, 2f, 0.05f)]
     [GMCMOverride(typeof(ProfessionsConfigMenu), "SkillExpMultipliersOverride")]
     public Dictionary<string, float> BaseMultipliers
     {

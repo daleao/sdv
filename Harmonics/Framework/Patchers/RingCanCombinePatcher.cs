@@ -1,9 +1,7 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -15,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class RingCanCombinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingCanCombinePatcher"/> class.</summary>
-    internal RingCanCombinePatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal RingCanCombinePatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.CanCombine));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -28,24 +28,19 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue)
-        {
-            return true; // run original logic
-        }
-
-        if (__instance.ParentSheetIndex == ObjectIds.IridiumBand ||
-            ring.ParentSheetIndex == ObjectIds.IridiumBand ||
-            ring.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value)
+        if (__instance.QualifiedItemId == QualifiedObjectIds.IridiumBand ||
+            ring.QualifiedItemId == QualifiedObjectIds.IridiumBand ||
+            ring.QualifiedItemId == InfinityBandId)
         {
             return false; // don't run original logic
         }
 
-        if (__instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
+        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
         {
             return true; // run original logic
         }
 
-        __result = ring.IsGemRing() &&
+        __result = Gemstone.TryFromRing(ring.QualifiedItemId, out _) &&
                    (__instance is not CombinedRing combined || combined.combinedRings.Count < 4);
         return false; // don't run original logic
     }

@@ -2,15 +2,28 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Integrations;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="SObject"/> class.</summary>
 internal static class SObjectExtensions
 {
+    private static readonly HashSet<string> VanillaAnimalGoodIds =
+    [
+        QualifiedObjectIds.DinosaurEgg,
+        QualifiedObjectIds.Mayonnaise,
+        QualifiedObjectIds.DuckMayonnaise,
+        QualifiedObjectIds.DinosaurMayonnaise,
+        QualifiedObjectIds.VoidMayonnaise,
+        QualifiedObjectIds.Cheese,
+        QualifiedObjectIds.GoatCheese,
+        QualifiedObjectIds.Cloth,
+        QualifiedObjectIds.Wool,
+    ];
+
     /// <summary>Determines whether <paramref name="object"/> is an artisan machine.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a machine that creates artisan goods, otherwise <see langword="false"/>.</returns>
@@ -24,14 +37,9 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is an animal produce or a derived artisan good, otherwise <see langword="false"/>.</returns>
     internal static bool IsAnimalOrDerivedGood(this SObject @object)
     {
-        return @object.Category.IsAnyOf(
-                   SObject.EggCategory,
-                   SObject.MilkCategory,
-                   SObject.meatCategory,
-                   SObject.sellAtPierresAndMarnies) ||
-               @object.QualifiedItemId == QualifiedObjectIds.DinosaurEgg ||
-               @object.Name.ToLower().ContainsAnyOf("mayonnaise", "cheese", "butter", "yogurt", "ice cream", "cloth", "wool") ||
-               Config.AnimalDerivedGoods.Contains(@object.Name);
+        return @object.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies) ||
+            VanillaAnimalGoodIds.Contains(@object.QualifiedItemId) ||
+            Config.AnimalDerivedGoods.Contains(@object.QualifiedItemId);
     }
 
     /// <summary>Determines whether <paramref name="object"/> is a resource node.</summary>

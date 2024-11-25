@@ -79,8 +79,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(1)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float IncomeTaxLatenessFine
     {
         get => this._incomeLatenessFine;
@@ -94,8 +93,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(2)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleAnimalExpenses
     {
         get => this._deductibleAnimalExpenses;
@@ -109,8 +107,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(3)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleBuildingExpenses
     {
         get => this._deductibleBuildingExpenses;
@@ -124,8 +121,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(4)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleSeedExpenses
     {
         get => this._deductibleSeedExpenses;
@@ -139,8 +135,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(5)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleToolExpenses
     {
         get => this._deductibleToolExpenses;
@@ -154,8 +149,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(6)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     [GMCMOverride(typeof(TaxesConfigMenu), "DeductibleExtrasOverride")]
     [GMCMIgnore]
     public Dictionary<string, float> DeductibleExtras
@@ -170,7 +164,7 @@ public sealed class TaxesConfig
         }
     }
 
-    /// <summary>Gets the day of the season when income taxes are charged.</summary>
+    /// <summary>Gets or sets the day of the season when income taxes are charged.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(7)]
@@ -181,12 +175,11 @@ public sealed class TaxesConfig
 
     #region property
 
-    /// <summary>Gets the flat rate charged over due income taxes not paid in time.</summary>
+    /// <summary>Gets the flat rate charged overdue income taxes not paid in time.</summary>
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(10)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float PropertyTaxLatenessFine
     {
         get => this._propertyLatenessFine;
@@ -200,8 +193,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(11)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float UnusedTileTaxRate
     {
         get => this._unusedTileTaxRate;
@@ -215,8 +207,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(12)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float UsedTileTaxRate
     {
         get => this._usedTileTaxRate;
@@ -230,8 +221,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(13)]
-    [GMCMRange(0f, 1f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 1f, 0.01f)]
     public float BuildingTaxRate
     {
         get => this._buildingTaxRate;
@@ -247,7 +237,7 @@ public sealed class TaxesConfig
     [GMCMPriority(14)]
     public bool ExemptMagicalBuildings { get; internal set; } = true;
 
-    /// <summary>Gets the day of the season when property taxes are charged.</summary>
+    /// <summary>Gets or sets the day of the season when property taxes are charged.</summary>
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(15)]
@@ -265,8 +255,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("other")]
     [GMCMPriority(50)]
-    [GMCMRange(0f, 2f)]
-    [GMCMStep(0.01f)]
+    [GMCMRange(0f, 2f, 0.01f)]
     public float AnnualInterest
     {
         get => this._annualInterest;

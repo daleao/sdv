@@ -4,7 +4,7 @@
 
 </div>
 
-## What this is
+## What This Is
 
 This mod is a companion to [Walk Of Life](../Professions)'s Aquarist profession, but can be used without it. It makes Fish Ponds actually viable as income source and significantly more interesting as a mechanic and playstyle.
 

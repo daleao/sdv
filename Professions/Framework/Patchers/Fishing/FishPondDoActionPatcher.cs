@@ -40,7 +40,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
             helper
                 .PatternMatch([
                     new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))),
-                    new CodeInstruction(OpCodes.Call, typeof(NetString).RequireMethod("op_Implicit")),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(NetString).RequireMethod("get_Value")),
                     new CodeInstruction(OpCodes.Call, typeof(string).RequireMethod("op_Inequality")),
                     new CodeInstruction(OpCodes.Brfalse),
                 ])

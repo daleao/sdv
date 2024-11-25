@@ -72,6 +72,30 @@ public sealed class EnergizedSlingshotEnchantment : BaseSlingshotEnchantment
     }
 
     /// <inheritdoc />
+    public override void OnFire(
+        Slingshot slingshot,
+        BasicProjectile firedProjectile,
+        GameLocation location,
+        Farmer firer)
+    {
+        if (!firer.IsLocalPlayer)
+        {
+            return;
+        }
+
+        if (this.Energy >= MaxEnergy)
+        {
+            Data.Write(firedProjectile, DataKeys.Energized, true.ToString());
+            this.Energy = 0;
+            SoundBox.PlasmaShot.PlayAll(location);
+        }
+        else
+        {
+            this.Energy += 6;
+        }
+    }
+
+    /// <inheritdoc />
     protected override void _OnEquip(Farmer who)
     {
         base._OnEquip(who);
@@ -95,29 +119,5 @@ public sealed class EnergizedSlingshotEnchantment : BaseSlingshotEnchantment
 
         this._previousStepsTaken = uint.MaxValue;
         EventManager.Disable<EnergizedUpdateTickedEvent>();
-    }
-
-    /// <inheritdoc />
-    protected override void _OnFire(
-        Slingshot slingshot,
-        BasicProjectile firedProjectile,
-        GameLocation location,
-        Farmer firer)
-    {
-        if (!firer.IsLocalPlayer)
-        {
-            return;
-        }
-
-        if (this.Energy >= MaxEnergy)
-        {
-            Data.Write(firedProjectile, DataKeys.Energized, true.ToString());
-            this.Energy = 0;
-            SoundBox.PlasmaShot.PlayAll(location);
-        }
-        else
-        {
-            this.Energy += 6;
-        }
     }
 }

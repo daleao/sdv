@@ -4,8 +4,8 @@
 
 using System.Collections.Generic;
 using DaLion.Chargeable.Framework.Configs;
+using DaLion.Chargeable.Framework.Integrations;
 using DaLion.Shared.Extensions.Stardew;
-using Integrations;
 using Microsoft.Xna.Framework;
 using StardewValley.Locations;
 using StardewValley.Objects;

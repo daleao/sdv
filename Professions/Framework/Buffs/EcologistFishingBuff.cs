@@ -22,11 +22,8 @@ internal sealed class EcologistFishingBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { FishingLevel = { current.effects.FishingLevel.Value + added } };
-        }
-
-        return new BuffEffects { FishingLevel = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { FishingLevel = { current.effects.FishingLevel.Value + added } }
+            : new BuffEffects { FishingLevel = { added } };
     }
 }

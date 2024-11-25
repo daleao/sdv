@@ -74,7 +74,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
                 .Insert(
                 [
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[6]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[5]),
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(FishingRodDoDoneFishingPatcher).RequireMethod(nameof(RecordTackleMemory))),
@@ -132,7 +132,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
         if (rod.lastUser.HasProfession(Profession.Angler, true))
         {
-            if (tackle.QualifiedItemId == rod.attachments[1].QualifiedItemId)
+            if (tackle.QualifiedItemId == rod.attachments[1]?.QualifiedItemId)
             {
                 Data.Write(rod, DataKeys.FirstMemorizedTackle, rod.attachments[1].QualifiedItemId);
                 Data.Write(rod, DataKeys.FirstMemorizedTackleUses, (FishingRod.maxTackleUses / 2).ToString());

@@ -28,6 +28,17 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
         return I18n.Enchantments_Wabbajack_Name();
     }
 
+    /// <inheritdoc />
+    public override void OnDealtDamage(Monster monster, GameLocation location, Farmer who, bool fromBomb, int amount)
+    {
+        base.OnDealtDamage(monster, location, who, fromBomb, amount);
+        var chance = ((MathConstants.PHI - 1d) / (4d * MathConstants.PHI)) - who.DailyLuck;
+        if (this._random.NextBool(chance))
+        {
+            DoWabbajack(monster, location, who, ref amount, chance, this._random);
+        }
+    }
+
     internal static void DoWabbajack(
         Monster monster,
         GameLocation location,
@@ -220,17 +231,6 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
         catch
         {
             // ignore
-        }
-    }
-
-    /// <inheritdoc />
-    protected override void _OnDealDamage(Monster monster, GameLocation location, Farmer who, ref int amount)
-    {
-        base._OnDealDamage(monster, location, who, ref amount);
-        var chance = ((MathConstants.PHI - 1d) / (4d * MathConstants.PHI)) - who.DailyLuck;
-        if (this._random.NextBool(chance))
-        {
-            DoWabbajack(monster, location, who, ref amount, chance, this._random);
         }
     }
 }

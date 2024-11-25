@@ -1,10 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.Resonance;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -17,15 +15,16 @@ using StardewValley.Objects;
 internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CombinedRingDrawInMenuPatcher"/> class.</summary>
-    internal CombinedRingDrawInMenuPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal CombinedRingDrawInMenuPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<CombinedRing>(
             nameof(CombinedRing.drawInMenu),
-            new[]
-            {
+            [
                 typeof(SpriteBatch), typeof(Vector2), typeof(float), typeof(float), typeof(float),
                 typeof(StackDrawType), typeof(Color), typeof(bool),
-            });
+            ]);
         this.Prefix!.priority = Priority.HigherThanNormal;
     }
 
@@ -46,8 +45,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         Color color,
         bool drawShadow)
     {
-        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
+        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
         {
             return true; // run original logic
         }
@@ -76,8 +74,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             scaleSize = 1f;
             location.Y -= (oldScaleSize - 1f) * 32f;
 
-            var usingBetterRings = BetterRingsIntegration.Instance?.IsLoaded == true;
-            var usingVanillaTweaks = VanillaTweaksIntegration.Instance?.RingsCategoryEnabled == true;
+            var usingBetterRings = RingTextureStyle == TextureStyle.BetterRings;
+            var usingVanillaTweaks = RingTextureStyle == TextureStyle.VanillaTweaks;
 
             // better rings needs to draw the ring underneath the gems, but after the scale hover is converted to y-displacement
             if (usingBetterRings)
@@ -97,7 +95,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             Vector2 offset;
 
             // draw top gem
-            var gemColor = Gemstone.FromRing(__instance.combinedRings[0].ParentSheetIndex).StoneColor * transparency;
+            var gemColor = Gemstone.FromRing(__instance.combinedRings[0].QualifiedItemId).StoneColor * transparency;
             offset = usingVanillaTweaks
                 ? new Vector2(24f, 6f)
                 : usingBetterRings
@@ -106,7 +104,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             var sourceY = usingBetterRings ? 4 : 0;
             __state = location + (offset * scaleSize);
             spriteBatch.Draw(
-                Textures.GemstonesTx,
+                Textures.InfinityStones,
                 __state,
                 new Rectangle(0, sourceY, 4, 4),
                 gemColor,
@@ -119,10 +117,10 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             if (count > 1)
             {
                 // draw bottom gem (or left, in case of better rings)
-                gemColor = Gemstone.FromRing(__instance.combinedRings[1].ParentSheetIndex).StoneColor * transparency;
+                gemColor = Gemstone.FromRing(__instance.combinedRings[1].QualifiedItemId).StoneColor * transparency;
                 offset = usingBetterRings ? new Vector2(28f, 20f) : new Vector2(24f, 44f);
                 spriteBatch.Draw(
-                    Textures.GemstonesTx,
+                    Textures.InfinityStones,
                     location + (offset * scaleSize),
                     new Rectangle(4, sourceY, 4, 4),
                     gemColor,
@@ -136,13 +134,13 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             if (count > 2)
             {
                 // draw left gem (or right, in case of better rings)
-                gemColor = Gemstone.FromRing(__instance.combinedRings[2].ParentSheetIndex).StoneColor * transparency;
+                gemColor = Gemstone.FromRing(__instance.combinedRings[2].QualifiedItemId).StoneColor * transparency;
                 offset = usingVanillaTweaks
                     ? new Vector2(3f, 25f)
                     : usingBetterRings
                         ? new Vector2(40f, 8f) : new Vector2(8f, 28f);
                 spriteBatch.Draw(
-                    Textures.GemstonesTx,
+                    Textures.InfinityStones,
                     location + (offset * scaleSize),
                     new Rectangle(8, sourceY, 4, 4),
                     gemColor,
@@ -156,13 +154,13 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             if (count > 3)
             {
                 // draw right gem (or bottom, in case of better rings)
-                gemColor = Gemstone.FromRing(__instance.combinedRings[3].ParentSheetIndex).StoneColor * transparency;
+                gemColor = Gemstone.FromRing(__instance.combinedRings[3].QualifiedItemId).StoneColor * transparency;
                 offset = usingVanillaTweaks
                     ? new Vector2(45f, 25f)
                     : usingBetterRings
                         ? new Vector2(44f, 24f) : new Vector2(40f, 28f);
                 spriteBatch.Draw(
-                    Textures.GemstonesTx,
+                    Textures.InfinityStones,
                     location + (offset * scaleSize),
                     new Rectangle(12, sourceY, 4, 4),
                     gemColor,
@@ -207,9 +205,8 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float transparency,
         float layerDepth)
     {
-        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value ||
-            __instance.combinedRings.Count == 0 || VanillaTweaksIntegration.Instance?.RingsCategoryEnabled != true)
+        if (__instance.QualifiedItemId != $"(O){InfinityBandId}" ||
+            __instance.combinedRings.Count == 0 || RingTextureStyle != TextureStyle.VanillaTweaks)
         {
             return;
         }
@@ -220,9 +217,9 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         }
 
         // redraw top gem
-        var gemColor = Gemstone.FromRing(__instance.combinedRings[0].ParentSheetIndex).StoneColor * transparency;
+        var gemColor = Gemstone.FromRing(__instance.combinedRings[0].QualifiedItemId).StoneColor * transparency;
         spriteBatch.Draw(
-            Textures.GemstonesTx,
+            Textures.InfinityStones,
             __state,
             new Rectangle(0, 0, 4, 4),
             gemColor,

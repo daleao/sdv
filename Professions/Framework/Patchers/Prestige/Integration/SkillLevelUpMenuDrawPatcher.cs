@@ -103,7 +103,12 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
                     return false;
                 }
 
-                Game1.drawDialogueBox(xPositionOnScreen, yPositionOnScreen, width, height, speaker: false,
+                Game1.drawDialogueBox(
+                    xPositionOnScreen,
+                    yPositionOnScreen,
+                    width,
+                    height,
+                    speaker: false,
                     drawOnlyBox: true);
                 Reflector
                     .GetUnboundMethodDelegate<Action<SkillLevelUpMenu, SpriteBatch, int, bool, int, int, int>>(

@@ -24,6 +24,7 @@ using Microsoft.Xna.Framework;
 ///     Provides a tree data structure in which each internal (non-leaf) node has exactly four children, useful
 ///     for 2D spatial information queries.
 /// </summary>
+/// <typeparam name="TSpatialEntity">A type with spatial properties.</typeparam>
 public sealed class Quadtree<TSpatialEntity>
 {
     private readonly List<TSpatialEntity> _entities = [];
@@ -195,7 +196,6 @@ public sealed class Quadtree<TSpatialEntity>
 
         return children;
     }
-
 
     private void Split()
     {

@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -13,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class CombinedRingUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CombinedRingUpdatePatcher"/> class.</summary>
-    internal CombinedRingUpdatePatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal CombinedRingUpdatePatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<CombinedRing>(nameof(CombinedRing.update));
     }

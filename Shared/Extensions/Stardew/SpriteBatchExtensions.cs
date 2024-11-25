@@ -10,44 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Extensions for the <see cref="SpriteBatch"/> class.</summary>
 public static class SpriteBatchExtensions
 {
-    /// <summary>Draws the Farming buff icon and text.</summary>
-    /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
-    /// <param name="position">The <see cref="Vector2"/> position.</param>
-    /// <param name="value">The magnitude of the buff.</param>
-    /// <param name="overrideText">Optional <see cref="string"/> with which to override the vanilla tooltip text.</param>
-    public static void DrawFarmingTooltip(this SpriteBatch batch, Vector2 position, float magnitude, string? overrideText = null)
-    {
-        Utility.drawWithShadow(
-            batch,
-            Game1.mouseCursors,
-            position,
-            new Rectangle(120, 428, 10, 10),
-            Color.White,
-            0f,
-            Vector2.Zero,
-            4f,
-            false,
-            1f);
-    }
-
-    /// <summary>Draws the Fishing buff icon.</summary>
-    /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
-    /// <param name="position">The <see cref="Vector2"/> position.</param>
-    public static void DrawFishingIcon(this SpriteBatch batch, Vector2 position)
-    {
-        Utility.drawWithShadow(
-            batch,
-            Game1.mouseCursors,
-            position,
-            new Rectangle(120, 428, 10, 10),
-            Color.White,
-            0f,
-            Vector2.Zero,
-            4f,
-            false,
-            1f);
-    }
-
     /// <summary>Draws attack icon.</summary>
     /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
     /// <param name="position">The <see cref="Vector2"/> position.</param>
@@ -192,7 +154,7 @@ public static class SpriteBatchExtensions
             1f);
     }
 
-    /// <summary>Draws magnetism icon.</summary>
+    /// <summary>Draws enchantment icon.</summary>
     /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
     /// <param name="position">The <see cref="Vector2"/> position.</param>
     public static void DrawEnchantmentIcon(this SpriteBatch batch, Vector2 position)

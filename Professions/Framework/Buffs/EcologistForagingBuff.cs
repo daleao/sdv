@@ -22,11 +22,8 @@ internal sealed class EcologistForagingBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { ForagingLevel = { current.effects.ForagingLevel.Value + added } };
-        }
-
-        return new BuffEffects { ForagingLevel = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { ForagingLevel = { current.effects.ForagingLevel.Value + added } }
+            : new BuffEffects { ForagingLevel = { added } };
     }
 }

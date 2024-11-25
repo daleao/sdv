@@ -8,7 +8,7 @@ public static class FarmAnimalExtensions
     /// <returns>The <see cref="Farmer"/> instance who purchased or owned the parent of the <paramref name="animal"/>, or the host of the game session if not found.</returns>
     public static Farmer GetOwner(this FarmAnimal animal)
     {
-        return Game1.getFarmerMaybeOffline(animal.ownerID.Value) ?? Game1.MasterPlayer;
+        return Game1.GetPlayer(animal.ownerID.Value) ?? Game1.MasterPlayer;
     }
 
     /// <summary>Checks whether the <paramref name="animal"/> is owned by the specified <see cref="Farmer"/>.</summary>

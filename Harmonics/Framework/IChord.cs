@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Resonance;
+﻿namespace DaLion.Harmonics.Framework;
 
 /// <summary>A harmonic set of <see cref="IGemstone"/> wavelengths.</summary>
 /// <remarks>

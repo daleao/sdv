@@ -1,8 +1,7 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
@@ -16,7 +15,9 @@ using StardewValley.Objects;
 internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuCraftItemPatcher"/> class.</summary>
-    internal ForgeMenuCraftItemPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ForgeMenuCraftItemPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.CraftItem));
     }
@@ -27,14 +28,13 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuCraftItemPrefix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
-        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
-            right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
+        if (left_item?.QualifiedItemId != QualifiedObjectIds.IridiumBand ||
+            right_item?.QualifiedItemId != QualifiedObjectIds.GalaxySoul)
         {
             return true; // run original logic
         }
 
-        __result = new Ring(JsonAssetsIntegration.InfinityBandIndex.Value);
+        __result = ItemRegistry.Create<Ring>(InfinityBandId);
         if (!forReal)
         {
             return false; // don't run original logic

@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Core.Framework.Enchantments;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Integrations;
 using HarmonyLib;

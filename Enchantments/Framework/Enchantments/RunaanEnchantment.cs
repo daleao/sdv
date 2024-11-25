@@ -26,7 +26,7 @@ public sealed class RunaanEnchantment : BaseSlingshotEnchantment
     }
 
     /// <inheritdoc />
-    protected override void _OnFire(
+    public override void OnFire(
         Slingshot slingshot,
         BasicProjectile firedProjectile,
         GameLocation location,

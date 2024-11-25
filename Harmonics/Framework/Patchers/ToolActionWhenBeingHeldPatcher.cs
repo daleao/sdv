@@ -1,12 +1,12 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -14,25 +14,27 @@ using StardewValley;
 internal sealed class ToolActionWhenBeingHeldPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ToolActionWhenBeingHeldPatcher"/> class.</summary>
-    internal ToolActionWhenBeingHeldPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ToolActionWhenBeingHeldPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Tool>(nameof(Tool.actionWhenBeingHeld));
     }
 
     #region harmony patches
 
-    /// <summary>Reset applied arsenal resonances.</summary>
+    /// <summary>Reset applied tool resonances.</summary>
     [HarmonyPostfix]
     private static void ToolActionWhenBeingHeldPostfix(Tool __instance, Farmer who)
     {
-        var chords = who.Get_ResonatingChords();
-        for (var i = 0; i < chords.Count; i++)
+        if (__instance is not MeleeWeapon weapon)
         {
-            var chord = chords[i];
-            if (chord.Root is not null && __instance.CanResonateWith(chord.Root))
-            {
-                __instance.UpdateResonatingChord(chords[i]);
-            }
+            return;
+        }
+
+        foreach (var chord in who.Get_ResonatingChords())
+        {
+            chord.ResonateAllForges(weapon);
         }
     }
 

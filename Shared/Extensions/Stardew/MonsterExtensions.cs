@@ -60,7 +60,7 @@ public static class MonsterExtensions
                || monster is Spiker;
     }
 
-    /// <summary>Determines whether the specified <paramref name="character"/> is within the moving threshold of this <paramref name="monster"/>.</summary>
+    /// <summary>Determines whether the specified <paramref name="monster"/> is within the moving threshold of this <paramref name="monster"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <param name="other">The target <see cref="Character"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="monster"/>'s distance to the <paramref name="other"/> is less than it's aggro threshold, otherwise <see langword="false"/>.</returns>
@@ -81,7 +81,7 @@ public static class MonsterExtensions
         var location = monster.currentLocation;
         if (ReferenceEquals(location, Game1.player.currentLocation) && !location.IsFarm)
         {
-            Game1.player.checkForQuestComplete(null, 1, 1, null, monster.Name, 4);
+            Game1.player.NotifyQuests(q => q.OnMonsterSlain(location, monster, false, false));
             var specialOrders = Game1.player.team.specialOrders;
             if (specialOrders is not null)
             {
@@ -94,7 +94,7 @@ public static class MonsterExtensions
 
         foreach (var enchantment in killer.enchantments)
         {
-            enchantment.OnMonsterSlay(monster, location, killer);
+            enchantment.OnMonsterSlay(monster, location, killer, false);
         }
 
         killer.leftRing.Value?.onMonsterSlay(monster, location, killer);

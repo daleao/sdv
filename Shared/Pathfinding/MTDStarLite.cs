@@ -186,6 +186,7 @@ public sealed class MTDStarLite
     }
 
     /// <summary>Updates the edges which connect to the <see cref="State"/> at the specified <paramref name="position"/>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="position">The <see cref="State"/>'s position as a <see cref="Point"/>.</param>
     public void UpdateEdges(GameLocation location, Point position)
     {
@@ -410,7 +411,7 @@ public sealed class MTDStarLite
     }
 
     /// <summary>Reconstructs the optimal poth from <see cref="Start"/> to <see cref="Goal"/>.</summary>
-    /// <returns>The reconstructed path as a <see cref="Stack{T"/> of <see cref="State"/> instances.</returns>
+    /// <returns>The reconstructed path as a <see cref="Stack{T}"/> of <see cref="State"/> instances.</returns>
     private Stack<Point> ReconstructPath()
     {
         this._path.Clear();

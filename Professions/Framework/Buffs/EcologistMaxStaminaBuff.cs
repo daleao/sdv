@@ -22,11 +22,8 @@ internal sealed class EcologistMaxStaminaBuff : Buff
 
     private static BuffEffects GetBuffEffects(float added)
     {
-        if (Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current))
-        {
-            return new BuffEffects { MaxStamina = { current.effects.MaxStamina.Value + added }, };
-        }
-
-        return new BuffEffects { MaxStamina = { added } };
+        return Game1.player.buffs.AppliedBuffs.TryGetValue(ID, out var current)
+            ? new BuffEffects { MaxStamina = { current.effects.MaxStamina.Value + added }, }
+            : new BuffEffects { MaxStamina = { added } };
     }
 }

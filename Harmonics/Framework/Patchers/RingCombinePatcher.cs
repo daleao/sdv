@@ -1,16 +1,13 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Integrations;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
-using DaLion.Shared.Constants;
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Netcode;
+using Shared.Classes;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -19,7 +16,9 @@ using StardewValley.Objects;
 internal sealed class RingCombinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingCombinePatcher"/> class.</summary>
-    internal RingCombinePatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal RingCombinePatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.Combine));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -32,8 +31,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex)
+        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
         {
             return true; // run original logic
         }
@@ -52,14 +50,14 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
             }
 
             toCombine.Add(ring);
-            var combinedRing = new CombinedRing(ObjectIds.CombinedRing);
+            var combinedRing = new CombinedRing { ItemId = InfinityBandId };
             combinedRing.combinedRings.AddRange(toCombine);
-            combinedRing.ParentSheetIndex = JsonAssetsIntegration.InfinityBandIndex.Value;
-            ModHelper.Reflection.GetField<NetInt>(combinedRing, nameof(Ring.indexInTileSheet)).GetValue()
-                .Set(JsonAssetsIntegration.InfinityBandIndex.Value);
-            combinedRing.UpdateDescription();
-            combinedRing.Get_Chord()?.PlayCues();
-            Game1.player.WriteIfNotExists(DataKeys.HasMadeInfinityBand, "true");
+            if (Config.AudibleGemstones)
+            {
+                combinedRing.Get_Chord()?.PlayCues();
+            }
+
+            Data.WriteIfNotExists(Game1.player, DataKeys.HasMadeInfinityBand, "true");
             __result = combinedRing;
             return false; // don't run original logic
         }

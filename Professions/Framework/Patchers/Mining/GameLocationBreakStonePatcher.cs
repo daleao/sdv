@@ -35,17 +35,21 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
         try
         {
             var isNotPrestiged = generator.DefineLabel();
+            var resumeExecution = generator.DefineLabel();
             helper
                 .PatternMatch([new CodeInstruction(OpCodes.Ldc_I4_1)])
+                .StripLabels(out var isMiner)
                 .AddLabels(isNotPrestiged)
-                .Insert([new CodeInstruction(OpCodes.Ldarg_S, (byte)4)]) // arg 4 = Farmer who
+                .Insert([new CodeInstruction(OpCodes.Ldarg_S, (byte)4)], labels: isMiner) // arg 4 = Farmer who
                 .InsertProfessionCheck(Farmer.miner + 100, forLocalPlayer: false)
                 .Insert(
                     [
                         new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                        new CodeInstruction(OpCodes.Ldc_I4_1),
-                        new CodeInstruction(OpCodes.Add),
-                    ]);
+                        new CodeInstruction(OpCodes.Ldc_I4_2),
+                        new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    ])
+                .Move()
+                .AddLabels(resumeExecution);
         }
         catch (Exception ex)
         {

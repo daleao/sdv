@@ -1,4 +1,4 @@
-﻿namespace DaLion.Enchantments;
+﻿namespace DaLion.Harmonics;
 
 #region using directives
 
@@ -6,11 +6,11 @@ using DaLion.Shared.Integrations.GMCM;
 
 #endregion using directives
 
-internal sealed class EnchantmentsConfigMenu : GMCMBuilder<EnchantmentsConfigMenu>
+internal sealed class HarmonicsConfigMenu : GMCMBuilder<HarmonicsConfigMenu>
 {
-    /// <summary>Initializes a new instance of the <see cref="EnchantmentsConfigMenu"/> class.</summary>
-    internal EnchantmentsConfigMenu()
-        : base(ModHelper.Translation, ModHelper.ModRegistry, EnchantmentsMod.Manifest)
+    /// <summary>Initializes a new instance of the <see cref="HarmonicsConfigMenu"/> class.</summary>
+    internal HarmonicsConfigMenu()
+        : base(ModHelper.Translation, ModHelper.ModRegistry, HarmonicsMod.Manifest)
     {
     }
 
@@ -23,7 +23,7 @@ internal sealed class EnchantmentsConfigMenu : GMCMBuilder<EnchantmentsConfigMen
     /// <inheritdoc />
     protected override void ResetConfig()
     {
-        Config = new EnchantmentsConfig();
+        Config = new HarmonicsConfig();
     }
 
     /// <inheritdoc />

@@ -1,9 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Harmonics.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -16,7 +15,9 @@ using StardewValley.Objects;
 internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuGetForgeCostPatcher"/> class.</summary>
-    internal ForgeMenuGetForgeCostPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ForgeMenuGetForgeCostPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.GetForgeCost));
     }
@@ -27,21 +28,19 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuGetForgeCostPrefix(ref int __result, Item left_item, Item right_item)
     {
-        if (!CombatModule.Config.RingsEnchantments.EnableInfinityBand || !JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            left_item is not Ring left)
+        if (left_item is not Ring left)
         {
             return true; // run original logic
         }
 
-        if (left.ParentSheetIndex == JsonAssetsIntegration.InfinityBandIndex.Value && right_item is Ring right &&
-            right.IsGemRing())
+        if (left.QualifiedItemId == InfinityBandId && right_item is Ring right &&
+            Gemstone.TryFromRing(right.QualifiedItemId, out _))
         {
             __result = 10;
             return false; // don't run original logic
         }
 
-        if (left.ParentSheetIndex == ObjectIds.IridiumBand &&
-            right_item.ParentSheetIndex == ObjectIds.GalaxySoul)
+        if (left.QualifiedItemId == InfinityBandId && right_item.QualifiedItemId == QualifiedObjectIds.GalaxySoul)
         {
             __result = 20;
             return false; // don't run original logic

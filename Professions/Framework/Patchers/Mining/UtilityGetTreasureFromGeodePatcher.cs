@@ -24,7 +24,10 @@ internal sealed class UtilityGetTreasureFromGeodePatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void UtilityGetTreasureFromGeodePostfix(Item __result)
     {
-        Data.AppendToGemologistMineralsCollected(__result.ItemId, Game1.player);
+        if (__result.Category is SObject.GemCategory or SObject.mineralsCategory)
+        {
+            Data.AppendToGemologistMineralsCollected(__result.ItemId, Game1.player);
+        }
     }
 
     #endregion harmony patches

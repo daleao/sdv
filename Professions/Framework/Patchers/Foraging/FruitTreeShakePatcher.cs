@@ -36,6 +36,5 @@ internal sealed class FruitTreeShakePatcher : HarmonyPatcher
         }
     }
 
-
     #endregion harmony patches
 }

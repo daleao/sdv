@@ -1,10 +1,7 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
-
-using DaLion.Overhaul.Modules.Combat.Integrations;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
@@ -15,7 +12,9 @@ using StardewValley.Objects;
 internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CombinedRingLoadDisplayFieldsPatcher"/> class.</summary>
-    internal CombinedRingLoadDisplayFieldsPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal CombinedRingLoadDisplayFieldsPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<CombinedRing>("loadDisplayFields");
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -23,26 +22,19 @@ internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Iridium description is always first, and gemstone descriptions are grouped together.</summary>
+    /// <summary>Adjust Infinity Band description.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool CombinedRingsLoadDisplayFieldsPrefix(CombinedRing __instance, ref bool __result)
     {
-        if (!JsonAssetsIntegration.InfinityBandIndex.HasValue ||
-            __instance.ParentSheetIndex != JsonAssetsIntegration.InfinityBandIndex.Value)
+        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
         {
             return true; // don't run original logic
         }
 
-        if (Game1.objectInformation is null || __instance.indexInTileSheet is null)
-        {
-            __result = false;
-            return false; // don't run original logic
-        }
-
-        var data = Game1.objectInformation[__instance.indexInTileSheet.Value].SplitWithoutAllocation('/');
-        __instance.displayName = data[4].ToString();
-        __instance.description = data[5].ToString();
+        var data = Game1.objectData[InfinityBandId];
+        __instance.displayName = data.DisplayName;
+        __instance.description = data.Description;
         __result = true;
         return false; // don't run original logic
     }

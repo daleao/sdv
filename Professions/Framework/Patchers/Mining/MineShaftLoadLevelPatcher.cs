@@ -25,10 +25,7 @@ internal sealed class MineShaftLoadLevelPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>
-    ///     Patch for Spelunker ladder down chance bonus + remove Geologist paired gem chance + remove Excavator double
-    ///     geode chance + remove Prospector double coal chance.
-    /// </summary>
+    /// <summary>Patch for Prestiged Spelunker bonus treasure room chance.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? MineShaftCheckStoneForItemsTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
@@ -37,7 +34,7 @@ internal sealed class MineShaftLoadLevelPatcher : HarmonyPatcher
         try
         {
             helper
-                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[9])], nth: 2)
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[11])], nth: 2)
                 .Insert([
                     new CodeInstruction(
                         OpCodes.Call,

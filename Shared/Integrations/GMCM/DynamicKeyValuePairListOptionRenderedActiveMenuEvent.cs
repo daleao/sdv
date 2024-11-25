@@ -8,6 +8,7 @@ using StardewValley.Menus;
 
 #endregion using directives
 
+/// <summary>Draws the hover text over a <see cref="DynamicKeyValuePairListOption"/>.</summary>
 [UsedImplicitly]
 public sealed class DynamicKeyValuePairListOptionRenderedActiveMenuEvent : RenderedActiveMenuEvent
 {

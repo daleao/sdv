@@ -30,8 +30,8 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
     private static bool Game1CreateObjectDebrisPrefix(
         string id, int xTile, int yTile, long whichPlayer, GameLocation location)
     {
-        var who = Game1.getFarmer(whichPlayer);
-        if (!who.HasProfession(Profession.Gemologist))
+        var who = Game1.GetPlayer(whichPlayer, onlyOnline: true);
+        if (who?.HasProfession(Profession.Gemologist) != true)
         {
             return true; // run original logic
         }

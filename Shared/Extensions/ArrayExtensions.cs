@@ -10,6 +10,96 @@ using DaLion.Shared.Exceptions;
 /// <summary>Extensions for generic arrays of objects.</summary>
 public static class ArrayExtensions
 {
+    /// <summary>Performs element-wise addition.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the sum of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static int[] ElementwiseAdd(this int[] a, int[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
+        }
+
+        return a.Zip(b, (x, y) => x + y).ToArray();
+    }
+
+    /// <summary>Performs element-wise addition.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the sum of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static float[] ElementwiseAdd(this float[] a, float[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
+        }
+
+        return a.Zip(b, (x, y) => x + y).ToArray();
+    }
+
+    /// <summary>Performs element-wise addition.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the sum of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static double[] ElementwiseAdd(this double[] a, double[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
+        }
+
+        return a.Zip(b, (x, y) => x + y).ToArray();
+    }
+
+    /// <summary>Performs element-wise multiplication.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the product of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static int[] ElementwiseMultiply(this int[] a, int[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
+        }
+
+        return a.Zip(b, (x, y) => x * y).ToArray();
+    }
+
+    /// <summary>Performs element-wise multiplication.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the product of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static float[] ElementwiseMultiply(this float[] a, float[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
+        }
+
+        return a.Zip(b, (x, y) => x * y).ToArray();
+    }
+
+    /// <summary>Performs element-wise multiplication.</summary>
+    /// <param name="a">The first <see cref="Array"/>.</param>
+    /// <param name="b">The second <see cref="Array"/>.</param>
+    /// <returns>A new array whose elements are the product of the corresponding elements from <paramref name="a"/> and <paramref name="b"/>.</returns>
+    /// <exception cref="InvalidOperationException">If <paramref name="a"/> and <paramref name="b"/> are not equal in length.</exception>
+    public static double[] ElementwiseMultiply(this double[] a, double[] b)
+    {
+        if (a.Length != b.Length)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
+        }
+
+        return a.Zip(b, (x, y) => x * y).ToArray();
+    }
+
     /// <summary>Sorts the <paramref name="array"/> in reverse order.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="array"/>. <paramref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
     /// <param name="array">An array of <see cref="IComparable{T}"/>s.</param>

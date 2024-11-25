@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Exceptions;
-using Extensions.Reflection;
+using DaLion.Shared.Extensions.Reflection;
 
 #endregion using directives
 

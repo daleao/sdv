@@ -196,5 +196,5 @@ internal sealed class ProfessionsState
         }
     }
 
-    internal MasteryWarningBox? WarningBox;
+    internal MasteryWarningBox? WarningBox { get; set; }
 }

@@ -151,22 +151,22 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     public void SetLevel(int level)
     {
         level = Math.Min(level, this.MaxLevel);
-        var farmer = Game1.player;
+        var player = Game1.player;
         for (var l = this.CurrentLevel + 1; l <= level; l++)
         {
             var point = new Point(this.Value, l);
-            if (!farmer.newLevels.Contains(point))
+            if (!player.newLevels.Contains(point))
             {
-                farmer.newLevels.Add(point);
+                player.newLevels.Add(point);
             }
         }
 
         this
-            .When(Farming).Then(() => farmer.farmingLevel.Value = level)
-            .When(Fishing).Then(() => farmer.fishingLevel.Value = level)
-            .When(Foraging).Then(() => farmer.foragingLevel.Value = level)
-            .When(Mining).Then(() => farmer.miningLevel.Value = level)
-            .When(Combat).Then(() => farmer.combatLevel.Value = level);
+            .When(Farming).Then(() => player.farmingLevel.Value = level)
+            .When(Fishing).Then(() => player.fishingLevel.Value = level)
+            .When(Foraging).Then(() => player.foragingLevel.Value = level)
+            .When(Mining).Then(() => player.miningLevel.Value = level)
+            .When(Combat).Then(() => player.combatLevel.Value = level);
         Game1.player.experiencePoints[this] =
             Math.Max(Game1.player.experiencePoints[this], ISkill.ExperienceCurve[level]);
     }

@@ -32,25 +32,25 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
-        // From: if ((currentLevel == 5 || currentLevel == 10) && currentSkill != 5)
-        // To: if (currentLevel % 5 == 0 && currentSkill != 5)
+        // From: isProfessionChooser = (level == 5 || level == 10) && skill != 5)
+        // To: isProfessionChooser = level % 5 == 0 && skill != 5)
         try
         {
             helper
+                .PatternMatch([
+                        new CodeInstruction(OpCodes.Stfld, typeof(LevelUpMenu).RequireField(nameof(LevelUpMenu.isProfessionChooser)))
+                    ])
                 .PatternMatch(
-                [
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(LevelUpMenu).RequireField("currentLevel")),
-                    new CodeInstruction(OpCodes.Ldc_I4_5),
-                    new CodeInstruction(OpCodes.Beq_S),
-                ])
-                .Move(3)
-                .Insert(
-                [
-                    new CodeInstruction(OpCodes.Rem_Un),
-                    new CodeInstruction(OpCodes.Ldc_I4_0),
-                ])
-                .RemoveUntil([new CodeInstruction(OpCodes.Ldc_I4_S, 10)]);
+                    [
+                        new CodeInstruction(OpCodes.Bne_Un_S),
+                    ],
+                    ILHelper.SearchOption.Previous)
+                .Move(-1)
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldc_I4_0))
+                .Move(-1)
+                .ReplaceWith(new CodeInstruction(OpCodes.Rem_Un))
+                .Move(-1)
+                .Remove();
         }
         catch (Exception ex)
         {

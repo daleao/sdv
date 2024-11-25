@@ -1,24 +1,30 @@
 {
   "$schema": "https://smapi.io/schemas/manifest.json",
-  "UniqueID": "DaLion.Enchantments",
-  "Name": "Springmyst",
+  "UniqueID": "DaLion.Harmonics",
+  "Name": "Gemstone Harmonics",
   "Author": "DaLion",
-  "Version": "1.1.0-Debug",
-  "Description": "Adds some actually interesting enchantments.",
-  "EntryDll": "DaLion.Enchantments.dll",
+  "Version": "1.0.0",
+  "Description": "An overly complicated overhaul of gemstone rings based on real Music Theory.",
+  "MinimumApiVersion": "4.1",
+  "MinimumGameVersion": "1.6",
+  "EntryDll": "DaLion.Harmonics.dll",
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "1.3.1",
+      "MinimumVersion": "2.0.0",
+      "IsRequired": true
+    },
+    {
+      "UniqueID": "mistyspring.ItemExtensions",
       "IsRequired": true
     },
     {
       "UniqueID": "spacechase0.SpaceCore",
-      "MinimumVersion": "1.23.0",
+      "MinimumVersion": "1.26.2",
       "IsRequired": true
     }
   ],
   "UpdateKeys": [
-    "Nexus:24832"
+    "Nexus:29612"
   ]
 }

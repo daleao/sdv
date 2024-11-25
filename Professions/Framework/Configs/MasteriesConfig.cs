@@ -100,8 +100,7 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(103)]
-    [GMCMRange(250, 2000)]
-    [GMCMStep(50)]
+    [GMCMRange(250, 2000, 50)]
     public uint HoldDelayMilliseconds { get; internal set; } = 250;
 
     /// <summary>
@@ -142,8 +141,7 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(106)]
-    [GMCMRange(0, 100000)]
-    [GMCMStep(1000)]
+    [GMCMRange(0, 100000, 1000)]
     public uint LimitRespecCost { get; internal set; } = 0;
 
     /// <summary>Gets the offset that should be applied to the Masteries Gauge's position.</summary>
@@ -163,16 +161,14 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(202)]
-    [GMCMRange(1000, 10000)]
-    [GMCMStep(500)]
+    [GMCMRange(1000, 10000, 500)]
     public uint ExpPerPrestigeLevel { get; internal set; } = 5000;
 
     /// <summary>Gets the monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(201)]
-    [GMCMRange(0, 100000)]
-    [GMCMStep(1000)]
+    [GMCMRange(0, 100000, 1000)]
     public uint PrestigeRespecCost { get; internal set; } = 20000;
 
     /// <summary>

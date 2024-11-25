@@ -7,10 +7,12 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Chargeable</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.4</Version>
-    <GameVersion>1.5.6</GameVersion>
-    <SmapiVersion>3.12</SmapiVersion>
-
+    <Version>2.0.0</Version>
+    <GameVersion>1.6</GameVersion>
+    <MinimumGameVersion>1.6</MinimumGameVersion>
+    <SmapiVersion>4.1</SmapiVersion>
+    <MinimumApiVersion>4.1</MinimumApiVersion>
+    
     <!-- mod manifest fields -->
     <Name>Chargeable Resource Tools</Name>
     <Authors>DaLion</Authors>
@@ -71,14 +73,14 @@
 
   <!-- third-party packages -->
   <ItemGroup>
-    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.2.2" />
-    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
-    <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
-    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.1.0" />
+    <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.3.2" />
+    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="4.2.2" />
+    <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+    <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.4.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" ExcludeAssets="all" />
     <PackageReference Include="NetEscapades.EnumGenerators" Version="1.0.0-beta04" PrivateAssets="all" ExcludeAssets="compile;runtime" />
     <PackageReference Include="OptimizedPriorityQueue" Version="5.1.0" />
-    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.1.1" />
+    <PackageReference Include="Pathoschild.Stardew.ModBuildConfig" Version="4.3.2" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -90,7 +92,7 @@
   </ItemGroup>
 
   <ItemGroup Condition="$(EnableTranslation) == 'True'">
-    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.0.1" />
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
   </ItemGroup>
 
   <!-- global usings directives -->

@@ -257,7 +257,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
 
-        if (this.IsSquishyOrExplosive || !this.Firer.HasProfession(Profession.Rascal))
+        if (this.IsSquishyOrExplosive || !this.Firer.HasProfession(Profession.Rascal) || State.LimitBreak is DesperadoBlossom { IsActive: true })
         {
             return;
         }

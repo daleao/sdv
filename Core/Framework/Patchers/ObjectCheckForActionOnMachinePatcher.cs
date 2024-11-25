@@ -47,7 +47,7 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
                 .Insert([
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldloc_1),
-                    new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(
                         OpCodes.Call,
@@ -55,7 +55,7 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(
                         OpCodes
-                        .Stloc_2), // can't get a reference to the LocalBuilder of this variable in order to load it by ref, so instead we set it by duplicating the result of the injected method
+                        .Stloc_3), // can't get a reference to the LocalBuilder of this variable in order to load it by ref, so instead we set it by duplicating the result of the injected method
                     new CodeInstruction(OpCodes.Brtrue_S, skipHumanHarvest),
                 ])
                 .PatternMatch(

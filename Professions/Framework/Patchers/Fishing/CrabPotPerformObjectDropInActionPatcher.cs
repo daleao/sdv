@@ -35,31 +35,6 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
 
         __result = false;
         return false; // don't run original logic
-
-    }
-
-    /// <summary>Patch to allow Conservationist to place bait.</summary>
-    [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? CrabPotPerformObjectDropInActionTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
-    {
-        var helper = new ILHelper(original, instructions);
-
-        // Removed: ... && (owner_farmer is null || !owner_farmer.professions.Contains(11)
-        try
-        {
-            helper
-                .MatchProfessionCheck(Farmer.mariner)
-                .PatternMatch([new CodeInstruction(OpCodes.Ldloc_2)], ILHelper.SearchOption.Previous, nth: 2)
-                .RemoveUntil([new CodeInstruction(OpCodes.Brtrue_S)]);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed removing Conservationist bait restriction.\nHelper returned {ex}");
-            return null;
-        }
-
-        return helper.Flush();
     }
 
     #endregion harmony patches

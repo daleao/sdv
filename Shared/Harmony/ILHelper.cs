@@ -275,16 +275,25 @@ public sealed class ILHelper
     /// <summary>Inserts the given <paramref name="instructions"/> at the currently pointed index.</summary>
     /// <param name="instructions">The <see cref="CodeInstruction"/>s to insert.</param>
     /// <param name="labels">Some <see cref="Label"/>s to add at the start of the insertion.</param>
+    /// <param name="blocks">Some <see cref="ExceptionBlock"/>s to add to the inserted instructions.</param>
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     /// <remarks>
     ///     The instruction at the current address is pushed forward, such that the instruction pointer continues to point to
     ///     the same instruction after insertion.
     /// </remarks>
-    public ILHelper Insert(CodeInstruction[] instructions, Label[]? labels = null)
+    public ILHelper Insert(CodeInstruction[] instructions, Label[]? labels = null, ExceptionBlock[]? blocks = null)
     {
         if (labels is not null)
         {
             instructions[0].labels.AddRange(labels);
+        }
+
+        if (blocks is not null)
+        {
+            foreach (var instruction in instructions)
+            {
+                instruction.blocks.AddRange(blocks);
+            }
         }
 
         this._instructions.InsertRange(this.CurrentIndex, instructions);
@@ -440,6 +449,7 @@ public sealed class ILHelper
             instruction.labels = this._instructions[this.CurrentIndex].labels;
         }
 
+        instruction.blocks = this._instructions[this.CurrentIndex].blocks;
         this._instructions[this.CurrentIndex] = instruction;
         return this;
     }
@@ -491,6 +501,35 @@ public sealed class ILHelper
     public ILHelper StripLabels()
     {
         this._instructions[this.CurrentIndex].labels.Clear();
+        return this;
+    }
+
+    /// <summary>
+    ///     Gets a copy of the <see cref="ExceptionBlock"/>s from the <see cref="CodeInstruction"/> at the currently pointed
+    ///     index.
+    /// </summary>
+    /// <param name="blocks">The copied <see cref="ExceptionBlock"/>s.</param>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper GetBlocks(out ExceptionBlock[] blocks)
+    {
+        blocks = this._instructions[this.CurrentIndex].blocks.ToArray();
+        return this;
+    }
+
+    /// <summary>Replaces the <see cref="ExceptionBlock"/>s of the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
+    /// <param name="blocks">The new <see cref="ExceptionBlock"/>s to set.</param>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper SetBlocks(params ExceptionBlock[] blocks)
+    {
+        this._instructions[this.CurrentIndex].blocks = blocks.ToList();
+        return this;
+    }
+
+    /// <summary>Removes all <see cref="ExceptionBlock"/>s from the <see cref="CodeInstruction"/> at the currently pointed index.</summary>
+    /// <returns>The <see cref="ILHelper"/> instance.</returns>
+    public ILHelper StripBlocks()
+    {
+        this._instructions[this.CurrentIndex].blocks.Clear();
         return this;
     }
 

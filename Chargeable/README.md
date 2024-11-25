@@ -4,7 +4,7 @@
 
 </div>
 
-## What this is
+## What This Is
 
 This mod is inspired by the tool progression system of Harvest Moon: Friends of Mineral Town, where the Axe and Hammer tools were also chargeable, and their ultimate upgrades could destroy all debris on-screen. It allows the Axe and Pickaxe to be charged, similarly to the Hoe and Watering Can.
 

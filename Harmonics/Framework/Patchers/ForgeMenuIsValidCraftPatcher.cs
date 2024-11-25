@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Rings;
+﻿namespace DaLion.Harmonics.Framework.Patchers;
 
 #region using directives
 
@@ -6,7 +6,6 @@ using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
-using StardewValley.Objects;
 
 #endregion using directives
 
@@ -14,7 +13,9 @@ using StardewValley.Objects;
 internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuIsValidCraftPatcher"/> class.</summary>
-    internal ForgeMenuIsValidCraftPatcher()
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    internal ForgeMenuIsValidCraftPatcher(Harmonizer harmonizer)
+        : base(harmonizer)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.IsValidCraft));
     }
@@ -25,8 +26,8 @@ internal sealed class ForgeMenuIsValidCraftPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuIsValidCraftPrefix(ref bool __result, Item? left_item, Item? right_item)
     {
-        if (left_item is not Ring { ParentSheetIndex: ObjectIds.IridiumBand } ||
-            right_item?.ParentSheetIndex != ObjectIds.GalaxySoul)
+        if (left_item?.QualifiedItemId != QualifiedObjectIds.IridiumBand ||
+            right_item?.QualifiedItemId != QualifiedObjectIds.GalaxySoul)
         {
             return true; // run original logic
         }
