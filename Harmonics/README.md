@@ -97,7 +97,7 @@ On the other hand, a `I->II` configuration Dyad, like `Aq->Am`, would contain th
 
 #### Triad Chords
 
-A 3-note chord is called a **Triad**. A Triad always contains 6 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at the wheel above to convince yourself of this). This means that a Tertian Triad is actually the configration `I->III->V`.
+A 3-note chord is called a **Triad**. A Triad always contains 6 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at the wheel above to convince yourself of this). This means that a Tertian Triad is actually the configuration `I->III->V`.
 The Ruby Tertian Triad is shown below.
 
 Notice also that, due to the cyclic nature of the scale, the `I->III->V` configuration is equivalent to a "shifted" `I->IV->VI`. Take for instance the example of `Em->Rb->Am`, which is a `I->IV->VI` configuration; if we shift all notes one position to the left, then the chord becomes `Rb->Am->Em`, which is a `I->III->V` configuration. The shifting around of notes is known as [Transposition](https://en.wikipedia.org/wiki/Transposition_(music)). This does not change the chord, but allows us to see it from a different perspective.
