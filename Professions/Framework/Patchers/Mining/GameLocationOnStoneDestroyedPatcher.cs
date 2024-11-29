@@ -33,7 +33,7 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
         try
         {
             helper
-                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[7])]) // burrowerMultiplier
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[6])]) // burrowerMultiplier
                 .StripLabels(out var labels)
                 .Insert(
                     [

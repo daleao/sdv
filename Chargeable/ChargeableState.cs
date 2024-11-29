@@ -10,4 +10,6 @@ using System.Collections.Generic;
 internal sealed class ChargeableState
 {
     internal List<Shockwave> Shockwaves { get; } = new();
+
+    internal bool DoingShockwave { get; set; }
 }

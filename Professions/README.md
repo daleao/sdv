@@ -574,7 +574,7 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 
 Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings.
 
-Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Though it isn't stated, this profession also unlocks the ability to raise legendary fish in pond (since game version 1.6 this a vanilla feature; with this mod, **the Aquarist profession is required to enable this**). They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives if [Aquarism](../Ponds) mod is also installed. Doing so with Angler and Ms. Angler will allow them reproduce. The max population of legendary ponds is always half of the regular limit, unless the player also has the prestiged version Aquarist; i.e., Ichthyologist.
 
 For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
 </details>
@@ -949,7 +949,8 @@ The base reworked professions up to level 10 should not conflict with any of the
 
 [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
 
-Yes, it's compatible with [Stardew Valley Expanded](mod:sve).
+Yes, it's compatible with [Stardew Valley Expanded](mod:sve). There are additional interactions for SDV fishes, as well as [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+
 Yes, it should work in multiplayer.
 No, it does not work on Android.
 

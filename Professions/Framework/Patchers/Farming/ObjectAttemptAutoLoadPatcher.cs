@@ -22,7 +22,7 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to for Industrialist production speed bonus.</summary>
+    /// <summary>Patch for Industrialist production speed bonus.</summary>
     [HarmonyPostfix]
     private static void ObjectAttemptAutoLoadPostfix(SObject __instance, bool __result, Farmer who)
     {

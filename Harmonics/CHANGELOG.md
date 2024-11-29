@@ -1,5 +1,15 @@
 ﻿# HARMONICS Changelog
 
+## 1.0.3
+
+Mod renamed to Mineracoustics.
+
+### Changed
+
+* Take-three adjusting the Garnet node spawn frequency.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.0.2
 
 ### Added
@@ -15,6 +25,8 @@
 
 * Added the missing Garnet Ring recipe.
 * "Garnet Gemstone" renamed to simply "Garnet".
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
 
 ## 1.0.1
 

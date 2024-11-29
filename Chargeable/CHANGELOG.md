@@ -1,8 +1,18 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.0.1
+
+### Fixed
+
+* Fixed Pickaxe incorrectly using the Axe config for StaminaMultiplier.
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
+
 ## 2.0.0
 
 Updated for game version 1.6.14.
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 1.0.4
 

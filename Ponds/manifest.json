@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Ponds",
   "Name": "Aquarism",
   "Author": "DaLion",
-  "Version": "2.0.0-Debug",
+  "Version": "2.0.1",
   "Description": "Adds persistant fish qualities, scaling roe production, spontaneous algae growth, and radioactive enrichment to Fish Ponds.",
   "MinimumApiVersion": "4.1",
   "MinimumGameVersion": "1.6",
@@ -11,7 +11,7 @@
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "2.0.0"
+      "MinimumVersion": "2.0.1"
     }
   ],
   "UpdateKeys": [

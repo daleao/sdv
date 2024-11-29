@@ -1,8 +1,18 @@
 ﻿# CORE Changelog
 
+## 2.0.1
+
+### Changed
+
+* Downgraded FastExpressionCompiler.LightExpression to 3.3.3 to resolve the compatibility issue with Clear Glasses.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.0.0
 
 Updated for game version 1.6.14.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 1.3.1
 

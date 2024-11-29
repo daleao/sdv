@@ -68,7 +68,7 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 // slingshot enchants
                 "chilling" or "freezing" or "freljord" => new ChillingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
-                "runaan" => new RunaanEnchantment(),
+                "runaan" => new EchoEnchantment(),
 
                 // unisex enchants
                 "energized" or "shocking" or "statikk" or "thunderlords" => tool is Slingshot ? new EnergizedSlingshotEnchantment() : new EnergizedMeleeEnchantment(),

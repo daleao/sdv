@@ -10,8 +10,16 @@ using System.Linq;
 /// <summary>Extensions for generic lists of objects.</summary>
 public static class ListExtensions
 {
+    /// <summary>Removes <see langword="null"/> references from the <paramref name="list"/>.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
+    /// <param name="list">A <see cref="List{T}"/> of <typeparamref name="T"/>s.</param>
+    public static void RemoveWhereNull<T>(this List<T> list)
+    {
+        list.RemoveAll(item => item == null);
+    }
+
     /// <summary>Sorts the <paramref name="list"/> in reverse order.</summary>
-    /// <typeparam name="T">The type of elements in the <paramref name="list"/>. <paramref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
+    /// <typeparam name="T">The type of elements in the <paramref name="list"/>. <typeparamref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
     /// <param name="list">A <see cref="List{T}"/> of <see cref="IComparable{T}"/>s.</param>
     public static void SortDescending<T>(this List<T> list)
         where T : IComparable<T>

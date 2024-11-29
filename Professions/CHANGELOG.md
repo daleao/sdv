@@ -2,9 +2,23 @@
 
 ## 1.0.1
 
+### Added
+
+* Legendary Fish Ponds no longer receive the Aquarist max. population buff. However, the prestiged version of Aquarist now lifts the halved population limit of legendary Fish Ponds.
+    * **Regular Aquarist** -> Legendary population cap = 5 (down from 6).
+    * **Prestiged Aquarist** -> Legendary population cap = 10 (up from 7).
+* Added some clarification to the mod description to clarify that **legendary fish cannot be raised in Fish Ponds without the Aquarist profession**, despite this feature being added in game version 1.6.
+
+### Changed
+
+* Prestiged Spelunker item recovery chance increased from 20% to 50%.
+
 ### Fixed
 
 * Fixed a small display issue in the Skill Page menu which caused all level 10 professions to show as "Desperado".
+* Fixed an issue caused by changes in SpaceCore 1.27.0.
+* Removed the legacy hard-coded check for Golden Eggs which prevented it from working correctly with Artisan.
+* Fixed issue causing 100% coal chance from stones in the farm.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

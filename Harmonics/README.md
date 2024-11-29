@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# Gemstone Harmonics
+# Mineracoustics
 
 </div>
 

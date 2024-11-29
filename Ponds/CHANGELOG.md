@@ -1,8 +1,18 @@
 ﻿# PONDS Changelog
 
+## 2.0.1
+
+### Fixed
+
+* Fixed a possible Null-Reference Exception in Fish Pond production logic.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.0.0
 
 Updated for game version 1.6.14.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 
 ## 1.0.6
 

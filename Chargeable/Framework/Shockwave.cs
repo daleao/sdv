@@ -17,13 +17,13 @@ internal class Shockwave
     private const int ShockwaveDelay = 150;
 
     private readonly IToolEffect? _effect;
-    private readonly Vector2 _epicenter;
     private readonly Farmer _farmer;
-    private readonly uint _finalRadius;
     private readonly GameLocation _location;
-    private readonly double _millisecondsWhenReleased;
-    private readonly List<CircleTileGrid> _tileGrids = new();
     private readonly Tool _tool;
+    private readonly Vector2 _epicenter;
+    private readonly uint _finalRadius;
+    private readonly double _millisecondsWhenReleased;
+    private readonly List<CircleTileGrid> _tileGrids = [];
     private uint _currentRadius = 1;
 
     /// <summary>Initializes a new instance of the <see cref="Shockwave"/> class.</summary>
@@ -52,7 +52,7 @@ internal class Shockwave
 
         if (Config.TicksBetweenWaves <= 0)
         {
-            this._tileGrids.Add(new CircleTileGrid(this._epicenter, this._finalRadius));
+            this._tileGrids.Add(new CircleTileGrid(this._epicenter, (uint)this._finalRadius));
             this._currentRadius = this._finalRadius;
         }
         else

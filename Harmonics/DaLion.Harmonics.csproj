@@ -7,14 +7,14 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Harmonics</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>
     <MinimumApiVersion>4.1</MinimumApiVersion>
 
     <!-- mod manifest fields -->
-    <Name>Gemstone Harmonics</Name>
+    <Name>Mineracoustics</Name>
     <Authors>DaLion</Authors>
     <UniqueId>DaLion.Harmonics</UniqueId>
     <Description>An overly complicated overhaul of gemstone rings based on real Music Theory.</Description>
@@ -76,7 +76,7 @@
   <ItemGroup>
     <PackageReference Include="Ardalis.SmartEnum" Version="8.2.0" />
     <PackageReference Include="CommunityToolkit.Diagnostics" Version="8.3.2" />
-    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="4.2.2" />
+    <PackageReference Include="FastExpressionCompiler.LightExpression" Version="3.3.3" />
     <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
     <PackageReference Include="Leclair.Stardew.ModManifestBuilder" Version="2.4.0" />
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" ExcludeAssets="all" />

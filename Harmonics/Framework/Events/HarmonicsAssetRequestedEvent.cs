@@ -177,7 +177,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new ExtraSpawn
                 {
-                    ItemId = $"(O){GarnetStoneId}", Chance = 1, MinStack = 1, MaxStack = 2,
+                    ItemId = $"(O){GarnetStoneId}", Chance = 1, MinStack = 1, MaxStack = 1,
                 },
                 new ExtraSpawn
                 {
@@ -186,7 +186,16 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
                     Condition =
                         $"PLAYER_HAS_PROFESSION Target {(ModHelper.ModRegistry.IsLoaded("DaLion.Professions") ? Farmer.gemologist : Farmer.geologist)}",
                     MinStack = 1,
-                    MaxStack = 2,
+                    MaxStack = 1,
+                },
+                new ExtraSpawn
+                {
+                    ItemId = $"(O){GarnetStoneId}",
+                    Chance = 0.5,
+                    Condition =
+                        $"PLAYER_HAS_PROFESSION Target {(ModHelper.ModRegistry.IsLoaded("DaLion.Professions") ? Farmer.gemologist + 100 : -1)}",
+                    MinStack = 1,
+                    MaxStack = 1,
                 },
             ],
             Debris = "stone",
@@ -201,7 +210,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.009, AdditionalChancePerLevel = 0.00005, Type = MineType.All,
+                    Floors = "80/77376", SpawnFrequency = 0.003, AdditionalChancePerLevel = 0.00005, Type = MineType.All,
                 },
             ],
         };

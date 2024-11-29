@@ -9,7 +9,7 @@ using SpaceShared.APIs;
 #endregion using directives
 
 /// <summary>Initializes a new instance of the <see cref="SpaceCoreIntegration"/> class.</summary>
-[ModRequirement("spacechase0.SpaceCore", "SpaceCore")]
+[ModRequirement("spacechase0.SpaceCore", "SpaceCore", "1.27.0")]
 internal sealed class SpaceCoreIntegration()
     : ModIntegration<SpaceCoreIntegration, ISpaceCoreApi>(ModHelper.ModRegistry)
 {
@@ -43,15 +43,18 @@ internal sealed class SpaceCoreIntegration()
     internal List<KeyValuePair<string, int>> GetNewLevels()
     {
         return Reflector
-            .GetStaticFieldGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
+            .GetStaticPropertyGetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
             .Invoke();
     }
 
     /// <summary>Sets SpaceCore's internal list of unrealized new levels.</summary>
+    /// <param name="newLevels">A list of skill ID and integer level pairs.</param>
     internal void SetNewLevels(List<KeyValuePair<string, int>> newLevels)
     {
+        var perScreen = Reflector.GetStaticFieldGetter<object>(typeof(SCSkills), "_State").Invoke();
+        var value = Reflector.GetUnboundPropertyGetter<object, object>(perScreen, "Value").Invoke(perScreen);
         Reflector
-            .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
+            .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(value.GetType(), "NewLevels")
             .Invoke(newLevels);
     }
 

@@ -10,16 +10,28 @@ using StardewValley.Tools;
 [HarmonyPatch(typeof(Axe), nameof(Axe.DoFunction))]
 internal sealed class AxeDoFunctionPatcher
 {
-    /// <summary>Charge shockwave stamina cost.</summary>
-    private static void Postfix(Farmer who)
+    /// <summary>Charged Axe empower.</summary>
+    private static void Prefix(Axe __instance, ref float __state, Farmer who)
     {
-        var power = who.toolPower.Value;
-        if (power <= 0)
+        if (State.DoingShockwave)
         {
+            __state = who.Stamina;
             return;
         }
 
-        who.Stamina -= (int)Math.Max((2 * (power + 1)) - (who.ForagingLevel * 0.1f), 0.1f) * (int)Math.Pow(power, 2d) *
-                       Config.Axe.StaminaCostMultiplier;
+        __instance.additionalPower.Value += who.toolPower.Value * 2;
+    }
+
+    /// <summary>Charged Axe empower.</summary>
+    private static void Postfix(Axe __instance, float __state, Farmer who)
+    {
+        if (State.DoingShockwave)
+        {
+            who.Stamina = __state;
+            return;
+        }
+
+        __instance.additionalPower.Value -= who.toolPower.Value * 2;
+        //who.Stamina -= (int)Math.Pow(Math.Max((2 * (toolPower + 1)) - (who.ForagingLevel * 0.1f), 0.1f), 2d) * Config.Pick.StaminaCostMultiplier;
     }
 }

@@ -80,6 +80,7 @@ internal sealed class SetCommand(CommandHandler handler)
 
             switch (value)
             {
+                case "master":
                 case "mastered":
                     if (vanillaSkill.CanGainPrestigeLevels())
                     {
@@ -92,6 +93,7 @@ internal sealed class SetCommand(CommandHandler handler)
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
                     this.Handler.Log.I($"Mastered the {vanillaSkill} skill.");
                     return true;
+                case "unmaster":
                 case "unmastered":
                 case "brainfart":
                     if (!vanillaSkill.CanGainPrestigeLevels())

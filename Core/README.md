@@ -16,7 +16,7 @@ The features above should've been part of the vanilla game all along, and are re
 
 The following optional features are also included:
 - **Witherable Crops:** Crops may wither if left un-watered. This is disabled by default.
-- **Rational Damage Mitigation Formula:** Replaces the linear vanilla defense formula with a rational formula. This allows a single point of defense to be consistently useful at any damage range, instead of falling off in the mid/late game. This also enables fractional defense, which is required by mods like [Gemstone Harmonics](../Harmonics).
+- **Rational Damage Mitigation Formula:** Replaces the linear vanilla defense formula with a rational formula. This allows a single point of defense to be consistently useful at any damage range, instead of falling off in the mid/late game. This also enables fractional defense, which is required by mods like [Mineracoustics](../Harmonics).
     - Vanilla formula: `damage -= defense`
     - New formula: `damage *= 10 / (10 + defense)`
 
@@ -46,4 +46,4 @@ N/A.
 
 ## Credits & Special Thanks
 
-Credits to [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303)﻿ for [Slime Produce﻿](https://www.nexusmods.com/stardewvalley/mods/7634).
+Credit to [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303)﻿ for [Slime Produce﻿](https://www.nexusmods.com/stardewvalley/mods/7634).

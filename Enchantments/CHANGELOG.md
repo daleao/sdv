@@ -1,5 +1,11 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.0.1
+
+### Changed
+
+* Renamed some enchantments.
+
 ## 2.0.0
 
 Updated for game version 1.6.14.

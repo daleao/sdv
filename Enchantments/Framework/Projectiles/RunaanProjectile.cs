@@ -13,7 +13,7 @@ using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>An echo of a <see cref="BasicProjectile"/> fired by a <see cref="Slingshot"/> enchanted with <see cref="RunaanEnchantment"/>.</summary>
+/// <summary>An echo of a <see cref="BasicProjectile"/> fired by a <see cref="Slingshot"/> enchanted with <see cref="EchoEnchantment"/>.</summary>
 internal sealed class RunaanProjectile : BasicProjectile
 {
     private readonly BasicProjectile _original;

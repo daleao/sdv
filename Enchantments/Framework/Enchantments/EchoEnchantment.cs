@@ -16,8 +16,8 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>Summons 2 "echoes" of the fired projectile. The echoes automatically aim at the nearest enemy after a short delay.</summary>
-[XmlType("Mods_DaLion_RunaanEnchantment")]
-public sealed class RunaanEnchantment : BaseSlingshotEnchantment
+[XmlType("Mods_DaLion_EchoEnchantment")]
+public sealed class EchoEnchantment : BaseSlingshotEnchantment
 {
     /// <inheritdoc />
     public override string GetName()

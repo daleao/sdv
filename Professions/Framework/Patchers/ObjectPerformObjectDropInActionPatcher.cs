@@ -56,8 +56,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             return;
         }
 
-        // artisan users can preserve the input quality (golden egg is always best quality)
-        if (user.HasProfession(Profession.Artisan) && input.QualifiedItemId != QualifiedObjectIds.GoldenEgg)
+        // artisan users can preserve the input quality
+        if (user.HasProfession(Profession.Artisan))
         {
             output.Quality = input.Quality;
             if (!user.HasProfession(Profession.Artisan, true))
