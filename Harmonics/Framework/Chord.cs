@@ -54,6 +54,7 @@ public sealed class Chord : IChord
         this.Harmonize();
 
         this._id = this.GetHashCode().ToString();
+        this.InitializeLightSource();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Triad instance.</summary>
@@ -73,6 +74,7 @@ public sealed class Chord : IChord
         this.Harmonize();
 
         this._id = this.GetHashCode().ToString();
+        this.InitializeLightSource();
     }
 
     /// <summary>Initializes a new instance of the <see cref="Chord"/> class.Construct a Tetrad instance.</summary>
@@ -93,6 +95,7 @@ public sealed class Chord : IChord
         this.Harmonize();
 
         this._id = this.GetHashCode().ToString();
+        this.InitializeLightSource();
     }
 
     /// <inheritdoc />
@@ -104,8 +107,8 @@ public sealed class Chord : IChord
     /// <inheritdoc />
     public double Amplitude { get; private set; }
 
-    /// <summary>Gets the ID of the corresponding <see cref="Buff"/> instance.</summary>
-    internal string BuffId => "{UniqueId}/{this._id}";
+    /// <summary>Gets a unique ID for this <see cref="Chord"/>.</summary>
+    internal string Id => $"{UniqueId}/{this._id}";
 
     /// <summary>Gets the total resonance of each <see cref="Gemstone"/> due to interference with its neighbors.</summary>
     internal Dictionary<Gemstone, double> ResonanceByGemstone { get; } = new();
@@ -121,53 +124,51 @@ public sealed class Chord : IChord
 
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>
-    internal void Resonate(Farmer who)
+    /// <param name="audible">Whether to play the chord cue.</param>
+    internal void Resonate(Farmer who, bool audible = false)
     {
         var effects = new BuffEffects { MagneticRadius = { this._richness * 32f } };
         this.ResonanceByGemstone.ForEach(pair => pair.Key.Resonate(effects, (float)pair.Value));
-        who.applyBuff(new Buff(this.BuffId, effects: effects));
-        who.Get_ResonatingChords().Add(this);
-        if (this._lightSource is not null)
+        who.applyBuff(new Buff(this.Id, duration: -2, effects: effects) { visible = false });
+
+        if (this._lightSource?.Id is not null)
         {
             who.currentLocation.sharedLights[this._lightSource.Id] = this._lightSource;
-        }
-
-        if (Config.AudibleGemstones)
-        {
-            this.PlayCues();
         }
 
         if (who.CurrentTool is MeleeWeapon weapon)
         {
             this.ResonateAllForges(weapon);
         }
+
+        if (Config.AudibleGemstones && audible)
+        {
+            this.PlayCues();
+        }
+
+        State.ResonantChords.TryAdd(this.Id, this);
     }
 
     /// <summary>Removes resonating stat bonuses from the farmer.</summary>
     /// <param name="who">The <see cref="Farmer"/>.</param>
     internal void Quench(Farmer who)
     {
-        if (!who.buffs.AppliedBuffs.TryGetValue(this.BuffId, out var buff))
+        if (who.buffs.AppliedBuffs.TryGetValue(this.Id, out var buff))
         {
-            return;
+            who.buffs.Remove(buff.id);
         }
 
-        who.buffs.Remove(buff.id);
-        who.Get_ResonatingChords().Remove(this);
-        if (this._lightSource is not null)
+        if (this._lightSource?.Id is not null)
         {
             who.currentLocation.removeLightSource(this._lightSource.Id);
-        }
-
-        if (Config.AudibleGemstones)
-        {
-            this.StopCues();
         }
 
         if (who.CurrentTool is MeleeWeapon weapon)
         {
             this.QuenchAllForges(weapon);
         }
+
+        State.ResonantChords.Remove(this.Id);
     }
 
     /// <summary>Attempts to resonate with a single <paramref name="forge"/> in the specified <paramref name="weapon"/>.</summary>
@@ -175,13 +176,10 @@ public sealed class Chord : IChord
     /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
     internal void ResonateSingleForge(MeleeWeapon weapon, BaseWeaponEnchantment forge)
     {
-        if (this.Root?.EnchantmentType != forge.GetType())
+        if (this.Root?.EnchantmentType == forge.GetType())
         {
-            return;
+            this.Root.Resonate(weapon, forge);
         }
-
-        this.Root.Resonate(weapon, forge);
-        weapon.Get_ResonatingChords().Add(this);
     }
 
     /// <summary>Attempts to resonate with all enchantments in the specified <paramref name="weapon"/>.</summary>
@@ -195,31 +193,27 @@ public sealed class Chord : IChord
 
         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
         {
-            if (enchantment.GetType() != this.Root.EnchantmentType)
+            if (!enchantment.IsForge() || enchantment.GetType() != this.Root.EnchantmentType)
             {
                 continue;
             }
 
             this.Root.Resonate(weapon, enchantment);
-            weapon.Get_ResonatingChords().Add(this);
         }
     }
 
-    /// <summary>Attempts to resonate with a single <paramref name="forge"/> in the specified <paramref name="weapon"/>.</summary>
+    /// <summary>Quench a single <paramref name="forge"/> in the specified <paramref name="weapon"/>.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
     internal void QuenchSingleForge(MeleeWeapon weapon, BaseWeaponEnchantment forge)
     {
-        if (this.Root?.EnchantmentType != forge.GetType())
+        if (this.Root?.EnchantmentType == forge.GetType())
         {
-            return;
+            this.Root.Quench(weapon, forge);
         }
-
-        this.Root.Quench(weapon, forge);
-        weapon.Get_ResonatingChords().Remove(this);
     }
 
-    /// <summary>Adds resonance stat bonuses to the farmer.</summary>
+    /// <summary>Removes resonance stat bonuses from the farmer.</summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     internal void QuenchAllForges(MeleeWeapon weapon)
     {
@@ -230,13 +224,12 @@ public sealed class Chord : IChord
 
         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
         {
-            if (enchantment.GetType() != this.Root.EnchantmentType)
+            if (!enchantment.IsForge() || enchantment.GetType() != this.Root.EnchantmentType)
             {
                 continue;
             }
 
             this.Root.Quench(weapon, enchantment);
-            weapon.Get_ResonatingChords().Remove(this);
         }
     }
 
@@ -350,15 +343,34 @@ public sealed class Chord : IChord
     }
 
     /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
+    internal void InitializeLightSource()
+    {
+        if (this.Root is null)
+        {
+            return;
+        }
+
+        this._lightSource = new LightSource(
+            this._id,
+            (int)Config.ResonanceLightsourceTexture,
+            Vector2.Zero,
+            (float)this.Amplitude,
+            Config.ColorfulResonances ? this.Root.GlowColor : Color.Black,
+            playerID: Game1.player.UniqueMultiplayerID);
+    }
+
+    /// <summary>De-initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
     internal void ResetLightSource()
     {
-        if (this._lightSource is null)
+        if (this._lightSource?.Id is null)
         {
+            this.InitializeLightSource();
             return;
         }
 
         Game1.player.currentLocation.removeLightSource(this._lightSource.Id);
         this._lightSource = null;
+        this.InitializeLightSource();
     }
 
     /// <summary>Evaluate the <see cref="HarmonicInterval"/>s between <see cref="Notes"/> and the resulting harmonies.</summary>
@@ -513,13 +525,6 @@ public sealed class Chord : IChord
 
         this.Amplitude = this.ResonanceByGemstone[this.Root];
         this._period = 360d / this.Root.GlowFrequency;
-        this._lightSource = new LightSource(
-            this._id,
-            (int)Config.ResonanceLightsourceTexture,
-            Vector2.Zero,
-            (float)this.Amplitude,
-            Config.ColorfulResonances ? this.Root.GlowColor : Color.Black,
-            playerID: Game1.player.UniqueMultiplayerID);
     }
 
     /// <summary>Ceases playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>

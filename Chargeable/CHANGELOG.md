@@ -1,6 +1,18 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.0.2
+
+Just a hotfix. The previous was version was precocious.
+
 ## 2.0.1
+
+### Added
+
+* Charging the resource tool now empowers the central hit. This should make the time investment vastly more useful. Shockwave hits continue to deal only base damage.
+
+### Changed
+
+* Removed the extroneous stamina cost.
 
 ### Fixed
 

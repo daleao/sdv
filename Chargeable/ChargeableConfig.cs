@@ -68,20 +68,6 @@ public sealed class ChargeableConfig
             isValid = false;
         }
 
-        if (this.Axe.StaminaCostMultiplier < 0)
-        {
-            Log.W("Axe 'StaminaCostMultiplier' is set to an illegal negative value. The value will default to 0");
-            this.Axe.StaminaCostMultiplier = 0;
-            isValid = false;
-        }
-
-        if (this.Pick.StaminaCostMultiplier < 0)
-        {
-            Log.W("Pick 'StaminaCostMultiplier' is set to an illegal negative value. The value will default to 0");
-            this.Pick.StaminaCostMultiplier = 0;
-            isValid = false;
-        }
-
         if (this.TicksBetweenWaves > 100)
         {
             Log.W(

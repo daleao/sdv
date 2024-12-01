@@ -15,6 +15,7 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -39,6 +40,16 @@ public sealed class HarmonicsMod : Mod
 
     /// <summary>Gets or sets the <see cref="HarmonicsConfig"/> instance.</summary>
     internal static HarmonicsConfig Config { get; set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="HarmonicsState"/>.</summary>
+    internal static PerScreen<HarmonicsState> PerScreenState { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="HarmonicsState"/> of the local player.</summary>
+    internal static HarmonicsState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
 
     /// <summary>Gets the <see cref="ModDataManager"/> instance.</summary>
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
@@ -92,6 +103,7 @@ public sealed class HarmonicsMod : Mod
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<HarmonicsConfig>();
+        PerScreenState = new PerScreen<HarmonicsState>(() => new HarmonicsState());
         Data = new ModDataManager(UniqueId, Log);
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);

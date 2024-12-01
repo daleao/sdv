@@ -1,5 +1,18 @@
 ﻿# HARMONICS Changelog
 
+## 1.0.4
+
+### Changed
+
+* Several changes to how the mod keeps track of resonating chords and forges.
+
+### Fixed
+
+* Fixed an issue preventing Infinity Bands from properly emitting light.
+* Fixed Infinty Band buffs being displayed when they shouldn't.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.0.3
 
 Mod renamed to Mineracoustics.

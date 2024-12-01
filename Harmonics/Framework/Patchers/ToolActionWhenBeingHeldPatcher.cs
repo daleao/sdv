@@ -32,7 +32,7 @@ internal sealed class ToolActionWhenBeingHeldPatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var chord in who.Get_ResonatingChords())
+        foreach (var chord in State.ResonantChords.Values)
         {
             chord.ResonateAllForges(weapon);
         }

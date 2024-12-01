@@ -86,10 +86,4 @@ public sealed class AxeConfig
     [JsonProperty]
     [GMCMPriority(200)]
     public bool AllowReachingEnchantment { get; internal set; } = true;
-
-    /// <summary>Gets the multiplier to base stamina consumed by the <see cref="Axe"/>.</summary>
-    [JsonProperty]
-    [GMCMPriority(201)]
-    [GMCMRange(0f, 2f, 0.05f)]
-    public float StaminaCostMultiplier { get; internal set; } = 1f;
 }

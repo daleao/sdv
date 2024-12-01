@@ -517,8 +517,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Garnet",
                 3,
-                GarnetStoneId,
-                GarnetRingId,
+                $"(O){GarnetStoneId}",
+                $"(O){GarnetRingId}",
                 4f / 3f,
                 new Color(152, 29, 45),
                 new Color(245, 75, 20, 230))

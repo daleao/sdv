@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Harmonics.Framework;
-using DaLion.Harmonics.Framework.VirtualProperties;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Newtonsoft.Json;
@@ -97,7 +97,7 @@ public sealed class HarmonicsConfig
             this._colorfulResonances = value;
             if (Context.IsWorldReady)
             {
-                Game1.player.Get_ResonatingChords().ForEach(chord => chord.ResetLightSource());
+                State.ResonantChords.Values.ForEach(chord => chord.ResetLightSource());
             }
         }
     }
@@ -118,7 +118,7 @@ public sealed class HarmonicsConfig
             this._resonanceLightsourceTexture = value;
             if (Context.IsWorldReady)
             {
-                Game1.player.Get_ResonatingChords().ForEach(chord => chord.ResetLightSource());
+                State.ResonantChords.Values.ForEach(chord => chord.ResetLightSource());
             }
         }
     }

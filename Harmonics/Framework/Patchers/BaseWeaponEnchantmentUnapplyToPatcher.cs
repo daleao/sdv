@@ -4,7 +4,6 @@
 
 using System.Linq;
 using System.Reflection;
-using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -70,14 +69,12 @@ internal sealed class BaseWeaponEnchantmentUnapplyToPatcher : HarmonyPatcher
     [HarmonyPostfix]
     private static void BaseWeaponEnchantmentApplyToPostfix(BaseWeaponEnchantment __instance, Item item)
     {
-        var player = Game1.player;
-        if (item is not MeleeWeapon weapon || weapon != player.CurrentTool)
+        if (!__instance.IsForge() || item is not MeleeWeapon weapon || weapon != Game1.player.CurrentTool)
         {
             return;
         }
 
-        var chords = player.Get_ResonatingChords().ToList();
-        foreach (var chord in chords)
+        foreach (var chord in State.ResonantChords.Values)
         {
             chord.QuenchSingleForge(weapon, __instance);
         }
