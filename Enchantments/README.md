@@ -53,6 +53,16 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 </font>
 
 
+## Jade Rebalance
+
+The Jade enchantment is useless in vanilla; it provides the exact same damage increase as the Ruby enchantment, but only to critical strikes. So to make it
+viable we give it a small buff:
+
+Jade Enchantment: Critical hit damage ~~+10%~~ +50%.
+
+With this, the Jade enchantment becomes stronger than the Ruby enchantment at around 20% critical hit chance.
+
+
 ## Compatibility
 
 N/A.

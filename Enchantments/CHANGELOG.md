@@ -2,6 +2,10 @@
 
 ## 2.0.1
 
+### Added
+
+* Added to mod description the missing fact that this mod rebalances the Jade enchantment.
+
 ### Changed
 
 * Renamed some enchantments.

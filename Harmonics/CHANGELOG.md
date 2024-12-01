@@ -2,6 +2,10 @@
 
 ## 1.0.4
 
+### Added
+
+* Added to mod description the missing fact that this mod rebalances the Jade Ring.
+
 ### Changed
 
 * Several changes to how the mod keeps track of resonating chords and forges.

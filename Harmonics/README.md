@@ -120,6 +120,7 @@ There is no "best" configuration; the trade-off is always between maximizing a s
 
 If the player's currently held weapon contains forged gemstones, they may also resonate with equiped Infinity Bands. But in this case, the resonance is far simpler; forged gemstones do not make up their own Chords, but will be amplified if they match the Root note of any equipped Chords. Intuitively, you can think of it as forged gemstones individually being too far apart to resonate with each other, but the emergent resonance from the Chords in your wielding hand is strong enough to vibrate through the blade.
 
+
 ## Craftable Gemstone Rings
 
 This mod will optionally add Combat skill recipes for all Gemstone rings, requiring the corresponding gemstone and a type of metal bar:
@@ -140,6 +141,15 @@ This mod will optionally add Combat skill recipes for all Gemstone rings, requir
 This is accompanied by visual changes to each ring to match the color of the required metal bar. The visual change is compatible with [Better Rings](https://www.nexusmods.com/stardewvalley/mods/8642) and [Vanilla Tweaks](https://www.nexusmods.com/stardewvalley/mods/10852). Other visual overhauls of rings will be incompatible.
 
 Note that crafting is the only way to obtain the Garnet Ring, and therefore disabling this option will make that ring unobtainable.
+
+
+## Jade Rebalance
+
+The Jade Ring is useless in vanilla; it provides the exact same damage increase as the Ruby Ring, but only to critical strikes. So to make it viable we give it a small buff:
+
+Jade Ring: Critical strike power ~~+10%~~ +50%.
+
+With this, the Jade Ring becomes stronger than the Ruby Ring at around 20% critical strike chance.
 
 
 ## Compatibility

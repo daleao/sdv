@@ -28,7 +28,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
         var lastUser = __instance.getLastFarmerToUse();
-        var cooldownReduction = __instance.Get_CooldownReduction().Value * (1 + lastUser.buffs.CooldownReduction());
+        var cooldownReduction = __instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction());
         if (Math.Abs(cooldownReduction - 1f) < 0.01f)
         {
             return;
