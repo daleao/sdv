@@ -1,0 +1,7 @@
+{
+  "algae": "Algas",
+  "gmcm.days_until_algae_spawn.title": "Dias até Algas aparecerem",
+  "gmcm.days_until_algae_spawn.desc": "O número de dias que um Lago de Peixes vazio começará a produzir algas.",
+  "gmcm.roe_production_chance_multiplier.title": "Multiplicador da Chance para a Produção de Ovas",
+  "gmcm.roe_production_chance_multiplier.desc": "Um multiplicador aplicado a chance padrão de um peixe produzir ovas em cada dia."
+}
