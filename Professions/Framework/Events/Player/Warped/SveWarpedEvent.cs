@@ -18,7 +18,7 @@ internal sealed class SveWarpedEvent(EventManager? manager = null)
     {
         if (e.NewLocation.Name.Contains("Galdora") || e.OldLocation.Name.Contains("Galdora"))
         {
-            ModHelper.GameContent.InvalidateCache($"{UniqueId}/LimitGauge");
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}_LimitGauge");
         }
     }
 }

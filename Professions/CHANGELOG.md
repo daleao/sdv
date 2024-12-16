@@ -1,5 +1,16 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.1.0
+
+### Changed
+
+* Changed the item ID of Ostrich and Golden Mayo, preemptibely resolving the same issues encountered in [Harmonics](../Harmonics/CHANGELOG.md#changed-2).
+* AnimalDerivedGoods and ArtisanMachines are now provided as dictionary content assets instead of config settings. Mod authors can now target these dictionaries with Content Patcher to add compatibility for their own mods, instead of relying on users needing to do this manually. Savvy users can still do it manually by adding qualified IDs to the corresponding files within the `assets/data/` folder.
+
+### Fixed
+
+* Fixed a possible conflict with [Ponds](../Ponds).
+
 ## 1.0.1
 
 ### Added

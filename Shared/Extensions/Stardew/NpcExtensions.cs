@@ -18,8 +18,8 @@ public static class NpcExtensions
     {
         var (dx, dy) = npc.Tile - tile;
         var direction = Math.Abs(dx) > Math.Abs(dy)
-            ? dx >= 0 ? FacingDirection.Right : FacingDirection.Left
-            : dy >= 0 ? FacingDirection.Down : FacingDirection.Up;
+            ? dx >= 0 ? Direction.Right : Direction.Left
+            : dy >= 0 ? Direction.Down : Direction.Up;
         npc.SetMoving(direction);
     }
 
@@ -30,28 +30,28 @@ public static class NpcExtensions
     {
         var (dx, dy) = tile - npc.TilePoint;
         var direction = Math.Abs(dx) > Math.Abs(dy)
-            ? dx >= 0 ? FacingDirection.Right : FacingDirection.Left
-            : dy >= 0 ? FacingDirection.Down : FacingDirection.Up;
+            ? dx >= 0 ? Direction.Right : Direction.Left
+            : dy >= 0 ? Direction.Down : Direction.Up;
         npc.SetMoving(direction);
     }
 
     /// <summary>Sets the <paramref name="npc"/> in motion in the specified <paramref name="direction"/>.</summary>
     /// <param name="npc">The <see cref="NPC"/>.</param>
-    /// <param name="direction">The <see cref="FacingDirection"/>.</param>
-    public static void SetMoving(this NPC npc, FacingDirection direction)
+    /// <param name="direction">The <see cref="Direction"/>.</param>
+    public static void SetMoving(this NPC npc, Direction direction)
     {
         switch (direction)
         {
-            case FacingDirection.Up:
+            case Direction.Up:
                 npc.SetMovingOnlyUp();
                 break;
-            case FacingDirection.Down:
+            case Direction.Down:
                 npc.SetMovingOnlyDown();
                 break;
-            case FacingDirection.Left:
+            case Direction.Left:
                 npc.SetMovingOnlyLeft();
                 break;
-            case FacingDirection.Right:
+            case Direction.Right:
                 npc.SetMovingOnlyRight();
                 break;
         }

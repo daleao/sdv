@@ -35,7 +35,7 @@ public static class FieldInfoExtensions
     {
         if (field.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Field cannot be static.");
+            ThrowHelper.ThrowInvalidOperationException($"Field {field.Name} cannot be static.");
         }
 
         var instanceType = typeof(TInstance);
@@ -68,7 +68,7 @@ public static class FieldInfoExtensions
     {
         if (!field.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Field must be static");
+            ThrowHelper.ThrowInvalidOperationException($"Field {field.Name} must be static");
         }
 
         var returnType = typeof(TField);
@@ -101,7 +101,7 @@ public static class FieldInfoExtensions
     {
         if (field.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Field cannot be static.");
+            ThrowHelper.ThrowInvalidOperationException($"Field {field.Name} cannot be static.");
         }
 
         var instanceType = typeof(TInstance);
@@ -142,7 +142,7 @@ public static class FieldInfoExtensions
     {
         if (!field.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Field must be static");
+            ThrowHelper.ThrowInvalidOperationException($"Field {field.Name} must be static");
         }
 
         var valueType = typeof(TField);

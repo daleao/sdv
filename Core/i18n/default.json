@@ -1,6 +1,19 @@
 {
+  "ui.buffs.burnt.damage": "-50% Damage",
+  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+  "ui.buffs.frozen.stuck": "Can't move",
+  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+  "ui.buffs.jinxed.defense": "-50% Defense",
+  "ui.buffs.jinxed.special": "Can't use special moves",
+  "ui.buffs.confused.name": "Disoriented",
+  "ui.buffs.confused.desc": "Movement is inverted.",
+  "ui.buffs.warrior.attack": "+{{value}} Attack",
+
+  /************
+  *** GMCM ***
+  ************/
+
   "gmcm.crop_wither_chance.title": "Crop Wither Chance",
   "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered.",
-  "gmcm.use_rational_mitigation_formula.title": "Use Rational Mitigation Formula",
-  "gmcm.use_rational_mitigation_formula.desc": "Replace the linear damage mitigation formula with a rational formula that gives more impactful but diminishing returns from the defense stat. *BEFORE: Damage -= Defense; AFTER: Damage *= 10 / (10 + Defense)*"
+
 }

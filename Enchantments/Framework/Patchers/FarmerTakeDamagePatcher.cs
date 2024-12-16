@@ -27,6 +27,13 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Grant i-frames during Stabbing Sword lunge attack.</summary>
+    [HarmonyPrefix]
+    private static bool FarmerTakeDamagePrefix(Farmer __instance)
+    {
+        return __instance.CurrentTool is not MeleeWeapon { type.Value: MeleeWeapon.stabbingSword, isOnSpecial: true };
+    }
+
     /// <summary>Trigger damage taken effects.</summary>
     [HarmonyTranspiler]
     private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(

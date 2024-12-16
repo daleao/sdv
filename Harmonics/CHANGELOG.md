@@ -1,5 +1,18 @@
 ﻿# HARMONICS Changelog
 
+## 1.0.5
+
+### Added
+
+* Added compatibility for Vanilla Tweaks - Warrior edition (using the same art as old Vanilla Tweaks).
+
+### Fixed
+
+* Added missing ReturnedToTitle event.
+* Fixed the issue of infinitely-stacking weapon resonances.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.0.4
 
 ### Added

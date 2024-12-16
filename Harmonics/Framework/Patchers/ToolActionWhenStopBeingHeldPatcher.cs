@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;
@@ -25,9 +24,10 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
 
     /// <summary>Reset applied tool resonances.</summary>
     [HarmonyPostfix]
-    private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance)
+    private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance, Farmer who)
     {
-        if (__instance is not MeleeWeapon weapon)
+        if (!who.IsLocalPlayer || __instance is not MeleeWeapon weapon ||
+            !State.ResonantBlades.Contains(weapon))
         {
             return;
         }
@@ -36,6 +36,8 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
         {
             chord.QuenchAllForges(weapon);
         }
+
+        State.ResonantBlades.Remove(weapon);
     }
 
     #endregion harmony patches

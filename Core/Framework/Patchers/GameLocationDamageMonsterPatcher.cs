@@ -2,9 +2,13 @@
 
 #region using directives
 
+using System.Reflection;
+using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley.Enchantments;
 
 #endregion using directives
 
@@ -36,5 +40,50 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
     }
 
+    /// <summary>Record knockback for damage and crit. for defense ignore + back attacks.</summary>
+    [HarmonyTranspiler]
+    private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            helper
+                .PatternMatch(
+                    [
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(BaseEnchantment).RequireMethod(nameof(BaseEnchantment.OnCalculateDamage))),
+                    ],
+                    ILHelper.SearchOption.First)
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[9])], ILHelper.SearchOption.Previous)
+                .Move()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[8]),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(GameLocationDamageMonsterPatcher).RequireMethod(nameof(ApplyBurnIfNecessary))),
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[8]),
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting Burn damage debuff.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
+    }
+
     #endregion harmony patches
+
+    #region injected subroutines
+    private static int ApplyBurnIfNecessary(Farmer? farmer, int damageAmount)
+    {
+        return farmer?.IsBurning() == true ? damageAmount / 2 : damageAmount;
+    }
+
+    #endregion injected subroutines
 }

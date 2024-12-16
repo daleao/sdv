@@ -3,10 +3,10 @@
   "enchantments.cleaving.name": "Cleaving",
   "enchantments.energized.name": "Energized", // alternates: "Statikk", "Thunderlord's"
   "enchantments.energized.desc": "Energy accumulated: {{counter}}",
-  "enchantments.explosive.name": "Revenant",
+  "enchantments.explosive.name": "Volatile", // alternatives: "Blasting", "Explosive", "Reactive", "Revenant", "Biding", "Raging"
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Greedy", // alternates: "Mammonite"
-  "enchantments.stabbing.name": "Lunging", // alternates: "Fencing", "Piercing", "Stabbing"
+  "enchantments.stabbing.name": "Reckless", // alternates: "Fencing", "Piercing", "Stabbing", "Lunging"
   "enchantments.steadfast.name": "Steadfast",
   "enchantments.sunburst.name": "Sunburst",
   "enchantments.vampiric.name": "Vampiric", // alternates: "Bloodthirsty"

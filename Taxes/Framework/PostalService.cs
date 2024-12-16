@@ -14,7 +14,7 @@ internal static class PostalService
     internal static void Send(Mail mail)
     {
         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-        Game1.player.mailForTomorrow.Add($"{UniqueId}/{mail}");
+        Game1.player.mailForTomorrow.Add($"{UniqueId}_{mail}");
     }
 
     /// <summary>Checks whether the local player has received this post.</summary>
@@ -22,6 +22,6 @@ internal static class PostalService
     /// <returns><see langword="true"/> if the player has or will receive the post, otherwise <see langword="false"/>.</returns>
     internal static bool HasSent(Mail mail)
     {
-        return Game1.player.hasOrWillReceiveMail($"{UniqueId}/{mail}");
+        return Game1.player.hasOrWillReceiveMail($"{UniqueId}_{mail}");
     }
 }

@@ -28,7 +28,7 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent(EventManager? manag
             .GetUnboundMethodDelegate<Action<MeleeWeapon, Farmer>>(sword, "beginSpecialMove")
             .Invoke(sword, user);
 
-        var facingDirection = (FacingDirection)user.FacingDirection;
+        var facingDirection = (Direction)user.FacingDirection;
         var facingVector = facingDirection.ToVector();
         if (facingDirection.IsVertical())
         {
@@ -39,18 +39,20 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent(EventManager? manag
         user.setTrajectory(trajectory);
 
         _animationFrames = 16; // translates exactly to 4 tiles with 0 added speed
-        var frame = (FacingDirection)user.FacingDirection switch
+        var frame = (Direction)user.FacingDirection switch
         {
-            FacingDirection.Up => 276,
-            FacingDirection.Right => 274,
-            FacingDirection.Down => 272,
-            FacingDirection.Left => 278,
-            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<FacingDirection, int>(
-                (FacingDirection)user.FacingDirection),
+            Direction.Up => 276,
+            Direction.Right => 274,
+            Direction.Down => 272,
+            Direction.Left => 278,
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Direction, int>(
+                (Direction)user.FacingDirection),
         };
 
         user.FarmerSprite.setCurrentFrame(frame, 0, 15, 2, user.FacingDirection == 3, true);
-        user.currentLocation.playSound("daggerswipe");
+        user.currentLocation.playSound(sword.GetSwipeSound());
+        this.Manager.Enable<StabbingSwordSpecialInterruptedButtonPressedEvent>();
+        this.Manager.Enable<StabbingSwordSpecialHomingUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -62,6 +64,8 @@ internal sealed class StabbingSwordSpecialUpdateTickingEvent(EventManager? manag
         user.forceCanMove();
         user.FarmerSprite.currentAnimationIndex = 0;
         _currentFrame = 0;
+        this.Manager.Disable<StabbingSwordSpecialHomingUpdateTickedEvent>();
+        this.Manager.Disable<StabbingSwordSpecialInterruptedButtonPressedEvent>();
     }
 
     /// <inheritdoc />

@@ -1,0 +1,54 @@
+{
+  /************
+  *** GMCM ***
+  ************/
+
+  "gmcm.sections.cmbt.combo": "Combo Framework",
+  "gmcm.enable_combo_hits.title": "Enable Melee Combo Hits",
+  "gmcm.enable_combo_hits.desc": "Replaces vanilla weapon spam with a more strategic combo system.",
+  "gmcm.combo_hits_per_weapon_type.defense_sword.title": "Sword Combo Hits",
+  "gmcm.combo_hits_per_weapon_type.defense_sword.desc": "The max. number of consecutive hits in a Sword combo.",
+  "gmcm.combo_hits_per_weapon_type.club.title": "Club Combo Hits",
+  "gmcm.combo_hits_per_weapon_type.club.desc": "The max. number of consecutive hits in a Club combo.",
+  "gmcm.swipe_hold.title": "Enable Hold-To-Swipe",
+  "gmcm.swipe_hold.desc": "Allows performing combos by simply holding the tool button instead of spam-clicking.",
+
+  "gmcm.sections.cmbt.stats": "Character Stats",
+  "gmcm.use_rational_mitigation_formula.title": "Use Rational Mitigation Formula",
+  "gmcm.use_rational_mitigation_formula.desc": "Replaces the linear damage mitigation formula with a rational formula that gives more impactful but diminishing returns from the defense stat. *BEFORE: Damage -= Defense; AFTER: Damage *= 10 / (10 + Defense)*",
+  "gmcm.defense_improves_parry.title": "Defense Improves Parry Damage",
+  "gmcm.defense_improves_parry.desc": "Parry damage (sword special move) is increased by the defense stat.",
+  "gmcm.crits_ignore_defense.title": "Crits. Ignore Defense",
+  "gmcm.crits_ignore_defense.desc": "Critical strikes ignore the target's defense stat.",
+  "gmcm.critical_back_attacks.title": "Critical Back Attacks",
+  "gmcm.critical_back_attacks.desc": "Hits to an enemy's backside have double critical strike chance.",
+  "gmcm.knockback_hurts.title": "Knockbacks Hurt",
+  "gmcm.knockback_hurts.desc": "Adds collision damage when knocked-back enemies collide with a wall or obstacle.",
+
+  "gmcm.sections.cmbt.controls": "Controls",
+  "gmcm.slick_moves.title": "Slick Moves",
+  "gmcm.slick_moves.desc": "Drift in the current running direction when attacking.",
+  "gmcm.face_mouse_cursor.title": "Face Towards Mouse Cursor",
+  "gmcm.face_mouse_cursor.desc": "If using mouse and keyboard, turn to face towards the current cursor position when using a tool.",
+  "gmcm.face_cursor_condition.never": "Never",
+  "gmcm.face_cursor_condition.weapon_only": "Weapon Only",
+  "gmcm.face_cursor_condition.always": "All Tools",
+
+  "gmcm.sections.cmbt.enemies": "Enemies",
+  "gmcm.varied_encounters.title": "Varied Encounters",
+  "gmcm.varied_encounters.desc": "Randomizes monster stats, subject to Daily Luck bias, adding variability to monster encounters.",
+  "gmcm.monster_spawn_chance_multiplier.title": "Spawn Chance Multiplier",
+  "gmcm.monster_spawn_chance_multiplier.desc": "Multiplies the chance to spawn enemies in dungeons.",
+  "gmcm.monster_health_multiplier.title": "Health Multiplier",
+  "gmcm.monster_health_multiplier.desc": "Multiplies the health of all enemies.",
+  "gmcm.monster_damage_multiplier.title": "Damage Multiplier",
+  "gmcm.monster_damage_multiplier.desc": "Multiplies the damage dealt by all enemies.",
+  "gmcm.monster_defense_multiplier.title": "Defense Multiplier",
+  "gmcm.monster_defense_multiplier.desc": "Multiplies the damage resistance of all enemies.",
+  "gmcm.monster_health_summand.title": "Added Health",
+  "gmcm.monster_health_summand.desc": "Adds to the health of all enemies (before multiplier).",
+  "gmcm.monster_damage_summand.title": "Added Damage",
+  "gmcm.monster_damage_summand.desc": "Adds to the damage dealt by all enemies (before multiplier).",
+  "gmcm.monster_defense_summand.title": "Added Defense",
+  "gmcm.monster_defense_summand.desc": "Adds to the damage resistance of all enemies (before multiplier)."
+}

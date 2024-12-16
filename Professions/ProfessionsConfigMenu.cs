@@ -71,28 +71,6 @@ internal sealed class ProfessionsConfigMenu : GMCMBuilder<ProfessionsConfigMenu>
     }
 
     [UsedImplicitly]
-    private static void ArtisanMachinesOverride()
-    {
-        Instance!.AddDynamicListOption(
-            I18n.Gmcm_ArtisanMachines_Title,
-            I18n.Gmcm_ArtisanMachines_Desc,
-            () => [.. Config.ArtisanMachines],
-            values => Config.ArtisanMachines = values.ToHashSet(),
-            id: "ArtisanMachines");
-    }
-
-    [UsedImplicitly]
-    private static void AnimalDerivedGoodsOverride()
-    {
-        Instance!.AddDynamicListOption(
-            I18n.Gmcm_AnimalDerivedGoods_Title,
-            I18n.Gmcm_AnimalDerivedGoods_Desc,
-            () => Config.AnimalDerivedGoods.ToList(),
-            values => Config.AnimalDerivedGoods = values.ToHashSet(),
-            id: "AnimalDerivedGoods");
-    }
-
-    [UsedImplicitly]
     private static void SkillExpMultipliersOverride()
     {
         foreach (var (skillId, multiplier) in Config.Skills.BaseMultipliers)

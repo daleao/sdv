@@ -92,44 +92,44 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return null;
         }
 
-        // From: if (who is not null && who.professions.Contains(<brute_id>)) ... *= 1.15f;
-        // From: if (who is not null && who.IsLocalPlayer && who.professions.Contains(<brute_id>)) ... *= 1f + who.Get_BruteRageCounter() * 0.01f;
-        try
-        {
-            helper
-                .MatchProfessionCheck(Farmer.brute) // find index of brute check
-                .Move(-2)
-                .GetOperand(out var dontBuffDamage)
-                .Insert([
-                    new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
-                    // check for local player
-                    new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
-                ])
-                .PatternMatch([new CodeInstruction(OpCodes.Ldc_R4, 1.15f)]) // brute damage multiplier
-                .SetOperand(1f)
-                .Move()
-                .Insert([
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ProfessionsMod).RequirePropertyGetter(nameof(State))),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(ProfessionsState).RequirePropertyGetter(nameof(ProfessionsState.BruteRageCounter))),
-                    new CodeInstruction(OpCodes.Conv_R4),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
-                    new CodeInstruction(OpCodes.Mul),
-                    new CodeInstruction(OpCodes.Add),
-                ]);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed patching modded Brute bonus damage.\nHelper returned {ex}");
+        //// From: if (who is not null && who.professions.Contains(<brute_id>)) ... *= 1.15f;
+        //// From: if (who is not null && who.IsLocalPlayer && who.professions.Contains(<brute_id>)) ... *= 1f + who.Get_BruteRageCounter() * 0.01f;
+        //try
+        //{
+        //    helper
+        //        .MatchProfessionCheck(Farmer.brute) // find index of brute check
+        //        .Move(-2)
+        //        .GetOperand(out var dontBuffDamage)
+        //        .Insert([
+        //            new CodeInstruction(OpCodes.Brfalse_S, dontBuffDamage),
+        //            // check for local player
+        //            new CodeInstruction(OpCodes.Ldarg_S, (byte)10), // arg 10 = Farmer who
+        //            new CodeInstruction(
+        //                OpCodes.Callvirt,
+        //                typeof(Farmer).RequirePropertyGetter(nameof(Farmer.IsLocalPlayer))),
+        //        ])
+        //        .PatternMatch([new CodeInstruction(OpCodes.Ldc_R4, 1.15f)]) // brute damage multiplier
+        //        .SetOperand(1f)
+        //        .Move()
+        //        .Insert([
+        //            new CodeInstruction(
+        //                OpCodes.Call,
+        //                typeof(ProfessionsMod).RequirePropertyGetter(nameof(State))),
+        //            new CodeInstruction(
+        //                OpCodes.Callvirt,
+        //                typeof(ProfessionsState).RequirePropertyGetter(nameof(ProfessionsState.BruteRageCounter))),
+        //            new CodeInstruction(OpCodes.Conv_R4),
+        //            new CodeInstruction(OpCodes.Ldc_R4, 0.01f),
+        //            new CodeInstruction(OpCodes.Mul),
+        //            new CodeInstruction(OpCodes.Add),
+        //        ]);
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log.E($"Failed patching modded Brute bonus damage.\nHelper returned {ex}");
 
-            return null;
-        }
+        //    return null;
+        //}
 
         // Removed: if (who != null && crit && who.professions.Contains(29)) damageAmount = (int)((float)damageAmount * 2f);
         try

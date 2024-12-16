@@ -321,6 +321,11 @@ public sealed class MTDStarLite
     /// <param name="state">The <see cref="State"/>.</param>
     private void UpdateState(State state)
     {
+        if (this.Goal is null)
+        {
+            return;
+        }
+
         var key = state.CalculateKey(this._km);
         if (state.G != state.RHS)
         {

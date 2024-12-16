@@ -14,7 +14,7 @@ internal sealed class HudPointer
     private const float MinStep = -3f;
 
     private static readonly Lazy<HudPointer> _instance = new(() => new HudPointer(
-        ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/HudPointer"),
+        ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_HudPointer"),
         Config.TrackingPointerScale,
         Config.TrackingPointerBobRate));
 

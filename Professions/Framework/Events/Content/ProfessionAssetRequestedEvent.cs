@@ -48,28 +48,34 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
-            $"{UniqueId}/HudPointer",
+            $"{UniqueId}_AnimalDerivedGoods",
+            new ModDictionaryProvider<string, string[]>(() => "assets/data/AnimalDerivedGoods.json"));
+        this.Provide(
+            $"{UniqueId}_ArtisanMachines",
+            new ModDictionaryProvider<string, string[]>(() => "assets/data/ArtisanMachines.json"));
+        this.Provide(
+            $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
         this.Provide(
-            $"{UniqueId}/MaxIcon",
+            $"{UniqueId}_MaxIcon",
             new ModTextureProvider(() => "assets/sprites/max.png"));
         this.Provide(
-            $"{UniqueId}/PrestigeRibbons",
+            $"{UniqueId}_PrestigeRibbons",
             new ModTextureProvider(() => "assets/sprites/StackedStars.png"));
         this.Provide(
-            $"{UniqueId}/ProfessionIcons",
+            $"{UniqueId}_ProfessionIcons",
             new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.PrestigeProfessionIconStyle}.png"));
         this.Provide(
-            $"{UniqueId}/MasteredSkillIcons",
+            $"{UniqueId}_MasteredSkillIcons",
             new ModTextureProvider(() => $"assets/sprites/skills_{Config.Masteries.MasteredSkillIconStyle}.png"));
         this.Provide(
-            $"{UniqueId}/SkillBars",
+            $"{UniqueId}_SkillBars",
             new ModTextureProvider(ProvideSkillBars));
         this.Provide(
-            $"{UniqueId}/LimitGauge",
+            $"{UniqueId}_LimitGauge",
             new ModTextureProvider(ProvideLimitGauge));
         this.Provide(
-            $"{UniqueId}/Mayo",
+            $"{UniqueId}_Mayo",
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
     }
 
@@ -130,7 +136,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static void EditCursorsLooseSprites(IAssetData asset)
     {
         var editor = asset.AsImage();
-        var sourceTx = ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/ProfessionIcons");
+        var sourceTx = ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_ProfessionIcons");
         var sourceArea = new Rectangle(0, 0, 96, 80);
         var targetArea = new Rectangle(0, 624, 96, 80);
         editor.PatchImage(sourceTx, sourceArea, targetArea);
@@ -259,7 +265,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_angler",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -327,7 +333,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_glacierfish",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -413,7 +419,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_crimsonfish",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -454,7 +460,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_legend",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -495,7 +501,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_mutant_carp",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -527,7 +533,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_tui",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -559,7 +565,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     [
                         "item_la",
                     ],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 0,
                 },
                 new FishPondData
@@ -574,7 +580,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
 
                     ],
                     RequiredTags = ["fish_legendary"],
-                    SpawnTime = 999999,
+                    SpawnTime = -1,
                     Precedence = 100,
                 },
             ]);
@@ -598,7 +604,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
 
         string message = _I18n.Get(
             key, new { honorific, taxBonus = FormattableString.CurrentCulture($"{taxBonus:0%}"), farm, season });
-        data[$"{UniqueId}/ConservationistTaxNotice"] = message;
+        data[$"{UniqueId}_ConservationistTaxNotice"] = message;
     }
 
     /// <summary>Patches machine rules for new mayo objects.</summary>
@@ -610,19 +616,19 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         {
             var rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
                 .OutputRules
-                .First(rule => rule.Id == "Default_OstrichEgg");
+                .First(r => r.Id == "Default_OstrichEgg");
             var output = rule.OutputItem.Single();
-            output.Id = $"{UniqueId}/OstrichMayo";
-            output.ItemId = $"{UniqueId}/OstrichMayo";
+            output.Id = $"(O){OstrichMayoId}";
+            output.ItemId = $"(O){OstrichMayoId}";
             output.MinStack = -1;
             output.CopyQuality = false;
 
             rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
                 .OutputRules
-                .First(rule => rule.Id == "Default_GoldenEgg");
+                .First(r => r.Id == "Default_GoldenEgg");
             output = rule.OutputItem.Single();
-            output.Id = $"{UniqueId}/GoldenMayo";
-            output.ItemId = $"{UniqueId}/GoldenMayo";
+            output.Id = $"(O){GoldenMayoId}";
+            output.ItemId = $"(O){GoldenMayoId}";
             output.MinStack = -1;
             output.Quality = -1;
         }
@@ -658,7 +664,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         var data = asset.AsDictionary<string, ObjectData>().Data;
         if (Config.EnableGoldenOstrichMayo)
         {
-            data[$"{UniqueId}/OstrichMayo"] = new ObjectData
+            data[$"{OstrichMayoId}"] = new ObjectData
             {
                 Name = "Delight Mayonnaise",
                 DisplayName = I18n.Objects_Ostrichmayo_Name(),
@@ -666,7 +672,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
                 Price = 2000,
-                Texture = $"{UniqueId}/Mayo",
+                Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 1,
                 Edibility = 50,
                 IsDrink = true,
@@ -677,9 +683,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 ],
             };
 
-            Config.AnimalDerivedGoods.Add($"{UniqueId}/OstrichMayo");
-
-            data[$"{UniqueId}/GoldenMayo"] = new ObjectData
+            data[$"{GoldenMayoId}"] = new ObjectData
             {
                 Name = "Shiny Mayonnaise",
                 DisplayName = I18n.Objects_Goldenmayo_Name(),
@@ -687,7 +691,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
                 Price = 2500,
-                Texture = $"{UniqueId}/Mayo",
+                Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 0,
                 Edibility = 20,
                 IsDrink = true,
@@ -698,8 +702,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 ],
                 ExcludeFromShippingCollection = true,
             };
-
-            Config.AnimalDerivedGoods.Add($"{UniqueId}/GoldenMayo");
         }
 
         if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))

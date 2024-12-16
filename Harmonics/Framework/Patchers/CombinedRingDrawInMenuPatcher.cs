@@ -104,7 +104,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             var sourceY = usingBetterRings ? 4 : 0;
             __state = location + (offset * scaleSize);
             spriteBatch.Draw(
-                Textures.InfinityStones,
+                Textures.InfinityStonesTx,
                 __state,
                 new Rectangle(0, sourceY, 4, 4),
                 gemColor,
@@ -120,7 +120,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
                 gemColor = Gemstone.FromRing(__instance.combinedRings[1].QualifiedItemId).StoneColor * transparency;
                 offset = usingBetterRings ? new Vector2(28f, 20f) : new Vector2(24f, 44f);
                 spriteBatch.Draw(
-                    Textures.InfinityStones,
+                    Textures.InfinityStonesTx,
                     location + (offset * scaleSize),
                     new Rectangle(4, sourceY, 4, 4),
                     gemColor,
@@ -140,7 +140,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
                     : usingBetterRings
                         ? new Vector2(40f, 8f) : new Vector2(8f, 28f);
                 spriteBatch.Draw(
-                    Textures.InfinityStones,
+                    Textures.InfinityStonesTx,
                     location + (offset * scaleSize),
                     new Rectangle(8, sourceY, 4, 4),
                     gemColor,
@@ -160,7 +160,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
                     : usingBetterRings
                         ? new Vector2(44f, 24f) : new Vector2(40f, 28f);
                 spriteBatch.Draw(
-                    Textures.InfinityStones,
+                    Textures.InfinityStonesTx,
                     location + (offset * scaleSize),
                     new Rectangle(12, sourceY, 4, 4),
                     gemColor,
@@ -219,7 +219,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         // redraw top gem
         var gemColor = Gemstone.FromRing(__instance.combinedRings[0].QualifiedItemId).StoneColor * transparency;
         spriteBatch.Draw(
-            Textures.InfinityStones,
+            Textures.InfinityStonesTx,
             __state,
             new Rectangle(0, 0, 4, 4),
             gemColor,

@@ -4,11 +4,11 @@
 
 <br>
 
-<img src="https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png" width="5%"/>
-<img src="https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
-<img src="https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png" width="5%"/>
-<img src="https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png" width="5%"/>
-<img src="https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png" width="5%"/>
+<img src="https://stardewvalleywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png" width="5%"/>
+<img src="https://stardewvalleywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
+<img src="https://stardewvalleywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png" width="5%"/>
+<img src="https://stardewvalleywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png" width="5%"/>
+<img src="https://stardewvalleywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png" width="5%"/>
 
 </div>
 
@@ -950,6 +950,8 @@ The base reworked professions up to level 10 should not conflict with any of the
 [Automate](https://www.nexusmods.com/stardewvalley/mods/1063) should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
 
 Yes, it's compatible with [Stardew Valley Expanded](mod:sve). There are additional interactions for SDV fishes, as well as [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
+
+Not compatible with mods that change how the game awards experience, such as [Share Experience](https://www.nexusmods.com/stardewvalley/mods/22163).
 
 Yes, it should work in multiplayer.
 No, it does not work on Android.

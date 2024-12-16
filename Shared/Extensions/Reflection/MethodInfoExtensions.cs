@@ -43,7 +43,7 @@ public static class MethodInfoExtensions
     {
         if (method.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Method cannot be static.");
+            ThrowHelper.ThrowInvalidOperationException($"Method {method.Name} cannot be static.");
         }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();
@@ -115,7 +115,7 @@ public static class MethodInfoExtensions
     {
         if (!method.IsStatic)
         {
-            ThrowHelper.ThrowInvalidOperationException("Method must be static.");
+            ThrowHelper.ThrowInvalidOperationException($"Method {method.Name} must be static.");
         }
 
         var delegateInfo = typeof(TDelegate).GetMethodInfoFromDelegateType();

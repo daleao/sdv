@@ -75,6 +75,10 @@ public sealed class ProfessionsMod : Mod
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
     internal static bool ShouldEnableLimitBreaks => Config.Masteries.EnableLimitBreaks;
 
+    internal static string GoldenMayoId { get; private set; } = null!; // set in Entry;
+
+    internal static string OstrichMayoId { get; private set; } = null!; // set in Entry;
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -86,7 +90,7 @@ public sealed class ProfessionsMod : Mod
         if (Manifest.Author != "DaLion" || UniqueId != this.GetType().Namespace)
         {
             Log.W(
-                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at XXX.");
+                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at Nexus Mods.");
             return;
         }
 
@@ -105,6 +109,9 @@ public sealed class ProfessionsMod : Mod
             UniqueId,
             "prfs");
         this.ValidateMultiplayer();
+
+        GoldenMayoId = $"{UniqueId}_GoldenMayo";
+        OstrichMayoId = $"{UniqueId}_OstrichMayo";
     }
 
     /// <inheritdoc />

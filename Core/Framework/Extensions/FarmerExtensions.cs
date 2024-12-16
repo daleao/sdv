@@ -2,89 +2,48 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
-using StardewValley.Objects;
+using DaLion.Shared.Enums;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 internal static class FarmerExtensions
 {
-    /// <summary>
-    ///     Counts the units of a specific <see cref="Ring"/> in the <paramref name="farmer"/>'s inventory, or the
-    ///     specified <paramref name="list"/> of items.
-    /// </summary>
+    /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Burn debuff.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="id">The <see cref="Ring"/> id.</param>
-    /// <param name="list">An optional list of items to override the <paramref name="farmer"/>'s inventory.</param>
-    /// <returns>The number of <see cref="Ring"/>s with the specified <paramref name="id"/>.</returns>
-    internal static int GetRingItemCount(this Farmer farmer, string id, IList<Item>? list = null)
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #12, otherwise <see langword="false"/>.</returns>
+    internal static bool IsBurning(this Farmer farmer)
     {
-        list ??= farmer.Items;
-        return list.Count(item => item is Ring && item.QualifiedItemId == id);
+        return farmer.hasBuff(((int)Buff.Burnt).ToString());
     }
 
-    /// <summary>Removes the specified <see cref="Ring"/> from the <paramref name="farmer"/>'s inventory.</summary>
+    /// <summary>Removes the Burn debuff from the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="id">The <see cref="Ring"/> id.</param>
-    /// <param name="amount">How many should be consumed.</param>
-    /// <returns>The leftover amount, if not enough were consumed.</returns>
-    internal static int ConsumeRing(this Farmer farmer, string id, int amount)
+    internal static void Unburn(this Farmer farmer)
     {
-        var list = farmer.Items;
-        for (var i = 0; i < list.Count; i++)
-        {
-            var item = list[i];
-            if (item is not Ring || item.QualifiedItemId != id)
-            {
-                continue;
-            }
-
-            list[i] = null;
-            if (--amount > 0)
-            {
-                continue;
-            }
-
-            return 0;
-        }
-
-        return amount;
+        farmer.buffs.Remove(((int)Buff.Burnt).ToString());
     }
 
-    /// <summary>Removes the specified <see cref="SObject"/> from the <paramref name="farmer"/>'s inventory.</summary>
+    /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Freeze debuff.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="id">The <see cref="SObject"/> id.</param>
-    /// <param name="amount">How many should be consumed.</param>
-    /// <returns>The leftover amount, if not enough were consumed.</returns>
-    internal static int ConsumeObject(this Farmer farmer, string id, int amount)
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #19, otherwise <see langword="false"/>.</returns>
+    internal static bool IsFrozen(this Farmer farmer)
     {
-        var list = farmer.Items;
-        for (var i = 0; i < list.Count; i++)
-        {
-            var item = list[i];
-            if (item is not SObject || item.QualifiedItemId != id)
-            {
-                continue;
-            }
+        return farmer.hasBuff(((int)Buff.Frozen).ToString());
+    }
 
-            var toRemove = amount;
-            amount -= item.Stack;
-            list[i].Stack -= toRemove;
-            if (list[i].Stack <= 0)
-            {
-                list[i] = null;
-            }
+    /// <summary>Removes the Freeze debuff from the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    internal static void Defrost(this Farmer farmer)
+    {
+        farmer.buffs.Remove(((int)Buff.Frozen).ToString());
+    }
 
-            if (amount > 0)
-            {
-                continue;
-            }
-
-            return 0;
-        }
-
-        return amount;
+    /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Jinxed debuff.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #14, otherwise <see langword="false"/>.</returns>
+    internal static bool IsJinxed(this Farmer farmer)
+    {
+        return farmer.hasBuff(((int)Buff.Jinxed).ToString());
     }
 }

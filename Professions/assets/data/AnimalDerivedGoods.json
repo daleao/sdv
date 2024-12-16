@@ -1,0 +1,22 @@
+{
+	"ArtisanGoods":
+	[
+	    "(O)Cornucopia_Butter",
+        "(O)Cornucopia_HoneyButter",
+        "(O)Cornucopia_PlainYogurt",
+        "(O)Cornucopia_FlavoredYogurt",
+        "(O)Cornucopia_SmokedCheese",
+        "(O)Cornucopia_SmokedEgg",
+        "(O)Cornucopia_SmokedMeat",
+        "(O)Cornucopia_AvocadoMayonnaise",
+        "(O)Cornucopia_BlackPepperMayonnaise",
+        "(O)Cornucopia_DillMayonnaise",
+        "(O)Cornucopia_GarlicMayonnaise",
+        "(O)Cornucopia_OliveOilMayonnaise",
+        "(O)Cornucopia_SpicyMayonnaise",
+        "(O)Cornucopia_TruffleMayonnaise",
+        "(O)Cornucopia_WasabiMayonnaise",
+        "(O)Cornucopia_PickledEggs",
+        "(O)Cornucopia_CenturyEgg",
+	]
+}

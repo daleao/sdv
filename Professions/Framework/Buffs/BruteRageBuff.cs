@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Core.Framework;
+using StardewValley.Buffs;
 
 #endregion using directives
 
@@ -23,6 +24,11 @@ internal sealed class BruteRageBuff : StackableBuff
             duration: 17,
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
+            effects: new BuffEffects
+            {
+                AttackMultiplier = { State.BruteRageCounter * 0.01f },
+                WeaponSpeedMultiplier = { State.BruteRageCounter * 0.005f },
+            },
             getDescription: stacks =>
                 I18n.Brute_Buff_Desc((stacks * 0.01f).ToString("P1"), (stacks * 0.005f).ToString("P1")))
     {

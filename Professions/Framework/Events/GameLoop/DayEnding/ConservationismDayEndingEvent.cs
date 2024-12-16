@@ -46,6 +46,6 @@ internal sealed class ConservationismDayEndingEvent(EventManager? manager = null
         }
 
         ModHelper.GameContent.InvalidateCacheAndLocalized("Data/mail");
-        player.mailForTomorrow.Add($"{UniqueId}/ConservationistTaxNotice");
+        player.mailForTomorrow.Add($"{UniqueId}_ConservationistTaxNotice");
     }
 }

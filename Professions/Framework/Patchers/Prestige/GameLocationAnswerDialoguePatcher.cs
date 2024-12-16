@@ -25,6 +25,7 @@ internal sealed class GameLocationAnswerDialoguePatcher : HarmonyPatcher
 
     /// <summary>Patch to change Statue of Uncertainty into Statue of Transcendance.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.VeryHigh)]
     private static bool GameLocationAnswerDialoguePrefix(
         GameLocation __instance,
         ref bool __result,

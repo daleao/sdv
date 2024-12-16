@@ -37,7 +37,7 @@ public sealed class EchoEnchantment : BaseSlingshotEnchantment
             return;
         }
 
-        var facingDirectionVector = ((FacingDirection)firer.FacingDirection).ToVector() * 64f;
+        var facingDirectionVector = ((Direction)firer.FacingDirection).ToVector() * 64f;
 
         // do clockwise projectile
         var runaanStartingPosition = firedProjectile.position.Value + facingDirectionVector.Rotate(30);

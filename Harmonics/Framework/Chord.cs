@@ -108,7 +108,7 @@ public sealed class Chord : IChord
     public double Amplitude { get; private set; }
 
     /// <summary>Gets a unique ID for this <see cref="Chord"/>.</summary>
-    internal string Id => $"{UniqueId}/{this._id}";
+    internal string Id => $"{UniqueId}_{this._id}";
 
     /// <summary>Gets the total resonance of each <see cref="Gemstone"/> due to interference with its neighbors.</summary>
     internal Dictionary<Gemstone, double> ResonanceByGemstone { get; } = new();

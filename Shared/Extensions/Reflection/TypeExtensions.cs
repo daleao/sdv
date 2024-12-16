@@ -121,7 +121,7 @@ public static class TypeExtensions
 
     /// <summary>Gets a constructor and asserts that it was found.</summary>
     /// <param name="type">The <see cref="Type"/>.</param>
-    /// <param name="parameterCount">The the number of parameters in the overload signature.</param>
+    /// <param name="parameterCount">The number of parameters in the overload signature.</param>
     /// <returns>The first constructor that matches the specified parameter count.</returns>
     /// <remarks>Useful when there's no compile-time access to one or more parameter types.</remarks>
     [DebuggerStepThrough]

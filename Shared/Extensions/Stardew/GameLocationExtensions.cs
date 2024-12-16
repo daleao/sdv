@@ -72,7 +72,7 @@ public static class GameLocationExtensions
             return true;
         }
 
-        if (location.isCharacterAtTile(tile) is { } and not Monster)
+        if (location.isCharacterAtTile(tile) is not null and not Monster)
         {
             return true;
         }

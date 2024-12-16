@@ -15,7 +15,7 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
-using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -27,6 +27,16 @@ public sealed class EnchantmentsMod : Mod
 
     /// <summary>Gets or sets the <see cref="EnchantmentsConfig"/> instance.</summary>
     internal static EnchantmentsConfig Config { get; set; } = null!; // set in Entry
+
+    /// <summary>Gets the <see cref="PerScreen{T}"/> <see cref="EnchantmentsState"/>.</summary>
+    internal static PerScreen<EnchantmentsState> PerScreenState { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="EnchantmentsState"/> of the local player.</summary>
+    internal static EnchantmentsState State
+    {
+        get => PerScreenState.Value;
+        set => PerScreenState.Value = value;
+    }
 
     /// <summary>Gets the <see cref="ModDataManager"/> instance.</summary>
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
@@ -65,13 +75,14 @@ public sealed class EnchantmentsMod : Mod
         if (Manifest.Author != "DaLion" || UniqueId != this.GetType().Namespace)
         {
             Log.W(
-                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at XXX.");
+                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at Nexus Mods.");
             return;
         }
 
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<EnchantmentsConfig>();
+        PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
         Data = new ModDataManager(UniqueId, Log);
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);

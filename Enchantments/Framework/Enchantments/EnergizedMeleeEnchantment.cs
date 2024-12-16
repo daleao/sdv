@@ -3,13 +3,10 @@
 #region using directives
 
 using System.Xml.Serialization;
-using Core.Framework.Extensions;
+using DaLion.Core.Framework.Extensions;
 using DaLion.Enchantments.Framework.Buffs;
 using DaLion.Enchantments.Framework.Events;
-using DaLion.Shared.Extensions.Xna;
-using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 
 #endregion using directives
 

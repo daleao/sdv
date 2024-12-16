@@ -32,7 +32,7 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
         var farm = Game1.getFarm();
         var interest = CurrentCulture($"{Config.AnnualInterest:0.#%}");
 
-        data[$"{UniqueId}/{Mail.FrsIntro}"] =
+        data[$"{UniqueId}_{Mail.FrsIntro}"] =
             I18n.Mail_Frs_Intro(
                 honorific,
                 player.farmName.Value,
@@ -43,10 +43,10 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
         var when = Config.IncomeTaxDay == 1
             ? I18n.When_Tonight()
             : I18n.When_Day(toDayOfMonthString(Config.IncomeTaxDay));
-        data[$"{UniqueId}/{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due, when);
+        data[$"{UniqueId}_{Mail.FrsNotice}"] = I18n.Mail_Frs_Notice(honorific, due, when);
 
         var deductions = Data.ReadAs<float>(player, DataKeys.PercentDeductions);
-        data[$"{UniqueId}/{Mail.FrsDeduction}"] = deductions >= 1f
+        data[$"{UniqueId}_{Mail.FrsDeduction}"] = deductions >= 1f
             ? I18n.Mail_Frs_Deduction_Max(honorific, due)
             : I18n.Mail_Frs_Deduction(
                 honorific,
@@ -56,7 +56,7 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
                 when);
 
         var outstanding = Data.ReadAs<int>(player, DataKeys.OutstandingIncomeTax);
-        data[$"{UniqueId}/{Mail.FrsOutstanding}"] =
+        data[$"{UniqueId}_{Mail.FrsOutstanding}"] =
             I18n.Mail_Frs_Outstanding(
                 honorific,
                 due,
@@ -71,14 +71,14 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
         var livestockValue = Data.ReadAs<int>(farm, DataKeys.LivestockValue);
         var buildingValue = Data.ReadAs<int>(farm, DataKeys.BuildingValue);
         var valuation = agricultureValue + livestockValue + buildingValue;
-        data[$"{UniqueId}/{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(
+        data[$"{UniqueId}_{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(
             player.farmName.Value,
             valuation,
             due,
             toDayOfMonthString(Config.PropertyTaxDay));
 
         outstanding = Data.ReadAs<int>(player, DataKeys.OutstandingPropertyTax);
-        data[$"{UniqueId}/{Mail.LewisOutstanding}"] =
+        data[$"{UniqueId}_{Mail.LewisOutstanding}"] =
             I18n.Mail_Lewis_Outstanding(
                 CurrentCulture($"{Config.PropertyTaxLatenessFine:0.#%}"),
                 outstanding,

@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -133,17 +132,24 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static void IncrementBruteCounters(Farmer farmer, Monster? damager, int damage)
     {
-        if (!farmer.IsLocalPlayer || !farmer.HasProfession(Profession.Brute) ||
-            State.LimitBreak is not BruteFrenzy frenzy || damager is null)
+        if (!farmer.IsLocalPlayer || !farmer.HasProfession(Profession.Brute) || damager is null)
         {
             return;
         }
 
-        State.BruteRageCounter += frenzy.IsActive ? 2 : 1;
-        if (frenzy.IsActive == false)
+        State.BruteRageCounter++;
+        if (State.LimitBreak is not BruteFrenzy frenzy)
         {
-            frenzy.ChargeValue += damage / 4.0;
+            return;
         }
+
+        if (frenzy.IsActive)
+        {
+            State.BruteRageCounter++;
+            return;
+        }
+
+        frenzy.ChargeValue += damage / 4.0;
     }
 
     #endregion injections

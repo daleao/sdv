@@ -29,9 +29,6 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
         this.Target = this.RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), [typeof(SpriteBatch)]);
     }
 
-    private delegate void DrawHorizontalPartitionDelegate(
-        IClickableMenu instance, SpriteBatch b, int yPosition, bool small = false, int red = -1, int green = -1, int blue = -1);
-
     #region harmony patches
 
     /// <summary>Adjust fish pond query menu for algae.</summary>
@@ -202,11 +199,16 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
             if (hasUnresolvedNeeds)
             {
-                Reflector.GetUnboundMethodDelegate<DrawHorizontalPartitionDelegate>(__instance,
-                    "drawHorizontalPartition").Invoke(
+                Reflector.GetUnboundMethodDelegate<Action<IClickableMenu, SpriteBatch, int, bool, int, int, int>>(
                     __instance,
-                    b,
-                    (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f));
+                    "drawHorizontalPartition").Invoke(
+                        __instance,
+                        b,
+                        (int)(__instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - 48f),
+                        false,
+                        -1,
+                        -1,
+                        -1);
                 Utility.drawWithShadow(
                     b,
                     Game1.mouseCursors,

@@ -41,6 +41,6 @@ public interface IProfessionsApi
     #endregion professions
 
     /// <summary>Gets the mod's current config schema.</summary>
-    /// <returns>The current <see cref="ProfessionsConfig"/> instance.</returns>
+    /// <returns>The current config instance.</returns>
     ProfessionsConfig GetConfig();
 }

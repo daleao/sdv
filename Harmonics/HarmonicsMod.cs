@@ -14,7 +14,6 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
-using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -96,7 +95,7 @@ public sealed class HarmonicsMod : Mod
         if (Manifest.Author != "DaLion" || UniqueId != this.GetType().Namespace)
         {
             Log.W(
-                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at XXX.");
+                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at Nexus Mods.");
             return;
         }
 
@@ -121,7 +120,8 @@ public sealed class HarmonicsMod : Mod
         InfinityBandId = $"{UniqueId}_InfinityBand";
         RingTextureStyle = helper.ModRegistry.IsLoaded("BBR.BetterRings")
             ? TextureStyle.BetterRings
-            : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks")
+            : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks") ||
+              helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks.Warrior")
                 ? TextureStyle.VanillaTweaks
                 : TextureStyle.Vanilla;
     }

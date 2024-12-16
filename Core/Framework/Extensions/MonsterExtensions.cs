@@ -212,7 +212,7 @@ public static class MonsterExtensions
                         break;
 
                     case DinoMonster:
-                        var facingDirection = (FacingDirection)monster.FacingDirection;
+                        var facingDirection = (Direction)monster.FacingDirection;
                         if (facingDirection.IsHorizontal())
                         {
                             FreezeAnimation.FreezeAnimationsByMonster.AddOrUpdate(
@@ -254,7 +254,8 @@ public static class MonsterExtensions
                         break;
                 }
 
-                SoundBox.Freeze.PlayAll(monster.currentLocation, monster.Tile, Game1.random.Next(-3, 4) * 100);
+                //SoundBox.Freeze.PlayAll(monster.currentLocation, monster.Tile, Game1.random.Next(-3, 4) * 100);
+                monster.currentLocation.playSound("frozen", monster.Tile, Game1.random.Next(-3, 4));
             }
         }
         else
@@ -486,9 +487,9 @@ public static class MonsterExtensions
                 break;
 
             case DinoMonster dino:
-                position.X += dino.FacingDirection == (int)FacingDirection.Right ? 48f :
-                    dino.FacingDirection == (int)FacingDirection.Left ? 0f : 24f;
-                position.Y += dino.FacingDirection == (int)FacingDirection.Up ? -16f : 16f;
+                position.X += dino.FacingDirection == (int)Direction.Right ? 48f :
+                    dino.FacingDirection == (int)Direction.Left ? 0f : 24f;
+                position.Y += dino.FacingDirection == (int)Direction.Up ? -16f : 16f;
                 break;
 
             case DustSpirit dustSpirit:

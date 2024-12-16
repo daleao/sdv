@@ -188,7 +188,7 @@ public sealed class MasteriesConfig
             }
 
             this._prestigeProfessionIconStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{UniqueId}/ProfessionIcons");
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}_ProfessionIcons");
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
@@ -210,7 +210,7 @@ public sealed class MasteriesConfig
             }
 
             this._masteredSkillIconStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{UniqueId}/MasteredSkillIcons");
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}_MasteredSkillIcons");
         }
     }
 }

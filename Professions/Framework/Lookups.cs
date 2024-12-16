@@ -32,8 +32,8 @@ internal static class Lookups
         QualifiedObjectIds.Cheese,
         QualifiedObjectIds.GoatCheese,
         QualifiedObjectIds.Cloth,
-        $"(O){UniqueId}/GoldenMayo",
-        $"(O){UniqueId}/OstrichMayo",
+        $"(O){UniqueId}_GoldenMayo",
+        $"(O){UniqueId}_OstrichMayo",
     ];
 
     /// <summary>Gets a map from a legendary fish ID to that of its corresponding extended family pair.</summary>

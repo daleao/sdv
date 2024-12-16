@@ -22,4 +22,17 @@ internal static class MeleeWeaponExtensions
             MeleeWeapon.attackSwordCooldown /= 2;
         }
     }
+
+    /// <summary>Gets the name of the sound cue that should play when this weapon is swung.</summary>
+    /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
+    /// <returns>The name of a sound cue to be played.</returns>
+    internal static string GetSwipeSound(this MeleeWeapon weapon)
+    {
+        return weapon.type.Value switch
+        {
+            MeleeWeapon.defenseSword or MeleeWeapon.stabbingSword => "swordswipe",
+            MeleeWeapon.club => "clubswipe",
+            MeleeWeapon.dagger => "daggerswipe",
+        };
+    }
 }

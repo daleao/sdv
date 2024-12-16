@@ -7,7 +7,7 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.0.1</Version>
+    <Version>2.0.2</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>
@@ -31,6 +31,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <WarningsAsErrors>Nullable</WarningsAsErrors>
     <EnableHarmony>true</EnableHarmony>
+    <EnableTranslation>true</EnableTranslation>
     <BundleExtraAssemblies>System,ThirdParty</BundleExtraAssemblies>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <IgnoreModFilePatterns>
@@ -88,6 +89,10 @@
       <HintPath>$(GamePath)\smapi-internal\Newtonsoft.Json.dll</HintPath>
       <Private>false</Private>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup Condition="$(EnableTranslation) == 'True'">
+    <PackageReference Include="Pathoschild.Stardew.ModTranslationClassBuilder" Version="2.2.0" />
   </ItemGroup>
 
   <!-- global usings directives -->

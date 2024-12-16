@@ -40,10 +40,10 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
             {
                 foreach (var debris in oldLocation.debris)
                 {
-                    if (debris?.itemId is not null && debris.itemId.Value.StartsWith("(O)") &&
+                    if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
                         Game1.random.NextBool())
                     {
-                        State.SpelunkerUncollectedItems.Add(debris.itemId.Value);
+                        State.SpelunkerUncollectedItems.Add(id);
                     }
                 }
             }

@@ -19,13 +19,13 @@ public static class FarmerExtensions
     }
 
     /// <summary>
-    ///     Changes the <paramref name="farmer"/>'s <see cref="FacingDirection"/> in order to face the desired
+    ///     Changes the <paramref name="farmer"/>'s <see cref="Direction"/> in order to face the desired
     ///     <paramref name="tile"/>.
     /// </summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="tile">The tile to face.</param>
-    /// <returns>The new <see cref="FacingDirection"/>.</returns>
-    public static FacingDirection FaceTowardsTile(this Farmer farmer, Vector2 tile)
+    /// <returns>The new <see cref="Direction"/>.</returns>
+    public static Direction FaceTowardsTile(this Farmer farmer, Vector2 tile)
     {
         if (!farmer.IsLocalPlayer)
         {

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://smapi.io/schemas/manifest.json",
+  "UniqueID": "DaLion.Arsenal",
+  "Name": "Arsenal",
+  "Author": "DaLion",
+  "Version": "1.0.0-Debug",
+  "Description": "",
+  "MinimumApiVersion": "4.1",
+  "MinimumGameVersion": "1.6",
+  "EntryDll": "DaLion.Arsenal.dll",
+  "Dependencies": [
+    {
+      "UniqueID": "DaLion.Core",
+      "MinimumVersion": "2.0.2",
+      "IsRequired": true
+    }
+  ],
+  "UpdateKeys": [
+    "Nexus:29831"
+  ]
+}

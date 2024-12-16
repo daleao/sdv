@@ -17,7 +17,7 @@ internal static class Textures
     private static readonly Lazy<Texture2D> _strongerResonanceTx =
         new(() => ModHelper.ModContent.Load<Texture2D>("assets/resonance_stronger"));
 
-    internal static Texture2D InfinityStones => _infinityStones.Value;
+    internal static Texture2D InfinityStonesTx => _infinityStones.Value;
 
     internal static Texture2D PatternedResonanceTx => _patternedResonanceTx.Value;
 

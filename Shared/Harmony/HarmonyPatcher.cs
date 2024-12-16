@@ -146,6 +146,16 @@ public abstract class HarmonyPatcher : IHarmonyPatcher
         return typeof(TType).RequireConstructor(parameters);
     }
 
+    /// <summary>Gets a constructor and asserts that it was found.</summary>
+    /// <typeparam name="TType">The type to search in.</typeparam>
+    /// <param name="parameterCount">The number of parameters in the overload signature.</param>
+    /// <returns>The corresponding <see cref="ConstructorInfo"/>.</returns>
+    /// <remarks>Originally by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+    protected ConstructorInfo RequireConstructor<TType>(int parameterCount)
+    {
+        return typeof(TType).RequireConstructor(parameterCount);
+    }
+
     /// <summary>Gets a method and asserts that it was found.</summary>
     /// <typeparam name="TType">The type to search in.</typeparam>
     /// <param name="name">The method name.</param>

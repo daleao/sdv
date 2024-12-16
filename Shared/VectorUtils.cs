@@ -42,30 +42,30 @@ public static class VectorUtils
     ///     Gets the unit vector which points towards the cursor's current position relative to the local player's
     ///     position.
     /// </summary>
-    /// <param name="direction">The corresponding <see cref="FacingDirection"/> for the player to face the cursor.</param>
+    /// <param name="direction">The corresponding <see cref="Direction"/> for the player to face the cursor.</param>
     /// <returns>A unit <see cref="Vector2"/> which points from the local player's position to the cursor's position.</returns>
-    public static Vector2 GetRelativeCursorDirection(out FacingDirection direction)
+    public static Vector2 GetRelativeCursorDirection(out Direction direction)
     {
         var (x, y) = Game1.currentCursorTile - Game1.player.Tile;
         if (Math.Abs(x) > Math.Abs(y))
         {
             if (x < 0)
             {
-                direction = FacingDirection.Left;
+                direction = Direction.Left;
                 return Vector2.UnitX * -1f;
             }
 
-            direction = FacingDirection.Right;
+            direction = Direction.Right;
             return Vector2.UnitX;
         }
 
         if (y > 0)
         {
-            direction = FacingDirection.Up;
+            direction = Direction.Up;
             return Vector2.UnitY * -1f;
         }
 
-        direction = FacingDirection.Down;
+        direction = Direction.Down;
         return Vector2.UnitY;
     }
 }

@@ -1,6 +1,6 @@
 ﻿<div align="center">
 
-# Mineracoustics
+# Mineracoustics - Gemstone Music Theory
 
 </div>
 

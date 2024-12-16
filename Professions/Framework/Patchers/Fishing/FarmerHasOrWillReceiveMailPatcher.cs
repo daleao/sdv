@@ -26,7 +26,7 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
     {
-        if (id != $"{UniqueId}/ConservationistTaxNotice")
+        if (id != $"{UniqueId}_ConservationistTaxNotice")
         {
             return true; // run original logic
         }

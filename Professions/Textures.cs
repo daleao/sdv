@@ -14,19 +14,19 @@ internal static class Textures
     internal const int PROGRESSION_VERTICAL_OFFSET = -74;
 
     private static Lazy<Texture2D> _prestigeRibbons =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/PrestigeRibbons"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_PrestigeRibbons"));
 
     private static Lazy<Texture2D> _maxIcon =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MaxIcon"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_MaxIcon"));
 
     private static Lazy<Texture2D> _skillBars =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/SkillBars"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_SkillBars"));
 
     private static Lazy<Texture2D> _limitGauge =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/LimitGauge"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_LimitGauge"));
 
     private static Lazy<Texture2D> _masteredSkillIcons =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_MasteredSkillIcons"));
 
     internal static Texture2D PrestigeRibbons => _prestigeRibbons.Value;
 
@@ -44,31 +44,31 @@ internal static class Textures
         if (names.Contains("PrestigeRibbons"))
         {
             _prestigeRibbons = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/PrestigeRibbons"));
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_PrestigeRibbons"));
         }
 
         if (names.Contains("MaxIcon"))
         {
             _maxIcon = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MaxIcon"));
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_MaxIcon"));
         }
 
         if (names.Contains("SkillBars"))
         {
             _skillBars = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/SkillBars"));
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_SkillBars"));
         }
 
         if (names.Contains("LimitGauge"))
         {
             _limitGauge = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/LimitGauge"));
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_LimitGauge"));
         }
 
         if (names.Contains("MasteredSkillIcons"))
         {
             _masteredSkillIcons = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}/MasteredSkillIcons"));
+                ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_MasteredSkillIcons"));
         }
     }
 }

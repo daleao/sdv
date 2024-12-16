@@ -77,7 +77,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             Type = "Minerals",
             Category = (int)ObjectCategory.Gems,
             Price = 300,
-            Texture = $"{UniqueId}/Garnet",
+            Texture = $"{UniqueId}_Garnet",
             SpriteIndex = 0,
             Edibility = -300,
             ContextTags =
@@ -104,7 +104,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             Type = "Ring",
             Category = (int)ObjectCategory.None,
             Price = 800,
-            Texture = $"{UniqueId}/Rings",
+            Texture = $"{UniqueId}_Rings",
             SpriteIndex = ringSpriteIndex,
             Edibility = -300,
             ContextTags =
@@ -132,7 +132,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             Type = "Ring",
             Category = (int)ObjectCategory.None,
             Price = 800,
-            Texture = $"{UniqueId}/Rings",
+            Texture = $"{UniqueId}_Rings",
             SpriteIndex = ringSpriteIndex,
             Edibility = -300,
             ContextTags =
@@ -160,12 +160,12 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
     private static void EditItemExtensionsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ResourceData>().Data;
-        data[$"{UniqueId}/GarnetNode"] = new ResourceData
+        data[$"{UniqueId}_GarnetNode"] = new ResourceData
         {
             Name = "UniqueId}/GarnetNode",
             DisplayName = I18n.Node_Garnet_Name(),
             Description = I18n.Node_Garnet_Desc(),
-            Texture = $"{UniqueId}/Garnet",
+            Texture = $"{UniqueId}_Garnet",
             SpriteIndex = 1,
             Width = 1,
             Height = 1,
@@ -210,7 +210,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.003, AdditionalChancePerLevel = 0.00005, Type = MineType.All,
+                    Floors = "80/77376", SpawnFrequency = 0.0035, AdditionalChancePerLevel = 0.00005, Type = MineType.All,
                 },
             ],
         };

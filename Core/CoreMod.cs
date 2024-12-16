@@ -69,11 +69,12 @@ public sealed class CoreMod : Mod
         if (Manifest.Author != "DaLion" || UniqueId != this.GetType().Namespace)
         {
             Log.W(
-                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at XXX.");
+                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at Nexus Mods.");
             return;
         }
 
         var assembly = Assembly.GetExecutingAssembly();
+        I18n.Init(helper.Translation);
         Config = helper.ReadConfig<CoreConfig>();
         PerScreenState = new PerScreen<CoreState>(() => new CoreState());
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);

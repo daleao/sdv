@@ -64,7 +64,7 @@ public sealed class PondsMod : Mod
         if (Manifest.Author != "DaLion" || UniqueId != this.GetType().Namespace)
         {
             Log.W(
-                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at XXX.");
+                "Woops, looks like you downloaded a clandestine version of this mod! Please make sure to download from the official mod page at Nexus Mods.");
             return;
         }
 

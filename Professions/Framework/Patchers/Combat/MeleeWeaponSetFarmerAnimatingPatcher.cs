@@ -20,7 +20,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
     internal MeleeWeaponSetFarmerAnimatingPatcher(Harmonizer harmonizer)
         : base(harmonizer)
     {
-        this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.setFarmerAnimating));
+        //this.Target = this.RequireMethod<MeleeWeapon>(nameof(MeleeWeapon.setFarmerAnimating));
     }
 
     #region harmony patches

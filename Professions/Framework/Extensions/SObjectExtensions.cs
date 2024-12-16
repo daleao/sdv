@@ -39,7 +39,7 @@ internal static class SObjectExtensions
     {
         return @object.Category.IsAnyOf(SObject.EggCategory, SObject.MilkCategory, SObject.meatCategory, SObject.sellAtPierresAndMarnies) ||
             VanillaAnimalGoodIds.Contains(@object.QualifiedItemId) ||
-            Config.AnimalDerivedGoods.Contains(@object.QualifiedItemId);
+            Lookups.AnimalDerivedGoods.Contains(@object.QualifiedItemId);
     }
 
     /// <summary>Determines whether <paramref name="object"/> is a resource node.</summary>

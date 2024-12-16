@@ -16,12 +16,14 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        foreach (var machine in Config.ArtisanMachines)
+        foreach (var machine in ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_ArtisanMachines")
+                     .SelectMany(pair => pair.Value))
         {
             Lookups.ArtisanMachines.Add(machine);
         }
 
-        foreach (var good in Config.AnimalDerivedGoods)
+        foreach (var good in ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalDerivedGoods")
+                     .SelectMany(pair => pair.Value))
         {
             Lookups.AnimalDerivedGoods.Add(good);
         }

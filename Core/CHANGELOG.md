@@ -1,5 +1,20 @@
 ﻿# CORE Changelog
 
+## 2.0.2
+
+### Added
+
+* Added debuff effects for players.
+* Added a fix for the awkward hitbox of Lava Lurk in vanilla.
+
+### Changed
+
+* Replaced the custom frozen debuff sound with the original vanilla sound, since many people complained it was too loud.
+
+### Removed
+
+* Removed the rational defense formula. It was moved to the new [Combat[(../Combat) mod.
+
 ## 2.0.1
 
 ### Changed

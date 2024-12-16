@@ -14,39 +14,6 @@ using StardewModdingAPI.Utilities;
 /// <summary>Config schema for the Professions mod.</summary>
 public sealed class ProfessionsConfig
 {
-    private HashSet<string> _artisanMachines = [
-        "(BC)Cornucopia_Alembic",
-        "(BC)Cornucopia_ButterChurn",
-        "(BC)Cornucopia_CompactMill",
-        "(BC)Cornucopia_DeluxeSmoker",
-        "(BC)Cornucopia_DryingRack",
-        "(BC)Cornucopia_Extruder",
-        "(BC)Cornucopia_Juicer",
-        "(BC)Cornucopia_VinegarKeg",
-        "(BC)Cornucopia_WaxBarrel",
-        "(BC)Cornucopia_YogurtJar",
-    ];
-
-    private HashSet<string> _animalDerivedGoods = [
-        "(O)Cornucopia_Butter",
-        "(O)Cornucopia_HoneyButter",
-        "(O)Cornucopia_PlainYogurt",
-        "(O)Cornucopia_FlavoredYogurt",
-        "(O)Cornucopia_SmokedCheese",
-        "(O)Cornucopia_SmokedEgg",
-        "(O)Cornucopia_SmokedMeat",
-        "(O)Cornucopia_AvocadoMayonnaise",
-        "(O)Cornucopia_BlackPepperMayonnaise",
-        "(O)Cornucopia_DillMayonnaise",
-        "(O)Cornucopia_GarlicMayonnaise",
-        "(O)Cornucopia_OliveOilMayonnaise",
-        "(O)Cornucopia_SpicyMayonnaise",
-        "(O)Cornucopia_TruffleMayonnaise",
-        "(O)Cornucopia_WasabiMayonnaise",
-        "(O)Cornucopia_PickledEggs",
-        "(O)Cornucopia_CenturyEgg",
-    ];
-
     private bool _enableGoldenOstrichMayo = true;
     private bool _immersiveDairyYield = true;
     private float _scavengerHuntHandicap = 1f;
@@ -88,29 +55,6 @@ public sealed class ProfessionsConfig
     [GMCMPriority(2)]
     public bool ShouldJunimosInheritProfessions { get; internal set; } = false;
 
-    /// <summary>Gets a list of (qualified) IDs of machines used to create artisan goods. Add to this list the artisan machines from third-party mods you are using to make them compatible with the Artisan profession.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(101)]
-    [GMCMOverride(typeof(ProfessionsConfigMenu), "ArtisanMachinesOverride")]
-    public HashSet<string> ArtisanMachines
-    {
-        get => this._artisanMachines;
-        internal set
-        {
-            foreach (var machine in this._artisanMachines)
-            {
-                Lookups.ArtisanMachines.Remove(machine);
-            }
-
-            this._artisanMachines = value;
-            foreach (var machine in this._artisanMachines)
-            {
-                Lookups.ArtisanMachines.Add(machine);
-            }
-        }
-    }
-
     /// <summary>Gets a value indicating whether to set golden and ostrich egg machine outputs to corresponding new mayo items.</summary>
     [JsonProperty]
     [GMCMSection("prfs.artisan_producer")]
@@ -137,29 +81,6 @@ public sealed class ProfessionsConfig
         {
             this._immersiveDairyYield = value;
             ModHelper.GameContent.InvalidateCache("Data/Machines");
-        }
-    }
-
-    /// <summary>Gets a list of (qualified) IDs of artisan goods derived from animal produce. Add to this list the animal-derived goods from third-party mods you are using to make them compatible with the Producer profession.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(104)]
-    [GMCMOverride(typeof(ProfessionsConfigMenu), "AnimalDerivedGoodsOverride")]
-    public HashSet<string> AnimalDerivedGoods
-    {
-        get => this._animalDerivedGoods;
-        internal set
-        {
-            foreach (var good in this._animalDerivedGoods)
-            {
-                Lookups.AnimalDerivedGoods.Remove(good);
-            }
-
-            this._animalDerivedGoods = value;
-            foreach (var good in this._animalDerivedGoods)
-            {
-                Lookups.AnimalDerivedGoods.Add(good);
-            }
         }
     }
 

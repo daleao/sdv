@@ -57,18 +57,18 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 // weapon enchants
                 "carving" or "carve" => new CarvingEnchantment(),
                 "cleaving" or "cleave" => new CleavingEnchantment(),
-                "explosive" or "blasting" or "blast" => new ExplosiveEnchantment(),
+                "explosive" or "blasting" or "blast" or "volatile" or "revenant" or "reactive" or "biding" or "raging" => new ExplosiveEnchantment(),
                 "vampiric" or "vamp" or "bloodthirsty" => new VampiricEnchantment(),
                 "steadfast" => new SteadfastEnchantment(),
-                "mammonite" or "mammon" => new MammoniteEnchantment(),
+                "mammonite" or "mammon" or "greedy" => new MammoniteEnchantment(),
                 "wabbajack" or "wabba" or "wab" or "wb" or "wj" => new WabbajackEnchantment(),
-                "stabbing" or "stabby" => new StabbingEnchantment(),
+                "stabbing" or "stabby" or "piercing" or "lunging" or "dashing" or "fencing" or "reckless" => new StabbingEnchantment(),
                 "sunburst" => new SunburstEnchantment(),
 
                 // slingshot enchants
-                "chilling" or "freezing" or "freljord" => new ChillingEnchantment(),
+                "chilling" or "chilly" or "freezing" or "freljord" => new ChillingEnchantment(),
                 "quincy" => new QuincyEnchantment(),
-                "runaan" => new EchoEnchantment(),
+                "runaan" or "echo" or "reverb" => new EchoEnchantment(),
 
                 // unisex enchants
                 "energized" or "shocking" or "statikk" or "thunderlords" => tool is Slingshot ? new EnergizedSlingshotEnchantment() : new EnergizedMeleeEnchantment(),
