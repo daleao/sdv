@@ -1,0 +1,6 @@
+{
+    "gmcm.crop_wither_chance.title": "Chance de dépérissement des cultures",
+    "gmcm.crop_wither_chance.desc": "Le pourcentage de probabilité qu'une culture donnée dépérisse chaque jour si elle n'est pas laissée-arrosé.",
+    "gmcm.use_rational_mitigation_formula.title": "Utiliser une formule d'atténuation rationnelle",
+    "gmcm.use_rational_mitigation_formula.desc": "Remplacez la formule linéaire d’atténuation des dégâts par une formule rationnelle qui donne des rendements plus percutants mais décroissants de la statistique de défense.*AVANT : Dommages -= Défense ; APRÈS : Dommages*= 10 / (10 + Défense)*"
+}
