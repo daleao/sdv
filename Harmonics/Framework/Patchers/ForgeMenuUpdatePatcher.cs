@@ -31,6 +31,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     /// <summary>Modify unforge behavior of combined Infinity Band.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ForgeMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

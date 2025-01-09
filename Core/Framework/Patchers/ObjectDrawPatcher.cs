@@ -26,6 +26,7 @@ internal sealed class ObjectDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw colored Slime Balls.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool ObjectDrawPrefix(SObject __instance, SpriteBatch spriteBatch, int x, int y, float alpha)
     {
         if (__instance.Name != "Slime Ball")

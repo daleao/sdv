@@ -30,6 +30,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
     [HarmonyBefore("DaLion.Professions", "Esca.FarmTypeManager")]
+    [UsedImplicitly]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
         if (!__instance.IsBlinded() || __instance.currentLocation is not { } location ||

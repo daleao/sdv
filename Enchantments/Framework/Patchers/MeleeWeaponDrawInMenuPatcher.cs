@@ -34,6 +34,7 @@ internal sealed class MeleeWeaponDrawInMenuPatcher : HarmonyPatcher
 
     /// <summary>Draw Stabbing Sword cooldown.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDrawInMenuTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

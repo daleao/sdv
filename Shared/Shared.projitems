@@ -14,6 +14,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FacingDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressReleasedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonHeldEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonHoldReleasedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuffEffectsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\NpcExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderRenderedWorldEvent.cs" />

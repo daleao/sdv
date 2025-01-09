@@ -24,6 +24,7 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to add prestige ribbon hover text + truncate profession descriptions in hover menu.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SkillsPagePerformHoverActionPostfix(int x, int y, ref string ___hoverText)
     {
         ___hoverText = Game1.parseText(___hoverText, Game1.smallFont, 500);

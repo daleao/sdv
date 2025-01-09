@@ -21,16 +21,16 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
 
         this.Provide(
-            $"{Manifest.UniqueID}/BleedAnimation",
+            $"{Manifest.UniqueID}_BleedAnimation",
             new ModTextureProvider(() => "assets/sprites/bleed.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/SlowAnimation",
+            $"{Manifest.UniqueID}_SlowAnimation",
             new ModTextureProvider(() => "assets/sprites/slow.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/StunAnimation",
+            $"{Manifest.UniqueID}_StunAnimation",
             new ModTextureProvider(() => "assets/sprites/stun.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/PoisonAnimation",
+            $"{Manifest.UniqueID}_PoisonAnimation",
             new ModTextureProvider(() => "assets/sprites/poison.png"));
     }
 

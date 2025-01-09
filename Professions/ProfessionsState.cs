@@ -12,7 +12,9 @@ using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions;
+using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Locations;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -26,49 +28,6 @@ internal sealed class ProfessionsState
     private ProspectorHunt? _prospectorHunt;
     private ScavengerHunt? _scavengerHunt;
     private Dictionary<string, int>? _prestigedEcologistBuffsLookup;
-
-    internal int SpelunkerLadderStreak { get; set; }
-
-    internal List<string> SpelunkerUncollectedItems { get; set; } = [];
-
-    internal int DemolitionistAdrenaline { get; set; }
-
-    internal List<ChainedExplosion> ChainedExplosions { get; } = [];
-
-    internal int BruteRageCounter
-    {
-        get => this._rageCounter;
-        set
-        {
-            this._rageCounter = value switch
-            {
-                >= 100 => 100,
-                <= 0 => 0,
-                _ => value,
-            };
-        }
-    }
-
-    internal Monster? LastDesperadoTarget
-    {
-        get => this._lastDesperadoTarget;
-        set
-        {
-            this._lastDesperadoTarget = value;
-            if (value is not null)
-            {
-                EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
-            }
-        }
-    }
-
-    internal PipedSlime?[] AlliedSlimes { get; } = new PipedSlime?[2];
-
-    internal HashSet<GreenSlime> OffendedSlimes { get; } = [];
-
-    internal Queue<ISkill> SkillsToReset { get; } = [];
-
-    internal bool UsedStatueToday { get; set; }
 
     internal List<int> OrderedProfessions
     {
@@ -185,7 +144,58 @@ internal sealed class ProfessionsState
         }
     }
 
-    internal Dictionary<string, int> PrestigedEcologistBuffsLookup
+    internal int SpelunkerLadderStreak { get; set; }
+
+    internal List<(string ItemId, double ChanceToRecover)> SpelunkerUncollectedItems { get; set; } = [];
+
+    internal MineShaft? SpelunkerCheckpoint { get; set; }
+
+    internal Vector2? SpelunkerCheckpointTile { get; set; }
+
+    internal int SpelunkerCheckpointDirection { get; set; }
+
+    internal bool HasSpelunkerUsedCheckpointToday { get; set; }
+
+    internal bool UsingSpelunkerCheckpoint { get; set; }
+
+    internal int DemolitionistAdrenaline { get; set; }
+
+    internal bool IsManualDetonationModeEnabled { get; set; }
+
+    internal List<ChainedExplosion> ChainedExplosions { get; } = [];
+
+    internal int BruteRageCounter
+    {
+        get => this._rageCounter;
+        set
+        {
+            this._rageCounter = value switch
+            {
+                >= 100 => 100,
+                <= 0 => 0,
+                _ => value,
+            };
+        }
+    }
+
+    internal Monster? LastDesperadoTarget
+    {
+        get => this._lastDesperadoTarget;
+        set
+        {
+            this._lastDesperadoTarget = value;
+            if (value is not null)
+            {
+                EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
+            }
+        }
+    }
+
+    internal PipedSlime?[] AlliedSlimes { get; } = new PipedSlime?[2];
+
+    internal HashSet<GreenSlime> OffendedSlimes { get; } = [];
+
+    internal Dictionary<string, int> EcologistBuffsLookup
     {
         get
         {
@@ -195,6 +205,10 @@ internal sealed class ProfessionsState
             return this._prestigedEcologistBuffsLookup;
         }
     }
+
+    internal Queue<ISkill> SkillsToReset { get; } = [];
+
+    internal bool UsedStatueToday { get; set; }
 
     internal MasteryWarningBox? WarningBox { get; set; }
 }

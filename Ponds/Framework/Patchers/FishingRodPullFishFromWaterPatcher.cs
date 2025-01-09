@@ -32,6 +32,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
 
     /// <summary>Decrement total Fish Pond quality ratings.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void FishingRodPullFishFromWaterPrefix(
         FishingRod __instance, ref string fishId, ref int fishQuality, bool fromFishPond)
     {

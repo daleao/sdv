@@ -25,29 +25,42 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to make Hopper actually useful.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ObjectPlacementActionPostfix(SObject __instance)
     {
-        if (__instance.QualifiedItemId != QualifiedBigCraftableIds.Hopper)
-        {
-            return;
-        }
-
         var location = __instance.Location;
         if (location is null)
         {
             return;
         }
 
-        var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
-        if (location.Objects.TryGetValue(tileAbove, out var fromObj) && fromObj.readyForHarvest.Value)
+        if (__instance.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
         {
-            fromObj.checkForAction(__instance.GetOwner());
-        }
+            var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
+            if (location.Objects.TryGetValue(tileAbove, out var fromObj) && fromObj.readyForHarvest.Value)
+            {
+                fromObj.checkForAction(__instance.GetOwner());
+            }
 
-        var tileBelow = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y + 1f);
-        if (location.Objects.TryGetValue(tileBelow, out fromObj) && fromObj.readyForHarvest.Value)
+            var tileBelow = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y + 1f);
+            if (location.Objects.TryGetValue(tileBelow, out fromObj) && fromObj.readyForHarvest.Value)
+            {
+                fromObj.checkForAction(__instance.GetOwner());
+            }
+        }
+        else
         {
-            fromObj.checkForAction(__instance.GetOwner());
+            var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
+            if (location.Objects.TryGetValue(tileAbove, out var toObj) && toObj.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
+            {
+                __instance.checkForAction(toObj.GetOwner());
+            }
+
+            var tileBelow = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y + 1f);
+            if (location.Objects.TryGetValue(tileBelow, out toObj) && toObj.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
+            {
+                __instance.checkForAction(toObj.GetOwner());
+            }
         }
     }
 

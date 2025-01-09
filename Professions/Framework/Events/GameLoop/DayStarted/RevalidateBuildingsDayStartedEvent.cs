@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Events.GameLoop.DayEnding;
+﻿namespace DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 
 #region using directives
 
@@ -7,17 +7,17 @@ using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
- 
+
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="RevalidateBuildingsDayEndingEvent"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="RevalidateBuildingsDayStartedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class RevalidateBuildingsDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? ProfessionsMod.EventManager)
+internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager = null)
+    : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
+    protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
         bool areThereAnyPrestigedBreeders = false,
             areThereAnyPrestigedProducers = false,
@@ -53,7 +53,7 @@ internal sealed class RevalidateBuildingsDayEndingEvent(EventManager? manager = 
                 case AnimalHouse barn when barn.Name.Contains("Barn"):
                     switch (areThereAnyPrestigedBreeders)
                     {
-                        case true when barn.animalLimit.Value == 12:
+                        case true when barn.Name.Contains("Deluxe") || barn.animalLimit.Value == 12:
                         {
                             barn.animalLimit.Value = 14;
                             if (barn.Objects.TryGetValue(new Vector2(6, 3), out var hopper))
@@ -66,16 +66,40 @@ internal sealed class RevalidateBuildingsDayEndingEvent(EventManager? manager = 
                             break;
                         }
 
-                        case false when barn.animalLimit.Value == 14:
+                        case true when barn.Name.Contains("Premium") || barn.animalLimit.Value == 16:
+                        {
+                            barn.animalLimit.Value = 18;
+                            if (barn.Objects.TryGetValue(new Vector2(4, 4), out var hopper))
+                            {
+                                barn.Objects.Remove(hopper.TileLocation);
+                                hopper.TileLocation = new Vector2(2, 5);
+                                barn.Objects[hopper.TileLocation] = hopper;
+                            }
+
+                            break;
+                        }
+
+                        case false when barn.Name.Contains("Deluxe") || barn.animalLimit.Value == 14:
                         {
                             barn.animalLimit.Value = 12;
+                            if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
                             {
-                                if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
-                                {
-                                    barn.Objects.Remove(hopper.TileLocation);
-                                    hopper.TileLocation = new Vector2(6, 3);
-                                    barn.Objects[hopper.TileLocation] = hopper;
-                                }
+                                barn.Objects.Remove(hopper.TileLocation);
+                                hopper.TileLocation = new Vector2(6, 3);
+                                barn.Objects[hopper.TileLocation] = hopper;
+                            }
+
+                            break;
+                        }
+
+                        case false when barn.Name.Contains("Premium") || barn.animalLimit.Value == 18:
+                        {
+                            barn.animalLimit.Value = 16;
+                            if (barn.Objects.TryGetValue(new Vector2(2, 5), out var hopper))
+                            {
+                                barn.Objects.Remove(hopper.TileLocation);
+                                hopper.TileLocation = new Vector2(4, 4);
+                                barn.Objects[hopper.TileLocation] = hopper;
                             }
 
                             break;
@@ -83,17 +107,21 @@ internal sealed class RevalidateBuildingsDayEndingEvent(EventManager? manager = 
                     }
 
                     ModHelper.GameContent.InvalidateCache("Maps/Barn3");
+                    ModHelper.GameContent.InvalidateCache("Maps/SVE_PremiumBarn");
                     break;
 
                 case AnimalHouse coop when coop.Name.Contains("Coop"):
                     coop.animalLimit.Value = areThereAnyPrestigedProducers switch
                     {
-                        true when coop.animalLimit.Value == 12 => 14,
-                        false when coop.animalLimit.Value == 14 => 12,
+                        true when coop.Name.Contains("Deluxe") || coop.animalLimit.Value == 12 => 14,
+                        true when coop.Name.Contains("Premium") || coop.animalLimit.Value == 16 => 18,
+                        false when coop.Name.Contains("Deluxe") || coop.animalLimit.Value == 14 => 12,
+                        false when coop.Name.Contains("Premium") || coop.animalLimit.Value == 18 => 16,
                         _ => coop.animalLimit.Value,
                     };
 
                     ModHelper.GameContent.InvalidateCache("Maps/Coop3");
+                    ModHelper.GameContent.InvalidateCache("Maps/SVE_PremiumCoop");
                     break;
 
                 case SlimeHutch hutch:

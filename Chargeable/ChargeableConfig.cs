@@ -46,17 +46,17 @@ public sealed class ChargeableConfig
 
         Log.T("Verifying tool configs...");
 
-        if (this.Axe.RadiusAtEachPowerLevel.Length < 5)
+        if (this.Axe.RadiusAtEachPowerLevel.Length < 7)
         {
             Log.W("Missing values in Axe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Axe.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5];
+            this.Axe.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5, 6, 7];
             isValid = false;
         }
 
-        if (this.Pick.RadiusAtEachPowerLevel.Length < 5)
+        if (this.Pick.RadiusAtEachPowerLevel.Length < 7)
         {
             Log.W("Missing values Pickaxe.RadiusAtEachPowerLevel. The default values will be restored.");
-            this.Pick.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5];
+            this.Pick.RadiusAtEachPowerLevel = [1, 2, 3, 4, 5, 6, 7];
             isValid = false;
         }
 

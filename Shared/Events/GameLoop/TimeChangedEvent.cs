@@ -24,17 +24,17 @@ public abstract class TimeChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnTimeChanged"/>
+    protected abstract void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.TimeChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnTimeChanged(object? sender, TimeChangedEventArgs e)
+    private void OnTimeChanged(object? sender, TimeChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnTimeChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnTimeChanged"/>
-    protected abstract void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e);
 }

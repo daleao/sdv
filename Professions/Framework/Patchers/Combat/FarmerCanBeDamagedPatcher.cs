@@ -22,6 +22,7 @@ internal sealed class FarmerCanBeDamagedPatcher : HarmonyPatcher
 
     /// <summary>Patch to make Poacher invulnerable in Limit Break.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerCanBeDamagedPrefix(Farmer __instance, ref bool __result)
     {
         if (!__instance.IsAmbushing())

@@ -24,17 +24,17 @@ public abstract class RenderedActiveMenuEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnRenderedActiveMenu"/>
+    protected abstract void OnRenderedActiveMenuImpl(object? sender, RenderedActiveMenuEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.RenderedActiveMenu"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderedActiveMenu(object? sender, RenderedActiveMenuEventArgs e)
+    private void OnRenderedActiveMenu(object? sender, RenderedActiveMenuEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnRenderedActiveMenuImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnRenderedActiveMenu"/>
-    protected abstract void OnRenderedActiveMenuImpl(object? sender, RenderedActiveMenuEventArgs e);
 }

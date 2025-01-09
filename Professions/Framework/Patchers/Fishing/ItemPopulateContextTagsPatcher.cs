@@ -33,6 +33,7 @@ internal sealed class ItemPopulateContextTagsPatcher : HarmonyPatcher
 
     /// <summary>Patch to add pair context tag to extended family fish.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ItemPopulateContextTagsPostfix(Item __instance, HashSet<string> tags)
     {
         if (!ExtendedFamilyPairs.TryGetValue(__instance.QualifiedItemId, out var pairId))

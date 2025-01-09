@@ -22,6 +22,7 @@ internal sealed class InventoryMenuHoverPatcher : HarmonyPatcher
     #region harmony patches
 
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ItemGrabMenuCtorPostfix(InventoryMenu __instance, Item __result, Item heldItem)
     {
         if (__result is not null)

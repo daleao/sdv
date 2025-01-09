@@ -81,7 +81,8 @@
   "spelunker.title.prestiged.male": "Cavewarden",
   "spelunker.title.prestiged.female": "Cavewarden",
   "spelunker.desc": "Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.",
-  "spelunker.desc.prestiged": "Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris.",
+  "spelunker.desc.prestiged": "Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room upon death.",
+  "spelunker.revival": "Your instincts guide you back through the shadows——alive, but only just.",
   "spelunker.buff.desc": "Ladder chance +{{ladderChance}}.",
   "prospector.title.male": "Prospector",
   "prospector.title.female": "Prospector",
@@ -89,7 +90,7 @@
   "prospector.title.prestiged.female": "Archaeologist",
   "prospector.desc": "Reveals the locations of ladders and mining nodes. Occasionally detect mineral treasures.",
   "prospector.desc.prestiged": "Time freezes during Prospector Hunts. Find increasingly more mining nodes on a high streak.",
-  "prospector.hunt_started": "Your Prospector sj enses are tingling...",
+  "prospector.hunt_started": "Your Prospector senses are tingling...",
   "prospector.hunt_failed": "The tingling stops.",
 
   "blaster.title.male": "Blaster",
@@ -100,7 +101,7 @@
   "demolitionist.title.female": "Demolitionist",
   "demolitionist.title.prestiged.male": "Pyrotechnician",
   "demolitionist.title.prestiged.female": "Pyrotechnician",
-  "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
+  "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks. Can manually detonate bombs.",
   "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
   "gemologist.title.male": "Gemologist",
@@ -125,8 +126,8 @@
   "aquarist.title.female": "Aquarist",
   "aquarist.title.prestiged.male": "Ichthyologist",
   "aquarist.title.prestiged.female": "Ichthyologist",
-  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.",
-  "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4. Fish species raised to max pond capacity are reeled instantly.",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond. Can raise legendary fish at half capacity.",
+  "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4. Fish species raised to max pond capacity are reeled instantly. Unlocked legendary Fish Pond capacity.",
 
   "trapper.title.male": "Trapper",
   "trapper.title.female": "Trapper",
@@ -183,8 +184,8 @@
   "piper.title.female": "Slimed Siren",
   "piper.title.prestiged.male": "Slime Conductor",
   "piper.title.prestiged.female": "Slime Enchantress",
-  "piper.desc": "Slimes are not immediately aggressive and may follow you in combat. Slime Hutch capacity +50%.",
-  "piper.desc.prestiged": "One additional Slime may follow you in combat. Obtain special colored items from Slime Balls.",
+  "piper.desc": "Can attempt to tame a nearby Slime, with chance based on the number of raised Slimes. Hutch capacity +50%. Slimed debuff also grants healing over time.",
+  "piper.desc.prestiged": "Can tame one additional Slime. Slimed debuff also removes special move cooldown. Obtain special colored items from Slime Balls.",
   "piper.buff": "Slimed",
 
   // prestige
@@ -231,7 +232,7 @@
   "piper.limit.title.male": "Hamelin Concerto",
   "piper.limit.title.female": "Pheromonious Fever",
   "piper.limit.desc": "Enthrall and empower all nearby Slimes for 15s.",
-  "piper.limit.explain": "Charm all nearby Slimes for 15s, empowering and turning them into allies.",
+  "piper.limit.explain": "Tame all nearby Slimes and also empower them for 15s.",
 
   "ulti.canteat": "Can't do that right now.",
   "prestige.mastery.choose": "Choose your Limit Break",

@@ -26,6 +26,7 @@ internal sealed class MonsterHandleParriedPatcher : HarmonyPatcher
 
     /// <summary>Empowered parry.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void MonsterHandleParriedPrefix(object args)
     {
         if (!Config.DefenseImprovesParry)

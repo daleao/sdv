@@ -59,7 +59,7 @@ internal sealed class SnowballProjectile : BasicProjectile
     {
         location.temporarySprites.Add(
             new TemporaryAnimatedSprite(
-                $"{Manifest.UniqueID}/SnowballCollisionAnimation",
+                $"{Manifest.UniqueID}_SnowballCollisionAnimation",
                 new Rectangle(0, 0, 64, 64),
                 50f,
                 10,

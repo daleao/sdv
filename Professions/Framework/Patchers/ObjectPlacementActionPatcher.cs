@@ -30,6 +30,7 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent quantum bombs when detonating manually + record Arborist-planted trees.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ObjectPlacementActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

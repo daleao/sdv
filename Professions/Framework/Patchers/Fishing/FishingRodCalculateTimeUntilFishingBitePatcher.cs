@@ -26,6 +26,7 @@ internal sealed class FishingRodCalculateTimeUntilFishingBitePatcher : HarmonyPa
 
     /// <summary>Patch to double Fisher bait effects + Angler rod memory.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FishingRodCalculateTimeUntilFishingBiteTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

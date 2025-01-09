@@ -27,6 +27,7 @@ internal sealed class MenuWithInventoryReadyToClosePatcher : HarmonyPatcher
 
     /// <summary>Update ItemsHeld data on grab menu close.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MenuWithInventoryToClosePostfix(MenuWithInventory __instance, ref bool __result)
     {
         if (__instance is not ItemGrabMenu grabMenu || grabMenu.context is not FishPond pond)

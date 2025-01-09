@@ -26,6 +26,7 @@ internal sealed class BuffsDisplayDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw stackable buffs.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void BuffsDisplayDrawPostfix(Dictionary<ClickableTextureComponent, Buff> ___buffs, SpriteBatch b)
     {
         foreach (var (clickableTextureComponent, buff) in ___buffs)

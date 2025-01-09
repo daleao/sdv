@@ -34,6 +34,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     /// <summary>Do Quincy shot.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
+    [UsedImplicitly]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
@@ -93,29 +94,23 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     }
 
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? SlingshotPerformFireTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
-        // Injected: OnFire(this, projectile, location, who);
+        // Injected: OnFire(projectile, this, location, who);
         // After: location.projectiles.Add( ... );
         try
         {
             helper
                 .PatternMatch([
-                    new CodeInstruction(OpCodes.Newobj),
-                    new CodeInstruction(OpCodes.Dup),
-                ])
-                .Move()
-                .Insert([
-                    new CodeInstruction(OpCodes.Dup),
-                ])
-                .PatternMatch([
                     new CodeInstruction(OpCodes.Callvirt, typeof(NetCollection<Projectile>).RequireMethod(nameof(NetCollection<Projectile>.Add))),
+                    new CodeInstruction(OpCodes.Br_S),
                 ])
-                .Move()
                 .Insert([
+                    new CodeInstruction(OpCodes.Dup),
                     new CodeInstruction(OpCodes.Ldarg_0),
                     new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Ldarg_2),

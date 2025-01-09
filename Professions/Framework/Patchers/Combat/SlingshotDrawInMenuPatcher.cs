@@ -34,6 +34,7 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
 
     /// <summary>Draw current ammo.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? SlingshotPatchDrawInMenuPrefixTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

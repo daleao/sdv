@@ -25,8 +25,11 @@ public sealed class TaxesConfig
     private float _propertyLatenessFine = 0.15f;
     private float _unusedTileTaxRate = 0.05f;
     private float _usedTileTaxRate = 0.02f;
-    private float _buildingTaxRate = 0.04f;
+    private float _buildingTaxRate = 0.1f;
     private float _annualInterest = 0.72f;
+    private float _defaultArtisanValueCropMultiplier = 2f;
+    private float _defaultArtisanValueProduceMultiplier = 1.5f;
+    private int _baselineUnusedTileCost = 15;
     private Dictionary<int, float> _taxRatePerIncomeBracket = new()
     {
         { 9950, 0.1f },
@@ -189,6 +192,20 @@ public sealed class TaxesConfig
         }
     }
 
+    /// <summary>Gets the baseline cost of each unused tile.</summary>
+    [JsonProperty]
+    [GMCMSection("txs.property")]
+    [GMCMPriority(16)]
+    [GMCMRange(0, 100, 5)]
+    public int BaselineUnusedTileCost
+    {
+        get => this._baselineUnusedTileCost;
+        internal set
+        {
+            this._baselineUnusedTileCost = Math.Max(value, 0);
+        }
+    }
+
     /// <summary>Gets the property tax rate of an unused tile.</summary>
     [JsonProperty]
     [GMCMSection("txs.property")]
@@ -241,7 +258,7 @@ public sealed class TaxesConfig
     [JsonProperty]
     [GMCMSection("txs.property")]
     [GMCMPriority(15)]
-    [GMCMRange(1, 27)]
+    [GMCMRange(1, 28)]
     public int PropertyTaxDay { get; set; } = 20;
 
     #endregion property
@@ -262,6 +279,34 @@ public sealed class TaxesConfig
         internal set
         {
             this._annualInterest = Math.Max(value, 0f);
+        }
+    }
+
+    /// <summary>Gets a multiplier which is used to estimate the value of artisan products derived from crops.</summary>
+    [JsonProperty]
+    [GMCMSection("other")]
+    [GMCMPriority(51)]
+    [GMCMRange(1f, 3f, 0.01f)]
+    public float DefaultArtisanValueCropMultiplier
+    {
+        get => this._defaultArtisanValueCropMultiplier;
+        internal set
+        {
+            this._defaultArtisanValueCropMultiplier = Math.Max(value, 0f);
+        }
+    }
+
+    /// <summary>Gets a multiplier which is used to estimate the value of artisan products derived from animal produce.</summary>
+    [JsonProperty]
+    [GMCMSection("other")]
+    [GMCMPriority(52)]
+    [GMCMRange(1f, 3f, 0.01f)]
+    public float DefaultArtisanValueProduceMultiplier
+    {
+        get => this._defaultArtisanValueProduceMultiplier;
+        internal set
+        {
+            this._defaultArtisanValueProduceMultiplier = Math.Max(value, 0f);
         }
     }
 

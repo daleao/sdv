@@ -24,6 +24,7 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
     /// <summary>Add to PondFish data.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondAddFishToPondPostfix(FishPond __instance, FishPondData ____fishPondData, SObject fish)
     {
         var added = new PondFish(fish.ItemId, fish.Quality);

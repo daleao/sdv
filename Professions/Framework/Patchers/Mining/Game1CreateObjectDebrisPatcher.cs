@@ -27,6 +27,7 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
 
     /// <summary>Patch for Gemologist mineral quality and increment counter for mined minerals.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool Game1CreateObjectDebrisPrefix(
         string id, int xTile, int yTile, long whichPlayer, GameLocation location)
     {

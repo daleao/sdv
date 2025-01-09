@@ -24,17 +24,17 @@ public abstract class SavedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnSaved"/>
+    protected abstract void OnSavedImpl(object? sender, SavedEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.Saved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnSaved(object? sender, SavedEventArgs e)
+    private void OnSaved(object? sender, SavedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnSavedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnSaved"/>
-    protected abstract void OnSavedImpl(object? sender, SavedEventArgs e);
 }

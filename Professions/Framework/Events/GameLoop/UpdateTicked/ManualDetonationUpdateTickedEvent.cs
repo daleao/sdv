@@ -16,7 +16,7 @@ internal sealed class ManualDetonationUpdateTickedEvent(EventManager? manager = 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Config.ModKey.IsDown())
+        if (State.IsManualDetonationModeEnabled)
         {
             return;
         }

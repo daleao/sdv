@@ -24,6 +24,7 @@ internal sealed class FarmerCurrentToolIndexSetterPatcher : HarmonyPatcher
 
     /// <summary>Set Rascal ammo slots.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void FarmerCurrentToolIndexPrefix(Farmer __instance, int value)
     {
         if (value < 0 || value >= __instance.Items.Count || __instance.Items[value] is not Slingshot slingshot)

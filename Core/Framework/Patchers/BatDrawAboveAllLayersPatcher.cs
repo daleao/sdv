@@ -30,6 +30,7 @@ internal sealed class BatDrawAboveAllLayersPatcher : HarmonyPatcher
     /// <summary>Slow and damage-over-time effects for cursed dolls.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool BatDrawAboveAllLayersPrefix(Bat __instance, List<Vector2> ___previousPositions, NetBool ___seenPlayer, SpriteBatch b)
     {
         if (!__instance.cursedDoll.Value || !__instance.IsFrozen())

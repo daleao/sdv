@@ -27,6 +27,7 @@ internal sealed class FarmerMovePositionImplPatcher : HarmonyPatcher
 
     /// <summary>Confusion effect.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmerMovePosition(IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

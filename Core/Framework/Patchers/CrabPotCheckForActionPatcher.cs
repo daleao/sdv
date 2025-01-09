@@ -27,6 +27,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
     /// <summary>Prevents remote item pickup when harvested by Hopper.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
+    [UsedImplicitly]
     private static bool CrabPotCheckForActionPrefix(
         ref CrabPot __instance,
         ref bool __result,

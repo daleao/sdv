@@ -341,8 +341,8 @@ For Silviculturist, every fully-grown Green Rain Tree on the Farm adds a 1.5% ch
 <font size="2">
 <details>
 
-New regular recipe: x25 wood, x1 copper bar.
-New Heavy recipe: x18 hardwood, x1 radioactive bar.
+New regular recipe: x20 wood, x1 copper bar.
+New Heavy recipe: x15 hardwood, x1 radioactive bar.
 
 In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which makes it more in line with the new Heavy Furnace and, honestly, just makes more sense. This is enabled by default.
 </details>
@@ -877,8 +877,8 @@ During combat you can track the current Limit charge by the HUD bar labeled "L".
 <summary><img src="./resources/assets/sprites/loose/undyingrage.png"/> <b>Undying Frenzy (Brute / Amazon)</b> - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
 </summary>
 
-<ul>
 <font size="2">
+<ul>
 
 Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
 </ul>
@@ -889,8 +889,8 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 <summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.
 </summary>
 
-<ul>
 <font size="2">
+<ul>
 
 Charged by scoring critical hits, and the charge amount is proportional to crit. power.
 </ul>
@@ -901,8 +901,8 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 <summary><img src="./resources/assets/sprites/loose/bullettime.png"/> <b>Death Blossom (Desperado)</b> - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.
 </summary>
 
-<ul>
 <font size="2">
+<ul>
 
 - Journey of the Prairie King, "IRL".
 - Charged by hitting monsters with projectiles. Charges more quickly when low on health.
@@ -914,8 +914,8 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 <summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
 </summary>
 
-<ul>
 <font size="2">
+<ul>
 
 - If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes.
 - Nearby Big Slimes burst immediately when activated.

@@ -25,6 +25,7 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
 
     /// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationBreakStoneTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

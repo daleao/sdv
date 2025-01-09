@@ -24,17 +24,17 @@ public abstract class NpcListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnNpcListChanged"/>
+    protected abstract void OnNpcListChangedImpl(object? sender, NpcListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.NpcListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnNpcListChanged(object? sender, NpcListChangedEventArgs e)
+    private void OnNpcListChanged(object? sender, NpcListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnNpcListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnNpcListChanged"/>
-    protected abstract void OnNpcListChangedImpl(object? sender, NpcListChangedEventArgs e);
 }

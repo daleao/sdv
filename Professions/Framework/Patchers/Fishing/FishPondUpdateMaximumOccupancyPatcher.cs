@@ -26,6 +26,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     /// <summary>Patch for Aquarist increased Fish Pond capacity.</summary>
     [HarmonyPostfix]
     [HarmonyBefore("DaLion.Ponds")]
+    [UsedImplicitly]
     private static void FishPondUpdateMaximumOccupancyPostfix(
         FishPond __instance, FishPondData? ____fishPondData)
     {

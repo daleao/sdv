@@ -23,6 +23,7 @@ internal sealed class LevelUpMenuGetProfessionNamePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply modded profession names.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuGetProfessionNamePrefix(ref string __result, int whichProfession)
     {
         if (!Profession.TryFromValue(whichProfession, out var profession))

@@ -23,6 +23,7 @@ internal sealed class SlingshotGetAmmoDamagePatcher : HarmonyPatcher
 
     /// <summary>Patch to set Rascal Slime ammo damage.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SlingshotGetAmmoDamagePostfix(Slingshot __instance, ref int __result, SObject ammunition)
     {
         if (ammunition.QualifiedItemId != QualifiedObjectIds.Slime)

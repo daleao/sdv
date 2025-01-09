@@ -24,6 +24,7 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
 
     /// <summary>Patch for Industrialist production speed bonus.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ObjectAttemptAutoLoadPostfix(SObject __instance, bool __result, Farmer who)
     {
         if (__instance.IsArtisanMachine() && __result && who.HasProfession(Profession.Artisan, true))

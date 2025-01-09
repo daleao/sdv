@@ -26,6 +26,7 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase prestiged Agriculturist crop growth speed.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? HoeDirtApplySpeedIncreasesTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

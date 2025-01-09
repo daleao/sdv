@@ -27,6 +27,7 @@ internal sealed class MasteryTrackerMenuClaimRewardPatcher : HarmonyPatcher
 
     /// <summary>Patch for post-Mastery unlocks.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MasteryTrackerMenuClaimRewardPostfix(int ___which)
     {
         if (___which == Skill.Combat && ShouldEnableLimitBreaks)
@@ -37,6 +38,7 @@ internal sealed class MasteryTrackerMenuClaimRewardPatcher : HarmonyPatcher
 
     /// <summary>Patch to wait for Limit selection before spirit candles.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MasteryTrackerMenuClaimRewardTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

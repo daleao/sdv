@@ -16,6 +16,12 @@ internal sealed class TaxGameLaunchedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
+        foreach (var machine in ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_ArtisanMachines")
+                     .SelectMany(pair => pair.Value))
+        {
+            Lookups.ArtisanMachines.Add(machine);
+        }
+
         if (TaxesConfigMenu.Instance?.IsLoaded == true)
         {
             TaxesConfigMenu.Instance.Register();

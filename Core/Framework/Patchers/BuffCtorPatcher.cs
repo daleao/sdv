@@ -27,6 +27,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
     #region harmony patches
 
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool BuffCtorPrefix(
         Buff __instance,
         string? id,

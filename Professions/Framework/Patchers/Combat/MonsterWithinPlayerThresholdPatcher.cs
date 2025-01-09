@@ -25,6 +25,7 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
 
     /// <summary>Patch to make Poacher invisible in LimitBreak.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MonsterWithinPlayerThresholdPrefix(Monster __instance, ref bool __result)
     {
         if (__instance is Ghost)

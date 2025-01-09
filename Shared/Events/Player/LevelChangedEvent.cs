@@ -24,17 +24,17 @@ public abstract class LevelChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnLevelChanged"/>
+    protected abstract void OnLevelChangedImpl(object? sender, LevelChangedEventArgs e);
+
     /// <inheritdoc cref="IPlayerEvents.LevelChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnLevelChanged(object? sender, LevelChangedEventArgs e)
+    private void OnLevelChanged(object? sender, LevelChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnLevelChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnLevelChanged"/>
-    protected abstract void OnLevelChangedImpl(object? sender, LevelChangedEventArgs e);
 }

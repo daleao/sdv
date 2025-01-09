@@ -19,9 +19,9 @@ internal static class ToolExtensions
     {
         // use tool on center of tile
         who.lastClick = getPixelPosition(tile);
-        State.DoingShockwave = true;
+        State.ShockwaveHitting = true;
         tool.DoFunction(location, (int)who.lastClick.X, (int)who.lastClick.Y, 0, who);
-        State.DoingShockwave = false;
+        State.ShockwaveHitting = false;
         return true;
 
         Vector2 getPixelPosition(Vector2 tile)

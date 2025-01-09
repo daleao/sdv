@@ -58,13 +58,14 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     /// <summary>Draw Prestiged Ecologist buff tooltips.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void IClickableMenuDrawHoverTextPrefix(
         ref string[]? buffIconsToDisplay,
         Item? hoveredItem)
     {
         if (hoveredItem is not SObject @object || !@object.isForage() ||
             !Game1.player.HasProfession(Profession.Ecologist, true) ||
-            !State.PrestigedEcologistBuffsLookup.TryGetValue(@object.ItemId, out var buffIndex))
+            !State.EcologistBuffsLookup.TryGetValue(@object.ItemId, out var buffIndex))
         {
             return;
         }
@@ -129,6 +130,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     /// <summary>Patch to flush Rascal slingshot tooltip.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

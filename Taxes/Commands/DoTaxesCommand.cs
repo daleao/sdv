@@ -3,9 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Commands;
-using DaLion.Shared.Extensions.Stardew;
-using DaLion.Taxes.Framework.Integrations;
-using static System.FormattableString;
 
 #endregion using directives
 
@@ -37,82 +34,27 @@ internal sealed class DoTaxesCommand(CommandHandler handler)
         {
             case "income":
             {
-                var forClosingSeason = Game1.dayOfMonth == 1;
-                var seasonIncome = Data.ReadAs<int>(player, DataKeys.SeasonIncome);
-                var businessExpenses = Data.ReadAs<int>(player, DataKeys.BusinessExpenses);
-                var deductible = ProfessionsIntegration.IsValueCreated && player.professions.Contains(Farmer.mariner)
-                    ? forClosingSeason
-                        ? Data.ReadAs<float>(player, DataKeys.PercentDeductions)
-                        // ReSharper disable once PossibleLossOfFraction
-                        : Data.ReadAs<int>(player, "ConservationistTrashCollectedThisSeason") /
-                          ProfessionsIntegration.Instance.ModApi!.GetConfig()
-                              .ConservationistTrashNeededPerTaxDeduction / 100f
-                    : 0f;
-                if (deductible > 0f)
-                {
-                    deductible = Math.Min(
-                        deductible,
-                        ProfessionsIntegration.Instance!.ModApi!.GetConfig().ConservationistTaxDeductionCeiling);
-                }
-
-                var taxable = (int)(Math.Max(seasonIncome - businessExpenses, 0) * (1f - deductible));
-                var dueF = 0f;
-                var tax = 0f;
-                var temp = taxable;
-                foreach (var bracket in RevenueService.TaxByIncomeBracket.Keys)
-                {
-                    tax = RevenueService.TaxByIncomeBracket[bracket];
-                    if (temp > bracket)
-                    {
-                        dueF += bracket * tax;
-                        temp -= bracket;
-                    }
-                    else
-                    {
-                        dueF += temp * tax;
-                        break;
-                    }
-                }
-
-                var dueI = (int)Math.Round(dueF);
-                this.Handler.Log.I(
-                    "Accounting " + (forClosingSeason ? "report" : "projection") + " for the " +
-                    (forClosingSeason ? $"closing {Game1.season.Previous()}" : $"current {Game1.season}") + " season:" +
-                    $"\n\t- Income (season-to-date): {seasonIncome}g" +
-                    $"\n\t- Business expenses: {businessExpenses}g" +
-                    CurrentCulture($"\n\t- Eligible deductions: {deductible:0.0%}") +
-                    $"\n\t- Taxable amount: {taxable}g" +
-                    CurrentCulture($"\n\t- Bracket: {tax:0.0%}") +
-                    $"\n\t- Income tax due: {dueI}g." +
-                    $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}.");
-
+                RevenueService.CalculateTaxes(player);
                 break;
             }
 
             case "property":
             case "estate":
             {
-                var farm = Game1.getFarm();
-                var (agricultureValue, livestockValue, buildingValue, usedTiles) = farm.Appraise(false);
-                var usableTiles = Data.ReadAs<int>(farm, DataKeys.UsableTiles);
-                var usedPct = (float)usedTiles / usableTiles;
-                var owedOverUsedLand = (int)((agricultureValue + livestockValue) * usedPct * Config.UsedTileTaxRate);
-                var owedOverUnusedLand =
-                    (int)((agricultureValue + livestockValue) * (1f - usedPct) * Config.UnusedTileTaxRate);
-                var owedOverBuildings = (int)(buildingValue * Config.BuildingTaxRate);
-                this.Handler.Log.I(
-                    $"Use-value assessment for {farm.Name} (year-to-date):" +
-                    $"\n\t- Agricultural value: {agricultureValue}g" +
-                    $"\n\t- Livestock value: {livestockValue}g" +
-                    $"\n\t- Building value: {buildingValue}g" +
-                    $"\n\t\t- Total property value: {agricultureValue + livestockValue + buildingValue}g" +
-                    CurrentCulture($"\n\t- Used Tiles: {usedTiles} ({usedPct:0.0%})") +
-                    $"\n\t- Tax owed over used land: {owedOverUsedLand}g" +
-                    $"\n\t- Tax owed over real-estate: {owedOverBuildings}g" +
-                    $"\n\t- Tax owed over unused land: {owedOverUnusedLand}g" +
-                    $"\n\t\t- Total property tax owed: {owedOverUsedLand + owedOverUnusedLand + owedOverBuildings}g" +
-                    $"\nRequested on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}.");
+                if (args.Length > 1 && args[1].ToLowerInvariant() is "--force" or "-f")
+                {
+                    var farm = Game1.getFarm();
+                    var (agricultureValue, livestockValue, artisanValue, buildingValue, usedTiles, treeCount) =
+                        farm.Appraise();
+                    Data.Write(farm, DataKeys.AgricultureValue, agricultureValue.ToString());
+                    Data.Write(farm, DataKeys.LivestockValue, livestockValue.ToString());
+                    Data.Write(farm, DataKeys.ArtisanValue, artisanValue.ToString());
+                    Data.Write(farm, DataKeys.BuildingValue, buildingValue.ToString());
+                    Data.Write(farm, DataKeys.TreeCount, treeCount.ToString());
+                    Data.Write(farm, DataKeys.UsedTiles, usedTiles.ToString());
+                }
 
+                CountyService.CalculateTaxes();
                 break;
             }
 

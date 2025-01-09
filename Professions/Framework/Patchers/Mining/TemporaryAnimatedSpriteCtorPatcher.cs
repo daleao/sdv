@@ -33,9 +33,10 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow manual detonation.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void TemporaryAnimatedSpriteCtorPostfix(TemporaryAnimatedSprite __instance, Farmer owner)
     {
-        if (!owner.HasProfession(Profession.Demolitionist) || !Config.ModKey.IsDown())
+        if (!owner.HasProfession(Profession.Demolitionist) || !State.IsManualDetonationModeEnabled)
         {
             return;
         }

@@ -25,6 +25,7 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
 
     /// <summary>Patch to remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationOnStoneDestroyedTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

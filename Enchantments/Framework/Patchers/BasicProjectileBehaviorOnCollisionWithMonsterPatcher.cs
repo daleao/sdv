@@ -25,6 +25,7 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatcher : Har
 
     /// <summary>Do thunder strike.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance, NPC n, GameLocation location)
     {
         if (n is Monster && Data.ReadAs<bool>(__instance, DataKeys.Energized))

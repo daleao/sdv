@@ -28,6 +28,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
     /// <summary>Patch to handle Luremaster-caught non-trap fish.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool CrabPotCheckForActionPrefix(
         ref CrabPot __instance,
         ref bool __result,

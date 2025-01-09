@@ -24,17 +24,17 @@ public abstract class DebrisListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnDebrisListChanged"/>
+    protected abstract void OnDebrisListChangedImpl(object? sender, DebrisListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.DebrisListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnDebrisListChanged(object? sender, DebrisListChangedEventArgs e)
+    private void OnDebrisListChanged(object? sender, DebrisListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnDebrisListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnDebrisListChanged"/>
-    protected abstract void OnDebrisListChangedImpl(object? sender, DebrisListChangedEventArgs e);
 }

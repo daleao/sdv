@@ -24,17 +24,17 @@ public abstract class RenderedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnRendered"/>
+    protected abstract void OnRenderedImpl(object? sender, RenderedEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.Rendered"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRendered(object? sender, RenderedEventArgs e)
+    private void OnRendered(object? sender, RenderedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnRenderedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnRendered"/>
-    protected abstract void OnRenderedImpl(object? sender, RenderedEventArgs e);
 }

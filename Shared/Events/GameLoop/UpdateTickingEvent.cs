@@ -24,17 +24,17 @@ public abstract class UpdateTickingEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnUpdateTicking"/>
+    protected abstract void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicking"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnUpdateTicking(object? sender, UpdateTickingEventArgs e)
+    private void OnUpdateTicking(object? sender, UpdateTickingEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnUpdateTickingImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnUpdateTicking"/>
-    protected abstract void OnUpdateTickingImpl(object? sender, UpdateTickingEventArgs e);
 }

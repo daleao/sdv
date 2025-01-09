@@ -19,6 +19,7 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     private static int _previousMineLevel;
+    private static readonly Func<int, double> _itemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Spelunker);
@@ -36,14 +37,14 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
         var newLocation = e.NewLocation;
         if (oldLocation is MineShaft && player.HasProfession(Profession.Spelunker, true))
         {
-            if (oldLocation is MineShaft)
+            if (oldLocation is MineShaft oldShaft)
             {
                 foreach (var debris in oldLocation.debris)
                 {
                     if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
                         Game1.random.NextBool())
                     {
-                        State.SpelunkerUncollectedItems.Add(id);
+                        State.SpelunkerUncollectedItems.Add((id, _itemRecoveryChance(oldShaft.mineLevel)));
                     }
                 }
             }
@@ -53,13 +54,16 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
                 var mapWidth = newLocation.Map.Layers[0].LayerWidth;
                 var mapHeight = newLocation.Map.Layers[0].LayerHeight;
                 var spawnTiles = player.Tile.GetTwentyFourNeighbors(mapWidth, mapHeight).ToArray();
-                foreach (var id in State.SpelunkerUncollectedItems)
+                foreach (var (id, chance) in State.SpelunkerUncollectedItems)
                 {
-                    Game1.createItemDebris(
-                        ItemRegistry.Create(id),
-                        spawnTiles.Choose(Game1.random) * Game1.tileSize,
-                        -1,
-                        newLocation);
+                    if (Game1.random.NextBool(chance))
+                    {
+                        Game1.createItemDebris(
+                            ItemRegistry.Create(id),
+                            spawnTiles.Choose(Game1.random) * Game1.tileSize,
+                            -1,
+                            newLocation);
+                    }
                 }
 
                 State.SpelunkerUncollectedItems.Clear();
@@ -69,18 +73,19 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
         if (newLocation is not MineShaft && oldLocation is MineShaft)
         {
             State.SpelunkerLadderStreak = 0;
+            State.SpelunkerCheckpoint = null;
             _previousMineLevel = 0;
             return;
         }
 
-        if (newLocation is not MineShaft shaft || shaft.mineLevel <= _previousMineLevel)
+        if (newLocation is not MineShaft newShaft || newShaft.mineLevel <= _previousMineLevel)
         {
             return;
         }
 
         State.SpelunkerLadderStreak++;
-        _previousMineLevel = shaft.mineLevel;
-        if (!player.HasProfession(Profession.Spelunker, true) || !shaft.IsTreasureOrSafeRoom())
+        _previousMineLevel = newShaft.mineLevel;
+        if (!player.HasProfession(Profession.Spelunker, true) || !newShaft.IsTreasureOrSafeRoom())
         {
             return;
         }

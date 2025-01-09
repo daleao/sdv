@@ -86,6 +86,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Crits ignore defense, which, btw, actually does something.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MonsterTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
@@ -96,7 +97,8 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
         try
         {
             helper
-                .PatternMatch([
+                .PatternMatch(
+                    [
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Ldarg_1),
                         new CodeInstruction(OpCodes.Ldarg_0),

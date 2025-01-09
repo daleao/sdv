@@ -24,6 +24,7 @@ internal sealed class FarmerForceCanMovePatcher : HarmonyPatcher
 
     /// <summary>Reset animation state.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FarmerForceCanMovePostfix(Farmer __instance)
     {
         if (!__instance.IsLocalPlayer)

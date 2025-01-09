@@ -8,6 +8,7 @@ using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley.Tools;
 using static System.FormattableString;
 using static System.String;
 
@@ -225,6 +226,33 @@ internal sealed class PrintCommand(CommandHandler handler)
             !IsNullOrEmpty(value)
                 ? CurrentCulture($"Conservationist Active Tax Deduction: {float.Parse(value):0%}")
                 : "Mod data does not contain an entry for ConservationistActiveTaxDeduction.");
+
+        if (player.HasProfession(Profession.Angler) && player.CurrentTool is FishingRod rod)
+        {
+            value = Data.Read(rod, DataKeys.FirstMemorizedTackle);
+            sb.Append("\n\t- ").Append(
+                !IsNullOrEmpty(value)
+                    ? CurrentCulture($"Fishing Rod Tackle Memory Slot 1: {value}")
+                    : "Mod data does not contain an entry for FirstMemorizedTackle.");
+
+            value = Data.Read(rod, DataKeys.SecondMemorizedTackle);
+            sb.Append("\n\t- ").Append(
+                !IsNullOrEmpty(value)
+                    ? CurrentCulture($"Fishing Rod Tackle Memory Slot 2: {value}")
+                    : "Mod data does not contain an entry for SecondMemorizedTackle.");
+
+            value = Data.Read(rod, DataKeys.FirstMemorizedTackleUses);
+            sb.Append("\n\t- ").Append(
+                !IsNullOrEmpty(value)
+                    ? CurrentCulture($"Fishing Rod Tackle Memory Uses Slot 1: {value}")
+                    : "Mod data does not contain an entry for FirstMemorizedTackleprfsUses.");
+
+            value = Data.Read(rod, DataKeys.SecondMemorizedTackleUses);
+            sb.Append("\n\t- ").Append(
+                !IsNullOrEmpty(value)
+                    ? CurrentCulture($"Fishing Rod Tackle Memory Uses Slot 2: {value}")
+                    : "Mod data does not contain an entry for SecondMemorizedTackleUses.");
+        }
 
         this.Handler.Log.I(sb.ToString());
     }

@@ -25,6 +25,6 @@ internal sealed class ProfessionSavingEvent(EventManager? manager = null)
         Data.Write(
             player,
             DataKeys.PrestigedEcologistBuffLookup,
-            State.PrestigedEcologistBuffsLookup.Stringify());
+            State.EcologistBuffsLookup.Stringify());
     }
 }

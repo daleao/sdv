@@ -50,6 +50,8 @@
   "gmcm.sections.txs.property": "财产税",
   "gmcm.property_tax_lateness_fine.title": "逾期罚款",
   "gmcm.property_tax_lateness_fine.desc": "未按时缴纳财产税时，对未付金额一次性征收的罚款税率。",
+  "gmcm.baseline_unused_tile_cost_rate.title": "Baseline Unused Tile Cost",
+  "gmcm.baseline_unused_tile_cost_rate.desc": "The baseline gold cost of unused tiles.",
   "gmcm.unused_tile_tax_rate.title": "未利用地块税率",
   "gmcm.unused_tile_tax_rate.desc": "对未被积极用于生产目的的地块征收的税率。",
   "gmcm.used_tile_tax_rate.title": "已利用地块税率",
@@ -63,5 +65,9 @@
 
   // other
   "gmcm.annual_interest.title": "年利率",
-  "gmcm.annual_interest.desc": "对任何未偿债务每年征收的利率。利息按年利率的1/112的日利率累积。"
+  "gmcm.annual_interest.desc": "对任何未偿债务每年征收的利率。利息按年利率的1/112的日利率累积。",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Default Artisan Value Crop Multiplier",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from crops.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Default Artisan Value Produce Multiplier",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from animal produce."
 }

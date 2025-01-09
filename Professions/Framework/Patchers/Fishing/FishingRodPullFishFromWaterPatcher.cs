@@ -27,6 +27,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
 
     /// <summary>Pull out legendary family members.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void FishingRodPullFishFromWaterPrefix(FishingRod __instance, ref string fishId, bool fromFishPond)
     {
         if (!fromFishPond || ModHelper.ModRegistry.IsLoaded("DaLion.Ponds"))
@@ -52,6 +53,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
 
     /// <summary>Count trash fished by rod.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishingRodPullFishFromWaterPostfix(string fishId, bool fromFishPond)
     {
         if (!fromFishPond && fishId.IsTrashId() && Game1.player.HasProfession(Profession.Conservationist))

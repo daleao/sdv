@@ -24,6 +24,7 @@ internal sealed class GreenSlimeDoJumpPatcher : HarmonyPatcher
 
     /// <summary>Patch to detect jumping Slimes.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void GreenSlimeDoJumpPrefix(GreenSlime __instance)
     {
         __instance.Set_JumpTimer(200);

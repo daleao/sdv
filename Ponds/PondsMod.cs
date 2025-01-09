@@ -53,6 +53,8 @@ public sealed class PondsMod : Mod
     // ReSharper disable once InconsistentNaming
     internal static ITranslationHelper _I18n => ModHelper.Translation;
 
+    internal static int BaselineFishPrice { get; private set; } = int.MaxValue;
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -110,7 +112,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.Seaweed, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.Seaweed, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_seaweed"],
@@ -126,7 +128,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.GreenAlgae, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.GreenAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_green_algae"],
@@ -142,7 +144,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.WhiteAlgae, MinQuantity = 1, MaxQuantity = 1,
+                                Chance = 1f, ItemId = QualifiedObjectIds.WhiteAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_white_algae"],
@@ -192,5 +194,18 @@ public sealed class PondsMod : Mod
 
             return true;
         });
+
+        foreach (var data in Game1.objectData.Values)
+        {
+            if (data.Category != SObject.FishCategory)
+            {
+                continue;
+            }
+
+            if (data.Price < BaselineFishPrice)
+            {
+                BaselineFishPrice = data.Price;
+            }
+        }
     }
 }

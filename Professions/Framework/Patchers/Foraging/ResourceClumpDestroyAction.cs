@@ -27,6 +27,7 @@ internal sealed class ResourceClumpDestroyAction : HarmonyPatcher
 
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ResourceClumpDestroyTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

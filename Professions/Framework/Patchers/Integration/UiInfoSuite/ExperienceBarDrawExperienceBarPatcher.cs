@@ -30,6 +30,7 @@ internal sealed class ExperienceBarDrawExperienceBarPatcher : HarmonyPatcher
 
     /// <summary>Patch to move skill icon to the right.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ExperienceBarDrawExperienceBarTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

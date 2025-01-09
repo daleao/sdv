@@ -1,6 +1,26 @@
 ﻿# HARMONICS Changelog
 
-## 1.0.5
+## 1.1.0
+
+### Changed
+
+* Drastically reduced the chance of Garnet Node spawn. Again.
+
+### Fixed
+
+* Fixed cooldown reduction stat actually increasing cooldown instead of reducing it (also fixes zero-cooldown issue).
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
+## 1.0.6
+
+### Fixed
+
+* Fixed an issue where the Garnet texture failed to load.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
+## 1.0.5~~~~~~~~~~~~~~~~
 
 ### Added
 

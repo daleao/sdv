@@ -56,6 +56,8 @@
   "gmcm.sections.txs.property": "Impét foncier",
   "gmcm.property_tax_lateness_fine.title": "Amende pour retard",
   "gmcm.property_tax_lateness_fine.desc": "Un taux de pénalité unique appliqué sur le montant impayé lorsque les impéts fonciers ne sont pas payés é temps.",
+  "gmcm.baseline_unused_tile_cost_rate.title": "Baseline Unused Tile Cost",
+  "gmcm.baseline_unused_tile_cost_rate.desc": "The baseline gold cost of unused tiles.",
   "gmcm.unused_tile_tax_rate.title": "Taux d'imposition (inactivité)",
   "gmcm.unused_tile_tax_rate.desc": "Le taux d'imposition appliqué sur une parcelle non utilisée de maniére productive.",
   "gmcm.used_tile_tax_rate.title": "Taux d'imposition (activité)",
@@ -69,5 +71,9 @@
 
   // other
   "gmcm.annual_interest.title": "Intérét annuel",
-  "gmcm.annual_interest.desc": "Le taux d'intérét appliqué annuellement sur toute dette impayée. Les intéréts sont accumulés quotidiennement é un taux de 1/112 du taux annuel."
+  "gmcm.annual_interest.desc": "Le taux d'intérét appliqué annuellement sur toute dette impayée. Les intéréts sont accumulés quotidiennement é un taux de 1/112 du taux annuel.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Default Artisan Value Crop Multiplier",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from crops.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Default Artisan Value Produce Multiplier",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from animal produce."
 }

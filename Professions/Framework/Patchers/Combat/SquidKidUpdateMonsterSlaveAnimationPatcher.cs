@@ -28,6 +28,7 @@ internal sealed class SquidKidUpdateMonsterSlaveAnimationPatcher : HarmonyPatche
 
     /// <summary>Patch to hide Poacher in ambush from Squid Kid gaze.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? SquidKidUpdateMonsterSlaveAnimationTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

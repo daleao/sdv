@@ -23,6 +23,7 @@ internal sealed class FishPondOnFishTypeChangedPatcher : HarmonyPatcher
 
     /// <summary>Reset Fish Pond data.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondOnFishTypeChangedPostfix(FishPond __instance, string? old_value, string? new_value)
     {
         if (!string.IsNullOrEmpty(old_value) && string.IsNullOrWhiteSpace(new_value))

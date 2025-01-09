@@ -24,15 +24,6 @@ public abstract class GameLaunchedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event data.</param>
-    public void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
-    {
-        this.OnGameLaunchedImpl(sender, e);
-        this.Manager.Unmanage(this);
-    }
-
     /// <inheritdoc cref="OnGameLaunched"/>
     protected abstract void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e);
 
@@ -44,5 +35,14 @@ public abstract class GameLaunchedEvent : ManagedEvent
     /// <inheritdoc />
     protected sealed override void OnDisabled()
     {
+    }
+
+    /// <inheritdoc cref="IGameLoopEvents.GameLaunched"/>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event data.</param>
+    private void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
+    {
+        this.OnGameLaunchedImpl(sender, e);
+        this.Manager.Unmanage(this);
     }
 }

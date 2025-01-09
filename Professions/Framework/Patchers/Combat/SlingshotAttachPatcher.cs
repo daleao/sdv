@@ -24,6 +24,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
 
     /// <summary>Patch to attach Rascal's additional ammo.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool SlingshotAttachPrefix(Tool __instance, ref SObject? __result, SObject? o)
     {
         if (__instance is not Slingshot { AttachmentSlotsCount: 2, attachments.Length: 2 })

@@ -26,6 +26,7 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply Ecologist perk to wild ginger.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? CropHitWithHoeTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

@@ -27,6 +27,7 @@ internal sealed class DuggyBehaviorAtGameTickPatcher : HarmonyPatcher
 
     /// <summary>Patch to hide Poacher in ambush from Duggies.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? DuggyBehaviorAtGameTickTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

@@ -23,6 +23,7 @@ internal sealed class CarpenterMenuConsumeResourcesPatcher : HarmonyPatcher
 
     /// <summary>Patch to deduct building expenses.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CarpenterMenuConsumeResourcesPostfix(CarpenterMenu __instance)
     {
         var blueprint = __instance.Blueprint;

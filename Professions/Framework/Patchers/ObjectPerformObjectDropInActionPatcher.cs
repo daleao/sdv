@@ -26,6 +26,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
     /// <summary>Patch to remember initial machine state.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.LowerThanNormal)]
+    [UsedImplicitly]
     private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, out bool __state, bool probe)
     {
         __state = __instance.heldObject.Value !=
@@ -35,6 +36,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Artisan production + integrate Quality Artisan Products + Immersive Diary Yield tweak.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ObjectPerformObjectDropInActionPostfix(
         SObject __instance, bool __state, Item dropInItem, Farmer who)
     {

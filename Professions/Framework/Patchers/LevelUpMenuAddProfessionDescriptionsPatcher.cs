@@ -25,6 +25,7 @@ internal sealed class LevelUpMenuAddProfessionDescriptionsPatcher : HarmonyPatch
 
     /// <summary>Patch to apply modded profession descriptions.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuAddProfessionDescriptionsPrefix(
         List<string> descriptions, string professionName)
     {

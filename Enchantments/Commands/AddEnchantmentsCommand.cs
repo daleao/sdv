@@ -37,7 +37,7 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
         var tool = Game1.player.CurrentTool;
         if (tool is null or not (MeleeWeapon or Slingshot))
         {
-            Log.W("You must select a tool first.");
+            Log.W("You must select a weapon or slingshot first.");
             return false;
         }
 
@@ -59,7 +59,6 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 "cleaving" or "cleave" => new CleavingEnchantment(),
                 "explosive" or "blasting" or "blast" or "volatile" or "revenant" or "reactive" or "biding" or "raging" => new ExplosiveEnchantment(),
                 "vampiric" or "vamp" or "bloodthirsty" => new VampiricEnchantment(),
-                "steadfast" => new SteadfastEnchantment(),
                 "mammonite" or "mammon" or "greedy" => new MammoniteEnchantment(),
                 "wabbajack" or "wabba" or "wab" or "wb" or "wj" => new WabbajackEnchantment(),
                 "stabbing" or "stabby" or "piercing" or "lunging" or "dashing" or "fencing" or "reckless" => new StabbingEnchantment(),

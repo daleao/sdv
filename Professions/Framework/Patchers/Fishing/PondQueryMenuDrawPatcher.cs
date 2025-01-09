@@ -32,6 +32,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     /// <summary>Adjust fish pond query menu for family members.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
+    [UsedImplicitly]
     private static bool PondQueryMenuDrawPrefix(
         PondQueryMenu __instance,
         float ____age,

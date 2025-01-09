@@ -45,6 +45,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     ///     meter.
     /// </summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

@@ -24,17 +24,17 @@ public abstract class WarpedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnWarped"/>
+    protected abstract void OnWarpedImpl(object? sender, WarpedEventArgs e);
+
     /// <inheritdoc cref="IPlayerEvents.Warped"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnWarped(object? sender, WarpedEventArgs e)
+    private void OnWarped(object? sender, WarpedEventArgs e)
     {
         if (e.IsLocalPlayer && this.IsEnabled && !e.NewLocation.Equals(e.OldLocation))
         {
             this.OnWarpedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnWarped"/>
-    protected abstract void OnWarpedImpl(object? sender, WarpedEventArgs e);
 }

@@ -30,6 +30,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
     ///     geode chance + remove Prospector double coal chance.
     /// </summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MineShaftCheckStoneForItemsTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

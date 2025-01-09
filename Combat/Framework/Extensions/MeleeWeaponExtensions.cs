@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Reflection;
 using Microsoft.Xna.Framework;
-using Shared.Constants;
 using StardewValley;
 using StardewValley.Enchantments;
 using StardewValley.Tools;

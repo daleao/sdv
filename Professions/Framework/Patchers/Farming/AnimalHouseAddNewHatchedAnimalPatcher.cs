@@ -26,6 +26,7 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
 
     /// <summary>Patch for Rancher newborn animals to have random starting friendship.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? AnimalHouseAddNewHatchedAnimalTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

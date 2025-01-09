@@ -56,7 +56,7 @@ public sealed class EnchantmentsConfig
             }
 
             this._gemstoneSocketStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}/GemstoneSockets");
+            ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}_GemstoneSockets");
         }
     }
 

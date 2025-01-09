@@ -28,6 +28,7 @@ internal sealed class FishPondClearPondPatcher : HarmonyPatcher
 
     /// <summary>Clear Family Living Here data.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FishPondClearPondPrefix(
         FishPond __instance,
         ref SObject? ____fishObject,

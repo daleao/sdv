@@ -35,6 +35,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
     [HarmonyBefore("DaLion.Professions")]
+    [UsedImplicitly]
     private static bool PondQueryMenuDrawPrefix(
         PondQueryMenu __instance,
         float ____age,
@@ -193,8 +194,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 Game1.smallFont,
                 new Vector2(
                     __instance.xPositionOnScreen + (PondQueryMenu.width / 2) - (textSize.X * 0.5f),
-                    __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight -
-                    (hasUnresolvedNeeds ? 32 : 48) - textSize.Y),
+                    __instance.yPositionOnScreen + PondQueryMenu.height + extraTextHeight - (hasUnresolvedNeeds ? 32 : 48) - textSize.Y),
                 Game1.textColor);
 
             if (hasUnresolvedNeeds)
@@ -356,6 +356,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
     /// <summary>Draw quality stars.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void PondQueryMenuDrawPostfix(
         PondQueryMenu __instance,
         float ____age,

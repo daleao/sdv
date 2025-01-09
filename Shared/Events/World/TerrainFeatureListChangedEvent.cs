@@ -24,17 +24,17 @@ public abstract class TerrainFeatureListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnTerrainFeatureListChanged"/>
+    protected abstract void OnTerrainFeatureListChangedImpl(object? sender, TerrainFeatureListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.TerrainFeatureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnTerrainFeatureListChanged(object? sender, TerrainFeatureListChangedEventArgs e)
+    private void OnTerrainFeatureListChanged(object? sender, TerrainFeatureListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnTerrainFeatureListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnTerrainFeatureListChanged"/>
-    protected abstract void OnTerrainFeatureListChangedImpl(object? sender, TerrainFeatureListChangedEventArgs e);
 }

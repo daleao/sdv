@@ -22,7 +22,7 @@ public sealed class EchoEnchantment : BaseSlingshotEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Enchantments_Runaan_Name();
+        return I18n.Enchantments_Echo_Name();
     }
 
     /// <inheritdoc />
@@ -40,19 +40,19 @@ public sealed class EchoEnchantment : BaseSlingshotEnchantment
         var facingDirectionVector = ((Direction)firer.FacingDirection).ToVector() * 64f;
 
         // do clockwise projectile
-        var runaanStartingPosition = firedProjectile.position.Value + facingDirectionVector.Rotate(30);
-        var clockwise = new RunaanProjectile(
+        var startingPosition = firedProjectile.position.Value + facingDirectionVector.Rotate(30);
+        var clockwise = new EchoProjectile(
                 firedProjectile,
-                runaanStartingPosition,
+                startingPosition,
                 location,
                 firer);
         firer.currentLocation.projectiles.Add(clockwise);
 
         // do anti-clockwise projectile
-        runaanStartingPosition = firedProjectile.position.Value + facingDirectionVector.Rotate(-30);
-        var antiClockwise = new RunaanProjectile(
+        startingPosition = firedProjectile.position.Value + facingDirectionVector.Rotate(-30);
+        var antiClockwise = new EchoProjectile(
                 firedProjectile,
-                runaanStartingPosition,
+                startingPosition,
                 location,
                 firer);
         firer.currentLocation.projectiles.Add(antiClockwise);

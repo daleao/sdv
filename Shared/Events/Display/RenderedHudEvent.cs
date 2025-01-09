@@ -24,17 +24,17 @@ public abstract class RenderedHudEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnRenderedHud"/>
+    protected abstract void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.RenderedHud"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderedHud(object? sender, RenderedHudEventArgs e)
+    private void OnRenderedHud(object? sender, RenderedHudEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnRenderedHudImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnRenderedHud"/>
-    protected abstract void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e);
 }

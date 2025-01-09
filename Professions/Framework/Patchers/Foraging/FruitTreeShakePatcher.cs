@@ -23,6 +23,7 @@ internal sealed class FruitTreeShakePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply Ecologist perk to shaken fruit trees.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void FruitTreeGetQualityPrefix(FruitTree __instance)
     {
         if (!Game1.player.HasProfession(Profession.Ecologist))

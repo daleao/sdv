@@ -27,6 +27,7 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
 
     /// <summary>Patch for Breeder to increase barn animal pregnancy chance.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? QuestionEventSetUpTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

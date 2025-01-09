@@ -24,6 +24,7 @@ internal sealed class CombinedRingOnUnequipPatcher : HarmonyPatcher
 
     /// <summary>Remove Infinity Band resonance effects.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingOnUnequipPostfix(CombinedRing __instance, Farmer who)
     {
         __instance.Get_Chord()?.Quench(who);

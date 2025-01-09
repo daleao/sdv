@@ -33,11 +33,11 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
         this.Edit("Mods/mistyspring.ItemExtensions/Resources", new AssetEditor(EditItemExtensionsData));
 
         this.Provide(
-            $"{Manifest.UniqueID}/Garnet",
-            new ModTextureProvider(ProvideGarnetTexture));
+            $"{Manifest.UniqueID}_Garnet",
+            new ModTextureProvider(() => "assets/garnet.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/Rings",
-            new ModTextureProvider(ProvideRingsTextures));
+            $"{Manifest.UniqueID}_Rings",
+            new ModTextureProvider(() => "assets/rings.png"));
     }
 
     #region editor callback
@@ -162,7 +162,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
         var data = asset.AsDictionary<string, ResourceData>().Data;
         data[$"{UniqueId}_GarnetNode"] = new ResourceData
         {
-            Name = "UniqueId}/GarnetNode",
+            Name = "UniqueId}_GarnetNode",
             DisplayName = I18n.Node_Garnet_Name(),
             Description = I18n.Node_Garnet_Desc(),
             Texture = $"{UniqueId}_Garnet",
@@ -210,27 +210,11 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.0035, AdditionalChancePerLevel = 0.00005, Type = MineType.All,
+                    Floors = "80/77376", SpawnFrequency = 0.0010, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
                 },
             ],
         };
     }
 
     #endregion editor callbacks
-
-    #region provider callbacks
-
-    /// <summary>Provides garnet gemstone texture.</summary>
-    private static string ProvideGarnetTexture()
-    {
-        return "assets/garnet.png";
-    }
-
-    /// <summary>Provides new ring textures.</summary>
-    private static string ProvideRingsTextures()
-    {
-        return "assets/rings.png";
-    }
-
-    #endregion provider callbacks
 }

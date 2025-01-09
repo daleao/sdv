@@ -24,6 +24,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
 
     /// <summary>Disposes certain enchantments.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
         if (__instance.GetEnchantmentOfType<ExplosiveEnchantment>() is { } explosive && explosive.ExplosionRadius >= 1)

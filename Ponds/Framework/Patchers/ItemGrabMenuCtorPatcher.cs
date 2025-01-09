@@ -25,6 +25,7 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
 
     /// <summary>Update ItemsHeld data on grab menu close.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ItemGrabMenuCtorPostfix(ItemGrabMenu __instance)
     {
         if (__instance.context is not FishPond)

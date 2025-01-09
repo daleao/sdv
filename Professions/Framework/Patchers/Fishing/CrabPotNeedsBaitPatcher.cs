@@ -23,6 +23,7 @@ internal sealed class CrabPotNeedsBaitPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow Conservationist to place bait.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool CrabPotNeedsBaitPostfix(CrabPot __instance, ref bool __result)
     {
         __result = __instance.bait.Value == null;

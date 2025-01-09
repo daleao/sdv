@@ -27,6 +27,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch for Trapper fish quality + Luremaster bait mechanics + Conservationist trash collection mechanics.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool CrabPotDayUpdatePrefix(CrabPot __instance)
     {
         if (__instance.heldObject.Value is not null)

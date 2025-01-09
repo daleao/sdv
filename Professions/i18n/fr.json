@@ -183,8 +183,8 @@
   "piper.title.female": "Charmeuse de limon",
   "piper.title.prestiged.male": "Chef des limons",
   "piper.title.prestiged.female": "Cheffe des limons",
-  "piper.desc": "Les slimes/limons ne sont plus immédiatement agressifs et peuvent vous suivre en combat. Capacité du clapier à slimes +50%.",
-  "piper.desc.prestiged": "Un limon supplémentaire peut vous suivre en combat. Obtenez des objets colorés spéciaux à partir des boules de limons.",
+  "piper.desc": "Slimed debuff effect is inverted. Les slimes/limons ne sont plus immédiatement agressifs et peuvent vous suivre en combat. Capacité du clapier à slimes +50%.",
+  "piper.desc.prestiged": "Slimed debuff also removes special move cooldown. Un limon supplémentaire peut vous suivre en combat. Obtenez des objets colorés spéciaux à partir des boules de limons.",
   "piper.buff": "Limoné",
 
   // prestige

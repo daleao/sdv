@@ -1,19 +1,20 @@
 {
+  // Here you can replace the enchantment names with anything you wish (alternate name suggestions are given below)
   "enchantments.carving.name": "Carving",
   "enchantments.cleaving.name": "Cleaving",
   "enchantments.energized.name": "Energized", // alternates: "Statikk", "Thunderlord's"
   "enchantments.energized.desc": "Energy accumulated: {{counter}}",
-  "enchantments.explosive.name": "Volatile", // alternatives: "Blasting", "Explosive", "Reactive", "Revenant", "Biding", "Raging"
+  "enchantments.explosive.name": "Volatile", // alternatives: "Blasting", "Explosive", "Reactive", "Biding"
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Greedy", // alternates: "Mammonite"
-  "enchantments.stabbing.name": "Reckless", // alternates: "Fencing", "Piercing", "Stabbing", "Lunging"
-  "enchantments.steadfast.name": "Steadfast",
+  "enchantments.stabbing.name": "Reckless", // alternates: "Fencing", "Piercing", "Stabbing", "Lunging", "Dashing"
+  "enchantments.steadfast.name": "Steadfast", // currently unused
   "enchantments.sunburst.name": "Sunburst",
   "enchantments.vampiric.name": "Vampiric", // alternates: "Bloodthirsty"
   "enchantments.wabbajack.name": "Wabbajack",
   "enchantments.chilling.name": "Chilling", // alternates: "Freljord"
   "enchantments.quincy.name": "Quincy",
-  "enchantments.runaan.name": "Echoing", // alternates: "Echoing"
+  "enchantments.echo.name": "Echoing", // alternates: "Echoing"
 
 
   /************

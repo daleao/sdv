@@ -25,6 +25,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     /// <summary>Fix for Professions compatibility.</summary>
     [HarmonyPostfix]
     [HarmonyAfter("DaLion.Professions")]
+    [UsedImplicitly]
     private static void FishPondUpdateMaximumOccupancyPostfix(FishPond __instance, int __state)
     {
         var fishes = __instance.ParsePondFishes();

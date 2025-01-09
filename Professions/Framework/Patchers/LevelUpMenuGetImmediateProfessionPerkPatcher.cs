@@ -23,6 +23,7 @@ internal sealed class LevelUpMenuGetImmediateProfessionPerkPatcher : HarmonyPatc
 
     /// <summary>Skip this method. Now handled by <see cref="Profession.OnAdded"/>.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuGetImmediateProfessionPerkPrefix()
     {
         return false; // don't run original logic

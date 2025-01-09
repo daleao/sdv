@@ -24,6 +24,7 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
 
     /// <summary>Implement fear status.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MonsterShouldActuallyMoveAwayFromPlayerPrefix(Monster __instance, ref bool __result)
     {
         if (!__instance.IsBlinded())

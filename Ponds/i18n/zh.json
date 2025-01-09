@@ -1,5 +1,10 @@
 ﻿{
   "algae": "藻类",
+
+  /************
+  *** GMCM ***
+  ************/
+
   "gmcm.days_until_algae_spawn.title": "藻类生成天数",
   "gmcm.days_until_algae_spawn.desc": "空鱼塘开始生成藻类的天数。",
   "gmcm.roe_production_chance_multiplier.title": "鱼籽生产几率乘数",

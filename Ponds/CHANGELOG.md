@@ -1,5 +1,20 @@
 ﻿# PONDS Changelog
 
+## 2.1.0
+
+### Added
+
+* Added compatibility for Automate.
+
+### Changed
+
+* Tweaked roe production chance formula.
+  * The original formula was made to result in roughly equal profitability for all fishes. But that resulted in nothing produced for weeks at a time.
+  * The new formula is still conservative for higher-value fish, but yields enough roe to make them worth raising.
+* Chance to produce general non-roe items received a small buff to scale with population.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.0.1
 
 ### Fixed

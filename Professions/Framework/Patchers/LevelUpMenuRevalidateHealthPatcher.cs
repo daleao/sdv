@@ -27,6 +27,7 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
     ///     to the fishing skill.
     /// </summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuRevalidateHealthPrefix(Farmer farmer)
     {
         var expectedMaxHealth = 100;

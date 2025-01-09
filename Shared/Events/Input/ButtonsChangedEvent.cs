@@ -24,17 +24,17 @@ public abstract class ButtonsChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnButtonsChanged"/>
+    protected abstract void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e);
+
     /// <inheritdoc cref="IInputEvents.ButtonsChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
+    private void OnButtonsChanged(object? sender, ButtonsChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnButtonsChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnButtonsChanged"/>
-    protected abstract void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e);
 }

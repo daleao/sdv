@@ -22,6 +22,7 @@ internal sealed class UtilityGetTreasureFromGeodePatcher : HarmonyPatcher
 
     /// <summary>Patch to record minerals collected for Gemologist.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void UtilityGetTreasureFromGeodePostfix(Item __result)
     {
         if (__result.Category is SObject.GemCategory or SObject.mineralsCategory)

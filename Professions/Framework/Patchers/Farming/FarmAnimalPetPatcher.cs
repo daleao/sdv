@@ -28,6 +28,7 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
 
     /// <summary>Patch for Prestiged Rancher tripled friendship bonus.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmAnimalPetTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

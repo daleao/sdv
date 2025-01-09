@@ -25,6 +25,7 @@ internal sealed class SlimeHutchPerformToolActionPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Prestiged Piper Hutch capacity.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool SlimeHutchPerformToolActionPrefix(SlimeHutch __instance, ref bool __result, Tool t, int tileX, int tileY)
     {
         if (__instance.waterSpots.Length != 6)

@@ -28,6 +28,7 @@ internal sealed class AngryRogerUpdateAnimationPatcher : HarmonyPatcher
 
     /// <summary>Patch to hide Poacher in ambush from Angry Roger gaze.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? AngryRogerUpdateAnimationTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

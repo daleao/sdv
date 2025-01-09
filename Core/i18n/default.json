@@ -14,6 +14,6 @@
   ************/
 
   "gmcm.crop_wither_chance.title": "Crop Wither Chance",
-  "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered.",
+  "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered."
 
 }

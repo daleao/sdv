@@ -31,6 +31,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, ref int ___readyToJump, GameTime time)
     {
         if (!ReferenceEquals(__instance.currentLocation, Game1.player.currentLocation))

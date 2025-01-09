@@ -24,17 +24,17 @@ public abstract class BuildingListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnBuildingListChanged"/>
+    protected abstract void OnBuildingListChangedImpl(object? sender, BuildingListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.BuildingListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
+    private void OnBuildingListChanged(object? sender, BuildingListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnBuildingListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnBuildingListChanged"/>
-    protected abstract void OnBuildingListChangedImpl(object? sender, BuildingListChangedEventArgs e);
 }

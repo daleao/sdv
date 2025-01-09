@@ -27,6 +27,7 @@ internal sealed class ShopMenuTryToPurchaseItemPatcher : HarmonyPatcher
 
     /// <summary>Patch to deduct tool and other expenses.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ShopMenuTryToPurchaseItemTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

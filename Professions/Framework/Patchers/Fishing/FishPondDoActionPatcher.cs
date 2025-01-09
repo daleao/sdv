@@ -28,6 +28,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     /// <summary>Allow legendary fish to share a pond with their extended families.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

@@ -24,6 +24,7 @@ internal sealed class MeleeWeaponLeftClickPatcher : HarmonyPatcher
 
     /// <summary>Eliminate dumb vanilla weapon spam.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MeleeWeaponLeftClickPrefix(MeleeWeapon __instance)
     {
         return !Config.EnableComboHits || __instance.IsDagger();

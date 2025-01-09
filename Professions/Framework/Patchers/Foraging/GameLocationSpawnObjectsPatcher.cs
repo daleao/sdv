@@ -28,6 +28,7 @@ internal sealed class GameLocationSpawnObjectsPatcher : HarmonyPatcher
 
     /// <summary>Patch to buff max forages for Scavenger.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationSpawnObjectsTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

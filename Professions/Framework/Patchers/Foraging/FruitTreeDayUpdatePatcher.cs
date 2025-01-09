@@ -23,6 +23,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Record growth stage.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void FruitTreeDayUpdatePrefix(FruitTree __instance, ref (int DaysUntilMature, int GrowthStage) __state)
     {
         __state.DaysUntilMature = __instance.daysUntilMature.Value;
@@ -32,6 +33,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
     /// <summary>Patch to increase Arborist fruit tree growth speed.</summary>
     [HarmonyPostfix]
     [HarmonyPriority(Priority.HigherThanNormal)]
+    [UsedImplicitly]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance, (int DaysUntilMature, int GrowthStage) __state)
     {
         if (!Data.ReadAs<bool>(__instance, DataKeys.PlantedByArborist) || __instance.daysUntilMature.Value % 4 != 0)

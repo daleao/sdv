@@ -23,6 +23,7 @@ internal sealed class Game1GetWeatherModificationsForDatePatcher : HarmonyPatche
 
     /// <summary>Patch for Prestiged Arborist Green Rain chance.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void Game1GetWeatherModificationsForDatePostfix(ref string __result)
     {
         if (__result != "Rain" || !Game1.player.HasProfession(Profession.Arborist, true))

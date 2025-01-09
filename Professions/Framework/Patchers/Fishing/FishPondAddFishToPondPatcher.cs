@@ -25,6 +25,7 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 
     /// <summary>Distinguish extended family pairs + increment total Fish Pond quality ratings.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondAddFishToPondPostfix(FishPond __instance, FishPondData? ____fishPondData, SObject fish)
     {
         try

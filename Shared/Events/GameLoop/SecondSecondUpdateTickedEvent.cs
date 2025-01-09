@@ -27,20 +27,6 @@ public abstract class SecondSecondUpdateTickedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicked"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnSecondSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
-    {
-        if (++this._elapsed < 2)
-        {
-            return;
-        }
-
-        this.OnSecondSecondUpdateTickedImpl(sender, e);
-        this.Manager.Unmanage(this);
-    }
-
     /// <inheritdoc cref="OnSecondSecondUpdateTicked"/>
     protected abstract void OnSecondSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e);
 
@@ -52,5 +38,19 @@ public abstract class SecondSecondUpdateTickedEvent : ManagedEvent
     /// <inheritdoc />
     protected sealed override void OnDisabled()
     {
+    }
+
+    /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicked"/>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnSecondSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
+    {
+        if (++this._elapsed < 2)
+        {
+            return;
+        }
+
+        this.OnSecondSecondUpdateTickedImpl(sender, e);
+        this.Manager.Unmanage(this);
     }
 }

@@ -27,17 +27,17 @@ public abstract class PeerConnectedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnPeerConnected"/>
+    protected abstract void OnPeerConnectedImpl(object? sender, PeerConnectedEventArgs e);
+
     /// <inheritdoc cref="IMultiplayerEvents.PeerConnected"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
+    private void OnPeerConnected(object? sender, PeerConnectedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnPeerConnectedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnPeerConnected"/>
-    protected abstract void OnPeerConnectedImpl(object? sender, PeerConnectedEventArgs e);
 }

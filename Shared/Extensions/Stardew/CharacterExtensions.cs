@@ -40,6 +40,14 @@ public static class CharacterExtensions
         return (dx * dx) + (dy * dy);
     }
 
+    /// <summary>Gets the distance in tiles from this <paramref name="character"/> to the local player.</summary>
+    /// <param name="character">The <see cref="Character"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="character"/> to the local player.</returns>
+    public static int DistanceToPlayer(this Character character)
+    {
+        return (int)character.SquaredTileDistance(Game1.player.Tile);
+    }
+
     /// <summary>
     ///     Finds the closest tile from among the specified <paramref name="candidates"/> to this
     ///     <paramref name="character"/>.

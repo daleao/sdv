@@ -20,7 +20,7 @@ public class StunAnimation : TemporaryAnimatedSprite
     /// <param name="duration">The duration in milliseconds.</param>
     public StunAnimation(Monster monster, int duration)
         : base(
-            $"{Manifest.UniqueID}/StunAnimation",
+            $"{Manifest.UniqueID}_StunAnimation",
             new Rectangle(0, 0, 64, 64),
             50f,
             4,

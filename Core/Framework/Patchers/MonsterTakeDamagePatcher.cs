@@ -83,6 +83,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Frozen effect.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void MonsterTakeDamagePrefix(Monster __instance, ref int damage)
     {
         if (!__instance.IsFrozen())

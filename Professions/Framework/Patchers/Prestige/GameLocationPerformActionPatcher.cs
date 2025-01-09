@@ -28,6 +28,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     /// <summary>Patch to change Statue of Uncertainty into Statue of Transcendance.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.VeryHigh)]
+    [UsedImplicitly]
     private static bool GameLocationPerformActionPrefix(GameLocation __instance, string[] action, Farmer who, Location tileLocation)
     {
         if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks) ||

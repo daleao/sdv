@@ -23,6 +23,7 @@ internal sealed class MasteryTrackerMenuPerformHoverActionPatcher : HarmonyPatch
 
     /// <summary>Patch to prevent interaction during warning.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MasteryTrackerMenuPerformHoverActionPrefix()
     {
         return State.WarningBox is null;

@@ -33,6 +33,7 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
 
     /// <summary>Add knockback damage.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MonsterMovePositionTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

@@ -23,6 +23,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent eating during Limit Break.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerEatObjectPrefix()
     {
         if (State.LimitBreak?.IsActive != true)
@@ -37,6 +38,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
 
     /// <summary>Patch to grant Prestiged Ecologist buffs.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FarmerEatObjectPostfix(Farmer __instance, SObject o)
     {
         if (!o.IsForage() || !__instance.HasProfession(Profession.Ecologist, true))
@@ -44,7 +46,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
             return;
         }
 
-        if (State.PrestigedEcologistBuffsLookup.TryGetValue(o.ItemId, out var buffIndex))
+        if (State.EcologistBuffsLookup.TryGetValue(o.ItemId, out var buffIndex))
         {
             __instance.ApplyPrestigedEcologistBuff(buffIndex);
             return;
@@ -52,7 +54,7 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
 
         buffIndex = Game1.random.Next(10);
         __instance.ApplyPrestigedEcologistBuff(buffIndex);
-        State.PrestigedEcologistBuffsLookup[o.ItemId] = buffIndex;
+        State.EcologistBuffsLookup[o.ItemId] = buffIndex;
     }
 
     #endregion harmony patches

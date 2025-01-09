@@ -22,6 +22,7 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow receiving multiple letters from the FRS.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
     {
         if (!id.Contains(UniqueId))

@@ -25,6 +25,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 
     /// <summary>Patch to modify price multipliers for various modded professions.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool ObjectGetPriceAfterMultipliersPrefix(
         SObject __instance, ref float __result, float startPrice, long specificPlayerID)
     {

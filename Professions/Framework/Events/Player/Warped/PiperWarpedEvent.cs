@@ -3,13 +3,13 @@
 #region using directives
 
 using DaLion.Core;
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
+using GameLoop.OneSecondUpdateTicket;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -23,7 +23,7 @@ using StardewValley.Monsters;
 internal sealed class PiperWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    private readonly Func<int, double> _pipeChance = x => 29f / (x + 28f);
+    private static readonly Func<int, double> _pipeChance = x => 29f / (x + 28f);
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);
@@ -41,10 +41,7 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         var areEnemiesAround = CoreMod.State.AreEnemiesNearby && newLocation is not SlimeHutch;
         if (!e.NewLocation.Name.ContainsAnyOf("Mine", "SkullCave") && !isEnemyArea && !areEnemiesAround)
         {
-            State.AlliedSlimes[0] = null;
-            State.AlliedSlimes[1] = null;
-            this.Manager.Disable<PiperOneSecondUpdateTickedEvent>();
-            return;
+            this.Manager.Enable<PipedOneSecondUpdateTickedEvent>();
         }
 
         var piper = e.Player;
@@ -70,14 +67,13 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
 
         if (!isEnemyArea || !areEnemiesAround || newLocation is MineShaft { isSlimeArea: true })
         {
-            this.Manager.Disable<PiperOneSecondUpdateTickedEvent>();
             return;
         }
 
         var r = new Random();
         var numberRaised = piper.CountRaisedSlimes();
         var spawned = 0;
-        while (!r.NextBool(this._pipeChance(numberRaised)))
+        while (!r.NextBool(_pipeChance(numberRaised)))
         {
             var x = r.Next(e.NewLocation.Map.Layers[0].LayerWidth);
             var y = r.Next(e.NewLocation.Map.Layers[0].LayerHeight);
@@ -145,6 +141,5 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         }
 
         Log.D($"Successfully spawned {spawned} Slimes.");
-        this.Manager.Enable<PiperOneSecondUpdateTickedEvent>();
     }
 }

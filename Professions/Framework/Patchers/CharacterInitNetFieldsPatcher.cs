@@ -23,6 +23,7 @@ internal sealed class CharacterInitNetFieldsPatcher : HarmonyPatcher
 
     /// <summary>Patch to add custom net fields.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CharacterInitNetFieldsPostfix(Character __instance)
     {
         if (__instance is Farmer { Name: not null } farmer)

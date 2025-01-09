@@ -1,13 +1,10 @@
 ﻿namespace DaLion.Taxes.Framework.Extensions;
 
-using System;
-
 #region using directives
 
 using System.Linq;
 using StardewValley;
 using StardewValley.TerrainFeatures;
-using xTile.Tiles;
 
 #endregion using directives
 
@@ -16,13 +13,14 @@ internal static class FarmExtensions
 {
     /// <summary>Determines the total property value of the <paramref name="farm"/>.</summary>
     /// <param name="farm">The <see cref="Farm"/>.</param>
-    /// <param name="forReal">Optional flag to avoid recording the new appraisal.</param>
     /// <returns>The total values of agriculture activities, livestock and buildings on the <paramref name="farm"/>, as well as the total number of tiles used by all of those activities.</returns>
-    internal static (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) Appraise(this Farm farm, bool forReal = true)
+    internal static (int AgricultureValue, int LivestockValue, int ArtisanValue, int BuildingValue, int UsedTiles, int TreeCount) Appraise(this Farm farm)
     {
-        var totalAgricultureValue = 0;
-        var totalLivestockValue = 0;
-        var totalBuildingValue = 0;
+        var agricultureValue = 0;
+        var livestockValue = 0;
+        var artisanValue = 0;
+        var buildingValue = 0;
+        var treeCount = 0;
         var usedTiles = 45; // discount farmhouse tiles
         foreach (var dirt in farm.terrainFeatures.Values.OfType<HoeDirt>())
         {
@@ -32,7 +30,7 @@ internal static class FarmExtensions
             }
 
             usedTiles++;
-            var averageYield = (crop.GetData().HarvestMinStack + crop.GetData().HarvestMaxStack) / 2f;
+            var averageYield = (int)((crop.GetData().HarvestMinStack + crop.GetData().HarvestMaxStack) / 2f);
             var harvest = !crop.forageCrop.Value
                 ? ItemRegistry.Create<SObject>(crop.indexOfHarvest.Value)
                 : crop.whichForageCrop.Value == Crop.forageCrop_springOnionID
@@ -48,86 +46,55 @@ internal static class FarmExtensions
             if (crop.GetData().RegrowDays is { } regrowth and > 0)
             {
                 expectedHarvests +=
-                    (int)((float)(28 - Game1.dayOfMonth - crop.phaseDays.TakeWhile(t => t != 99999).Sum()) / regrowth);
+                    (int)((float)(28 - crop.phaseDays.TakeWhile(t => t != 99999).Sum()) / regrowth);
             }
 
-            totalAgricultureValue += (int)(harvest.salePrice() * averageYield * expectedHarvests);
+            var harvestValue = harvest.salePrice() * averageYield * expectedHarvests;
+            agricultureValue += harvestValue;
+            switch (harvest.Category)
+            {
+                case SObject.FruitsCategory:
+                    artisanValue += (int)(harvestValue * 3f);
+                    break;
+                case SObject.GreensCategory or SObject.VegetableCategory:
+                    artisanValue += (int)(harvestValue * 2.25f);
+                    break;
+                default:
+                    artisanValue += (int)(harvestValue * Config.DefaultArtisanValueCropMultiplier);
+                    Log.T($"Unknown crop category '{harvest.Category}'. Using default artisan value multiplier.");
+                    break;
+            }
         }
 
         foreach (var fruitTree in farm.terrainFeatures.Values.OfType<FruitTree>())
         {
             usedTiles++;
-            var averageFruitValue = 0f;
+            treeCount++;
+            if (fruitTree.daysUntilMature.Value > 0)
+            {
+                continue;
+            }
+
+            var averageFruitValue = 0;
             var fruitData = fruitTree.GetData().Fruit;
             foreach (var fruit in fruitData)
             {
                 var fruitObject = ItemRegistry.Create<SObject>(fruit.ItemId);
-                averageFruitValue += (fruit.MinStack + fruit.MaxStack) / 2f * fruit.Chance * fruitObject.salePrice();
+                var minStack = Math.Max(fruit.MinStack, 1);
+                var maxStack = Math.Max(fruit.MaxStack, minStack);
+                averageFruitValue += (int)((minStack + maxStack) / 2f * fruit.Chance * fruitObject.salePrice());
             }
 
             averageFruitValue /= fruitData.Count;
-            totalAgricultureValue += (int)(averageFruitValue * 28);
+            var monthlyFruitValue = averageFruitValue * 28;
+            agricultureValue += monthlyFruitValue;
+            artisanValue += (int)(monthlyFruitValue * 3f);
         }
 
-        foreach (var tree in farm.terrainFeatures.Values.OfType<Tree>())
+        foreach (var _ in farm.terrainFeatures.Values.OfType<Tree>())
         {
             usedTiles++;
-            if (!tree.tapped.Value)
-            {
-                continue;
-            }
-
-            var tapper = tree.Location.getObjectAtTile((int)tree.Tile.X, (int)tree.Tile.Y);
-            if (tapper is null || !tapper.IsTapper())
-            {
-                continue;
-            }
-
-            Item tapperProduct;
-            float yield;
-            switch (tree.treeType.Value)
-            {
-                case Tree.bushyTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.OakResin);
-                    yield = 28f / 7f;
-                    break;
-
-                case Tree.leafyTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.MapleSyrup);
-                    yield = 28f / 9f;
-                    break;
-
-                case Tree.pineTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.PineTar);
-                    yield = 28f / 5f;
-                    break;
-
-                case Tree.mushroomTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.CommonMushroom);
-                    yield = 28f / 2f;
-                    break;
-
-                case Tree.mahoganyTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.Sap);
-                    yield = 28f / 1f;
-                    break;
-
-                case Tree.greenRainTreeFern:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.FiddleheadFern);
-                    yield = 28f / 2f;
-                    break;
-
-                case Tree.mysticTree:
-                    tapperProduct = ItemRegistry.Create(QualifiedObjectIds.FiddleheadFern);
-                    yield = 28f / 7f;
-                    break;
-
-                default:
-                    continue;
-            }
-
-            var averageTapperValue = (int)(tapperProduct.salePrice() * yield);
-            totalAgricultureValue += averageTapperValue;
+            treeCount++;
         }
 
         foreach (var building in farm.buildings)
@@ -140,13 +107,13 @@ internal static class FarmExtensions
             }
 
             blueprintAppraisal:
-            totalBuildingValue += buildingData.BuildCost;
+            buildingValue += buildingData.BuildCost;
             if (buildingData.BuildMaterials is not null)
             {
                 foreach (var materialData in buildingData.BuildMaterials)
                 {
                     var material = ItemRegistry.Create<SObject>(materialData.ItemId, materialData.Amount);
-                    totalBuildingValue += material.salePrice() * material.Stack;
+                    buildingValue += material.salePrice() * material.Stack;
                 }
             }
 
@@ -163,17 +130,68 @@ internal static class FarmExtensions
 
             foreach (var animal in house.Animals.Values)
             {
-                var averageProduceValue = 0f;
                 var animalData = animal.GetAnimalData();
-                var produceData = animalData.ProduceItemIds;
-                foreach (var produce in produceData)
+                var animalProduce = animalData.ProduceItemIds.FirstOrDefault();
+                if (animalProduce is null)
                 {
-                    var produceObject = ItemRegistry.Create<SObject>(produce.ItemId);
-                    averageProduceValue += (float)produceObject.salePrice() / animalData.DaysToProduce;
+                    continue;
                 }
 
-                averageProduceValue /= produceData.Count;
-                totalLivestockValue += (int)(averageProduceValue * 28) + animalData.SellPrice;
+                var produceObject = ItemRegistry.Create<SObject>(animalProduce.ItemId);
+                var expectedYield = (animal.isBaby() ? 28 - animalData.DaysToMature : 28) / animalData.DaysToProduce;
+                if (expectedYield < 1)
+                {
+                    continue;
+                }
+
+                var produceValue = (produceObject.salePrice() * expectedYield);
+                livestockValue += produceValue + animalData.SellPrice;
+
+                float artisanMultiplier;
+                switch (animal.type.Value)
+                {
+                    case "Duck":
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.DuckMayonnaise).salePrice() /
+                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.DuckEgg).salePrice();
+                        break;
+                    case "Rabbit":
+                    case "Sheep":
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Cloth).salePrice() /
+                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.Wool).salePrice();
+                        break;
+                    case "Goat":
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.GoatCheese).salePrice() /
+                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.GoatMilk).salePrice();
+                        break;
+                    case "Pig":
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.TruffleOil).salePrice() /
+                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.Truffle).salePrice();
+                        break;
+                    case "Ostrich":
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Mayonnaise).salePrice() * 10 /
+                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.OstrichEgg).salePrice();
+                        break;
+                    default:
+                        if (animal.type.Value.Contains("Cow"))
+                        {
+                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Cheese).salePrice() /
+                                                ItemRegistry.Create<SObject>(QualifiedObjectIds.Milk).salePrice();
+                        }
+                        else if (animal.type.Value.Contains("Chicken"))
+                        {
+                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Mayonnaise).salePrice() /
+                                                ItemRegistry.Create<SObject>(QualifiedObjectIds.Egg_White).salePrice();
+                        }
+                        else
+                        {
+                            artisanMultiplier = Config.DefaultArtisanValueProduceMultiplier;
+                            Log.T($"Unknown animal type '{animal.type.Value}'. Using default artisan value multiplier.");
+                        }
+
+                        break;
+                }
+
+                artisanValue += (int)(produceValue * artisanMultiplier);
                 usedTiles++;
             }
         }
@@ -185,52 +203,21 @@ internal static class FarmExtensions
                 continue;
             }
 
-            totalBuildingValue += 10000;
-            totalBuildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Wood).Price * 450;
+            buildingValue += 10000;
+            buildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Wood).Price * 450;
             if (farmer.HouseUpgradeLevel <= 1)
             {
                 continue;
             }
 
-            totalBuildingValue += 50000;
-            totalBuildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Hardwood).Price * 150;
+            buildingValue += 50000;
+            buildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Hardwood).Price * 150;
             if (farmer.HouseUpgradeLevel > 2)
             {
-                totalBuildingValue += 100000;
+                buildingValue += 100000;
             }
         }
 
-        var currentSeason = Game1.season;
-        var weight = ((int)currentSeason * 2) + (Game1.dayOfMonth > 8 ? 2 : 1);
-        var previousAgricultureValue = Data.ReadAs<int>(farm, DataKeys.AgricultureValue);
-        var previousLiveStockValue = Data.ReadAs<int>(farm, DataKeys.LivestockValue);
-        var previousBuildingValue = Data.ReadAs<int>(farm, DataKeys.BuildingValue);
-        if (previousAgricultureValue + previousLiveStockValue + previousBuildingValue > 0)
-        {
-            if (currentSeason != Season.Winter)
-            {
-                totalAgricultureValue = (int)((float)(totalAgricultureValue + previousAgricultureValue) / weight);
-            }
-
-            totalLivestockValue = (int)((float)(totalLivestockValue + previousLiveStockValue) / weight);
-            totalBuildingValue = (int)((float)(totalBuildingValue + previousBuildingValue) / weight);
-        }
-
-        var previousUsedTiles = Data.ReadAs<int>(farm, DataKeys.UsedTiles);
-        if (currentSeason != Season.Winter)
-        {
-            usedTiles = (int)((float)(usedTiles + previousUsedTiles) / weight);
-        }
-
-        if (!forReal)
-        {
-            return (totalAgricultureValue, totalLivestockValue, totalBuildingValue, usedTiles);
-        }
-
-        Data.Write(farm, DataKeys.AgricultureValue, totalAgricultureValue.ToString());
-        Data.Write(farm, DataKeys.LivestockValue, totalLivestockValue.ToString());
-        Data.Write(farm, DataKeys.BuildingValue, totalBuildingValue.ToString());
-        Data.Write(farm, DataKeys.UsedTiles, usedTiles.ToString());
-        return (totalAgricultureValue, totalLivestockValue, totalBuildingValue, usedTiles);
+        return (agricultureValue, livestockValue, artisanValue, buildingValue, usedTiles, treeCount);
     }
 }

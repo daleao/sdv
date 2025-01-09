@@ -25,23 +25,25 @@ public abstract class FirstSecondUpdateTickedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicked"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event arguments.</param>
-    public void OnFirstSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
-    {
-        this.OnFirstSecondUpdateTickedImpl(sender, e);
-        this.Manager.Unmanage(this);
-    }
-
     /// <inheritdoc cref="OnFirstSecondUpdateTicked"/>
     protected abstract void OnFirstSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e);
 
+    /// <inheritdoc />
     protected sealed override void OnEnabled()
     {
     }
 
+    /// <inheritdoc />
     protected sealed override void OnDisabled()
     {
+    }
+
+    /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicked"/>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event arguments.</param>
+    private void OnFirstSecondUpdateTicked(object? sender, OneSecondUpdateTickedEventArgs e)
+    {
+        this.OnFirstSecondUpdateTickedImpl(sender, e);
+        this.Manager.Unmanage(this);
     }
 }

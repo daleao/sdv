@@ -1,5 +1,16 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.1.0
+
+### Fixed
+
+* Fixed an error loop when firing a slingshot.
+* Re-added missing tool enchantments.
+
+### Removed
+
+* Removed unused Steadfast enchantment.
+
 ## 2.0.2
 
 ### Changed

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="25" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="3">
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" compressionlevel="0" width="25" height="15" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="3">
  <properties>
   <property name="AmbientLight" value="110 110 110"/>
   <property name="AutoFeed" value="T"/>
   <property name="ProduceArea" value="6 4 15 7"/>
   <property name="Warp" value="11 15 Farm 14 11"/>
  </properties>
- <tileset firstgid="1" name="barn" tilewidth="16" tileheight="16" tilecount="88" columns="4">
-  <image source="coopTiles" width="64" height="352"/>
+ <tileset firstgid="1" name="barn" tilewidth="16" tileheight="16" tilecount="84" columns="4">
+  <image source="coopTiles" width="64" height="336"/>
   <tile id="12">
    <properties>
     <property name="Type" value="Wood"/>
@@ -30,8 +30,32 @@
    </properties>
   </tile>
  </tileset>
- <tileset firstgid="89" name="p" tilewidth="16" tileheight="16" tilecount="64" columns="4">
+ <tileset firstgid="85" name="p" tilewidth="16" tileheight="16" tilecount="64" columns="4">
   <image source="paths" width="64" height="256"/>
+ </tileset>
+ <tileset firstgid="149" name="barn" tilewidth="16" tileheight="16" tilecount="84" columns="4">
+  <image source="coopTiles.png" width="64" height="336"/>
+  <tile id="12">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Passable" type="int" value="0"/>
+    <property name="Trough" value="T"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
  </tileset>
  <layer id="1" name="Back" width="25" height="15">
   <data encoding="csv">
@@ -39,7 +63,7 @@
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,17,
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,21,
 13,66,54,54,54,38,34,34,34,34,34,34,34,34,34,34,34,34,34,34,54,54,54,38,55,
-13,37,14,26,16,57,54,54,54,47,54,54,47,54,54,47,54,54,47,54,54,26,13,56,55,
+13,37,14,26,16,57,54,54,54,47,54,54,47,54,54,47,54,54,47,54,54,195,202,56,55,
 13,13,18,19,20,37,13,13,13,13,55,37,55,14,15,16,13,13,13,53,13,13,13,55,55,
 13,13,22,23,24,13,55,13,55,13,13,13,18,19,19,24,13,55,13,14,15,16,13,13,55,
 13,13,55,13,55,13,13,13,13,13,55,13,18,19,20,55,13,13,13,18,19,19,15,16,55,
@@ -98,15 +122,15 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,97,0,0,97,0,0,97,0,0,97,0,0,97,0,0,0,
+0,0,0,0,0,0,0,0,0,93,0,0,93,0,0,93,0,0,93,0,0,93,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,97,0,0,0,0,0,97,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,93,0,0,0,0,0,93,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,97,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,93,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,97,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,93,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="5" name="Back">

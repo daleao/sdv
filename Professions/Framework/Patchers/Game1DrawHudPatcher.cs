@@ -26,6 +26,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
 
     /// <summary>Patch for Scavenger and Prospector to track different stuff.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? Game1DrawHUDTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

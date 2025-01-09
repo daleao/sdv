@@ -21,6 +21,7 @@ internal sealed class ToolTilesAffectedPatcher
 
     /// <summary>Override affected tiles for resource tools.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void Postfix(
         Tool __instance, List<Vector2> __result, Vector2 tileLocation, int power)
     {
@@ -31,8 +32,8 @@ internal sealed class ToolTilesAffectedPatcher
 
         __result.Clear();
         var radius = __instance is Axe
-            ? AxeAffectedTilesRadii[Math.Min(power - 2, 4)]
-            : PickaxeAffectedTilesRadii[Math.Min(power - 2, 4)];
+            ? AxeAffectedTilesRadii[Math.Min(power - 2, AxeAffectedTilesRadii.Length - 1)]
+            : PickaxeAffectedTilesRadii[Math.Min(power - 2, PickaxeAffectedTilesRadii.Length - 1)];
         if (radius == 0)
         {
             return;

@@ -24,17 +24,17 @@ public abstract class CursorMovedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnCursorMoved"/>
+    protected abstract void OnCursorMovedImpl(object? sender, CursorMovedEventArgs e);
+
     /// <inheritdoc cref="IInputEvents.CursorMoved"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnCursorMoved(object? sender, CursorMovedEventArgs e)
+    private void OnCursorMoved(object? sender, CursorMovedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnCursorMovedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnCursorMoved"/>
-    protected abstract void OnCursorMovedImpl(object? sender, CursorMovedEventArgs e);
 }

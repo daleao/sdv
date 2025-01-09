@@ -22,6 +22,7 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
 
     /// <summary>Patch to force select most recent profession for skill.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerGetProfessionForSkillPrefix(
         Farmer __instance, ref int __result, int skillType, int skillLevel)
     {

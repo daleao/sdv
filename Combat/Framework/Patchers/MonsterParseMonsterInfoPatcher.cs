@@ -48,6 +48,7 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
 
     /// <summary>Randomize monster stats + apply difficulty sliders.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MonsterParseMonsterInfoPostfix(Monster __instance)
     {
         if (Config.VariedEncounters)

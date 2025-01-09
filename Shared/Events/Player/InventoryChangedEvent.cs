@@ -24,17 +24,17 @@ public abstract class InventoryChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnInventoryChanged"/>
+    protected abstract void OnInventoryChangedImpl(object? sender, InventoryChangedEventArgs e);
+
     /// <inheritdoc cref="IPlayerEvents.InventoryChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnInventoryChanged(object? sender, InventoryChangedEventArgs e)
+    private void OnInventoryChanged(object? sender, InventoryChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnInventoryChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnInventoryChanged"/>
-    protected abstract void OnInventoryChangedImpl(object? sender, InventoryChangedEventArgs e);
 }

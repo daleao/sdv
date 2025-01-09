@@ -32,6 +32,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     /// <summary>Steadfast enchantment crit. to damage conversion.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void GameLocationDamageMonsterPrefix(bool __result, Farmer who)
     {
         if (who.IsLocalPlayer && __result)
@@ -42,6 +43,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     /// <summary>Record knockback for damage and crit. for defense ignore + back attacks.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

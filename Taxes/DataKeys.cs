@@ -17,7 +17,10 @@ internal sealed class DataKeys
     // farm
     internal const string AgricultureValue = "AgricultureValue";
     internal const string LivestockValue = "LivestockValue";
+    internal const string ArtisanValue = "ArtisanValue";
     internal const string BuildingValue = "BuildingValue";
+    internal const string SeasonCheckOffset = "SeasonCheckOffset";
+    internal const string TreeCount = "TreeCount";
     internal const string UsedTiles = "UsedTiles";
     internal const string UsableTiles = "UsableTiles";
 }

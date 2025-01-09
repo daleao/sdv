@@ -24,17 +24,17 @@ public abstract class ReturnedToTitleEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnReturnedToTitle"/>
+    protected abstract void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.ReturnedToTitle"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
+    private void OnReturnedToTitle(object? sender, ReturnedToTitleEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnReturnedToTitleImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnReturnedToTitle"/>
-    protected abstract void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e);
 }

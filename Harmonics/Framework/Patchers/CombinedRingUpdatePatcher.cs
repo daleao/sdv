@@ -24,6 +24,7 @@ internal sealed class CombinedRingUpdatePatcher : HarmonyPatcher
 
     /// <summary>Update Infinity Band resonances.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingUpdatePostfix(CombinedRing __instance, Farmer who)
     {
         __instance.Get_Chord()?.Update(who);

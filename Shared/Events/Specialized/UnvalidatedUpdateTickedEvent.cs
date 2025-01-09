@@ -24,17 +24,17 @@ public abstract class UnvalidatedUpdateTickedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnUnvalidatedUpdateTicked"/>
+    protected abstract void OnUnvalidatedUpdateTickedImpl(object? sender, UnvalidatedUpdateTickedEventArgs e);
+
     /// <inheritdoc cref="ISpecializedEvents.UnvalidatedUpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnUnvalidatedUpdateTicked(object? sender, UnvalidatedUpdateTickedEventArgs e)
+    private void OnUnvalidatedUpdateTicked(object? sender, UnvalidatedUpdateTickedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnUnvalidatedUpdateTickedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnUnvalidatedUpdateTicked"/>
-    protected abstract void OnUnvalidatedUpdateTickedImpl(object? sender, UnvalidatedUpdateTickedEventArgs e);
 }

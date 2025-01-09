@@ -26,6 +26,7 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
 
     /// <summary>Fixes an issue when collecting trash while holding bait as Conservationist.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool CrabPotPerformObjectDropInActionPrefix(CrabPot __instance, ref bool __result)
     {
         if (__instance.heldObject.Value is null)

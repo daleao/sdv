@@ -66,12 +66,14 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             ModHelper.GameContent.InvalidateCache("Data/Objects");
         }
 
+        this.Manager.Enable<RevalidateBuildingsDayStartedEvent>();
+
         if (!Context.IsMainPlayer)
         {
             return;
         }
 
-        // enable events
+        // enable multiplayer events
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
         {
             this.Manager.Enable(
@@ -87,7 +89,5 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         {
             this.Manager.Enable<ChromaBallObjectListChangedEvent>();
         }
-
-        this.Manager.Enable<RevalidateBuildingsDayEndingEvent>();
     }
 }

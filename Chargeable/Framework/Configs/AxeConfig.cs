@@ -20,7 +20,7 @@ public sealed class AxeConfig
     [JsonProperty]
     [GMCMPriority(1)]
     [GMCMOverride(typeof(ChargeableConfigMenu), "AxeRadiusAtEachLevelOverride")]
-    public uint[] RadiusAtEachPowerLevel { get; internal set; } = [1, 2, 3, 4, 5, 6];
+    public uint[] RadiusAtEachPowerLevel { get; internal set; } = [1, 2, 3, 4, 5, 6, 7];
 
     /// <summary>Gets a value indicating whether to clear fruit tree seeds.</summary>
     [JsonProperty]

@@ -24,17 +24,17 @@ public abstract class AssetsInvalidatedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnAssetsInvalidated"/>
+    protected abstract void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e);
+
     /// <inheritdoc cref="IContentEvents.AssetsInvalidated"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnAssetsInvalidated(object? sender, AssetsInvalidatedEventArgs e)
+    private void OnAssetsInvalidated(object? sender, AssetsInvalidatedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnAssetsInvalidatedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnAssetsInvalidated"/>
-    protected abstract void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e);
 }

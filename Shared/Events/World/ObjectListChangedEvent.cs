@@ -24,17 +24,17 @@ public abstract class ObjectListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnObjectListChanged"/>
+    protected abstract void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.ObjectListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
+    private void OnObjectListChanged(object? sender, ObjectListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnObjectListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnObjectListChanged"/>
-    protected abstract void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e);
 }

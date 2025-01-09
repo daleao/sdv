@@ -24,6 +24,7 @@ internal sealed class PondQueryMenuCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch to adjust fish pond query menu for Aquarist increased max capacity.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void PondQueryMenuDrawPostfix(FishPond fish_pond)
     {
         if (fish_pond.maxOccupants.Value > 10)

@@ -51,6 +51,8 @@
   "gmcm.sections.txs.property": "Property Tax",
   "gmcm.property_tax_lateness_fine.title": "Lateness Fine",
   "gmcm.property_tax_lateness_fine.desc": "A one-time penalty rate charged once over the unpaid amount, when property taxes are not paid on-time.",
+  "gmcm.baseline_unused_tile_cost_rate.title": "Baseline Unused Tile Cost",
+  "gmcm.baseline_unused_tile_cost_rate.desc": "The baseline gold cost of unused tiles.",
   "gmcm.unused_tile_tax_rate.title": "Unused Tile Tax Rate",
   "gmcm.unused_tile_tax_rate.desc": "The tax rate charged over a tile not actively used for productive means.",
   "gmcm.used_tile_tax_rate.title": "Used Tile Tax Rate",
@@ -64,5 +66,9 @@
 
   // other
   "gmcm.annual_interest.title": "Annual Intereset",
-  "gmcm.annual_interest.desc": "The interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the annual rate."
+  "gmcm.annual_interest.desc": "The interest rate charged annually over any outstanding debt. Interest is accrued daily at a rate of 1/112 the annual rate.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Default Artisan Value Crop Multiplier",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from crops.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Default Artisan Value Produce Multiplier",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from animal produce."
 }

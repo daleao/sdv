@@ -22,6 +22,7 @@ internal sealed class FarmerCheckForLevelGainPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow level increase up to 20.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FarmerCheckForLevelGainPostfix(ref int __result, int oldXP, int newXP)
     {
         if (!ShouldEnablePrestigeLevels)

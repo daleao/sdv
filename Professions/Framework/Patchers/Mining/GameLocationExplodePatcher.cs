@@ -27,6 +27,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Demolitionist explosion radius.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void GameLocationExplodePrefix(ref int radius, Farmer? who, bool destroyObjects)
     {
         if (destroyObjects && who?.HasProfession(Profession.Demolitionist) == true)
@@ -37,6 +38,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 
     /// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GameLocationExplodePostfix(
         GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who, int damage_amount, bool destroyObjects)
     {

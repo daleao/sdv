@@ -38,6 +38,7 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
     ///     metals in radioactive ponds.
     /// </summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FishPondDoActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

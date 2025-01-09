@@ -28,6 +28,7 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply Producer production frequency bonus at max happiness.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmAnimalDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

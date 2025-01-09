@@ -242,42 +242,6 @@ internal static class FishPondExtensions
         return true; // expected by vanilla code
     }
 
-    /// <summary>
-    ///     Reads the serialized held item list from the <paramref name="pond"/>'s <seealso cref="ModDataDictionary"/> and
-    ///     returns a deserialized <see cref="List{T}"/> of <seealso cref="SObject"/>s.
-    /// </summary>
-    /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s encoded in the <paramref name="pond"/>'s held items data.</returns>
-    internal static List<Item> DeserializeHeldItems(this FishPond pond)
-    {
-        return Data.Read(pond, DataKeys.ItemsHeld)
-            .ParseList<string>(';')
-            .Select(s => s?.ParseTuple<string, int, int>())
-            .WhereNotNull()
-            .Select(t => ItemRegistry.Create(t.Item1, t.Item2, t.Item3))
-            .ToList();
-    }
-
-    /// <summary>Gets a fish's chance to produce roe in this <paramref name="pond"/>.</summary>
-    /// <param name="pond">The <see cref="FishPond"/>.</param>
-    /// <param name="value">The fish's sale value.</param>
-    /// <returns>The percentage chance of a fish with the given <paramref name="value"/> to produce roe in this <paramref name="pond"/>.</returns>
-    internal static double GetRoeChance(this FishPond pond, int? value)
-    {
-        const int maxValue = 700;
-        var cappedValue = Math.Min(value ?? pond.GetFishObject().Price, maxValue);
-
-        // Mean daily roe value (/w Aquarist profession) by fish value
-        // assuming regular-quality roe and fully-populated pond:
-        //     30g -> ~324g (~90% roe chance per fish)
-        //     700g -> ~1512g (~18% roe chance per fish) <-- capped here
-        //     5000g -> ~4050g (~13.5% roe chance per fish)
-        const double a = 335d / 4d;
-        const double b = 275d / 2d;
-        var neighbors = pond.FishCount - 1;
-        return a / (cappedValue + b) * (1d + ((neighbors - 1) / 11d)) * Config.RoeProductionChanceMultiplier;
-    }
-
     /// <summary>Parses the stored <see cref="PondFish"/> data from this <paramref name="pond"/>.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <returns>A <see cref="List{T}"/> of parsed <see cref="PondFish"/>.</returns>
@@ -305,6 +269,44 @@ internal static class FishPondExtensions
         Data.Write(pond, DataKeys.PondFish, string.Join(';', fish));
     }
 
+    /// <summary>
+    ///     Reads the serialized held item list from the <paramref name="pond"/>'s <seealso cref="ModDataDictionary"/> and
+    ///     returns a deserialized <see cref="List{T}"/> of <seealso cref="SObject"/>s.
+    /// </summary>
+    /// <param name="pond">The <see cref="FishPond"/>.</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="Item"/>s encoded in the <paramref name="pond"/>'s held items data.</returns>
+    internal static List<Item> DeserializeHeldItems(this FishPond pond)
+    {
+        return Data.Read(pond, DataKeys.ItemsHeld)
+            .ParseList<string>(';')
+            .Select(s => s?.ParseTuple<string, int, int>())
+            .WhereNotNull()
+            .Select(t => ItemRegistry.Create(t.Item1, t.Item2, t.Item3))
+            .ToList();
+    }
+
+    /// <summary>Gets a fish's chance to produce roe in this <paramref name="pond"/>.</summary>
+    /// <param name="pond">The <see cref="FishPond"/>.</param>
+    /// <param name="value">The fish's sale value.</param>
+    /// <returns>The percentage chance of a fish with the given <paramref name="value"/> to produce roe in this <paramref name="pond"/>.</returns>
+    private static double GetRoeChance(this FishPond pond, int? value)
+    {
+        // version 1
+        const int maxValue = 700;
+        var x = Math.Min(value ?? pond.GetFishObject().Price, maxValue);
+
+        // Mean daily roe value by fish value assuming regular-quality
+        // roe and fully-populated pond (population = 10):
+        //     30g (anchovy) -> ~270g (~90% roe chance per fish)
+        //     200g (sturgeon) -> ~1100g (~55% roe chance per fish)
+        //     700g (lava eel) -> ~1750g (~25% roe chance per fish) <-- capped here
+        //     5000g (legend) -> ~12500g (~25% roe chance per fish)
+        const double a = 117d;
+        const double b = 234d;
+        var neighbors = pond.FishCount - 1;
+        return a / (x + b) * (1d + (neighbors / 9d)) * Config.RoeProductionChanceMultiplier;
+    }
+
     private static void ProduceFromPondData(this FishPond pond, List<Item> held, Random r)
     {
         var fishPondData = pond.GetFishPondData();
@@ -318,8 +320,7 @@ internal static class FishPondExtensions
             var qid = reward.ItemId.StartsWith("(O)") ? reward.ItemId : "(O)" + reward.ItemId;
             if (qid is QualifiedObjectIds.Roe or QualifiedObjectIds.SquidInk ||
                 pond.currentOccupants.Value < reward.RequiredPopulation ||
-                !(r.NextDouble() < Utility.Lerp(0.15f, 0.95f, pond.currentOccupants.Value / 10f)) ||
-                !(r.NextDouble() < reward.Chance))
+                !r.Any(reward.Chance, pond.currentOccupants.Value / reward.RequiredPopulation))
             {
                 continue;
             }

@@ -50,6 +50,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     /// <summary>Replaces "Forged" text with socket icons.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? IClickableMenuDrawHoverTextTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

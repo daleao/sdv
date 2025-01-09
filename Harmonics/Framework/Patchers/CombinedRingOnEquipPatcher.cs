@@ -25,6 +25,7 @@ internal sealed class CombinedRingOnEquipPatcher : HarmonyPatcher
 
     /// <summary>Add Infinity Band resonance effects.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingOnEquipPostfix(CombinedRing __instance, Farmer who)
     {
         __instance.Get_Chord()?.Resonate(who);

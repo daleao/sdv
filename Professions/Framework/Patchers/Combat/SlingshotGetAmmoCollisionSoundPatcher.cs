@@ -23,6 +23,7 @@ internal sealed class SlingshotGetAmmoCollisionSoundPatcher : HarmonyPatcher
 
     /// <summary>Patch to set Rascal Slime ammo CollisionSound.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SlingshotGetAmmoCollisionSoundPostfix(Slingshot __instance, ref string __result, SObject ammunition)
     {
         if (ammunition.QualifiedItemId == QualifiedObjectIds.Slime)

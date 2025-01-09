@@ -23,6 +23,7 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
 
     /// <summary>Patch to increase production frequency of Producer Bee House + set Prestiged Gemologist Crystalaria quality + double Prestiged Demolitionist coal generation.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ObjectOutputMachinePostfix(SObject __instance, Item inputItem)
     {
         var held = __instance.heldObject.Value;

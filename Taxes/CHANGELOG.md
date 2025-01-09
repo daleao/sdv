@@ -1,8 +1,28 @@
 ﻿# TAXES Changelog
 
+## 2.1.0
+
+### Added
+
+* Added a baseline Unused Tile Cost (configurable).
+* Added Artisan Value estimation. Property tax is now calculated based on a weighted average of raw and artisan costs, where weight is determined by the number of placed artisan machine.
+
+### Changed
+
+* Default building tax rate increased from 4% to 10%.
+* Trees are now considered ecological exemption, and are discounted from available usable tiles.
+
+### Fixed
+
+* Fixed Fruit Trees incorrectly causing negative agricultural value.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.0.0
 
 Updated for game version 1.6.14.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
 
 ## 1.1.0
 

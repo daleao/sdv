@@ -40,6 +40,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
     /// <summary>Patch to overlay skill bars above skill level 10 + draw prestige ribbons on the skills page.</summary>
     [HarmonyTranspiler]
     [HarmonyBefore("Shockah.XPDisplay")]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? NewSkillsPageDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

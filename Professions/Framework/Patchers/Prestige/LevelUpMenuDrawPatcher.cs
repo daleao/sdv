@@ -30,6 +30,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase the height of Level Up Menu to fit longer profession descriptions + choose single profession.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuDrawPrefix(
         LevelUpMenu __instance,
         int ___currentLevel,
@@ -212,6 +213,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw acquired profession tooltips during profession selection.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? LevelUpMenuDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

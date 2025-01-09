@@ -5,7 +5,6 @@
 using System.Globalization;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Extensions.Xna;
 using DaLion.Taxes.Framework.Integrations;
 using StardewModdingAPI.Events;
 using StardewValley;
@@ -56,28 +55,23 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             goto skipSwitch;
         }
 
+        var farm = Game1.getFarm();
         switch (Game1.dayOfMonth)
         {
+            case 2:
+            case 16:
+                Data.Write(farm, DataKeys.SeasonCheckOffset, Game1.random.Next(5).ToString());
+                goto default;
+
             // handle Conservationist profession
             case 28:
             {
                 CheckIncomeStatement(taxpayer);
                 PostalService.Send(CheckDeductions(taxpayer) ? Mail.FrsDeduction : Mail.FrsNotice);
-                if (Game1.currentSeason == "spring")
+                if (Game1.currentSeason == "winter")
                 {
                     CheckPropertyStatement(taxpayer);
                     PostalService.Send(Mail.LewisNotice);
-                }
-
-                goto default;
-            }
-
-            case 8:
-            case 22:
-            {
-                if (taxpayer.IsMainPlayer)
-                {
-                    Game1.getFarm().Appraise();
                 }
 
                 goto default;
@@ -90,9 +84,59 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                     DebitIncomeStatement(taxpayer, ref dayIncome);
                 }
 
-                if (taxpayer.IsMainPlayer && Game1.currentSeason == "spring" && Game1.dayOfMonth == Config.PropertyTaxDay)
+                if (taxpayer.IsMainPlayer)
                 {
-                    DebitPropertyStatement(taxpayer, ref dayIncome);
+                    if (Game1.currentSeason == "spring" && Game1.dayOfMonth == Config.PropertyTaxDay)
+                    {
+                        DebitPropertyStatement(taxpayer, ref dayIncome);
+                    }
+
+                    if (Game1.dayOfMonth == 8 + Data.ReadAs<int>(farm, DataKeys.SeasonCheckOffset))
+                    {
+                        var (agricultureValue, livestockValue, artisanValue, buildingValue, usedTiles, treeCount) =
+                            farm.Appraise();
+                        agricultureValue += Data.ReadAs<int>(farm, DataKeys.AgricultureValue) * (Game1.seasonIndex * 2);
+                        agricultureValue /= (Game1.seasonIndex * 2) + 1;
+                        Data.Write(farm, DataKeys.AgricultureValue, agricultureValue.ToString());
+
+                        livestockValue += Data.ReadAs<int>(farm, DataKeys.LivestockValue) * (Game1.seasonIndex * 2);
+                        livestockValue /= (Game1.seasonIndex * 2) + 1;
+                        Data.Write(farm, DataKeys.LivestockValue, livestockValue.ToString());
+
+                        artisanValue += Data.ReadAs<int>(farm, DataKeys.ArtisanValue) * (Game1.seasonIndex * 2);
+                        artisanValue /= (Game1.seasonIndex * 2) + 1;
+                        Data.Write(farm, DataKeys.ArtisanValue, artisanValue.ToString());
+
+                        buildingValue += Data.ReadAs<int>(farm, DataKeys.BuildingValue) * (Game1.seasonIndex * 2);
+                        buildingValue /= (Game1.seasonIndex * 2) + 1;
+                        Data.Write(farm, DataKeys.BuildingValue, buildingValue.ToString());
+
+                        Data.Write(farm, DataKeys.TreeCount, treeCount.ToString());
+                        Data.Write(farm, DataKeys.UsedTiles, usedTiles.ToString());
+                    }
+                    else if (Game1.dayOfMonth == 22 + Data.ReadAs<int>(farm, DataKeys.SeasonCheckOffset))
+                    {
+                        var (agricultureValue, livestockValue, artisanValue, buildingValue, usedTiles, treeCount) =
+                            farm.Appraise();
+                        agricultureValue += Data.ReadAs<int>(farm, DataKeys.AgricultureValue) * ((Game1.seasonIndex * 2) + 1);
+                        agricultureValue /= (Game1.seasonIndex * 2) + 2;
+                        Data.Write(farm, DataKeys.AgricultureValue, agricultureValue.ToString());
+
+                        livestockValue += Data.ReadAs<int>(farm, DataKeys.LivestockValue) * ((Game1.seasonIndex * 2) + 1);
+                        livestockValue /= (Game1.seasonIndex * 2) + 2;
+                        Data.Write(farm, DataKeys.LivestockValue, livestockValue.ToString());
+
+                        artisanValue += Data.ReadAs<int>(farm, DataKeys.ArtisanValue) * ((Game1.seasonIndex * 2) + 1);
+                        artisanValue /= (Game1.seasonIndex * 2) + 2;
+                        Data.Write(farm, DataKeys.ArtisanValue, artisanValue.ToString());
+
+                        buildingValue += Data.ReadAs<int>(farm, DataKeys.BuildingValue) * ((Game1.seasonIndex * 2) + 1);
+                        buildingValue /= (Game1.seasonIndex * 2) + 2;
+                        Data.Write(farm, DataKeys.BuildingValue, buildingValue.ToString());
+
+                        Data.Write(farm, DataKeys.TreeCount, treeCount.ToString());
+                        Data.Write(farm, DataKeys.UsedTiles, usedTiles.ToString());
+                    }
                 }
 
                 DebitOutstanding(taxpayer, ref dayIncome);
@@ -195,25 +239,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
 
     private static void CheckPropertyStatement(Farmer taxpayer)
     {
-        var farm = Game1.getFarm();
-        var agricultureValue = Data.ReadAs<int>(farm, DataKeys.AgricultureValue);
-        var livestockValue = Data.ReadAs<int>(farm, DataKeys.LivestockValue);
-        var buildingValue = Data.ReadAs<int>(farm, DataKeys.BuildingValue);
-        var usableTiles = Data.ReadAs(farm, DataKeys.UsableTiles, -1);
-        if (usableTiles < 0)
-        {
-            var origin = farm.GetMainFarmHouseEntry();
-            usableTiles = origin.FloodFill(
-                farm.Map.Layers[0].TileWidth,
-                farm.Map.Layers[0].TileHeight,
-                p => farm.doesTileHaveProperty(p.X, p.Y, "Diggable", "Back") is not null).Count;
-            Data.Write(farm, DataKeys.UsableTiles, usableTiles.ToString());
-        }
-
-        var currentUsePct = Data.ReadAs<float>(farm, DataKeys.UsedTiles) / usableTiles;
-        var amountDue = (int)(((agricultureValue + livestockValue) * currentUsePct * Config.UsedTileTaxRate) +
-                              ((agricultureValue + livestockValue) * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
-                              (buildingValue * Config.BuildingTaxRate));
+        var amountDue = CountyService.CalculateTaxes();
         Data.Write(taxpayer, DataKeys.AccruedPropertyTax, amountDue.ToString());
     }
 
@@ -261,8 +287,8 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
         var farm = Game1.getFarm();
         Data.Write(farm, DataKeys.AgricultureValue, "0");
         Data.Write(farm, DataKeys.LivestockValue, "0");
+        Data.Write(farm, DataKeys.ArtisanValue, "0");
         Data.Write(farm, DataKeys.BuildingValue, "0");
-        Data.Write(farm, DataKeys.UsedTiles, "0");
     }
 
     private static void DebitOutstanding(Farmer taxpayer, ref int dayIncome)

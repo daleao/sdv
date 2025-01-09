@@ -28,6 +28,7 @@ internal sealed class TreePerformBushDestroyPatcher : HarmonyPatcher
 
     /// <summary>Patch to add bonus wood for prestiged Lumberjack.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? TreePerformBushDestroyTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

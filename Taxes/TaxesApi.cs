@@ -10,8 +10,8 @@ public class TaxesApi : ITaxesApi
     }
 
     /// <inheritdoc />
-    public (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) CalculatePropertyTax()
+    public int CalculatePropertyTax()
     {
-        return Game1.getFarm().Appraise(false);
+        return CountyService.CalculateTaxes();
     }
 }

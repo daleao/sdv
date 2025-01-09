@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
@@ -26,40 +27,51 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Patch to consume Angler tackle.</summary>
+    [HarmonyPostfix]
+    [UsedImplicitly]
+    private static void FishingRodDoDoneFishingPrefix(FishingRod __instance, bool consumeBaitAndTackle)
+    {
+        if (!consumeBaitAndTackle)
+        {
+            return;
+        }
+
+        var memorizedTackle = Data.Read(__instance, DataKeys.FirstMemorizedTackle);
+        if (!string.IsNullOrEmpty(memorizedTackle))
+        {
+            Data.Increment(__instance, DataKeys.FirstMemorizedTackleUses, -1);
+            if (Data.ReadAs<int>(__instance, DataKeys.FirstMemorizedTackleUses) <= 0)
+            {
+                Data.Write(__instance, DataKeys.FirstMemorizedTackle, null);
+                Data.Write(__instance, DataKeys.FirstMemorizedTackleUses, null);
+            }
+        }
+
+        if (__instance.AttachmentSlotsCount < 3)
+        {
+            return;
+        }
+
+        memorizedTackle = Data.Read(__instance, DataKeys.SecondMemorizedTackle);
+        if (!string.IsNullOrEmpty(memorizedTackle))
+        {
+            Data.Increment(__instance, DataKeys.SecondMemorizedTackleUses, -1);
+            if (Data.ReadAs<int>(__instance, DataKeys.SecondMemorizedTackleUses) <= 0)
+            {
+                Data.Write(__instance, DataKeys.SecondMemorizedTackle, null);
+                Data.Write(__instance, DataKeys.SecondMemorizedTackleUses, null);
+            }
+        }
+    }
+
     /// <summary>Patch to record Angler tackle uses.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FishingRodDoDoneFishingTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
-
-        try
-        {
-            helper
-                .PatternMatch([
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(SObject).RequireField(nameof(SObject.uses))),
-                ])
-                .PatternMatch([
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetFieldBase<int, NetInt>).RequirePropertySetter(
-                            nameof(NetFieldBase<int, NetInt>.Value))),
-                ])
-                .Move()
-                .Insert([
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FishingRodDoDoneFishingPatcher).RequireMethod(nameof(ConsumeTackleMemory))),
-                ]);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed injecting Angler tackle memory consumption.\nHelper returned {ex}");
-            return null;
-        }
 
         try
         {
@@ -93,36 +105,6 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
     #region injections
 
-    private static void ConsumeTackleMemory(FishingRod rod)
-    {
-        var memorizedTackle = Data.Read(rod, DataKeys.FirstMemorizedTackle);
-        if (!string.IsNullOrEmpty(memorizedTackle))
-        {
-            Data.Increment(rod, DataKeys.FirstMemorizedTackleUses, -1);
-            if (Data.ReadAs<int>(rod, DataKeys.FirstMemorizedTackleUses) <= 0)
-            {
-                Data.Write(rod, DataKeys.FirstMemorizedTackle, null);
-                Data.Write(rod, DataKeys.FirstMemorizedTackleUses, null);
-            }
-        }
-
-        if (rod.AttachmentSlotsCount < 3)
-        {
-            return;
-        }
-
-        memorizedTackle = Data.Read(rod, DataKeys.SecondMemorizedTackle);
-        if (!string.IsNullOrEmpty(memorizedTackle))
-        {
-            Data.Increment(rod, DataKeys.SecondMemorizedTackleUses, -1);
-            if (Data.ReadAs<int>(rod, DataKeys.SecondMemorizedTackleUses) <= 0)
-            {
-                Data.Write(rod, DataKeys.SecondMemorizedTackle, null);
-                Data.Write(rod, DataKeys.SecondMemorizedTackleUses, null);
-            }
-        }
-    }
-
     private static void RecordTackleMemory(FishingRod rod, SObject tackle)
     {
         if (!rod.lastUser.HasProfession(Profession.Angler))
@@ -130,24 +112,18 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
             return;
         }
 
-        if (rod.lastUser.HasProfession(Profession.Angler, true))
+        if (tackle.QualifiedItemId == rod.attachments[1]?.QualifiedItemId)
         {
-            if (tackle.QualifiedItemId == rod.attachments[1]?.QualifiedItemId)
-            {
-                Data.Write(rod, DataKeys.FirstMemorizedTackle, rod.attachments[1].QualifiedItemId);
-                Data.Write(rod, DataKeys.FirstMemorizedTackleUses, (FishingRod.maxTackleUses / 2).ToString());
-            }
-            else if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2].QualifiedItemId)
-            {
-                Data.Write(rod, DataKeys.SecondMemorizedTackle, FishingRod.maxTackleUses.ToString());
-                Data.Write(rod, DataKeys.SecondMemorizedTackleUses, (FishingRod.maxTackleUses / 2).ToString());
-            }
-
+            Data.Write(rod, DataKeys.FirstMemorizedTackle, tackle.QualifiedItemId);
+            Data.Write(rod, DataKeys.FirstMemorizedTackleUses, (FishingRod.maxTackleUses / 2 + 1).ToString());
             return;
         }
-
-        Data.Write(rod, DataKeys.FirstMemorizedTackle, tackle.QualifiedItemId);
-        Data.Write(rod, DataKeys.FirstMemorizedTackleUses, (FishingRod.maxTackleUses / 2).ToString());
+        else if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2].QualifiedItemId)
+        {
+            Data.Write(rod, DataKeys.SecondMemorizedTackle, tackle.QualifiedItemId);
+            Data.Write(rod, DataKeys.SecondMemorizedTackleUses, (FishingRod.maxTackleUses / 2 + 1).ToString());
+            return;
+        }
     }
 
     #endregion injections

@@ -22,6 +22,7 @@ internal sealed class LightSourceLoadTextureFromConstantValuePatcher : HarmonyPa
 
     /// <summary>Load custom phase light textures.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void LightSourceLoadTextureFromConstantValuePostfix(LightSource __instance, int value)
     {
         __instance.lightTexture = value switch

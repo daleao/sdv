@@ -30,6 +30,7 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Crusader effect for Sunburst enchantment.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MummyTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

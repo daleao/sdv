@@ -30,6 +30,7 @@ internal sealed class FarmerFoundArtifactPatcher : HarmonyPatcher
 
     /// <summary>Trigger blueprint reward.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerFoundArtifactPrefix(Farmer __instance, int index)
     {
         if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue || index != JsonAssetsIntegration.DwarvishBlueprintIndex.Value)

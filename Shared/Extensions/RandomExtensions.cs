@@ -63,6 +63,46 @@ public static class RandomExtensions
         return mean + (stddev * Math.Sqrt(-2d * Math.Log(u1)) * Math.Cos(2d * Math.PI * u2));
     }
 
+    /// <summary>Checks if at least one success occurs across multiple independent attempts with a given probability.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="chance">The probability of success for a single attempt (0.0 to 1.0).</param>
+    /// <param name="attempts">The number of attempts.</param>
+    /// <returns><see langword="true"/> if at least one attempt is successful, otherwise <see langword="false"/>.</returns>
+    public static bool Any(this Random r, double chance, int attempts)
+    {
+        if (chance is < 0d or > 1d)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(chance), "Chance must be between 0.0 and 1.0.");
+        }
+
+        if (attempts <= 0)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(attempts), "Attempts must be greater than 0.");
+        }
+
+        return r.NextDouble() < 1 - Math.Pow(1 - chance, attempts);
+    }
+
+    /// <summary>Checks if all attempts are successful with a given probability for each attempt.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="chance">The probability of success for a single attempt (0.0 to 1.0).</param>
+    /// <param name="attempts">The number of attempts.</param>
+    /// <returns><see langword="true"/> if all attempts are successful, otherwise <see langword="false"/>.</returns>
+    public static bool All(this Random r, double chance, int attempts)
+    {
+        if (chance is < 0d or > 1d)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(chance), "Chance must be between 0.0 and 1.0.");
+        }
+
+        if (attempts <= 0)
+        {
+            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(attempts), "Attempts must be greater than 0.");
+        }
+
+        return r.NextDouble() < Math.Pow(chance, attempts);
+    }
+
     /// <summary>Selects a random <typeparamref name="T"/> object from the available <paramref name="choices"/>.</summary>
     /// <typeparam name="T">The type of the objects to choose from.</typeparam>
     /// <param name="r">The <see cref="Random"/> number generator.</param>

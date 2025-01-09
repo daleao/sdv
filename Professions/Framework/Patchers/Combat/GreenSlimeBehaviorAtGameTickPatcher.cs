@@ -24,6 +24,7 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatcher : HarmonyPatcher
 
     /// <summary>Patch to countdown jump timers.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
     {
         var timeLeft = __instance.Get_JumpTimer();

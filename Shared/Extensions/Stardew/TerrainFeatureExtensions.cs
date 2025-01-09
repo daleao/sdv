@@ -39,6 +39,14 @@ public static class TerrainFeatureExtensions
         return (dx * dx) + (dy * dy);
     }
 
+    /// <summary>Gets the distance in tiles from this <paramref name="terrainFeature"/> to the local player.</summary>
+    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="terrainFeature"/> to the local player.</returns>
+    public static int DistanceToPlayer(this TerrainFeature terrainFeature)
+    {
+        return (int)terrainFeature.SquaredTileDistance(Game1.player.Tile);
+    }
+
     /// <summary>
     ///     Finds the closest tile from among the specified <paramref name="candidates"/> to this
     ///     <paramref name="terrainFeature"/>.

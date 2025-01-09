@@ -29,6 +29,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
     /// <summary>Override `special = false` for stabby lunge.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoDamageTranspiler(
         IEnumerable<CodeInstruction> instructions,
         MethodBase original)

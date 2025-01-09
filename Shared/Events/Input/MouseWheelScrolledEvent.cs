@@ -24,17 +24,17 @@ public abstract class MouseWheelScrolledEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnMouseWheelScrolled"/>
+    protected abstract void OnMouseWheelScrolledImpl(object? sender, MouseWheelScrolledEventArgs e);
+
     /// <inheritdoc cref="IInputEvents.MouseWheelScrolled"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnMouseWheelScrolled(object? sender, MouseWheelScrolledEventArgs e)
+    private void OnMouseWheelScrolled(object? sender, MouseWheelScrolledEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnMouseWheelScrolledImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnMouseWheelScrolled"/>
-    protected abstract void OnMouseWheelScrolledImpl(object? sender, MouseWheelScrolledEventArgs e);
 }

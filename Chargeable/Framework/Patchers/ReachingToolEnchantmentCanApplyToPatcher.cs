@@ -23,7 +23,7 @@ internal sealed class ReachingToolEnchantmentCanApplyToPatcher
         if (item is Tool tool && ((tool is Axe && Config.Axe.AllowReachingEnchantment) ||
                                   (tool is Pickaxe && Config.Pick.AllowReachingEnchantment)))
         {
-            __result = tool.UpgradeLevel == 4;
+            __result = tool.UpgradeLevel >= 4;
         }
     }
 }

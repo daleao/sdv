@@ -23,10 +23,10 @@ internal sealed class EnchantmentsAssetRequestedEvent(EventManager? manager = nu
         this.Edit("TileSheets/Projectiles", new AssetEditor(EditProjectilesTileSheet));
 
         this.Provide(
-            $"{Manifest.UniqueID}/GemstoneSockets",
+            $"{Manifest.UniqueID}_GemstoneSockets",
             new ModTextureProvider(ProvideGemSockets));
         this.Provide(
-            $"{Manifest.UniqueID}/Shield",
+            $"{Manifest.UniqueID}_Shield",
             new ModTextureProvider(() => "assets/sprites/shield.png"));
     }
 

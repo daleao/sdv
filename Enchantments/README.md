@@ -15,18 +15,18 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 
 ## Melee Weapon Enchantments
 
-| Name      | Effect |
-| --------- | -------|
-| Haymaker | *Unchanged from vanilla.* |
-| Carving | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero. |
-| Cleaving | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target. |
-| Energized | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area. |
-| Greedy | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.* |
-| Reckless | Replaces the defensive parry special move with a stabbing lunge attack. You can perform two special moves in succession. **Sword only**.
-| Sunburst | Deal 50% more damage to shadow and undead monsters. Weapon swings create a mid-range sunlight projectile which blinds enemies upon collision. Prevents Mummies from resurrecting. |
-| Vampiric | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |
-| Volatile | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion. |
-| Wabbajack | Causes unpredictable effects.** |
+| Name      | Effect                                                                                                                                                                                                                          |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Haymaker  | *Unchanged from vanilla.*                                                                                                                                                                                                       |
+| Carving   | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero.                                     |
+| Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target.                                                                                                                           |
+| Energized | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area.                                                      |
+| Greedy    | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.*     |
+| Reckless  | Replaces the defensive parry special move with a stabbing lunge attack. You can perform two special moves in succession. **Sword only**.                                                                                        |
+| Sunburst  | Deal 50% more damage to shadow and undead monsters. Weapon swings create a mid-range sunlight projectile which blinds enemies upon collision. Prevents Mummies from resurrecting.                                               |
+| Vampiric  | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |
+| Volatile  | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion.                                                                                 |
+| Wabbajack | Causes unpredictable effects.**                                                                                                                                                                                                 |
 
 <font size="1">
 
@@ -38,12 +38,12 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 
 ## Slingshot Enchantments
 
-| Name       | Effect |
-| ---------- | -------|
-| Shocking | Moving and shooting generates energy, up to 100 stacks. At maximum stacks, the next shot carries an electric charge, which discharges dealing heavy area damage when it hits an enemy. |
-| Freljord | Progressively chills enemies on hit for 2 seconds, freezing after stacking 3 times. |
-| Quincy | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.* |
-| Reverberant | Summons two "echoes" of the fired projectile, that auto-aim at the nearest enemy after a short delay. Only works when enemies are nearby.** |
+| Name        | Effect                                                                                                                                                                                 |
+|-------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Energized   | Moving and shooting generates energy, up to 100 stacks. At maximum stacks, the next shot carries an electric charge, which discharges dealing heavy area damage when it hits an enemy. |
+| Chilling    | Progressively chills enemies on hit for 2 seconds, freezing after stacking 3 times.                                                                                                    |
+| Quincy      | Attacks fire an energy projectile if no ammo is equipped. The projectile is stronger at lower health. Only works when enemies are nearby.*                                             |
+| Reverberant | Summons two "echoes" of the fired projectile, that auto-aim at the nearest enemy after a short delay. Only works when enemies are nearby.**                                            |
 
 <font size="1">
 

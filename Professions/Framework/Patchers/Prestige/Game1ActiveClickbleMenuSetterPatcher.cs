@@ -24,6 +24,7 @@ internal sealed class Game1ActiveClickbleMenuSetterPatcher : HarmonyPatcher
 
     /// <summary>Reload profession sprites on level-up.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void Game1ActiveClickbleMenuSetterPostfix(IClickableMenu? value)
     {
         if (value is LevelUpMenu { isProfessionChooser: true } levelup)

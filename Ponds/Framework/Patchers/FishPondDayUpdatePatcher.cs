@@ -28,6 +28,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
     /// <summary>Reset held items each morning.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
+    [UsedImplicitly]
     private static void FishPondDayUpdatePrefix(FishPond __instance, ref Item? __state)
     {
         __state = __instance.output.Value;
@@ -56,6 +57,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Spontaneously grow algae.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondDayUpdatePostfix(FishPond __instance, Item __state, ref FishPondData? ____fishPondData)
     {
         var r = Utility.CreateDaySaveRandom(__instance.tileX.Value * 1000, __instance.tileY.Value * 2000);

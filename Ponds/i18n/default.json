@@ -1,5 +1,10 @@
 {
   "algae": "Algae",
+
+  /************
+  *** GMCM ***
+  ************/
+
   "gmcm.days_until_algae_spawn.title": "Days Until Algae Spawn",
   "gmcm.days_until_algae_spawn.desc": "The number of days until an empty pond will begin spawning algae.",
   "gmcm.roe_production_chance_multiplier.title": "Roe Production Chance Multiplier",

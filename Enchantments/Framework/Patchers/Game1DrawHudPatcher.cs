@@ -30,6 +30,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
 
     /// <summary>Patch draw over-healed health.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? Game1DrawHUDTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

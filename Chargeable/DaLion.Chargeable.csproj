@@ -7,12 +7,12 @@
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Chargeable</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.0.2</Version>
+    <Version>2.1.0</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>
     <MinimumApiVersion>4.1</MinimumApiVersion>
-    
+
     <!-- mod manifest fields -->
     <Name>Chargeable Resource Tools</Name>
     <Authors>DaLion</Authors>
@@ -47,9 +47,9 @@
 
   <!-- paths -->
   <PropertyGroup>
-    <GamePath>G:\Steam\steamapps\common\Stardew Valley</GamePath>
-    <GameModsPath>$(GamePath)/Mods - Build/$(Configuration)</GameModsPath>
-    <ModZipPath>$(GamePath)/Mods - Build/Archive</ModZipPath>
+    <GamePath>G:\Steam\Library\Stardew Valley</GamePath>
+    <GameModsPath>G:\Modding\SMAPI\Build\$(Configuration)</GameModsPath>
+    <ModZipPath>G:\Modding\SMAPI\Build\Archive</ModZipPath>
   </PropertyGroup>
 
   <!-- debug settings -->

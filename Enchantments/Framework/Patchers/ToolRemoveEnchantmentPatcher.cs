@@ -24,6 +24,7 @@ internal sealed class ToolRemoveEnchantmentPatcher : HarmonyPatcher
 
     /// <summary>Disposes certain enchantments.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ToolRemoveEnchantmentPostifx(BaseEnchantment enchantment)
     {
         switch (enchantment)

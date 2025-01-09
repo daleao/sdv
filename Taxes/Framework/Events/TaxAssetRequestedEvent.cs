@@ -19,6 +19,10 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
     protected override void Initialize()
     {
         this.Edit("Data/mail", new AssetEditor(EditMailData));
+
+        this.Provide(
+            $"{UniqueId}_ArtisanMachines",
+            new ModDictionaryProvider<string, string[]>(() => "assets/ArtisanMachines.json"));
     }
 
     private static void EditMailData(IAssetData asset)

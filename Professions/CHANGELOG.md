@@ -1,5 +1,35 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.0
+
+### Added
+
+* Added compatibility for SVE Premium Barn and Coop.
+
+### Changed
+
+* Reworked Cavewarden:
+  * Removed: Increased chance to find treasure and safe rooms.
+  * Changed: Chance to resurface unclaimed mining debris is now dynamic, starting at ~10% and increasing with each mine level until ~100% at Skull Caverns floor 200, instead of a constant 50%.
+  * Added: Once per day, revive at the last safe room.
+* Reworked Demolitionist:
+  * Manual bomb detonation is now a much more usable toggle (double tap Mod key), instead of requiring the Mod key be held.
+* Reworked Slimed Piper:
+  * Changed: Slimes are no longer tamed automatically. Slime taming is now an active ability (double press and hold the Mod key) and has a chance to fail. Success depends on the number of raised Slimes and failure causes the Slime to become enraged.
+  * Added: The Slimed debuff now grants a healing over time. The Slime Charmer ring has also been reworked to prevent Slime damage but not the debuff.
+* Reworked Slime Conductor:
+  * Added: The Slimed debuff additionally grants unlimited use of special move.
+* Tamed Slimes will no longer simply disappear when you leave a combat area. Instead, they will warp with you, and then burst after a few second, releasing the contents of their inventory. 
+* Tapper recipe cost reduction increased to 50%.
+
+### Fixed
+
+* Fixed an issue where Angler's second tackle memory was incorrectly set to a Leek.
+* Fixed an issue where Angler's first tackle memory was consumed once while recording the second tackle memory.
+* Fixed an issue where Angler's tackle memory would not be consumed if no tackle were equipped.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.1.0
 
 ### Changed
@@ -10,6 +40,8 @@
 ### Fixed
 
 * Fixed a possible conflict with [Ponds](../Ponds).
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 1.0.1
 

@@ -18,7 +18,7 @@ public class PoisonAnimation : TemporaryAnimatedSprite
     /// <param name="duration">The duration in milliseconds.</param>
     public PoisonAnimation(Monster monster, int duration)
         : base(
-            $"{Manifest.UniqueID}/PoisonAnimation",
+            $"{Manifest.UniqueID}_PoisonAnimation",
             new Rectangle(0, 0, 64, 128),
             50f,
             6,
@@ -42,7 +42,7 @@ public class PoisonAnimation : TemporaryAnimatedSprite
     {
         var result = base.update(time);
         var monster = (Monster)this.attachedCharacter;
-        if (result || monster.Health <= 0 || !monster.IsPoisoned())
+        if (result || monster.Health <= 0 || !monster.IsPoisoned() || !ReferenceEquals(monster.currentLocation, Game1.currentLocation))
         {
             PoisonAnimationByMonster.Remove(monster);
             return result;

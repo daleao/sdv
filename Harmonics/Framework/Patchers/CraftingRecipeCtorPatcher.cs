@@ -24,6 +24,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 
     /// <summary>Fix localized display name for custom ring recipes.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CraftingRecipeCtorPrefix(CraftingRecipe __instance, string name, bool isCookingRecipe)
     {
         if (isCookingRecipe || !__instance.name.Contains("Ring") || LocalizedContentManager.CurrentLanguageCode ==

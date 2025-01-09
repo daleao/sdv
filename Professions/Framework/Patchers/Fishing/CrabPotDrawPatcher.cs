@@ -29,6 +29,7 @@ internal sealed class CrabPotDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw weapons in Luremaster crabpots.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool CrabPotDrawPrefix(
         CrabPot __instance, Vector2 ___shake, ref float ___yBob, SpriteBatch spriteBatch, int x, int y)
     {

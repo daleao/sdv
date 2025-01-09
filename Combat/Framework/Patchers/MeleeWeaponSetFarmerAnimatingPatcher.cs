@@ -28,6 +28,7 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
 
     /// <summary>Movement speed does not affect swing speed + remove weapon enchantment OnSwing effect (handled in custom logic).</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MeleeWeaponSetFarmerAnimatingTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

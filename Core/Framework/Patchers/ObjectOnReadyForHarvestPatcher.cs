@@ -25,6 +25,7 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
 
     /// <summary>Patch to make Hopper actually useful.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ObjectOnReadyForHarvestPostfix(SObject __instance)
     {
         var location = __instance.Location;
@@ -35,17 +36,17 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
 
         var tileBelow = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y + 1f);
         if (location.Objects.TryGetValue(tileBelow, out var toObj) &&
-            toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopper1)
+            toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperBelow)
         {
-            __instance.checkForAction(hopper1.GetOwner());
+            __instance.checkForAction(hopperBelow.GetOwner());
         }
         else
         {
             var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
             if (location.Objects.TryGetValue(tileAbove, out toObj) &&
-                toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopper2)
+                toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperAbove)
             {
-                __instance.checkForAction(hopper2.GetOwner());
+                __instance.checkForAction(hopperAbove.GetOwner());
             }
         }
     }

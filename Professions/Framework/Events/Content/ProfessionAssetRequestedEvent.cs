@@ -42,8 +42,10 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/Machines", new AssetEditor(EditMachinesData));
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
-        this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap));
-        this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap));
+        this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap, AssetEditPriority.Late));
+        this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap, AssetEditPriority.Late));
+        this.Edit("Maps/SVE_PremiumBarn", new AssetEditor(EditPremiumBarnMap, AssetEditPriority.Late));
+        this.Edit("Maps/SVE_PremiumCoop", new AssetEditor(EditPremiumCoopMap, AssetEditPriority.Late));
         this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
@@ -188,6 +190,34 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
     }
 
+    /// <summary>Patches upgraded Deluxe Barn map.</summary>
+    private static void EditPremiumBarnMap(IAssetData asset)
+    {
+        if (!Context.IsWorldReady || Game1.player is null)
+        {
+            return;
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Breeder, true, true))
+        {
+            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/PremiumBarn.tmx"));
+        }
+    }
+
+    /// <summary>Patches upgraded Deluxe Coop map.</summary>
+    private static void EditPremiumCoopMap(IAssetData asset)
+    {
+        if (!Context.IsWorldReady || Game1.player is null)
+        {
+            return;
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Producer, true, true))
+        {
+            asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/PremiumCoop.tmx"));
+        }
+    }
+
     /// <summary>Patches upgraded Slime Hutch map.</summary>
     private static void EditSlimeHutchMap(IAssetData asset)
     {
@@ -220,58 +250,23 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             [
                 new FishPondData
                 {
-                    Id = UniqueId + "/Angler",
-                    PopulationGates = null,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.CopperOre,
-                            MinStack = 10,
-                            MaxStack = 15,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.01f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
-                            MinStack = 10,
-                            MaxStack = 20,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
+                    Id = UniqueId + "/Glacierfish",
                     RequiredTags =
                     [
-                        "item_angler",
+                        "item_glacierfish",
                     ],
+                    Precedence = 200,
                     SpawnTime = -1,
-                    Precedence = 0,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Glacierfish",
-                    PopulationGates = null,
+                    WaterColor = [
+                        new FishPondWaterColor
+                        {
+                            Id = "Glacierfish",
+                            Color = "100 240 220",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)775 (O)902",
+                        },
+                    ],
                     ProducedItems =
                     [
                         new FishPondReward
@@ -282,7 +277,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 5,
                             MaxStack = 10,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -291,7 +285,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 5,
                             MaxStack = 10,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -300,7 +293,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 10,
                             MaxStack = 10,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -309,7 +301,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 1,
                             MaxStack = 1,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -318,7 +309,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 1,
                             MaxStack = 1,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -329,73 +319,53 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         },
 
                     ],
-                    RequiredTags =
-                    [
-                        "item_glacierfish",
-                    ],
-                    SpawnTime = -1,
-                    Precedence = 0,
+                    PopulationGates = null,
                 },
                 new FishPondData
                 {
-                    Id = UniqueId + "/Crimsonfish",
-                    PopulationGates = null,
+                    Id = UniqueId + "/Angler",
+                    RequiredTags =
+                    [
+                        "item_angler",
+                    ],
+                    Precedence = 200,
+                    SpawnTime = -1,
+                    WaterColor = [
+                        new FishPondWaterColor
+                        {
+                            Id = "Angler",
+                            Color = "255 120 0",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)160",
+                        },
+                        new FishPondWaterColor
+                        {
+                            Id = "MsAngler",
+                            Color = "255 120 200",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)899",
+                        },
+                    ],
                     ProducedItems =
                     [
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
-                            Chance = 0.05f,
-                            ItemId = QualifiedObjectIds.MagmaGeode,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.075f,
-                            ItemId = QualifiedObjectIds.FireQuartz,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.GoldOre,
+                            ItemId = QualifiedObjectIds.CopperOre,
                             MinStack = 10,
-                            MaxStack = 10,
+                            MaxStack = 15,
                         },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.033f,
-                            ItemId = QualifiedObjectIds.CherryBomb,
-                            MinStack = 1,
-                            MaxStack = 3,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.02f,
-                            ItemId = QualifiedObjectIds.ExplosiveAmmo,
-                            MinStack = 1,
-                            MaxStack = 3,
-                        },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
                             Chance = 0.01f,
-                            ItemId = QualifiedObjectIds.MegaBomb,
-                            MinStack = 1,
-                            MaxStack = 1,
+                            ItemId = QualifiedObjectIds.SolarEssence,
+                            MinStack = 10,
+                            MaxStack = 20,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -404,7 +374,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 1,
                             MaxStack = 1,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -415,58 +384,27 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         },
 
                     ],
-                    RequiredTags =
-                    [
-                        "item_crimsonfish",
-                    ],
-                    SpawnTime = -1,
-                    Precedence = 0,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Legend",
                     PopulationGates = null,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.IridiumOre,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    RequiredTags =
-                    [
-                        "item_legend",
-                    ],
-                    SpawnTime = -1,
-                    Precedence = 0,
                 },
                 new FishPondData
                 {
                     Id = UniqueId + "/MutantCarp",
-                    PopulationGates = null,
+                    RequiredTags =
+                    [
+                        "item_mutant_carp",
+                    ],
+                    Precedence = 200,
+                    SpawnTime = -1,
+                    WaterColor = [
+                        new FishPondWaterColor
+                        {
+                            Id = "MutantCarp",
+                            Color = "50 220 100",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)682 (O)901",
+                        },
+                    ],
                     ProducedItems =
                     [
                         new FishPondReward
@@ -477,7 +415,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 5,
                             MaxStack = 15,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -486,7 +423,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 1,
                             MaxStack = 1,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -497,49 +433,186 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         },
 
                     ],
+                    PopulationGates = null,
+                },
+                new FishPondData
+                {
+                    Id = UniqueId + "/Crimsonfish",
                     RequiredTags =
                     [
-                        "item_mutant_carp",
+                        "item_crimsonfish",
                     ],
+                    Precedence = 200,
                     SpawnTime = -1,
-                    Precedence = 0,
+                    WaterColor = [
+                        new FishPondWaterColor
+                        {
+                            Id = "CrimsonFish",
+                            Color = "230 70 110",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)159 (O)898",
+                        },
+                    ],
+                    ProducedItems =
+                    [
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.05f,
+                            ItemId = QualifiedObjectIds.MagmaGeode,
+                            MinStack = 5,
+                            MaxStack = 10,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.075f,
+                            ItemId = QualifiedObjectIds.FireQuartz,
+                            MinStack = 5,
+                            MaxStack = 10,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.1f,
+                            ItemId = QualifiedObjectIds.GoldOre,
+                            MinStack = 10,
+                            MaxStack = 10,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.033f,
+                            ItemId = QualifiedObjectIds.CherryBomb,
+                            MinStack = 1,
+                            MaxStack = 3,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.02f,
+                            ItemId = QualifiedObjectIds.ExplosiveAmmo,
+                            MinStack = 1,
+                            MaxStack = 3,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.01f,
+                            ItemId = QualifiedObjectIds.MegaBomb,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 1.0f,
+                            ItemId = QualifiedObjectIds.Roe,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.8f,
+                            ItemId = QualifiedObjectIds.Roe,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+
+                    ],
+                    PopulationGates = null,
+                },
+                new FishPondData
+                {
+                    Id = UniqueId + "/Legend",
+                    RequiredTags =
+                    [
+                        "item_legend",
+                    ],
+                    Precedence = 200,
+                    SpawnTime = -1,
+                    WaterColor = [
+                        new FishPondWaterColor
+                        {
+                            Id = "Legend",
+                            Color = "40 150 50",
+                            MinPopulation = 1,
+                            MinUnlockedPopulationGate = 0,
+                            Condition = "ITEM_ID Input (O)163 (O)900",
+                        },
+                    ],
+                    ProducedItems =
+                    [
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.1f,
+                            ItemId = QualifiedObjectIds.IridiumOre,
+                            MinStack = 5,
+                            MaxStack = 10,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 1.0f,
+                            ItemId = QualifiedObjectIds.Roe,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.8f,
+                            ItemId = QualifiedObjectIds.Roe,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+
+                    ],
+                    PopulationGates = null,
                 },
                 new FishPondData
                 {
                     Id = UniqueId + "/Tui",
-                    PopulationGates = null,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
                     RequiredTags =
                     [
                         "item_tui",
                     ],
+                    Precedence = 200,
                     SpawnTime = -1,
-                    Precedence = 0,
+                    ProducedItems =
+                    [
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 1f,
+                            ItemId = QualifiedObjectIds.SolarEssence,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+                        new FishPondReward
+                        {
+                            RequiredPopulation = 0,
+                            Chance = 0.8f,
+                            ItemId = QualifiedObjectIds.SolarEssence,
+                            MinStack = 1,
+                            MaxStack = 1,
+                        },
+
+                    ],
+                    PopulationGates = null,
                 },
                 new FishPondData
                 {
                     Id = UniqueId + "/La",
-                    PopulationGates = null,
+                    RequiredTags =
+                    [
+                        "item_la",
+                    ],
+                    Precedence = 200,
+                    SpawnTime = -1,
                     ProducedItems =
                     [
                         new FishPondReward
@@ -550,7 +623,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             MinStack = 1,
                             MaxStack = 1,
                         },
-
                         new FishPondReward
                         {
                             RequiredPopulation = 0,
@@ -561,27 +633,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         },
 
                     ],
-                    RequiredTags =
-                    [
-                        "item_la",
-                    ],
-                    SpawnTime = -1,
-                    Precedence = 0,
-                },
-                new FishPondData
-                {
                     PopulationGates = null,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            Chance = 1f, ItemId = QualifiedObjectIds.Roe, MinStack = 1, MaxStack = 1,
-                        },
-
-                    ],
-                    RequiredTags = ["fish_legendary"],
-                    SpawnTime = -1,
-                    Precedence = 100,
                 },
             ]);
     }
@@ -704,18 +756,11 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             };
         }
 
-        if (!Context.IsWorldReady || !Game1.player.HasProfession(Profession.Aquarist))
-        {
-            return;
-        }
-
-        foreach (var value in data.Values)
-        {
-            if (value.ContextTags?.Contains("fish_legendary") == true)
-            {
-                value.ContextTags.Remove("fish_pond_ignore");
-            }
-        }
+        data["898"].ContextTags.Add("item_crimsonfish");
+        data["899"].ContextTags.Add("item_angler");
+        data["900"].ContextTags.Add("item_legend");
+        data["901"].ContextTags.Add("item_mutant_carp");
+        data["902"].ContextTags.Add("item_glacierfish");
     }
 
     #endregion editor callbacks

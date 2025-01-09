@@ -24,17 +24,17 @@ public abstract class WindowResizedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnWindowResized"/>
+    protected abstract void OnWindowResizedImpl(object? sender, WindowResizedEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.WindowResized"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnWindowResized(object? sender, WindowResizedEventArgs e)
+    private void OnWindowResized(object? sender, WindowResizedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnWindowResizedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnWindowResized"/>
-    protected abstract void OnWindowResizedImpl(object? sender, WindowResizedEventArgs e);
 }

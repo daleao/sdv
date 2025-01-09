@@ -11,5 +11,5 @@ internal sealed class ChargeableState
 {
     internal List<Shockwave> Shockwaves { get; } = new();
 
-    internal bool DoingShockwave { get; set; }
+    internal bool ShockwaveHitting { get; set; }
 }

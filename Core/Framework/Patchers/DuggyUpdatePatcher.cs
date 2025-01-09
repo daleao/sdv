@@ -26,6 +26,7 @@ internal class DuggyUpdatePatcher : HarmonyPatcher
 
     /// <summary>Allow Duggies to be stunned.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool DuggyUpdatePrefix(Duggy __instance)
     {
         return __instance.stunTime.Value <= 0;

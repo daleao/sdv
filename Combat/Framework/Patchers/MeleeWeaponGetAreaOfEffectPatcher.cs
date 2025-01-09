@@ -27,6 +27,7 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
 
     /// <summary>Fix combo swipe and Stabbing Sword lunge hitboxes.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MeleeWeaponGetAreaOfEffectPrefix(
         MeleeWeapon __instance,
         ref Rectangle __result,
@@ -75,6 +76,7 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
 
     /// <summary>More generous club aoe during combo smash.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MeleeWeaponGetAreaOfEffectPostfix(MeleeWeapon __instance, ref Rectangle __result)
     {
         if (__instance.IsClub() && State.CurrentHitStep == __instance.GetFinalHitStep())

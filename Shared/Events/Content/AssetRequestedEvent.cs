@@ -31,17 +31,6 @@ public abstract class AssetRequestedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc cref="IContentEvents.AssetRequested"/>
-    /// <param name="sender">The event sender.</param>
-    /// <param name="e">The event data.</param>
-    public void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
-    {
-        if (this.IsEnabled)
-        {
-            this.OnAssetRequestedImpl(sender, e);
-        }
-    }
-
     /// <inheritdoc cref="OnAssetRequested"/>
     protected virtual void OnAssetRequestedImpl(object? sender, AssetRequestedEventArgs e)
     {
@@ -76,5 +65,16 @@ public abstract class AssetRequestedEvent : ManagedEvent
     protected void Provide(string name, IAssetProvider provider)
     {
         this._providers[name] = provider;
+    }
+
+    /// <inheritdoc cref="IContentEvents.AssetRequested"/>
+    /// <param name="sender">The event sender.</param>
+    /// <param name="e">The event data.</param>
+    private void OnAssetRequested(object? sender, AssetRequestedEventArgs e)
+    {
+        if (this.IsEnabled)
+        {
+            this.OnAssetRequestedImpl(sender, e);
+        }
     }
 }

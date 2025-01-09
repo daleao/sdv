@@ -27,6 +27,7 @@ internal sealed class FarmerSpriteGetAnimationFromIndexPatcher : HarmonyPatcher
 
     /// <summary>Do weapon combo.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerSpriteGetAnimationFromIndexPrefix(int index, FarmerSprite requester)
     {
         if (!Config.EnableComboHits || index is not (248 or 240 or 232 or 256))

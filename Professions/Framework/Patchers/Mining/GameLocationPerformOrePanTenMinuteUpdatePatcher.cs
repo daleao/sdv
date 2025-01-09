@@ -27,6 +27,7 @@ internal sealed class GameLocationPerformOrePanTenMinuteUpdatePatcher : HarmonyP
 
     /// <summary>Patch to add bonus panning point spawn attempts to Prospector.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationPerformOrePanTenMinuteUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

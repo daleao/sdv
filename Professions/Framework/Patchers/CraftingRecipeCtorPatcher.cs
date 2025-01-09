@@ -25,6 +25,7 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch for cheaper crafting recipes for Blaster and Tapper + double yield for Prestiged Tapper.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
         switch (__instance.name)
@@ -32,14 +33,14 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
             case "Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<string, int>
                 {
-                    { QualifiedObjectIds.Wood, 25 },
+                    { QualifiedObjectIds.Wood, 20 },
                     { QualifiedObjectIds.CopperBar, 1 },
                 };
                 break;
             case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<string, int>
                 {
-                    { QualifiedObjectIds.Hardwood, 18 },
+                    { QualifiedObjectIds.Hardwood, 15 },
                     { QualifiedObjectIds.RadioactiveBar, 1 },
                 };
                 break;

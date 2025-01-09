@@ -24,6 +24,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 
     /// <summary>Patch for Blaster double coal chance + Demolitionist speed burst.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GameLocationExplodePostfix(
         GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who)
     {

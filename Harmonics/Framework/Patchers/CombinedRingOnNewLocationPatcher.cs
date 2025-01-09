@@ -24,6 +24,7 @@ internal sealed class CombinedRingOnNewLocationPatcher : HarmonyPatcher
 
     /// <summary>Add Infinity Band resonance location effects.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingOnNewLocationPostfix(CombinedRing __instance, GameLocation environment)
     {
         __instance.Get_Chord()?.OnNewLocation(environment);

@@ -31,6 +31,7 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
     ///     bars to green for level >10.
     /// </summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void NewSkillsPageCtorPostfix(
         NewSkillsPage __instance,
         ClickableTextureComponent ___upButton,

@@ -27,6 +27,7 @@ internal sealed class TreeDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Arborist non-fruit tree growth odds.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? TreeDayUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

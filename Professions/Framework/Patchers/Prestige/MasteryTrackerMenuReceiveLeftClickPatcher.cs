@@ -24,6 +24,7 @@ internal sealed class MasteryTrackerMenuReceiveLeftClickPatcher : HarmonyPatcher
 
     /// <summary>Patch for Mastery warnings and unlocks.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MasteryTrackerMenuReceiveLeftClickPrefix(
         MasteryTrackerMenu __instance,
         bool ___canClaim,

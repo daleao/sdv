@@ -24,17 +24,17 @@ public abstract class OneSecondUpdateTickingEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnOneSecondUpdateTicking"/>
+    protected abstract void OnOneSecondUpdateTickingImpl(object? sender, OneSecondUpdateTickingEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.OneSecondUpdateTicking"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnOneSecondUpdateTicking(object? sender, OneSecondUpdateTickingEventArgs e)
+    private void OnOneSecondUpdateTicking(object? sender, OneSecondUpdateTickingEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnOneSecondUpdateTickingImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnOneSecondUpdateTicking"/>
-    protected abstract void OnOneSecondUpdateTickingImpl(object? sender, OneSecondUpdateTickingEventArgs e);
 }

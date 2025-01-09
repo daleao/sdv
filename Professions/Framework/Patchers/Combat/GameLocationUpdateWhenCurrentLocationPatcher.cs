@@ -38,6 +38,7 @@ internal sealed class GameLocationUpdateWhenCurrentLocationPatcher : HarmonyPatc
 
     /// <summary>Patch to run Musk update.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GameLocationUpdateWhenCurrentLocationPostfix(GameLocation __instance, GameTime time)
     {
         if (time.TotalGameTime.Ticks % 60 == 0)

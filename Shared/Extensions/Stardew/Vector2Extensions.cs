@@ -121,7 +121,7 @@ public static class Vector2Extensions
     /// </summary>
     /// <typeparam name="T">The target type.</typeparam>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <param name="candidates">The candidate <see cref="T"/>s, if already available.</param>
+    /// <param name="candidates">The candidate <see typeparamref="T"/>s, if already available.</param>
     /// <param name="getPosition">A delegate to retrieve the tile coordinates of <typeparamref name="T"/>.</param>
     /// <param name="distance">The actual tile distance to the closest candidate found.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>

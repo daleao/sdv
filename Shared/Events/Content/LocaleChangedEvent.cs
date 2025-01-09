@@ -24,17 +24,17 @@ public abstract class LocaleChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnLocaleChanged"/>
+    protected abstract void OnLocaleChangedImpl(object? sender, LocaleChangedEventArgs e);
+
     /// <inheritdoc cref="IContentEvents.LocaleChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
+    private void OnLocaleChanged(object? sender, LocaleChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnLocaleChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnLocaleChanged"/>
-    protected abstract void OnLocaleChangedImpl(object? sender, LocaleChangedEventArgs e);
 }

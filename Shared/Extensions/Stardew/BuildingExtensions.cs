@@ -59,6 +59,14 @@ public static class BuildingExtensions
         return (dx * dx) + (dy * dy);
     }
 
+    /// <summary>Gets the distance in tiles from this <paramref name="building"/> to the local player.</summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="building"/> to the local player.</returns>
+    public static int DistanceToPlayer(this Building building)
+    {
+        return (int)building.SquaredTileDistance(Game1.player.Tile);
+    }
+
     /// <summary>
     ///     Finds the closest tile from among the specified <paramref name="candidates"/> to this
     ///     <paramref name="building"/>.

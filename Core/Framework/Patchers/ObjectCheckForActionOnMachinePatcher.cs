@@ -29,7 +29,8 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     /// <summary>Prevents remote item pickup when harvested by Hopper.</summary>
     [HarmonyTranspiler]
-    private static IEnumerable<CodeInstruction>? ObjectCheckForActionTranspiler(
+    [UsedImplicitly]
+    private static IEnumerable<CodeInstruction>? ObjectCheckForActionOnMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);

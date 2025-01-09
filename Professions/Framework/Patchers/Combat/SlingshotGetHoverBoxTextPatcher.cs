@@ -24,6 +24,7 @@ internal sealed class SlingshotGetHoverBoxTextPatcher : HarmonyPatcher
 
     /// <summary>Adjust tooltip for equipping secondary ammo.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool SlingshotGetHoverBoxTextPrefix(Slingshot __instance, ref string? __result, Item? hoveredItem)
     {
         try

@@ -24,17 +24,17 @@ public abstract class AssetReadyEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnAssetReady"/>
+    protected abstract void OnAssetReadyImpl(object? sender, AssetReadyEventArgs e);
+
     /// <inheritdoc cref="IContentEvents.AssetReady"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnAssetReady(object? sender, AssetReadyEventArgs e)
+    private void OnAssetReady(object? sender, AssetReadyEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnAssetReadyImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnAssetReady"/>
-    protected abstract void OnAssetReadyImpl(object? sender, AssetReadyEventArgs e);
 }

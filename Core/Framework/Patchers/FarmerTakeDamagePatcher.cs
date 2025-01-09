@@ -27,6 +27,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Implement various debuff effects.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerTakeDamagePrefix(Farmer __instance, ref bool __state, ref int damage, Monster? damager)
     {
         if (damager is null)
@@ -73,6 +74,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Reset seconds-out-of-combat.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FarmerTakeDamagePostfix(Farmer __instance, bool __state)
     {
         if (__instance.IsLocalPlayer)

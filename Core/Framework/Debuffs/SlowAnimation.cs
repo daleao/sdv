@@ -17,7 +17,7 @@ public class SlowAnimation : TemporaryAnimatedSprite
     /// <param name="duration">The duration in milliseconds.</param>
     public SlowAnimation(Monster monster, int duration)
         : base(
-            $"{Manifest.UniqueID}/SlowAnimation",
+            $"{Manifest.UniqueID}_SlowAnimation",
             new Rectangle(0, 0, 16, 16),
             500,
             4,

@@ -32,6 +32,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
     /// <summary>Slow and damage-over-time effects.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool MonsterUpdatePrefix(Monster __instance, GameTime time)
     {
         try

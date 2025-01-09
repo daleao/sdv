@@ -25,6 +25,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to color Slime Balls.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SlimeHutchDayUpdatePostfix(SlimeHutch __instance)
     {
         var r = new Random(Guid.NewGuid().GetHashCode());

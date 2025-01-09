@@ -27,6 +27,7 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
 
     /// <summary>Patch for improve AI for piped Slimes using D* Lite.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MonsterUpdateMovementPostfix(Monster __instance, GameLocation location, GameTime time)
     {
         if (__instance is not GreenSlime slime ||

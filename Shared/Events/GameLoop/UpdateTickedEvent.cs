@@ -24,17 +24,17 @@ public abstract class UpdateTickedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnUpdateTicked"/>
+    protected abstract void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.UpdateTicked"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
+    private void OnUpdateTicked(object? sender, UpdateTickedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnUpdateTickedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnUpdateTicked"/>
-    protected abstract void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e);
 }

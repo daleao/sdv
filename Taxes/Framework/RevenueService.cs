@@ -41,14 +41,23 @@ internal static class RevenueService
         }
 
         var dueI = (int)Math.Round(dueF);
-        Log.I(
-            $"Accounting results for {farmer.Name} over the closing {Game1.season.Previous()} season, year {Game1.year}:" +
-            $"\n\t- Season income: {income}g" +
-            $"\n\t- Business expenses: {expenses}g" +
-            CurrentCulture($"\n\t- Eligible deductions: {deductions:0.0%}") +
-            $"\n\t- Taxable amount: {taxable}g" +
-            CurrentCulture($"\n\t- Tax bracket: {tax:0.0%}") +
-            $"\n\t- Due amount: {dueI}g.");
+        Log.I($@"
+            Income Tax Report for {farmer.Name}
+            ===============================================
+            Season Summary:
+                - Season:                    {Game1.season.Previous()} (Year {Game1.year})
+                - Total Income:              {income}g
+                - Business Expenses:         {expenses}g
+                - Eligible Deductions:       {deductions:0.0%}
+
+            Tax Details:
+                - Taxable Amount:            {taxable}g
+                - Tax Bracket:               {tax:0.0%}
+                - Total Tax Due:             {dueI}g
+
+            Generated on {Game1.currentSeason} {Game1.dayOfMonth}, Year {Game1.year}
+            ===============================================
+        ");
         return (dueI, income, expenses, deductions, taxable);
     }
 }

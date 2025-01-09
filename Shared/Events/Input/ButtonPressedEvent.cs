@@ -24,17 +24,17 @@ public abstract class ButtonPressedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnButtonPressed"/>
+    protected abstract void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e);
+
     /// <inheritdoc cref="IInputEvents.ButtonPressed"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
+    private void OnButtonPressed(object? sender, ButtonPressedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnButtonPressedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnButtonPressed"/>
-    protected abstract void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e);
 }

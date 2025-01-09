@@ -24,6 +24,7 @@ internal sealed class FishPondCtorPatcher : HarmonyPatcher
 
     /// <summary>Compensates for the game calling dayUpdate *twice* immediately upon construction.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondCtorPostfix(FishPond __instance)
     {
         Data.Write(__instance, DataKeys.DaysEmpty, (-3).ToString()); // it's -3 for good measure (and also immersion; a fresh pond takes longer to get dirty)

@@ -27,17 +27,17 @@ public abstract class SaveCreatingEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnSaveCreating"/>
+    protected abstract void OnSaveCreatingImpl(object? sender, SaveCreatingEventArgs e);
+
     /// <inheritdoc cref="IGameLoopEvents.SaveCreating"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event data.</param>
-    public void OnSaveCreating(object? sender, SaveCreatingEventArgs e)
+    private void OnSaveCreating(object? sender, SaveCreatingEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnSaveCreatingImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnSaveCreating"/>
-    protected abstract void OnSaveCreatingImpl(object? sender, SaveCreatingEventArgs e);
 }

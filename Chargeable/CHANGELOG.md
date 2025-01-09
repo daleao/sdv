@@ -1,5 +1,15 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.1.0
+
+### Added
+
+* Added one additional radius value to each tool, which should cover extra upgrade levels added by other mods like Sword & Sorcery.
+
+### Fixed
+
+* Fixed stamina consumption disparity between Axe and Pickaxe.
+
 ## 2.0.2
 
 Just a hotfix. The previous was version was precocious.

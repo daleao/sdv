@@ -25,6 +25,7 @@ internal sealed class NpcWithinPlayerThresholdPatcher : HarmonyPatcher
 
     /// <summary>Patch to make Poacher invisible in LimitBreak.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool NPCWithinPlayerThresholdPrefix(NPC __instance, ref bool __result)
     {
         if (__instance is not Monster { IsMonster: true } monster)

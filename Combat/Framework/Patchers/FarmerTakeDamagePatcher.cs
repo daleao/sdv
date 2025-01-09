@@ -28,6 +28,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     /// <summary>Overhaul for farmer defense.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

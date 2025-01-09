@@ -29,6 +29,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
 
     /// <summary>Patch to increment Piper LimitBreak meter on contact with Slime.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
         __instance.farmerPassesThrough = __instance.farmerPassesThrough || __instance.Get_Piped() != null;

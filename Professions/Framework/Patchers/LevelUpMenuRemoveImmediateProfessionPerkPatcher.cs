@@ -23,6 +23,7 @@ internal sealed class LevelUpMenuRemoveImmediateProfessionPerkPatcher : HarmonyP
 
     /// <summary>Skip this method. Now handled by <see cref="Profession.OnRemoved"/>.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuRemoveImmediateProfessionPerkPrefix()
     {
         return false; // don't run original logic

@@ -36,6 +36,7 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
 
     /// <summary>Patch for Prestiged Angler boss fish recatch.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationGetFishFromLocationDataTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

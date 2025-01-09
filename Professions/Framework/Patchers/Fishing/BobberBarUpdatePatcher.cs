@@ -30,6 +30,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch for Prestiged Aquarist instant catch.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void BobberBarUpdatePostfix(BobberBar __instance)
     {
         if (!Game1.player.HasProfession(Profession.Aquarist, true))
@@ -57,6 +58,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to slow-down catching bar decrease for Aquarist.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? BobberBarUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

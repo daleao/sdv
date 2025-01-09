@@ -24,6 +24,7 @@ internal sealed class FishPondJumpFishPatcher : HarmonyPatcher
 
     /// <summary>Prevent un-immersive jumping algae.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FishPondJumpFishPrefix(FishPond __instance, ref bool __result)
     {
         if (!__instance.fishType.Value.IsAlgaeId())

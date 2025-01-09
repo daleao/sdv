@@ -197,6 +197,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
 
     /// <summary>Draw gemstones on combined Infinity Band.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingDrawInMenuPostfix(
         CombinedRing __instance,
         Vector2 __state,

@@ -25,6 +25,7 @@ internal sealed class GameLocationCanRespecPatcher : HarmonyPatcher
     /// <summary>Patch to change Statue of Transcendance respec from (less than) 10 to (greater than) 10.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.VeryHigh)]
+    [UsedImplicitly]
     private static bool GameLocationCanRespecPrefix(ref bool __result, int skill_index)
     {
         if (!ShouldEnablePrestigeLevels)

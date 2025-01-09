@@ -24,17 +24,17 @@ public abstract class RenderedWorldEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnRenderedWorld"/>
+    protected abstract void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.RenderedWorld"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
+    private void OnRenderedWorld(object? sender, RenderedWorldEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnRenderedWorldImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnRenderedWorld"/>
-    protected abstract void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e);
 }

@@ -24,17 +24,17 @@ public abstract class ChestInventoryChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnChestInventoryChanged"/>
+    protected abstract void OnChestInventoryChangedImpl(object? sender, ChestInventoryChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.ChestInventoryChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnChestInventoryChanged(object? sender, ChestInventoryChangedEventArgs e)
+    private void OnChestInventoryChanged(object? sender, ChestInventoryChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnChestInventoryChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnChestInventoryChanged"/>
-    protected abstract void OnChestInventoryChangedImpl(object? sender, ChestInventoryChangedEventArgs e);
 }

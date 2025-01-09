@@ -24,17 +24,17 @@ public abstract class LocationListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnLocationListChanged"/>
+    protected abstract void OnLocationListChangedImpl(object? sender, LocationListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.LocationListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnLocationListChanged(object? sender, LocationListChangedEventArgs e)
+    private void OnLocationListChanged(object? sender, LocationListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnLocationListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnLocationListChanged"/>
-    protected abstract void OnLocationListChangedImpl(object? sender, LocationListChangedEventArgs e);
 }

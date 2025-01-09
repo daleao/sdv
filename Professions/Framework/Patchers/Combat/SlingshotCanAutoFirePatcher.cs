@@ -26,6 +26,7 @@ internal sealed class SlingshotCanAutoFirePatcher : HarmonyPatcher
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
     [HarmonyBefore("DaLion.Combat")]
+    [UsedImplicitly]
     private static bool SlingshotCanAutoFirePrefix(Slingshot __instance, ref bool __result)
     {
         if (!__instance.lastUser.IsLocalPlayer)

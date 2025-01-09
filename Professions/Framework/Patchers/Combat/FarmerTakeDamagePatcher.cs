@@ -31,6 +31,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
     ///     + increment Brute rage counter and Limit Break meter.
     /// </summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmerTakeDamageTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

@@ -12,7 +12,7 @@ internal static class Textures
         new(() => ModHelper.ModContent.Load<Texture2D>("assets/sprites/energized.png"));
 
     private static Lazy<Texture2D> _gemSocketTx =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets"));
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}_GemstoneSockets"));
 
     internal static Texture2D EnergizedTx => _energizedTx.Value;
 
@@ -24,7 +24,7 @@ internal static class Textures
         if (names.Contains("GemstoneSockets"))
         {
             _gemSocketTx = new Lazy<Texture2D>(() =>
-                ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}/GemstoneSockets"));
+                ModHelper.GameContent.Load<Texture2D>($"{Manifest.UniqueID}_GemstoneSockets"));
         }
     }
 }

@@ -57,22 +57,22 @@ internal sealed class ArsenalAssetRequestedEvent(EventManager? manager = null)
 
         this.Provide("Data/Events/Blacksmith", new DictionaryProvider<string, string>(null, AssetLoadPriority.Low));
         this.Provide(
-            $"{Manifest.UniqueID}/DwarvishBlueprint",
+            $"{Manifest.UniqueID}_DwarvishBlueprint",
             new ModTextureProvider(() => "assets/sprites/objects/blueprint.png"));
         this.Provide(
-            $"{Manifest.UniqueID}/GemstoneSockets",
+            $"{Manifest.UniqueID}_GemstoneSockets",
             new ModTextureProvider(ProvideGemSockets));
         this.Provide(
-            $"{Manifest.UniqueID}/SnowballCollisionAnimation",
+            $"{Manifest.UniqueID}_SnowballCollisionAnimation",
             new ModTextureProvider(() => "assets/sprites/effects/snowball.png"));
         //this.Provide(
-        //    $"{Manifest.UniqueID}/BeamCollisionAnimation",
+        //    $"{Manifest.UniqueID}_BeamCollisionAnimation",
         //    new ModTextureProvider(() => "assets/sprites/beam.png", AssetLoadPriority.Medium));
         //this.Provide(
-        //    $"{Manifest.UniqueID}/InfinityCollisionAnimation",
+        //    $"{Manifest.UniqueID}_InfinityCollisionAnimation",
         //    new ModTextureProvider(() => "assets/sprites/infinity.png", AssetLoadPriority.Medium));
         //this.Provide(
-        //    $"{Manifest.UniqueID}/QuincyCollisionAnimation",
+        //    $"{Manifest.UniqueID}_QuincyCollisionAnimation",
         //    new ModTextureProvider(() => "assets/sprites/quincy.png"));
     }
 
@@ -451,7 +451,7 @@ internal sealed class ArsenalAssetRequestedEvent(EventManager? manager = null)
                     },
                 },
             nodeDesc = "A stone rich with Garnet.",
-            spritePath = $"{Manifest.UniqueID}/GarnetNode",
+            spritePath = $"{Manifest.UniqueID}_GarnetNode",
             spriteType = "game",
             spriteX = 0,
             spriteY = 0,

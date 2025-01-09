@@ -26,6 +26,7 @@ internal sealed class FishingRodStartMinigameEndFunctionPatcher : HarmonyPatcher
 
     /// <summary>Patch to remove Pirate bonus treasure chance + double Fisher bait effect.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FishingRodStartMinigameEndFunctionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

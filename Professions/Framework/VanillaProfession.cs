@@ -362,11 +362,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     internal void OnAdded(Farmer who, bool prestiged = false)
     {
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Aquarist).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 ModHelper.GameContent.InvalidateCache("Data/Objects");
             })
             .When(Luremaster).Then(() => EventManager.Enable(
@@ -378,7 +378,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 EventManager.Enable<ChromaBallObjectListChangedEvent>();
             });
 
@@ -395,11 +395,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     internal void OnRemoved(Farmer who, bool prestiged = false)
     {
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayEndingEvent>())
+            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Aquarist).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 ModHelper.GameContent.InvalidateCache("Data/Objects");
             })
             .When(Prospector).Then(() => State.ProspectorHunt = null)
@@ -408,7 +408,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayEndingEvent>();
+                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 EventManager.Unmanage<ChromaBallObjectListChangedEvent>();
             });
 

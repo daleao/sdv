@@ -23,6 +23,7 @@ internal sealed class SlimeHutchIsFullPatcher : HarmonyPatcher
 
     /// <summary>Patch to increase Prestiged Piper Hutch capacity.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void GreenSlimeUpdatePrefix(SlimeHutch __instance, ref int ____slimeCapacity)
     {
         var building = __instance.ParentBuilding;

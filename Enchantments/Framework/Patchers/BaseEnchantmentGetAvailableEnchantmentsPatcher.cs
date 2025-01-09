@@ -24,6 +24,8 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
 
     /// <summary>Out with the old and in with the new enchants.</summary>
     [HarmonyPrefix]
+    [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool BaseEnchantmentGetAvailableEnchantmentsPrefix(ref List<BaseEnchantment>? ____enchantments, ref List<BaseEnchantment> __result)
     {
         if (____enchantments is not null)
@@ -32,11 +34,28 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
             return false; // don't run original logic
         }
 
+        // The base tool enchantments
+        ____enchantments = [
+            new AutoHookEnchantment(),
+            new ArchaeologistEnchantment(),
+            new BottomlessEnchantment(),
+            new EfficientToolEnchantment(),
+            new GenerousEnchantment(),
+            new FisherEnchantment(),
+            new MasterEnchantment(),
+            new PowerfulEnchantment(),
+            new PreservingEnchantment(),
+            new ReachingToolEnchantment(),
+            new ShavingEnchantment(),
+            new SwiftToolEnchantment(),
+            new HaymakerEnchantment(),
+        ];
+
+        // The Springmyst combat enchantments
         var enchantmentTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetExecutingAssembly())
             .Where(t => t.IsAssignableTo(typeof(BaseEnchantment)) &&
                         t.Namespace?.Contains("DaLion.Enchantments.Framework.Enchantments") == true);
-        ____enchantments = [];
         foreach (var type in enchantmentTypes)
         {
             if (Activator.CreateInstance(type) is BaseEnchantment enchantment)

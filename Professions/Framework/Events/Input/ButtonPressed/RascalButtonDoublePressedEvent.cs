@@ -3,28 +3,26 @@
 #region using directives
 
 using DaLion.Shared.Events;
-using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 using StardewValley.Tools;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="RascalButtonPressedEvent"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="RascalButtonDoublePressedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class RascalButtonPressedEvent(EventManager? manager = null)
-    : ButtonPressedEvent(manager ?? ProfessionsMod.EventManager)
+internal sealed class RascalButtonDoublePressedEvent(EventManager? manager = null)
+    : ButtonDoublePressedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Rascal);
 
     /// <inheritdoc />
-    protected override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
-    {
-        if (!Config.ModKey.JustPressed())
-        {
-            return;
-        }
+    protected override KeybindList Keybinds => Config.ModKey;
 
+    /// <inheritdoc />
+    protected override void OnButtonDoublePressedImpl()
+    {
         var player = Game1.player;
         if (Game1.activeClickableMenu is not null ||
             player.CurrentTool is not Slingshot { AttachmentSlotsCount: 2 } slingshot ||

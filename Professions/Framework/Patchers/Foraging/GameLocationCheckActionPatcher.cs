@@ -25,6 +25,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
 
     /// <summary>Patch for prestiged Forager double forage.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationCheckActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

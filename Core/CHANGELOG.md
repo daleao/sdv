@@ -1,5 +1,14 @@
 ﻿# CORE Changelog
 
+## 2.1.0
+
+### Fixed
+
+* Fixed Hoppers not working if players aren't present in the location.
+* Fixed Hoppers not working automatically upon loading a save.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.0.2
 
 ### Added
@@ -14,6 +23,8 @@
 ### Removed
 
 * Removed the rational defense formula. It was moved to the new [Combat[(../Combat) mod.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 2.0.1
 

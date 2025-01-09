@@ -24,6 +24,7 @@ internal sealed class MonsterInitNetFieldsPatcher : HarmonyPatcher
 
     /// <summary>Patch to add custom net debuffs.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MonsterInitNetFieldsPostix(Monster __instance)
     {
         __instance.NetFields.AddField(__instance.Get_Poached());

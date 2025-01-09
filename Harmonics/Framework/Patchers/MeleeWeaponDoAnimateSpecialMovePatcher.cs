@@ -25,33 +25,38 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
 
     /// <summary>Implement Garnet enchantment CDR.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        var lastUser = __instance.getLastFarmerToUse();
-        var cooldownReduction = __instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction());
-        if (Math.Abs(cooldownReduction - 1f) < 0.01f)
+        if (__instance.getLastFarmerToUse() is not { } lastUser)
+        {
+            return;
+        }
+
+        var cooldownReductionMultiplier = 1f - __instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction());
+        if (Math.Abs(cooldownReductionMultiplier - 1f) < 0.01f)
         {
             return;
         }
 
         if (MeleeWeapon.attackSwordCooldown > 0)
         {
-            MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown * cooldownReduction);
+            MeleeWeapon.attackSwordCooldown = (int)(MeleeWeapon.attackSwordCooldown * cooldownReductionMultiplier);
         }
 
         if (MeleeWeapon.defenseCooldown > 0)
         {
-            MeleeWeapon.defenseCooldown = (int)(MeleeWeapon.defenseCooldown * cooldownReduction);
+            MeleeWeapon.defenseCooldown = (int)(MeleeWeapon.defenseCooldown * cooldownReductionMultiplier);
         }
 
         if (MeleeWeapon.daggerCooldown > 0)
         {
-            MeleeWeapon.daggerCooldown = (int)(MeleeWeapon.daggerCooldown * cooldownReduction);
+            MeleeWeapon.daggerCooldown = (int)(MeleeWeapon.daggerCooldown * cooldownReductionMultiplier);
         }
 
         if (MeleeWeapon.clubCooldown > 0)
         {
-            MeleeWeapon.clubCooldown = (int)(MeleeWeapon.clubCooldown * cooldownReduction);
+            MeleeWeapon.clubCooldown = (int)(MeleeWeapon.clubCooldown * cooldownReductionMultiplier);
         }
     }
 

@@ -27,6 +27,7 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     ///     bars to green for level >10.
     /// </summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SkillsPageCtorPostfix(SkillsPage __instance)
     {
         if (ShouldEnableSkillReset)

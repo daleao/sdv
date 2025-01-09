@@ -27,6 +27,7 @@ internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
 
     /// <summary>Patch to add Prestiged Demolitionist efficient coal consumption.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? ObjectPlaceInMachineTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

@@ -51,6 +51,8 @@
   "gmcm.sections.txs.property": "재산세",
   "gmcm.property_tax_lateness_fine.title": "연체 벌금",
   "gmcm.property_tax_lateness_fine.desc": "재산세가 제때 납부되지 않을 경우 미납 금액에 부과되는 일회성 벌금 비율.",
+  "gmcm.baseline_unused_tile_cost_rate.title": "Baseline Unused Tile Cost",
+  "gmcm.baseline_unused_tile_cost_rate.desc": "The baseline gold cost of unused tiles.",
   "gmcm.unused_tile_tax_rate.title": "사용되지 않은 타일 세율",
   "gmcm.unused_tile_tax_rate.desc": "생산적으로 사용되지 않은 타일에 부과되는 세율.",
   "gmcm.used_tile_tax_rate.title": "사용된 타일 세율",
@@ -64,5 +66,9 @@
 
   // other
   "gmcm.annual_interest.title": "연간 이자율",
-  "gmcm.annual_interest.desc": "미결제 채무에 대해 연간 부과되는 이자율. 이자는 연간 이자율의 1/112 비율로 매일 누적됩니다."
+  "gmcm.annual_interest.desc": "미결제 채무에 대해 연간 부과되는 이자율. 이자는 연간 이자율의 1/112 비율로 매일 누적됩니다.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Default Artisan Value Crop Multiplier",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from crops.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Default Artisan Value Produce Multiplier",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "The multiplier which is used to estimate the value of artisan products derived from animal produce."
 }

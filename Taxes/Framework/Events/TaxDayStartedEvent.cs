@@ -37,7 +37,7 @@ internal sealed class TaxDayStartedEvent(EventManager? manager = null)
                     { timeLeft = HUDMessage.defaultTime * 2 });
             Data.Write(player, DataKeys.Withheld, string.Empty);
         }
-        
+
         this.Disable();
     }
 }

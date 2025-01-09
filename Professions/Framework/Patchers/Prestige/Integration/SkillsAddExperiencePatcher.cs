@@ -24,6 +24,7 @@ internal sealed class SkillsAddExperiencePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply prestige exp multiplier to custom skills.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static void SkillsAddExperiencePrefix(string skillName, ref int amt)
     {
         if (!ShouldEnableSkillReset || !CustomSkill.Loaded.TryGetValue(skillName, out var skill) ||

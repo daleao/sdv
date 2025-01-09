@@ -24,6 +24,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
 
     /// <summary>Patch to decrease syrup production time for Tapper.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     // ReSharper disable once InconsistentNaming
     private static void TreeUpdateTapperProductPostfix(Tree __instance, SObject? tapper)
     {

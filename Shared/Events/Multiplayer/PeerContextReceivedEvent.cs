@@ -27,17 +27,17 @@ public abstract class PeerContextReceivedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnPeerContextReceived"/>
+    protected abstract void OnPeerContextReceivedImpl(object? sender, PeerContextReceivedEventArgs e);
+
     /// <inheritdoc cref="IMultiplayerEvents.PeerContextReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnPeerContextReceived(object? sender, PeerContextReceivedEventArgs e)
+    private void OnPeerContextReceived(object? sender, PeerContextReceivedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnPeerContextReceivedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnPeerContextReceived"/>
-    protected abstract void OnPeerContextReceivedImpl(object? sender, PeerContextReceivedEventArgs e);
 }

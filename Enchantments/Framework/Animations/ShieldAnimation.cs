@@ -13,7 +13,7 @@ public class ShieldAnimation : TemporaryAnimatedSprite
     /// <param name="who">The <see cref="Farmer"/> instance with the shield.</param>
     public ShieldAnimation(Farmer who)
         : base(
-            $"{Manifest.UniqueID}/Shield",
+            $"{Manifest.UniqueID}_Shield",
             new Rectangle(0, 0, 128, 128),
             200,
             4,

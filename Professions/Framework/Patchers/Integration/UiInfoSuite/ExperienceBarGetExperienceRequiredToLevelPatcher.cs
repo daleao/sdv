@@ -27,6 +27,7 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatcher : Harmony
 
     /// <summary>Patch to reflect adjusted base experience + extended progression experience.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool ExperienceBarGetExperienceRequiredToLevelPrefix(ref int __result, int currentLevel)
     {
         if (currentLevel < 10)

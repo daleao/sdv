@@ -67,6 +67,7 @@ internal sealed class BaseWeaponEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Resonate with chords.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void BaseWeaponEnchantmentApplyToPostfix(BaseWeaponEnchantment __instance, Item item)
     {
         if (!__instance.IsForge() || item is not MeleeWeapon weapon || weapon != Game1.player.CurrentTool)

@@ -24,17 +24,17 @@ public abstract class MenuChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnMenuChanged"/>
+    protected abstract void OnMenuChangedImpl(object? sender, MenuChangedEventArgs e);
+
     /// <inheritdoc cref="IDisplayEvents.MenuChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnMenuChanged(object? sender, MenuChangedEventArgs e)
+    private void OnMenuChanged(object? sender, MenuChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnMenuChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnMenuChanged"/>
-    protected abstract void OnMenuChangedImpl(object? sender, MenuChangedEventArgs e);
 }

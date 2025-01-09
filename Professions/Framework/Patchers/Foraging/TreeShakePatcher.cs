@@ -27,6 +27,7 @@ internal sealed class TreeShakePatcher : HarmonyPatcher
 
     /// <summary>Patch to apply Ecologist perk to shaken trees.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? TreeShakeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

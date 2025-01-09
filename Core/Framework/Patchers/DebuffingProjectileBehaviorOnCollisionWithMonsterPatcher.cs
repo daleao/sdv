@@ -27,6 +27,7 @@ internal sealed class DebuffingProjectileBehaviorOnCollisionWithMonsterPatcher :
     /// <summary>Replace vanilla freeze with a better one.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool DebuffingProjectileBehaviorOnCollisionWithMonsterPrefix(DebuffingProjectile __instance, NPC n)
     {
         if (!__instance.damagesMonsters.Value || n is not Monster monster || __instance.debuff.Value != "frozen")

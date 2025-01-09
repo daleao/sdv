@@ -25,6 +25,7 @@ internal sealed class FishingRodDrawAttachmentsPatcher : HarmonyPatcher
 
     /// <summary>Draw tackle memory.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishingRodDrawAttachmentsPostfix(
         Tool __instance,
         SpriteBatch b,

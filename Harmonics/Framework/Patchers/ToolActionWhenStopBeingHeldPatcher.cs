@@ -24,6 +24,7 @@ internal sealed class ToolActionWhenStopBeingHeldPatcher : HarmonyPatcher
 
     /// <summary>Reset applied tool resonances.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ToolActionWhenStopBeingHeldPostfix(Tool __instance, Farmer who)
     {
         if (!who.IsLocalPlayer || __instance is not MeleeWeapon weapon ||

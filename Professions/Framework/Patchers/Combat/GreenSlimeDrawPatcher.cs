@@ -30,6 +30,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
 
     /// <summary>Draw Piped Slime health.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void GreenSlimeDrawPostfix(GreenSlime __instance, SpriteBatch b)
     {
         if (__instance.Get_Piped() is null)
@@ -50,6 +51,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to fix Green Slime eye and antenna position when inflated.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GreenSlimeDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

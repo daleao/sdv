@@ -33,6 +33,7 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
 
     /// <summary>Draw during combos + stabby lunge.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MeleeWeaponDrawDuringUsePrefix(
         Vector2 ___center,
         int frameOfFarmerAnimation,

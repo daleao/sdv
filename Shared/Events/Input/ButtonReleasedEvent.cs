@@ -24,17 +24,17 @@ public abstract class ButtonReleasedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnButtonReleased"/>
+    protected abstract void OnButtonReleasedImpl(object? sender, ButtonReleasedEventArgs e);
+
     /// <inheritdoc cref="IInputEvents.ButtonReleased"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnButtonReleased(object? sender, ButtonReleasedEventArgs e)
+    private void OnButtonReleased(object? sender, ButtonReleasedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnButtonReleasedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnButtonReleased"/>
-    protected abstract void OnButtonReleasedImpl(object? sender, ButtonReleasedEventArgs e);
 }

@@ -24,6 +24,7 @@ internal sealed class FarmerCouldInventoryAcceptThisObjectPatcher : HarmonyPatch
 
     /// <summary>Allow picking up blueprints.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmerCouldInventoryAcceptThisObjectPrefix(ref bool __result, int index)
     {
         if (!JsonAssetsIntegration.DwarvishBlueprintIndex.HasValue ||

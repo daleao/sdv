@@ -24,17 +24,17 @@ public abstract class LoadStageChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnLoadStageChanged"/>
+    protected abstract void OnLoadStageChangedImpl(object? sender, LoadStageChangedEventArgs e);
+
     /// <inheritdoc cref="ISpecializedEvents.LoadStageChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnLoadStageChanged(object? sender, LoadStageChangedEventArgs e)
+    private void OnLoadStageChanged(object? sender, LoadStageChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnLoadStageChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnLoadStageChanged"/>
-    protected abstract void OnLoadStageChangedImpl(object? sender, LoadStageChangedEventArgs e);
 }

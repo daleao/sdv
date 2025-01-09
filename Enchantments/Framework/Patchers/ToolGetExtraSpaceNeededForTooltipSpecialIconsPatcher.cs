@@ -25,6 +25,7 @@ internal sealed class ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
 
     /// <summary>Fix enchanted Slingshot tooltip box height.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void ToolGetExtraSpaceNeededForTooltipSpecialIconsPostfix(
         Tool __instance, ref Point __result)
     {

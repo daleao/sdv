@@ -23,6 +23,7 @@ internal sealed class SlingshotCanThisBeAttachedPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow Rascal special ammo.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SlingshotCanThisBeAttachedPostfix(Slingshot __instance, ref bool __result, SObject? o)
     {
         if (__result || o is null || o.bigCraftable.Value)

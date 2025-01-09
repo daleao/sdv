@@ -24,8 +24,41 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Patch to null special move cooldown for prestiged Piper.</summary>
+    [HarmonyPostfix]
+    [UsedImplicitly]
+    private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
+    {
+        if (__instance.getLastFarmerToUse() is not { } lastUser || !lastUser.HasProfession(Profession.Piper, true) ||
+            !lastUser.hasBuff("13"))
+        {
+            return;
+        }
+
+        if (MeleeWeapon.attackSwordCooldown > 0)
+        {
+            MeleeWeapon.attackSwordCooldown = 0;
+        }
+
+        if (MeleeWeapon.defenseCooldown > 0)
+        {
+            MeleeWeapon.defenseCooldown = 0;
+        }
+
+        if (MeleeWeapon.daggerCooldown > 0)
+        {
+            MeleeWeapon.daggerCooldown = 0;
+        }
+
+        if (MeleeWeapon.clubCooldown > 0)
+        {
+            MeleeWeapon.clubCooldown = 0;
+        }
+    }
+
     /// <summary>Patch to remove Acrobat cooldown reduction.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

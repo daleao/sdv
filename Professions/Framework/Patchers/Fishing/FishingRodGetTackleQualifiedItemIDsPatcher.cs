@@ -23,6 +23,7 @@ internal sealed class FishingRodGetTackleQualifiedItemIDsPatcher : HarmonyPatche
 
     /// <summary>Patch to include Angler memorized tackle effects.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void PondQueryMenuDrawPostfix(FishingRod __instance, List<string> __result)
     {
         var tackleMemory = Data.Read(__instance, DataKeys.FirstMemorizedTackle);

@@ -23,6 +23,7 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
 
     /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void HoeDirtPlantPostfix(HoeDirt __instance, Farmer who)
     {
         if (__instance.crop is { } crop && who.HasProfession(Profession.Agriculturist, true))

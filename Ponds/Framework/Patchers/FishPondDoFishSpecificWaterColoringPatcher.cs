@@ -27,6 +27,7 @@ internal sealed class FishPondDoFishSpecificWaterColoringPatcher : HarmonyPatche
 
     /// <summary>Recolor for algae/seaweed.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondDoFishSpecificWaterColoringPostfix(FishPond __instance)
     {
         if (string.IsNullOrEmpty(__instance.fishType.Value))

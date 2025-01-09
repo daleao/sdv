@@ -25,6 +25,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
 
     /// <summary>Trigger Stabbing Sword lunge.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MeleeWeaponAnimateSpecalMovePrefix(MeleeWeapon __instance, ref Farmer ___lastUser, Farmer who)
     {
         if (!__instance.hasEnchantmentOfType<StabbingEnchantment>())

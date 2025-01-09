@@ -25,6 +25,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
     /// <summary>Patch to increase skill experience after each prestige + gate at level 10 until full prestige.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool FarmerGainExperiencePrefix(Farmer __instance, int which, ref int howMuch)
     {
         if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels) || which == Farmer.luckSkill)

@@ -25,6 +25,7 @@ internal sealed class ToolDrawAttachmentsPatcher : HarmonyPatcher
 
     /// <summary>Patch to draw Rascal's additional ammo slot.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool SlingshotDrawAttachmentsPrefix(Tool __instance, SpriteBatch b, int x, int y)
     {
         if (__instance is not Slingshot)

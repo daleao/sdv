@@ -26,6 +26,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
 
     /// <summary>Set the quality of newborn fishes.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void FishPondSpawnFishPostfix(FishPond __instance)
     {
         if (__instance.currentOccupants.Value >= __instance.maxOccupants.Value &&

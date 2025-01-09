@@ -24,6 +24,7 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
 
     /// <summary>Patch to adjust Breeder animal sell price.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool FarmAnimalGetSellPricePrefix(FarmAnimal __instance, ref int __result)
     {
         if (!__instance.GetOwner().HasProfessionOrLax(Profession.Breeder))

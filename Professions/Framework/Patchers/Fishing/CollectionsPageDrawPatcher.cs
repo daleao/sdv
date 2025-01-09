@@ -31,6 +31,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 
     /// <summary>Patch to overlay MAX fish size indicator on the Collections page fish tab.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? CollectionsPageDrawTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

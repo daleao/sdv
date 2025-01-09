@@ -23,6 +23,7 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
 
     /// <summary>Patch to deduct animal expenses.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void PurchaseAnimalsMenuSetUpForReturnAfterPurchasingAnimalPostfix(FarmAnimal ___animalBeingPurchased, int ___priceOfAnimal)
     {
         if (Config.DeductibleAnimalExpenses <= 0f)

@@ -33,6 +33,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to idiot-proof the level-up menu. </summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuUpdatePrefix(
         LevelUpMenu __instance,
         List<int> ___professionsToChoose,
@@ -305,6 +306,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent duplicate profession acquisition + display end of level up dialogues.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? LevelUpMenuUpdateTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

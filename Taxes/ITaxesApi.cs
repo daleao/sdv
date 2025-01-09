@@ -10,5 +10,5 @@ public interface ITaxesApi
 
     /// <summary>Determines the total property value of the farm.</summary>
     /// <returns>The total values of agriculture activities, livestock and buildings on the farm, as well as the total number of tiles used by all of those activities.</returns>
-    (int AgricultureValue, int LivestockValue, int BuildingValue, int UsedTiles) CalculatePropertyTax();
+    int CalculatePropertyTax();
 }

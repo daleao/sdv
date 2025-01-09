@@ -29,6 +29,7 @@ internal sealed class GameLocationGetHarvestSpawnedObjectQualityPatcher : Harmon
     ///     mod data fields.
     /// </summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool GameLocationGetHarvestSpawnedObjectQualityPrefix(GameLocation __instance, ref int __result, Farmer who, bool isForage, Vector2 tile, Random? random)
     {
         var spawned = __instance.Objects[tile];

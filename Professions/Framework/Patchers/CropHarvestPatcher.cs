@@ -31,6 +31,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
     ///     for Agriculturist + Harvester bonus crop yield.
     /// </summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? CropHarvestTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {

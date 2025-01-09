@@ -29,6 +29,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
 
     /// <summary>Patch to become aggroed by musked monsters.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void MonsterUpdatePostfix(Monster __instance)
     {
         if (__instance.Get_Musk() is not { } musk)

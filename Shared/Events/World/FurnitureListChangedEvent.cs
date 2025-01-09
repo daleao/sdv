@@ -24,17 +24,17 @@ public abstract class FurnitureListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnFurnitureListChanged"/>
+    protected abstract void OnFurnitureListChangedImpl(object? sender, FurnitureListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.FurnitureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnFurnitureListChanged(object? sender, FurnitureListChangedEventArgs e)
+    private void OnFurnitureListChanged(object? sender, FurnitureListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnFurnitureListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnFurnitureListChanged"/>
-    protected abstract void OnFurnitureListChangedImpl(object? sender, FurnitureListChangedEventArgs e);
 }

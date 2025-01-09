@@ -23,6 +23,7 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
 
     /// <summary>Rebalance Jade enchant.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool JadeEnchantmentUnapplyToPrefix(JadeEnchantment __instance, Item item)
     {
         if (item is not MeleeWeapon weapon)

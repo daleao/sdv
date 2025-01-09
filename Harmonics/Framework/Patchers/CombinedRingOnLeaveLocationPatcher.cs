@@ -24,6 +24,7 @@ internal sealed class CombinedRingOnLeaveLocationPatcher : HarmonyPatcher
 
     /// <summary>Remove Infinity Band resonance location effects.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void CombinedRingOnLeaveLocationPostfix(CombinedRing __instance, GameLocation environment)
     {
         __instance.Get_Chord()?.OnLeaveLocation(environment);

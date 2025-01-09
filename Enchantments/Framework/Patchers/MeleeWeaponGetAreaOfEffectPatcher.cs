@@ -27,6 +27,7 @@ internal sealed class MeleeWeaponGetAreaOfEffectPatcher : HarmonyPatcher
 
     /// <summary>Fix stabby lunge hitbox.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool MeleeWeaponGetAreaOfEffectPrefix(
         MeleeWeapon __instance,
         ref Rectangle __result,

@@ -25,6 +25,7 @@ internal sealed class FishPondIsLegalFishForPondsPatcher : HarmonyPatcher
     /// <summary>Patch for Aquarist to raise legendary fish.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
+    [UsedImplicitly]
     private static bool FishPondIsLegalFishForPondsPrefix(FishPond __instance, ref bool __result, string itemId)
     {
         if (!ItemContextTagManager.HasBaseTag(itemId, "fish_legendary"))

@@ -27,6 +27,7 @@ internal sealed class LevelUpMenuAddMissedProfessionChoicesPatcher : HarmonyPatc
 
     /// <summary>Debug issues with repeated level ups.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool LevelUpMenuAddProfessionDescriptionsPrefix(Farmer farmer)
     {
         var skills = new[] { 0, 1, 2, 3, 4 };

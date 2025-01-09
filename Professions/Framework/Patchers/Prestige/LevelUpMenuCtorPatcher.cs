@@ -27,6 +27,7 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch to allow choosing professions above level 10.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? LevelUpMenuCtorTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

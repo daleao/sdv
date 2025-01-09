@@ -23,6 +23,7 @@ internal sealed class DustSpiritBehaviorAtGameTickPatcher : HarmonyPatcher
 
     /// <summary>Patch to hide Poacher in ambush from Dust Spirits.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void DustSpiritBehaviorAtGameTickPostfix(DustSpirit __instance, ref bool ___seenFarmer)
     {
         if (!__instance.Player.IsLocalPlayer || !__instance.Player.IsAmbushing())

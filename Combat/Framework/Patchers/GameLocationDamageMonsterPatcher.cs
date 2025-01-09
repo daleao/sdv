@@ -34,6 +34,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     /// <summary>Record knockback for damage and crit. for defense ignore + back attacks.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
@@ -116,7 +117,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             Log.E($"Failed recording crit flag.\nHelper returned {ex}");
             return null;
         }
-            
+
         return helper.Flush();
     }
 

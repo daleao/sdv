@@ -150,7 +150,9 @@ internal sealed class SetCommand(CommandHandler handler)
             case "rodmem":
                 this.SetFishingRodMemory(value);
                 break;
-
+            case "maxtackleuses" when int.TryParse(value, out var maxTackleUses):
+                FishingRod.maxTackleUses = maxTackleUses;
+                break;
             case "animals":
             case "anim":
                 this.SetAnimalDispositions(value);

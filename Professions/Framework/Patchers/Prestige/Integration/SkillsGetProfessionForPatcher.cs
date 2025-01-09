@@ -24,6 +24,7 @@ internal sealed class SkillsGetProfessionForPatcher : HarmonyPatcher
 
     /// <summary>Patch to apply prestige ordering to skills page profession choices.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool SkillsGetProfessionForPrefix(ref SCProfession? __result, SCSkill skill, int level)
     {
         if (!ShouldEnableSkillReset)

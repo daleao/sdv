@@ -64,6 +64,14 @@ public static class SObjectExtensions
         return (dx * dx) + (dy * dy);
     }
 
+    /// <summary>Gets the distance in tiles from this <paramref name="object"/> to the local player.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="object"/> to the local player.</returns>
+    public static int DistanceToPlayer(this SObject @object)
+    {
+        return (int)@object.SquaredTileDistance(Game1.player.Tile);
+    }
+
     /// <summary>
     ///     Finds the closest tile from among the specified <paramref name="candidates"/> to this
     ///     <paramref name="object"/>.

@@ -24,6 +24,7 @@ internal sealed class GreenSlimeOverlapsFarmerForDamagePatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent damage from Piped Slimes.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool GreenSlimeOverlapsFarmerForDamagePrefix(Monster __instance)
     {
         return __instance is not GreenSlime slime || slime.Get_Piped() is null;

@@ -14,17 +14,17 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>An echo of a <see cref="BasicProjectile"/> fired by a <see cref="Slingshot"/> enchanted with <see cref="EchoEnchantment"/>.</summary>
-internal sealed class RunaanProjectile : BasicProjectile
+internal sealed class EchoProjectile : BasicProjectile
 {
     private readonly BasicProjectile _original;
     private int _timer;
 
-    /// <summary>Initializes a new instance of the <see cref="RunaanProjectile"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="EchoProjectile"/> class.</summary>
     /// <param name="original">The original <see cref="BasicProjectile"/> that will be echoed.</param>
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired the shot.</param>
-    public RunaanProjectile(BasicProjectile original, Vector2 startingPosition, GameLocation location, Farmer firer)
+    public EchoProjectile(BasicProjectile original, Vector2 startingPosition, GameLocation location, Farmer firer)
     : base(
         (int)(original.damageToFarmer.Value * 0.6),
         original.currentTileSheetIndex.Value,
@@ -45,7 +45,7 @@ internal sealed class RunaanProjectile : BasicProjectile
         original.itemId.Value)
     {
         this._original = original;
-        this._timer = 750 + (Game1.random.Next(-25, 26) * 10); // delay before motion
+        this._timer = 500 + (Game1.random.Next(-25, 26) * 10); // delay before motion
     }
 
     /// <inheritdoc />

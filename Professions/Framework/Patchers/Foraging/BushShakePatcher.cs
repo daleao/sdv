@@ -27,6 +27,7 @@ internal sealed class BushShakePatcher : HarmonyPatcher
 
     /// <summary>Patch to nerf Ecologist berry quality and increment forage counter for wild berries.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? BushShakeTranspiler(
         IEnumerable<CodeInstruction> instructions, MethodBase original)
     {

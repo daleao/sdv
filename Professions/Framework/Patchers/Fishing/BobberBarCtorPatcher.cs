@@ -38,6 +38,7 @@ internal sealed class BobberBarCtorPatcher : HarmonyPatcher
 
     /// <summary>Patch for double effectiveness of Deluxe Bait.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void BobberBarCtorPostfix(BobberBar __instance, string baitID)
     {
         if (baitID == "(O)DeluxeBait" && Game1.player.HasProfession(Profession.Fisher))

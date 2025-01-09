@@ -1,5 +1,10 @@
 {
   "algae": "Algue",
+
+  /************
+  *** GMCM ***
+  ************/
+
   "gmcm.days_until_algae_spawn.title": "Jours avant apparition d�algue",
   "gmcm.days_until_algae_spawn.desc": "Le nombre de jours avant que des algues commencent � appara�tre dans un �tang vide",
   "gmcm.roe_production_chance_multiplier.title": "Multiplicateur chance de \nproduction d��ufs de poissons",

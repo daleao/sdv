@@ -24,18 +24,18 @@ public abstract class LargeTerrainFeatureListChangedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnLargeTerrainFeatureListChanged"/>
+    protected abstract void OnLargeTerrainFeatureListChangedImpl(
+        object? sender, LargeTerrainFeatureListChangedEventArgs e);
+
     /// <inheritdoc cref="IWorldEvents.LargeTerrainFeatureListChanged"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnLargeTerrainFeatureListChanged(object? sender, LargeTerrainFeatureListChangedEventArgs e)
+    private void OnLargeTerrainFeatureListChanged(object? sender, LargeTerrainFeatureListChangedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnLargeTerrainFeatureListChangedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnLargeTerrainFeatureListChanged"/>
-    protected abstract void OnLargeTerrainFeatureListChangedImpl(
-        object? sender, LargeTerrainFeatureListChangedEventArgs e);
 }

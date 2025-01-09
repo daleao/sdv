@@ -27,17 +27,17 @@ public abstract class ModMessageReceivedEvent : ManagedEvent
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc cref="OnModMessageReceived"/>
+    protected abstract void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e);
+
     /// <inheritdoc cref="IMultiplayerEvents.ModMessageReceived"/>
     /// <param name="sender">The event sender.</param>
     /// <param name="e">The event arguments.</param>
-    public void OnModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
+    private void OnModMessageReceived(object? sender, ModMessageReceivedEventArgs e)
     {
         if (this.IsEnabled)
         {
             this.OnModMessageReceivedImpl(sender, e);
         }
     }
-
-    /// <inheritdoc cref="OnModMessageReceived"/>
-    protected abstract void OnModMessageReceivedImpl(object? sender, ModMessageReceivedEventArgs e);
 }

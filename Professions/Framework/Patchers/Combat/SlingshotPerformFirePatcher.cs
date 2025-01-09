@@ -33,6 +33,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     /// <summary>Patch to add Rascal bonus range damage + perform Desperado perks and LimitBreak.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.First)]
+    [UsedImplicitly]
     private static bool SlingshotPerformFirePrefix(
         Slingshot __instance, ref bool ___canPlaySound, GameLocation location, Farmer who)
     {
@@ -255,6 +256,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
     /// <summary>Patch to prevent overcharged auto-fire.</summary>
     [HarmonyPostfix]
+    [UsedImplicitly]
     private static void SlingshotPerformFirePostfix(Slingshot __instance)
     {
         if (__instance.CanAutoFire())

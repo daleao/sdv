@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="2021.03.23" orientation="orthogonal" renderorder="right-down" width="28" height="19" tilewidth="16" tileheight="16" infinite="0" nextlayerid="10" nextobjectid="14">
+ <properties>
+  <property name="AmbientLight" value="110 110 110"/>
+  <property name="AutoFeed" value="T"/>
+  <property name="DayTiles" value="Buildings 4 2 24 Buildings 8 2 24 Buildings 12 2 24 Buildings 15 2 24 Buildings 19 2 24 Buildings 23 2 24 Back 4 5 25 Back 8 5 46 Back 8 5 46 Back 12 5 46 Back 15 5 46 Back 19 5 46 Back 23 5 46"/>
+  <property name="Feed" value="4 3"/>
+  <property name="Light" value="4 15 4 9 15 4 14 15 4 18 15 4 23 15 4 23 10 4 18 10 4 14 10 4 9 10 4 4 10 4 4 5 4 9 5 4 14 5 4 18 5 4 23 5 4"/>
+  <property name="NightTiles" value="Buildings 4 2 26 Buildings 8 2 26 Buildings 12 2 26 Buildings 15 2 26 Buildings 19 2 26 Buildings 23 2 26 Back 4 5 12 Back 8 5 53 Back 12 5 53 Back 15 5 53 Back 19 5 53 Back 23 5 53"/>
+  <property name="ProduceArea" value="3 5 22 11"/>
+  <property name="Warp" value="4 18 Farm 1 1 23 18 Farm 1 1"/>
+ </properties>
+ <tileset firstgid="1" name="barn" tilewidth="16" tileheight="16" tilecount="84" columns="4">
+  <image source="coopTiles.png" width="64" height="336"/>
+  <tile id="12">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Passable" type="int" value="0"/>
+    <property name="Trough" value="T"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="85" name="p" tilewidth="16" tileheight="16" tilecount="64" columns="4">
+  <image source="paths.png" width="64" height="256"/>
+ </tileset>
+ <layer id="1" name="Back" width="28" height="19">
+  <data encoding="base64" compression="zlib">
+   eJztVMsKwyAQ9AfaBg1Nz/2B3uI9/bF8eldwYRjWuAFpLxWGxrrOsI8xhBAuX4Kuv954vU2wCp6DsAKEe7fyK2cvij3ae2M5v6vgVjFRDXI9n2jPsbn+WmesFwWpYqb7BXfBA/7DeOaOwIMcqFf4lsrp6bvGJwCfWVy6PBpYp0zci5PjjB7WaYQf3hVb47ull533WS8dYDb6wrMQOxysh71gtDSsGaI52vE+6lk1Ut9ZOjw/6FGshcZ55kV9Z/mf/coe5bx7etY7onvujfU+oa6+ab38PDjjj1+sD3o3J8w=
+  </data>
+ </layer>
+ <objectgroup id="2" name="Back">
+  <object id="1" name="TileData" x="368" y="272" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="2" name="TileData" x="64" y="272" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="3" name="TileData" x="368" y="288" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="4" name="TileData" x="64" y="288" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="5" name="TileData" x="64" y="256" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="6" name="TileData" x="368" y="256" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="7" name="TileData" x="368" y="64" width="16" height="16">
+   <properties>
+    <property name="WaterSource" value="T"/>
+   </properties>
+  </object>
+  <object id="8" name="TileData" x="384" y="64" width="16" height="16">
+   <properties>
+    <property name="WaterSource" value="T"/>
+   </properties>
+  </object>
+  <object id="9" name="TileData" x="48" y="64" width="16" height="16">
+   <properties>
+    <property name="WaterSource" value="T"/>
+   </properties>
+  </object>
+  <object id="10" name="TileData" x="32" y="208" width="16" height="16">
+   <properties>
+    <property name="WaterSource" value="T"/>
+   </properties>
+  </object>
+  <object id="11" name="TileData" x="32" y="224" width="16" height="16">
+   <properties>
+    <property name="NPCBarrier" value="T"/>
+   </properties>
+  </object>
+  <object id="12" name="TileData" x="368" y="112" width="16" height="16">
+   <properties>
+    <property name="WaterSource" value="T"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <layer id="3" name="Buildings" width="28" height="19">
+  <data encoding="base64" compression="zlib">
+   eJy9lMEOwUAYhAdBhBeQEJwIDopTI6mj0ofy6GbTPdRv27+N3Z3kS7fp/jOH3WkCIIlMj/QDM6jkDcnCMq+stfcue8cib02W5Ewuf3IlK+t5sk+Zl5MN/GlPnuRlvWVeSN0i5mXkLvImjj0+lFovwxTt+zBr4T1SPOr6UIcm7nk3zcvz25IdyrvrWmvS5mXegRxR3l3XWpM2H7MPcOSlkfNCS+aZjhSBsjL89r2Av55XZXwf+O67/M+4vnWlrRc8ZDV5fQBlVyny
+  </data>
+ </layer>
+ <objectgroup id="4" name="Buildings"/>
+ <layer id="5" name="Front" width="28" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgZwJHOZrvSwB43IHankdmDBVhTSQ0p9lHTvKEGHHGwaaXfFQebWECp/lFAHgDlEQ8amo0OPHCIUwpw+YELiFmgbA4onxKMbtZIAQD7/Qbz
+  </data>
+ </layer>
+ <objectgroup id="6" name="Front"/>
+ <layer id="7" name="Paths" width="28" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo4B8EEumGLH6RsHwAqPpZRSQAkbTy9ACAFXcBXQ=
+  </data>
+ </layer>
+ <objectgroup id="8" name="Paths"/>
+ <layer id="9" name="AlwaysFront" width="28" height="19">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFo2AUoAMuPJiFCP0cBMxAB0x4MA8R9rERMGMUjIJRMLgAJwOkLOCmk1mGSJhSgMssAESwAik=
+  </data>
+ </layer>
+</map>

@@ -27,6 +27,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
 
     /// <summary>Patch to enable Prestiged Brute rage expenditure.</summary>
     [HarmonyTranspiler]
+    [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? MeleeWeaponDoAnimateSpecialMoveTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
