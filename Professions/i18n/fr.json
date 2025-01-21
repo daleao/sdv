@@ -20,7 +20,7 @@
   "rancher.title.male": "Cowboy",
   "rancher.title.female": "Cowgirl",
   "rancher.desc": "Se lier d'amitié avec les animaux se fait 2 fois plus vite.",
-  "rancher.desc.prestiged": "Se lier d'amitié avec les animaux se fait 2 fois >> 3 fois plus vite.",
+  "rancher.desc.prestiged": "Se lier d'amitié avec les animaux se fait 2 fois >> 3 fois plus vite.",
   "breeder.title.male": "Éleveur de bétail",
   "breeder.title.female": "Éleveuse de bétail",
   "breeder.title.prestiged.male": "Progéniteur",
@@ -181,11 +181,11 @@
   "desperado.buff.desc": "+50% de dégâts de munitions contre une cible différente.",
   "piper.title.male": "Charmeur de limon",
   "piper.title.female": "Charmeuse de limon",
-  "piper.title.prestiged.male": "Chef des limons",
-  "piper.title.prestiged.female": "Cheffe des limons",
-  "piper.desc": "Slimed debuff effect is inverted. Les slimes/limons ne sont plus immédiatement agressifs et peuvent vous suivre en combat. Capacité du clapier à slimes +50%.",
-  "piper.desc.prestiged": "Slimed debuff also removes special move cooldown. Un limon supplémentaire peut vous suivre en combat. Obtenez des objets colorés spéciaux à partir des boules de limons.",
-  "piper.buff": "Limoné",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue de la transcendance-^La statue peut réinitialiser le niveau d'une compétence tout en conservant toutes les professions acquises.",
@@ -337,6 +337,10 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Réinitialisation des compétences",
@@ -380,6 +384,8 @@
   "gmcm.limit_gauge_offset.desc": "Utilisez ceci pour ajuster les coordonnées X et Y de la jauge de limite si vous utilisez d'autres mods qui ajoutent également des barres HUD.",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "Progression de Prestige",
   "gmcm.enable_prestige_levels.title": "Activer les niveaux de Prestige",
   "gmcm.enable_prestige_levels.desc": "Indique si le joueur peut continuer à gagner des niveaux jusqu'au niveau 20 après avoir atteint la maîtrise de la compétence.",

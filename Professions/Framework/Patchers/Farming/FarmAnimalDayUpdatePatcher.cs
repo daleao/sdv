@@ -18,8 +18,9 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmAnimalDayUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmAnimalDayUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmAnimalDayUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FarmAnimal>(nameof(FarmAnimal.dayUpdate));
     }

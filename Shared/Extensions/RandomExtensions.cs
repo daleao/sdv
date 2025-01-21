@@ -70,17 +70,17 @@ public static class RandomExtensions
     /// <returns><see langword="true"/> if at least one attempt is successful, otherwise <see langword="false"/>.</returns>
     public static bool Any(this Random r, double chance, int attempts)
     {
-        if (chance is < 0d or > 1d)
-        {
-            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(chance), "Chance must be between 0.0 and 1.0.");
-        }
-
         if (attempts <= 0)
         {
-            ThrowHelper.ThrowArgumentOutOfRangeException(nameof(attempts), "Attempts must be greater than 0.");
+            return false;
         }
 
-        return r.NextDouble() < 1 - Math.Pow(1 - chance, attempts);
+        return chance switch
+        {
+            <= 0d => false,
+            >= 1d => true,
+            _ => r.NextDouble() < 1 - Math.Pow(1 - chance, attempts),
+        };
     }
 
     /// <summary>Checks if all attempts are successful with a given probability for each attempt.</summary>

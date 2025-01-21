@@ -13,8 +13,9 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectAttemptAutoLoadPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectAttemptAutoLoadPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectAttemptAutoLoadPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target =
             this.RequireMethod<SObject>(nameof(SObject.AttemptAutoLoad), [typeof(IInventory), typeof(Farmer)]);

@@ -3,11 +3,10 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Enchantments.Framework.Projectiles;
 using Microsoft.Xna.Framework;
-using Projectiles;
 using StardewValley;
 using StardewValley.Monsters;
-using StardewValley.Projectiles;
 using StardewValley.Tools;
 
 #endregion using directives

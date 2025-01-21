@@ -26,7 +26,7 @@ internal sealed class ReadyLimitBreakCommand(CommandHandler handler)
         var limit = State.LimitBreak;
         if (limit is null)
         {
-            this.Handler.Log.W("You don't have a Limit Break.");
+            Log.W("You don't have a Limit Break.");
             return true;
         }
 
@@ -37,13 +37,13 @@ internal sealed class ReadyLimitBreakCommand(CommandHandler handler)
                 return true;
 
             case > 1:
-                this.Handler.Log.W("Additional arguments will be ignored.");
+                Log.W("Additional arguments will be ignored.");
                 break;
         }
 
         if (!int.TryParse(args[0], out var value) || value is < 0 or > 100)
         {
-            this.Handler.Log.W($"{value} should be a number between 0 and 100.");
+            Log.W($"{value} should be a number between 0 and 100.");
             return true;
         }
 

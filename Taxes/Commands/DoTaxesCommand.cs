@@ -24,7 +24,7 @@ internal sealed class DoTaxesCommand(CommandHandler handler)
     {
         if (args.Length == 0)
         {
-            this.Handler.Log.W(
+            Log.W(
                 "You must specify a value for the type of report. Accepted values are \"income\" or \"property\" for the corresponding tax report, or \"debt\" for outstanding liabilities report.");
             return true;
         }
@@ -60,12 +60,12 @@ internal sealed class DoTaxesCommand(CommandHandler handler)
 
             case "debt":
                 var debt = Data.ReadAs<int>(player, DataKeys.DebtOutstanding);
-                this.Handler.Log.I(
+                Log.I(
                     $"Outstanding debt on {Game1.currentSeason} {Game1.dayOfMonth}, year {Game1.year}: {debt}g");
                 break;
 
             default:
-                this.Handler.Log.W(
+                Log.W(
                     "You must specify either \"income\" or \"property\" for the tax report type, or \"debt\" for outstanding liabilities.");
                 return false;
         }

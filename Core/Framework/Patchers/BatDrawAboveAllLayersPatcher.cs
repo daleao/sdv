@@ -18,8 +18,9 @@ internal sealed class BatDrawAboveAllLayersPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BatDrawAboveAllLayersPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal BatDrawAboveAllLayersPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal BatDrawAboveAllLayersPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Bat>(nameof(Bat.drawAboveAllLayers));
         this.Prefix!.priority = Priority.First;

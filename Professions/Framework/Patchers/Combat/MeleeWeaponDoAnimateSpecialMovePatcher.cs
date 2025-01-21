@@ -16,8 +16,9 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDoAnimateSpecialMovePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MeleeWeaponDoAnimateSpecialMovePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MeleeWeaponDoAnimateSpecialMovePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<MeleeWeapon>("doAnimateSpecialMove");
     }
@@ -29,12 +30,6 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
     {
-        if (__instance.getLastFarmerToUse() is not { } lastUser || !lastUser.HasProfession(Profession.Piper, true) ||
-            !lastUser.hasBuff("13"))
-        {
-            return;
-        }
-
         if (MeleeWeapon.attackSwordCooldown > 0)
         {
             MeleeWeapon.attackSwordCooldown = 0;

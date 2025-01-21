@@ -181,11 +181,11 @@
   "desperado.buff.desc": "对不同目标的弹药伤害增加50%。",
   "piper.title.male": "史莱姆魔笛手",
   "piper.title.female": "史莱姆塞壬",
-  "piper.title.prestiged.male": "史莱姆指挥家",
-  "piper.title.prestiged.female": "史莱姆魅惑者",
-  "piper.desc": "史莱姆不会立即变得具有攻击性，可能会在战斗中跟随你。史莱姆小屋容量增加50%。",
-  "piper.desc.prestiged": "可以在战斗中额外带领一个史莱姆。从史莱姆球中获得特殊彩色物品。",
-  "piper.buff": "史莱姆化",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "技能重置雕像 - 可以重置一个技能等级，同时保留所有已获得的职业。",
@@ -337,6 +337,10 @@
   "gmcm.sections.prfs.rascal": "淘气鬼",
   "gmcm.show_equipped_ammo.title": "显示装备的弹药",
   "gmcm.show_equipped_ammo.desc": "是否在弹弓的提示信息上绘制当前装备的弹药。",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "技能重置",
@@ -380,6 +384,8 @@
   "gmcm.limit_gauge_offset.desc": "如果使用其他也添加了HUD条的模组，请使用此设置来调整极限槽的X和Y坐标。",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "声望进程",
   "gmcm.enable_prestige_levels.title": "启用声望等级",
   "gmcm.enable_prestige_levels.desc": "玩家在达到技能精通后是否可以继续升级至20级。",

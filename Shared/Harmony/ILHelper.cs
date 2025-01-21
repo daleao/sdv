@@ -604,9 +604,10 @@ public sealed class ILHelper
     public ILHelper ForEach(CodeInstruction[] pattern, Action<int> action)
     {
         this.GoTo(0);
-        while (this.TryMoveNext(out var index, pattern))
+        var i = 0;
+        while (this.TryMoveNext(out _, pattern))
         {
-            action.Invoke(index);
+            action.Invoke(i++);
         }
 
         return this;

@@ -36,7 +36,7 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                     tile.TrackWhenOnScreen(Color.Yellow);
                 }
             }
-            else if (@object.QualifiedItemId == QualifiedObjectIds.ArtifactSpot)
+            else if (@object.QualifiedItemId == QIDs.ArtifactSpot)
             {
                 tile.TrackWhenOffScreen(Color.Lime);
                 if (shouldHighlightOnScreen)

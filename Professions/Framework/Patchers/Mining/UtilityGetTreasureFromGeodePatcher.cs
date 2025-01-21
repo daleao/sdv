@@ -12,8 +12,9 @@ internal sealed class UtilityGetTreasureFromGeodePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="UtilityGetTreasureFromGeodePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal UtilityGetTreasureFromGeodePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal UtilityGetTreasureFromGeodePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Utility>(nameof(Utility.getTreasureFromGeode));
     }

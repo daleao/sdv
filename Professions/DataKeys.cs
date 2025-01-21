@@ -31,6 +31,14 @@ internal sealed class DataKeys
     // farm animal keys
     internal const string BredByPrestigedBreeder = "BredByBreeder";
 
+    // monster keys
+    internal const string BaseAttack = "BaseAttack";
+    internal const string BaseDefense = "BaseDefense";
+    internal const string BaseHealth = "BaseHealth";
+    internal const string AttackIV = "AttackIV";
+    internal const string DefenseIV = "DefenseIV";
+    internal const string HealthIV = "HealthIV";
+
     // building keys
     internal const string FamilyLivingHere = "FamilyLivingHere";
 

@@ -2,6 +2,10 @@
 
 ## 2.1.0
 
+### Changed
+
+* Reduced the delay before firing echo projectiles. 
+
 ### Fixed
 
 * Fixed an error loop when firing a slingshot.

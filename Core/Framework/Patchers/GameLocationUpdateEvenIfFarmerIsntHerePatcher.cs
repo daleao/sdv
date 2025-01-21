@@ -13,8 +13,9 @@ internal sealed class GameLocationUpdateEvenIfFarmerIsntHerePatcher : HarmonyPat
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationUpdateEvenIfFarmerIsntHerePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationUpdateEvenIfFarmerIsntHerePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationUpdateEvenIfFarmerIsntHerePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.updateEvenIfFarmerIsntHere));
     }

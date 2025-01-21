@@ -16,8 +16,9 @@ internal sealed class GameLocationGetHarvestSpawnedObjectQualityPatcher : Harmon
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationGetHarvestSpawnedObjectQualityPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationGetHarvestSpawnedObjectQualityPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationGetHarvestSpawnedObjectQualityPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.GetHarvestSpawnedObjectQuality));
     }
@@ -49,7 +50,7 @@ internal sealed class GameLocationGetHarvestSpawnedObjectQualityPatcher : Harmon
             return false; // don't run original logic
         }
 
-        if (!isForage)
+        if (!isForage || isForagedMineral)
         {
             __result = SObject.lowQuality;
             return false; // don't run original logic

@@ -17,8 +17,9 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishingRodPullFishFromWaterPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishingRodPullFishFromWaterPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishingRodPullFishFromWaterPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.pullFishFromWater));
     }
@@ -38,7 +39,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         var (x, y) = Reflector
             .GetUnboundMethodDelegate<Func<FishingRod, Vector2>>(__instance, "calculateBobberTile")
             .Invoke(__instance);
-        var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
+        var pond = Game1.currentLocation.buildings.OfType<FishPond>().FirstOrDefault(p =>
             x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
             y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
         if (pond is null || pond.FishCount < 0 || Data.ReadAs<int>(__instance, DataKeys.FamilyLivingHere) <= 0 ||

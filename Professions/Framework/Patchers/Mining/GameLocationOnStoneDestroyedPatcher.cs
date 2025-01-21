@@ -15,8 +15,9 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationOnStoneDestroyedPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationOnStoneDestroyedPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationOnStoneDestroyedPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.OnStoneDestroyed));
     }

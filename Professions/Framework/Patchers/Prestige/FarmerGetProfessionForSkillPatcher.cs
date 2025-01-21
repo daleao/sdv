@@ -12,8 +12,9 @@ internal sealed class FarmerGetProfessionForSkillPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmerGetProfessionForSkillPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmerGetProfessionForSkillPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmerGetProfessionForSkillPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Farmer>(nameof(Farmer.getProfessionForSkill));
     }

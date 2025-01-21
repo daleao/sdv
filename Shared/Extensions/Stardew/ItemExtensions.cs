@@ -17,7 +17,7 @@ public static class ItemExtensions
     public static bool IsArtisanGood(this Item item)
     {
         return item.Category is (int)ObjectCategory.ArtisanGoods or (int)ObjectCategory.Syrups ||
-               item.QualifiedItemId == QualifiedObjectIds.Coffee;
+               item.QualifiedItemId == QIDs.Coffee;
     }
 
     /// <summary>Determines whether the <paramref name="item"/> is Salmonberry or Blackberry.</summary>
@@ -105,8 +105,8 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is a Quartz, Fire Quartz, Frozen Tear or Earth Crystal, otherwise <see langword="false"/>.</returns>
     public static bool IsForagedMineral(this Item item)
     {
-        return item.QualifiedItemId is QualifiedObjectIds.Quartz or QualifiedObjectIds.FireQuartz or QualifiedObjectIds.FrozenTear
-            or QualifiedObjectIds.EarthCrystal;
+        return item.QualifiedItemId is QIDs.Quartz or QIDs.FireQuartz or QIDs.FrozenTear
+            or QIDs.EarthCrystal;
     }
 
     /// <summary>Determines whether the <paramref name="item"/> is a forage item typically found at the beach.</summary>
@@ -130,7 +130,7 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is twig, otherwise <see langword="false"/>.</returns>
     public static bool IsTwig(this Item item)
     {
-        return item.QualifiedItemId is QualifiedObjectIds.Twig0 or QualifiedObjectIds.Twig1;
+        return item.QualifiedItemId is QIDs.Twig0 or QIDs.Twig1;
     }
 
     /// <summary>Determines whether the <paramref name="item"/> is a weed.</summary>

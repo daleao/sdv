@@ -16,8 +16,9 @@ internal sealed class FishingRodStartMinigameEndFunctionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishingRodStartMinigameEndFunctionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishingRodStartMinigameEndFunctionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishingRodStartMinigameEndFunctionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.startMinigameEndFunction));
     }

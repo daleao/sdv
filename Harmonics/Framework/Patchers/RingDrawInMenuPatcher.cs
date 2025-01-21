@@ -18,8 +18,9 @@ internal sealed class RingDrawInMenuPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingDrawInMenuPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingDrawInMenuPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingDrawInMenuPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(
             nameof(Ring.drawInMenu),

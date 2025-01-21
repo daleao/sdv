@@ -11,22 +11,21 @@ using StardewValley;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="PathfinderRenderedWorldEvent"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="PathfinderOverlayRenderedWorldEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [Debug]
-internal sealed class PathfinderRenderedWorldEvent(EventManager manager)
+internal sealed class PathfinderOverlayRenderedWorldEvent(EventManager manager)
     : RenderedWorldEvent(manager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => false; //Pathfinder is not null;
+    public override bool IsEnabled => Pathfinder is not null;
 
-    internal static MTDStarLite? Pathfinder { get; set; }
+    internal static MovingTargetDStarLite? Pathfinder { get; set; }
 
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)
     {
-#if DEBUG
         if (Pathfinder!.Start is null || Pathfinder.Goal is null)
         {
             return;
@@ -41,13 +40,13 @@ internal sealed class PathfinderRenderedWorldEvent(EventManager manager)
                 Game1.tileSize - 8);
             r.X -= Game1.viewport.X;
             r.Y -= Game1.viewport.Y;
-            var color = state.IsGoal
+            var color = state == Pathfinder.Goal
                 ? Color.Blue
                 : Pathfinder.PathSet.Contains(state.Position)
                     ? Color.Green
-                    : !state.IsWalkable
-                        ? Color.Red
-                        : Color.Yellow;
+                    : state.IsWalkable
+                        ? Color.Yellow
+                        : Color.Red;
             r.Highlight(color * 0.2f, e.SpriteBatch);
 
             Utility.drawTinyDigits(
@@ -65,6 +64,5 @@ internal sealed class PathfinderRenderedWorldEvent(EventManager manager)
                 1f,
                 Color.White);
         }
-#endif
     }
 }

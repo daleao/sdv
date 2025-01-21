@@ -19,5 +19,7 @@ internal sealed class ProfessionsReturnedToTitleEvent(EventManager? manager = nu
     {
         this.Manager.Reset();
         PerScreenState.ResetAllScreens();
+        Pathfinder = null;
+        PathfinderAsync = null;
     }
 }

@@ -8,7 +8,6 @@ namespace DaLion.Ponds;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
 using DaLion.Shared.Extensions.SMAPI;
@@ -73,15 +72,21 @@ public sealed class PondsMod : Mod
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<PondsConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
         Data = new ModDataManager(UniqueId, Log);
         helper.Events.Content.AssetRequested += OnAssetRequested;
         helper.Events.GameLoop.DayStarted += OnDayStarted;
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;
         helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
-        CommandHandler.HandleAll(
+        Harmonizer.ApplyFromNamespace(
             assembly,
+            "DaLion.Ponds.Framework.Patchers",
+            helper.ModRegistry,
+            Log,
+            UniqueId);
+        CommandHandler.HandleFromNamespace(
+            assembly,
+            "DaLion.Ponds.Commands",
             helper.ConsoleCommands,
             Log,
             UniqueId,
@@ -112,7 +117,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.Seaweed, MinStack = 1, MaxStack = 1,
+                                Chance = 1f, ItemId = QIDs.Seaweed, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_seaweed"],
@@ -128,7 +133,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.GreenAlgae, MinStack = 1, MaxStack = 1,
+                                Chance = 1f, ItemId = QIDs.GreenAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_green_algae"],
@@ -144,7 +149,7 @@ public sealed class PondsMod : Mod
                         [
                             new FishPondReward
                             {
-                                Chance = 1f, ItemId = QualifiedObjectIds.WhiteAlgae, MinStack = 1, MaxStack = 1,
+                                Chance = 1f, ItemId = QIDs.WhiteAlgae, MinStack = 1, MaxStack = 1,
                             },
                         ],
                         RequiredTags = ["item_white_algae"],
@@ -158,15 +163,16 @@ public sealed class PondsMod : Mod
 
     private static void OnDayStarted(object? sender, DayStartedEventArgs e)
     {
-        var buildings = Game1.getFarm().buildings;
-        foreach (var building in buildings)
+        Utility.ForEachBuilding(building =>
         {
             if (building is FishPond pond && pond.IsOwnedBy(Game1.player) &&
                 !pond.isUnderConstruction())
             {
-                Data.Write(pond, DataKeys.CheckedToday, false.ToString());
+                Data.Write(pond, DataKeys.CheckedToday, true.ToString());
             }
-        }
+
+            return true; // continue enumeration
+        });
     }
 
     private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
@@ -179,12 +185,11 @@ public sealed class PondsMod : Mod
 
     private static void OnSaveLoaded(object? sender, SaveLoadedEventArgs e)
     {
-        var buildings = Game1.getFarm().buildings;
         Utility.ForEachBuilding(b =>
         {
             if (b is not FishPond pond)
             {
-                return true;
+                return true; // continue enumeration
             }
 
             if (pond.FishCount > 0 && string.IsNullOrEmpty(Data.Read(pond, DataKeys.PondFish)))
@@ -192,7 +197,7 @@ public sealed class PondsMod : Mod
                 pond.ResetPondFishData();
             }
 
-            return true;
+            return true; // continue enumeration
         });
 
         foreach (var data in Game1.objectData.Values)

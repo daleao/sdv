@@ -13,8 +13,9 @@ internal sealed class Game1OnFadeToBlackCompletePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="Game1OnFadeToBlackCompletePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal Game1OnFadeToBlackCompletePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal Game1OnFadeToBlackCompletePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Game1>("onFadeToBlackComplete");
     }

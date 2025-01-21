@@ -14,8 +14,9 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotAttachPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotAttachPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotAttachPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Tool>(nameof(Tool.attach));
     }
@@ -38,7 +39,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
             var bottom = __instance.attachments[1];
             if (o is not null)
             {
-                if (o.QualifiedItemId == QualifiedObjectIds.MonsterMusk)
+                if (o.QualifiedItemId == QIDs.MonsterMusk)
                 {
                     if (bottom is null)
                     {
@@ -46,7 +47,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                         __result = --o.Stack <= 0 ? null : o;
                         Game1.playSound("button1");
                     }
-                    else if (top is null && bottom.QualifiedItemId != QualifiedObjectIds.MonsterMusk)
+                    else if (top is null && bottom.QualifiedItemId != QIDs.MonsterMusk)
                     {
                         __instance.attachments[0] = (SObject)o.getOne();
                         (__instance.attachments[0], __instance.attachments[1]) =
@@ -118,7 +119,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                             __result = null;
                             Game1.playSound("button1");
                         }
-                        else if (bottom.QualifiedItemId == QualifiedObjectIds.MonsterMusk)
+                        else if (bottom.QualifiedItemId == QIDs.MonsterMusk)
                         {
                             __instance.attachments[0] = o;
                             __result = top;
@@ -141,13 +142,13 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                     __instance.attachments[0] = null;
                     Game1.playSound("button1");
                 }
-                else if (bottom is not null && bottom.QualifiedItemId != QualifiedObjectIds.MonsterMusk)
+                else if (bottom is not null && bottom.QualifiedItemId != QIDs.MonsterMusk)
                 {
                     __result = bottom;
                     __instance.attachments[1] = null;
                     Game1.playSound("button1");
                 }
-                else if (bottom?.QualifiedItemId == QualifiedObjectIds.MonsterMusk)
+                else if (bottom?.QualifiedItemId == QIDs.MonsterMusk)
                 {
                     Game1.playSound("cancel");
                 }

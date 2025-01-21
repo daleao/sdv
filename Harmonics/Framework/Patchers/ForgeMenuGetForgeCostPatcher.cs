@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Harmonics.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -16,8 +15,9 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuGetForgeCostPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ForgeMenuGetForgeCostPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ForgeMenuGetForgeCostPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.GetForgeCost));
     }
@@ -40,7 +40,7 @@ internal sealed class ForgeMenuGetForgeCostPatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        if (left.QualifiedItemId == InfinityBandId && right_item.QualifiedItemId == QualifiedObjectIds.GalaxySoul)
+        if (left.QualifiedItemId == InfinityBandId && right_item.QualifiedItemId == QIDs.GalaxySoul)
         {
             __result = 20;
             return false; // don't run original logic

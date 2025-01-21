@@ -7,7 +7,7 @@ using System.Linq;
 
 #endregion using directives
 
-/// <summary>Extensions for generic lists of objects.</summary>
+/// <summary>Extensions for generic <see cref="List{T}"/> of objects.</summary>
 public static class ListExtensions
 {
     /// <summary>Removes <see langword="null"/> references from the <paramref name="list"/>.</summary>
@@ -15,7 +15,7 @@ public static class ListExtensions
     /// <param name="list">A <see cref="List{T}"/> of <typeparamref name="T"/>s.</param>
     public static void RemoveWhereNull<T>(this List<T> list)
     {
-        list.RemoveAll(item => item == null);
+        list.RemoveAll(item => item is null);
     }
 
     /// <summary>Sorts the <paramref name="list"/> in reverse order.</summary>

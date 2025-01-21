@@ -212,8 +212,8 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             {
                                 var cheese = ItemRegistry.Create<SObject>(
                                     r.NextBool()
-                                        ? QualifiedObjectIds.Cheese
-                                        : QualifiedObjectIds.GoatCheese);
+                                        ? QIDs.Cheese
+                                        : QIDs.GoatCheese);
                                 location.debris.Add(
                                     new Debris(
                                         cheese,

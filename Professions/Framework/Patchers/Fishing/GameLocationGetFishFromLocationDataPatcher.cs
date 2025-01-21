@@ -9,7 +9,6 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewValley.Extensions;
 using StardewValley.GameData.Locations;
 using StardewValley.Internal;
 using StardewValley.Tools;
@@ -21,8 +20,9 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationGetFishFromLocationDataPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationGetFishFromLocationDataPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationGetFishFromLocationDataPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(
             nameof(GameLocation.GetFishFromLocationData),
@@ -69,8 +69,6 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
                             OpCodes.Call,
                             typeof(GameLocationGetFishFromLocationDataPatcher).RequireMethod(
                                 nameof(PassesPrestigedAnglerCheck))),
-                        new CodeInstruction(OpCodes.Pop),
-                        new CodeInstruction(OpCodes.Ldc_I4_0),
                         new CodeInstruction(OpCodes.Brfalse_S, disallowCatch),
                     ]);
         }
@@ -89,15 +87,7 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
 
     private static bool PassesPrestigedAnglerCheck(SpawnFishData spawn, Farmer who, FishingRod? rod)
     {
-        if (!spawn.IsBossFish || !who.HasProfession(Profession.Angler, true) || rod is null)
-        {
-            return false;
-        }
-
-        var chance = 0.05 * (1 + Utility.getStringCountInList(
-            rod.GetTackleQualifiedItemIDs(),
-            QualifiedObjectIds.CuriosityLure));
-        return Game1.random.NextBool(chance);
+        return spawn.IsBossFish && who.HasProfession(Profession.Angler, true) && rod is not null;
     }
 
     #endregion injections

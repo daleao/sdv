@@ -16,8 +16,9 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondSpawnFishPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondSpawnFishPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondSpawnFishPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>(nameof(FishPond.SpawnFish));
     }
@@ -59,7 +60,8 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             if (Data.Read(pond, DataKeys.PondFish).Split(';').Length != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
-                    "Mismatch between algae population data and actual population.");
+                    $"Mismatch between algae population data and actual population:" +
+                    $"\n\t- Population: {pond.FishCount}\n\t- Data: {Data.Read(pond, DataKeys.PondFish)}");
             }
         }
         catch (InvalidDataException ex)
@@ -85,7 +87,8 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             if (Data.Read(pond, DataKeys.PondFish).Split(';').Length != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
-                    "Mismatch between algae population data and actual population.");
+                    $"Mismatch between fish population data and actual population:" +
+                    $"\n\t- Population: {pond.FishCount}\n\t- Data: {Data.Read(pond, DataKeys.PondFish)}");
             }
         }
         catch (InvalidDataException ex)

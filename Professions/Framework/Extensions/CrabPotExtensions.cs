@@ -71,7 +71,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magnet, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagnet(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.QualifiedItemId == QualifiedObjectIds.MagnetBait;
+        return crabPot.bait.Value?.QualifiedItemId == QIDs.MagnetBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using wild bait.</summary>
@@ -79,7 +79,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Wild Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasWildBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.QualifiedItemId == QualifiedObjectIds.WildBait;
+        return crabPot.bait.Value?.QualifiedItemId == QIDs.WildBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using magic bait.</summary>
@@ -87,7 +87,7 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Magic Bait, otherwise <see langword="false"/>.</returns>
     internal static bool HasMagicBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value?.QualifiedItemId == QualifiedObjectIds.MagicBait;
+        return crabPot.bait.Value?.QualifiedItemId == QIDs.MagicBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> is using specific fish bait.</summary>
@@ -280,7 +280,7 @@ internal static class CrabPotExtensions
         string? baitTargetFish = null;
         if (bait is not null)
         {
-            if (bait.QualifiedItemId is QualifiedObjectIds.DeluxeBait or QualifiedObjectIds.WildBait)
+            if (bait.QualifiedItemId is QIDs.DeluxeBait or QIDs.WildBait)
             {
                 chanceForJunk /= 2d;
             }
@@ -361,10 +361,10 @@ internal static class CrabPotExtensions
         Utility.Shuffle(r, keys);
         foreach (var key in keys)
         {
-            if ((key == QualifiedWeaponIds.BrokenTrident && owner.specialItems.Contains(QualifiedWeaponIds.BrokenTrident)) ||
-                (key == QualifiedWeaponIds.NeptuneGlaive && owner.specialItems.Contains(QualifiedWeaponIds.NeptuneGlaive)) ||
-                (key == QualifiedObjectIds.QiBean && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) ||
-                (key == QualifiedObjectIds.IridiumOre && !owner.hasSkullKey))
+            if ((key == QIDs.BrokenTrident && owner.specialItems.Contains(QIDs.BrokenTrident)) ||
+                (key == QIDs.NeptuneGlaive && owner.specialItems.Contains(QIDs.NeptuneGlaive)) ||
+                (key == QIDs.QiBean && !owner.team.SpecialOrderRuleActive("DROP_QI_BEANS")) ||
+                (key == QIDs.IridiumOre && !owner.hasSkullKey))
             {
                 continue;
             }
@@ -415,7 +415,7 @@ internal static class CrabPotExtensions
             }
         }
 
-        if (crabPot.bait.Value is { QualifiedItemId: QualifiedObjectIds.DeluxeBait })
+        if (crabPot.bait.Value is { QualifiedItemId: QIDs.DeluxeBait })
         {
             quality = quality.Increment();
             if (isLuremaster)
@@ -469,17 +469,17 @@ internal static class CrabPotExtensions
             case IslandSouth:
             case IslandWest:
             case Farm when Game1.whichFarm == Farm.beach_layout:
-                trash = QualifiedObjectIds.Seaweed;
+                trash = QIDs.Seaweed;
                 break;
             case MineShaft:
             case Sewer:
             case BugLand:
-                trash = r.Next(2) == 0 ? QualifiedObjectIds.GreenAlgae : QualifiedObjectIds.WhiteAlgae;
+                trash = r.Next(2) == 0 ? QIDs.GreenAlgae : QIDs.WhiteAlgae;
                 break;
             default:
                 trash = location.Name == "WitchSwamp"
-                    ? r.Next(2) == 0 ? QualifiedObjectIds.GreenAlgae : QualifiedObjectIds.WhiteAlgae
-                    : QualifiedObjectIds.GreenAlgae;
+                    ? r.Next(2) == 0 ? QIDs.GreenAlgae : QIDs.WhiteAlgae
+                    : QIDs.GreenAlgae;
                 break;
         }
 

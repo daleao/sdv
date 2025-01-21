@@ -23,8 +23,9 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
     protected override void OnEnabled()
     {
         var player = Game1.player;
-        if (player.CurrentTool is not MeleeWeapon weapon || State.QueuedHitStep == ComboHitStep.Idle)
+        if (player?.CurrentTool is not MeleeWeapon weapon || State.QueuedHitStep == ComboHitStep.Idle)
         {
+            this.Disable();
             return;
         }
 
@@ -34,6 +35,11 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
+        if (Game1.activeClickableMenu is not null)
+        {
+            return;
+        }
+
         State.ComboCooldown -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
         if (State.ComboCooldown > 0)
         {

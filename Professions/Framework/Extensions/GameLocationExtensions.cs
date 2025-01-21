@@ -116,4 +116,31 @@ internal static class GameLocationExtensions
         var digSpot = new Location((int)x * Game1.tileSize, (int)y * Game1.tileSize);
         location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;
     }
+
+    /// <summary>Determines whether the local player is eligible to respec Prestige choices for the skill with the specified <paramref name="skillIndex"/>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="skillIndex">The index of the skill.</param>
+    /// <returns><see langword="true"/> if the player is eligible to respec Prestige choices for the skill with the specified <paramref name="skillIndex"/>, otherwise <see langword="false"/>.</returns>
+    /// <remarks>This method is here to mimic the vanilla <seealso cref="GameLocation.canRespec"/>, though neither makes use of the <paramref name="location"/> parameter.</remarks>
+    internal static bool CanRespecPrestiged(this GameLocation location, int skillIndex)
+    {
+        if (!ShouldEnablePrestigeLevels)
+        {
+            return false;
+        }
+
+        var player = Game1.player;
+        var skill = Skill.FromValue(skillIndex);
+        if (!ShouldEnableSkillReset && (!skill.CanGainPrestigeLevels() || skill.CurrentLevel < 15))
+        {
+            return false;
+        }
+
+        return skill.CurrentLevel >= 15 &&
+               !player.newLevels.Contains(new Point(skillIndex, 15)) &&
+               !player.newLevels.Contains(new Point(skillIndex, 20)) &&
+               (!ShouldEnableSkillReset || player.professions
+                   .Intersect(((ISkill)skill).TierTwoProfessionIds)
+                   .Count() > 1);
+    }
 }

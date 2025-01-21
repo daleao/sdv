@@ -21,6 +21,6 @@ internal sealed class MasteryWarningCursorMovedEvent(EventManager? manager = nul
     /// <inheritdoc />
     protected override void OnCursorMovedImpl(object? sender, CursorMovedEventArgs e)
     {
-        State.WarningBox!.performHoverAction(Game1.getMouseX(), Game1.getMouseY());
+        State.WarningBox!.performHoverAction(Game1.getMouseX(true), Game1.getMouseY(true));
     }
 }

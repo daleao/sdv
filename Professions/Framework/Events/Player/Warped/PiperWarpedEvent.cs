@@ -2,14 +2,12 @@
 
 #region using directives
 
-using DaLion.Core;
+using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Extensions.Xna;
-using GameLoop.OneSecondUpdateTicket;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
@@ -23,7 +21,16 @@ using StardewValley.Monsters;
 internal sealed class PiperWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    private static readonly Func<int, double> _pipeChance = x => 29f / (x + 28f);
+    private static readonly Func<Vector2, GameLocation, bool> IsMineShaftTileSpawnable = (tile, location) =>
+        location.CanSpawnCharacterHere(tile) && location is MineShaft shaft &&
+        shaft.isTileClearForMineObjects(tile) && !shaft.IsTileOccupiedBy(tile);
+
+    private static readonly Func<Vector2, GameLocation, bool> IsVolcanoDungeonTileSpawnable = (tile, location) =>
+        location.CanSpawnCharacterHere(tile) && location is VolcanoDungeon volcano &&
+        volcano.isTileClearForMineObjects(tile) && !volcano.IsTileOccupiedBy(tile);
+
+    private static readonly Func<Vector2, GameLocation, bool> IsLocationTileSpawnable = (tile, location) =>
+        location.CanSpawnCharacterHere(tile) && !location.IsTileOccupiedBy(tile);
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);
@@ -36,110 +43,90 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
             return;
         }
 
-        var newLocation = e.NewLocation;
-        var isEnemyArea = newLocation.IsEnemyArea();
-        var areEnemiesAround = CoreMod.State.AreEnemiesNearby && newLocation is not SlimeHutch;
-        if (!e.NewLocation.Name.ContainsAnyOf("Mine", "SkullCave") && !isEnemyArea && !areEnemiesAround)
-        {
-            this.Manager.Enable<PipedOneSecondUpdateTickedEvent>();
-        }
-
         var piper = e.Player;
-        var mapWidth = newLocation.Map.Layers[0].LayerWidth;
-        var mapHeight = newLocation.Map.Layers[0].LayerHeight;
-        for (var i = 0; i < 2; i++)
+        var newLocation = e.NewLocation;
+        var toDangerZone = newLocation.IsEnemyArea() || newLocation.Name.ContainsAnyOf("Mine", "SkullCave");
+        if (!toDangerZone)
         {
-            if (State.AlliedSlimes[i] is not { } piped)
+            this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
+            if (!newLocation.IsOutdoors)
             {
-                continue;
+                return;
             }
 
-            var spawnTile = piper.Tile
-                .GetEightNeighbors(mapWidth, mapHeight)
-                .Where(newLocation.CanSpawnCharacterHere)
-                .Choose();
-            Game1.warpCharacter(piped.Instance, e.NewLocation, spawnTile);
-            piped.FakeFarmer.currentLocation = e.NewLocation;
-            piped.FakeFarmer.Position = spawnTile * Game1.tileSize;
-            piped.Instance.ResetIncrementalPathfinder();
-            piped.Instance.Set_CurrentStep(null);
-        }
+            foreach (var (_, piped) in GreenSlime_Piped.Values)
+            {
+                piped.WarpToPiper();
+            }
 
-        if (!isEnemyArea || !areEnemiesAround || newLocation is MineShaft { isSlimeArea: true })
-        {
             return;
         }
 
-        var r = new Random();
-        var numberRaised = piper.CountRaisedSlimes();
-        var spawned = 0;
-        while (!r.NextBool(_pipeChance(numberRaised)))
+        var oldLocation = e.OldLocation;
+        var fromDangerZone = oldLocation.IsEnemyArea() || oldLocation.Name.ContainsAnyOf("Mine", "SkullCave");
+        if (!fromDangerZone)
         {
-            var x = r.Next(e.NewLocation.Map.Layers[0].LayerWidth);
-            var y = r.Next(e.NewLocation.Map.Layers[0].LayerHeight);
-            var spawnTile = new Vector2(x, y);
-
-            if (!e.NewLocation.isTileOnMap(spawnTile) || !e.NewLocation.CanSpawnCharacterHere(spawnTile))
-            {
-                continue;
-            }
-
-            if (e.NewLocation is MineShaft shaft)
-            {
-                shaft.checkForMapAlterations(x, y);
-                if (!shaft.isTileClearForMineObjects(spawnTile))
-                {
-                    continue;
-                }
-            }
-
-            GreenSlime slime;
-            switch (e.NewLocation)
-            {
-                case MineShaft shaft2:
-                {
-                    slime = new GreenSlime(default, shaft2.mineLevel);
-                    if (shaft2.GetAdditionalDifficulty() > 0 &&
-                        r.NextDouble() < Math.Min(shaft2.GetAdditionalDifficulty() * 0.1f, 0.5f))
-                    {
-                        slime.stackedSlimes.Value = r.NextDouble() < 0.0099999997764825821 ? 4 : 2;
-                    }
-
-                    shaft2.BuffMonsterIfNecessary(slime);
-                    break;
-                }
-
-                case Woods:
-                {
-                    slime = Game1.currentSeason switch
-                    {
-                        "fall" => new GreenSlime(default, r.NextDouble() < 0.5 ? 40 : 0),
-                        "winter" => new GreenSlime(default, 40),
-                        _ => new GreenSlime(default, 0),
-                    };
-                    break;
-                }
-
-                case VolcanoDungeon:
-                {
-                    slime = new GreenSlime(default, 0);
-                    slime.makeTigerSlime();
-                    break;
-                }
-
-                default:
-                {
-                    slime = new GreenSlime(default, 121);
-                    break;
-                }
-            }
-
-            slime.Position = spawnTile * Game1.tileSize;
-            slime.currentLocation = newLocation;
-            newLocation.characters.Add(slime);
-            spawned++;
+            SpawnMinions(piper, newLocation);
         }
 
-        Log.D($"Successfully spawned {spawned} Slimes.");
+        foreach (var (_, piped) in GreenSlime_Piped.Values)
+        {
+            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
+            {
+                piped.WarpToPiper();
+            }
+        }
+    }
+
+    private static void SpawnMinions(Farmer piper, GameLocation location)
+    {
+        var numberRaised = piper.CountRaisedSlimes();
+        var toSpawn = numberRaised / 10;
+        var r = new Random(Guid.NewGuid().GetHashCode());
+        for (var i = 0; i < toSpawn; i++)
+        {
+            var condition = location switch
+            {
+                MineShaft => IsMineShaftTileSpawnable,
+                VolcanoDungeon => IsVolcanoDungeonTileSpawnable,
+                _ => IsLocationTileSpawnable,
+            };
+
+            var spawnTile = piper.CountPipedSlimes() < 8
+                ? piper.ChooseFromEightNeighboringTiles(condition, location)
+                : piper.ChooseFromTwentyFourNeighboringTiles(condition, location);
+            var toBeCloned = piper.GetRaisedSlimes().Choose(r);
+            var spawn = new GreenSlime(spawnTile * Game1.tileSize, toBeCloned.color.Value)
+            {
+                currentLocation = location,
+                Health = toBeCloned.Health,
+                DamageToFarmer = toBeCloned.DamageToFarmer,
+                resilience = { Value = toBeCloned.resilience.Value },
+            };
+
+            spawn.MaxHealth = spawn.Health;
+            switch (toBeCloned.Name)
+            {
+                case "Tiger Slime":
+                    spawn.makeTigerSlime(onlyAppearance: true);
+                    break;
+                case "Gold Slime":
+                    spawn.MakeGoldSlime();
+                    break;
+                default:
+                {
+                    if (toBeCloned.prismatic.Value)
+                    {
+                        spawn.prismatic.Value = true;
+                        spawn.Name = "Prismatic Slime";
+                    }
+
+                    break;
+                }
+            }
+
+            location.characters.Add(spawn);
+            spawn.Set_Piped(piper);
+        }
     }
 }

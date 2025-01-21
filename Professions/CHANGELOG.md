@@ -5,28 +5,77 @@
 ### Added
 
 * Added compatibility for SVE Premium Barn and Coop.
+* Added a config option to lock skill Mastery before fully obtaining all professions.
+* Added simple Slime breeding mechanic via Slime IVs and stat inheritance, to support reworked Slimed Piper (see below). In the vanilla game, a Slime always inherits the stats of the male parent (even though there is code for choosing from either parent, the game then immediately overrides that with the male parent's stat value). This is now removed and replaced with an IV system similar to Pokémon.
+    * Every Slime is assigned an IV (Individual Value) between 0 and 10 for each of Attack, Defense and Health.
+    * IVs grant a multiplicative bonus to the corresponding stat (x2 at 10).
+    * First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
+    * IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 1 value higher than the parent's. This guarantees that IVs will eventually converge to 10 after several generations.
+    * Baby Slime stats are no longer determined by the species (Green Slime, Frost Jelly or Sludge) as determined by game data; stats are always inherited from parents. This allows any Slime color to be raised effectively to maximum stats.
+    * Purple Slimes still have the highest base stats, so you'll want to breed them in somewhere to get the highest stats, before then breeding for a specific color.
+    * The Slimed Piper profession will grant benefits for each variety of Slime. This new feature is therefore intended to support the Slimed Piper profession.
+    * Added special Slime variants that can be obtained by breeding:
+      * Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e. try to Red and Green Slimes).
+      * Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
+* Added config option to show/hide minion health.
 
 ### Changed
 
 * Reworked Cavewarden:
   * Removed: Increased chance to find treasure and safe rooms.
   * Changed: Chance to resurface unclaimed mining debris is now dynamic, starting at ~10% and increasing with each mine level until ~100% at Skull Caverns floor 200, instead of a constant 50%.
-  * Added: Once per day, revive at the last safe room.
+  * Added: Once per day, revive at the last-visited safe room.
 * Reworked Demolitionist:
   * Manual bomb detonation is now a much more usable toggle (double tap Mod key), instead of requiring the Mod key be held.
-* Reworked Slimed Piper:
-  * Changed: Slimes are no longer tamed automatically. Slime taming is now an active ability (double press and hold the Mod key) and has a chance to fail. Success depends on the number of raised Slimes and failure causes the Slime to become enraged.
-  * Added: The Slimed debuff now grants a healing over time. The Slime Charmer ring has also been reworked to prevent Slime damage but not the debuff.
+* Reworked Slimed Piper: now works more like a Necromancer than a Beast Tamer archetype, which means you command an army of disposable Slimes instead of micromanaging a single stronger Slime. 
+  * No longer tames wild Slimes.
+  * Ally Slimes are now spawned in based on the number of raised Slimes, at the rate of 1 ally Slime per 10 raised Slimes.
+  * Ally Slimes are picked at random from amongst your pool of raised Slimes. Players are therefore encouraged to raise stronger Slimes (Purple Slimes, Tiger Slimes).
+    * Added special Gold Slime variant. Piper players can breed Gold and Prismatic Slime variants under special conditions. 
+  * When an ally Slime is defeated, it respawns automatically after a short while.
+  * All ally Slimes are now immune to player-inflicted damage.
+  * Ally Slimes no longer pick up items, but you can offer a hat to one of your Slimes to convert it into a pickup mule.
+  * A hat-wearing Slime will not participate in combat and cannot be defeated.
+  * You can interact with your hat-wearing Slime at any moment to open its inventory (as long as it has any items).
+  * To dismiss a hat-wearing Slime, simply remove its hat. If dismissed while carrying items, those items will be permanently deleted.
+  * Items picked up by hat-wearing Slimes will be sent to the player's inventory if they already have a stack of that same item. Only if this attempt fails, the item will be placed in the Slime's own inventory.
+  * Slime's inventory capacity increased from 10 to 12 slots.
+    * Ally Slimes will only follow you into dungeons. A hat-wearing Slime can follow you anywhere except indoors (effectively a backpack upgrade).
+  * Slime pathfinding is now multithreaded and async by default, which should improve performance in most systems. Added config option to disable async in case of issues~~~~~~~~~~~~~~~~.
+  * **Limit Break:**
+    * Inflates all Slimes within reach, both ally and wild.
+    * When the effect ends, ally Slimes deflate back to normal. Wild Slimes burst instead.
+    * When activated, Big Slimes will now burst *first*, releasing baby Slimes that are immediately inflated as well.
+    * Lasts 15s.
 * Reworked Slime Conductor:
-  * Added: The Slimed debuff additionally grants unlimited use of special move.
-* Tamed Slimes will no longer simply disappear when you leave a combat area. Instead, they will warp with you, and then burst after a few second, releasing the contents of their inventory. 
+  * Removed: Tame one additional ally Slime.
+  * Added: Ally Slimes gain one special ability based on color:
+    * **Green:** Causes Slimed debuff.
+    * **Blue:** Causes Chilled/Frozen debuff.
+    * **Red/Purple:** Causes Burn debuff.
+    * **Black:** Chance to transform enemies into Void Essence.
+    * **White:** Grants an aura that heals a low amount of health over time.
+    * **Gold:** Causes nearby enemies to drop gold (100g per kill).
+    * **Prismatic:** Causes nearby enemies to drop Prismatic Shard.
+  * Renamed to Prismarch / Prismatrice.
 * Tapper recipe cost reduction increased to 50%.
+* Changed Luremaster extra catch probability to a proper cumulative Gaussian distribution instead of whatever linear function was used before. 
 
 ### Fixed
 
-* Fixed an issue where Angler's second tackle memory was incorrectly set to a Leek.
+* Fixed an issue where Angler's second tackle memory was incorrectly being set to a Leek.
 * Fixed an issue where Angler's first tackle memory was consumed once while recording the second tackle memory.
 * Fixed an issue where Angler's tackle memory would not be consumed if no tackle were equipped.
+* Fixed Legendary fish having 0% catch rate even with Rodmancer profession.
+* Fixed gamepad support for the Mastery confirmation dialogue box.
+* Fixed an issue with Mastery confirmation ignoring UI zoom level.
+* Fixed an issue where disabling Prestige Levels did nothing.
+* Fixed a Null-Reference Exception in Ecologist tree shake logic.
+* Fixed an error with the Piper-modified Slime Hutch map.
+* Fixed an issue preventing regular profession change at the Statue of Uncertainty when Skill Reset is disabled.
+* Fixed invalid `set gemologist` and `set ecologist` console commands.
+* Fixed foraged minerals not receiving Gemologist quality.
+* Fixed a potential issue where inflated Slimes would not deflate properly.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

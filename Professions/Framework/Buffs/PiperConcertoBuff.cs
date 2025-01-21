@@ -14,8 +14,8 @@ using StardewValley.Monsters;
 internal sealed class PiperConcertoBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Concerto";
-    private const int BASE_DURATION = 30_000;
-    private const int SHEET_INDEX = 53;
+    internal const int BASE_DURATION_MS = 15_000;
+    internal const int SHEET_INDEX = 53;
 
     internal PiperConcertoBuff()
         : base(
@@ -24,25 +24,16 @@ internal sealed class PiperConcertoBuff : Buff
             displaySource: Game1.player.IsMale ? I18n.Piper_Limit_Title_Male() : I18n.Piper_Limit_Title_Female(),
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
-            duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            duration: (int)(BASE_DURATION_MS * LimitBreak.DurationMultiplier),
             description: I18n.Piper_Limit_Desc())
     {
         this.glow = Color.LimeGreen;
     }
 
+    /// <inheritdoc />
     public override void OnAdded()
     {
         SoundBox.PiperProvoke.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
-        foreach (var character in Game1.player.currentLocation.characters)
-        {
-            if (character is not GreenSlime slime || !slime.IsCharacterWithinThreshold() || slime.Scale >= 2f)
-            {
-                continue;
-            }
-
-            slime.Set_Piped(Game1.player, BASE_DURATION);
-            slime.focusedOnFarmers = true;
-        }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
         for (var i = bigSlimes.Count - 1; i >= 0; i--)
@@ -65,6 +56,29 @@ internal sealed class PiperConcertoBuff : Buff
             }
         }
 
-        EventManager.Enable<SlimeInflationUpdateTickedEvent>();
+        foreach (var character in Game1.player.currentLocation.characters)
+        {
+            if (character is GreenSlime slime && slime.IsCharacterWithinThreshold() && slime.Get_Piped() is null)
+            {
+                slime.Set_Piped(Game1.player, false);
+            }
+        }
+
+        EventManager.Enable(
+            typeof(SlimeInflationUpdateTickedEvent),
+            typeof(ConcertoBuffCountdownUpdateTickedEvent));
+    }
+
+    /// <inheritdoc />
+    public override void OnRemoved()
+    {
+        EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
+        foreach (var (_, piped) in GreenSlime_Piped.Values)
+        {
+            if (!piped.IsSummoned)
+            {
+                piped.Burst();
+            }
+        }
     }
 }

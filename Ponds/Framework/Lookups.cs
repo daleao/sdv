@@ -12,16 +12,16 @@ internal static class Lookups
     /// <summary>Gets a map from a legendary fish ID to that of its corresponding extended family pair.</summary>
     internal static Dictionary<string, string> FamilyPairs { get; } = new()
     {
-        { QualifiedObjectIds.Crimsonfish, QualifiedObjectIds.SonOfCrimsonfish },
-        { QualifiedObjectIds.Angler, QualifiedObjectIds.MsAngler },
-        { QualifiedObjectIds.Legend, QualifiedObjectIds.LegendII },
-        { QualifiedObjectIds.MutantCarp, QualifiedObjectIds.RadioactiveCarp },
-        { QualifiedObjectIds.Glacierfish, QualifiedObjectIds.GlacierfishJr },
-        { QualifiedObjectIds.SonOfCrimsonfish, QualifiedObjectIds.Crimsonfish },
-        { QualifiedObjectIds.MsAngler, QualifiedObjectIds.Angler },
-        { QualifiedObjectIds.LegendII, QualifiedObjectIds.Legend },
-        { QualifiedObjectIds.RadioactiveCarp, QualifiedObjectIds.MutantCarp },
-        { QualifiedObjectIds.GlacierfishJr, QualifiedObjectIds.Glacierfish },
+        { QIDs.Crimsonfish, QIDs.SonOfCrimsonfish },
+        { QIDs.Angler, QIDs.MsAngler },
+        { QIDs.Legend, QIDs.LegendII },
+        { QIDs.MutantCarp, QIDs.RadioactiveCarp },
+        { QIDs.Glacierfish, QIDs.GlacierfishJr },
+        { QIDs.SonOfCrimsonfish, QIDs.Crimsonfish },
+        { QIDs.MsAngler, QIDs.Angler },
+        { QIDs.LegendII, QIDs.Legend },
+        { QIDs.RadioactiveCarp, QIDs.MutantCarp },
+        { QIDs.GlacierfishJr, QIDs.Glacierfish },
         { "MNF.MoreNewFish_tui", "MNF.MoreNewFish_la" },
         { "MNF.MoreNewFish_la", "MNF.MoreNewFish_tui" },
     };

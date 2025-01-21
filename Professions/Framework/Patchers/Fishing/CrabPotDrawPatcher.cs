@@ -17,8 +17,9 @@ internal sealed class CrabPotDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CrabPotDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal CrabPotDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal CrabPotDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<CrabPot>(
             nameof(CrabPot.draw),

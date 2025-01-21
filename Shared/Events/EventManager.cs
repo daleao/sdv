@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
@@ -28,19 +29,21 @@ public sealed class EventManager
     /// <inheritdoc cref="IModRegistry"/>
     private readonly IModRegistry _modRegistry;
 
+    /// <inheritdoc cref="Logger"/>
+    private readonly Logger _log;
+
     /// <summary>Initializes a new instance of the <see cref="EventManager"/> class.</summary>
     /// <param name="modEvents">The <see cref="IModEvents"/> API for the current mod.</param>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="logger">A <see cref="Logger"/> instance.</param>
-    public EventManager(IModEvents modEvents, IModRegistry modRegistry, Logger logger)
+    /// <param name="commandHandler">An optional <see cref="CommandHandler"/> instance to help with debugging events.</param>
+    public EventManager(IModEvents modEvents, IModRegistry modRegistry, Logger logger, CommandHandler? commandHandler = null)
     {
         this._modRegistry = modRegistry;
-        this.Log = logger;
+        this._log = logger;
         this.ModEvents = modEvents;
+        commandHandler?.Handle(new ListEventsCommand(commandHandler, this));
     }
-
-    /// <inheritdoc cref="Logger"/>
-    public Logger Log { get; }
 
     /// <inheritdoc cref="IModEvents"/>
     public IModEvents ModEvents { get; }
@@ -65,7 +68,7 @@ public sealed class EventManager
     public void Manage(IManagedEvent @event)
     {
         this._eventCache.Add(@event.GetType(), @event);
-        this.Log.D($"[EventManager]: Now managing {@event.GetType().Name}.");
+        this._log.D($"[EventManager]: Now managing {@event.GetType().Name}.");
     }
 
     /// <summary>Adds an instance of type <typeparamref name="TEvent"/> to the cache.</summary>
@@ -87,16 +90,18 @@ public sealed class EventManager
         }
 
         this._eventCache.AddOrUpdate(typeof(TEvent), @event);
-        this.Log.D($"[EventManager]: Now managing {typeof(TEvent).Name}.");
+        this._log.D($"[EventManager]: Now managing {typeof(TEvent).Name}.");
     }
 
     /// <summary>Implicitly manages all <see cref="IManagedEvent"/> types in the specified <paramref name="assembly"/>> using reflection.</summary>
     /// <param name="assembly">The assembly containing the types.</param>
+    /// <param name="namespace">The desired namespace.</param>
     /// <returns>The <see cref="EventManager"/> instance.</returns>
-    public EventManager ManageInitial(Assembly assembly)
+    public EventManager ManageInitial(Assembly assembly, string? @namespace = null)
     {
-        this.Log.D("[EventManager]: Gathering all events...");
+        this._log.D("[EventManager]: Gathering all events...");
         this.ManageImplicitly(assembly, t =>
+            @namespace is null || t.Namespace?.StartsWith(@namespace) == true ||
             t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(FirstSecondUpdateTickedEvent), typeof(SecondSecondUpdateTickedEvent)) ||
             t.HasAttribute<AlwaysEnabledEventAttribute>() ||
             t.GetProperty(nameof(IManagedEvent.IsEnabled))!.DeclaringType == t);
@@ -108,7 +113,7 @@ public sealed class EventManager
     /// <returns>The <see cref="EventManager"/> instance.</returns>
     public EventManager ManageAll(Assembly assembly)
     {
-        this.Log.D("[EventManager]: Gathering all events...");
+        this._log.D("[EventManager]: Gathering all events...");
         this.ManageImplicitly(assembly);
         return this;
     }
@@ -119,8 +124,8 @@ public sealed class EventManager
     /// <returns>The <see cref="EventManager"/> instance.</returns>
     public EventManager ManageNamespace(Assembly assembly, string @namespace)
     {
-        this.Log.D($"[EventManager]: Gathering events in {@namespace}...");
-        this.ManageImplicitly(assembly, t => t.Namespace?.Contains(@namespace) == true);
+        this._log.D($"[EventManager]: Gathering events in {@namespace}...");
+        this.ManageImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true);
         return this;
     }
 
@@ -131,7 +136,7 @@ public sealed class EventManager
     public EventManager ManageWithAttribute<TAttribute>(Assembly assembly)
         where TAttribute : Attribute
     {
-        this.Log.D($"[EventManager]: Gathering events with {nameof(TAttribute)}...");
+        this._log.D($"[EventManager]: Gathering events with {nameof(TAttribute)}...");
         this.ManageImplicitly(assembly, t => t.HasAttribute<TAttribute>());
         return this;
     }
@@ -142,13 +147,13 @@ public sealed class EventManager
     {
         if (!this._eventCache.TryGetValue(@event.GetType(), out var managed) || !ReferenceEquals(managed, @event))
         {
-            this.Log.D($"[EventManager]:{@event.GetType().Name} was not being managed.");
+            this._log.D($"[EventManager]:{@event.GetType().Name} was not being managed.");
             return;
         }
 
         @event.Dispose();
         this._eventCache.Remove(@event.GetType());
-        this.Log.D($"[EventManager]: No longer managing {@event.GetType().Name}.");
+        this._log.D($"[EventManager]: No longer managing {@event.GetType().Name}.");
     }
 
     /// <summary>Disposes an event of type <typeparamref name="TEvent"/>, if any exist.</summary>
@@ -164,7 +169,7 @@ public sealed class EventManager
     {
         this._eventCache.ForEach(pair => pair.Value.Dispose());
         this._eventCache.Clear();
-        this.Log.D("[EventManager]: No longer managing any events.");
+        this._log.D("[EventManager]: No longer managing any events.");
     }
 
     /// <summary>Disposes all <see cref="IManagedEvent"/> instances belonging to the specified namespace and removes them from the cache.</summary>
@@ -173,7 +178,7 @@ public sealed class EventManager
     {
         var toUnmanage = this.GetAllForNamespace(@namespace).ToList();
         toUnmanage.ForEach(this.Unmanage);
-        this.Log.D($"[EventManager]: No longer managing events in {@namespace}.");
+        this._log.D($"[EventManager]: No longer managing events in {@namespace}.");
     }
 
     /// <summary>Disposes all <see cref="IManagedEvent"/> instances with the specified attribute type.</summary>
@@ -183,7 +188,7 @@ public sealed class EventManager
     {
         var toUnmanage = this.GetAllWithAttribute<TAttribute>().ToList();
         toUnmanage.ForEach(this.Unmanage);
-        this.Log.D($"[EventManager]: No longer managing events with {nameof(TAttribute)}.");
+        this._log.D($"[EventManager]: No longer managing events with {nameof(TAttribute)}.");
     }
 
     /// <summary>Enable a single <see cref="IManagedEvent"/>.</summary>
@@ -193,11 +198,11 @@ public sealed class EventManager
     {
         if (this.GetOrCreate(eventType)?.Enable() == true)
         {
-            this.Log.D($"[EventManager]: Enabled {eventType.Name}.");
+            this._log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
         }
 
-        this.Log.D($"[EventManager]: {eventType.Name} was not enabled.");
+        this._log.D($"[EventManager]: {eventType.Name} was not enabled.");
         return false;
     }
 
@@ -228,11 +233,11 @@ public sealed class EventManager
     {
         if (this.GetOrCreate(eventType)?.EnableForScreen(screenId) == true)
         {
-            this.Log.D($"[EventManager]: Enabled {eventType.Name}.");
+            this._log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
         }
 
-        this.Log.D($"[EventManager]: {eventType.Name} was not enabled.");
+        this._log.D($"[EventManager]: {eventType.Name} was not enabled.");
         return false;
     }
 
@@ -262,7 +267,7 @@ public sealed class EventManager
     public void EnableForAllScreens(Type eventType)
     {
         this.GetOrCreate(eventType)?.EnableForAllScreens();
-        this.Log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
+        this._log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
     }
 
     /// <summary>Enables the specified <see cref="IManagedEvent"/> types for the specified screen.</summary>
@@ -290,11 +295,11 @@ public sealed class EventManager
     {
         if (this.GetOrCreate(eventType)?.Disable() == true)
         {
-            this.Log.D($"[EventManager]: Disabled {eventType.Name}.");
+            this._log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;
         }
 
-        this.Log.D($"[EventManager]: {eventType.Name} was not disabled.");
+        this._log.D($"[EventManager]: {eventType.Name} was not disabled.");
         return false;
     }
 
@@ -325,11 +330,11 @@ public sealed class EventManager
     {
         if (this.GetOrCreate(eventType)?.DisableForScreen(screenId) == true)
         {
-            this.Log.D($"[EventManager]: Disabled {eventType.Name}.");
+            this._log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;
         }
 
-        this.Log.D($"[EventManager]: {eventType.Name} was not disabled.");
+        this._log.D($"[EventManager]: {eventType.Name} was not disabled.");
         return false;
     }
 
@@ -359,7 +364,7 @@ public sealed class EventManager
     public void DisableForAllScreens(Type eventType)
     {
         this.GetOrCreate(eventType)?.DisableForAllScreens();
-        this.Log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
+        this._log.D($"[EventManager]: Enabled {eventType.Name} for all screens.");
     }
 
     /// <summary>Disables the specified <see cref="IManagedEvent"/>s for the specified screen.</summary>
@@ -387,7 +392,7 @@ public sealed class EventManager
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract)
             .Count(this.Enable);
-        this.Log.D($"[EventManager]: Enabled {count} events.");
+        this._log.D($"[EventManager]: Enabled {count} events.");
     }
 
     /// <summary>Disables all <see cref="IManagedEvent"/>s.</summary>
@@ -397,7 +402,7 @@ public sealed class EventManager
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract)
             .Count(this.Disable);
-        this.Log.D($"[EventManager]: Disabled {count} events.");
+        this._log.D($"[EventManager]: Disabled {count} events.");
     }
 
     /// <summary>Enables all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="TAttribute"/>.</summary>
@@ -409,7 +414,7 @@ public sealed class EventManager
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && t.HasAttribute<TAttribute>())
             .Count(this.Enable);
-        this.Log.D($"[EventManager]: Enabled {count} events.");
+        this._log.D($"[EventManager]: Enabled {count} events.");
     }
 
     /// <summary>Disables all <see cref="IManagedEvent"/> types starting with attribute <typeparamref name="TAttribute"/>.</summary>
@@ -421,21 +426,21 @@ public sealed class EventManager
             .GetTypesFromAssembly(Assembly.GetAssembly(typeof(IManagedEvent)))
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && t.HasAttribute<TAttribute>())
             .Count(this.Disable);
-        this.Log.D($"[EventManager]: Disabled {count} events.");
+        this._log.D($"[EventManager]: Disabled {count} events.");
     }
 
     /// <summary>Resets the enabled status of all <see cref="IManagedEvent"/>s in the assembly for the current screen.</summary>
     public void Reset()
     {
         this._eventCache.ForEach(pair => pair.Value.Reset());
-        this.Log.D("[EventManager]: Reset all managed events for the current screen.");
+        this._log.D("[EventManager]: Reset all managed events for the current screen.");
     }
 
     /// <summary>Resets the enabled status of all <see cref="IManagedEvent"/>s in the assembly for all screens.</summary>
     public void ResetForAllScreens()
     {
         this._eventCache.ForEach(pair => pair.Value.ResetForAllScreens());
-        this.Log.D("[EventManager]: Reset all managed events for all screens.");
+        this._log.D("[EventManager]: Reset all managed events for all screens.");
     }
 
     /// <summary>Gets the <see cref="IManagedEvent"/> instance of type <paramref name="eventType"/>.</summary>
@@ -503,7 +508,7 @@ public sealed class EventManager
         message = this._eventCache
             .GroupBy(pair => pair.Key.BaseType!)
             .Aggregate(message, (current, group) => current + $"\n\t- {group.Count()} {group.Key.Name}");
-        this.Log.D(message);
+        this._log.D(message);
     }
 
     /// <summary>Instantiates and manages <see cref="IManagedEvent"/> classes using reflection.</summary>
@@ -517,13 +522,13 @@ public sealed class EventManager
             .Where(t => t.IsAssignableTo(typeof(IManagedEvent)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled.");
+        this._log.D($"[EventManager]: Found {eventTypes.Length} event classes that should be enabled.");
         if (eventTypes.Length == 0)
         {
             return;
         }
 
-        this.Log.D("[EventManager]: Instantiating events....");
+        this._log.D("[EventManager]: Instantiating events....");
         foreach (var eventType in eventTypes)
         {
 #if RELEASE
@@ -545,7 +550,7 @@ public sealed class EventManager
             {
                 if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
-                    this.Log.D(
+                    this._log.D(
                         $"[EventManager]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
                     continue;
                 }
@@ -554,7 +559,7 @@ public sealed class EventManager
                     this._modRegistry.Get(modRequirementAttribute.UniqueId)!.Manifest.Version.IsOlderThan(
                         modRequirementAttribute.Version))
                 {
-                    this.Log.W(
+                    this._log.W(
                         $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {modRequirementAttribute.UniqueId} is older than minimum supported version." +
                         $" Please update {modRequirementAttribute.UniqueId} in order to enable integrations with this mod.");
                     continue;
@@ -578,12 +583,12 @@ public sealed class EventManager
         instance = this.Create(eventType);
         if (instance is null)
         {
-            this.Log.W($"[EventManager]: Failed to create {eventType.Name}.");
+            this._log.W($"[EventManager]: Failed to create {eventType.Name}.");
             return null;
         }
 
         this._eventCache.Add(eventType, instance);
-        this.Log.D($"[EventManager]: Now managing {eventType.Name}.");
+        this._log.D($"[EventManager]: Now managing {eventType.Name}.");
 
         return instance;
     }
@@ -607,7 +612,7 @@ public sealed class EventManager
                 [this.GetType()],
                 null) is null)
         {
-            this.Log.E($"[EventManager]: {eventType.Name} is not a valid event type.");
+            this._log.E($"[EventManager]: {eventType.Name} is not a valid event type.");
             return null;
         }
 
@@ -622,7 +627,7 @@ public sealed class EventManager
         var implicitIgnoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
         if (implicitIgnoreAttribute is not null)
         {
-            this.Log.D($"[EventManager]: {eventType.Name} is marked to be ignored.");
+            this._log.D($"[EventManager]: {eventType.Name} is marked to be ignored.");
             return null;
         }
 
@@ -636,7 +641,7 @@ public sealed class EventManager
 
         if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
         {
-            this.Log.D(
+            this._log.D(
                 $"[EventManager]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {eventType.Name} will be ignored.");
             return null;
         }
@@ -650,7 +655,7 @@ public sealed class EventManager
                 .Invoke([this]);
         }
 
-        this.Log.W(
+        this._log.W(
             $"[EventManager]: The integration event {eventType.Name} will be ignored because the installed version of {modRequirementAttribute.UniqueId} is older than minimum supported version." +
             $" Please update {modRequirementAttribute.UniqueId} in order to enable integrations with this mod.");
         return null;

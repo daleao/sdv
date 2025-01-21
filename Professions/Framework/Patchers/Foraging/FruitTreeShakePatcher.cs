@@ -13,8 +13,9 @@ internal sealed class FruitTreeShakePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FruitTreeShakePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FruitTreeShakePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FruitTreeShakePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FruitTree>(nameof(FruitTree.shake));
     }

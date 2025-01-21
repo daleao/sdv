@@ -11,6 +11,7 @@ using DaLion.Shared.Integrations;
 
 /// <summary>Initializes a new instance of the <see cref="SveIntegration"/> class.</summary>
 [ModRequirement("FlashShifter.StardewValleyExpandedCP")]
+[UsedImplicitly]
 internal sealed class SveIntegration()
     : ModIntegration<SveIntegration>(ModHelper.ModRegistry)
 {

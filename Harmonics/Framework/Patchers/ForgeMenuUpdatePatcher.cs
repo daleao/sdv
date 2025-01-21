@@ -21,8 +21,9 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ForgeMenuUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ForgeMenuUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
     }
@@ -88,7 +89,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         {
             var gemstone = Gemstone.FromRing(ring.QualifiedItemId);
             Utility.CollectOrDrop(ItemRegistry.Create<SObject>(gemstone.ObjectId));
-            Utility.CollectOrDrop(ItemRegistry.Create<SObject>(QualifiedObjectIds.CinderShard, 5));
+            Utility.CollectOrDrop(ItemRegistry.Create<SObject>(QIDs.CinderShard, 5));
         }
 
         infinity.combinedRings.Clear();

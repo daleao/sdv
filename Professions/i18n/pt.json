@@ -146,7 +146,7 @@
   "conservationist.desc.prestiged": "Covos sem iscas podem capturar peixes. Condições especiais se aplicam durante dias chuvosos ou de maré alta.",
   "conservationist.mail": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para uma dedução de imposto de renda de {{taxBonus}} de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Aviso de dedução",
   "conservationist.mail.max": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para a dedução máxima de imposto de renda de {{taxBonus}} acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Aviso de dedução",
-  
+
   // combat
   "fighter.title.male": "Guerreiro",
   "fighter.title.female": "Guerreira",
@@ -181,11 +181,11 @@
   "desperado.buff.desc": "+50% de dano contra um alvo diferente.",
   "piper.title.male": "Flautista de Gosma",
   "piper.title.female": "Flautista de Gosma",
-  "piper.title.prestiged.male": "Condutor de Gosma",
-  "piper.title.prestiged.female": "Condutora de Gosma",
-  "piper.desc": "Gosmas não são imediatamente agressivas e podem ser aliadas em combate. Capacidade da Casa de Gosmas +50%.",
-  "piper.desc.prestiged": "Uma gosma adicional pode ser aliada em combate. Obtém itens de coloração especial de Bolas de Gosma.",
-  "piper.buff": "Gosmento",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-Estátua da Transcendência-^A estátua pode redefinir o nível de uma habilidade, mantendo todas as profissões adquiridas.",
@@ -337,6 +337,10 @@
   "gmcm.sections.prfs.rascal": "Patife",
   "gmcm.show_equipped_ammo.title": "Mostrar munição equipada",
   "gmcm.show_equipped_ammo.desc": "Se deve mostrar a munição atualmente equipada sobre o estilingue.",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Transcendência de Habilidades",
@@ -380,6 +384,8 @@
   "gmcm.limit_gauge_offset.desc": "Use para ajustar as coordenadas X e Y do Medidor de Limit Break se estiver usando outros mods que também adicionam outros elementos a tela.",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "Progressão de Prestígio",
   "gmcm.enable_prestige_levels.title": "Habilitar níveis de prestígio",
   "gmcm.enable_prestige_levels.desc": "Se o jogador pode continuar ganhando níveis, até 20, após mestrar uma habilidades",

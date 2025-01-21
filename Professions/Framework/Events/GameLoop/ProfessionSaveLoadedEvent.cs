@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
@@ -73,7 +72,7 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             return;
         }
 
-        // enable multiplayer events
+        // enable events
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
         {
             this.Manager.Enable(

@@ -2,10 +2,11 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using DaLion.Professions.Framework.Configs;
 using DaLion.Professions.Framework.UI;
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Integrations.GMCM.Attributes;
+using DaLion.Shared.Pathfinding;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -23,6 +24,7 @@ public sealed class ProfessionsConfig
     private float _trackingPointerScale = 1f;
     private float _trackingPointerBobRate = 1f;
     private bool _immersiveHeavyTapperYield = true;
+    private bool _useAsyncMinionPathfinder = true;
 
     /// <inheritdoc cref="SkillsConfig"/>
     [JsonProperty]
@@ -299,4 +301,51 @@ public sealed class ProfessionsConfig
     [GMCMSection("prfs.rascal")]
     [GMCMPriority(800)]
     public bool ShowEquippedAmmo { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to draw the Slime minions' health.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.rascal")]
+    [GMCMPriority(801)]
+    public bool ShowMinionHealth { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to use the async version of the Slime Pathfinder.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.rascal")]
+    [GMCMPriority(802)]
+    public bool UseAsyncMinionPathfinder
+    {
+        get => this._useAsyncMinionPathfinder;
+        internal set
+        {
+            if (Context.IsWorldReady)
+            {
+                const CollisionMask collisionMask = CollisionMask.Buildings | CollisionMask.Furniture |
+                                                    CollisionMask.Objects | CollisionMask.TerrainFeatures |
+                                                    CollisionMask.LocationSpecific;
+                if (value)
+                {
+                    PathfinderAsync ??= new PathfindingManagerAsync(
+                        EventManager,
+                        (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, collisionMask)));
+                    foreach (var slime in GreenSlime_Piped.PipedSlimes)
+                    {
+                        PathfinderAsync.Register(slime, slime.currentLocation)
+                            .QueueRequest(slime.TilePoint, slime.TilePoint);
+                    }
+                }
+                else
+                {
+                    Pathfinder ??= new PathfindingManager(
+                        EventManager,
+                        (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, collisionMask)));
+                    foreach (var slime in GreenSlime_Piped.PipedSlimes)
+                    {
+                        Pathfinder.RequestFor(slime, slime.TilePoint, slime.TilePoint);
+                    }
+                }
+            }
+
+            this._useAsyncMinionPathfinder = value;
+        }
+    }
 }

@@ -16,8 +16,9 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ForgeMenuCraftItemPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ForgeMenuCraftItemPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ForgeMenuCraftItemPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.CraftItem));
     }
@@ -28,8 +29,8 @@ internal sealed class ForgeMenuCraftItemPatcher : HarmonyPatcher
     [HarmonyPrefix]
     private static bool ForgeMenuCraftItemPrefix(ref Item? __result, Item? left_item, Item? right_item, bool forReal)
     {
-        if (left_item?.QualifiedItemId != QualifiedObjectIds.IridiumBand ||
-            right_item?.QualifiedItemId != QualifiedObjectIds.GalaxySoul)
+        if (left_item?.QualifiedItemId != QIDs.IridiumBand ||
+            right_item?.QualifiedItemId != QIDs.GalaxySoul)
         {
             return true; // run original logic
         }

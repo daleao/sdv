@@ -19,8 +19,9 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationAnswerDialogueActionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationAnswerDialogueActionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationAnswerDialogueActionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.answerDialogueAction));
     }
@@ -52,11 +53,14 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         {
             switch (questionAndAnswer)
             {
-                case "dogStatue_Yes":
+                case "dogStatue_Yes" when ShouldEnableSkillReset:
                 {
                     OfferSkillResetChoices(__instance);
                     break;
                 }
+
+                case "dogStatue_Yes":
+                    return true; // run original logic
 
                 case "dogStatue_prestigeRespec":
                 {
@@ -155,35 +159,35 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         }
 
         var skillResponses = new List<Response>();
-        if (GameLocation.canRespec(Skill.Farming))
+        if (location.CanRespecPrestiged(Skill.Farming))
         {
             skillResponses.Add(new Response(
                 "farming",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11604")));
         }
 
-        if (GameLocation.canRespec(Skill.Fishing))
+        if (location.CanRespecPrestiged(Skill.Fishing))
         {
             skillResponses.Add(new Response(
                 "fishing",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11607")));
         }
 
-        if (GameLocation.canRespec(Skill.Foraging))
+        if (location.CanRespecPrestiged(Skill.Foraging))
         {
             skillResponses.Add(new Response(
                 "foraging",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11606")));
         }
 
-        if (GameLocation.canRespec(Skill.Mining))
+        if (location.CanRespecPrestiged(Skill.Mining))
         {
             skillResponses.Add(new Response(
                 "mining",
                 Game1.content.LoadString("Strings\\StringsFromCSFiles:SkillsPage.cs.11605")));
         }
 
-        if (GameLocation.canRespec(Skill.Combat))
+        if (location.CanRespecPrestiged(Skill.Combat))
         {
             skillResponses.Add(new Response(
                 "combat",
@@ -288,6 +292,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
 
         if (!ShouldEnableSkillReset)
         {
+            // also remove all regular professions for this skill
             for (var i = 0; i < 6; i++)
             {
                 GameLocation.RemoveProfession((skill * 6) + i);
@@ -337,6 +342,15 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         for (var i = 0; i < 6; i++)
         {
             GameLocation.RemoveProfession(100 + skill.Professions[i].Id);
+        }
+
+        if (!ShouldEnableSkillReset)
+        {
+            // also remove all regular professions for this skill
+            for (var i = 0; i < 6; i++)
+            {
+                GameLocation.RemoveProfession(skill.Professions[i].Id);
+            }
         }
 
         var currentLevel = Farmer.checkForLevelGain(0, player.experiencePoints[0]);

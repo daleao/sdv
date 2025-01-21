@@ -10,6 +10,8 @@ using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
+using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
 
@@ -234,7 +236,7 @@ internal static class FarmerExtensions
                 sum += 0.05f;
             }
 
-            return true;
+            return true; // continue enumeration
         });
 
         return sum;
@@ -292,7 +294,7 @@ internal static class FarmerExtensions
                 fishTypes.Add(pond.fishType.Value);
             }
 
-            return true;
+            return true; // continue enumeration
         });
 
         return Math.Min(Math.Min(fishTypes.Count, Config.AquaristFishPondCeiling) * 0.000165f, 0.00198f);
@@ -368,6 +370,25 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
+    /// <summary>Gets a list with all <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>A <see cref="List{T}"/> of <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</returns>
+    internal static List<GreenSlime> GetRaisedSlimes(this Farmer farmer)
+    {
+        var raised = Game1.getFarm().characters.OfType<GreenSlime>().ToList();
+        Utility.ForEachBuilding(b =>
+        {
+            if (b.IsOwnedByOrLax(farmer) && b.indoors.Value is SlimeHutch)
+            {
+                raised.AddRange(b.indoors.Value.characters.OfType<GreenSlime>());
+            }
+
+            return true; // continue enumeration
+        });
+
+        return raised;
+    }
+
     /// <summary>Counts the <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>The total number of <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</returns>
@@ -381,10 +402,63 @@ internal static class FarmerExtensions
                 count += b.indoors.Value.characters.OfType<GreenSlime>().Count();
             }
 
-            return true;
+            return true; // continue enumeration
         });
 
         return count;
+    }
+
+    /// <summary>Enumerates all <see cref="PipedSlimes"/>s currently under the <paramref name="farmer"/>'s influence.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="PipedSlimes"/>s currently under the <paramref name="farmer"/>'s influence.</returns>
+    internal static IEnumerable<PipedSlime> GetPipedSlimes(this Farmer farmer)
+    {
+        return GreenSlime_Piped.Values
+            .Where(pair => ReferenceEquals(pair.Value.Piper, farmer))
+            .Select(pair => pair.Value)
+            .ToList();
+    }
+
+    /// <summary>Counts the <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns>The total number of <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</returns>
+    internal static int CountPipedSlimes(this Farmer farmer)
+    {
+        return GreenSlime_Piped.Values.Count(pair => ReferenceEquals(pair.Value.Piper, farmer));
+    }
+
+    /// <summary>Chooses a random tile near the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="predicate">Optional filter condition based on the tile coordinates and <see cref="GameLocation"/>.</param>
+    /// <param name="location">If a <paramref name="predicate"/> is specified, use this to specify a <see cref="GameLocation"/>, otherwise defaults to the player's current location.</param>
+    /// <returns>A random tile from amongst the 8 1-connected neighboring tiles to the <paramref name="farmer"/> which satisfy the specified <paramref name="predicate"/>.</returns>
+    internal static Vector2 ChooseFromEightNeighboringTiles(this Farmer farmer, Func<Vector2, GameLocation, bool>? predicate = null, GameLocation? location = null)
+    {
+        predicate ??= (_, _) => true;
+        location ??= farmer.currentLocation;
+        var mapWidth = location.Map.Layers[0].LayerWidth;
+        var mapHeight = location.Map.Layers[0].LayerHeight;
+        return farmer.Tile
+            .GetEightNeighbors(mapWidth, mapHeight)
+            .Where(tile => predicate(tile, location))
+            .Choose();
+    }
+
+    /// <summary>Chooses a random tile near the <paramref name="farmer"/>.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="predicate">Optional filter condition based on the tile coordinates and <see cref="GameLocation"/>.</param>
+    /// <param name="location">If a <paramref name="predicate"/> is specified, use this to specify a <see cref="GameLocation"/>, otherwise defaults to the player's current location.</param>
+    /// <returns>A random tile from amongst the 24 2-connected neighboring tiles to the <paramref name="farmer"/> which satisfy the specified <paramref name="predicate"/>.</returns>
+    internal static Vector2 ChooseFromTwentyFourNeighboringTiles(this Farmer farmer, Func<Vector2, GameLocation, bool>? predicate = null, GameLocation? location = null)
+    {
+        predicate ??= (_, _) => true;
+        location ??= farmer.currentLocation;
+        var mapWidth = location.Map.Layers[0].LayerWidth;
+        var mapHeight = location.Map.Layers[0].LayerHeight;
+        return farmer.Tile
+            .GetTwentyFourNeighbors(mapWidth, mapHeight)
+            .Where(tile => predicate(tile, location))
+            .Choose();
     }
 
     /// <summary>

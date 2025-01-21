@@ -32,7 +32,7 @@ public static class CollectionExtensions
         return items.Any(collection.Contains);
     }
 
-    /// <summary>Determines whether the <paramref name="collection"/> contains all of the specified <paramref name="items"/>.</summary>
+    /// <summary>Determines whether the <paramref name="collection"/> contains all the specified <paramref name="items"/>.</summary>
     /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
     /// <param name="items">The objects to search for.</param>
@@ -43,7 +43,7 @@ public static class CollectionExtensions
     }
 
     /// <summary>
-    ///     Determines whether the <paramref name="collection"/> contains all of the enumerated <paramref name="items"/>.
+    ///     Determines whether the <paramref name="collection"/> contains of the enumerated <paramref name="items"/>.
     /// </summary>
     /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
@@ -57,7 +57,7 @@ public static class CollectionExtensions
     /// <summary>Determines whether a <paramref name="collection"/> contains any instance of the given type.</summary>
     /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
     /// <param name="collection">The <see cref="ICollection{T}"/>.</param>
-    /// <param name="type">The type to search for. Should be a sub-type of <typeparamref name="T"/>.</param>
+    /// <param name="type">The type to search for. Should be a subtype of <typeparamref name="T"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="collection"/> contains at least one element of the specified <paramref name="type"/>, otherwise <see langword="false"/>.</returns>
     public static bool ContainsType<T>(this ICollection<T> collection, Type type)
     {
@@ -122,5 +122,15 @@ public static class CollectionExtensions
         where T : IEquatable<T>
     {
         return collection.Distinct(comparer).Count() == 1;
+    }
+
+    /// <summary>Concatenates the elements of the <paramref name="collection"/> into a single string, using the specified <paramref name="separator"/> between each element.</summary>
+    /// <typeparam name="T">The type of the elements in the <see cref="ICollection{T}"/>.</typeparam>
+    /// <param name="collection">The <see cref="ICollection{T}"/> whose elements will be joined into a single string.</param>
+    /// <param name="separator">The string to use as a separator between elements.</param>
+    /// <returns>A single string that consists of the elements of the array, delimited by the specified separator. If the array is empty, the method returns an empty string.</returns>
+    public static string Join<T>(this ICollection<T> collection, string separator)
+    {
+        return string.Join(separator, collection);
     }
 }

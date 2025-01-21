@@ -16,8 +16,9 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
 {
     /// <summary>Initializes a new instance of the <see cref="RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.getExtraSpaceNeededForTooltipSpecialIcons));
     }

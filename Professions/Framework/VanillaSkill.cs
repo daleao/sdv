@@ -140,13 +140,6 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         Game1.player.experiencePoints[this] = Math.Min(this.CurrentExp + amount, ISkill.ExperienceCurve[this.MaxLevel]);
     }
 
-    /// <summary>Sets the experience points for this skill.</summary>
-    /// <param name="experience">The new amount of experience points.</param>
-    public void SetExperience(int experience)
-    {
-        Game1.player.experiencePoints[this] = experience;
-    }
-
     /// <inheritdoc />
     public void SetLevel(int level)
     {
@@ -235,12 +228,12 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         foreach (var (key, value) in CraftingRecipe.cookingRecipes)
         {
             if (!value.SplitWithoutAllocation('/')[3].Contains(this.StringId, StringComparison.Ordinal) ||
-                !knownCookingRecipes.ContainsKey(key))
+                !knownCookingRecipes.TryGetValue(key, value: out var recipe))
             {
                 continue;
             }
 
-            forgottenRecipesDict.AddOrUpdate(key, knownCookingRecipes[key], (a, b) => a + b);
+            forgottenRecipesDict.AddOrUpdate(key, recipe, (a, b) => a + b);
             player.cookingRecipes.Remove(key);
         }
 
@@ -251,22 +244,29 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         foreach (var (key, value) in CraftingRecipe.craftingRecipes)
         {
             if (!value.SplitWithoutAllocation('/')[4].Contains(this.StringId, StringComparison.Ordinal) ||
-                !knownCraftingRecipes.ContainsKey(key))
+                !knownCraftingRecipes.TryGetValue(key, out var recipe))
             {
                 continue;
             }
 
-            forgottenRecipesDict.AddOrUpdate(key, knownCraftingRecipes[key], (a, b) => a + b);
+            forgottenRecipesDict.AddOrUpdate(key, recipe, (a, b) => a + b);
             player.craftingRecipes.Remove(key);
         }
 
         Data.Write(player, DataKeys.ForgottenRecipesDict, forgottenRecipesDict.Stringify());
     }
 
+    /// <summary>Gets whether this skill has been Mastered.</summary>
+    /// <returns><see langword="true"/> if the local player has purchased Mastery for this skill, otherwise <see langword="false"/>.</returns>
+    public bool IsMastered()
+    {
+        return Game1.player.stats.Get(StatKeys.Mastery(this)) > 0;
+    }
+
     /// <inheritdoc />
     public bool CanGainPrestigeLevels()
     {
-        return Game1.player.stats.Get(StatKeys.Mastery(this)) > 0;
+        return ShouldEnablePrestigeLevels && this.IsMastered();
     }
 
     /// <inheritdoc />
@@ -320,5 +320,12 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         }
 
         this.SetLevel(expectedLevel);
+    }
+
+    /// <summary>Sets the experience points for this skill.</summary>
+    /// <param name="experience">The new amount of experience points.</param>
+    private void SetExperience(int experience)
+    {
+        Game1.player.experiencePoints[this] = experience;
     }
 }

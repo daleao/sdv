@@ -4,7 +4,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared;
 using DaLion.Shared.Exceptions;
 using DaLion.Shared.Extensions;

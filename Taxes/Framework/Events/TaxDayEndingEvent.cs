@@ -32,10 +32,14 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             return;
         }
 
-        if (Game1.dayOfMonth == 0 && Game1.currentSeason == "spring" && Game1.year == 1)
+        if (!PostalService.HasSent(Mail.FrsIntro))
+        {
+            PostalService.Send(Mail.FrsIntro);
+        }
+
+        if (!PostalService.HasSent(Mail.LewisIntro) && Game1.player.IsMainPlayer)
         {
             PostalService.Send(Mail.LewisIntro);
-            PostalService.Send(Mail.FrsIntro);
         }
 
         var amountSold = Game1.game1.GetTotalSoldByPlayer(taxpayer);

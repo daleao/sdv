@@ -9,19 +9,25 @@ using StardewValley.Tools;
 #endregion using directives
 
 /// <summary>Initializes a new instance of the <see cref="RascalButtonDoublePressedEvent"/> class.</summary>
-/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class RascalButtonDoublePressedEvent(EventManager? manager = null)
-    : ButtonDoublePressedEvent(manager ?? ProfessionsMod.EventManager)
+internal sealed class RascalButtonDoublePressedEvent : ButtonDoublePressedEvent
 {
+    /// <summary>Initializes a new instance of the <see cref="RascalButtonDoublePressedEvent"/> class.</summary>
+    /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
+    public RascalButtonDoublePressedEvent(EventManager? manager = null)
+        : base(manager ?? ProfessionsMod.EventManager)
+    {
+        this.OnButtonDoublePressed = this.OnButtonDoublePressedImpl;
+    }
+
+    /// <inheritdoc />
+    public override KeybindList KeybindList => Config.ModKey;
+
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Rascal);
 
     /// <inheritdoc />
-    protected override KeybindList Keybinds => Config.ModKey;
-
-    /// <inheritdoc />
-    protected override void OnButtonDoublePressedImpl()
+    public override void OnButtonDoublePressedImpl()
     {
         var player = Game1.player;
         if (Game1.activeClickableMenu is not null ||
@@ -31,7 +37,7 @@ internal sealed class RascalButtonDoublePressedEvent(EventManager? manager = nul
             return;
         }
 
-        if (slingshot.attachments[1] is { QualifiedItemId: QualifiedObjectIds.MonsterMusk })
+        if (slingshot.attachments[1] is { QualifiedItemId: QIDs.MonsterMusk })
         {
             Game1.playSound("cancel");
             return;

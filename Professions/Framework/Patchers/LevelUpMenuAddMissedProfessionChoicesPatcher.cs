@@ -17,8 +17,9 @@ internal sealed class LevelUpMenuAddMissedProfessionChoicesPatcher : HarmonyPatc
 {
     /// <summary>Initializes a new instance of the <see cref="LevelUpMenuAddMissedProfessionChoicesPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal LevelUpMenuAddMissedProfessionChoicesPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal LevelUpMenuAddMissedProfessionChoicesPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.AddMissedProfessionChoices));
     }

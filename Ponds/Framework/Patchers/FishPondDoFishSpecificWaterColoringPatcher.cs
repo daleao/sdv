@@ -17,8 +17,9 @@ internal sealed class FishPondDoFishSpecificWaterColoringPatcher : HarmonyPatche
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondDoFishSpecificWaterColoringPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondDoFishSpecificWaterColoringPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondDoFishSpecificWaterColoringPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>("doFishSpecificWaterColoring");
     }

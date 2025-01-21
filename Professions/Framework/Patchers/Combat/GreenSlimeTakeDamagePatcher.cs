@@ -15,8 +15,9 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GreenSlimeTakeDamagePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GreenSlimeTakeDamagePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GreenSlimeTakeDamagePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GreenSlime>(
             nameof(GreenSlime.takeDamage),
@@ -32,11 +33,6 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     {
         if (__instance.Health > 0 || __instance.Get_Piped() is not { } piped)
         {
-            if (who.IsLocalPlayer)
-            {
-                State.OffendedSlimes.Add(__instance);
-            }
-
             return;
         }
 
@@ -49,15 +45,7 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
             }
         }
 
-        piped.DropItems();
-        if (State.AlliedSlimes[0] == piped)
-        {
-            State.AlliedSlimes[0] = null;
-        }
-        else if (State.AlliedSlimes[1] == piped)
-        {
-            State.AlliedSlimes[1] = null;
-        }
+        piped.Burst();
     }
 
     #endregion harmony patches

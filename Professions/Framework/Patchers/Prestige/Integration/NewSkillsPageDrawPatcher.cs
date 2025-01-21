@@ -28,8 +28,9 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 
     /// <summary>Initializes a new instance of the <see cref="NewSkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal NewSkillsPageDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal NewSkillsPageDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<NewSkillsPage>(nameof(NewSkillsPage.draw), [typeof(SpriteBatch)]);
         this.Transpiler!.before = ["Shockah.XPDisplay"];
@@ -332,7 +333,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 _ => Skill.FromValue(i),
             };
 
-            if (!skill.CanGainPrestigeLevels() || skill < skillScrollOffset)
+            if (!skill.IsMastered() || skill < skillScrollOffset)
             {
                 continue;
             }

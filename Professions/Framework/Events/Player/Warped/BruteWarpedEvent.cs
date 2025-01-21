@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Core;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;

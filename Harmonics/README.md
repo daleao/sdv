@@ -100,13 +100,13 @@ On the other hand, a `I->II` configuration Dyad, like `Aq->Am`, would contain th
 A 3-note chord is called a **Triad**. A Triad always contains 6 intervals. There are many possible Triad combinations, but only one that avoids dissonances: the [Tertian](https://en.wikipedia.org/wiki/Tertian). A Tertian chord is formed by stacking sequential Third intervals. Notice that the Third of a Third is simply a Fifth (look at the wheel above to convince yourself of this). This means that a Tertian Triad is actually the configuration `I->III->V`.
 The Ruby Tertian Triad is shown below.
 
-Notice also that, due to the cyclic nature of the scale, the `I->III->V` configuration is equivalent to a "shifted" `I->IV->VI`. Take for instance the example of `Em->Rb->Am`, which is a `I->IV->VI` configuration; if we shift all notes one position to the left, then the chord becomes `Rb->Am->Em`, which is a `I->III->V` configuration. The shifting around of notes is known as [Transposition](https://en.wikipedia.org/wiki/Transposition_(music)). This does not change the chord, but allows us to see it from a different perspective.
+Notice also that, due to the cyclic nature of the scale, the `I->III->V` configuration is equivalent to a "shifted" `I->IV->VI`. Take for instance the example of `Em->Rb->Am`, which is a `I->IV->VI` configuration; if we shift all notes one position to the left, then the chord becomes `Rb->Am->Em`, which is a `I->III->V` configuration. The shifting around of notes is known as [Inversion](https://en.wikipedia.org/wiki/Inversion_(music)). This does not change the chord, but allows us to see it from a different perspective.
 
 #### Tetrad Chords
 
 Finally, a 4-note chord is called a **Tetrad**. A Tetrad always contains 12 intervals in total, which makes it impossible find a configuration that avoids any dissonances. But this is okay; if we extend the Tertian Triad by adding another Third interval at the end, we achieve a **Tertian Tetrad**, or `I->III->V->VII` (the `VII` is the Third of the `V`). In this special case, the dissonant Seventh interval becomes resonant, adding +12.5% resonance instead of subtracting it. The Tertian Tetrad achieves the highest possible total resonance, though it forcefully spreads out those bonuses among 4 different stats. The Ruby Tertian Tetrad is shown below.
 
-For the same reason described previously, the configuration `I->II->IV->VI` is equivalent to a transposed Tertian Tetrad.
+For the same reason described previously, the configuration `I->II->IV->VI` is equivalent to an inverted Tertian Tetrad.
 
 | ![Monad](resources/monad.png) | ![Figure 2](resources/dyad.png) | ![Figure 3](resources/triad.png) | ![Figure 4](resources/tetrad.png) |
 |--------------------------------|-----------------------------------|-----------------------------------|-----------------------------------|

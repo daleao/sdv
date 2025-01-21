@@ -24,7 +24,7 @@ public sealed class SlimeBallObjectListChangedEvent(EventManager? manager = null
 
         foreach (var (key, value) in e.Removed)
         {
-            if (value.QualifiedItemId != QualifiedBigCraftableIds.SlimeBall)
+            if (value.QualifiedItemId != QIDs.SlimeBall)
             {
                 continue;
             }

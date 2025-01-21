@@ -4,17 +4,17 @@
   "enchantments.cleaving.name": "Cleaving",
   "enchantments.energized.name": "Energized", // alternates: "Statikk", "Thunderlord's"
   "enchantments.energized.desc": "Energy accumulated: {{counter}}",
-  "enchantments.explosive.name": "Volatile", // alternatives: "Blasting", "Explosive", "Reactive", "Biding"
+  "enchantments.explosive.name": "Detonating",
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Greedy", // alternates: "Mammonite"
-  "enchantments.stabbing.name": "Reckless", // alternates: "Fencing", "Piercing", "Stabbing", "Lunging", "Dashing"
-  "enchantments.steadfast.name": "Steadfast", // currently unused
-  "enchantments.sunburst.name": "Sunburst",
-  "enchantments.vampiric.name": "Vampiric", // alternates: "Bloodthirsty"
+  "enchantments.stabbing.name": "Reaving",
+  "enchantments.sunburst.name": "Radiant",
+  "enchantments.vampiric.name": "Sanguine",
   "enchantments.wabbajack.name": "Wabbajack",
+
   "enchantments.chilling.name": "Chilling", // alternates: "Freljord"
   "enchantments.quincy.name": "Quincy",
-  "enchantments.echo.name": "Echoing", // alternates: "Echoing"
+  "enchantments.echo.name": "Echoing", // alternates: "Runaan"
 
 
   /************

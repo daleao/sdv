@@ -19,7 +19,7 @@ public sealed class MasteriesConfig
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
     private ProfessionIconStyle _prestigeProfessionIconStyle = ProfessionIconStyle.MetallicGold;
-    private SkillIconStyle _masteredSkillIconStyle = SkillIconStyle.SiliconGold;
+    private GoldPalette _masteredSkillIconStyle = GoldPalette.SiliconGold;
 
     #region dropdown enums
 
@@ -33,8 +33,8 @@ public sealed class MasteriesConfig
         PosisterGold,
     }
 
-    /// <summary>The style used for mastered skill icons.</summary>
-    public enum SkillIconStyle
+    /// <summary>A palette used for golden icons and sprites.</summary>
+    public enum GoldPalette
     {
         /// <summary>Gold palette made by silicon.</summary>
         SiliconGold,
@@ -45,7 +45,12 @@ public sealed class MasteriesConfig
 
     #endregion dropdown enums
 
-    /// <summary>Gets a value indicating whether to allow Masteries Breaks to be used in-game.</summary>
+    /// <summary>Gets or sets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.</summary>
+    [JsonProperty]
+    [GMCMPriority(1)]
+    public bool LockMasteryUntilFullReset { get; set; } = false;
+
+    /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(100)]
@@ -84,19 +89,19 @@ public sealed class MasteriesConfig
         }
     }
 
-    /// <summary>Gets the mod key used to activate the Masteries Break.</summary>
+    /// <summary>Gets the mod key used to activate the Limit Break.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(101)]
     public KeybindList LimitBreakKey { get; internal set; } = KeybindList.Parse("LeftShift, LeftShoulder");
 
-    /// <summary>Gets a value indicating whether the Masteries Break is activated by holding the <see cref="LimitBreakKey"/>, as opposed to simply pressing.</summary>
+    /// <summary>Gets a value indicating whether the Limit Break is activated by holding the <see cref="LimitBreakKey"/>, as opposed to simply pressing.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(102)]
     public bool HoldKeyToLimitBreak { get; internal set; } = true;
 
-    /// <summary>Gets how long the <see cref="LimitBreakKey"/> should be held to activate the Masteries Break, in milliseconds.</summary>
+    /// <summary>Gets how long the <see cref="LimitBreakKey"/> should be held to activate the Limit Break, in milliseconds.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(103)]
@@ -104,7 +109,7 @@ public sealed class MasteriesConfig
     public uint HoldDelayMilliseconds { get; internal set; } = 250;
 
     /// <summary>
-    ///     Gets the rate at which one builds the Masteries gauge. Increase this if you feel the gauge raises too
+    ///     Gets the rate at which one builds the Limit gauge. Increase this if you feel the gauge raises too
     ///     slowly.
     /// </summary>
     [JsonProperty]
@@ -121,7 +126,7 @@ public sealed class MasteriesConfig
     }
 
     /// <summary>
-    ///     Gets the rate at which the Masteries gauge depletes during LimitBreak. Decrease this to make the Masteries Break last
+    ///     Gets the rate at which the Limit gauge depletes during LimitBreak. Decrease this to make the Limit Break last
     ///     longer.
     /// </summary>
     [JsonProperty]
@@ -137,14 +142,14 @@ public sealed class MasteriesConfig
         }
     }
 
-    /// <summary>Gets monetary cost of changing the chosen Masteries Break. Set to 0 to change for free.</summary>
+    /// <summary>Gets monetary cost of changing the chosen Limit Break. Set to 0 to change for free.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(106)]
     [GMCMRange(0, 100000, 1000)]
     public uint LimitRespecCost { get; internal set; } = 0;
 
-    /// <summary>Gets the offset that should be applied to the Masteries Gauge's position.</summary>
+    /// <summary>Gets the offset that should be applied to the Limit Gauge's position.</summary>
     [JsonProperty]
     [GMCMSection("prfs.limit_break")]
     [GMCMPriority(107)]
@@ -199,7 +204,7 @@ public sealed class MasteriesConfig
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(204)]
-    public SkillIconStyle MasteredSkillIconStyle
+    public GoldPalette MasteredSkillIconStyle
     {
         get => this._masteredSkillIconStyle;
         internal set

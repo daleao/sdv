@@ -13,8 +13,9 @@ internal sealed class SlingshotGetAmmoDamagePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotGetAmmoDamagePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotGetAmmoDamagePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotGetAmmoDamagePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetAmmoDamage));
     }
@@ -26,7 +27,7 @@ internal sealed class SlingshotGetAmmoDamagePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void SlingshotGetAmmoDamagePostfix(Slingshot __instance, ref int __result, SObject ammunition)
     {
-        if (ammunition.QualifiedItemId != QualifiedObjectIds.Slime)
+        if (ammunition.QualifiedItemId != QIDs.Slime)
         {
             return;
         }
@@ -38,11 +39,13 @@ internal sealed class SlingshotGetAmmoDamagePatcher : HarmonyPatcher
             return;
         }
 
-        __result = user.CountRaisedSlimes();
         if (!user.HasProfession(Profession.Piper, true))
         {
-            __result /= 2;
+            __result = 20;
+            return;
         }
+
+        __result = 40;
     }
 
     #endregion harmony patches

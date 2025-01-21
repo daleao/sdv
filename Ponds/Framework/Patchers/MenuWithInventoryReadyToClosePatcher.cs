@@ -17,8 +17,9 @@ internal sealed class MenuWithInventoryReadyToClosePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MenuWithInventoryReadyToClosePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MenuWithInventoryReadyToClosePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MenuWithInventoryReadyToClosePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<MenuWithInventory>(nameof(MenuWithInventory.readyToClose));
     }
@@ -30,7 +31,7 @@ internal sealed class MenuWithInventoryReadyToClosePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void MenuWithInventoryToClosePostfix(MenuWithInventory __instance, ref bool __result)
     {
-        if (__instance is not ItemGrabMenu grabMenu || grabMenu.context is not FishPond pond)
+        if (__instance is not ItemGrabMenu { context: FishPond pond } grabMenu)
         {
             return;
         }

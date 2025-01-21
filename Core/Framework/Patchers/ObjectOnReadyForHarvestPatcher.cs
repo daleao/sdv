@@ -15,8 +15,9 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectOnReadyForHarvestPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectOnReadyForHarvestPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectOnReadyForHarvestPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>(nameof(SObject.onReadyForHarvest));
     }
@@ -38,16 +39,19 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
         if (location.Objects.TryGetValue(tileBelow, out var toObj) &&
             toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperBelow)
         {
-            __instance.checkForAction(hopperBelow.GetOwner());
+            Reflector
+                .GetUnboundMethodDelegate<Func<SObject, Farmer, bool, bool>>(__instance, "CheckForActionOnMachine")
+                .Invoke(__instance, hopperBelow.GetOwner(), false);
+            return;
         }
-        else
+
+        var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
+        if (location.Objects.TryGetValue(tileAbove, out toObj) &&
+            toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperAbove)
         {
-            var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
-            if (location.Objects.TryGetValue(tileAbove, out toObj) &&
-                toObj is Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperAbove)
-            {
-                __instance.checkForAction(hopperAbove.GetOwner());
-            }
+            Reflector
+                .GetUnboundMethodDelegate<Func<SObject, Farmer, bool, bool>>(__instance, "CheckForActionOnMachine")
+                .Invoke(__instance, hopperAbove.GetOwner(), false);
         }
     }
 

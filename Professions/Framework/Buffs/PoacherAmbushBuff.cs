@@ -14,15 +14,15 @@ using StardewValley.Monsters;
 internal sealed class PoacherAmbushBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Ambush";
-    private const int BASE_DURATION = 15_000;
-    private const int SHEET_INDEX = 51;
+    internal const int BASE_DURATION_MS = 15_000;
+    internal const int SHEET_INDEX = 51;
 
     internal PoacherAmbushBuff()
         : base(
             id: ID,
             source: "Ambush",
             displaySource: Game1.player.IsMale ? I18n.Poacher_Limit_Title_Male() : I18n.Poacher_Limit_Title_Female(),
-            duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            duration: (int)(BASE_DURATION_MS * LimitBreak.DurationMultiplier),
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             effects: new BuffEffects
@@ -34,6 +34,7 @@ internal sealed class PoacherAmbushBuff : Buff
         this.glow = Color.MediumPurple;
     }
 
+    /// <inheritdoc />
     public override void OnAdded()
     {
         SoundBox.PoacherCloak.PlayAll(Game1.player.currentLocation, Game1.player.Tile);

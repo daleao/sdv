@@ -16,7 +16,7 @@ public static class StringExtensions
     /// <returns><see langword="true"/> if the <paramref name="id"/> corresponds to Salmonberry or Blackberry, otherwise <see langword="false"/>.</returns>
     public static bool IsWildBerryId(this string id)
     {
-        return id is QualifiedObjectIds.Salmonberry or QualifiedObjectIds.Blackberry;
+        return id is QIDs.Salmonberry or QIDs.Blackberry;
     }
 
     /// <summary>Determines whether <paramref name="id"/> corresponds to a mushroom item.</summary>
@@ -25,7 +25,7 @@ public static class StringExtensions
     public static bool IsMushroomId(this string id)
     {
         return ItemContextTagManager.HasBaseTag(id, "edible_mushroom") ||
-               id is QualifiedObjectIds.RedMushroom or QualifiedObjectIds.Truffle;
+               id is QIDs.RedMushroom or QIDs.Truffle;
     }
 
     /// <summary>Determines whether <paramref name="id"/> corresponds to a syrup item.</summary>
@@ -34,7 +34,7 @@ public static class StringExtensions
     public static bool IsSyrupId(this string id)
     {
         return ItemContextTagManager.HasBaseTag(id, "syrup_item") ||
-               id is QualifiedObjectIds.MysticSyrup;
+               id is QIDs.MysticSyrup;
     }
 
     /// <summary>Determines whether the <paramref name="id"/> corresponds to an algae or seaweed.</summary>
@@ -79,7 +79,7 @@ public static class StringExtensions
     /// <returns><see langword="true"/> if the <paramref name="id"/> corresponds to either copper, iron, gold, iridium or radioactive ore, otherwise <see langword="false"/>.</returns>
     public static bool IsOreId(this string id)
     {
-        return id is QualifiedObjectIds.CopperOre or QualifiedObjectIds.IronOre or QualifiedObjectIds.GoldOre or QualifiedObjectIds.IridiumOre
-            or QualifiedObjectIds.RadioactiveOre;
+        return id is QIDs.CopperOre or QIDs.IronOre or QIDs.GoldOre or QIDs.IridiumOre
+            or QIDs.RadioactiveOre;
     }
 }

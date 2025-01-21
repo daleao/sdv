@@ -17,8 +17,9 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="QuestionEventSetUpPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal QuestionEventSetUpPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal QuestionEventSetUpPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = typeof(QuestionEvent).GetInnerMethodsContaining("<setUp>b__0").FirstOrDefault();
     }

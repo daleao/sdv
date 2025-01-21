@@ -7,6 +7,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -15,8 +16,9 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectPlacementActionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectPlacementActionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectPlacementActionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>(nameof(SObject.placementAction));
     }
@@ -34,7 +36,7 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
             return;
         }
 
-        if (__instance.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
+        if (__instance.QualifiedItemId == QIDs.Hopper)
         {
             var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
             if (location.Objects.TryGetValue(tileAbove, out var fromObj) && fromObj.readyForHarvest.Value)
@@ -51,15 +53,10 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
         else
         {
             var tileAbove = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y - 1f);
-            if (location.Objects.TryGetValue(tileAbove, out var toObj) && toObj.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
+            if (location.Objects.TryGetValue(tileAbove, out var fromObj) && fromObj is Chest
+                { QualifiedItemId: QIDs.Hopper, specialChestType.Value: Chest.SpecialChestTypes.AutoLoader } hopper)
             {
-                __instance.checkForAction(toObj.GetOwner());
-            }
-
-            var tileBelow = new Vector2(__instance.TileLocation.X, __instance.TileLocation.Y + 1f);
-            if (location.Objects.TryGetValue(tileBelow, out toObj) && toObj.QualifiedItemId == QualifiedBigCraftableIds.Hopper)
-            {
-                __instance.checkForAction(toObj.GetOwner());
+                hopper.CheckAutoLoad(hopper.GetOwner());
             }
         }
     }

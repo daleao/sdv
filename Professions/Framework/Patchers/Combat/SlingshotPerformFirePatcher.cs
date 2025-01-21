@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Core;
 using DaLion.Core.Framework.Enchantments;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Integrations;
@@ -22,8 +21,9 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotPerformFirePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotPerformFirePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotPerformFirePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
     }
@@ -47,7 +47,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var hasSecondaryAmmo = __instance.attachments.Length > 1 && (__instance.attachments[1] is not null || canDoQuincy);
             if (__instance.attachments[0] is null && !canDoQuincy)
             {
-                if (hasSecondaryAmmo && __instance.attachments[1].QualifiedItemId != QualifiedObjectIds.MonsterMusk)
+                if (hasSecondaryAmmo && __instance.attachments[1].QualifiedItemId != QIDs.MonsterMusk)
                 {
                     __instance.attachments[0] = __instance.attachments[1];
                     __instance.attachments[1] = null;
@@ -89,8 +89,8 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var damageBase = ammo is not null ? __instance.GetAmmoDamage(ammo) : 1;
             var damageMod = __instance.QualifiedItemId switch
             {
-                QualifiedWeaponIds.MasterSlingshot => 2f,
-                QualifiedWeaponIds.GalaxySlingshot => 4f,
+                QIDs.MasterSlingshot => 2f,
+                QIDs.GalaxySlingshot => 4f,
                 _ => 1f,
             };
 
@@ -116,7 +116,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var isMusked = false;
             var isLimitActive = State.LimitBreak is DesperadoBlossom { IsActive: true };
             if (ammo is not null && !isLimitActive && Config.ModKey.IsDown() && hasSecondaryAmmo && __instance.attachments[1] is
-                    { QualifiedItemId: QualifiedObjectIds.MonsterMusk } musk)
+                    { QualifiedItemId: QIDs.MonsterMusk } musk)
             {
                 var uses = Data.ReadAs(musk, DataKeys.MuskUses, 10);
                 if (--uses <= 0)

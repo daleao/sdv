@@ -20,7 +20,7 @@ internal sealed class SlimeInflationUpdateTickedEvent(EventManager? manager = nu
         var count = 0;
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (piped.PipeTimer <= 0 || piped.Inflated)
+            if (piped.DoneInflating)
             {
                 continue;
             }

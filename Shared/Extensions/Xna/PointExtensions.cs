@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,7 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Extensions for the <see cref="Point"/> struct.</summary>
 public static class PointExtensions
 {
-    /// <summary>Finds the Manhattan (taxicab) distance between two points.</summary>
+    /// <summary>Finds the Manhattan (taxicab, or 4-connected) distance between two points.</summary>
     /// <param name="self">The <see cref="Point"/>.</param>
     /// <param name="other">Some other <see cref="Point"/>.</param>
     /// <returns>The Manhattan distance.</returns>
@@ -24,7 +25,7 @@ public static class PointExtensions
     /// <param name="self">The <see cref="Point"/>.</param>
     /// <param name="other">Some other <see cref="Point"/>.</param>
     /// <returns>The Chessboard distance.</returns>
-    public static float ChessboardDistance(this Point self, Point other)
+    public static int ChessboardDistance(this Point self, Point other)
     {
         return Math.Max(Math.Abs(self.X - other.X), Math.Abs(self.Y - other.Y));
     }
@@ -75,66 +76,103 @@ public static class PointExtensions
         batch.Draw(pixel, new Rectangle(x, y + height - thickness, width, thickness), color); // bottom line
     }
 
-    /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
-    /// <param name="tile">The tile as a <see cref="Point"/>.</param>
+    /// <summary>Gets the 4-connected neighboring points in a given region.</summary>
+    /// <param name="point">The center <see cref="Point"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="tile"/>.</returns>
-    public static IEnumerable<Point> GetFourNeighbors(this Point tile, int width, int height)
+    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="point"/>.</returns>
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
+    public static IEnumerable<Point> GetFourNeighbors(this Point point, int width, int height)
     {
-        var (x, y) = tile;
+        var (x, y) = point;
+        if (x > 0) yield return new Point(x - 1, y);
+        if (x < width - 1 ) yield return new Point(x + 1, y);
+        if (y > 0) yield return new Point(x, y - 1);
+        if (y < height - 1) yield return new Point(x, y + 1);
+    }
+
+    /// <summary>Gets the 8-connected neighboring points in a given region.</summary>
+    /// <param name="point">The center <see cref="Point"/>.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="point"/>.</returns>
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
+    public static IEnumerable<Point> GetEightNeighbors(this Point point, int width, int height)
+    {
+        var (x, y) = point;
         if (x > 0)
         {
             yield return new Point(x - 1, y);
+            if (y > 0) yield return new Point(x - 1, y - 1);
+            if (y < height - 1) yield return new Point(x - 1, y + 1);
         }
 
         if (x < width - 1)
         {
             yield return new Point(x + 1, y);
+            if (y > 0) yield return new Point(x + 1, y - 1);
+            if (y < height - 1) yield return new Point(x + 1, y + 1);
         }
 
-        if (y > 0)
-        {
-            yield return new Point(x, y - 1);
-        }
-
-        if (y < height - 1)
-        {
-            yield return new Point(x, y + 1);
-        }
+        if (y > 0) yield return new Point(x, y - 1);
+        if (y < height - 1) yield return new Point(x, y + 1);
     }
 
-    /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
-    /// <param name="vector">The tile as a <see cref="Point"/>.</param>
+    /// <summary>Gets the 24-connected neighboring points in a given region.</summary>
+    /// <param name="point">The center point as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="vector"/>.</returns>
-    public static IEnumerable<Point> GetEightNeighbors(this Point vector, int width, int height)
+    /// <returns>A <see cref="IEnumerable{T}"/> of the twenty-four-connected neighbors of the <paramref name="point"/>.</returns>
+    public static IEnumerable<Point> GetTwentyFourNeighbors(this Point point, int width, int height)
     {
-        var (x, y) = vector;
-        if (x > 0 && y > 0)
+        foreach (var neighbor in point.GetEightNeighbors(width, height))
         {
-            yield return new Point(x - 1, y - 1);
+            yield return neighbor;
         }
 
-        if (x > 0 && y < height - 1)
+        var (x, y) = point;
+        if (y - 2 >= 0)
         {
-            yield return new Point(x - 1, y + 1);
+            for (var i = -2; i <= 2; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Point(x + i, y - 2);
+                }
+            }
         }
 
-        if (x < width - 1 && y > 0)
+        if (y + 2 < height)
         {
-            yield return new Point(x + 1, y - 1);
+            for (var i = -2; i <= 2; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Point(x + i, y + 2);
+                }
+            }
         }
 
-        if (x < width - 1 && y < height - 1)
+        if (x - 2 >= 0)
         {
-            yield return new Point(x + 1, y + 1);
+            for (var j = -1; j <= 1; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Point(x - 2, y + j);
+                }
+            }
         }
 
-        foreach (var neighbour in GetFourNeighbors(vector, width, height))
+        if (x + 2 < width)
         {
-            yield return neighbour;
+            for (var j = -1; j <= 1; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Point(x + 2, y + j);
+                }
+            }
         }
     }
 

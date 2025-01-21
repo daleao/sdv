@@ -25,8 +25,9 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 
     /// <summary>Initializes a new instance of the <see cref="SkillsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SkillsPageDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SkillsPageDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SkillsPage>(nameof(SkillsPage.draw), [typeof(SpriteBatch)]);
     }
@@ -228,7 +229,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 _ => Skill.FromValue(i),
             };
 
-            if (!skill.CanGainPrestigeLevels())
+            if (!skill.IsMastered())
             {
                 continue;
             }

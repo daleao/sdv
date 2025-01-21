@@ -2,7 +2,7 @@
 
 #region using directives
 
-using System.Runtime.CompilerServices;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
@@ -10,26 +10,19 @@ using StardewModdingAPI.Events;
 #endregion using directives
 
 /// <summary>Initializes a new instance of the <see cref="PathfinderObjectListChangedEvent"/> class.</summary>
-/// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
-[UsedImplicitly]
-internal sealed class PathfinderObjectListChangedEvent(EventManager manager)
-    : ObjectListChangedEvent(manager)
+/// <param name="eventManager">The <see cref="EventManager"/> instance that manages this event.</param>
+/// <param name="pathfindingManager">The <see cref="PathfindingManager"/> instance that should be informed of updates.</param>
+[ImplicitIgnore]
+internal sealed class PathfinderObjectListChangedEvent(EventManager eventManager, PathfindingManager pathfindingManager)
+    : ObjectListChangedEvent(eventManager)
 {
-    /// <inheritdoc />
-    public override bool IsEnabled => Pathfinders.Any();
-
-    internal static ConditionalWeakTable<MTDStarLite, object?> Pathfinders { get; } = [];
-
     /// <inheritdoc />
     protected override void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e)
     {
-        foreach (var pathfinder in Pathfinders)
+        e.Added.Concat(e.Removed).ForEach(pair =>
         {
-            e.Added.Concat(e.Removed).ForEach(pair =>
-            {
-                var p = pair.Key.ToPoint();
-                pathfinder.Key.UpdateEdges(e.Location, p);
-            });
-        }
+            var p = pair.Key.ToPoint();
+            pathfindingManager.Update(e.Location, p);
+        });
     }
 }

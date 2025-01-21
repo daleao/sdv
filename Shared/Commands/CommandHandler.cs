@@ -23,20 +23,20 @@ public sealed class CommandHandler
     /// <summary>Cache of handled <see cref="IConsoleCommand"/> instances.</summary>
     private readonly Dictionary<string, IConsoleCommand> _handledCommands = [];
 
+    /// <inheritdoc cref="Logger"/>
+    private readonly Logger _log;
+
     /// <summary>An optional conditional expression that prevents the entry command from being executed.</summary>
     private Func<bool>? _conditional;
 
     /// <summary>Initializes a new instance of the <see cref="CommandHandler"/> class.</summary>
     /// <param name="helper">The <see cref="ICommandHelper"/> API for the current mod.</param>
     /// <param name="logger">A <see cref="Logger"/> instance.</param>
-    public CommandHandler(ICommandHelper helper, Logger logger)
+    private CommandHandler(ICommandHelper helper, Logger logger)
     {
         this._commandHelper = helper;
-        this.Log = logger;
+        this._log = logger;
     }
-
-    /// <inheritdoc cref="Logger"/>
-    public Logger Log { get; }
 
     /// <summary>Gets the <see cref="string"/> used as entry for all handled <see cref="IConsoleCommand"/>s.</summary>
     public string EntryCommand { get; private set; } = null!; // set in register
@@ -86,7 +86,7 @@ public sealed class CommandHandler
     {
         logger.D($"[CommandHandler]: Gathering commands in {@namespace}...");
         return new CommandHandler(helper, logger)
-            .HandleImplicitly(assembly, t => t.Namespace?.Contains(@namespace) == true)
+            .HandleImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true)
             .Register(mod, entry, conditional);
     }
 
@@ -148,7 +148,7 @@ public sealed class CommandHandler
     {
         if (this._handledCommands.Count == 0)
         {
-            this.Log.D($"[CommandHandler]: The mod {mod} did not provide any console commands.");
+            this._log.D($"[CommandHandler]: The mod {mod} did not provide any console commands.");
             return this;
         }
 
@@ -168,7 +168,7 @@ public sealed class CommandHandler
     {
         if (args.Length == 0 || string.IsNullOrEmpty(args[0]))
         {
-            this.Log.I(
+            this._log.I(
                 $"This is the entry point for all {this.Mod} console commands. Use it by specifying a sub-command to be executed. " +
                 $"For example, typing `{command} help` will invoke the `help` command, which lists all available sub-commands.");
             return;
@@ -182,13 +182,13 @@ public sealed class CommandHandler
                 result.Append($"\n\t-{command} {c.Triggers[0]}");
             });
 
-            this.Log.I(result.ToString());
+            this._log.I(result.ToString());
             return;
         }
 
         if (!this._handledCommands.TryGetValue(args[0].ToLowerInvariant(), out var handled))
         {
-            this.Log.W($"{args[0]} is not a valid command. Use `{command} help` to see available sub-commands.");
+            this._log.W($"{args[0]} is not a valid command. Use `{command} help` to see available sub-commands.");
             return;
         }
 
@@ -199,7 +199,7 @@ public sealed class CommandHandler
 
         if (!Context.IsWorldReady)
         {
-            this.Log.W("You must load a save before running a command.");
+            this._log.W("You must load a save before running a command.");
             return;
         }
 
@@ -217,13 +217,13 @@ public sealed class CommandHandler
             .Where(t => t.IsAssignableTo(typeof(IConsoleCommand)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.D($"[CommandHandler]: Found {commandTypes.Length} command classes.");
+        this._log.D($"[CommandHandler]: Found {commandTypes.Length} command classes.");
         if (commandTypes.Length == 0)
         {
             return this;
         }
 
-        this.Log.D("[CommandHandler]: Instantiating commands...");
+        this._log.D("[CommandHandler]: Instantiating commands...");
         foreach (var commandType in commandTypes)
         {
             try
@@ -239,7 +239,7 @@ public sealed class CommandHandler
                 var ignoreAttribute = commandType.GetCustomAttribute<ImplicitIgnoreAttribute>();
                 if (ignoreAttribute is not null)
                 {
-                    this.Log.D($"[CommandHandler]: {commandType.Name} is marked to be ignored.");
+                    this._log.D($"[CommandHandler]: {commandType.Name} is marked to be ignored.");
                     continue;
                 }
 
@@ -251,15 +251,15 @@ public sealed class CommandHandler
                     this._handledCommands.Add(trigger, command);
                 }
 
-                this.Log.D($"[CommandHandler]: Now handling {command.GetType().Name}");
+                this._log.D($"[CommandHandler]: Now handling {command.GetType().Name}");
             }
             catch (Exception ex)
             {
-                this.Log.E($"[CommandHandler]: Failed to handle {commandType.Name}.\n{ex}");
+                this._log.E($"[CommandHandler]: Failed to handle {commandType.Name}.\n{ex}");
             }
         }
 
-        this.Log.D("[CommandHandler]: Command initialization completed.");
+        this._log.D("[CommandHandler]: Command initialization completed.");
         return this;
     }
 }

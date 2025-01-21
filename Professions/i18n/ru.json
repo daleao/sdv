@@ -181,11 +181,11 @@
   "desperado.buff.desc": "+50% урона от боеприпасов по другой цели.",
   "piper.title.male": "Крысиный король",
   "piper.title.female": "Сирена",
-  "piper.title.prestiged.male": "Повелитель слаймов",
-  "piper.title.prestiged.female": "Чародейка слаймов",
-  "piper.desc": "Слизни не сразу становятся агрессивными и могут следовать за вами в бою. Вместимость хижины слаймов +50%.",
-  "piper.desc.prestiged": "Еще один слайм может следовать за вами в бою. Получайте особые цветные предметы из шаров слизи.",
-  "piper.buff": "Покрытый слизью",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-Статуя Превосходства-^Статуя может сбросить уровень навыка, сохранив все полученные профессии.",
@@ -337,6 +337,10 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Сброс навыков",
@@ -380,6 +384,8 @@
   "gmcm.limit_gauge_offset.desc": "Используйте это, чтобы отрегулировать координаты X и Y шкалы Предела, если вы используете другие моды, которые также добавляют полосы HUD.",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "Престижное развитие",
   "gmcm.enable_prestige_levels.title": "Включить Престижные уровни",
   "gmcm.enable_prestige_levels.desc": "Может ли игрок продолжать получать уровни до 20 после достижения мастерства навыка.",

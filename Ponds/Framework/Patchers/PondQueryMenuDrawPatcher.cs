@@ -23,8 +23,9 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="PondQueryMenuDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal PondQueryMenuDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal PondQueryMenuDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<PondQueryMenu>(nameof(PondQueryMenu.draw), [typeof(SpriteBatch)]);
     }
@@ -126,9 +127,9 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             var columns = Math.Min(slotsToDraw, 5);
             const int slotSpacing = 13;
             SObject? itemToDraw = null,
-                seaweedItemToDraw = ItemRegistry.Create<SObject>(QualifiedObjectIds.Seaweed),
-                greenAlgaeItemToDraw = ItemRegistry.Create<SObject>(QualifiedObjectIds.GreenAlgae),
-                whiteAlgaeItemToDraw = ItemRegistry.Create<SObject>(QualifiedObjectIds.WhiteAlgae);
+                seaweedItemToDraw = ItemRegistry.Create<SObject>(QIDs.Seaweed),
+                greenAlgaeItemToDraw = ItemRegistry.Create<SObject>(QIDs.GreenAlgae),
+                whiteAlgaeItemToDraw = ItemRegistry.Create<SObject>(QIDs.WhiteAlgae);
             if (isAlgaePond)
             {
                 var algae = ____pond.ParsePondFishes();
@@ -382,7 +383,8 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             if (fishes.Count != ____pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
-                    "Mismatch between algae population data and actual population.");
+                    $"Mismatch between fish population data and actual population:" +
+                    $"\n\t- Population: {____pond.FishCount}\n\t- Data: {Data.Read(____pond, DataKeys.PondFish)}");
             }
 
             fishes.SortDescending();

@@ -164,6 +164,8 @@ internal sealed class ProfessionsState
 
     internal List<ChainedExplosion> ChainedExplosions { get; } = [];
 
+    internal int FishingChain { get; set; }
+
     internal int BruteRageCounter
     {
         get => this._rageCounter;
@@ -190,10 +192,6 @@ internal sealed class ProfessionsState
             }
         }
     }
-
-    internal PipedSlime?[] AlliedSlimes { get; } = new PipedSlime?[2];
-
-    internal HashSet<GreenSlime> OffendedSlimes { get; } = [];
 
     internal Dictionary<string, int> EcologistBuffsLookup
     {

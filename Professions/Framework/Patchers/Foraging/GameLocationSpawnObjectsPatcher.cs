@@ -18,8 +18,9 @@ internal sealed class GameLocationSpawnObjectsPatcher : HarmonyPatcher
 
     /// <summary>Initializes a new instance of the <see cref="GameLocationSpawnObjectsPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationSpawnObjectsPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationSpawnObjectsPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.spawnObjects));
     }

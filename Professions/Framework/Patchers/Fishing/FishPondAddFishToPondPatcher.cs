@@ -15,8 +15,9 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondAddFishToPondPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondAddFishToPondPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondAddFishToPondPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>("addFishToPond");
     }
@@ -38,7 +39,7 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
             Data.Increment(__instance, DataKeys.FamilyLivingHere);
 
             // enable reproduction if angler or ms. angler
-            if (fish.QualifiedItemId is not (QualifiedObjectIds.Angler or QualifiedObjectIds.MsAngler) || ____fishPondData is null)
+            if (fish.QualifiedItemId is not (QIDs.Angler or QIDs.MsAngler) || ____fishPondData is null)
             {
                 return;
             }

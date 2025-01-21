@@ -16,8 +16,9 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="HoeDirtApplySpeedIncreasesPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal HoeDirtApplySpeedIncreasesPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal HoeDirtApplySpeedIncreasesPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<HoeDirt>("applySpeedIncreases");
     }

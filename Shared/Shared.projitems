@@ -13,15 +13,20 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\QIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FacingDirection.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressUpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\ListEventsCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressReleasedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonHeldEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonHoldReleasedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonHoldUpdateTickedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Collections\StackExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\SMAPI\SButtonExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\BuffEffectsExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\Stardew\NpcExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderRenderedWorldEvent.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\MTDStarLite.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderOverlayRenderedWorldEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\MovingTargetDStarLite.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\BiMap.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\CircleTileGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Classes\ColorRange.cs" />
@@ -30,7 +35,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Commands\ConsoleCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\CommandHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Commands\IConsoleCommand.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedBootIds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\AssetEditor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\DictionaryProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\IAssetEditor.cs" />
@@ -43,9 +47,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataDictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\Direction.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedWeaponIds.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedObjectIds.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Constants\QualifiedBigCraftableIds.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectQuality.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\DoubleExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\FloatExtensions.cs" />
@@ -198,7 +199,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\MathConstants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Caching\IntervalMemoryCache.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\AsyncPathfinderObjectListChangedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfinderObjectListChangedEvent.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfindingManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pathfinding\PathfindingManagerAsync.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\Reflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VectorUtils.cs" />
   </ItemGroup>

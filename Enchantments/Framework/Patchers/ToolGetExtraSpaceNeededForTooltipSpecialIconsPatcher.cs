@@ -5,7 +5,6 @@
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -15,8 +14,9 @@ internal sealed class ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
 {
     /// <summary>Initializes a new instance of the <see cref="ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ToolGetExtraSpaceNeededForTooltipSpecialIconsPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Tool>(nameof(Tool.getExtraSpaceNeededForTooltipSpecialIcons));
     }

@@ -246,11 +246,11 @@ internal sealed class ProspectorHunt : TreasureHunt
             }
         }
 
-        if (treasuresAndQuantities.TryGetValue(QualifiedObjectIds.Coal, out var stack) && this.Location is VolcanoDungeon &&
+        if (treasuresAndQuantities.TryGetValue(QIDs.Coal, out var stack) && this.Location is VolcanoDungeon &&
             this.Random.NextBool())
         {
-            treasuresAndQuantities[QualifiedObjectIds.CinderShard] = stack;
-            treasuresAndQuantities.Remove(QualifiedObjectIds.Coal);
+            treasuresAndQuantities[QIDs.CinderShard] = stack;
+            treasuresAndQuantities.Remove(QIDs.Coal);
         }
 
         foreach (var (treasure, quantity) in treasuresAndQuantities)
@@ -270,7 +270,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         if (this.Random.NextBool(0.33) && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
         {
             treasuresAndQuantities.AddOrUpdate(
-                QualifiedObjectIds.QiBean,
+                QIDs.QiBean,
                 this.Random.Next(1, 3) + (this.Random.NextBool(0.25) ? 2 : 0),
                 (a, b) => a + b);
         }
@@ -280,31 +280,31 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         if (mineLevel > 120 && this.Random.NextBool(0.06))
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.IridiumOre, this.Random.Next(1, 3), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.IridiumOre, this.Random.Next(1, 3), (a, b) => a + b);
         }
 
         List<string> possibles = [];
         if (mineLevel < 0 || Game1.mine.GetAdditionalDifficulty() > 0)
         {
-            possibles.Add(QualifiedObjectIds.RadioactiveOre);
+            possibles.Add(QIDs.RadioactiveOre);
         }
 
         if (mineLevel is < 0 or > 80)
         {
-            possibles.Add(QualifiedObjectIds.GoldOre);
+            possibles.Add(QIDs.GoldOre);
         }
 
         if (mineLevel is < 0 or > 40 && (possibles.Count == 0 || this.Random.NextBool(0.6)))
         {
-            possibles.Add(QualifiedObjectIds.IronOre);
+            possibles.Add(QIDs.IronOre);
         }
 
         if (possibles.Count == 0 || this.Random.NextBool(0.6))
         {
-            possibles.Add(QualifiedObjectIds.CopperOre);
+            possibles.Add(QIDs.CopperOre);
         }
 
-        possibles.Add(QualifiedObjectIds.Coal);
+        possibles.Add(QIDs.Coal);
         treasuresAndQuantities.AddOrUpdate(
             possibles.ElementAt(this.Random.Next(possibles.Count)),
             this.Random.Next(2, 7) * (this.Random.NextBool(0.05 + (Game1.player.LuckLevel * 0.015))
@@ -333,7 +333,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
         else
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Coal, this.Random.Next(1, 4), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.Coal, this.Random.Next(1, 4), (a, b) => a + b);
         }
     }
 
@@ -345,7 +345,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 if (this.Random.NextBool(0.1))
                 {
                     treasuresAndQuantities.AddOrUpdate(
-                        QualifiedObjectIds.OmniGeode,
+                        QIDs.OmniGeode,
                         1,
                         (a, b) => a + b);
                 }
@@ -374,7 +374,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 break;
 
             default:
-                treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Geode, this.Random.Next(1, 4), (a, b) => a + b);
+                treasuresAndQuantities.AddOrUpdate(QIDs.Geode, this.Random.Next(1, 4), (a, b) => a + b);
                 break;
         }
 
@@ -391,7 +391,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         if (mineLevel.IsIn(1..19))
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Coal, this.Random.Next(1, 4), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.Coal, this.Random.Next(1, 4), (a, b) => a + b);
             return;
         }
 
@@ -399,7 +399,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         {
             case < 0:
                 treasuresAndQuantities.AddOrUpdate(
-                    this.Random.NextBool(0.3) ? QualifiedObjectIds.FireQuartz :
+                    this.Random.NextBool(0.3) ? QIDs.FireQuartz :
                     $"(O){60 + (this.Random.Next(6) * 2)}", // gemstones
                     this.Random.Next(1, 4),
                     (a, b) => a + b);
@@ -407,24 +407,24 @@ internal sealed class ProspectorHunt : TreasureHunt
 
             case > 80:
                 treasuresAndQuantities.AddOrUpdate(
-                    this.Random.NextBool(0.3) ? QualifiedObjectIds.FireQuartz :
-                    this.Random.NextBool() ? QualifiedObjectIds.Ruby : QualifiedObjectIds.Emerald,
+                    this.Random.NextBool(0.3) ? QIDs.FireQuartz :
+                    this.Random.NextBool() ? QIDs.Ruby : QIDs.Emerald,
                     this.Random.Next(1, 3),
                     (a, b) => a + b);
                 break;
 
             case > 40:
                 treasuresAndQuantities.AddOrUpdate(
-                    this.Random.NextBool(0.3) ? QualifiedObjectIds.FrozenTear :
-                    this.Random.NextBool() ? QualifiedObjectIds.Jade : QualifiedObjectIds.Aquamarine,
+                    this.Random.NextBool(0.3) ? QIDs.FrozenTear :
+                    this.Random.NextBool() ? QIDs.Jade : QIDs.Aquamarine,
                     this.Random.Next(1, 3),
                     (a, b) => a + b);
                 break;
 
             default:
                 treasuresAndQuantities.AddOrUpdate(
-                    this.Random.NextBool(0.3) ? QualifiedObjectIds.EarthCrystal :
-                    this.Random.NextBool() ? QualifiedObjectIds.Amethyst : QualifiedObjectIds.Topaz,
+                    this.Random.NextBool(0.3) ? QIDs.EarthCrystal :
+                    this.Random.NextBool() ? QIDs.Amethyst : QIDs.Topaz,
                     this.Random.Next(1, 3),
                     (a, b) => a + b);
                 break;
@@ -432,11 +432,11 @@ internal sealed class ProspectorHunt : TreasureHunt
 
         if (this.Random.NextBool(0.028 * mineLevel / 12))
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Diamond, 1, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.Diamond, 1, (a, b) => a + b);
         }
         else
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Quartz, this.Random.Next(1, 3), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.Quartz, this.Random.Next(1, 3), (a, b) => a + b);
         }
     }
 
@@ -457,19 +457,19 @@ internal sealed class ProspectorHunt : TreasureHunt
         else if (this.Random.NextBool(0.25 * luckModifier))
         {
             treasuresAndQuantities.AddOrUpdate(
-                QualifiedObjectIds.DragonTooth,
+                QIDs.DragonTooth,
                 1,
                 (a, b) => a + b);
         }
 
         if (this.Random.NextBool(0.01 * luckModifier))
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.PrismaticShard, 1, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.PrismaticShard, 1, (a, b) => a + b);
         }
 
         if (treasuresAndQuantities.Count == 0)
         {
-            treasuresAndQuantities.AddOrUpdate(QualifiedObjectIds.Diamond, 1, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.Diamond, 1, (a, b) => a + b);
         }
     }
 }

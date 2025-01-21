@@ -53,7 +53,7 @@ public static class Game1Extensions
                 .Sum(miniBin => miniBin
                     .GetItemsForPlayer(farmer.UniqueMultiplayerID)
                     .Sum(item => Utility.getSellToStorePriceOfItem(item)));
-            return true;
+            return true; // continue enumeration
         });
 
         return total;

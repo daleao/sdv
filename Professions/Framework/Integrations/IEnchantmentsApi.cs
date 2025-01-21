@@ -7,7 +7,7 @@ using StardewValley.Projectiles;
 
 #endregion using directives
 
-/// <summary>The public interface for the Taxes mod API.</summary>
+/// <summary>The public interface for the Enchantments mod API.</summary>
 public interface IEnchantmentsApi
 {
     /// <summary>Creates a new instance of a Quincy projectile.</summary>

@@ -17,8 +17,9 @@ internal sealed class FarmerMovePositionImplPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmerMovePositionImplPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmerMovePositionImplPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmerMovePositionImplPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Farmer>("MovePosition");
     }

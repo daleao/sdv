@@ -12,13 +12,31 @@ internal static class GreenSlime_Piped
 {
     internal static ConditionalWeakTable<GreenSlime, PipedSlime> Values { get; } = [];
 
+    internal static HashSet<GreenSlime> PipedSlimes { get; } = [];
+
     internal static PipedSlime? Get_Piped(this GreenSlime slime)
     {
         return Values.TryGetValue(slime, out var piped) ? piped : null;
     }
 
-    internal static void Set_Piped(this GreenSlime slime, Farmer piper, int timer = -1)
+    internal static void Set_Piped(this GreenSlime slime, Farmer? piper, bool summoned = true)
     {
-        Values.AddOrUpdate(slime, new PipedSlime(slime, piper, timer));
+        if (piper is not null)
+        {
+            var piped = new PipedSlime(slime, piper, summoned);
+            Values.AddOrUpdate(slime, piped);
+            PipedSlimes.Add(slime);
+        }
+        else
+        {
+            if (!Values.TryGetValue(slime, out var piped))
+            {
+                return;
+            }
+
+            PipedSlimes.Remove(slime);
+            piped.Reset();
+            Values.Remove(slime);
+        }
     }
 }

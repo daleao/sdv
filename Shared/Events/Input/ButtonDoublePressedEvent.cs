@@ -12,11 +12,22 @@ using StardewModdingAPI.Utilities;
 public abstract class ButtonDoublePressedEvent(EventManager manager)
     : ButtonPressedEvent(manager)
 {
-    private int _lastPressedGameTime;
-    private ButtonDoublePressReleasedEvent? _buttonDoublePressReleasedEvent = null;
+    private double _lastPressedGameTime;
 
-    /// <summary>Gets the <see cref="KeybindList"/> monitored by this event.</summary>
-    protected abstract KeybindList Keybinds { get; }
+    /// <summary>Gets the <see cref="StardewModdingAPI.Utilities.KeybindList"/> monitored by this event.</summary>
+    public abstract KeybindList KeybindList { get; }
+
+    /// <summary>Gets the <see cref="Action"/> invoked if the <seealso cref="KeybindList"/> is immediately release after two consecutive presses.</summary>
+    public Action? OnButtonDoublePressed { get; protected init; }
+
+    /// <summary>Gets the <see cref="Action"/> invoked if the <seealso cref="KeybindList"/> is held for <seealso cref="HoldInterval"/> after two consecutive presses.</summary>
+    public Action? OnButtonDoublePressedAndHeld { get; protected init; }
+
+    /// <summary>Gets the event used to detect a simple double press.</summary>
+    internal ButtonDoublePressReleasedEvent? ButtonDoublePressReleasedEvent { get; private set; }
+
+    /// <summary>Gets the event used to detect a double-press-and-hold.</summary>
+    internal ButtonDoublePressUpdateTickedEvent? ButtonDoublePressUpdateTickedEvent { get; private set; }
 
     /// <summary>Gets the maximum accepted interval between presses, in milliseconds.</summary>
     protected virtual int DoublePressInterval { get; } = 200;
@@ -24,38 +35,50 @@ public abstract class ButtonDoublePressedEvent(EventManager manager)
     /// <summary>Gets the interval required for a double-press-and-hold, in milliseconds.</summary>
     protected virtual int HoldInterval { get; } = 250;
 
-    /// <summary>Invoked when <see cref="Keybinds"/> is pressed twice and immediately released.</summary>
-    protected virtual void OnButtonDoublePressedImpl()
+    /// <inheritdoc cref="OnButtonDoublePressed"/>
+    public virtual void OnButtonDoublePressedImpl()
     {
     }
 
-    /// <summary>Invoked when <see cref="Keybinds"/> is pressed twice and then held for a short interval.</summary>
-    protected virtual void OnButtonDoublePressedAndHeldImpl()
+    /// <inheritdoc cref="OnButtonDoublePressedAndHeld"/>
+    public virtual void OnButtonDoublePressedAndHeldImpl()
     {
+    }
+
+    /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        if (!this.KeybindList.IsBound)
+        {
+            this.Disable();
+        }
     }
 
     /// <inheritdoc />
     protected sealed override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!this.Keybinds.JustPressed())
+        if (!this.KeybindList.JustPressed())
         {
             return;
         }
 
-        this._buttonDoublePressReleasedEvent ??=
-            new ButtonDoublePressReleasedEvent(
-                this.Manager,
-                this.Keybinds,
-                this.HoldInterval,
-                this.OnButtonDoublePressedImpl,
-                this.OnButtonDoublePressedAndHeldImpl);
-        if (Game1.currentGameTime.TotalGameTime.Milliseconds <= this._lastPressedGameTime + this.DoublePressInterval)
+        if (Game1.currentGameTime.TotalGameTime.TotalMilliseconds <= this._lastPressedGameTime + this.DoublePressInterval)
         {
-            this._buttonDoublePressReleasedEvent.Enable();
+            if (this.OnButtonDoublePressed is not null)
+            {
+                (this.ButtonDoublePressReleasedEvent ??=
+                    new ButtonDoublePressReleasedEvent(this.Manager, this)).Enable();
+            }
+
+            if (this.OnButtonDoublePressedAndHeld is not null)
+            {
+                (this.ButtonDoublePressUpdateTickedEvent ??=
+                    new ButtonDoublePressUpdateTickedEvent(this.Manager, this, this.HoldInterval)).Enable();
+            }
         }
         else
         {
-            this._lastPressedGameTime = Game1.currentGameTime.TotalGameTime.Milliseconds;
+            this._lastPressedGameTime = Game1.currentGameTime.TotalGameTime.TotalMilliseconds;
         }
     }
 }

@@ -12,15 +12,19 @@ using StardewModdingAPI.Utilities;
 public abstract class ButtonHeldEvent(EventManager manager)
     : ButtonPressedEvent(manager)
 {
-    private ButtonHoldReleasedEvent? _buttonHoldReleasedEvent = null;
+    /// <summary>Gets the <see cref="StardewModdingAPI.Utilities.KeybindList"/> monitored by this event.</summary>
+    public abstract KeybindList KeybindList { get; }
 
-    /// <summary>Gets the <see cref="KeybindList"/> monitored by this event.</summary>
-    protected abstract KeybindList Keybinds { get; }
+    /// <summary>Gets the <see cref="Action"/> invoked if the <seealso cref="KeybindList"/> is held for <seealso cref="HoldInterval"/> after two consecutive presses.</summary>
+    public Action? OnButtonHeld { get; protected init; }
+
+    /// <summary>Gets the event used to detect a hold.</summary>
+    internal ButtonHoldUpdateTickedEvent? ButtonHoldUpdateTickedEvent { get; private set; }
 
     /// <summary>Gets the interval required for a double-press-and-hold, in milliseconds.</summary>
     protected virtual int HoldInterval { get; } = 250;
 
-    /// <summary>Invoked when <see cref="Keybinds"/> is held for a short interval.</summary>
+    /// <inheritdoc cref="OnButtonHeld"/>
     protected virtual void OnButtonHeldImpl()
     {
     }
@@ -28,16 +32,10 @@ public abstract class ButtonHeldEvent(EventManager manager)
     /// <inheritdoc />
     protected sealed override void OnButtonPressedImpl(object? sender, ButtonPressedEventArgs e)
     {
-        if (!this.Keybinds.JustPressed())
+        if (this.KeybindList.JustPressed())
         {
-            return;
+            (this.ButtonHoldUpdateTickedEvent ??=
+                new ButtonHoldUpdateTickedEvent(this.Manager, this, this.HoldInterval)).Enable();
         }
-
-        (this._buttonHoldReleasedEvent ??=
-            new ButtonHoldReleasedEvent(
-                this.Manager,
-                this.Keybinds,
-                this.HoldInterval,
-                this.OnButtonHeldImpl)).Enable();
     }
 }

@@ -17,8 +17,9 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MonsterUpdateMovementPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MonsterUpdateMovementPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MonsterUpdateMovementPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Monster>(nameof(Monster.updateMovement));
     }
@@ -31,46 +32,56 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
     private static bool MonsterUpdateMovementPostfix(Monster __instance, GameLocation location, GameTime time)
     {
         if (__instance is not GreenSlime slime ||
-            Reflector.GetUnboundFieldGetter<GreenSlime, NetBool>(slime, "pursuingMate").Invoke(slime).Value)
+            Reflector.GetUnboundFieldGetter<GreenSlime, NetBool>(slime, "pursuingMate").Invoke(slime).Value ||
+            __instance.focusedOnFarmers)
         {
             return true; // run original logic
         }
 
         if (slime.Get_Piped() is not { } piped)
         {
-            if (!__instance.Player.HasProfession(Profession.Piper) || State.OffendedSlimes.Contains(slime))
-            {
-                return true; // run original logic
-            }
+            // // this would make non-piped Slimes neutral / non-aggressive
+            // slime.defaultMovementBehavior(time);
+            // goto realizeMovement;
 
-            slime.defaultMovementBehavior(time);
-            goto realizeMovement;
+            return true; // run original logic
         }
 
         __instance.Speed = piped.Piper.Speed;
+        __instance.addedSpeed = piped.Piper.addedSpeed;
         var target = __instance.Player;
-        if (piped.FakeFarmer.IsEnemy)
+        if (piped.FakeFarmer.IsAttachedToEnemy)
         {
             return true; // run original logic
         }
 
-        var currenTile = __instance.TilePoint;
-        var step = slime.Get_CurrentStep();
-        if (step is null || step == currenTile)
+        var currentTile = __instance.TilePoint;
+        var targetTile = target.TilePoint;
+        if (currentTile == targetTile)
         {
-            var targetTile = target.TilePoint;
-            step = slime.Get_IncrementalPathfinder().Step(currenTile, targetTile);
+            return false;
+        }
+
+        Point? step;
+        if (Config.UseAsyncMinionPathfinder)
+        {
+            step = PathfinderAsync!.QueryStep(slime);
+            if (step is null || step == currentTile)
+            {
+                PathfinderAsync.QueueRequest(slime, currentTile, targetTile);
+                return false; // don't run original logic
+            }
+        }
+        else
+        {
+            step = Pathfinder!.RequestFor(slime, currentTile, targetTile);
             if (step is null)
             {
                 return false; // don't run original logic
             }
-
-            slime.Set_CurrentStep(step);
         }
 
-        slime.SetMovingTowardTile(step.Value);
-
-    realizeMovement:
+        __instance.SetMovingTowardTile(step.Value);
         __instance.MovePosition(time, Game1.viewport, location);
         if (__instance.Position.Equals(__instance.lastPosition) && __instance.IsWalkingTowardPlayer &&
             __instance.withinPlayerThreshold())

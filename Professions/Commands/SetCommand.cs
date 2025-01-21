@@ -57,7 +57,7 @@ internal sealed class SetCommand(CommandHandler handler)
     {
         if (args.Length < 2)
         {
-            this.Handler.Log.W("You must specify a data key and value.");
+            Log.W("You must specify a data key and value.");
             return false;
         }
 
@@ -91,7 +91,7 @@ internal sealed class SetCommand(CommandHandler handler)
                     Game1.player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
-                    this.Handler.Log.I($"Mastered the {vanillaSkill} skill.");
+                    Log.I($"Mastered the {vanillaSkill} skill.");
                     return true;
                 case "unmaster":
                 case "unmastered":
@@ -105,7 +105,7 @@ internal sealed class SetCommand(CommandHandler handler)
                     Game1.player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
-                    this.Handler.Log.I($"Unmastered the {vanillaSkill} skill.");
+                    Log.I($"Unmastered the {vanillaSkill} skill.");
                     return true;
             }
 
@@ -291,7 +291,7 @@ internal sealed class SetCommand(CommandHandler handler)
 
         if (!Game1.player.HasProfession(limit.ParentProfession))
         {
-            this.Handler.Log.W(
+            Log.W(
                 "You don't have the required profession. Use the \"add\" command first if you would like to set this Limit Break.");
             return;
         }
@@ -329,7 +329,7 @@ internal sealed class SetCommand(CommandHandler handler)
             Game1.stats.checkForFishingAchievements();
         }
 
-        this.Handler.Log.I($"{Game1.player.Name}'s FishingDex has been updated.");
+        Log.I($"{Game1.player.Name}'s FishingDex has been updated.");
     }
 
     private void SetAnimalDispositions(string value)
@@ -367,23 +367,23 @@ internal sealed class SetCommand(CommandHandler handler)
 
         if (count == 0)
         {
-            this.Handler.Log.I("You don't own any animals.");
+            Log.I("You don't own any animals.");
             return;
         }
 
         if (both)
         {
-            this.Handler.Log.I($"The friendship and happiness of {count} animals has been set to max.");
+            Log.I($"The friendship and happiness of {count} animals has been set to max.");
             return;
         }
 
         switch (value)
         {
             case "friendship" or "friendly":
-                this.Handler.Log.I($"The friendship of {count} animals has been set to max.");
+                Log.I($"The friendship of {count} animals has been set to max.");
                 break;
             case "happiness" or "happy" or "mood":
-                this.Handler.Log.I($"The happiness of {count} animals has been set to max.");
+                Log.I($"The happiness of {count} animals has been set to max.");
                 break;
         }
     }
@@ -392,98 +392,100 @@ internal sealed class SetCommand(CommandHandler handler)
     {
         if (!Game1.player.HasProfession(Profession.Ecologist))
         {
-            this.Handler.Log.W("You must have the Ecologist profession.");
+            Log.W("You must have the Ecologist profession.");
             return;
         }
 
         var parsed = 0;
         if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out parsed))
         {
-            this.Handler.Log.W($"{value} is not a valid integer value.");
+            Log.W($"{value} is not a valid integer value.");
             return;
         }
 
-        Data.Write(
-            Game1.player,
-            DataKeys.EcologistVarietiesForaged,
-            string.IsNullOrEmpty(value) ? value : string.Join(',', Enumerable.Range(0, parsed)));
-        this.Handler.Log.I($"Varieties foraged as Ecologist was set to {value}.");
+        for (var i = 0; i < parsed; i++)
+        {
+            Data.AppendToEcologistItemsForaged(i.ToString());
+        }
+
+        Log.I($"Added {value} varieties foraged as Ecologist.");
     }
 
     private void SetGemologistMineralsStudied(string value)
     {
         if (!Game1.player.HasProfession(Profession.Gemologist))
         {
-            this.Handler.Log.W("You must have the Gemologist profession.");
+            Log.W("You must have the Gemologist profession.");
             return;
         }
 
         var parsed = 0;
         if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out parsed))
         {
-            this.Handler.Log.W($"{value} is not a valid integer value.");
+            Log.W($"{value} is not a valid integer value.");
             return;
         }
 
-        Data.Write(
-            Game1.player,
-            DataKeys.GemologistMineralsStudied,
-            string.IsNullOrEmpty(value) ? value : string.Join(',', Enumerable.Range(0, parsed)));
-        this.Handler.Log.I($"Minerals collected as Gemologist was set to {value}.");
+        for (var i = 0; i < parsed; i++)
+        {
+            Data.AppendToGemologistMineralsCollected(i.ToString());
+        }
+
+        Log.I($"Added {value} minerals collected as Gemologist.");
     }
 
     private void SetProspectorHuntStreak(string value)
     {
         if (!Game1.player.HasProfession(Profession.Prospector))
         {
-            this.Handler.Log.W("You must have the Prospector profession.");
+            Log.W("You must have the Prospector profession.");
             return;
         }
 
         if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out _))
         {
-            this.Handler.Log.W($"{value} is not a valid integer value.");
+            Log.W($"{value} is not a valid integer value.");
             return;
         }
 
         Data.Write(Game1.player, DataKeys.ProspectorHuntStreak, value);
-        this.Handler.Log.I($"Prospector Hunt was streak set to {value}.");
+        Log.I($"Prospector Hunt was streak set to {value}.");
     }
 
     private void SetScavengerHuntStreak(string value)
     {
         if (!Game1.player.HasProfession(Profession.Scavenger))
         {
-            this.Handler.Log.W("You must have the Scavenger profession.");
+            Log.W("You must have the Scavenger profession.");
             return;
         }
 
         if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out _))
         {
-            this.Handler.Log.W($"{value} is not a valid integer value.");
+            Log.W($"{value} is not a valid integer value.");
             return;
         }
 
         Data.Write(Game1.player, DataKeys.ScavengerHuntStreak, value);
-        this.Handler.Log.I($"Scavenger Hunt streak was set to {value}.");
+        Log.I($"Scavenger Hunt streak was set to {value}.");
     }
 
     private void SetConservationistTrashCollectedThisSeason(string value)
     {
         if (!Game1.player.HasProfession(Profession.Conservationist))
         {
-            this.Handler.Log.W("You must have the Conservationist profession.");
+            Log.W("You must have the Conservationist profession.");
             return;
         }
 
         if (!string.IsNullOrEmpty(value) && !int.TryParse(value, out _))
         {
-            this.Handler.Log.W($"{value} is not a valid integer value.");
+            Log.W($"{value} is not a valid integer value.");
             return;
         }
 
         Data.Write(Game1.player, DataKeys.ConservationistTrashCollectedThisSeason, value);
-        this.Handler.Log.I(
+        Log.I(
             $"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
     }
 
@@ -491,13 +493,13 @@ internal sealed class SetCommand(CommandHandler handler)
     {
         if (Game1.player.CurrentTool is not FishingRod { UpgradeLevel: > 2 } rod)
         {
-            this.Handler.Log.W("You must equip an Iridium Rod to use this command.");
+            Log.W("You must equip an Iridium Rod to use this command.");
             return;
         }
 
         if (value is not ("686" or "687" or "691" or "692" or "693" or "694" or "695" or "856" or "877" or "SonarBobber"))
         {
-            this.Handler.Log.W($"{value} is not a valid tackle ID.");
+            Log.W($"{value} is not a valid tackle ID.");
             return;
         }
 

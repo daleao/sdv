@@ -22,8 +22,9 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishingRodPullFishFromWaterPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishingRodPullFishFromWaterPatcher(Harmonizer harmonizer)
-    : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishingRodPullFishFromWaterPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishingRod>(nameof(FishingRod.pullFishFromWater));
     }
@@ -46,7 +47,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             var (x, y) = Reflector
                 .GetUnboundMethodDelegate<Func<FishingRod, Vector2>>(__instance, "calculateBobberTile")
                 .Invoke(__instance);
-            var pond = Game1.getFarm().buildings.OfType<FishPond>().FirstOrDefault(p =>
+            var pond = Game1.currentLocation.buildings.OfType<FishPond>().FirstOrDefault(p =>
                 x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
                 y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
             if (pond is null || pond.FishCount < 0)
@@ -85,7 +86,8 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             if (algae.Count != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
-                    "Mismatch between algae population data and actual population.");
+                    $"Mismatch between algae population data and actual population:" +
+                    $"\n\t- Population: {pond.FishCount}\n\t- Data: {Data.Read(pond, DataKeys.PondFish)}");
             }
 
             Data.Write(pond, DataKeys.PondFish, string.Join(';', algae));
@@ -126,7 +128,8 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             if (fishes.Count != pond.FishCount)
             {
                 ThrowHelper.ThrowInvalidDataException(
-                    "Mismatch between fish population data and actual population.");
+                    $"Mismatch between fish population data and actual population:" +
+                    $"\n\t- Population: {pond.FishCount}\n\t- Data: {Data.Read(pond, DataKeys.PondFish)}");
             }
 
             Data.Write(pond, DataKeys.PondFish, string.Join(';', fishes));

@@ -10,15 +10,15 @@ using Microsoft.Xna.Framework;
 internal sealed class DesperadoBlossomBuff : Buff
 {
     internal const string ID = "DaLion.Professions.Buffs.Limit.Blossom";
-    private const int BASE_DURATION = 15_000;
-    private const int SHEET_INDEX = 55;
+    internal const int BASE_DURATION_MS = 15_000;
+    internal const int SHEET_INDEX = 55;
 
     internal DesperadoBlossomBuff()
         : base(
             id: ID,
             source: "Blossom",
             displaySource: Game1.player.IsMale ? I18n.Desperado_Limit_Title_Male() : I18n.Desperado_Limit_Title_Female(),
-            duration: (int)(BASE_DURATION * LimitBreak.GetDurationMultiplier),
+            duration: (int)(BASE_DURATION_MS * LimitBreak.DurationMultiplier),
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
             description: I18n.Desperado_Limit_Desc())
@@ -26,6 +26,7 @@ internal sealed class DesperadoBlossomBuff : Buff
         this.glow = Color.DarkGoldenrod;
     }
 
+    /// <inheritdoc />
     public override void OnAdded()
     {
         SoundBox.DesperadoWhoosh.PlayAll(Game1.player.currentLocation, Game1.player.Tile);

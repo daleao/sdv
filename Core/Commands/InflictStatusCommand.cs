@@ -35,7 +35,7 @@ internal sealed class InflictStatusCommand(CommandHandler handler)
 
         if (args.Length == 0)
         {
-            this.Handler.Log.W("You must specify a valid status condition.");
+            Log.W("You must specify a valid status condition.");
             return true;
         }
 
@@ -58,7 +58,7 @@ internal sealed class InflictStatusCommand(CommandHandler handler)
             var nearest = player.GetClosestCharacter<Monster>();
             if (nearest is null)
             {
-                this.Handler.Log.W("There are no enemies nearby.");
+                Log.W("There are no enemies nearby.");
                 return true;
             }
 

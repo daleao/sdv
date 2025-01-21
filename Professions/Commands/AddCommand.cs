@@ -33,7 +33,7 @@ internal sealed class AddCommand(CommandHandler handler)
     {
         if (args.Length == 0)
         {
-            this.Handler.Log.W("You must specify at least one profession.");
+            Log.W("You must specify at least one profession.");
             return false;
         }
 
@@ -52,7 +52,7 @@ internal sealed class AddCommand(CommandHandler handler)
                         }
 
                         Game1.player.stats.Set(StatKeys.Mastery(skill1), 1);
-                        this.Handler.Log.I($"Mastered the {skill1} skill.");
+                        Log.I($"Mastered the {skill1} skill.");
                     }
 
                     Game1.player.stats.Set(StatKeys.MasteryExp, MasteryTrackerMenu.getMasteryExpNeededForLevel(5));
@@ -63,7 +63,7 @@ internal sealed class AddCommand(CommandHandler handler)
                 {
                     if (skill2.CanGainPrestigeLevels())
                     {
-                        this.Handler.Log.I($"{skill2} skill is already mastered.");
+                        Log.I($"{skill2} skill is already mastered.");
                         return true;
                     }
 
@@ -71,11 +71,11 @@ internal sealed class AddCommand(CommandHandler handler)
                     Game1.player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
-                    this.Handler.Log.I($"Mastered the {skill2} skill.");
+                    Log.I($"Mastered the {skill2} skill.");
                 }
                 else
                 {
-                    this.Handler.Log.I($"Ignoring unknown vanilla skill \"{skill2}\".");
+                    Log.I($"Ignoring unknown vanilla skill \"{skill2}\".");
                 }
             }
         }
@@ -100,7 +100,7 @@ internal sealed class AddCommand(CommandHandler handler)
 
                 range = [.. range, .. CustomProfession.List.Select(p => p.Id)];
                 professionsToAdd.AddRange(range);
-                this.Handler.Log.I(
+                Log.I(
                     $"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
                 break;
             }
@@ -112,7 +112,7 @@ internal sealed class AddCommand(CommandHandler handler)
                 if ((!prestige && Game1.player.HasProfession(profession)) ||
                     (prestige && Game1.player.HasProfession(profession, true)))
                 {
-                    this.Handler.Log.W($"Farmer {Game1.player.Name} already has the {profession.StringId} profession.");
+                    Log.W($"Farmer {Game1.player.Name} already has the {profession.StringId} profession.");
                     continue;
                 }
 
@@ -122,7 +122,7 @@ internal sealed class AddCommand(CommandHandler handler)
                     professionsToAdd.Add(profession + 100);
                 }
 
-                this.Handler.Log.I(
+                Log.I(
                     $"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {Game1.player.Name}.");
             }
             else
@@ -133,25 +133,25 @@ internal sealed class AddCommand(CommandHandler handler)
                     (int.TryParse(arg, out id) && id == p.Id));
                 if (customProfession is null)
                 {
-                    this.Handler.Log.W($"{arg} is not a valid profession name.");
+                    Log.W($"{arg} is not a valid profession name.");
                     continue;
                 }
 
                 if (prestige)
                 {
-                    this.Handler.Log.W($"Cannot prestige custom skill profession {customProfession.StringId}.");
+                    Log.W($"Cannot prestige custom skill profession {customProfession.StringId}.");
                     continue;
                 }
 
                 if (Game1.player.HasProfession(customProfession))
                 {
-                    this.Handler.Log.W(
+                    Log.W(
                         $"Farmer {Game1.player.Name} already has the {customProfession.StringId} profession.");
                     continue;
                 }
 
                 professionsToAdd.Add(customProfession.Id);
-                this.Handler.Log.I($"Added the {customProfession.StringId} profession to {Game1.player.Name}.");
+                Log.I($"Added the {customProfession.StringId} profession to {Game1.player.Name}.");
             }
         }
 

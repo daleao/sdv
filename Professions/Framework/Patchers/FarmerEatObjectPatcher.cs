@@ -13,8 +13,9 @@ internal sealed class FarmerEatObjectPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmerEatObjectPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmerEatObjectPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmerEatObjectPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Farmer>(nameof(Farmer.eatObject));
     }

@@ -20,8 +20,9 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="LevelUpMenuDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal LevelUpMenuDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal LevelUpMenuDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<LevelUpMenu>(nameof(LevelUpMenu.draw), [typeof(SpriteBatch)]);
     }

@@ -26,13 +26,13 @@ internal sealed class SetCommand(CommandHandler handler)
     {
         if (args.Length != 2)
         {
-            this.Handler.Log.W("You must specify a data key and value to be set.");
+            Log.W("You must specify a data key and value to be set.");
             return false;
         }
 
         if (!int.TryParse(args[1], out _))
         {
-            this.Handler.Log.W($"'{args[1]}' is not a valid integer value.");
+            Log.W($"'{args[1]}' is not a valid integer value.");
             return false;
         }
 
@@ -42,36 +42,36 @@ internal sealed class SetCommand(CommandHandler handler)
         {
             case "income":
                 Data.Write(player, DataKeys.SeasonIncome, args[1]);
-                this.Handler.Log.I($"{player.Name}'s season income has been set to {args[1]}.");
+                Log.I($"{player.Name}'s season income has been set to {args[1]}.");
                 break;
             case "expenses":
             case "deductibles":
                 Data.Write(player, DataKeys.BusinessExpenses, args[1]);
-                this.Handler.Log.I($"{player.Name}'s season business expenses has been set to {args[1]}.");
+                Log.I($"{player.Name}'s season business expenses has been set to {args[1]}.");
                 break;
             case "debt":
             case "outstanding":
                 Data.Write(player, DataKeys.DebtOutstanding, args[1]);
-                this.Handler.Log.I($"{player.Name}'s debt has been set to {args[1]}.");
+                Log.I($"{player.Name}'s debt has been set to {args[1]}.");
                 break;
             case "agriculture":
                 Data.Write(farm, DataKeys.AgricultureValue, args[1]);
-                this.Handler.Log.I($"{player.farmName}'s agriculture valuation has been set to {args[1]}.");
+                Log.I($"{player.farmName}'s agriculture valuation has been set to {args[1]}.");
                 break;
             case "livestock":
                 Data.Write(farm, DataKeys.LivestockValue, args[1]);
-                this.Handler.Log.I($"{player.farmName}'s livestock valuation has been set to {args[1]}.");
+                Log.I($"{player.farmName}'s livestock valuation has been set to {args[1]}.");
                 break;
             case "buildings":
                 Data.Write(farm, DataKeys.BuildingValue, args[1]);
-                this.Handler.Log.I($"{player.farmName}'s buildings' valuation has been set to {args[1]}.");
+                Log.I($"{player.farmName}'s buildings' valuation has been set to {args[1]}.");
                 break;
             case "usage":
                 Data.Write(farm, DataKeys.UsedTiles, args[1]);
-                this.Handler.Log.I($"{player.farmName}'s used tiles has been set to {args[1]}.");
+                Log.I($"{player.farmName}'s used tiles has been set to {args[1]}.");
                 break;
             default:
-                this.Handler.Log.I($"'{args[0]}' is not a valid data field.");
+                Log.I($"'{args[0]}' is not a valid data field.");
                 break;
         }
 

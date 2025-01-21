@@ -109,6 +109,8 @@
   <ItemGroup>
     <Using Include="System" />
     <Using Include="CommunityToolkit.Diagnostics" />
+    <Using Include="DaLion.Core" />
+    <Using Include="DaLion.Shared" />
     <Using Include="JetBrains.Annotations" />
     <Using Include="StardewModdingAPI" />
     <Using Include="StardewValley" />

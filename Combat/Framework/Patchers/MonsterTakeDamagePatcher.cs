@@ -19,8 +19,9 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MonsterTakeDamagePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MonsterTakeDamagePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MonsterTakeDamagePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Monster>(
             nameof(Monster.takeDamage),
@@ -37,7 +38,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
         foreach (var target in TargetMethods())
         {
-            Log.A($"Patching {target.DeclaringType} class...");
+            Log.D($"Patching {target.DeclaringType} class...");
             this.Target = target;
             if (!base.ApplyImpl(harmony))
             {
@@ -58,6 +59,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
         foreach (var target in TargetMethods())
         {
+            Log.D($"Unpatching {target.DeclaringType} class...");
             this.Target = target;
             if (!base.UnapplyImpl(harmony))
             {

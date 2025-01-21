@@ -16,34 +16,33 @@ using Priority_Queue;
 
 /// <summary>Implementation of Moving Target D* Lite pathfinding algorithm for a 2D grid based on a <see cref="GameLocation"/>.</summary>
 /// <remarks>Reference paper: <see href="http://idm-lab.org/bib/abstracts/papers/aamas10a.pdf"/>.</remarks>
-public sealed class MTDStarLite
+public sealed class MovingTargetDStarLite
 {
     private const int MAX_COMPUTE_CYCLES = 1000;
 
     private readonly GameLocation _location;
     private readonly Func<Point, Point, int> _cost;
     private readonly Func<Point, Point, int> _heuristic = (a, b) => a.ManhattanDistance(b);
-    private readonly Func<Point, bool> _isWalkable;
     private readonly SimplePriorityQueue<State, Key> _open = [];
     private readonly HashSet<State> _closed = [];
     private readonly HashSet<State> _deleted = [];
     private readonly Stack<Point> _path = [];
-    private State[,] _grid;
-    private State? _start;
+    private readonly State[,] _grid;
+    private readonly Stopwatch _sw = new();
     private State? _goal;
     private Point? _previousStep;
     private int _km;
     private bool _initialized;
     private bool _anyEdgesChanged;
 
-    /// <summary>Initializes a new instance of the <see cref="MTDStarLite"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MovingTargetDStarLite"/> class.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="isWalkable">A function to determine whether a <see cref="Vector2"/> tile in the <paramref name="location"/>> is walkable.</param>
-    public MTDStarLite(GameLocation location, Func<GameLocation, Vector2, bool> isWalkable)
+    public MovingTargetDStarLite(GameLocation location, Func<GameLocation, Vector2, bool> isWalkable)
     {
         this._location = location;
-        this._isWalkable = p => isWalkable.Partial(location)(p.ToVector2());
-        this._cost = (a, b) => this._isWalkable(a) && this._isWalkable(b) ? 1 : int.MaxValue;
+        this.IsWalkable = p => isWalkable.Partial(location)(p.ToVector2());
+        this._cost = (a, b) => this.IsWalkable(a) && this.IsWalkable(b) ? 1 : int.MaxValue;
         State.Cost = (p, n) => this._cost(p, n.Position);
 
         var width = location.Map.Layers[0].LayerWidth;
@@ -56,35 +55,10 @@ public sealed class MTDStarLite
                 this._grid[y, x] = new State(x, y);
             }
         }
-
-        PathfinderObjectListChangedEvent.Pathfinders.AddOrUpdate(this, null);
-#if DEBUG
-        PathfinderRenderedWorldEvent.Pathfinder = this;
-#endif
     }
 
     /// <summary>Gets the current start state.</summary>
-    [NotNullIfNotNull(nameof(_start))]
-    public State? Start
-    {
-        get => this._start;
-        private set
-        {
-            if (this._start is not null)
-            {
-                this._start.IsStart = false;
-            }
-
-            if (value is null)
-            {
-                this._start = null;
-                return;
-            }
-
-            this._start = value;
-            this._start.IsStart = true;
-        }
-    }
+    public State? Start { get; private set; }
 
     /// <summary>Gets the current goal state.</summary>
     [NotNullIfNotNull(nameof(_goal))]
@@ -93,11 +67,6 @@ public sealed class MTDStarLite
         get => this._goal;
         private set
         {
-            if (this._goal is not null)
-            {
-                this._goal.IsGoal = false;
-            }
-
             if (value is null)
             {
                 this._goal = null;
@@ -105,7 +74,6 @@ public sealed class MTDStarLite
             }
 
             this._goal = value;
-            this._goal.IsGoal = true;
             State.Heuristic = this._heuristic.Partial<Point, int>(this._goal.Position);
         }
     }
@@ -123,6 +91,8 @@ public sealed class MTDStarLite
     /// <summary>Enumerates the set of all states.</summary>
     public IEnumerable<State> FullSet => this._grid.Cast<State>();
 #endif
+
+    internal Func<Point, bool> IsWalkable { get; }
 
     /// <summary>Gets the next step in the optimal path from <paramref name="start"/> to <paramref name="goal"/>.</summary>
     /// <param name="start">The starting position, as a <see cref="Point"/>.</param>
@@ -235,15 +205,15 @@ public sealed class MTDStarLite
     [MemberNotNull(nameof(Start), nameof(Goal))]
     private void Initialize(Point start, Point goal)
     {
-        this._open.Clear();
-        this._closed.Clear();
-        this._km = 0;
-        foreach (var s in this._grid)
-        {
-            s.RHS = s.G = int.MaxValue;
-            s.Parent = null;
-            s.Children.Clear();
-        }
+        // this._open.Clear();
+        // this._closed.Clear();
+        // this._km = 0;
+        // foreach (var s in this._grid)
+        // {
+        //     s.RHS = s.G = int.MaxValue;
+        //     s.Parent = null;
+        //     s.Children.Clear();
+        // }
 
         this.Start = this._grid[start.Y, start.X];
         this.Goal = this._grid[goal.Y, goal.X];
@@ -261,6 +231,7 @@ public sealed class MTDStarLite
             return false;
         }
 
+        //this.StartWatch();
         var maxSteps = MAX_COMPUTE_CYCLES;
         while (this._open.Count > 0 &&
                (this._open.First.CachedKey < this.Goal.CalculateKey(this._km) || this.Goal.RHS > this.Goal.G))
@@ -314,6 +285,7 @@ public sealed class MTDStarLite
             }
         }
 
+        //this.StopWatch();
         return this.Goal.RHS != int.MaxValue;
     }
 
@@ -371,16 +343,15 @@ public sealed class MTDStarLite
         this._deleted.Clear();
         Stack<State> S = [];
         S.Push(oldStart);
-        while (S.Count > 0)
+        while (S.TryPop(out var s))
         {
-            var s = S.Pop();
-            if (s == this._start)
+            if (s == this.Start)
             {
                 continue;
             }
 
-            s.RHS = s.G = int.MaxValue;
             s.Parent = null;
+            s.RHS = s.G = int.MaxValue;
             if (this._open.Contains(s))
             {
                 this._open.Remove(s);
@@ -415,7 +386,7 @@ public sealed class MTDStarLite
         }
     }
 
-    /// <summary>Reconstructs the optimal poth from <see cref="Start"/> to <see cref="Goal"/>.</summary>
+    /// <summary>Reconstructs the computed path from <see cref="Start"/> to <see cref="Goal"/> by traversing the Search Tree backwards from the goal.</summary>
     /// <returns>The reconstructed path as a <see cref="Stack{T}"/> of <see cref="State"/> instances.</returns>
     private Stack<Point> ReconstructPath()
     {
@@ -427,13 +398,68 @@ public sealed class MTDStarLite
             current = current.Parent;
         }
 
+        //Log.D($"Reconstructed path: {string.Join(';', this._path.ToArray())}\n");
         return this._path;
+    }
+
+    /// <summary>Reconstructs an optimized path from <see cref="Start"/> to <see cref="Goal"/> by subsampling the computed path to remove redundant steps.</summary>
+    /// <returns>The reconstructed path as a <see cref="Stack{T}"/> of <see cref="State"/> instances.</returns>
+    private Stack<Point> ReconstructOptimizedPath()
+    {
+        this._path.Clear();
+
+        var current = this.Goal;
+        List<Point> path = [];
+        while (current is not null && current != this.Start)
+        {
+            path.Add(current.Position);
+            current = current.Parent;
+        }
+
+        switch (path.Count)
+        {
+            case 1:
+                this._path.Push(path[0]);
+                return this._path;
+            case 2 when path[0].X == path[1].X || path[0].Y == path[1].Y:
+                this._path.Push(path[1]);
+                return this._path;
+        }
+
+        for (var i = 0; i < path.Count - 2; i++)
+        {
+            if ((path[i].X == path[i + 2].X && path[i].Y == path[i + 2].Y) ||
+                (Math.Abs(path[i + 2].X - path[i].X) == Math.Abs(path[i + 2].Y - path[i].Y)))
+            {
+                path.RemoveAt(i + 1);
+            }
+        }
+
+        foreach (var point in path)
+        {
+            this._path.Push(point);
+        }
+
+        return this._path;
+    }
+
+    [Conditional("DEBUG")]
+    private void StartWatch()
+    {
+        this._sw.Restart();
+    }
+
+    [Conditional("DEBUG")]
+    private void StopWatch()
+    {
+        this._sw.Stop();
+        Log.D($"Pathfinder completed computation in {this._sw.ElapsedMilliseconds}ms.");
     }
 
     /// <summary>Represents a two-value priority key.</summary>
     /// <param name="k1">The first key value.</param>
     /// <param name="k2">The second key value.</param>
-    public readonly struct Key(float k1, float k2) : IComparable<Key>
+    public readonly struct Key(float k1, float k2) : IComparable<Key>, IEquatable<Key>
     {
         /// <summary>The first key value.</summary>
         public readonly float K1 = k1;
@@ -473,6 +499,14 @@ public sealed class MTDStarLite
             return this < other ? -1 : this > other ? 1 : 0;
         }
 
+        /// <summary>Indicates whether the two instances are equal.</summary>
+        /// <param name="other">The <see cref="Key"/> to compare with the current instance.</param>
+        /// <returns><see langword="true"/> if <paramref name="other"/> and <see langword="this"/> represent the same value, otherwise <see langword="false"/>.</returns>
+        public bool Equals(Key other)
+        {
+            return this == other;
+        }
+
         /// <inheritdoc />
         public override bool Equals(object? @object)
         {
@@ -488,14 +522,14 @@ public sealed class MTDStarLite
         /// <inheritdoc />
         public override string ToString()
         {
-            return $"{this.K1}, {this.K2}";
+            return $"Key(K1={this.K1}, K2={this.K2}";
         }
     }
 
     /// <summary>Represents a state in a path.</summary>
     /// <remarks>Initializes a new instance of the <see cref="State"/> class.</remarks>
     /// <param name="position">The state's coordinates as a <see cref="Point"/>.</param>
-    [DebuggerDisplay("Position = {Position} | G = {G} | RHS = {RHS} | H = {H} | IsWalkable = {IsWalkable}")]
+    [DebuggerDisplay("POS = {Position} | G = {G} | RHS = {RHS} | H = {H} | C = {IsWalkable}")]
     public sealed class State(Point position) : GenericPriorityQueueNode<Key>, IEquatable<State>
     {
         private State? _parent;
@@ -520,7 +554,7 @@ public sealed class MTDStarLite
         /// <summary>Gets the cost function for traveling from this state to some other state.</summary>
         public Func<State, int> C => Cost.Partial(this.Position);
 
-        /// <summary>Gets the heuristic cost of a path from this state to the starting state.</summary>
+        /// <summary>Gets the heuristic cost of a path from this state to the goal state.</summary>
         public int H => Heuristic(this.Position);
 
         /// <summary>Gets or sets the total cost of a path from the goal state to this state.</summary>
@@ -547,16 +581,8 @@ public sealed class MTDStarLite
         /// <summary>Gets the last <see cref="Key"/> value calculated for this state.</summary>
         public Key CachedKey { get; private set; }
 
-        /// <summary>Gets a value indicating whether this state is the start state.</summary>
-        public bool IsStart { get; internal set; }
-
-        /// <summary>Gets a value indicating whether this state is the end state.</summary>
-        public bool IsGoal { get; internal set; }
-
-#if DEBUG
         /// <summary>Gets a value indicating whether this state is walkable.</summary>
         public bool IsWalkable => this.C(this) < int.MaxValue;
-#endif
 
         /// <summary>Compares whether two <see cref="State" /> instances are equal.</summary>
         /// <param name="left"><see cref="State" /> instance on the left of the equal sign.</param>
@@ -571,8 +597,8 @@ public sealed class MTDStarLite
         public static bool operator !=(State? left, State? right) => !left?.Equals(right) ?? right is not null;
 
         /// <summary>Calculates the total cost to reach the <paramref name="right"/> <see cref="State"/> when traveling from the <paramref name="left"/> <see cref="State"/>, which is equal to the sum of the <see cref="G"/> cost of <paramref name="left"/> and the <see cref="C"/> cost from <paramref name="left"/> to <paramref name="right"/>.</summary>
-        /// <param name="left"><see cref="Key"/> instance on the left of the plus sign.</param>
-        /// <param name="right"><see cref="Key"/> instance on the right of the plus sign.</param>
+        /// <param name="left"><see cref="State"/> instance on the left of the plus sign.</param>
+        /// <param name="right"><see cref="State"/> instance on the right of the plus sign.</param>
         /// <returns>The sum of the <see cref="G"/> cost of <paramref name="left"/> and the <see cref="C"/> cost from <paramref name="left"/> to <paramref name="right"/>.</returns>
         public static int operator +(State left, State right) => Int32Extensions.AddWithoutOverflow(left.G, left.C(right));
 
@@ -590,28 +616,14 @@ public sealed class MTDStarLite
         /// <summary>Gets the 4-connected neighbors to this state.</summary>
         /// <param name="grid">The grid of <see cref="State"/> instances.</param>
         /// <returns>A <see cref="IEnumerable{T}"/> of the (up to) four neighboring <see cref="State"/> instances.</returns>
+        [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
         public IEnumerable<State> GetNeighbors(State[,] grid)
         {
             var (x, y) = this.Position;
-            if (x > 0)
-            {
-                yield return grid[y, x - 1];
-            }
-
-            if (x < grid.GetLength(1) - 1)
-            {
-                yield return grid[y, x + 1];
-            }
-
-            if (y > 0)
-            {
-                yield return grid[y - 1, x];
-            }
-
-            if (y < grid.GetLength(0) - 1)
-            {
-                yield return grid[y + 1, x];
-            }
+            if (x > 0) yield return grid[y, x - 1];
+            if (x < grid.GetLength(1) - 1) yield return grid[y, x + 1];
+            if (y > 0) yield return grid[y - 1, x];
+            if (y < grid.GetLength(0) - 1) yield return grid[y + 1, x];
         }
 
         /// <summary>Gets the 4-connected neighbors which connect to this state.</summary>
@@ -653,7 +665,7 @@ public sealed class MTDStarLite
         /// <inheritdoc />
         public override string ToString()
         {
-            return this.Position.ToString();
+            return $"Node({this.Position.X}, {this.Position.Y}) [G={this.G}, RHS={this.RHS}, H={this.H}, C={this.C}";
         }
     }
 }

@@ -18,8 +18,8 @@ using StardewValley.Locations;
 internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
+    private static readonly Func<int, double> ItemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
     private static int _previousMineLevel;
-    private static readonly Func<int, double> _itemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Spelunker);
@@ -44,7 +44,7 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
                     if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
                         Game1.random.NextBool())
                     {
-                        State.SpelunkerUncollectedItems.Add((id, _itemRecoveryChance(oldShaft.mineLevel)));
+                        State.SpelunkerUncollectedItems.Add((id, ItemRecoveryChance(oldShaft.mineLevel)));
                     }
                 }
             }

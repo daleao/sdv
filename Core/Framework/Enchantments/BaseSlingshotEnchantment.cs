@@ -17,7 +17,7 @@ public class BaseSlingshotEnchantment : BaseEnchantment
     /// <inheritdoc />
     public override bool CanApplyTo(Item item)
     {
-        return item is Slingshot slingshot && slingshot.QualifiedItemId != QualifiedWeaponIds.BasicSlingshot;
+        return item is Slingshot slingshot && slingshot.QualifiedItemId != QIDs.BasicSlingshot;
     }
 
     /// <summary>Raised when the <paramref name="slingshot"/> fires a <see cref="BasicProjectile"/>.</summary>

@@ -44,7 +44,7 @@ internal sealed class ClearNewLevelsCommand(CommandHandler handler)
                     string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                 if (customSkill is null)
                 {
-                    this.Handler.Log.W($"Ignoring unknown skill {arg}.");
+                    Log.W($"Ignoring unknown skill {arg}.");
                     continue;
                 }
 

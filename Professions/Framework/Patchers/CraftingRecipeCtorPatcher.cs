@@ -15,8 +15,9 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CraftingRecipeCtorPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal CraftingRecipeCtorPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal CraftingRecipeCtorPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireConstructor<CraftingRecipe>(typeof(string), typeof(bool));
     }
@@ -33,15 +34,15 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
             case "Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<string, int>
                 {
-                    { QualifiedObjectIds.Wood, 20 },
-                    { QualifiedObjectIds.CopperBar, 1 },
+                    { QIDs.Wood, 20 },
+                    { QIDs.CopperBar, 1 },
                 };
                 break;
             case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
                 __instance.recipeList = new Dictionary<string, int>
                 {
-                    { QualifiedObjectIds.Hardwood, 15 },
-                    { QualifiedObjectIds.RadioactiveBar, 1 },
+                    { QIDs.Hardwood, 15 },
+                    { QIDs.RadioactiveBar, 1 },
                 };
                 break;
             default:

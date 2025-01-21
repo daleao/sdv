@@ -43,7 +43,7 @@ internal sealed class ResetSkillLevelsCommand(CommandHandler handler)
                     string.Equals(s.DisplayName, arg, StringComparison.CurrentCultureIgnoreCase));
                 if (customSkill is null)
                 {
-                    this.Handler.Log.W($"{arg}.is not a valid skill name.");
+                    Log.W($"{arg}.is not a valid skill name.");
                     continue;
                 }
 

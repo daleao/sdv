@@ -7,7 +7,6 @@ namespace DaLion.Chargeable;
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared;
 using HarmonyLib;
 using StardewModdingAPI.Events;
 using StardewModdingAPI.Utilities;

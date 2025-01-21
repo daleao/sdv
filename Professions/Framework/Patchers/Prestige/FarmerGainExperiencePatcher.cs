@@ -14,8 +14,9 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmerGainExperiencePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmerGainExperiencePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmerGainExperiencePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Farmer>(nameof(Farmer.gainExperience));
     }
@@ -61,6 +62,11 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
                 Game1.showGlobalMessage(Game1.content.LoadString("Strings\\1_6_Strings:Mastery_newlevel"));
                 Game1.playSound("newArtifact");
                 return false; // don't run original logic
+            }
+
+            if (skill.CurrentLevel == 10 && !skill.CanGainPrestigeLevels())
+            {
+                return false; // don't run original logic;
             }
 
             var newLevel = Math.Min(

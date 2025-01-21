@@ -68,7 +68,7 @@ internal static class FishPondExtensions
         ProduceFromPondData(pond, held, r);
 
         // handle roe/ink
-        if (fish.QualifiedItemId == QualifiedObjectIds.Coral)
+        if (fish.QualifiedItemId == QIDs.Coral)
         {
             ProduceForCoral(pond, held, pond.GetRoeChance(fish.Price), r);
         }
@@ -114,7 +114,7 @@ internal static class FishPondExtensions
             Data.Write(pond, DataKeys.ItemsHeld, null);
         }
 
-        if (result.QualifiedItemId != QualifiedObjectIds.Roe)
+        if (result.QualifiedItemId != QIDs.Roe)
         {
             return result;
         }
@@ -211,29 +211,15 @@ internal static class FishPondExtensions
             var inventory = new List<Item> { pond.output.Value };
             try
             {
-                foreach (var item in held)
-                {
-                    if (item.QualifiedItemId == QualifiedObjectIds.Roe)
-                    {
-                        var roe = ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(pond.GetFishObject());
-                        roe.Stack = item.Stack;
-                        roe.Quality = ((SObject)item).Quality;
-                        inventory.Add(roe);
-                    }
-                    else
-                    {
-                        inventory.Add(item);
-                    }
-                }
-
+                inventory.AddRange(held);
                 Utility.consolidateStacks(inventory);
                 var menu = new ItemGrabMenu(inventory, pond).setEssential(false);
-                menu.source = ItemGrabMenu.source_fishingChest;
+                menu.source = ItemGrabMenu.source_none;
                 Game1.activeClickableMenu = menu;
             }
             catch (InvalidOperationException ex)
             {
-                Log.W($"ItemsHeld data is invalid. {ex}\nThe data will be reset");
+                Log.W($"Held item data is invalid. {ex}\nThe data will be reset");
                 Data.Write(pond, DataKeys.ItemsHeld, null);
             }
         }
@@ -281,7 +267,18 @@ internal static class FishPondExtensions
             .ParseList<string>(';')
             .Select(s => s?.ParseTuple<string, int, int>())
             .WhereNotNull()
-            .Select(t => ItemRegistry.Create(t.Item1, t.Item2, t.Item3))
+            .Select(t =>
+            {
+                if (t.Item1 != QIDs.Roe)
+                {
+                    return ItemRegistry.Create(t.Item1, t.Item2, t.Item3);
+                }
+
+                var roe = ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(pond.GetFishObject());
+                roe.Stack = t.Item2;
+                roe.Quality = t.Item3;
+                return roe;
+            })
             .ToList();
     }
 
@@ -318,9 +315,9 @@ internal static class FishPondExtensions
         foreach (var reward in fishPondData.ProducedItems)
         {
             var qid = reward.ItemId.StartsWith("(O)") ? reward.ItemId : "(O)" + reward.ItemId;
-            if (qid is QualifiedObjectIds.Roe or QualifiedObjectIds.SquidInk ||
+            if (qid is QIDs.Roe or QIDs.SquidInk ||
                 pond.currentOccupants.Value < reward.RequiredPopulation ||
-                !r.Any(reward.Chance, pond.currentOccupants.Value / reward.RequiredPopulation))
+                !r.Any(reward.Chance, pond.currentOccupants.Value - reward.RequiredPopulation))
             {
                 continue;
             }
@@ -362,7 +359,7 @@ internal static class FishPondExtensions
             }
         }
 
-        if (fish.QualifiedItemId == QualifiedObjectIds.Sturgeon)
+        if (fish.QualifiedItemId == QIDs.Sturgeon)
         {
             for (var i = 0; i < 4; i++)
             {
@@ -375,7 +372,7 @@ internal static class FishPondExtensions
             return;
         }
 
-        var roeIndex = fish.Name.Contains("Squid") ? QualifiedObjectIds.SquidInk : QualifiedObjectIds.Roe;
+        var roeIndex = fish.Name.Contains("Squid") ? QIDs.SquidInk : QIDs.Roe;
         for (var i = 3; i >= 0; i--)
         {
             if (roeQualities[i] <= 0)
@@ -445,7 +442,7 @@ internal static class FishPondExtensions
             SObject? greenAlgaeObj = null, whiteAlgaeObj = null, seaweedObj = null;
             if (algaeStacks[0] > 0)
             {
-                greenAlgaeObj = ItemRegistry.Create<SObject>(QualifiedObjectIds.GreenAlgae, algaeStacks[0]);
+                greenAlgaeObj = ItemRegistry.Create<SObject>(QIDs.GreenAlgae, algaeStacks[0]);
                 if (pond.goldenAnimalCracker.Value)
                 {
                     greenAlgaeObj.Stack *= 2;
@@ -456,7 +453,7 @@ internal static class FishPondExtensions
 
             if (algaeStacks[1] > 0)
             {
-                whiteAlgaeObj = ItemRegistry.Create<SObject>(QualifiedObjectIds.WhiteAlgae, algaeStacks[1]);
+                whiteAlgaeObj = ItemRegistry.Create<SObject>(QIDs.WhiteAlgae, algaeStacks[1]);
                 if (pond.goldenAnimalCracker.Value)
                 {
                     whiteAlgaeObj.Stack *= 2;
@@ -467,7 +464,7 @@ internal static class FishPondExtensions
 
             if (algaeStacks[2] > 0)
             {
-                seaweedObj = ItemRegistry.Create<SObject>(QualifiedObjectIds.Seaweed, algaeStacks[2]);
+                seaweedObj = ItemRegistry.Create<SObject>(QIDs.Seaweed, algaeStacks[2]);
                 if (pond.goldenAnimalCracker.Value)
                 {
                     seaweedObj.Stack *= 2;
@@ -478,9 +475,9 @@ internal static class FishPondExtensions
 
             result = pond.fishType.Value switch
             {
-                QualifiedObjectIds.GreenAlgae when greenAlgaeObj is not null => greenAlgaeObj,
-                QualifiedObjectIds.WhiteAlgae when whiteAlgaeObj is not null => whiteAlgaeObj,
-                QualifiedObjectIds.Seaweed when seaweedObj is not null => seaweedObj,
+                QIDs.GreenAlgae when greenAlgaeObj is not null => greenAlgaeObj,
+                QIDs.WhiteAlgae when whiteAlgaeObj is not null => whiteAlgaeObj,
+                QIDs.Seaweed when seaweedObj is not null => seaweedObj,
                 _ => null,
             };
 
@@ -519,13 +516,13 @@ internal static class FishPondExtensions
             {
                 switch (r.NextAlgae())
                 {
-                    case QualifiedObjectIds.GreenAlgae:
+                    case QIDs.GreenAlgae:
                         algaeStacks[0]++;
                         break;
-                    case QualifiedObjectIds.WhiteAlgae:
+                    case QIDs.WhiteAlgae:
                         algaeStacks[1]++;
                         break;
-                    case QualifiedObjectIds.Seaweed:
+                    case QIDs.Seaweed:
                         algaeStacks[2]++;
                         break;
                 }
@@ -534,7 +531,7 @@ internal static class FishPondExtensions
 
         if (algaeStacks[0] > 0)
         {
-            held.Add(ItemRegistry.Create<SObject>(QualifiedObjectIds.GreenAlgae, algaeStacks[0]));
+            held.Add(ItemRegistry.Create<SObject>(QIDs.GreenAlgae, algaeStacks[0]));
             if (pond.goldenAnimalCracker.Value)
             {
                 held.Last().Stack *= 2;
@@ -543,7 +540,7 @@ internal static class FishPondExtensions
 
         if (algaeStacks[1] > 0)
         {
-            held.Add(ItemRegistry.Create<SObject>(QualifiedObjectIds.WhiteAlgae, algaeStacks[1]));
+            held.Add(ItemRegistry.Create<SObject>(QIDs.WhiteAlgae, algaeStacks[1]));
             if (pond.goldenAnimalCracker.Value)
             {
                 held.Last().Stack *= 2;
@@ -552,7 +549,7 @@ internal static class FishPondExtensions
 
         if (algaeStacks[2] > 0)
         {
-            held.Add(ItemRegistry.Create<SObject>(QualifiedObjectIds.Seaweed, algaeStacks[2]));
+            held.Add(ItemRegistry.Create<SObject>(QIDs.Seaweed, algaeStacks[2]));
             if (pond.goldenAnimalCracker.Value)
             {
                 held.Last().Stack *= 2;
@@ -578,8 +575,8 @@ internal static class FishPondExtensions
             }
 
             held.Add(id!.IsOreId()
-                ? ItemRegistry.Create<SObject>(QualifiedObjectIds.RadioactiveOre)
-                : ItemRegistry.Create<SObject>(QualifiedObjectIds.RadioactiveBar));
+                ? ItemRegistry.Create<SObject>(QIDs.RadioactiveOre)
+                : ItemRegistry.Create<SObject>(QIDs.RadioactiveBar));
             heldMetals.RemoveAt(i);
         }
 
@@ -596,7 +593,7 @@ internal static class FishPondExtensions
         {
             if (r.NextDouble() < chance && r.NextDouble() < chance)
             {
-                held.Add(ItemRegistry.Create<SObject>(QualifiedObjectIds.GalaxySoul));
+                held.Add(ItemRegistry.Create<SObject>(QIDs.GalaxySoul));
                 if (pond.goldenAnimalCracker.Value)
                 {
                     held.Last().Stack *= 2;
@@ -605,7 +602,7 @@ internal static class FishPondExtensions
                 return;
             }
 
-            held.Add(ItemRegistry.Create<SObject>(which == "MNF.MoreNewFish_tui" ? QualifiedObjectIds.VoidEssence : QualifiedObjectIds.SolarEssence));
+            held.Add(ItemRegistry.Create<SObject>(which == "MNF.MoreNewFish_tui" ? QIDs.VoidEssence : QIDs.SolarEssence));
             if (r.NextDouble() < 0.8)
             {
                 held.Last().Stack++;
@@ -617,7 +614,7 @@ internal static class FishPondExtensions
             }
         }
 
-        held.Add(ItemRegistry.Create<SObject>(which == "MNF.MoreNewFish_tui" ? QualifiedObjectIds.SolarEssence : QualifiedObjectIds.VoidEssence));
+        held.Add(ItemRegistry.Create<SObject>(which == "MNF.MoreNewFish_tui" ? QIDs.SolarEssence : QIDs.VoidEssence));
         if (r.NextDouble() < 0.8)
         {
             held.Last().Stack++;

@@ -13,8 +13,9 @@ internal sealed class JadeEnchantmentUnapplyToPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="JadeEnchantmentUnapplyToPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal JadeEnchantmentUnapplyToPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal JadeEnchantmentUnapplyToPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<JadeEnchantment>("_UnapplyTo");
     }

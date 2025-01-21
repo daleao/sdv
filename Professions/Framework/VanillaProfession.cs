@@ -8,16 +8,13 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using StardewValley.Tools;
 using static System.String;
 
 #endregion using directives
@@ -364,6 +361,13 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Angler).Then(() =>
+            {
+                if (prestiged)
+                {
+                    ModHelper.GameContent.InvalidateCache("Data/Locations");
+                }
+            })
             .When(Aquarist).Then(() =>
             {
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
@@ -397,6 +401,13 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Angler).Then(() =>
+            {
+                if (prestiged)
+                {
+                    ModHelper.GameContent.InvalidateCache("Data/Locations");
+                }
+            })
             .When(Aquarist).Then(() =>
             {
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();

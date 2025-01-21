@@ -15,8 +15,9 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="Game1CreateObjectDebrisPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal Game1CreateObjectDebrisPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal Game1CreateObjectDebrisPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Game1>(
             nameof(Game1.createObjectDebris),

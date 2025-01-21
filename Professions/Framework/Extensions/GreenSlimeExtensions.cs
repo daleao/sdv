@@ -3,48 +3,48 @@
 #region using directives
 
 using DaLion.Professions.Framework.VirtualProperties;
-using StardewValley;
+using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
+using StardewValley.Objects;
 
 #endregion
 
 /// <summary>Extensions for the <see cref="GreenSlime"/> class.</summary>
 internal static class GreenSlimeExtensions
 {
-    /// <summary>Collects the <see cref="Item"/> contained within the <paramref name="debris"/>.</summary>
-    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
-    /// <param name="debris">The <see cref="Debris"/>.</param>
-    /// <returns><see langword="true"/> if the <see cref="Debris"/> was successfully collected, otherwise <see langword="false"/>.</returns>
-    internal static bool CollectDebris(this GreenSlime slime, Debris debris)
+    /// <summary>Determines whether the <paramref name="slime"/> instance is currently doing its jump animation.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
+    /// <returns><see langword="true"/> if the <paramref name="slime"/>'s velocity is greater than a minimum threshold, otherwise <see langword="false"/>.</returns>
+    internal static bool IsJumping(this GreenSlime slime)
     {
-        Item? item;
-        if (debris.item is not null)
+        return Math.Sqrt((slime.xVelocity * slime.xVelocity) + (slime.yVelocity * slime.yVelocity)) >= 1d;
+    }
+
+    /// <summary>Checks for actions on the instance.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
+    /// <param name="who">The <see cref="Farmer"/> who is checking.</param>
+    /// <remarks>Used for raised Slimes who are not yet piped.</remarks>
+    internal static void CheckActionNonPiped(this GreenSlime slime, Farmer who)
+    {
+        if (!who.HasProfession(Profession.Piper) || who.Items.Count <= who.CurrentToolIndex ||
+            who.Items[who.CurrentToolIndex] is not Hat hat)
         {
-            item = debris.item;
-            debris.item = null;
-        }
-        else if (!string.IsNullOrEmpty(debris.itemId.Value))
-        {
-            item = ItemRegistry.Create(debris.itemId.Value, 1, debris.itemQuality);
-        }
-        else
-        {
-            return false;
+            return;
         }
 
-        var inventory = slime.Get_Inventory();
-        for (var i = 0; i < inventory.Count; i++)
-        {
-            if (inventory[i] is not null)
-            {
-                continue;
-            }
+        slime.Set_Piped(who);
+        who.Items[who.CurrentToolIndex] = null;
+        slime.Get_Piped()!.Hat = hat;
+        Game1.playSound("dirtyHit");
+    }
 
-            inventory[i] = item;
-            debris.item = null;
-            return true;
-        }
-
-        return false;
+    /// <summary>Changes the <paramref name="slime"/> into a Gold Slime.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
+    internal static void MakeGoldSlime(this GreenSlime slime)
+    {
+        slime.Name = "Gold Slime";
+        slime.Sprite = new AnimatedSprite($"{UniqueId}_GoldSlime", 0, 16, 16) { SpriteHeight = 24 };
+        slime.Sprite.UpdateSourceRect();
+        slime.color.Value = Color.White;
     }
 }

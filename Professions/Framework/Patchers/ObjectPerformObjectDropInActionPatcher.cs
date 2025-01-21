@@ -15,8 +15,9 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectPerformObjectDropInActionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectPerformObjectDropInActionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectPerformObjectDropInActionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>(nameof(SObject.performObjectDropInAction));
     }
@@ -50,14 +51,6 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var user = who;
         var owner = __instance.GetOwner();
         var r = new Random(Guid.NewGuid().GetHashCode());
-
-        if (__instance.QualifiedItemId == QualifiedBigCraftableIds.FishSmoker &&
-            !user.HasProfession(Profession.Artisan))
-        {
-            output.Quality = SObject.lowQuality;
-            return;
-        }
-
         // artisan users can preserve the input quality
         if (user.HasProfession(Profession.Artisan))
         {

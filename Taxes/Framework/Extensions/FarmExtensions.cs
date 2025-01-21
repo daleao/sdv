@@ -34,9 +34,9 @@ internal static class FarmExtensions
             var harvest = !crop.forageCrop.Value
                 ? ItemRegistry.Create<SObject>(crop.indexOfHarvest.Value)
                 : crop.whichForageCrop.Value == Crop.forageCrop_springOnionID
-                    ? ItemRegistry.Create<SObject>(QualifiedObjectIds.SpringOnion)
+                    ? ItemRegistry.Create<SObject>(QIDs.SpringOnion)
                     : crop.whichForageCrop.Value == Crop.forageCrop_gingerID
-                        ? ItemRegistry.Create<SObject>(QualifiedObjectIds.Ginger) : null;
+                        ? ItemRegistry.Create<SObject>(QIDs.Ginger) : null;
             if (harvest is null)
             {
                 continue;
@@ -151,36 +151,36 @@ internal static class FarmExtensions
                 switch (animal.type.Value)
                 {
                     case "Duck":
-                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.DuckMayonnaise).salePrice() /
-                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.DuckEgg).salePrice();
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.DuckMayonnaise).salePrice() /
+                                            ItemRegistry.Create<SObject>(QIDs.DuckEgg).salePrice();
                         break;
                     case "Rabbit":
                     case "Sheep":
-                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Cloth).salePrice() /
-                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.Wool).salePrice();
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.Cloth).salePrice() /
+                                            ItemRegistry.Create<SObject>(QIDs.Wool).salePrice();
                         break;
                     case "Goat":
-                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.GoatCheese).salePrice() /
-                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.GoatMilk).salePrice();
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.GoatCheese).salePrice() /
+                                            ItemRegistry.Create<SObject>(QIDs.GoatMilk).salePrice();
                         break;
                     case "Pig":
-                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.TruffleOil).salePrice() /
-                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.Truffle).salePrice();
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.TruffleOil).salePrice() /
+                                            ItemRegistry.Create<SObject>(QIDs.Truffle).salePrice();
                         break;
                     case "Ostrich":
-                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Mayonnaise).salePrice() * 10 /
-                                            ItemRegistry.Create<SObject>(QualifiedObjectIds.OstrichEgg).salePrice();
+                        artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.Mayonnaise).salePrice() * 10 /
+                                            ItemRegistry.Create<SObject>(QIDs.OstrichEgg).salePrice();
                         break;
                     default:
                         if (animal.type.Value.Contains("Cow"))
                         {
-                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Cheese).salePrice() /
-                                                ItemRegistry.Create<SObject>(QualifiedObjectIds.Milk).salePrice();
+                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.Cheese).salePrice() /
+                                                ItemRegistry.Create<SObject>(QIDs.Milk).salePrice();
                         }
                         else if (animal.type.Value.Contains("Chicken"))
                         {
-                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QualifiedObjectIds.Mayonnaise).salePrice() /
-                                                ItemRegistry.Create<SObject>(QualifiedObjectIds.Egg_White).salePrice();
+                            artisanMultiplier = (float)ItemRegistry.Create<SObject>(QIDs.Mayonnaise).salePrice() /
+                                                ItemRegistry.Create<SObject>(QIDs.Egg_White).salePrice();
                         }
                         else
                         {
@@ -204,14 +204,14 @@ internal static class FarmExtensions
             }
 
             buildingValue += 10000;
-            buildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Wood).Price * 450;
+            buildingValue += ItemRegistry.Create<SObject>(QIDs.Wood).Price * 450;
             if (farmer.HouseUpgradeLevel <= 1)
             {
                 continue;
             }
 
             buildingValue += 50000;
-            buildingValue += ItemRegistry.Create<SObject>(QualifiedObjectIds.Hardwood).Price * 150;
+            buildingValue += ItemRegistry.Create<SObject>(QIDs.Hardwood).Price * 150;
             if (farmer.HouseUpgradeLevel > 2)
             {
                 buildingValue += 100000;

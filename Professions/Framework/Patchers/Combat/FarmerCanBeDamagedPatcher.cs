@@ -12,8 +12,9 @@ internal sealed class FarmerCanBeDamagedPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmerCanBeDamagedPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmerCanBeDamagedPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmerCanBeDamagedPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Farmer>(nameof(Farmer.CanBeDamaged));
     }

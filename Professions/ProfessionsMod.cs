@@ -10,13 +10,13 @@ namespace DaLion.Professions;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
+using DaLion.Shared.Pathfinding;
 using StardewModdingAPI.Utilities;
 
 #endregion using directives
@@ -48,6 +48,12 @@ public sealed class ProfessionsMod : Mod
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
+
+    /// <summary>Gets or sets the <see cref="PathfindingManager"/> instance.</summary>
+    internal static PathfindingManager? Pathfinder { get; set; }
+
+    /// <summary>Gets or sets the <see cref="PathfindingManagerAsync"/> instance.</summary>
+    internal static PathfindingManagerAsync? PathfinderAsync { get; set; }
 
     /// <summary>Gets the <see cref="Logger"/> instance.</summary>
     internal static Logger Log { get; private set; } = null!; // set in Entry;
@@ -96,18 +102,27 @@ public sealed class ProfessionsMod : Mod
 
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<ProfessionsConfig>();
-        PerScreenState = new PerScreen<ProfessionsState>(() => new ProfessionsState());
-        Data = new ModDataManager(UniqueId, Log);
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
-        CommandHandler.HandleAll(
+        Config = helper.ReadConfig<ProfessionsConfig>();
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<ProfessionsState>(() => new ProfessionsState());
+        Harmonizer.ApplyFromNamespace(
             assembly,
+            "DaLion.Professions.Framework.Patchers",
+            helper.ModRegistry,
+            Log,
+            UniqueId);
+
+        var handler = CommandHandler.HandleFromNamespace(
+            assembly,
+            "DaLion.Professions.Commands",
             helper.ConsoleCommands,
             Log,
             UniqueId,
             "prfs");
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log, handler)
+            .ManageInitial(assembly, "DaLion.Professions.Framework.Events");
+
         this.ValidateMultiplayer();
 
         GoldenMayoId = $"{UniqueId}_GoldenMayo";

@@ -135,7 +135,7 @@ public interface ISkill : IEquatable<ISkill>
     /// <summary>Removes all recipes associated with this skill from the local player.</summary>
     void ForgetRecipes();
 
-    /// <summary>Determines whether this skill can gain Masteries Levels.</summary>
+    /// <summary>Gets whether this skill can break the vanilla level 10 cap.</summary>
     /// <returns><see langword="true"/> if the local player meets all Masteries conditions, otherwise <see langword="false"/>.</returns>
     bool CanGainPrestigeLevels();
 

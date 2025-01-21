@@ -18,8 +18,9 @@ internal sealed class MeleeWeaponDrawDuringUsePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MeleeWeaponDrawDuringUsePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MeleeWeaponDrawDuringUsePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MeleeWeaponDrawDuringUsePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<MeleeWeapon>(
             nameof(MeleeWeapon.drawDuringUse),

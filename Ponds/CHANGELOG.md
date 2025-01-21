@@ -9,9 +9,13 @@
 ### Changed
 
 * Tweaked roe production chance formula.
-  * The original formula was made to result in roughly equal profitability for all fishes. But that resulted in nothing produced for weeks at a time.
-  * The new formula is still conservative for higher-value fish, but yields enough roe to make them worth raising.
-* Chance to produce general non-roe items received a small buff to scale with population.
+  * The original formula was made to result in roughly equal profitability for all fishes. But that resulted in nothing produced for weeks at a time. In short, it wasn't fun.
+  * The new formula still pulls back on higher-value fish, but now yields significantly more roe, making them actually worth raising.
+* Chance to produce general non-roe items received a small buff, allowing it, too, to scale with population.
+
+### Fixed
+
+* Added support for Fish Ponds built outside the Farm, which should have been done during the migration to 1.6. 
 
 <sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 

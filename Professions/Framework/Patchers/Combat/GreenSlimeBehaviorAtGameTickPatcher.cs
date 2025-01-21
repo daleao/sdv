@@ -2,7 +2,10 @@
 
 #region using directives
 
+using System.Reflection;
+using System.Reflection.Emit;
 using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
@@ -14,27 +17,46 @@ internal sealed class GreenSlimeBehaviorAtGameTickPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GreenSlimeBehaviorAtGameTickPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GreenSlimeBehaviorAtGameTickPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GreenSlimeBehaviorAtGameTickPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.behaviorAtGameTick));
     }
 
     #region harmony patches
 
-    /// <summary>Patch to countdown jump timers.</summary>
-    [HarmonyPostfix]
+    /// <summary>Patch to prevent Frost Jelly spontaneous enrage when Piped.</summary>
+    [HarmonyTranspiler]
     [UsedImplicitly]
-    private static void GreenSlimeBehaviorAtGameTickPostfix(GreenSlime __instance, ref int ___readyToJump)
+    private static IEnumerable<CodeInstruction>? GreenSlimeBehaviorAtGameTickTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
-        var timeLeft = __instance.Get_JumpTimer();
-        if (timeLeft <= 0)
+        var helper = new ILHelper(original, instructions);
+
+        // Injected: Monster.set_WasKnockedBack(true);
+        // After: trajectory *= knockBackModifier;
+        try
         {
-            return;
+            helper
+                .PatternMatch(
+                    [new CodeInstruction(OpCodes.Ldstr, "Frost Jelly")],
+                    ILHelper.SearchOption.Last)
+                .Move(2)
+                .GetOperand(out var branch)
+                .Move()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(GreenSlime_Piped).RequireMethod(nameof(GreenSlime_Piped.Get_Piped))),
+                    new CodeInstruction(OpCodes.Brtrue_S, (Label)branch),
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed removing Frost Jelly spontaneous enrage.\nHelper returned {ex}");
+            return null;
         }
 
-        timeLeft -= Game1.currentGameTime.ElapsedGameTime.Milliseconds;
-        __instance.Set_JumpTimer(timeLeft);
+        return helper.Flush();
     }
 
     #endregion harmony patches

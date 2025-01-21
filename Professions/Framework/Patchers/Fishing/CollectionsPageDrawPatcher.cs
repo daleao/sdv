@@ -21,8 +21,9 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CollectionsPageDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal CollectionsPageDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal CollectionsPageDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<CollectionsPage>(nameof(CollectionsPage.draw), [typeof(SpriteBatch)]);
     }

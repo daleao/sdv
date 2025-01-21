@@ -6,6 +6,8 @@
 
 * Fixed Hoppers not working if players aren't present in the location.
 * Fixed Hoppers not working automatically upon loading a save.
+* Fixed Hoppers destroying attached machines when the player goes to bed.
+* Fixed Hoppers not working immediately upon placing a machine below it.
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 

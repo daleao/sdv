@@ -355,8 +355,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Ruby",
                 0,
-                QualifiedObjectIds.Ruby,
-                QualifiedObjectIds.RubyRing,
+                QIDs.Ruby,
+                QIDs.RubyRing,
                 1f,
                 new Color(225, 57, 57),
                 new Color(245, 75, 20, 230))
@@ -421,8 +421,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Aquamarine",
                 1,
-                QualifiedObjectIds.Aquamarine,
-                QualifiedObjectIds.AquamarineRing,
+                QIDs.Aquamarine,
+                QIDs.AquamarineRing,
                 9f / 8f,
                 new Color(35, 144, 170),
                 new Color(18, 160, 250, 240))
@@ -469,8 +469,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Amethyst",
                 2,
-                QualifiedObjectIds.Amethyst,
-                QualifiedObjectIds.AmethystRing,
+                QIDs.Amethyst,
+                QIDs.AmethystRing,
                 5f / 4f,
                 new Color(111, 60, 196),
                 new Color(220, 50, 250, 240))
@@ -565,8 +565,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Emerald",
                 4,
-                QualifiedObjectIds.Emerald,
-                QualifiedObjectIds.EmeraldRing,
+                QIDs.Emerald,
+                QIDs.EmeraldRing,
                 3f / 2f,
                 new Color(4, 128, 54),
                 new Color(10, 220, 40, 220))
@@ -613,8 +613,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Jade",
                 5,
-                QualifiedObjectIds.Jade,
-                QualifiedObjectIds.JadeRing,
+                QIDs.Jade,
+                QIDs.JadeRing,
                 5f / 3f,
                 new Color(117, 150, 99),
                 new Color(10, 220, 40, 220))
@@ -661,8 +661,8 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
             : base(
                 "Topaz",
                 6,
-                QualifiedObjectIds.Topaz,
-                QualifiedObjectIds.TopazRing,
+                QIDs.Topaz,
+                QIDs.TopazRing,
                 15f / 8f,
                 new Color(220, 143, 8),
                 new Color(255, 150, 10, 220))

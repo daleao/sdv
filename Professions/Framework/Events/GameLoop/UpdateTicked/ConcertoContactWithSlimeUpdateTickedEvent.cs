@@ -9,10 +9,10 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="ConcertoUpdateTickedEvent"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="ConcertoContactWithSlimeUpdateTickedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class ConcertoUpdateTickedEvent(EventManager? manager = null)
+internal sealed class ConcertoContactWithSlimeUpdateTickedEvent(EventManager? manager = null)
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />

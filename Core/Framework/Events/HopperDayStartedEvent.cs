@@ -3,10 +3,8 @@
 #region using directives
 
 using System.Linq;
-using DaLion.Core.Framework.Debuffs;
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions.Collections;
-using Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley.Objects;
 
@@ -32,7 +30,7 @@ internal sealed class HopperDayStartedEvent(EventManager? manager = null)
                 }
             }
 
-            return true;
+            return true; // continue enumeration
         });
     }
 }

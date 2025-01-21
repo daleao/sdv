@@ -17,8 +17,9 @@ internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectPlaceInMachinePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectPlaceInMachinePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectPlaceInMachinePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>(nameof(SObject.PlaceInMachine));
     }

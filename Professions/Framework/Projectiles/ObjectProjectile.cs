@@ -9,7 +9,6 @@ using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 using StardewValley.Projectiles;
@@ -86,9 +85,9 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         this.IsSquishyOrExplosive =
             this.Ammo.Category is (int)ObjectCategory.Eggs or (int)ObjectCategory.Fruits or (int)ObjectCategory.Vegetables ||
-            this.Ammo.QualifiedItemId is QualifiedObjectIds.Slime or QualifiedObjectIds.ExplosiveAmmo;
+            this.Ammo.QualifiedItemId is QIDs.Slime or QIDs.ExplosiveAmmo;
         this.HasMonsterMusk = isMusked;
-        if (this.Ammo.QualifiedItemId is QualifiedObjectIds.Slime)
+        if (this.Ammo.QualifiedItemId is QIDs.Slime)
         {
             this.localScale = 0.75f;
         }
@@ -129,7 +128,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             location.DoLightningBarrage(monster.Tile, 6, this.Firer);
         }
 
-        if (this.Ammo.QualifiedItemId != QualifiedObjectIds.ExplosiveAmmo)
+        if (this.Ammo.QualifiedItemId != QIDs.ExplosiveAmmo)
         {
             if (this.HasMonsterMusk)
             {
@@ -137,7 +136,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
 
-        if (this.Ammo.QualifiedItemId == QualifiedObjectIds.Slime)
+        if (this.Ammo.QualifiedItemId == QIDs.Slime)
         {
             if (monster is GreenSlime slime)
             {
@@ -211,7 +210,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             monster.GetBoundingBox(),
             this.Damage,
             this.Damage + 1,
-            this.Ammo.QualifiedItemId == QualifiedObjectIds.ExplosiveAmmo,
+            this.Ammo.QualifiedItemId == QIDs.ExplosiveAmmo,
             Math.Max(1f, this.Overcharge),
             0,
             0f,
@@ -251,7 +250,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                 case DesperadoBlossom when this.Overcharge >= 1f:
                     limit.ChargeValue += this.Overcharge * 8d;
                     break;
-                case PiperConcerto when this.Ammo.QualifiedItemId == QualifiedObjectIds.Slime:
+                case PiperConcerto when this.Ammo.QualifiedItemId == QIDs.Slime:
                     limit.ChargeValue += Game1.random.Next(8);
                     break;
             }
@@ -264,7 +263,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         // try to recover
         var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
-        if (this.Ammo.QualifiedItemId is QualifiedObjectIds.Wood or QualifiedObjectIds.Coal)
+        if (this.Ammo.QualifiedItemId is QIDs.Wood or QIDs.Coal)
         {
             recoveryChance /= 2d;
         }
@@ -285,7 +284,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         base.behaviorOnCollisionWithOther(location);
 
         // add musk
-        if (this.Ammo.QualifiedItemId != QualifiedObjectIds.ExplosiveAmmo)
+        if (this.Ammo.QualifiedItemId != QIDs.ExplosiveAmmo)
         {
             if (this.HasMonsterMusk)
             {
@@ -294,7 +293,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         }
 
         // increment Piper Limit Break meter
-        if (this.Ammo.QualifiedItemId == QualifiedObjectIds.Slime && this.Firer.IsLocalPlayer &&
+        if (this.Ammo.QualifiedItemId == QIDs.Slime && this.Firer.IsLocalPlayer &&
             State.LimitBreak is PiperConcerto { IsActive: false } concerto)
         {
             concerto.ChargeValue += Game1.random.Next(5);
@@ -308,7 +307,7 @@ internal sealed class ObjectProjectile : BasicProjectile
 
         // try to recover
         var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
-        if (this.Ammo.QualifiedItemId is QualifiedObjectIds.Wood or QualifiedObjectIds.Coal)
+        if (this.Ammo.QualifiedItemId is QIDs.Wood or QIDs.Coal)
         {
             recoveryChance /= 2d;
         }

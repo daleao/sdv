@@ -14,11 +14,14 @@ using HarmonyLib;
 /// <summary>Base implementation of a <see cref="Harmony"/> patch class targeting a single method.</summary>
 public abstract class HarmonyPatcher : IHarmonyPatcher
 {
+    private readonly Logger _log;
+
     private bool _isApplied;
 
     /// <summary>Initializes a new instance of the <see cref="HarmonyPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    protected HarmonyPatcher(Harmonizer harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    protected HarmonyPatcher(Harmonizer harmonizer, Logger logger)
     {
         this.Harmonizer = harmonizer;
         if (this.GetType().GetCustomAttribute<HarmonyPatch>() is { } patchAttribute)
@@ -29,6 +32,7 @@ public abstract class HarmonyPatcher : IHarmonyPatcher
         }
 
         (this.Prefix, this.Postfix, this.Transpiler, this.Finalizer, this.Reverse) = this.GetHarmonyMethods();
+        this._log = logger;
     }
 
     /// <inheritdoc />
@@ -61,7 +65,7 @@ public abstract class HarmonyPatcher : IHarmonyPatcher
         }
         catch (Exception ex)
         {
-            this.Harmonizer.Log.E(ex.ToString());
+            this._log.E(ex.ToString());
             return false;
         }
     }
@@ -75,7 +79,7 @@ public abstract class HarmonyPatcher : IHarmonyPatcher
         }
         catch (Exception ex)
         {
-            this.Harmonizer.Log.E(ex.ToString());
+            this._log.E(ex.ToString());
             return false;
         }
     }

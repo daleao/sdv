@@ -18,8 +18,9 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BuffCtorPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages __instance patcher.</param>
-    internal BuffCtorPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal BuffCtorPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireConstructor<Buff>(10);
     }

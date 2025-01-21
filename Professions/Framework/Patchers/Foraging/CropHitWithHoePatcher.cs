@@ -16,8 +16,9 @@ internal sealed class CropHitWithHoePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CropHitWithHoePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal CropHitWithHoePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal CropHitWithHoePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Crop>(nameof(Crop.hitWithHoe));
     }

@@ -46,22 +46,17 @@ internal sealed class SlickMovesButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        var isMouseButton = e.Button is SButton.MouseRight or SButton.MouseLeft or SButton.MouseMiddle;
-        var isHoldingWeapon = player.CurrentTool is MeleeWeapon == true;
+        var isHoldingWeapon = player.CurrentTool is MeleeWeapon weapon && !weapon.isScythe();
         var originalDirection = (Direction)player.FacingDirection;
-        if (!Game1.options.gamepadControls && isMouseButton &&
-            Config.FaceMouseCursor != CombatConfig.FaceCursorCondition.Never)
+        if (!Game1.options.gamepadControls && Config.FaceMouseCursor != CombatConfig.FaceCursorCondition.Never)
         {
             var location = player.currentLocation;
             var isNearActionableTile = player.Tile
                 .GetEightNeighbors(location.Map.DisplayWidth, location.Map.DisplayHeight)
                 .Any(tile => location.IsActionableTile(tile, player));
-            if (!isNearActionableTile)
+            if (!isNearActionableTile && (Config.FaceMouseCursor == CombatConfig.FaceCursorCondition.Always || isHoldingWeapon))
             {
-                if (Config.FaceMouseCursor == CombatConfig.FaceCursorCondition.Always || isHoldingWeapon)
-                {
-                    player.FaceTowardsTile(Game1.currentCursorTile);
-                }
+                player.FaceTowardsTile(Game1.currentCursorTile);
             }
         }
 
@@ -70,7 +65,7 @@ internal sealed class SlickMovesButtonPressedEvent : ButtonPressedEvent
             return;
         }
 
-        if (!player.isMoving() || !player.running || !Config.SlickMoves)
+        if (!player.isMoving() || !player.running || !isHoldingWeapon || !Config.SlickMoves)
         {
             return;
         }

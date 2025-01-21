@@ -2,7 +2,6 @@
 
 #region using directives
 
-using Core;
 using DaLion.Core.Framework.Extensions;
 using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Extensions.Stardew;
@@ -19,8 +18,9 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingDrawTooltipPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingDrawTooltipPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingDrawTooltipPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.drawTooltip));
     }

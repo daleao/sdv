@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Xna.Framework;
 
 #endregion using directives
@@ -56,77 +57,56 @@ public static class Vector2Extensions
             (sin * tx) + (cos * ty));
     }
 
-    /// <summary>Gets the 4-connected neighboring tiles.</summary>
-    /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
+    /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
+    /// <param name="tile">The center tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="tile"/>.</returns>
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
     public static IEnumerable<Vector2> GetFourNeighbors(this Vector2 tile, int width, int height)
+    {
+        var (x, y) = tile;
+        if (x > 0 && y > 0) yield return new Vector2(x - 1, y - 1);
+        if (x > 0 && y < height - 1) yield return new Vector2(x - 1, y + 1);
+        if (x < width - 1 && y > 0) yield return new Vector2(x + 1, y - 1);
+        if (x < width - 1 && y < height - 1) yield return new Vector2(x + 1, y + 1);
+    }
+
+    /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
+    /// <param name="tile">The center tile as a <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="tile"/>.</returns>
+    [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
+    public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 tile, int width, int height)
     {
         var (x, y) = tile;
         if (x > 0)
         {
             yield return new Vector2(x - 1, y);
+            if (y > 0) yield return new Vector2(x - 1, y - 1);
+            if (y < height - 1) yield return new Vector2(x - 1, y + 1);
         }
 
         if (x < width - 1)
         {
             yield return new Vector2(x + 1, y);
+            if (y > 0) yield return new Vector2(x + 1, y - 1);
+            if (y < height - 1) yield return new Vector2(x + 1, y + 1);
         }
 
-        if (y > 0)
-        {
-            yield return new Vector2(x, y - 1);
-        }
-
-        if (y < height - 1)
-        {
-            yield return new Vector2(x, y + 1);
-        }
+        if (y > 0) yield return new Vector2(x, y - 1);
+        if (y < height - 1) yield return new Vector2(x, y + 1);
     }
 
-    /// <summary>Gets the 8-connected neighboring tiles.</summary>
-    /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
+    /// <summary>Gets the 24-connected neighboring tiles in a given region.</summary>
+    /// <param name="tile">The center tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="tile"/>.</returns>
-    public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 tile, int width, int height)
-    {
-        foreach (var neighbor in GetFourNeighbors(tile, width, height))
-        {
-            yield return neighbor;
-        }
-
-        var (x, y) = tile;
-        if (x > 0 && y > 0)
-        {
-            yield return new Vector2(x - 1, y - 1);
-        }
-
-        if (x > 0 && y < height - 1)
-        {
-            yield return new Vector2(x - 1, y + 1);
-        }
-
-        if (x < width - 1 && y > 0)
-        {
-            yield return new Vector2(x + 1, y - 1);
-        }
-
-        if (x < width - 1 && y < height - 1)
-        {
-            yield return new Vector2(x + 1, y + 1);
-        }
-    }
-
-    /// <summary>Gets the 24-connected neighboring tiles.</summary>
-    /// <param name="tile">The tile as a <see cref="Vector2"/>.</param>
-    /// <param name="width">The width of the entire region.</param>
-    /// <param name="height">The height of the entire region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the eight-connected neighbors of the <paramref name="tile"/>.</returns>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the twenty-four-connected neighbors of the <paramref name="tile"/>.</returns>
     public static IEnumerable<Vector2> GetTwentyFourNeighbors(this Vector2 tile, int width, int height)
     {
-        foreach (var neighbor in GetEightNeighbors(tile, width, height))
+        foreach (var neighbor in tile.GetEightNeighbors(width, height))
         {
             yield return neighbor;
         }

@@ -20,8 +20,9 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BobberBarUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal BobberBarUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal BobberBarUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<BobberBar>(nameof(BobberBar.update));
     }
@@ -43,7 +44,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
             if (b is not FishPond pond || pond.fishType.Value != __instance.whichFish ||
                 !pond.HasUnlockedFinalPopulationGate() || pond.currentOccupants.Value < pond.maxOccupants.Value)
             {
-                return true;
+                return true; // continue enumeration
             }
 
             __instance.distanceFromCatching = 1f;
@@ -52,7 +53,7 @@ internal sealed class BobberBarUpdatePatcher : HarmonyPatcher
                 __instance.treasureCaught = true;
             }
 
-            return false;
+            return false; // break enumeration
         });
     }
 

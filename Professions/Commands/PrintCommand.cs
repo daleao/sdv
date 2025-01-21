@@ -74,7 +74,7 @@ internal sealed class PrintCommand(CommandHandler handler)
     {
         if (args.Length == 0 && Game1.player.professions.Count == 0)
         {
-            this.Handler.Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
+            Log.I($"Farmer {Game1.player.Name} doesn't have any professions.");
             return;
         }
 
@@ -106,7 +106,7 @@ internal sealed class PrintCommand(CommandHandler handler)
                         }
                         else
                         {
-                            this.Handler.Log.W($"{arg} is not a valid skill name.");
+                            Log.W($"{arg} is not a valid skill name.");
                         }
                     }
                 }
@@ -176,7 +176,7 @@ internal sealed class PrintCommand(CommandHandler handler)
             }
         }
 
-        this.Handler.Log.I(sb.ToString());
+        Log.I(sb.ToString());
     }
 
     private void PrintModData()
@@ -184,23 +184,24 @@ internal sealed class PrintCommand(CommandHandler handler)
         var player = Game1.player;
         var sb = new StringBuilder($"Farmer {player.Name}'s mod data:");
         var value = Data.Read(player, DataKeys.EcologistVarietiesForaged);
+        var parsed = value.ParseList<string>().ToHashSet();
         sb.Append("\n\t- ").Append(
             !IsNullOrEmpty(value)
-                ? $"Ecologist Varieties Foraged: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
-                  (int.Parse(value) < Config.ForagesNeededForBestQuality
-                      ? $" ({Config.ForagesNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                      : Empty)
+                ? $"Ecologist Varieties Foraged: {parsed.Count}\n\tExpected quality: {(ObjectQuality)player.GetEcologistForageQuality()}" +
+                  (parsed.Count < Config.ForagesNeededForBestQuality
+                      ? $" ({Config.ForagesNeededForBestQuality - parsed.Count} needed for best quality)"
+                      : Empty) + $"\n\tList: {value}"
                 : "Mod data does not contain an entry for EcologistVarietiesForaged.");
 
         value = Data.Read(player, DataKeys.GemologistMineralsStudied);
+        parsed = value.ParseList<string>().ToHashSet();
         sb.Append("\n\t- ").Append(
             !IsNullOrEmpty(value)
-                ? $"Gemologist Minerals Studied: {value}\n\t\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
-                  (int.Parse(value) < Config.MineralsNeededForBestQuality
-                      ? $" ({Config.MineralsNeededForBestQuality - int.Parse(value)} needed for best quality)"
-                      : Empty)
+                ? $"Gemologist Minerals Studied: {parsed.Count}\n\tExpected quality: {(ObjectQuality)player.GetGemologistMineralQuality()}" +
+                  (parsed.Count < Config.MineralsNeededForBestQuality
+                      ? $" ({Config.MineralsNeededForBestQuality - parsed.Count} needed for best quality)"
+                      : Empty) + $"\n\tList: {value}"
                 : "Mod data does not contain an entry for GemologistMineralsStudied.");
-
         value = Data.Read(player, DataKeys.ProspectorHuntStreak);
         sb.Append("\n\t- ").Append(
             !IsNullOrEmpty(value)
@@ -254,7 +255,7 @@ internal sealed class PrintCommand(CommandHandler handler)
                     : "Mod data does not contain an entry for SecondMemorizedTackleUses.");
         }
 
-        this.Handler.Log.I(sb.ToString());
+        Log.I(sb.ToString());
     }
 
     private void PrintLimitBreak()
@@ -274,7 +275,7 @@ internal sealed class PrintCommand(CommandHandler handler)
     {
         if (!Game1.player.fishCaught.Pairs.Any())
         {
-            this.Handler.Log.W("You haven't caught any fish.");
+            Log.W("You haven't caught any fish.");
             return;
         }
 
@@ -337,6 +338,6 @@ internal sealed class PrintCommand(CommandHandler handler)
         sb = seasonFish.Except(caughtFishNames)
             .Aggregate(sb, (current, fish) => current.Append($"\n\t- {fish}"));
 
-        this.Handler.Log.I(sb.ToString());
+        Log.I(sb.ToString());
     }
 }

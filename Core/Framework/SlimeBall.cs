@@ -38,48 +38,48 @@ public class SlimeBall
         {
             if (r.NextBool(0.1))
             {
-                drops.Add(QualifiedObjectIds.TaroTuber, 1);
+                drops.Add(QIDs.TaroTuber, 1);
                 while (r.NextBool())
                 {
-                    drops[QualifiedObjectIds.TaroTuber]++;
+                    drops[QIDs.TaroTuber]++;
                 }
             }
             else if (r.NextBool(0.1))
             {
-                drops.Add(QualifiedObjectIds.Ginger, 1);
+                drops.Add(QIDs.Ginger, 1);
             }
             else if (r.NextBool(0.02))
             {
-                drops.Add(QualifiedObjectIds.PineappleSeeds, 1);
+                drops.Add(QIDs.PineappleSeeds, 1);
                 while (r.NextBool())
                 {
-                    drops[QualifiedObjectIds.PineappleSeeds]++;
+                    drops[QIDs.PineappleSeeds]++;
                 }
             }
             else if (r.NextBool(0.006))
             {
-                drops.Add(QualifiedObjectIds.MangoSapling, 1);
+                drops.Add(QIDs.MangoSapling, 1);
             }
 
-            drops.Add(QualifiedObjectIds.Sap, r.Next(15, 26));
+            drops.Add(QIDs.Sap, r.Next(15, 26));
             if (!this.IsFirstGeneration)
             {
                 return drops;
             }
 
-            drops.Add(QualifiedObjectIds.Jade, 1);
+            drops.Add(QIDs.Jade, 1);
             return drops;
         }
 
         var purple = new ColorRange([151, 255], [0, 49], [181, 255]);
         if (purple.Contains(this.SlimeColor) && this.SpecialNumber % (this.IsFirstGeneration ? 4 : 2) == 0)
         {
-            drops.Add(QualifiedObjectIds.IridiumOre, r.Next(5, 11));
+            drops.Add(QIDs.IridiumOre, r.Next(5, 11));
             if (this.IsFirstGeneration)
             {
                 while (r.NextBool(0.072))
                 {
-                    drops.AddOrUpdate(QualifiedObjectIds.IridiumBar, 1, (a, b) => a + b);
+                    drops.AddOrUpdate(QIDs.IridiumBar, 1, (a, b) => a + b);
                 }
             }
         }
@@ -87,45 +87,45 @@ public class SlimeBall
         var brown = new ColorRange([50, 100], [25, 50], [0, 25]);
         if (brown.Contains(this.SlimeColor))
         {
-            drops.Add(QualifiedObjectIds.Wood, r.Next(30, 61));
+            drops.Add(QIDs.Wood, r.Next(30, 61));
             while (r.NextBool(0.1))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.Hardwood, r.Next(2, 5), (a, b) => a + b);
+                drops.AddOrUpdate(QIDs.Hardwood, r.Next(2, 5), (a, b) => a + b);
             }
         }
 
         var black = new ColorRange([0, 79], [0, 79], [0, 79]);
         if (black.Contains(this.SlimeColor))
         {
-            drops.Add(QualifiedObjectIds.Coal, r.Next(5, 11));
+            drops.Add(QIDs.Coal, r.Next(5, 11));
             while (r.NextBool(0.05))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.Neptunite, 1, (a, b) => a + b);
+                drops.AddOrUpdate(QIDs.Neptunite, 1, (a, b) => a + b);
             }
 
             while (r.NextBool(0.05))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.Bixite, 1, (a, b) => a + b);
+                drops.AddOrUpdate(QIDs.Bixite, 1, (a, b) => a + b);
             }
         }
 
         var yellow = new ColorRange([201, 255], [181, 255], [0, 49]);
         if (yellow.Contains(this.SlimeColor))
         {
-            drops.Add(QualifiedObjectIds.GoldOre, r.Next(10, 21));
+            drops.Add(QIDs.GoldOre, r.Next(10, 21));
             while (r.NextBool(0.05))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.GoldBar, r.Next(1, 3), (a, b) => a + b);
+                drops.AddOrUpdate(QIDs.GoldBar, r.Next(1, 3), (a, b) => a + b);
             }
         }
 
         var red = new ColorRange([221, 255], [91, 149], [0, 49]);
         if (red.Contains(this.SlimeColor))
         {
-            drops.Add(QualifiedObjectIds.CopperOre, r.Next(10, 21));
+            drops.Add(QIDs.CopperOre, r.Next(10, 21));
             while (r.NextBool(0.05))
             {
-                drops.AddOrUpdate(QualifiedObjectIds.CopperBar, r.Next(1, 3), (a, b) => a + b);
+                drops.AddOrUpdate(QIDs.CopperBar, r.Next(1, 3), (a, b) => a + b);
             }
         }
 
@@ -140,30 +140,30 @@ public class SlimeBall
         {
             if (this.SlimeColor.R % 2 == 1)
             {
-                drops.Add(QualifiedObjectIds.RefineQuartz, r.Next(2, 5));
+                drops.Add(QIDs.RefineQuartz, r.Next(2, 5));
                 if (this.SlimeColor.G % 2 == 1)
                 {
-                    drops[QualifiedObjectIds.RefineQuartz] += r.Next(2, 5);
+                    drops[QIDs.RefineQuartz] += r.Next(2, 5);
                 }
             }
             else
             {
-                drops.Add(QualifiedObjectIds.IronOre, r.Next(10, 21));
+                drops.Add(QIDs.IronOre, r.Next(10, 21));
                 while (r.NextBool(0.05))
                 {
-                    drops.AddOrUpdate(QualifiedObjectIds.IronBar, r.Next(1, 3), (a, b) => a + b);
+                    drops.AddOrUpdate(QIDs.IronBar, r.Next(1, 3), (a, b) => a + b);
                 }
             }
 
             if ((this.SlimeColor.R % 2 == 0 && this.SlimeColor.G % 2 == 0 && this.SlimeColor.B % 2 == 0) ||
                 this.SlimeColor == Color.White)
             {
-                drops.Add(QualifiedObjectIds.Diamond, r.Next(1, 3));
+                drops.Add(QIDs.Diamond, r.Next(1, 3));
             }
         }
         else
         {
-            drops.Add(QualifiedObjectIds.Stone, r.Next(20, 41));
+            drops.Add(QIDs.Stone, r.Next(20, 41));
         }
 
         return drops;

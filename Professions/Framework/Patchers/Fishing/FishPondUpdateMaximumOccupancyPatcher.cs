@@ -15,8 +15,9 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondUpdateMaximumOccupancyPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondUpdateMaximumOccupancyPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondUpdateMaximumOccupancyPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
     }
@@ -58,6 +59,13 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
             {
                 occupancy /= 2;
             }
+        }
+        else if (isLegendaryPond)
+        {
+            Log.W(
+                $"Player {owner} has a Legendary Fish Pond, but does not have the required Aquarist profession. " +
+                $"The profession was likely removed, or the pond already existed before installing Walk Of Life. " +
+                $"Please reset the {__instance.GetFishObject().Name} pond.");
         }
 
         __instance.maxOccupants.Set(occupancy);

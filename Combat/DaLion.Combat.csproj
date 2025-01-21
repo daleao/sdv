@@ -12,7 +12,7 @@
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>
     <MinimumApiVersion>4.1</MinimumApiVersion>
-    
+
     <!-- mod manifest fields -->
     <Name>Wildcat</Name>
     <Authors>DaLion</Authors>
@@ -99,6 +99,7 @@
   <ItemGroup>
     <Using Include="System" />
     <Using Include="CommunityToolkit.Diagnostics" />
+    <Using Include="DaLion.Shared" />
     <Using Include="JetBrains.Annotations" />
     <Using Include="StardewModdingAPI" />
     <Using Include="StardewValley" />

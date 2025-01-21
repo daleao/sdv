@@ -30,8 +30,8 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
 
         if (Config.BeesAreAnimals)
         {
-            Lookups.AnimalDerivedGoods.Add(QualifiedObjectIds.Honey);
-            Lookups.AnimalDerivedGoods.Add(QualifiedObjectIds.Mead);
+            Lookups.AnimalDerivedGoods.Add(QIDs.Honey);
+            Lookups.AnimalDerivedGoods.Add(QIDs.Mead);
         }
     }
 }

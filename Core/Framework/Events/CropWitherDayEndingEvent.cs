@@ -32,7 +32,7 @@ internal sealed class CropWitherDayEndingEvent(EventManager? manager = null)
                 }
                 else if (dirt.crop is { dead.Value: false, forageCrop.Value: false } crop && dirt.state.Value == 0)
                 {
-                    if (crop.indexOfHarvest.Value == QualifiedObjectIds.Fiber)
+                    if (crop.indexOfHarvest.Value == QIDs.Fiber)
                     {
                         continue;
                     }

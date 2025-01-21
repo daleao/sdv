@@ -10,12 +10,13 @@ using StardewValley.Monsters;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class GreenSlimeOverlapsFarmerForDamagePatcher : HarmonyPatcher
+internal sealed class MonsterOverlapsFarmerForDamagePatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="GreenSlimeOverlapsFarmerForDamagePatcher"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="MonsterOverlapsFarmerForDamagePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GreenSlimeOverlapsFarmerForDamagePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MonsterOverlapsFarmerForDamagePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Monster>(nameof(Monster.OverlapsFarmerForDamage));
     }
@@ -25,7 +26,7 @@ internal sealed class GreenSlimeOverlapsFarmerForDamagePatcher : HarmonyPatcher
     /// <summary>Patch to prevent damage from Piped Slimes.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool GreenSlimeOverlapsFarmerForDamagePrefix(Monster __instance)
+    private static bool MonsterOverlapsFarmerForDamagePrefix(Monster __instance)
     {
         return __instance is not GreenSlime slime || slime.Get_Piped() is null;
     }

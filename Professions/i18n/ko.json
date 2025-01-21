@@ -181,11 +181,11 @@
   "desperado.buff.desc": "다른 목표를 맞춰 공격력이 50% 증가했습니다.",
   "piper.title.male": "슬라임 조련사",
   "piper.title.female": "슬라임 조련사",
-  "piper.title.prestiged.male": "슬라임 지휘자",
-  "piper.title.prestiged.female": "슬라임 지휘자",
-  "piper.desc": "슬라임이 먼저 공격하지 않습니다. 처음 조우한 슬라임은 적의 공격을 대신 받고, 아이템을 수집합니다. 슬라임을 죽이면 아이템을 회수할 수 있습니다. 슬라임 헛간의 용량이 50% 증가합니다.",
-  "piper.desc.prestiged": "당신을 도와주는 슬라임이 한마리 더 늘어납니다. 슬라임 헛간의 색깔이 있는 슬라임 볼에서 해당 색상 종류의 아이템이 무작위로 출현합니다.",
-  "piper.buff": "슬라임 버프",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-초월의 석상-^이 석상은 직업을 유지한 채로 레벨을 리셋하고 재설정할 수 있다.",
@@ -336,6 +336,10 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "스킬 리셋",
@@ -379,6 +383,8 @@
   "gmcm.limit_gauge_offset.desc": "한계 돌파 게이지 표기용 HUD 막대의 위치를 X/Y축 위치로 조절합니다.",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "위신 진척 정도",
   "gmcm.enable_prestige_levels.title": "추가 위신 레벨 활성화",
   "gmcm.enable_prestige_levels.desc": "기술을 전부 습득한 후 해당 스킬을 20레벨까지 올릴 수 있게 할지 여부를 설정합니다.",

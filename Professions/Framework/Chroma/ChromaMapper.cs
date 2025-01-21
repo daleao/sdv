@@ -14,7 +14,7 @@ internal static class ChromaMapper
         PopulateItems();
     }
 
-    internal static Dictionary<string, Color> ColorFromTag { get; } = new()
+    internal static IReadOnlyDictionary<string, Color> ColorFromTag { get; } = new Dictionary<string, Color>()
     {
         { "color_black", new Color(45, 45, 45) },
         { "color_gray", Color.Gray },

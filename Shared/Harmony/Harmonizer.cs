@@ -21,38 +21,31 @@ public sealed class Harmonizer
     /// <inheritdoc cref="Stopwatch"/>
     private readonly Stopwatch _sw = new();
 
+    /// <inheritdoc cref="Logger"/>
+    private readonly Logger _log;
+
+    private int _appliedPrefixes;
+    private int _appliedPostfixes;
+    private int _appliedTranspilers;
+    private int _appliedFinalizers;
+
     /// <summary>Initializes a new instance of the <see cref="Harmonizer"/> class.</summary>
     /// <param name="modRegistry">API for fetching metadata about loaded mods.</param>
     /// <param name="logger">A <see cref="Logger"/> instance.</param>
     /// <param name="harmonyId">The unique ID of the declaring mod.</param>
-    public Harmonizer(IModRegistry modRegistry, Logger logger, string harmonyId)
+    private Harmonizer(IModRegistry modRegistry, Logger logger, string harmonyId)
     {
         this._modRegistry = modRegistry;
         this.HarmonyId = harmonyId;
         this.Harmony = new Harmony(harmonyId);
-        this.Log = logger;
+        this._log = logger;
     }
 
     /// <inheritdoc cref="HarmonyLib.Harmony"/>
     public Harmony Harmony { get; }
 
-    /// <inheritdoc cref="Logger"/>
-    public Logger Log { get; }
-
     /// <summary>Gets the unique ID of the <see cref="HarmonyLib.Harmony"/> instance.</summary>
     public string HarmonyId { get; }
-
-    /// <summary>Gets the cached count of applied prefixed.</summary>
-    public int AppliedPrefixes { get; private set; }
-
-    /// <summary>Gets the cached count of applied postfixes.</summary>
-    public int AppliedPostfixes { get; private set; }
-
-    /// <summary>Gets the cached count of applied transpilers.</summary>
-    public int AppliedTranspilers { get; private set; }
-
-    /// <summary>Gets the cached count of applied finalizers.</summary>
-    public int AppliedFinalizers { get; private set; }
 
     /// <summary>Implicitly applies<see cref="IHarmonyPatcher"/> types in the specified <paramref name="assembly"/> using reflection.</summary>
     /// <param name="assembly">The assembly containing the types.</param>
@@ -82,7 +75,7 @@ public sealed class Harmonizer
     {
         logger.D($"[Harmonizer]: Preparing to apply all patches in {@namespace}...");
         return new Harmonizer(modRegistry, logger, harmonyId ?? @namespace)
-            .ApplyImplicitly(assembly, t => t.Namespace?.Contains(@namespace) == true);
+            .ApplyImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true);
     }
 
     /// <summary>Implicitly applies only the <see cref="IHarmonyPatcher"/> types with the specified <paramref name="assembly"/>> which are also decorated with <typeparamref name="TAttribute"/>.</summary>
@@ -109,11 +102,11 @@ public sealed class Harmonizer
     public Harmonizer Unapply()
     {
         this.Harmony.UnpatchAll(this.HarmonyId);
-        this.AppliedPrefixes = 0;
-        this.AppliedPostfixes = 0;
-        this.AppliedTranspilers = 0;
-        this.AppliedFinalizers = 0;
-        this.Log.D($"[Harmonizer]: Unapplied all patches for {this.HarmonyId}.");
+        this._appliedPrefixes = 0;
+        this._appliedPostfixes = 0;
+        this._appliedTranspilers = 0;
+        this._appliedFinalizers = 0;
+        this._log.D($"[Harmonizer]: Unapplied all patches for {this.HarmonyId}.");
         return this;
     }
 
@@ -131,13 +124,13 @@ public sealed class Harmonizer
             .Where(t => t.IsAssignableTo(typeof(IHarmonyPatcher)) && !t.IsAbstract && predicate(t))
             .ToArray();
 
-        this.Log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes.");
+        this._log.D($"[Harmonizer]: Found {patchTypes.Length} patch classes.");
         if (patchTypes.Length == 0)
         {
             return this;
         }
 
-        this.Log.D("[Harmonizer]: Applying patches...");
+        this._log.D("[Harmonizer]: Applying patches...");
         foreach (var patchType in patchTypes)
         {
 #if RELEASE
@@ -151,7 +144,7 @@ public sealed class Harmonizer
             var ignoreAttribute = patchType.GetCustomAttribute<ImplicitIgnoreAttribute>();
             if (ignoreAttribute is not null)
             {
-                this.Log.D($"[Harmonizer]: {patchType.Name} is marked to be ignored.");
+                this._log.D($"[Harmonizer]: {patchType.Name} is marked to be ignored.");
                 continue;
             }
 
@@ -160,7 +153,7 @@ public sealed class Harmonizer
             {
                 if (!this._modRegistry.IsLoaded(modRequirementAttribute.UniqueId))
                 {
-                    this.Log.D(
+                    this._log.D(
                         $"[Harmonizer]: The target mod {modRequirementAttribute.UniqueId} is not loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
@@ -169,7 +162,7 @@ public sealed class Harmonizer
                 if (!string.IsNullOrEmpty(modRequirementAttribute.Version) &&
                     installedVersion.IsOlderThan(modRequirementAttribute.Version))
                 {
-                    this.Log.W(
+                    this._log.W(
                         $"[Harmonizer]: The integration patch {patchType.Name} will be ignored because the installed version of {modRequirementAttribute.UniqueId} is older than minimum supported version." +
                         $" Please update {modRequirementAttribute.UniqueId} in order to enable integrations with {this.HarmonyId}." +
                         $"\n\tInstalled version: {this._modRegistry.Get(modRequirementAttribute.UniqueId)!.Manifest.Version}\n\tRequired version: {modRequirementAttribute.Version}");
@@ -182,7 +175,7 @@ public sealed class Harmonizer
             {
                 if (this._modRegistry.IsLoaded(modConflictAttribute.UniqueId))
                 {
-                    this.Log.D(
+                    this._log.D(
                         $"[Harmonizer]: The conflicting mod {modConflictAttribute.UniqueId} is loaded. {patchType.Name} will be ignored.");
                     continue;
                 }
@@ -191,29 +184,29 @@ public sealed class Harmonizer
             try
             {
                 var patch = (IHarmonyPatcher)patchType
-                    .RequireConstructor(this.GetType())
-                    .Invoke([this]);
+                    .RequireConstructor(this.GetType(), typeof(Logger))
+                    .Invoke([this, this._log]);
                 if (patch.Apply(this.Harmony))
                 {
-                    this.Log.D($"[Harmonizer]: Applied {patchType.Name} to {patch.Target!.GetFullName()}.");
+                    this._log.D($"[Harmonizer]: Applied {patchType.Name} to {patch.Target!.GetFullName()}.");
                 }
                 else
                 {
-                    this.Log.W(
+                    this._log.W(
                         $"[Harmonizer]: {patchType.Name} was partially applied or failed to apply. Some mod features may not work correctly.");
                 }
             }
             catch (Exception ex)
             {
-                this.Log.E($"[Harmonizer]: Failed to apply {patchType.Name}.\nHarmony returned {ex}");
+                this._log.E($"[Harmonizer]: Failed to apply {patchType.Name}.\nHarmony returned {ex}");
             }
         }
 
         this.StopWatch();
-        this.AppliedPrefixes = this.Harmony.GetAllPrefixes(p => p.owner == this.HarmonyId).Count();
-        this.AppliedPostfixes = this.Harmony.GetAllPostfixes(p => p.owner == this.HarmonyId).Count();
-        this.AppliedTranspilers = this.Harmony.GetAllTranspilers(p => p.owner == this.HarmonyId).Count();
-        this.AppliedFinalizers = this.Harmony.GetAllFinalizers(p => p.owner == this.HarmonyId).Count();
+        this._appliedPrefixes = this.Harmony.GetAllPrefixes(p => p.owner == this.HarmonyId).Count();
+        this._appliedPostfixes = this.Harmony.GetAllPostfixes(p => p.owner == this.HarmonyId).Count();
+        this._appliedTranspilers = this.Harmony.GetAllTranspilers(p => p.owner == this.HarmonyId).Count();
+        this._appliedFinalizers = this.Harmony.GetAllFinalizers(p => p.owner == this.HarmonyId).Count();
         this.LogStats();
         return this;
     }
@@ -234,13 +227,13 @@ public sealed class Harmonizer
     private void LogStats()
     {
         var patchedMethodsCount = this.Harmony.GetPatchedMethods().Count();
-        var totalApplied = this.AppliedPrefixes + this.AppliedPostfixes + this.AppliedTranspilers +
-                           this.AppliedFinalizers;
-        this.Log.D($"[Harmonizer]: {this.HarmonyId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
+        var totalApplied = this._appliedPrefixes + this._appliedPostfixes + this._appliedTranspilers +
+                           this._appliedFinalizers;
+        this._log.D($"[Harmonizer]: {this.HarmonyId} patching completed in {this._sw.ElapsedMilliseconds}ms." +
               $"\n\tApplied {totalApplied} patches to {patchedMethodsCount} methods, of which" +
-              $"\n\t- {this.AppliedPrefixes} prefixes" +
-              $"\n\t- {this.AppliedPostfixes} postfixes" +
-              $"\n\t- {this.AppliedTranspilers} transpilers" +
-              $"\n\t- {this.AppliedFinalizers} finalizers");
+              $"\n\t- {this._appliedPrefixes} prefixes" +
+              $"\n\t- {this._appliedPostfixes} postfixes" +
+              $"\n\t- {this._appliedTranspilers} transpilers" +
+              $"\n\t- {this._appliedFinalizers} finalizers");
     }
 }

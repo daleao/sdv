@@ -44,7 +44,7 @@ internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager =
             if (b is FishPond pond)
             {
                 pond.UpdateMaximumOccupancy();
-                return true;
+                return true; // continue enumeration
             }
 
             var indoors = b.GetIndoors();
@@ -149,7 +149,7 @@ internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager =
                     break;
             }
 
-            return true;
+            return true; // continue enumeration
         });
 
         this.Disable();

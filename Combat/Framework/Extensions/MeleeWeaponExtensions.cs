@@ -36,7 +36,7 @@ internal static class MeleeWeaponExtensions
     internal static string GetSwipeSound(this MeleeWeapon weapon, ComboHitStep hitStep)
     {
         if (ModHelper.ModRegistry.IsLoaded("DaLion.Arsenal") &&
-            weapon.QualifiedItemId == QualifiedWeaponIds.LavaKatana)
+            weapon.QualifiedItemId == QIDs.LavaKatana)
         {
             return "fireball";
         }

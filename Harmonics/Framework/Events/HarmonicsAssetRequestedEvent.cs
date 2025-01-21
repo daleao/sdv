@@ -142,7 +142,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             ],
         };
 
-        data[QualifiedObjectIds.IridiumBand.Split(")")[1]].Description = I18n.Rings_Iridium_Ring_Desc();
+        data[QIDs.IridiumBand.Split(")")[1]].Description = I18n.Rings_Iridium_Ring_Desc();
     }
 
     private static void EditSpringObjectsSpritesheet(IAssetData asset)
@@ -170,7 +170,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             Width = 1,
             Height = 1,
             Health = 3,
-            ItemDropped = QualifiedObjectIds.Stone,
+            ItemDropped = QIDs.Stone,
             MinDrops = 1,
             MaxDrops = 2,
             ExtraItems =

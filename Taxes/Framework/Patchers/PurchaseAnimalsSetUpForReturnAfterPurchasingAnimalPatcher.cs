@@ -13,8 +13,9 @@ internal sealed class PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher 
 {
     /// <summary>Initializes a new instance of the <see cref="PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal PurchaseAnimalsSetUpForReturnAfterPurchasingAnimalPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<PurchaseAnimalsMenu>(nameof(PurchaseAnimalsMenu.setUpForReturnAfterPurchasingAnimal));
     }

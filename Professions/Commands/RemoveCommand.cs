@@ -39,13 +39,13 @@ internal sealed class RemoveCommand(CommandHandler handler)
                 ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
             }
 
-            this.Handler.Log.I($"Cleared all professions from {Game1.player.Name}.");
+            Log.I($"Cleared all professions from {Game1.player.Name}.");
             return true;
         }
 
         if (args.Length == 0)
         {
-            this.Handler.Log.W("You must specify at least one profession.");
+            Log.W("You must specify at least one profession.");
             return false;
         }
 
@@ -64,7 +64,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
                         }
 
                         Game1.player.stats.Set(StatKeys.Mastery(skill1), 0);
-                        this.Handler.Log.I($"Unmastered the {skill1} skill.");
+                        Log.I($"Unmastered the {skill1} skill.");
                     }
 
                     Game1.player.stats.Set(StatKeys.MasteryExp, 0);
@@ -75,7 +75,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
                 {
                     if (!skill2.CanGainPrestigeLevels())
                     {
-                        this.Handler.Log.I($"{skill2} skill has not been mastered.");
+                        Log.I($"{skill2} skill has not been mastered.");
                         return true;
                     }
 
@@ -83,11 +83,11 @@ internal sealed class RemoveCommand(CommandHandler handler)
                     Game1.player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
-                    this.Handler.Log.I($"Unmastered the {skill2} skill.");
+                    Log.I($"Unmastered the {skill2} skill.");
                 }
                 else
                 {
-                    this.Handler.Log.I($"Ignoring unknown vanilla skill \"{skill2}\".");
+                    Log.I($"Ignoring unknown vanilla skill \"{skill2}\".");
                 }
             }
         }
@@ -105,7 +105,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
                     ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
                 }
 
-                this.Handler.Log.I($"Removed all professions from {Game1.player.Name}.");
+                Log.I($"Removed all professions from {Game1.player.Name}.");
                 break;
             }
 
@@ -119,7 +119,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
-                this.Handler.Log.I($"Removed unknown professions from {Game1.player.Name}.");
+                Log.I($"Removed unknown professions from {Game1.player.Name}.");
             }
             else if (Profession.TryFromName(arg, true, out var profession) ||
                      Profession.TryFromLocalizedName(arg, true, out profession) ||
@@ -127,7 +127,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
             {
                 professionsToRemove.Add(profession.Id);
                 professionsToRemove.Add(profession.Id + 100);
-                this.Handler.Log.I($"Removed {profession.StringId} profession from {Game1.player.Name}.");
+                Log.I($"Removed {profession.StringId} profession from {Game1.player.Name}.");
             }
             else
             {
@@ -137,12 +137,12 @@ internal sealed class RemoveCommand(CommandHandler handler)
                     (int.TryParse(arg, out id) && id == p.Id));
                 if (customProfession is null)
                 {
-                    this.Handler.Log.W($"Ignoring unknown profession {arg}.");
+                    Log.W($"Ignoring unknown profession {arg}.");
                     continue;
                 }
 
                 professionsToRemove.Add(customProfession.Id);
-                this.Handler.Log.I($"Removed {customProfession.StringId} profession from {Game1.player.Name}.");
+                Log.I($"Removed {customProfession.StringId} profession from {Game1.player.Name}.");
             }
         }
 

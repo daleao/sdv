@@ -14,8 +14,9 @@ internal sealed class RingOnNewLocationPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingOnNewLocationPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingOnNewLocationPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingOnNewLocationPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.onNewLocation));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -28,7 +29,7 @@ internal sealed class RingOnNewLocationPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingOnNewLocationPrefix(Ring __instance)
     {
-        return __instance.QualifiedItemId != QualifiedObjectIds.IridiumBand;
+        return __instance.QualifiedItemId != QIDs.IridiumBand;
     }
 
     #endregion harmony patches

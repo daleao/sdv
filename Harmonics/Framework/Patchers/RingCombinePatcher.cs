@@ -7,7 +7,6 @@ using System.Reflection;
 using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Shared.Classes;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -17,8 +16,9 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingCombinePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingCombinePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingCombinePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.Combine));
         this.Prefix!.priority = Priority.HigherThanNormal;

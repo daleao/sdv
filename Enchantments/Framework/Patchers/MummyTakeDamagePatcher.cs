@@ -18,8 +18,9 @@ internal sealed class MummyTakeDamagePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MummyTakeDamagePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MummyTakeDamagePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MummyTakeDamagePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Mummy>(
             nameof(Mummy.takeDamage),

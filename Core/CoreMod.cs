@@ -7,7 +7,6 @@ namespace DaLion.Core;
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
 using DaLion.Shared.Events;
@@ -76,17 +75,21 @@ public sealed class CoreMod : Mod
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<CoreConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
         PerScreenState = new PerScreen<CoreState>(() => new CoreState());
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
-        Data = new ModDataManager(UniqueId, Log);
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
+        Harmonizer.ApplyAll(
+            assembly,
+            helper.ModRegistry,
+            Log,
+            UniqueId);
         CommandHandler.HandleAll(
             assembly,
             helper.ConsoleCommands,
             Log,
             UniqueId,
-            "ars");
+            "dalion");
         this.ValidateMultiplayer();
     }
 }

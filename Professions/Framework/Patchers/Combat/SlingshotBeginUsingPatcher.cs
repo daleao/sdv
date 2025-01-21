@@ -14,8 +14,9 @@ internal sealed class SlingshotBeginUsingPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotBeginUsingPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotBeginUsingPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotBeginUsingPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.beginUsing));
     }

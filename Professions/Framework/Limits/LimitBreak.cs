@@ -155,7 +155,7 @@ public abstract class LimitBreak : ILimitBreak
     internal static double MaxCharge => BASE_MAX_CHARGE + (Game1.player.CombatLevel > 10 ? 5 * (Game1.player.CombatLevel - 10) : 0);
 
     /// <summary>Gets a multiplier which extends the buff duration when above level 10.</summary>
-    internal static double GetDurationMultiplier => MaxCharge / BASE_MAX_CHARGE / Config.Masteries.LimitDrainFactor;
+    internal static double DurationMultiplier => MaxCharge / BASE_MAX_CHARGE / Config.Masteries.LimitDrainFactor;
 
     /// <inheritdoc cref="LimitGauge"/>
     internal LimitGauge Gauge { get; }

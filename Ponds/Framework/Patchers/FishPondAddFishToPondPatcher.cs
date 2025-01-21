@@ -14,8 +14,9 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondAddFishToPondPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondAddFishToPondPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondAddFishToPondPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>("addFishToPond");
     }
@@ -34,7 +35,9 @@ internal sealed class FishPondAddFishToPondPatcher : HarmonyPatcher
             return;
         }
 
-        Log.E("Mismatch between fish population data and actual population.");
+        Log.W($"Mismatch between fish population data and actual population:" +
+              $"\n\t- Population: {__instance.FishCount}\n\t- Data: {Data.Read(__instance, DataKeys.PondFish)}");
+        Log.W("The data will be reset.");
         __instance.ResetPondFishData();
     }
 

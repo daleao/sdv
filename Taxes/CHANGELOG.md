@@ -15,6 +15,8 @@
 ### Fixed
 
 * Fixed Fruit Trees incorrectly causing negative agricultural value.
+* Fixed players not receiving intro mails if mod is installed mid-year.
+* Fixed some translations.
 
 <sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
 

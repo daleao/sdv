@@ -18,8 +18,9 @@ internal sealed class BuffsDisplayDrawPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BuffsDisplayDrawPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal BuffsDisplayDrawPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal BuffsDisplayDrawPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<BuffsDisplay>(nameof(BuffsDisplay.draw), [typeof(SpriteBatch)]);
     }

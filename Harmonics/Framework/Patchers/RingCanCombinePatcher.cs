@@ -14,8 +14,9 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingCanCombinePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingCanCombinePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingCanCombinePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.CanCombine));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -28,8 +29,8 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCanCombinePrefix(Ring __instance, ref bool __result, Ring ring)
     {
-        if (__instance.QualifiedItemId == QualifiedObjectIds.IridiumBand ||
-            ring.QualifiedItemId == QualifiedObjectIds.IridiumBand ||
+        if (__instance.QualifiedItemId == QIDs.IridiumBand ||
+            ring.QualifiedItemId == QIDs.IridiumBand ||
             ring.QualifiedItemId == InfinityBandId)
         {
             return false; // don't run original logic

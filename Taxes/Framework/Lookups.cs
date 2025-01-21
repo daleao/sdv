@@ -12,13 +12,13 @@ internal static class Lookups
     /// <summary>Gets the qualified IDs of the Artisan machines.</summary>
     internal static HashSet<string> ArtisanMachines { get; } =
     [
-        QualifiedBigCraftableIds.Cask,
-        QualifiedBigCraftableIds.CheesePress,
-        QualifiedBigCraftableIds.Loom,
-        QualifiedBigCraftableIds.MayonnaiseMachine,
-        QualifiedBigCraftableIds.OilMaker,
-        QualifiedBigCraftableIds.PreservesJar,
-        QualifiedBigCraftableIds.Keg,
-        QualifiedBigCraftableIds.Dehydrator,
+        QIDs.Cask,
+        QIDs.CheesePress,
+        QIDs.Loom,
+        QIDs.MayonnaiseMachine,
+        QIDs.OilMaker,
+        QIDs.PreservesJar,
+        QIDs.Keg,
+        QIDs.Dehydrator,
     ];
 }

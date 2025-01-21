@@ -17,8 +17,9 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationExplodePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationExplodePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationExplodePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(nameof(GameLocation.explode));
     }
@@ -198,7 +199,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         if (r.NextBool(chance) || (isPrestigedBlaster && r.NextBool(chance)))
         {
             Game1.createObjectDebris(
-                QualifiedObjectIds.Coal,
+                QIDs.Coal,
                 tileX,
                 tileY,
                 who.UniqueMultiplayerID,
@@ -207,7 +208,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
-                    QualifiedObjectIds.Coal,
+                    QIDs.Coal,
                     tileX,
                     tileY,
                     who.UniqueMultiplayerID,
@@ -252,7 +253,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         if (r.NextBool(chance) || (isPrestigedBlaster && r.NextBool(chance)))
         {
             Game1.createObjectDebris(
-                QualifiedObjectIds.Coal,
+                QIDs.Coal,
                 tileX,
                 tileY,
                 who.UniqueMultiplayerID,
@@ -261,7 +262,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
-                    QualifiedObjectIds.Coal,
+                    QIDs.Coal,
                     tileX,
                     tileY,
                     who.UniqueMultiplayerID,
@@ -285,7 +286,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         if (r.NextBool(coalChance) || (isPrestigedBlaster && r.NextBool(coalChance)))
         {
             Game1.createObjectDebris(
-                QualifiedObjectIds.Coal,
+                QIDs.Coal,
                 tileX,
                 tileY,
                 who.UniqueMultiplayerID,
@@ -294,7 +295,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             if (isPrestigedBlaster)
             {
                 Game1.createObjectDebris(
-                    QualifiedObjectIds.Coal,
+                    QIDs.Coal,
                     tileX,
                     tileY,
                     who.UniqueMultiplayerID,

@@ -13,8 +13,9 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectOutputMachinePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectOutputMachinePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectOutputMachinePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>(nameof(SObject.OutputMachine));
     }
@@ -30,7 +31,7 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
         var owner = __instance.GetOwner();
         switch (__instance.QualifiedItemId)
         {
-            case QualifiedBigCraftableIds.BeeHouse when Config.BeesAreAnimals:
+            case QIDs.BeeHouse when Config.BeesAreAnimals:
             {
                 if (!owner.HasProfessionOrLax(Profession.Producer))
                 {
@@ -47,7 +48,7 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
                 break;
             }
 
-            case QualifiedBigCraftableIds.Crystalarium when held is not null:
+            case QIDs.Crystalarium when held is not null:
             {
                 if (owner.HasProfession(Profession.Gemologist, true))
                 {

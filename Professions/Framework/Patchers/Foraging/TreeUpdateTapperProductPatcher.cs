@@ -14,8 +14,9 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TreeUpdateTapperProductPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal TreeUpdateTapperProductPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal TreeUpdateTapperProductPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Tree>(nameof(Tree.UpdateTapperProduct));
     }
@@ -38,7 +39,7 @@ internal sealed class TreeUpdateTapperProductPatcher : HarmonyPatcher
             tapper.heldObject.Value.Quality = __instance.GetQualityFromAge();
         }
 
-        if (tapper.QualifiedItemId == QualifiedBigCraftableIds.HeavyTapper && Config.ImmersiveHeavyTapperYield)
+        if (tapper.QualifiedItemId == QIDs.HeavyTapper && Config.ImmersiveHeavyTapperYield)
         {
             tapper.heldObject.Value.Stack = 2;
         }

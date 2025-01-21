@@ -13,4 +13,14 @@ public static class FloatExtensions
         eps ??= MathF.Max(MathF.Abs(a), MathF.Abs(b)) * 1E-6f;
         return MathF.Abs(a - b) < eps;
     }
+
+    /// <summary>Adds the specified <paramref name="values"/> ensuring that the result does not overflow.</summary>
+    /// <param name="values">The <see cref="float"/> values to be added.</param>
+    /// <returns>The sum of <paramref name="values"/>, or <see cref="int.MaxValue"/> is that sum would be greater than <see cref="int.MaxValue"/>.</returns>
+    public static float AddWithoutOverflow(params float[] values)
+    {
+        float sum = 0;
+        for (var i = 0; i < values.Length && (sum += values[i]) <= float.MaxValue; i++) ;
+        return sum > float.MaxValue ? float.MaxValue : sum;
+    }
 }

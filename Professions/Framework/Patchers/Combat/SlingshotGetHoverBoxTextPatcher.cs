@@ -14,8 +14,9 @@ internal sealed class SlingshotGetHoverBoxTextPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotGetHoverBoxTextPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotGetHoverBoxTextPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotGetHoverBoxTextPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.getHoverBoxText));
     }

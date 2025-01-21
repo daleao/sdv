@@ -19,6 +19,10 @@ internal sealed class LuremasterDayStartedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        Parallel.ForEach(Game1.game1.EnumerateAllCrabPots(), crabPot => crabPot.ResetSuccesses());
+        Parallel.ForEach(Game1.game1.EnumerateAllCrabPots(), crabPot =>
+        {
+            crabPot.ResetCatchAttempts();
+            crabPot.UnblockAdditionalCatches();
+        });
     }
 }

@@ -18,8 +18,9 @@ internal sealed class AngryRogerUpdateAnimationPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="AngryRogerUpdateAnimationPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal AngryRogerUpdateAnimationPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal AngryRogerUpdateAnimationPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<AngryRoger>("updateAnimation", [typeof(GameTime)]);
     }

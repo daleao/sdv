@@ -21,8 +21,9 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MonsterFindPlayerPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MonsterFindPlayerPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MonsterFindPlayerPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Monster>("findPlayer");
     }
@@ -76,9 +77,9 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                 if (aggroee is not null)
                 {
                     targetPos = aggroee.Position;
-                    piped.FakeFarmer.IsEnemy = true;
+                    piped.FakeFarmer.AttachedEnemy = aggroee;
                 }
-                else if (State.AlliedSlimes.Contains(piped) && slime.Get_HasInventorySlots())
+                else if (piped.Hat is not null && piped.HasEmptyInventorySlots)
                 {
                     var approximatePosition =
                         Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
@@ -92,7 +93,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                     if (closest is not null)
                     {
                         targetPos = approximatePosition(closest);
-                        piped.FakeFarmer.IsEnemy = false;
+                        piped.FakeFarmer.AttachedEnemy = null;
                     }
                 }
 
@@ -102,7 +103,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                     var mapHeight = location.Map.Layers[0].LayerHeight;
                     targetPos = slime.GetClosestTile(piped.Piper.Tile.GetEightNeighbors(mapWidth, mapHeight)) *
                                  Game1.tileSize;
-                    piped.FakeFarmer.IsEnemy = false;
+                    piped.FakeFarmer.AttachedEnemy = null;
                 }
 
                 piped.FakeFarmer.Position = targetPos.Value;

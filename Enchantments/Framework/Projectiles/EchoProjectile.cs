@@ -45,7 +45,7 @@ internal sealed class EchoProjectile : BasicProjectile
         original.itemId.Value)
     {
         this._original = original;
-        this._timer = 500 + (Game1.random.Next(-25, 26) * 10); // delay before motion
+        this._timer = 300 + (Game1.random.Next(-25, 26) * 10); // delay before motion
     }
 
     /// <inheritdoc />

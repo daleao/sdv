@@ -8,6 +8,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
+using Xna;
 
 #endregion using directives
 
@@ -40,12 +41,23 @@ public static class CharacterExtensions
         return (dx * dx) + (dy * dy);
     }
 
-    /// <summary>Gets the distance in tiles from this <paramref name="character"/> to the local player.</summary>
-    /// <param name="character">The <see cref="Character"/>.</param>
-    /// <returns>The distance in tiles from this <paramref name="character"/> to the local player.</returns>
-    public static int DistanceToPlayer(this Character character)
+    /// <summary>Gets the distance in tiles from this <paramref name="character"/> to the specified <paramref name="other"/>.</summary>
+    /// <param name="character">The source <see cref="Character"/>.</param>
+    /// <param name="other">The other <see cref="Character"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="character"/> to the <paramref name="other"/>.</returns>
+    public static int TileDistanceTo(this Character character, Character other)
     {
-        return (int)character.SquaredTileDistance(Game1.player.Tile);
+        return character.TilePoint.ManhattanDistance(other.TilePoint);
+    }
+
+    /// <summary>Gets the distance in tiles from this <paramref name="character"/> to the specified <paramref name="player"/>.</summary>
+    /// <param name="character">The source <see cref="Character"/>.</param>
+    /// <param name="player">The target <see cref="Farmer"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="character"/> to the <paramref name="player"/>.</returns>
+    public static int TileDistanceToPlayer(this Character character, Farmer? player = null)
+    {
+        player ??= Game1.player;
+        return character.TileDistanceTo(player);
     }
 
     /// <summary>

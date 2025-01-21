@@ -7,6 +7,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
 using StardewValley.TerrainFeatures;
+using Xna;
 
 #endregion using directives
 
@@ -64,12 +65,14 @@ public static class SObjectExtensions
         return (dx * dx) + (dy * dy);
     }
 
-    /// <summary>Gets the distance in tiles from this <paramref name="object"/> to the local player.</summary>
-    /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <returns>The distance in tiles from this <paramref name="object"/> to the local player.</returns>
-    public static int DistanceToPlayer(this SObject @object)
+    /// <summary>Gets the distance in tiles from this <paramref name="object"/> to the specified <paramref name="player"/>.</summary>
+    /// <param name="object">The source <see cref="SObject"/>.</param>
+    /// <param name="player">The target <see cref="Farmer"/>.</param>
+    /// <returns>The distance in tiles from this <paramref name="object"/> to the <paramref name="player"/>.</returns>
+    public static int TileDistanceToPlayer(this SObject @object, Farmer? player = null)
     {
-        return (int)@object.SquaredTileDistance(Game1.player.Tile);
+        player ??= Game1.player;
+        return @object.TileLocation.ToPoint().ManhattanDistance(player.TilePoint);
     }
 
     /// <summary>

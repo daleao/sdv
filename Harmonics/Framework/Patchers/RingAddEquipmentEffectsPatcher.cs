@@ -15,8 +15,9 @@ internal sealed class RingAddEquipmentEffectsPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="RingAddEquipmentEffectsPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal RingAddEquipmentEffectsPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal RingAddEquipmentEffectsPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Ring>(nameof(Ring.AddEquipmentEffects));
         this.Prefix!.priority = Priority.HigherThanNormal;
@@ -29,9 +30,9 @@ internal sealed class RingAddEquipmentEffectsPatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingAddEquipmentEffectsPrefix(Ring __instance, BuffEffects effects)
     {
-        if (__instance.QualifiedItemId != QualifiedObjectIds.JadeRing)
+        if (__instance.QualifiedItemId != QIDs.JadeRing)
         {
-            return __instance.QualifiedItemId != QualifiedObjectIds.IridiumBand;
+            return __instance.QualifiedItemId != QIDs.IridiumBand;
         }
 
         effects.CriticalPowerMultiplier.Value += 0.5f;

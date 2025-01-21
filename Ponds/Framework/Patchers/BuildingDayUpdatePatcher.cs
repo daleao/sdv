@@ -16,8 +16,9 @@ internal sealed class BuildingDayUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="BuildingDayUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal BuildingDayUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal BuildingDayUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Building>(nameof(Building.dayUpdate));
     }

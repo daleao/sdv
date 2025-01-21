@@ -15,8 +15,9 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
 {
     /// <summary>Initializes a new instance of the <see cref="SlimeHutchUpdateWhenCurrentLocationPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlimeHutchUpdateWhenCurrentLocationPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlimeHutchUpdateWhenCurrentLocationPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SlimeHutch>(nameof(SlimeHutch.UpdateWhenCurrentLocation));
     }
@@ -40,7 +41,7 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
                 time);
             for (var i = 0; i < __instance.waterSpots.Length; i++)
             {
-                __instance.setMapTile(16, 5 + i, __instance.waterSpots[i] ? 2135 : 2134, "Buildings", null);
+                __instance.setMapTile(16, 5 + i, __instance.waterSpots[i] ? 2135 : 2134, "Buildings", "untitled tile sheet");
             }
 
             return false; // don't run original logic

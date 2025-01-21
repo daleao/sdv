@@ -14,8 +14,9 @@ internal sealed class ToolRemoveEnchantmentPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ToolRemoveEnchantmentPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ToolRemoveEnchantmentPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ToolRemoveEnchantmentPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Tool>(nameof(Tool.RemoveEnchantment));
     }

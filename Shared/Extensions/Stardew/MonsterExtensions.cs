@@ -34,7 +34,7 @@ public static class MonsterExtensions
     /// <summary>Determines whether the <paramref name="monster"/> is a flying enemy (i.e., glider).</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="monster"/> has the <c>isGlider</c> flag or is a <see cref="Ghost"/>, otherwise <see langword="false"/>.</returns>
-    public static bool IsGlider(this Monster monster)
+    public static bool IsFloating(this Monster monster)
     {
         return monster.isGlider.Value || monster is Ghost;
     }

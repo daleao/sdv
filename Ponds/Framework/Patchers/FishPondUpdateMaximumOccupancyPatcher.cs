@@ -14,8 +14,9 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondUpdateMaximumOccupancyPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishPondUpdateMaximumOccupancyPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishPondUpdateMaximumOccupancyPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishPond>(nameof(FishPond.UpdateMaximumOccupancy));
     }

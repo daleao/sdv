@@ -15,8 +15,9 @@ internal sealed class ExperienceBarGetExperienceRequiredToLevelPatcher : Harmony
 {
     /// <summary>Initializes a new instance of the <see cref="ExperienceBarGetExperienceRequiredToLevelPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ExperienceBarGetExperienceRequiredToLevelPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ExperienceBarGetExperienceRequiredToLevelPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = "UIInfoSuite2.UIElements.ExperienceBar"
             .ToType()

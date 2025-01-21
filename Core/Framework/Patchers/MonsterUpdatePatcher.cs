@@ -9,7 +9,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Extensions;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -19,8 +18,9 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MonsterUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal MonsterUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal MonsterUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target =
             this.RequireMethod<Monster>(nameof(Monster.update), [typeof(GameTime), typeof(GameLocation)]);
@@ -38,6 +38,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
         try
         {
             var ticks = time.TotalGameTime.Ticks;
+            var elapsedMs = time.ElapsedGameTime.Milliseconds;
             Farmer? killer = null;
             if (ticks % 30 == 0)
             {
@@ -45,7 +46,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 if (bleedHolder.BleedTimer.Value > 0)
                 {
                     var (bleedTimer, bleedStacks, bleeder) = bleedHolder;
-                    bleedTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    bleedTimer.Value -= elapsedMs;
                     if (bleedTimer.Value <= 0)
                     {
                         bleedTimer.Value = -1;
@@ -74,7 +75,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 if (burnHolder.BurnTimer.Value > 0)
                 {
                     var (burnTimer, burner) = burnHolder;
-                    burnTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    burnTimer.Value -= elapsedMs;
                     if (burnTimer.Value <= 0)
                     {
                         __instance.jitteriness.Value /= 2;
@@ -84,7 +85,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                     }
                     else
                     {
-                        if ((__instance is Bug or Fly && ticks % 30 == 0) || ticks % 180 == 0)
+                        if ((__instance is Bug or Fly) || ticks % 180 == 0)
                         {
                             var burn = (int)(1d / 16d * __instance.MaxHealth);
                             __instance.Health -= burn;
@@ -103,7 +104,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 if (poisonHolder.PoisonTimer.Value > 0)
                 {
                     var (poisonTimer, poisonStacks, poisoner) = poisonHolder;
-                    poisonTimer.Value -= time.ElapsedGameTime.Milliseconds;
+                    poisonTimer.Value -= elapsedMs;
                     if (poisonTimer.Value <= 0)
                     {
                         poisonTimer.Value = -1;
@@ -143,7 +144,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
             }
 
             var (slowTimer, slowIntensity) = slowHolder;
-            slowTimer.Value -= time.ElapsedGameTime.Milliseconds;
+            slowTimer.Value -= elapsedMs;
             if (slowTimer.Value <= 0)
             {
                 var chilled = __instance.Get_Chilled();
@@ -182,7 +183,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            invincibility -= time.ElapsedGameTime.Milliseconds;
+            invincibility -= elapsedMs;
             Reflector.GetUnboundFieldSetter<Monster, int>("invincibleCountdown")
                 .Invoke(__instance, invincibility);
             return false; // don't run original logic

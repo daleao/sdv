@@ -23,7 +23,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is either copper, iron, gold or iridium, otherwise <see langword="false"/>.</returns>
     internal static bool CanBeEnriched(this SObject @object)
     {
-        return @object.QualifiedItemId is QualifiedObjectIds.CopperOre or QualifiedObjectIds.IronOre
-            or QualifiedObjectIds.GoldOre or QualifiedObjectIds.IridiumOre;
+        return @object.QualifiedItemId is QIDs.CopperOre or QIDs.IronOre
+            or QIDs.GoldOre or QIDs.IridiumOre;
     }
 }

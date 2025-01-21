@@ -18,8 +18,9 @@ internal sealed class TreeTickUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TreeTickUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal TreeTickUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal TreeTickUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Tree>(nameof(Tree.tickUpdate));
     }

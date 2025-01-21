@@ -13,15 +13,15 @@ internal static class SObjectExtensions
 {
     private static readonly HashSet<string> VanillaAnimalGoodIds =
     [
-        QualifiedObjectIds.DinosaurEgg,
-        QualifiedObjectIds.Mayonnaise,
-        QualifiedObjectIds.DuckMayonnaise,
-        QualifiedObjectIds.DinosaurMayonnaise,
-        QualifiedObjectIds.VoidMayonnaise,
-        QualifiedObjectIds.Cheese,
-        QualifiedObjectIds.GoatCheese,
-        QualifiedObjectIds.Cloth,
-        QualifiedObjectIds.Wool,
+        QIDs.DinosaurEgg,
+        QIDs.Mayonnaise,
+        QIDs.DuckMayonnaise,
+        QIDs.DinosaurMayonnaise,
+        QIDs.VoidMayonnaise,
+        QIDs.Cheese,
+        QIDs.GoatCheese,
+        QIDs.Cloth,
+        QIDs.Wool,
     ];
 
     /// <summary>Determines whether <paramref name="object"/> is an artisan machine.</summary>
@@ -57,7 +57,7 @@ internal static class SObjectExtensions
     internal static bool ShouldBeTrackedBy(this SObject @object, Profession profession)
     {
         return (profession == Profession.Scavenger && ((@object.IsSpawnedObject && !@object.IsForagedMineral()) ||
-                                                       @object.QualifiedItemId == QualifiedObjectIds.SpringOnion)) ||
+                                                       @object.QualifiedItemId == QIDs.SpringOnion)) ||
                (profession == Profession.Prospector && ((@object.IsStone() && @object.IsResourceNode()) ||
                                                         @object.IsForagedMineral()));
     }

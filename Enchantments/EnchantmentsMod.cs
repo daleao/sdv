@@ -8,7 +8,6 @@ namespace DaLion.Enchantments;
 
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
-using DaLion.Shared;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Data;
 using DaLion.Shared.Events;
@@ -82,13 +81,20 @@ public sealed class EnchantmentsMod : Mod
         var assembly = Assembly.GetExecutingAssembly();
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<EnchantmentsConfig>();
-        PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
-        Data = new ModDataManager(UniqueId, Log);
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Harmonizer.ApplyAll(assembly, helper.ModRegistry, Log, UniqueId);
-        CommandHandler.HandleAll(
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+            .ManageInitial(assembly, "DaLion.Enchantments.Framework.Events");
+        Harmonizer.ApplyFromNamespace(
             assembly,
+            "DaLion.Enchantments.Framework.Patchers",
+            helper.ModRegistry,
+            Log,
+            UniqueId);
+        CommandHandler.HandleFromNamespace(
+            assembly,
+            "DaLion.Enchantments.Commands",
             helper.ConsoleCommands,
             Log,
             UniqueId,

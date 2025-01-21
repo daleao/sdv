@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Menus;
@@ -14,8 +13,9 @@ internal sealed class SkillsPagePerformHoverActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SkillsPagePerformHoverActionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SkillsPagePerformHoverActionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SkillsPagePerformHoverActionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SkillsPage>(nameof(SkillsPage.performHoverAction));
     }

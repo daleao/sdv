@@ -15,8 +15,9 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectGetPriceAfterMultipliersPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectGetPriceAfterMultipliersPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectGetPriceAfterMultipliersPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>("getPriceAfterMultipliers");
     }
@@ -57,7 +58,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
 
                 // professions
                 if (farmer.HasProfession(Profession.Producer) &&
-                    (__instance.IsAnimalOrDerivedGood() || (__instance.QualifiedItemId == QualifiedObjectIds.Honey &&
+                    (__instance.IsAnimalOrDerivedGood() || (__instance.QualifiedItemId == QIDs.Honey &&
                                                             Config.BeesAreAnimals)))
                 {
                     multiplier += farmer.GetProducerSaleBonus();
@@ -81,7 +82,7 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                     multiplier *= 3f;
                 }
                 else if (farmer.eventsSeen.Contains("3910979") &&
-                         __instance.QualifiedItemId is QualifiedObjectIds.SpringOnion)
+                         __instance.QualifiedItemId is QIDs.SpringOnion)
                 {
                     multiplier *= 5f;
                 }

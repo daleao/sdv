@@ -4,7 +4,6 @@
 
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Core;
 using DaLion.Core.Framework.Enchantments;
 using DaLion.Enchantments.Framework.Enchantments;
 using DaLion.Enchantments.Framework.Projectiles;
@@ -23,8 +22,9 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotPerformFirePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotPerformFirePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotPerformFirePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.PerformFire));
     }

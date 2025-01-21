@@ -199,7 +199,7 @@ public static class ColorExtensions
     /// <summary>Converts RGB color values to an HTML string.</summary>
     /// <param name="color">The <see cref="Color"/>.</param>
     /// <returns>An HTML string which represents the <paramref name="color"/>.</returns>
-    public static string ToHtml(this Color color)
+    public static string ToHex(this Color color)
     {
         return $"#{color.R:X2}{color.G:X2}{color.B:X2}{color.A:X2}";
     }
@@ -209,7 +209,7 @@ public static class ColorExtensions
     /// <param name="html">An HTML color string.</param>
     /// <returns>The same <paramref name="color"/> instance, initialized from the specified HTML string.</returns>
     /// <exception cref="InvalidOperationException">If the input html string is invalid.</exception>
-    public static Color FromHtml(this Color color, string html)
+    public static Color FromHex(this Color color, string html)
     {
         if (html[0] != '#')
         {

@@ -13,8 +13,9 @@ internal sealed class CombinedRingLoadDisplayFieldsPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="CombinedRingLoadDisplayFieldsPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal CombinedRingLoadDisplayFieldsPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal CombinedRingLoadDisplayFieldsPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<CombinedRing>("loadDisplayFields");
         this.Prefix!.priority = Priority.HigherThanNormal;

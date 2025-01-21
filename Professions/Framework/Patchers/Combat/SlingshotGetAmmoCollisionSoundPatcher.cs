@@ -13,8 +13,9 @@ internal sealed class SlingshotGetAmmoCollisionSoundPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlingshotGetAmmoCollisionSoundPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlingshotGetAmmoCollisionSoundPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlingshotGetAmmoCollisionSoundPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Slingshot>(nameof(Slingshot.GetAmmoCollisionSound));
     }
@@ -26,7 +27,7 @@ internal sealed class SlingshotGetAmmoCollisionSoundPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void SlingshotGetAmmoCollisionSoundPostfix(Slingshot __instance, ref string __result, SObject ammunition)
     {
-        if (ammunition.QualifiedItemId == QualifiedObjectIds.Slime)
+        if (ammunition.QualifiedItemId == QIDs.Slime)
         {
             __result = "slimedead";
         }

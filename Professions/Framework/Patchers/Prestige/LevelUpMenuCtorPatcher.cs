@@ -17,8 +17,9 @@ internal sealed class LevelUpMenuCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="LevelUpMenuCtorPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal LevelUpMenuCtorPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal LevelUpMenuCtorPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireConstructor<LevelUpMenu>(typeof(int), typeof(int));
     }

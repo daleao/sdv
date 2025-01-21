@@ -101,7 +101,7 @@
   "demolitionist.title.female": "Demolitionist",
   "demolitionist.title.prestiged.male": "Pyrotechnician",
   "demolitionist.title.prestiged.female": "Pyrotechnician",
-  "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks. Can manually detonate bombs.",
+  "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
   "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
   "gemologist.title.male": "Gemologist",
@@ -182,11 +182,11 @@
   "desperado.buff.desc": "+50% ammo damage against a different target.",
   "piper.title.male": "Slimed Piper",
   "piper.title.female": "Slimed Siren",
-  "piper.title.prestiged.male": "Slime Conductor",
-  "piper.title.prestiged.female": "Slime Enchantress",
-  "piper.desc": "Can attempt to tame a nearby Slime, with chance based on the number of raised Slimes. Hutch capacity +50%. Slimed debuff also grants healing over time.",
-  "piper.desc.prestiged": "Can tame one additional Slime. Slimed debuff also removes special move cooldown. Obtain special colored items from Slime Balls.",
-  "piper.buff": "Slimed",
+  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue Of Transcendence-^The statue can reset a skill's level while retaining all acquired professions.",
@@ -212,6 +212,7 @@
   "prestige.level_up.single": "Gained Prestige",
 
   "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
+  "prestige.mastery.lock": "There is still knowledge yet to be acquired before true mastery can be achieved.",
   "prestige.mastery.unlocked": "Can now develop the {{skill}} skill further.",
   "prestiged.title": "Master ",
 
@@ -338,6 +339,10 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
+  "gmcm.show_minion_health.title": "Show Minion Health",
+  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
+  "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Skill Reset",
@@ -381,6 +386,8 @@
   "gmcm.limit_gauge_offset.desc": "Use this to adjust the X and Y coordinates of the Limit Gauge if using other mods which also add HUD bars.",
 
   // prestige
+  "gmcm.lock_mastery_until_full_reset.title": "Lock Mastery Until Full Reset",
+  "gmcm.lock_mastery_until_full_reset.desc": "Gets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.",
   "gmcm.sections.prfs.prestige": "Prestige Progression",
   "gmcm.enable_prestige_levels.title": "Enable Prestige Levels",
   "gmcm.enable_prestige_levels.desc": "Whether the player can continue gaining levels up to 20 after achieving skill mastery.",

@@ -4,6 +4,7 @@
 
 using System.Linq;
 using System.Reflection;
+using DaLion.Professions.Framework.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using xTile.Dimensions;
@@ -15,8 +16,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationPerformActionPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationPerformActionPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationPerformActionPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>(
             nameof(GameLocation.performAction),
@@ -144,7 +146,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             ];
         }
 
-        if (ShouldEnablePrestigeLevels && Skill.List.Any(s => GameLocation.canRespec(s)))
+        if (ShouldEnablePrestigeLevels && Skill.List.Any(s => location.CanRespecPrestiged(s)))
         {
             options =
             [

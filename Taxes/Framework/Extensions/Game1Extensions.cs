@@ -13,7 +13,7 @@ internal static class Game1Extensions
         Utility.ForEachLocation(location =>
         {
             count += location.Objects.Values.Count(@object => @object.IsArtisanMachine() && playersIds.Contains(@object.owner.Value));
-            return true;
+            return true; // continue enumeration
         });
 
         return count;

@@ -25,7 +25,7 @@ internal sealed class SendLetterCommand(CommandHandler handler)
     {
         if (args.Length == 0)
         {
-            this.Handler.Log.W("You must specify a letter to receive.");
+            Log.W("You must specify a letter to receive.");
             return true;
         }
 
@@ -53,7 +53,7 @@ internal sealed class SendLetterCommand(CommandHandler handler)
                 PostalService.Send(Mail.LewisOutstanding);
                 break;
             default:
-                this.Handler.Log.I($"'{args[0]}' is not a letter key.");
+                Log.I($"'{args[0]}' is not a letter key.");
                 break;
         }
 

@@ -14,8 +14,9 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmAnimalGetSellPricePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FarmAnimalGetSellPricePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FarmAnimalGetSellPricePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FarmAnimal>(nameof(FarmAnimal.getSellPrice));
     }

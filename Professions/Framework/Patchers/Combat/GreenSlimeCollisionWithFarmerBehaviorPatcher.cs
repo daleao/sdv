@@ -19,8 +19,9 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
 
     /// <summary>Initializes a new instance of the <see cref="GreenSlimeCollisionWithFarmerBehaviorPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GreenSlimeCollisionWithFarmerBehaviorPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GreenSlimeCollisionWithFarmerBehaviorPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GreenSlime>(nameof(GreenSlime.collisionWithFarmerBehavior));
     }
@@ -47,7 +48,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
 
         concerto.ChargeValue += Game1.random.Next(1, 4);
         concerto.SlimeContactTimer = FARMER_INVINCIBILITY_FRAMES;
-        EventManager.Enable<ConcertoUpdateTickedEvent>();
+        EventManager.Enable<ConcertoContactWithSlimeUpdateTickedEvent>();
     }
 
     #endregion harmony patches

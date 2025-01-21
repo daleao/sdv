@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -17,9 +18,9 @@ internal sealed class SlimeDeflationUpdateTickedEvent(EventManager? manager = nu
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
         var count = 0;
-        foreach (var piped in State.AlliedSlimes)
+        foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (piped is null || piped.PipeTimer > 0 || piped.Instance.Scale <= piped.OriginalScale)
+            if (piped.Slime.Scale <= piped.OriginalScale)
             {
                 continue;
             }

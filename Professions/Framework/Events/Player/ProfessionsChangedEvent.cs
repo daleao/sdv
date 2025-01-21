@@ -3,15 +3,15 @@
 #region using directives
 
 using System;
-using DaLion.Professions;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
 
 #endregion using directives
 
 /// <summary>Monitors changes to <see cref="Farmer.professions"/>.</summary>
+[ImplicitIgnore]
 internal sealed class ProfessionsChangedEvent : ManagedEvent
 {
     private readonly Farmer _who;
@@ -25,6 +25,12 @@ internal sealed class ProfessionsChangedEvent : ManagedEvent
         who.professions.OnValueAdded += this.OnProfessionAdded;
         who.professions.OnValueRemoved += this.OnProfessionRemoved;
         this._who = who;
+    }
+
+    ~ProfessionsChangedEvent()
+    {
+        this._who.professions.OnValueAdded -= this.OnProfessionAdded;
+        this._who.professions.OnValueRemoved -= this.OnProfessionRemoved;
     }
 
     /// <inheritdoc />

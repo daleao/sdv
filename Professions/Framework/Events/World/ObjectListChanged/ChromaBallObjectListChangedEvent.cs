@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Core;
 using DaLion.Core.Framework;
 using DaLion.Professions.Framework.Chroma;
 using DaLion.Shared.Events;
@@ -37,7 +36,7 @@ internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = n
 
         foreach (var (key, value) in e.Removed)
         {
-            if (value.QualifiedItemId != QualifiedBigCraftableIds.SlimeBall)
+            if (value.QualifiedItemId != QIDs.SlimeBall)
             {
                 continue;
             }

@@ -19,8 +19,9 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishingRodDoDoneFishingPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal FishingRodDoDoneFishingPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal FishingRodDoDoneFishingPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<FishingRod>("doDoneFishing");
     }
@@ -32,6 +33,18 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void FishingRodDoDoneFishingPrefix(FishingRod __instance, bool consumeBaitAndTackle)
     {
+        if (__instance.lastUser.HasProfession(Profession.Angler, true))
+        {
+            if (__instance.fishCaught)
+            {
+                State.FishingChain++;
+            }
+            else
+            {
+                State.FishingChain = 0;
+            }
+        }
+
         if (!consumeBaitAndTackle)
         {
             return;
@@ -115,13 +128,13 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
         if (tackle.QualifiedItemId == rod.attachments[1]?.QualifiedItemId)
         {
             Data.Write(rod, DataKeys.FirstMemorizedTackle, tackle.QualifiedItemId);
-            Data.Write(rod, DataKeys.FirstMemorizedTackleUses, (FishingRod.maxTackleUses / 2 + 1).ToString());
+            Data.Write(rod, DataKeys.FirstMemorizedTackleUses, ((FishingRod.maxTackleUses / 2) + 1).ToString());
             return;
         }
         else if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2].QualifiedItemId)
         {
             Data.Write(rod, DataKeys.SecondMemorizedTackle, tackle.QualifiedItemId);
-            Data.Write(rod, DataKeys.SecondMemorizedTackleUses, (FishingRod.maxTackleUses / 2 + 1).ToString());
+            Data.Write(rod, DataKeys.SecondMemorizedTackleUses, ((FishingRod.maxTackleUses / 2) + 1).ToString());
             return;
         }
     }

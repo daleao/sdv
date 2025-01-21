@@ -1,9 +1,9 @@
-﻿namespace DaLion.Professions.Framework.Events.Input.ButtonPressed;
+﻿namespace DaLion.Professions.Framework.Events.ButtonPressed;
 
 #region using directives
 
-using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.SMAPI;
 using Microsoft.Xna.Framework.Input;
 using StardewModdingAPI.Events;
 
@@ -12,7 +12,6 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="MasteryWarningButtonPressedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-[LimitEvent]
 internal sealed class MasteryWarningButtonPressedEvent(EventManager? manager = null)
     : ButtonPressedEvent(manager ?? ProfessionsMod.EventManager)
 {
@@ -24,6 +23,7 @@ internal sealed class MasteryWarningButtonPressedEvent(EventManager? manager = n
     {
         switch (e.Button)
         {
+            case SButton.ControllerA:
             case SButton.MouseLeft:
                 State.WarningBox!.receiveLeftClick(Game1.getMouseX(), Game1.getMouseY());
                 break;
@@ -34,13 +34,12 @@ internal sealed class MasteryWarningButtonPressedEvent(EventManager? manager = n
             case SButton.DPadRight:
             case SButton.DPadDown:
             case SButton.DPadLeft:
-            case SButton.ControllerA:
+                State.WarningBox!.receiveGamePadButton(e.Button.ToButton());
+                break;
             case SButton.ControllerB:
-            case SButton.ControllerX:
-            case SButton.ControllerY:
             case SButton.ControllerBack:
-            case SButton.ControllerStart:
-                State.WarningBox!.receiveGamePadButton((Buttons)e.Button);
+            case SButton.Escape:
+                State.WarningBox!.exitThisMenu();
                 break;
             default:
                 State.WarningBox!.receiveKeyPress((Keys)e.Button);

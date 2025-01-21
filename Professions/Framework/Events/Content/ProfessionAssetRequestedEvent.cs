@@ -79,6 +79,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_Mayo",
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
+        this.Provide(
+            $"{UniqueId}_GoldSlime",
+            new ModTextureProvider(() => "assets/sprites/Gold Slime.png"));
     }
 
     #region editor callback
@@ -105,7 +108,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         var data = asset.AsDictionary<string, BigCraftableData>().Data;
         if (Config.ImmersiveHeavyTapperYield)
         {
-            var id = QualifiedBigCraftableIds.HeavyTapper.SplitWithoutAllocation(')')[1].ToString();
+            var id = QIDs.HeavyTapper.SplitWithoutAllocation(')')[1].ToString();
             data[id].ContextTags.Remove("tapper_multiplier_2");
         }
     }
@@ -273,7 +276,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.05f,
-                            ItemId = QualifiedObjectIds.FrozenGeode,
+                            ItemId = QIDs.FrozenGeode,
                             MinStack = 5,
                             MaxStack = 10,
                         },
@@ -281,7 +284,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.075f,
-                            ItemId = QualifiedObjectIds.FrozenTear,
+                            ItemId = QIDs.FrozenTear,
                             MinStack = 5,
                             MaxStack = 10,
                         },
@@ -289,7 +292,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.IronOre,
+                            ItemId = QIDs.IronOre,
                             MinStack = 10,
                             MaxStack = 10,
                         },
@@ -297,7 +300,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.01f,
-                            ItemId = QualifiedObjectIds.Diamond,
+                            ItemId = QIDs.Diamond,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -305,7 +308,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -313,7 +316,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -354,7 +357,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.CopperOre,
+                            ItemId = QIDs.CopperOre,
                             MinStack = 10,
                             MaxStack = 15,
                         },
@@ -362,7 +365,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.01f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
+                            ItemId = QIDs.SolarEssence,
                             MinStack = 10,
                             MaxStack = 20,
                         },
@@ -370,7 +373,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -378,7 +381,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -411,7 +414,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.RadioactiveOre,
+                            ItemId = QIDs.RadioactiveOre,
                             MinStack = 5,
                             MaxStack = 15,
                         },
@@ -419,7 +422,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -427,7 +430,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -460,7 +463,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.05f,
-                            ItemId = QualifiedObjectIds.MagmaGeode,
+                            ItemId = QIDs.MagmaGeode,
                             MinStack = 5,
                             MaxStack = 10,
                         },
@@ -468,7 +471,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.075f,
-                            ItemId = QualifiedObjectIds.FireQuartz,
+                            ItemId = QIDs.FireQuartz,
                             MinStack = 5,
                             MaxStack = 10,
                         },
@@ -476,7 +479,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.GoldOre,
+                            ItemId = QIDs.GoldOre,
                             MinStack = 10,
                             MaxStack = 10,
                         },
@@ -484,7 +487,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.033f,
-                            ItemId = QualifiedObjectIds.CherryBomb,
+                            ItemId = QIDs.CherryBomb,
                             MinStack = 1,
                             MaxStack = 3,
                         },
@@ -492,7 +495,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.02f,
-                            ItemId = QualifiedObjectIds.ExplosiveAmmo,
+                            ItemId = QIDs.ExplosiveAmmo,
                             MinStack = 1,
                             MaxStack = 3,
                         },
@@ -500,7 +503,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.01f,
-                            ItemId = QualifiedObjectIds.MegaBomb,
+                            ItemId = QIDs.MegaBomb,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -508,7 +511,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -516,7 +519,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -549,7 +552,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.1f,
-                            ItemId = QualifiedObjectIds.IridiumOre,
+                            ItemId = QIDs.IridiumOre,
                             MinStack = 5,
                             MaxStack = 10,
                         },
@@ -557,7 +560,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1.0f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -565,7 +568,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.Roe,
+                            ItemId = QIDs.Roe,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -588,7 +591,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
+                            ItemId = QIDs.SolarEssence,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -596,7 +599,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.SolarEssence,
+                            ItemId = QIDs.SolarEssence,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -619,7 +622,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 1f,
-                            ItemId = QualifiedObjectIds.VoidEssence,
+                            ItemId = QIDs.VoidEssence,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -627,7 +630,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                         {
                             RequiredPopulation = 0,
                             Chance = 0.8f,
-                            ItemId = QualifiedObjectIds.VoidEssence,
+                            ItemId = QIDs.VoidEssence,
                             MinStack = 1,
                             MaxStack = 1,
                         },
@@ -666,7 +669,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
 
         if (Config.EnableGoldenOstrichMayo)
         {
-            var rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+            var rule = data[QIDs.MayonnaiseMachine]
                 .OutputRules
                 .First(r => r.Id == "Default_OstrichEgg");
             var output = rule.OutputItem.Single();
@@ -675,7 +678,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             output.MinStack = -1;
             output.CopyQuality = false;
 
-            rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+            rule = data[QIDs.MayonnaiseMachine]
                 .OutputRules
                 .First(r => r.Id == "Default_GoldenEgg");
             output = rule.OutputItem.Single();
@@ -687,21 +690,21 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
 
         if (Config.ImmersiveDairyYield)
         {
-            var rule = data[QualifiedBigCraftableIds.MayonnaiseMachine]
+            var rule = data[QIDs.MayonnaiseMachine]
                 .OutputRules
                 .First(rule => rule.Id == "Default_LargeEgg");
             var output = rule.OutputItem.Single();
             output.Quality = -1;
             output.MinStack = 2;
 
-            rule = data[QualifiedBigCraftableIds.CheesePress]
+            rule = data[QIDs.CheesePress]
                 .OutputRules
                 .First(rule => rule.Id == "Default_LargeMilk");
             output = rule.OutputItem.Single();
             output.Quality = -1;
             output.MinStack = 2;
 
-            rule = data[QualifiedBigCraftableIds.CheesePress]
+            rule = data[QIDs.CheesePress]
                 .OutputRules
                 .First(rule => rule.Id == "Default_LargeGoatMilk");
             output = rule.OutputItem.Single();

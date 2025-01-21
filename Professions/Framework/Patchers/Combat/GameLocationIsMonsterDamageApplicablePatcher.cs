@@ -2,11 +2,10 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions.Stardew;
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
-using StardewValley.Tools;
 
 #endregion using directives
 
@@ -15,21 +14,23 @@ internal sealed class GameLocationIsMonsterDamageApplicablePatcher : HarmonyPatc
 {
     /// <summary>Initializes a new instance of the <see cref="GameLocationIsMonsterDamageApplicablePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GameLocationIsMonsterDamageApplicablePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GameLocationIsMonsterDamageApplicablePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GameLocation>("isMonsterDamageApplicable");
     }
 
     #region harmony patches
 
-    /// <summary>Patch to make Slimes immune to slime ammo.</summary>
+    /// <summary>Patch to make Slimes immune to Piper damage.</summary>
     [HarmonyPrefix]
+    [UsedImplicitly]
     private static bool GameLocationIsMonsterDamageApplicablePrefix(
         ref bool __result, Farmer who, Monster monster)
     {
-        if (!monster.IsSlime() || who.CurrentTool is not Slingshot slingshot ||
-            slingshot.attachments[0]?.QualifiedItemId != QualifiedObjectIds.Slime)
+        if (monster is not GreenSlime slime || slime.Get_Piped() is not { } piped ||
+            piped.Piper != who)
         {
             return true; // run original logic
         }

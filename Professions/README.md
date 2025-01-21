@@ -58,7 +58,7 @@ This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]
 
 ## The Professions
 
-Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-progression) variants.
+Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-progression) variants. **I strongly recommend reading every profession fully, as the in-game descriptions offer limited space and most professions have additional features that are not mentioned in their descriptions.**
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
@@ -388,15 +388,16 @@ This profession is completely unchanged from vanilla.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris.
+<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room upon death.
 </font>
 
 <font size="2">
 <details>
 
-Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface. Increased safe room chance applies only to Skull Caverns.
+Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface.
 
-For Cavewarden, any items left behind while mining have a 20% chance to spawn back at the Mines or Skull Caverns entrance.
+For Cavewarden, any items left behind while mining have a chance to spawn back at the Mines or Skull Caverns entrance. The chance starts out fairly low at ~10% at level 1 of the Mines, and increases to 100% at around level 200 of the Skull Caverns (level 320 of the Mines).
+Revival via the Cavewarden perk avoids all item loss penalties. A "safe room" is one where enemies cannot spawn (usually a treasure room). The chance to find treasure rooms in the Skull Caverns is also increased by 50% for every Cavewarden in the area.
 </details>
 </font>
 
@@ -458,7 +459,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <!--- Demolitionist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. 50% chance to yield additional resources from exploded rocks. Can manually detonate bombs.
 </summary>
 
 <ul>
@@ -470,7 +471,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <font size="2">
 <details>
 
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftShift) before placing them on the ground.
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Manual detonation mode is engaged by double-pressing the Mod key (default LeftShift / LeftShoulder). In this mode, bombs will not detonate until manual mode is disengaged. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion (optional, can be disabled).
 
 For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 
@@ -788,26 +789,60 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 <!--- Piper --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Slimes are not immediately aggressive and may follow you in combat. Slime Hutch capacity +50%.
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/piper_p.png"/> <b>Slime Conductor | Enchantress (Lv20)</b> - One additional Slime may follow you in combat. Obtain special colored items from Slime Balls.
+<img src="./resources/assets/sprites/loose/piper_p.png"/> <b>Slime Conductor | Enchantress (Lv20)</b> - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.
 </font>
 
 <font size="2">
 <details>
 
-The most unique of out of all new professions.
-Each Slime raised in a hutch owned by the player adds a chance to spawn an extra Slime in dungeons and dangeorus areas. Slimes will not attack you unless attacked first. The first Slime you approach will also become **Piped**.
+The most unique out of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
 
-**Piped Slimes:** A Piped Slime will follow you around, collect left-behind items and defend you from enemies. Slimes have a 10-slot inventory which can be retrieved by defeating it. Slimes will fight approaching enemies and divert their attention, but in doing so can be defeated themselves. Keep an eye out for their health; they can be healed by being shot with a Slime from a slingshot.
+**Slime Minions:**
+- For every 10 Slimes raised in a Slime Hutch or outside on the Farm, a random Slime will be summoned automatically to aid the Piper in combat. Each full Hutch (at +50% capacity) will spawn 3 Slime minions. There is no cap.
+- Slime minions are immune to damage from the player, but can be damaged by monsters.
+- Slime minions can fight other enemies. They can even grab and tank enemy aggro.
+- Slime minions ignore enemy Slimes.
+- If low on health, you can heal a Slime minion by firing a piece of slime ammo at it from your slingshot.
+- When a Slime minion is defeated, a new one will be summoned automatically after a 42-second cooldown (1 in-game hour). This does not affect the Slimes in your Farm (they do not disappear when a Slime minion dies).
+- Slime minions inherit the same stats of the chosen raised Slime, therefore Slimes can be bred to achieve optimal combat stats (see below).
+- If the profession is prestiged, certain Slime variants will gain unique special abilities:
+    - **Green:** Causes Slimed debuff.
+    - **Blue:** Causes Chilled/Frozen debuff.
+    - **Red/Purple:** Causes Burn debuff.
+    - **Black:** Chance to transform enemies into Void Essence.
+    - **White:** Grants an aura that heals a low amount of health over time.
+    - **Gold:** Causes nearby enemies to drop gold (100g per kill).
+    - **Prismatic:** Causes nearby enemies to drop Prismatic Shards.
 
-**Colored Item Drops:** If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+**Hat Slime:**
+- Interact with any raised or summoned Slime while holding a hat to turn it into a Hat Slime.
+- As long as it wears a hat, the Hat Slime functions as an item mule; it will follow you around everywhere except indoors, and attempt to collect items dropped on the ground (only dropped items, not forage!).
+- If a stack of the same item already exists in the player's inventory, the item will be sent to the player automatically. Otherwise, the item will be added to the Slime's own 12-slot inventory.
+- The Hat Slime's inventory can be checked at any moment by simply interacting with it.
+- Removing the Slime's hat will dismiss it, turning it back into a wild Slime. Any held items will be permanently lost when dismissed, so be careful to retrieve all items beforehand!
 
-Also doubles the damage from Slime ammo.
+**Slime Breeding:**
+- Every Slime is assigned an IV (Individual Value) between 0 and 10 for each of Attack, Defense and Health.
+- IVs grant a multiplicative bonus to the corresponding stat (x2 at 10).
+- First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
+- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 1 value higher than the parent's. This guarantees that IVs will eventually converge to 10 after several generations.
+- Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
+- Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
+    - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.
+    - Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
+
+**Colored Item Drops:**
+- If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+
+**Misc:**
+- Increases Slime ammo damage to 20 if not prestiged, and 40 if prestiged.
+
 </details>
 </font>
 
@@ -911,14 +946,16 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
+<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Inflate all nearby Slimes for 15s and place them under your control. Inflated Slimes gain a proportional stat boost, increased attack speed and vision.
 </summary>
 
 <font size="2">
 <ul>
 
-- If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes.
-- Nearby Big Slimes burst immediately when activated.
+- Nearby Big Slimes burst immediately, creating tiny baby Slimes that get inflated as well.
+- If a Slime is defeated while inflated, it too will burst into baby Slimes.
+- Inflated Slimes attack 33% faster, and can see all enemies on the map.
+- The inflation factor is pseudo-random, between 1.5x and 2x.
 - Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
 </ul>
 </font>

@@ -19,8 +19,9 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectCheckForActionOnMachinePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal ObjectCheckForActionOnMachinePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal ObjectCheckForActionOnMachinePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>("CheckForActionOnMachine");
     }

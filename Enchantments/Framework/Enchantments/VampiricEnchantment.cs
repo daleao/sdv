@@ -1,7 +1,5 @@
 ﻿namespace DaLion.Enchantments.Framework.Enchantments;
 
-using System.Threading;
-
 #region using directives
 
 using System.Xml.Serialization;

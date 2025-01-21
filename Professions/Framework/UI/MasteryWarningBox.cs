@@ -4,6 +4,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using StardewValley.BellsAndWhistles;
 using StardewValley.Menus;
 
@@ -12,13 +13,19 @@ using StardewValley.Menus;
 /// <summary>Warning dialogue box to inform players when they might be locked out of Skill Reset.</summary>
 public sealed class MasteryWarningBox : DialogueBox
 {
-    private MasteryTrackerMenu _masteryTrackerMenu;
+    private readonly MasteryTrackerMenu _masteryTrackerMenu;
 
     /// <summary>Initializes a new instance of the <see cref="MasteryWarningBox"/> class.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="masteryTrackerMenu">The <see cref="MasteryTrackerMenu"/>.</param>
     public MasteryWarningBox(GameLocation location, MasteryTrackerMenu masteryTrackerMenu)
         : base(
-            I18n.Prestige_Mastery_Warning(),
-            location.createYesNoResponses())
+            Config.Masteries.LockMasteryUntilFullReset
+                ? I18n.Prestige_Mastery_Warning()
+                : I18n.Prestige_Mastery_Lock(),
+            Config.Masteries.LockMasteryUntilFullReset
+                ? [new Response("OK", Game1.content.LoadString("Strings\\UI:Confirm")).SetHotKey(Keys.Escape)]
+                : location.createYesNoResponses())
     {
         this._masteryTrackerMenu = masteryTrackerMenu;
         location.afterQuestion = this.AfterQuestionBehavior;
@@ -33,6 +40,7 @@ public sealed class MasteryWarningBox : DialogueBox
         var delta = this.width - textWidth;
         this.x += (delta / 2) - 16;
         this.width = textWidth + 32;
+        this.exitFunction = () => State.WarningBox = null;
     }
 
     /// <inheritdoc />
@@ -106,6 +114,26 @@ public sealed class MasteryWarningBox : DialogueBox
         this.drawMouse(b);
     }
 
+    /// <inheritdoc />
+    public override void receiveGamePadButton(Buttons button)
+    {
+        if (button is not (Buttons.DPadUp or Buttons.DPadDown))
+        {
+            return;
+        }
+
+        if (this.currentlySnappedComponent is null)
+        {
+            this.snapToDefaultClickableComponent();
+        }
+        else
+        {
+            this.setCurrentlySnappedComponentTo((this.currentlySnappedComponent.myID + 1) % 2);
+        }
+
+        this.performHoverAction(Game1.getMouseX(), Game1.getMouseY());
+    }
+
     private void AfterQuestionBehavior(Farmer who, string whichAnswer)
     {
         if (whichAnswer != "Yes")
@@ -120,7 +148,7 @@ public sealed class MasteryWarningBox : DialogueBox
             .Invoke(this._masteryTrackerMenu);
         if (Game1.activeClickableMenu == this._masteryTrackerMenu)
         {
-            Game1.activeClickableMenu = null;
+            Game1.activeClickableMenu.exitThisMenuNoSound();
             Game1.playSound("discoverMineral");
         }
 

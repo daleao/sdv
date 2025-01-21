@@ -14,8 +14,9 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TemporaryAnimatedSpriteCtorPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal TemporaryAnimatedSpriteCtorPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal TemporaryAnimatedSpriteCtorPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireConstructor<TemporaryAnimatedSprite>(
             typeof(int),

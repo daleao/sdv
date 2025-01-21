@@ -1,11 +1,12 @@
 ﻿namespace DaLion.Professions.Framework.Patchers.Combat;
 
-using DaLion.Core.Framework.Extensions;
-
 #region using directives
 
-using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
+using DaLion.Core.Framework.Extensions;
+using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Classes;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -20,8 +21,9 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="GreenSlimeUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal GreenSlimeUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal GreenSlimeUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<GreenSlime>(
             nameof(GreenSlime.update), [typeof(GameTime), typeof(GameLocation)]);
@@ -29,46 +31,34 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch for Slimes to damage monsters around Piper.</summary>
+    /// <summary>Patch for Slimes to damage monsters around Piper and collect items.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, ref int ___readyToJump, GameTime time)
     {
-        if (!ReferenceEquals(__instance.currentLocation, Game1.player.currentLocation))
+        if (__instance.Get_Piped() is not { } piped ||
+            !ReferenceEquals(__instance.currentLocation, piped.Piper.currentLocation))
         {
             return;
         }
 
-        if (__instance.Get_Piped() is not { } piped)
+        if (time.TotalGameTime.Ticks % 60 == 0 &&
+            !Utility.isOnScreen(__instance.TilePoint, 4 * Game1.tileSize, __instance.currentLocation))
         {
-            if (!__instance.Player.HasProfession(Profession.Piper) || State.OffendedSlimes.Contains(__instance))
-            {
-                return;
-            }
-
-            ___readyToJump = -1;
-            return;
+            piped.WarpToPiper();
         }
 
-        if (piped.PipeTimer > 0)
-        {
-            piped.PipeTimer -= time.ElapsedGameTime.Milliseconds;
-            if (piped.PipeTimer <= 0)
-            {
-                if (!State.AlliedSlimes.Contains(piped))
-                {
-                    piped.Burst();
-                }
-                else
-                {
-                    EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
-                }
-            }
-        }
-
-        if (!piped.FakeFarmer.IsEnemy && time.ElapsedGameTime.Milliseconds % 4 == 0)
+        if (!piped.FakeFarmer.IsAttachedToEnemy)
         {
             ___readyToJump = -1;
+        }
+        else if (piped.FakeFarmer.AttachedEnemy.IsFloating() && __instance.Scale < 1.8f && ___readyToJump == -1)
+        {
+            ___readyToJump = 800;
+        }
+
+        if (piped.Hat is not null)
+        {
             var approximatePosition =
                 Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
                     typeof(Debris),
@@ -82,18 +72,26 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 }
 
                 var (x, y) = approximatePosition(debris) / Game1.tileSize;
-                if (__instance.Tile.X.Approx(x, 0.9f) && __instance.Tile.Y.Approx(y, 0.9f) &&
-                    __instance.CollectDebris(debris))
+                if (!__instance.Tile.X.Approx(x, 0.9f) || !__instance.Tile.Y.Approx(y, 0.9f) ||
+                    !piped.TryCollectDebris(debris))
                 {
-                    __instance.currentLocation.debris.RemoveAt(i);
+                    continue;
+                }
+
+                __instance.currentLocation.debris.RemoveAt(i);
+                if (!piped.HasEmptyInventorySlots)
+                {
+                    Game1.addHUDMessage(new HUDMessage(I18n.Piper_Slime_BagFull()));
                 }
             }
+
+            return;
         }
 
         foreach (var character in __instance.currentLocation.characters)
         {
             if (character is not Monster { IsMonster: true } monster
-                || (monster.IsGlider() && !(__instance.Scale > 1.8f || __instance.Get_Jumping()))
+                || (monster.IsFloating() && !(__instance.Scale >= 1.8f || __instance.IsJumping()))
                 || monster.IsSlime()
                 || !monster.CanBeDamaged())
             {
@@ -109,7 +107,10 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             // damage monster
             var randomizedDamage = __instance.DamageToFarmer +
                                    Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
-            var damageToMonster = (int)Math.Max(1, randomizedDamage * __instance.Scale) - monster.resilience.Value;
+            var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true && CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                ? (int)(randomizedDamage * (10f / (10f + monster.resilience.Value)))
+                : randomizedDamage - monster.resilience.Value;
+            var damageToMonster = Math.Max(1, mitigatedDamage);
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
@@ -120,12 +121,9 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 new Color(255, 130, 0),
                 1f,
                 monster));
-            monster.setInvincibleCountdown(piped.Piper.Get_IsLimitBreaking().Value ? 300 : 450);
-            if (!monster.IsSlime() && monster is not Ghost && !monster.IsSlowed() && Game1.random.NextBool())
+            if (!monster.IsSlime() && piped.Piper.HasProfession(Profession.Piper, true) && Game1.random.NextBool(0.3))
             {
-                // apply Slimed debuff
-                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
-                monster.startGlowing(Color.LimeGreen, false, 0.05f);
+                ApplyColoredDebuff(__instance, monster, piped);
             }
 
             // aggro monsters
@@ -143,14 +141,106 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             // get damaged by monster
             randomizedDamage = monster.DamageToFarmer +
                                Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
-            var damageToSlime = Math.Max(1, randomizedDamage) - __instance.resilience.Value;
+            mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true && CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                ? (int)(randomizedDamage * (10f / (10f + __instance.resilience.Value)))
+                : randomizedDamage - __instance.resilience.Value;
+            var damageToSlime = Math.Max(1, mitigatedDamage);
             __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
-            if (__instance.Health <= 0)
+            if (__instance.Name == "Tiger Slime")
             {
-                break;
+                monster.takeDamage(damageToSlime / 2, 0, 0, false, 1d, "hitEnemy");
+            }
+
+            monster.setInvincibleCountdown(piped.Piper.Get_IsLimitBreaking().Value ? 300 : 450);
+            if (__instance.Health > 0)
+            {
+                continue;
+            }
+
+            piped.BeginRespawn();
+            break;
+        }
+
+        if (!piped.Piper.HasProfession(Profession.Piper, true))
+        {
+            return;
+        }
+
+        // do white slime healing
+        var whiteRange = new ColorRange(
+            [230, 255],
+            [230, 255],
+            [230, 255]);
+        if (!whiteRange.Contains(__instance.color.Value) || time.TotalGameTime.TotalSeconds % 5 != 0)
+        {
+            return;
+        }
+
+        foreach (var farmer in __instance.currentLocation.farmers)
+        {
+            if (__instance.TileDistanceToPlayer(farmer) < 3)
+            {
+                HealingSlimeOneSecondUpdateTickedEvent.FarmersInRange.TryAdd(farmer, 0);
+            }
+            else
+            {
+                HealingSlimeOneSecondUpdateTickedEvent.FarmersInRange.Remove(farmer);
             }
         }
     }
 
     #endregion harmony patches
+
+    private static void ApplyColoredDebuff(GreenSlime slime, Monster monster, PipedSlime piped)
+    {
+        if (slime.Name == "Gold Slime" || slime.prismatic.Value)
+        {
+            return;
+        }
+
+        var greenRange = new ColorRange(
+            [22, 127],
+            [200, 255],
+            [0, 55]);
+        if (greenRange.Contains(slime.color.Value))
+        {
+            // simulated Slimed debuff
+            monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
+            monster.startGlowing(Color.LimeGreen, false, 0.05f);
+            return;
+        }
+
+        var blueRange = new ColorRange(
+            [22, 180],
+            [170, 255],
+            [200, 255]);
+        if (blueRange.Contains(slime.color.Value))
+        {
+            monster.Chill(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
+            return;
+        }
+
+        var redRange = new ColorRange(
+            [200, 255],
+            [0, 55],
+            [22, 127]);
+        var purpleRange = new ColorRange(
+            [138, 158],
+            [23, 63],
+            [206, 246]);
+        if (redRange.Contains(slime.color.Value) || purpleRange.Contains(slime.color.Value))
+        {
+            monster.Burn(piped.Piper, 5123 + (Game1.random.Next(-2, 3) * 456));
+            return;
+        }
+
+        var blackRange = new ColorRange(
+            [0, 50],
+            [0, 55],
+            [0, 50]);
+        if (blackRange.Contains(slime.color.Value) && Game1.random.NextBool(0.05))
+        {
+            // convert to void essence...?
+        }
+    }
 }

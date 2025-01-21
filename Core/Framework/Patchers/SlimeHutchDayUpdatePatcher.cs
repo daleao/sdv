@@ -15,8 +15,9 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="SlimeHutchDayUpdatePatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal SlimeHutchDayUpdatePatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal SlimeHutchDayUpdatePatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SlimeHutch>(nameof(SlimeHutch.DayUpdate));
     }
@@ -32,7 +33,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
         var slimes = __instance.characters.OfType<GreenSlime>().ToArray();
         foreach (var @object in __instance.Objects.Values)
         {
-            if (@object.QualifiedItemId == QualifiedBigCraftableIds.SlimeBall)
+            if (@object.QualifiedItemId == QIDs.SlimeBall)
             {
                 @object.orderData.Set(getSlimeString(slimes.Choose(r)));
             }

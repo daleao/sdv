@@ -32,8 +32,9 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     /// <summary>Initializes a new instance of the <see cref="IClickableMenuDrawHoverTextPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
-    internal IClickableMenuDrawHoverTextPatcher(Harmonizer harmonizer)
-        : base(harmonizer)
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal IClickableMenuDrawHoverTextPatcher(Harmonizer harmonizer, Logger logger)
+        : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<IClickableMenu>(
             nameof(IClickableMenu.drawHoverText),
