@@ -101,7 +101,7 @@ public static class ArrayExtensions
     }
 
     /// <summary>Sorts the <paramref name="array"/> in reverse order.</summary>
-    /// <typeparam name="T">The type of elements in the <paramref name="array"/>. <paramref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
+    /// <typeparam name="T">The type of elements in the <paramref name="array"/>. <typeparamref name="T"/> must be <see cref="IComparable{T}"/>.</typeparam>
     /// <param name="array">An array of <see cref="IComparable{T}"/>s.</param>
     public static void SortDescending<T>(this T[] array)
         where T : IComparable<T>

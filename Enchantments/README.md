@@ -17,7 +17,6 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 
 | Name       | Effect                                                                                                                                                                                                                          |
 |------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Haymaker   | *Unchanged from vanilla.*                                                                                                                                                                                                       |
 | Carving    | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero.                                     |
 | Cleaving   | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target.                                                                                                                           |
 | Detonating | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion.                                                                                 |
@@ -61,6 +60,11 @@ viable we give it a small buff:
 Jade Enchantment: Critical hit damage ~~+10%~~ +50%.
 
 With this, the Jade enchantment becomes stronger than the Ruby enchantment at around 20% critical hit chance.
+
+
+## Haymaking Scythe
+
+The Haymaker enchantment is now exclusively a scythe enchantment, and can only be applied to the Iridium Scythe.
 
 
 ## Compatibility

@@ -9,6 +9,7 @@
 ### Fixed
 
 * Fixed cooldown reduction stat actually increasing cooldown instead of reducing it (also fixes zero-cooldown issue).
+* Added the Garnet Ring's cooldown reduction effect, which I actually forgot to implement.
 
 <sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
 

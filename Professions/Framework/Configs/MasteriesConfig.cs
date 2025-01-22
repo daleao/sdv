@@ -18,20 +18,9 @@ public sealed class MasteriesConfig
     private bool _enableLimitBreaks = true;
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
-    private ProfessionIconStyle _prestigeProfessionIconStyle = ProfessionIconStyle.MetallicGold;
-    private GoldPalette _masteredSkillIconStyle = GoldPalette.SiliconGold;
+    private GoldPalette _goldSpritePalette = GoldPalette.SiliconGold;
 
     #region dropdown enums
-
-    /// <summary>The style used for prestiged profession icons.</summary>
-    public enum ProfessionIconStyle
-    {
-        /// <summary>The original, high-contrast metallic gold style.</summary>
-        MetallicGold,
-
-        /// <summary>Posister's cleaner, hand-colored gold style.</summary>
-        PosisterGold,
-    }
 
     /// <summary>A palette used for golden icons and sprites.</summary>
     public enum GoldPalette
@@ -177,45 +166,26 @@ public sealed class MasteriesConfig
     public uint PrestigeRespecCost { get; internal set; } = 20000;
 
     /// <summary>
-    ///     Gets the style of the sprite used for prestiged profession variants. Accepted values: "MetallicGold", "PosisterGold".
-    /// </summary>
-    [JsonProperty]
-    [GMCMSection("prfs.prestige")]
-    [GMCMPriority(203)]
-    public ProfessionIconStyle PrestigeProfessionIconStyle
-    {
-        get => this._prestigeProfessionIconStyle;
-        internal set
-        {
-            if (value == this._prestigeProfessionIconStyle)
-            {
-                return;
-            }
-
-            this._prestigeProfessionIconStyle = value;
-            ModHelper.GameContent.InvalidateCache($"{UniqueId}_ProfessionIcons");
-            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
-        }
-    }
-
-    /// <summary>
-    ///     Gets the style of the sprite used for mastered skill variants. Accepted values: "SiliconGold", "KawaiiRoseGold".
+    ///     Gets the style of the sprite used for mastered skill icons, prestige profession icons and the special Gold Slime. Accepted values: "SiliconGold", "KawaiiRoseGold".
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(204)]
-    public GoldPalette MasteredSkillIconStyle
+    public GoldPalette GoldSpritePalette
     {
-        get => this._masteredSkillIconStyle;
+        get => this._goldSpritePalette;
         internal set
         {
-            if (value == this._masteredSkillIconStyle)
+            if (value == this._goldSpritePalette)
             {
                 return;
             }
 
-            this._masteredSkillIconStyle = value;
+            this._goldSpritePalette = value;
             ModHelper.GameContent.InvalidateCache($"{UniqueId}_MasteredSkillIcons");
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}_ProfessionIcons");
+            ModHelper.GameContent.InvalidateCache($"{UniqueId}_GoldSlime");
+            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
     }
 }

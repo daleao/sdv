@@ -54,7 +54,6 @@ internal sealed class PickaxeDoFunctionPatcher
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)5), // Farmer who
                     new CodeInstruction(OpCodes.Call, typeof(PickaxeDoFunctionPatcher).RequireMethod(nameof(ConsumeStamina)))
                 ]);
-
         }
         catch (Exception ex)
         {

@@ -37,8 +37,8 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
         try
         {
             helper
-                .PatternMatch([ new CodeInstruction(OpCodes.Ldloc_0) ], ILHelper.SearchOption.Last)
-                .PatternMatch([ new CodeInstruction(OpCodes.Ldarg_0) ])
+                .PatternMatch([new CodeInstruction(OpCodes.Ldloc_0)], ILHelper.SearchOption.Last)
+                .PatternMatch([new CodeInstruction(OpCodes.Ldarg_0)])
                 .Insert(
                 [
                     new CodeInstruction(OpCodes.Ldarg_0),

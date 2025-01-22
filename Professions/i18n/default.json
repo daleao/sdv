@@ -183,7 +183,7 @@
   "piper.title.male": "Slimed Piper",
   "piper.title.female": "Slimed Siren",
   "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
-  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.title.prestiged.female": "Prismatriz", // alts: Gelivanta
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",

@@ -52,7 +52,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var owner = __instance.GetOwner();
         var r = new Random(Guid.NewGuid().GetHashCode());
         // artisan users can preserve the input quality
-        if (user.HasProfession(Profession.Artisan))
+        if (__instance.QualifiedItemId != QIDs.Cask && user.HasProfession(Profession.Artisan))
         {
             output.Quality = input.Quality;
             if (!user.HasProfession(Profession.Artisan, true))
@@ -75,7 +75,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             return;
         }
 
-        if (output.Quality < SObject.bestQuality && Game1.random.NextBool(0.05))
+        if (__instance.QualifiedItemId != QIDs.Cask && output.Quality < SObject.bestQuality && Game1.random.NextBool(0.05))
         {
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
         }

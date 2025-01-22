@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -25,18 +26,24 @@ internal sealed class RingAddEquipmentEffectsPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Iridium Band does nothing + rebalance Jade Ring.</summary>
+    /// <summary>Iridium Band does nothing + rebalance Jade Ring + implement Garnet ring.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingAddEquipmentEffectsPrefix(Ring __instance, BuffEffects effects)
     {
-        if (__instance.QualifiedItemId != QIDs.JadeRing)
+        if (__instance.QualifiedItemId == QIDs.JadeRing)
         {
-            return __instance.QualifiedItemId != QIDs.IridiumBand;
+            effects.CriticalPowerMultiplier.Value += 0.5f;
+            return false; // don't run original logic
         }
 
-        effects.CriticalPowerMultiplier.Value += 0.5f;
-        return false; // don't run original logic
+        if (__instance.QualifiedItemId == GarnetRingId)
+        {
+            effects.Get_CooldownReduction().Value += 0.1f;
+            return false; // don't run original logic
+        }
+
+        return __instance.QualifiedItemId != QIDs.IridiumBand;
     }
 
     #endregion harmony patches

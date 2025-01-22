@@ -177,11 +177,11 @@
   "desperado.title.prestiged.female": "Tireuse d'élite",
   "desperado.desc": "Dégâts +50% pour les tirs sans visée qui touchent une nouvelle cible dans les 0,8 secondes suivant le dernier tir. Peut surcharger le lance-pierre.",
   "desperado.desc.prestiged": "Les tirs sans visée peuvent ricocher. Double les dégâts des tirs qui rebondissent ou transpercent.",
-  "desperado.buff.name": "Action en chaîne",
+  "desperado.buff.name": "Tir en chaîne",
   "desperado.buff.desc": "+50% de dégâts de munitions contre une cible différente.",
   "piper.title.male": "Charmeur de limon",
   "piper.title.female": "Charmeuse de limon",
-  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
+  "piper.title.prestiged.male": "Prismarque", // alts: Gelivante
   "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",

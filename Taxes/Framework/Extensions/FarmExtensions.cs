@@ -144,7 +144,7 @@ internal static class FarmExtensions
                     continue;
                 }
 
-                var produceValue = (produceObject.salePrice() * expectedYield);
+                var produceValue = produceObject.salePrice() * expectedYield;
                 livestockValue += produceValue + animalData.SellPrice;
 
                 float artisanMultiplier;

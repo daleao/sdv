@@ -53,7 +53,6 @@ internal sealed class BaseWeaponEnchantmentUnapplyToPatcher : HarmonyPatcher
         return true;
     }
 
-
     [HarmonyTargetMethods]
     private static IEnumerable<MethodBase> TargetMethods()
     {

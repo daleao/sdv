@@ -176,13 +176,13 @@
   "desperado.title.prestiged.male": "Atirador",
   "desperado.title.prestiged.female": "Atiradora",
   "desperado.desc": "+50% de dano de tiros sem mirar que acertem um novo alvo dentro de 0.8 segundos do anterior. Pode sobrecarregar o estilingue.",
-  "desperado.desc.prestiged": "Tiros sem mirar podem ricochetear. Dano duplo de tiros recochete ou perfurados.",
-  "desperado.buff.name": "Ação em Cadeia",
+  "desperado.desc.prestiged": "Tiros sem mirar podem ricochetear. Tiros causam dano duplo após recochetear ou perfurar um inimigo.",
+  "desperado.buff.name": "Tiro em Cadeia",
   "desperado.buff.desc": "+50% de dano contra um alvo diferente.",
   "piper.title.male": "Flautista de Gosma",
-  "piper.title.female": "Flautista de Gosma",
-  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
-  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.title.female": "Encantadora de Gosma",
+  "piper.title.prestiged.male": "Prismarca", // alts: Gelivante
+  "piper.title.prestiged.female": "Prismatria", // alts: Gelivanta
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",

@@ -34,7 +34,7 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
             return;
         }
 
-        var cooldownReductionMultiplier = 1f - __instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction());
+        var cooldownReductionMultiplier = 1f - (__instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction()));
         if (Math.Abs(cooldownReductionMultiplier - 1f) < 0.01f)
         {
             return;

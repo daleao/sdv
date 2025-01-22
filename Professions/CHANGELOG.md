@@ -76,6 +76,8 @@
 * Fixed invalid `set gemologist` and `set ecologist` console commands.
 * Fixed foraged minerals not receiving Gemologist quality.
 * Fixed a potential issue where inflated Slimes would not deflate properly.
+* Fixed an issue preventing setting NewLevels field of SpaceCore skills.
+* Fixed Casks incorrectly downgrading input quality. They no longer gain the Artisan's chance to increase quality immediately either. They will only gain the faster production. 
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

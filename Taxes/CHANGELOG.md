@@ -5,7 +5,7 @@
 ### Added
 
 * Added a baseline Unused Tile Cost (configurable).
-* Added Artisan Value estimation. Property tax is now calculated based on a weighted average of raw and artisan costs, where weight is determined by the number of placed artisan machine.
+* Added Artisan Value estimation. Property tax is now calculated based on a weighted average of raw and artisan costs, where weights are determined by the number of placed artisan machines in the world; the more machine you have placed, the higher your Farm's valuation.
 
 ### Changed
 

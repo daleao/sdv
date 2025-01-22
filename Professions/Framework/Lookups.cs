@@ -19,6 +19,7 @@ internal static class Lookups
         QIDs.PreservesJar,
         QIDs.Keg,
         QIDs.Dehydrator,
+        QIDs.Cask,
     ];
 
     /// <summary>Gets the qualified IDs of artisan goods derived from animal produce.</summary>

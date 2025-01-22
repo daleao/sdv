@@ -13,7 +13,8 @@ public static class ListExtensions
     /// <summary>Removes <see langword="null"/> references from the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="list"/>.</typeparam>
     /// <param name="list">A <see cref="List{T}"/> of <typeparamref name="T"/>s.</param>
-    public static void RemoveWhereNull<T>(this List<T> list)
+    public static void RemoveWhereNull<T>(this List<T?> list)
+        where T : class
     {
         list.RemoveAll(item => item is null);
     }

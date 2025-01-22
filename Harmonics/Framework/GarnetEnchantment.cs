@@ -6,6 +6,7 @@ using System.Xml.Serialization;
 using StardewValley;
 using StardewValley.Enchantments;
 using StardewValley.Tools;
+using VirtualProperties;
 
 #endregion using directives
 
@@ -31,7 +32,7 @@ public sealed class GarnetEnchantment : BaseWeaponEnchantment
         base._ApplyTo(item);
         if (item is MeleeWeapon weapon)
         {
-            
+            weapon.Get_CooldownReduction().Value += 0.05f * this.GetLevel();
         }
     }
 
@@ -41,7 +42,7 @@ public sealed class GarnetEnchantment : BaseWeaponEnchantment
         base._UnapplyTo(item);
         if (item is MeleeWeapon weapon)
         {
-
+            weapon.Get_CooldownReduction().Value -= 0.05f * this.GetLevel();
         }
     }
 }

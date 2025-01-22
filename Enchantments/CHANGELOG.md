@@ -2,6 +2,10 @@
 
 ## 2.1.0
 
+### Added
+
+* Haymaker is now exclusively a scythe enchantment and can only be applied to the Iridium Scythe.
+
 ### Changed
 
 * Reduced the delay before firing echo projectiles. 

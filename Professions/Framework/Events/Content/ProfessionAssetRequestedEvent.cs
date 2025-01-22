@@ -66,10 +66,10 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             new ModTextureProvider(() => "assets/sprites/StackedStars.png"));
         this.Provide(
             $"{UniqueId}_ProfessionIcons",
-            new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.PrestigeProfessionIconStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.GoldSpritePalette}.png"));
         this.Provide(
             $"{UniqueId}_MasteredSkillIcons",
-            new ModTextureProvider(() => $"assets/sprites/skills_{Config.Masteries.MasteredSkillIconStyle}.png"));
+            new ModTextureProvider(() => $"assets/sprites/skills_{Config.Masteries.GoldSpritePalette}.png"));
         this.Provide(
             $"{UniqueId}_SkillBars",
             new ModTextureProvider(ProvideSkillBars));
@@ -81,7 +81,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
         this.Provide(
             $"{UniqueId}_GoldSlime",
-            new ModTextureProvider(() => "assets/sprites/Gold Slime.png"));
+            new ModTextureProvider(() => $"assets/sprites/slime_{Config.Masteries.GoldSpritePalette}.png"));
     }
 
     #region editor callback
@@ -692,21 +692,21 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         {
             var rule = data[QIDs.MayonnaiseMachine]
                 .OutputRules
-                .First(rule => rule.Id == "Default_LargeEgg");
+                .First(r => r.Id == "Default_LargeEgg");
             var output = rule.OutputItem.Single();
             output.Quality = -1;
             output.MinStack = 2;
 
             rule = data[QIDs.CheesePress]
                 .OutputRules
-                .First(rule => rule.Id == "Default_LargeMilk");
+                .First(r => r.Id == "Default_LargeMilk");
             output = rule.OutputItem.Single();
             output.Quality = -1;
             output.MinStack = 2;
 
             rule = data[QIDs.CheesePress]
                 .OutputRules
-                .First(rule => rule.Id == "Default_LargeGoatMilk");
+                .First(r => r.Id == "Default_LargeGoatMilk");
             output = rule.OutputItem.Single();
             output.Quality = -1;
             output.MinStack = 2;

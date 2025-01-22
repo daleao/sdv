@@ -253,7 +253,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
     /// <summary>
     ///     Resonates with a forge, adding the corresponding stat bonuses to the
-    ///     <see cref="weapon"/>.
+    ///     <paramref name="weapon"/>.
     /// </summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>
@@ -261,7 +261,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
 
     /// <summary>
     ///     Quenches a forge resonance, removing the corresponding stat bonuses from the
-    ///     <see cref="weapon"/>.
+    ///     <paramref name="weapon"/>.
     /// </summary>
     /// <param name="weapon">The <see cref="MeleeWeapon"/>.</param>
     /// <param name="forge">The forge as <see cref="BaseWeaponEnchantment"/>.</param>

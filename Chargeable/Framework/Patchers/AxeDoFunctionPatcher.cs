@@ -55,7 +55,6 @@ internal sealed class AxeDoFunctionPatcher
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // int power
                     new CodeInstruction(OpCodes.Call, typeof(AxeDoFunctionPatcher).RequireMethod(nameof(ConsumeStamina)))
                 ]);
-
         }
         catch (Exception ex)
         {

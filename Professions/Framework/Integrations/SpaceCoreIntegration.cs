@@ -33,8 +33,8 @@ internal sealed class SpaceCoreIntegration()
         var perScreen = Reflector.GetStaticFieldGetter<object>(typeof(SCSkills), "_State").Invoke();
         var value = Reflector.GetUnboundPropertyGetter<object, object>(perScreen, "Value").Invoke(perScreen);
         Reflector
-            .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(value.GetType(), "NewLevels")
-            .Invoke(newLevels);
+            .GetUnboundFieldSetter<object, List<KeyValuePair<string, int>>>(value.GetType(), "NewLevels")
+            .Invoke(value, newLevels);
     }
 
     /// <inheritdoc />

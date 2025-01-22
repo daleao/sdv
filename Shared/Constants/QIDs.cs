@@ -1080,4 +1080,5 @@ public static class QIDs
     public const string InfinityGavel = "(W)63";
     public const string InfinityDagger = "(W)64";
     public const string InfinitySlingshot = "(W)65";
+    public const string IridiumScythe = "(W)66";
 }
