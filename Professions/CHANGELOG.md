@@ -18,6 +18,7 @@
       * Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e. try to Red and Green Slimes).
       * Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
 * Added config option to show/hide minion health.
+* Added new Prestiged profession sprites using Silicon's and Kawaii's gold palettes, made to match their Mastered skill icons. These palettes will also apply to the Gold Slime. Posister's and my own Metallic gold palettes are retired to the "old" folder. You can still use them by replacing either Silicon's or Kawaii's spritesheet in the main sprite folder.
 
 ### Changed
 

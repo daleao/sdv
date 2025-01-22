@@ -31,6 +31,7 @@ internal sealed class PathfinderOverlayRenderedWorldEvent(EventManager manager)
             return;
         }
 
+    #if DEBUG
         foreach (var state in Pathfinder.OpenSet.Concat(Pathfinder.ClosedSet))
         {
             var r = new Rectangle(
@@ -64,5 +65,6 @@ internal sealed class PathfinderOverlayRenderedWorldEvent(EventManager manager)
                 1f,
                 Color.White);
         }
+    #endif
     }
 }

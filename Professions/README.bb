@@ -1,16 +1,14 @@
 [center]
 [img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/covers/title_wol_r.png[/img]
 
-[img]https://stardewcommunitywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img][img]https://stardewcommunitywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
-[quote][i][size=3]﻿This is phase 1 of the official MARGO 1.6 update.
-This update is in Beta. [b]There are likely bugs! [/b]If you are sensitive to bugs and can't or don't want to bother with submitting Bug Reports then I suggest you wait a couple more weeks before trying this mod. For everyone else, I appreciate the support.[/size][/i][/quote]
+[img]https://stardewvalleywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png[/img][img]https://stardewvalleywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png[/img][img]https://stardewvalleywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png[/img][img]https://stardewvalleywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png[/img][img]https://stardewvalleywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png[/img][/center]
 [size=6][font=bebas_neuebook]What this is[/font][/size]
 
 This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
 
 Optionally, this mod also brings classic progression tropes like [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Classes[/url], [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset]Class Change Level Reset[/url], and [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Breaks[/url].
 
-This module was inspired by such great overhaul mods as [url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion's[/url] [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url] for Skyrim and [url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon's[/url] [url=https://www.nexusmods.com/witcher3/mods/3522]W3EE[/url]. It borrows many ideas and assets from the classic [url=https://ro.gnjoy.com/index.asp]Ragnarok Online[/url], and also includes new improved profession icons by [url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] ([b]please visit and endorse [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]![/b]).
+This mod is inspired by such great overhaul mods as [url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion's[/url] [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url] for Skyrim and [url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon's[/url] [url=https://www.nexusmods.com/witcher3/mods/3522]W3EE[/url]. It borrows many ideas and assets from the classic [url=https://ro.gnjoy.com/index.asp]Ragnarok Online[/url], and also includes new improved profession icons by [url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] ([b]please visit and endorse [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]![/b]).
 
 
 [size=6][font=bebas_neuebook]The Professions[/font][/size]
@@ -158,9 +156,9 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist.png[/img] [b]Aquarist (Lv10)[/b] - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist_p.png[/img] [b]Ichthyologist (Lv20)[/b] - Fish pond max capacity [s]+2[/s] → +4. Fish species raised to max pond capacity are reeled instantly.[/color][size=2]
 [spoiler]
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url]﻿ you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5). They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url]﻿ you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
 
-For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
+For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable. This profession removes the lock on max population of legendary ponds, restoring it back to 10.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/trapper.png[/img] [b]Trapper (Lv5)[/b] - Crab pots are cheaper to craft. Can trap higher-quality fish.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/trapper_p.png[/img] [b]Master Trapper (Lv15)[/b] - Increased minimum quality of trapped fish.[/color][size=2]
@@ -227,15 +225,51 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 [b]Rebound Shot:[/b] Hold the mod key (Default LeftShift) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
 [/spoiler]
-[/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Slimes are not immediately aggressive and may follow you in combat. Slime Hutch capacity +50%.
-[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper_p.png[/img] [b]Slime Conductor | Enchantress (Lv20)[/b] - One additional Slime may follow you in combat. Obtain special colored items from Slime Balls.[/color][size=2]
-[spoiler]
-The most unique of out of all new professions.
-Each Slime raised in a hutch owned by the player adds a chance to spawn an extra Slime in dungeons and dangeorus areas. Slimes will not attack you unless attacked first. The first Slime you approach will also become [b]Piped[/b].
+[/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
+[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper_p.png[/img] [b]Slime Conductor | Enchantress (Lv20)[/b] - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.[/color][size=2][spoiler]
 
-[b]Piped Slimes:[/b] A Piped Slime will follow you around, collect left-behind items and defend you from enemies. Slimes have a 10-slot inventory which can be retrieved by defeating it. Slimes will fight approaching enemies and divert their attention, but in doing so can be defeated themselves. Keep an eye out for their health; they can be healed by being shot with a Slime from a slingshot.
+The most unique out of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
 
-[b]Colored Item Drops:[/b] If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [url=https://stardewvalleywiki.com/Dyeing]Dyeing List[/url]. This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may require some intelligent [url=https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results]breeding[/url].
+[b]Slime Minions:[/b]
+[list]
+[*] For every 10 Slimes raised in a Slime Hutch or outside on the Farm, a random Slime will be summoned automatically to aid the Piper in combat. Each full Hutch (at +50% capacity) will spawn 3 Slime minions. There is no cap.
+[*] Slime minions are immune to damage from the player, but can be damaged by monsters.
+[*] Slime minions can fight other enemies. They can even grab and tank enemy aggro.
+[*] Slime minions ignore enemy Slimes.
+[*] If low on health, you can heal a Slime minion by firing a piece of slime ammo at it from your slingshot.
+[*] When a Slime minion is defeated, a new one will be summoned automatically after a 42-second cooldown (1 in-game hour). This does not affect the Slimes in your Farm (they do not disappear when a Slime minion dies).
+[*] Slime minions inherit the same stats of the chosen raised Slime, therefore Slimes can be bred to achieve optimal combat stats (see below).
+[*] If the profession is prestiged, certain Slime variants will gain unique special abilities:
+    - [b]Green:[/b] Causes Slimed debuff.    - [b]Blue:[/b] Causes Chilled/Frozen debuff.    - [b]Red/Purple:[/b] Causes Burn debuff.    - [b]Black:[/b] ???    - [b]White:[/b] Grants an aura that heals a low amount of health over time.    - [b]Gold:[/b] Causes nearby enemies to drop gold (100g per kill).    - [b]Prismatic:[/b] Causes nearby enemies to drop Prismatic Shards.[/list]
+
+[b]Hat Slime:[/b]
+[list]
+[*] Interact with any raised or summoned Slime while holding a hat to turn it into a Hat Slime.
+[*] As long as it wears a hat, the Hat Slime functions as an item mule; it will follow you around everywhere except indoors, and attempt to collect items dropped on the ground (only dropped items, not forage!).
+[*] If a stack of the same item already exists in the player's inventory, the item will be sent to the player automatically. Otherwise, the item will be added to the Slime's own 12-slot inventory.
+[*] The Hat Slime's inventory can be checked at any moment by simply interacting with it.
+[*] Removing the Slime's hat will dismiss it, turning it back into a wild Slime. Any held items will be permanently lost when dismissed, so be careful to retrieve all items beforehand!
+[/list]
+
+[b]Slime Breeding:[/b]
+[list]
+[*] Every Slime is assigned an IV (Individual Value) between 0 and 10 for each of Attack, Defense and Health.
+[*] IVs grant a multiplicative bonus to the corresponding stat (x2 at 10).
+[*] First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
+[*] IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 1 value higher than the parent's. This guarantees that IVs will eventually converge to 10 after several generations.
+[*] Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
+[*] Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
+    - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.    - Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).[/list]
+
+[b]Colored Item Drops:[/b]
+[list]
+[*] If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+[/list]
+
+[b]Misc:[/b]
+[list]
+[*] Increases Slime ammo damage to 20 if not prestiged, and 40 if prestiged.
+[/list]
 
 Also doubles the damage from Slime ammo.
 [/spoiler]
@@ -246,30 +280,27 @@ Also doubles the damage from Slime ammo.
 
 If enabled, the [url=https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty]Statue of Uncertainty[/url] is replaced by the [b]Statue of Transcendance[/b].
 
-[center]
-[img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/prestige_statue.gif[/img][/center]
+[center][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/prestige_statue.gif[/img][/center]
 
 Instead of changing your profession choices, the Statue of Transcendance will [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset]reset[/url] your level 10 skills back to level 0, for a price. Why would you want to do that? Because you get to keep every profession you already have (yes, including level 5), and you can then level up again to acquire a different profession. By doing this enough times, you will eventually have acquired all professions in that skill.
 
 Note that you will inevitably need to choose each 5th-level profession twice on your way to getting both corresponding 10th-level professions. When this happens, [b]you do NOT gain the level 5 perks twice[/b]. These perks are acquired only once, on the first time you choose that profession.
 
-You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, reseting a skill will also cause you to forget all associated recipes, but that can also be turned off.
+You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, resetting a skill will also cause you to forget all associated recipes, but that can also be turned off.
 
-For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired).
+For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired)
 
 Keep in mind that [b]once a skill has been Mastered it can no longer be reset[/b]. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
 
-Note also that [b]resetting a skill temporarily prevents it from contributing towards Mastery experience[/b], until it once again reaches level 10.
+Note also that [b]resetting a skill temporarily prevent the player receiving Mastery experience[/b], until it once again reaches level 10.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
-
 [size=5][font=bebas_neuebook]Prestige Professions[/font][/size]
 
-If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [b]Limit Breaks[/b] (read about them in the next section). More importantly, at levels 15 and 20 you will be offered the choice of a [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Profession[/url].
+If enabled, [url=https://stardewvalleywiki.com/Mastery_Cave]Mastering[/url] a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [b]Limit Breaks[/b] (read about them in the next section). More importantly, at levels 15 and 20 you will be offered the choice of a [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass]Prestige Profession[/url].
 
-[center]
-[img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/skills_prestige.gif[/img][/center]
+[center][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/screenshots/skills_prestige.gif[/img][/center]
 
 [b]You may choose only one Prestige Profession per skill[/b] (i.e., you cannot reset to acquire more than one) [b]and can only choose from among those you already have the base version of[/b]; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requires a modest fee of 20,000g (also configurable).
 
@@ -277,13 +308,11 @@ Note that [b]Mastered skills no longer contribute to Mastery experience[/b].
 
 Custom skill mods based on SpaceCore are [b]not[/b] compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
-
 [size=5][font=bebas_neuebook]Limit Breaks[/font][/size]
 
 In addition to Prestige Progression, mastery over the Combat skill may optionally unlock a [url=https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak]Limit Break[/url]; a powerful ability that must be charged by performing certain actions during combat. Each combat profession has its own unique Limit Break, from which you will be prompted to choose [b]one[/b] upon claiming your Mastery. You may only choose Limit Breaks from among the professions you have already acquired. In case you are eligible for more than one, you will be able to change your selection, also at the Statue of Transcendance, for free (although a cost can be configured).
 
 During combat you can track the current Limit charge by the HUD bar labeled "L". Once it is full, press [b]and hold[/b] the Mod Key (default LeftShift) to activate it. Alternatively, you may configure a separate Limit Break Key to activate by a simple press.
-
 [list]
 [*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/undyingrage.png[/img] [b]Undying Frenzy (Brute / Amazon)[/b] - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
 [size=2][spoiler]
@@ -301,89 +330,142 @@ If an enlarged Slime is defeated or the effect ends, it will burst into tiny bab
 [font=bebas_neuebook][size=6]Misc. Changes[/size][/font]
 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
-
 [list]
 [*][b]Large dairy goods[/b], including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
 [*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿﻿ and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b]﻿![/b]).
+[*][b]Fish Smoker[/b] will not preserve fish quality without the Artisan profession. Again, this is needed for the consistency of Artisan.
 [*][b]Heavy Tapper[/b] behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
 [*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url]﻿, which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 [/list]
-[size=6][font=bebas_neuebook]Compatibility[/font][/size]
+[size=6][font=bebas_neuebook]Compatibility[/font][/size][b]
 
-Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it. Note that [url=https://www.nexusmods.com/stardewvalley/mods/521?tab=files]Luck Skill[/url] [b]is not a SpaceCore skill and is *not* supported[/b].
+[size=3]Custom Skill Mods[/size][/b]
 
-For any mods that affect professions, skills or Masteries, [b]use common sense[/b]. Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings. For any other specific combinations, [b]try it for yourself and see what happens[/b]. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
+Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it. Note that [url=https://www.nexusmods.com/stardewvalley/mods/521?tab=files]Luck Skill[/url] is not a SpaceCore skill, but [url=https://www.nexusmods.com/stardewvalley/mods/28103]Luck Skill[/url] is.
 
-The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
+[b][size=3]Automate[/size][/b]
 
-[url=https://www.nexusmods.com/stardewvalley/mods/1063]Automate[/url] should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
+This mod expects that you use Hoppers for automation instead, as they are improved by [url=https://www.nexusmods.com/stardewvalley/mods/24332]DaLionheart[/url].That said, [url=https://www.nexusmods.com/stardewvalley/mods/1063]Automate[/url] should work fine. Attach a chest or path to a Hopper if you want to benefit from the Industrialist perk. For any other profession with perks related to a specific machine, Automating that machine will continue to apply those perks as long the machine does not require input (see FAQ below for more details).Automate is not officially supported. Please do not ask for Automate integration. If you choose to run Automate, do so with the understanding that it will retract from the intended experience.
 
-Yes, it's compatible with [url=https://www.nexusmods.com/stardewvalley/mods/3753]Stardew Valley Expanded[/url].
+[b][size=3]Stardew Valley Expanded[/size][/b]
+
+[url=https://www.nexusmods.com/stardewvalley/mods/3753]Stardew Valley Expanded[/url] will always be fully supported, but I may not be up-to-date with its newest releases. Please report new changes to SDV that you feel should be reflected in this or any of my mods, such as legendary fish that need Aquarist support. [url=https://www.nexusmods.com/stardewvalley/mods/3578]More New Fish[/url] is also supported.
+
+[b][size=3]Other Profession / Skill / Mastery Overhauls[/size][/b]
+
+For any mods that affect professions, skills or Masteries, [b]use common sense[/b].Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings.For any other mod or specific combination, do not ask me about it. I do not support integration with any of these types of mods. They are not meant to work together.
+
+The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want, keeping only the profession changes.
+
+Obviously not compatible with [url=https://www.nexusmods.com/stardewvalley/mods/20054]Vanilla Plus Professions[/url]﻿﻿. Use one or the other.Not compatible with mods that change how the game awards experience, such as [url=https://www.nexusmods.com/stardewvalley/mods/22163]Share Experience.[/url]
+
+[b][size=3]Multiplayer[/size][/b]
+
 Yes, it should work in multiplayer.
+
+[b][size=3]Android[/size][/b]
+
 No, it does not work on Android.
 
 
 [font=bebas_neuebook][size=6]Credits & Special Thanks[/size][/font]
 
-Credits to the following asset contributors:[list]
+Credits to the following asset contributors:
+[list]
 [*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
 [*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿ and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
 [*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url]﻿ for golden skill icons
 [*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url]﻿ for rose-golden skill icons
 [*][b]Posister[/b] for alternate golden profession icons
 [*][url=https://ro.gnjoy.com/index.asp]Gravity[/url] ﻿for sound effects and skill icons
-[/list]
-Credits to the following code contributors:[list]
+[*][url=https://next.nexusmods.com/profile/HimeTarts/about-me?gameId=1303]HimeTarts[/url]﻿ for base letters used in the title art.
+[*][url=https://www.square-enix.com/]Square Enix[/url]﻿'s [url=https://ffvii.square-enix-games.com/en-us/games/rebirth]Final Fantasy 7 Rebirth[/url]﻿ for the "Rebirth" title text.
+[*][url=https://www.dafont.com/pt/stardew-valley.font]Stardew Valley title font[/url]﻿ by [url=https://www.dafont.com/pt/eliot-truelove.d1302]Eliot Truelove[/url]﻿﻿.
+[/list]Credits to the following code contributors:[list]
 [*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]﻿ for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce﻿[/url]
-[/list]
-Credits to the following translators:[list]
+[/list]Credits to the following translators:[list]
 [*][url=https://github.com/CaranudLapin][img]https://i.imgur.com/ezVo9Fb.png[/img]CaranudLapin[/url] for French
 [*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303][img]https://i.imgur.com/Jvsm5YJ.png[/img]twinklesky6[/url] for Korean
 [*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303][img]https://i.imgur.com/zuQC9Di.png[/img]Awassakura[/url] for Chinese
 [*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/][img]https://i.imgur.com/cXhDLc5.png[/img]﻿darthalex2014[/url]﻿ for Russian
-[/list]
-Special thanks to the following visionaries:
-[list]
+[/list]Special thanks to the following visionaries:[list]
 [*][url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion[/url] for [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url]
 [*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url]﻿ for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]﻿﻿
-[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url]﻿for my childhood
+[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url]﻿for [url=https://iro.ragnarokonline.com/]my childhood[/url]﻿
 [/list]
 [size=6][font=bebas_neuebook]F.A.Q.[/font][/size]
 
-[b][b]Can I add this to an existing save?[/b]
-[/b][spoiler]
-Yes. A new save is recommended, but not required. You may just miss out on part of the intended experience of progression.
-[/spoiler][b]
-Do Ecologist and Gemologist professions count forages/gems acquired before the profession?[/b]
-[spoiler]
-No.
-[/spoiler]
-[b]Do Artisan/Producer/Aquarist and similar professions based on ownership of a machine or building, apply retroactively to machines/buildings that have already been crafted/built?[/b]
-[spoiler]
-Yes.
-[/spoiler]
+[b]Can I add this to an existing save?[/b]
+[spoiler][b]A new save[/b] is not required, but [b]is strongly recommended[/b].Adding to an existing save will cause you to miss out on the intended experience of progression, especially for very late game saves.If your skills are already all Mastered before installing this mod, you will be unable to use the Skill Reset feature, and don't be alarmed if your skills end up recalculated to levels 11-20.But do keep in mind that, [i]in general[/i], you should avoid adding or removing mods to/from existing saves, as that's a very good way to corrupt a save.Try out new mods for a few mins on a new save first. Then settle on a mod list before you start, and [b]stick with it[/b] for the next save.If still you really want to add this mod to a late-game save and use the Statue of Transcendence at the Sewer, you can use provided console commands to undo your masteries and reset your skill levels back down to 10:[code]prfs set <skill name> unmastered
+[/code][code]prfs set <skill name> <level>[/code][/spoiler]
+[b]Do Ecologist and Gemologist professions count forages/gems acquired before the profession?[/b]
+[spoiler]No.[/spoiler]
+[b]Do Artisan/Producer/Aquarist and similar professions based on ownership of a machine or building, apply retroactively to machines/buildings that have already been crafted/built?[/b][spoiler]Yes.[/spoiler]
 [b]Can Luremaster and Conservationist work together?[/b]
-[spoiler]
-Of course. Luremaster applies only to crab pots with bait. Conservationist applies only to crab pots without.
-[/spoiler]
-[b]Can I obtain all prestige professions simultaneously?[/b]
-[spoiler]
-No, sorry. Making tough choices is part of this mod's design.
-You can cheat them in with console commands if you really want (`profs add -p all`).  
-[/spoiler]
-[b]Can I obtain all Limit Breaks simultaneously?[/b]
-[spoiler]
-Obviously not.
-[/spoiler]
-[b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
-[spoiler]
-They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
-With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.
-[/spoiler]
+[spoiler]Of course. Luremaster applies only to crab pots with bait. Conservationist applies only to crab pots without.[/spoiler]
+[b]Can I obtain all prestige professions simultaneously?[/b][spoiler]No, sorry. Making tough choices is part of this mod's design.You can cheat them in with console commands if you really want (`profs add -p all`).[/spoiler]
+[b]Can I obtain all Limit Breaks simultaneously?[/b][spoiler]Obviously not.[/spoiler][b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
+[spoiler]They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.[/spoiler]
+[b]The Statue of Transcendence in the Sewer doesn't work! I can't reset my skills![/b]
+[spoiler]Scroll back up to the Skill Reset section and read the part where it says [quote][b]once a skill has been Mastered it can no longer be reset[/b][/quote][/spoiler]
 [b]Does it work with XYZ mod?[/b]
-[spoiler]
-Why don't you try it and let me know.
+[spoiler]I have not tested every mod on the Nexus. I have better things to do. If it's not mentioned in the [b]Compatibility[/b] section then you try it yourself and let me know.[/spoiler]
+[b]When using the Automate mod, which machines will/won't apply profession perks?[/b]
+[spoiler]Machines generally operate on the following 3-stage cycle:
+1. It chooses an output (profession perks apply here).
+2. It makes you wait for the output.
+3. You retrieve the output.
+
+When automated, the Automate mod takes over step 3 on all machines, and also step 1 [b]if and only if[/b] an input item is required. Therefore, as long as a machine does not require any input, then whether or not step 3 is automated is irrelevant. Hence, these machines always apply profession perks. This includes things like Tapper, and also the Crystalarium (after the initial gem).
+
+When input [b]is[/b] required, Automate bypasses the vanilla code which needs to run in step 1 for profession perks to apply. Most machines that do take an input therefore will [b]not[/b] apply profession perks. This includes all Artisan machines.
+
+Crab Pots are an exception. Although they may use an input (bait), their production is delayed until a specific moment in time (i.e., new day), instead of being chosen right away. In other words, the Crab Pot (and similar machines that produce [i]per day[/i] instead of [i]after X minutes[/i]) output is not determined in step 1, but actually during step 2. Hence, as Automate never interferes in step 2, that means professions will be applied.[/spoiler]
+[b]Automate won't load bait into my Crab Pots since I got the Conservationist profession. What gives?[/b]
+[spoiler]This should no longer be an issue since 1.6.9.[/spoiler]
+[b]How can I make machines / dairy from different mods compatible with the Artisan / Producer profession?[/b]
+[spoiler]Simply add the machine's or item's qualified ID to the corresponding config within this mod.As an example, below are specific instructions for Cornucopia. Note that different mods may organize their files differently.
+[list]
+[*]Open the Cornucopia mod folder. You'll see a folder named "machines". Inside you will see a different file named after each machine.
+[*]Open the machine you want, say `butterchurn.json` using any text editor. It will look something like this:
+[/list]
+[code]﻿{
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "Entries": {
+                "(BC)Cornucopia_ButterChurn": {
+   ﻿   ﻿   ﻿   ﻿   ﻿...
+
+[/code]
+[list]
+[*]Copy the string starting with "(BC)...". This is the qualified ID of the machine.
+[list]
+[*]﻿A machine's qualified ID will always start with "(BC)".
+[*]An animal produce item's qualified ID will always start with "(O)".
+[/list][*]Open the [b]DaLion.Professions[/b] mod folder and open your `config.json`.
+[*]Find the "ArtisanMachines" field and paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
+[/list]
+[code]﻿"ArtisanMachines": [
+    "(BC)ExampleMod.ExampleMachine",
+   ﻿ "(BC)Cornucopia_ButterChurn"
+  ],
+[/code]
+You can remove the "(BC)ExampleMod.ExampleMachine" if you want.
+Repeat for every machine that you think is relevant. For animal produce, do the same but add to the "AnimalDerivedGoods" field instead.
+
+As noted above, each mod may organize their files differently, so you may not find a specific file for each machine / item. Some authors may group all machines into a single `machines.json` file for example, and yet others may put everything inside CP's base `content.json` file.
 [/spoiler]
 
+
+[size=6][font=bebas_neuebook]DaLion Mod Series[/font][/size]
+
+[b]Walk of Life[/b] - An extensive overhaul of profession trees and skill progression systems.
+[url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url] - Make Fish Ponds actually useful. Created with the Aquarism profession in mind.
+[url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url] - Realistic income and property taxation mechanics. Created with the Conservationist profession in mind.
+[url=https://www.nexusmods.com/stardewvalley/mods/24832]Springmyst[/url] - Some actually interesting enchantments added to the game.
+[url=https://www.nexusmods.com/stardewvalley/mods/29612]Mineracoustics[/url] - Overly complex overhaul of gemstone ring mechanics based on real Music Theory.
+[url=https://www.nexusmods.com/stardewvalley/mods/23048]Chargeable Resource Tools[/url] - Charge the Axe and Pickaxe to break debris within an area.
 
 [b][url=https://github.com/daleao/sdv/tree/main/Professions]Source code[/url][/b]
