@@ -230,7 +230,7 @@ internal static class FarmerExtensions
         var sum = 0f;
         Utility.ForEachBuilding(b =>
         {
-            if (b.IsOwnedByOrLax(farmer) && b.buildingType.Contains("Deluxe") &&
+            if (b.IsOwnedByOrLax(farmer) && b.buildingType.Value.ContainsAnyOf("Deluxe", "Premium") &&
                 b.indoors.Value is AnimalHouse house && house.isFull())
             {
                 sum += 0.05f;

@@ -9,7 +9,9 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Stardew;
 using StardewValley.Monsters;
+using SObjectExtensions = Extensions.SObjectExtensions;
 
 #endregion using directives
 
@@ -45,26 +47,20 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         {
             foreach (var slime in __instance.characters.OfType<GreenSlime>())
             {
-                if (!slime.GetBoundingBox().Intersects(tileRect))
+                if (slime.GetBoundingBox().Intersects(tileRect))
                 {
-                    continue;
+                    slime.CheckActionNonPiped(who);
                 }
-
-                slime.CheckActionNonPiped(who);
-                return false; // don't run original logic
             }
         }
         else
         {
             foreach (var piped in who.GetPipedSlimes())
             {
-                if (!piped.Slime.GetBoundingBox().Intersects(tileRect))
+                if (piped.Slime.GetBoundingBox().Intersects(tileRect))
                 {
-                    continue;
+                    piped.CheckAction(who);
                 }
-
-                piped.CheckAction(who);
-                return false; // don't run original logic
             }
         }
 
@@ -82,6 +78,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         // Removed: if (obj.isForage())
         try
         {
+            var doGetHarvestSpawnedObjectQuality = generator.DefineLabel();
             helper
                 .PatternMatch([
                     new CodeInstruction(OpCodes.Ldloc_3),
@@ -89,11 +86,17 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                     new CodeInstruction(OpCodes.Brfalse_S),
                 ])
                 .Move(2)
-                .GetOperand(out var notForage)
-                .Return()
-                .Remove(3)
-                .LabelMatch((Label)notForage)
-                .RemoveLabels();
+                .GetOperand(out var notForageNorForagedMineral)
+                .ReplaceWith(new CodeInstruction(OpCodes.Brtrue_S, doGetHarvestSpawnedObjectQuality))
+                .Move()
+                .AddLabels(doGetHarvestSpawnedObjectQuality)
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ItemExtensions).RequireMethod(nameof(ItemExtensions.IsForagedMineral))),
+                    new CodeInstruction(OpCodes.Brfalse_S, notForageNorForagedMineral),
+                ]);
         }
         catch (Exception ex)
         {

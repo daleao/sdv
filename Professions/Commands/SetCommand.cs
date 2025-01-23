@@ -154,6 +154,7 @@ internal sealed class SetCommand(CommandHandler handler)
                 FishingRod.maxTackleUses = maxTackleUses;
                 break;
             case "animals":
+            case "animal":
             case "anim":
                 this.SetAnimalDispositions(value);
                 break;
@@ -334,7 +335,7 @@ internal sealed class SetCommand(CommandHandler handler)
 
     private void SetAnimalDispositions(string value)
     {
-        var both = string.Equals(value, "both", StringComparison.InvariantCultureIgnoreCase);
+        var both = string.Equals(value, "both", StringComparison.InvariantCultureIgnoreCase) || string.Equals(value, "all", StringComparison.InvariantCultureIgnoreCase);
         var count = 0;
         var animals = Game1.getFarm().getAllFarmAnimals();
         foreach (var animal in animals)
@@ -353,7 +354,7 @@ internal sealed class SetCommand(CommandHandler handler)
             {
                 switch (value)
                 {
-                    case "friendship" or "friendly":
+                    case "friendship" or "friendly" or "friend":
                         animal.friendshipTowardFarmer.Value = 1000;
                         break;
                     case "happiness" or "happy" or "mood":

@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 2.1.1
+
+### Fixed
+
+* Fixed a possible Null-Ref Exception.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.1.0
 
 ### Added

@@ -136,6 +136,27 @@ public static class BuildingExtensions
     }
 
     /// <summary>
+    ///     Finds the closest <see cref="Building"/> to this one in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="candidates">The candidate buildings, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="Building"/> with the minimal distance to <paramref name="building"/>.</returns>
+    public static Building? GetClosestBuilding(
+        this Building building,
+        IEnumerable<Building>? candidates = null,
+        Func<Building, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        candidates ??= building.GetParentLocation().buildings;
+        return building.GetClosest(
+            candidates,
+            b => b.GetBoundingBox().Center.ToVector2(),
+            out _,
+            b => !ReferenceEquals(b, building) && predicate(b));
+    }
+
+    /// <summary>
     ///     Finds the closest <see cref="Building"/> to this one in the current <see cref="GameLocation"/>, and of the
     ///     specified subtype.
     /// </summary>
@@ -144,10 +165,6 @@ public static class BuildingExtensions
     /// <param name="candidates">The candidate <typeparamref name="TBuilding"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Building"/> of type <typeparamref name="TBuilding"/> with the minimal distance to <paramref name="building"/>.</returns>
-    /// <remarks>
-    ///     As the <see cref="Building"/> class does not hold a reference to its <see cref="GameLocation"/>, it is
-    ///     assumed to be the <see cref="Farm"/>.
-    /// </remarks>
     public static TBuilding? GetClosestBuilding<TBuilding>(
         this Building building,
         IEnumerable<TBuilding>? candidates = null,
@@ -164,6 +181,23 @@ public static class BuildingExtensions
     }
 
     /// <summary>
+    ///     Finds the closest <see cref="Character"/> to this
+    ///     <paramref name="building"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="candidates">The candidate characters, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="Character"/> with the minimal distance to <paramref name="building"/>.</returns>
+    public static Character? GetClosestCharacter(
+        this Building building,
+        IEnumerable<Character>? candidates = null,
+        Func<Character, bool>? predicate = null)
+    {
+        candidates ??= building.GetParentLocation().characters;
+        return building.GetClosest(candidates, c => c.Position, out _, predicate);
+    }
+
+    /// <summary>
     ///     Finds the closest <see cref="Character"/> of subtype <typeparamref name="TCharacter"/> to this
     ///     <paramref name="building"/> in the current <see cref="GameLocation"/>.
     /// </summary>
@@ -172,10 +206,6 @@ public static class BuildingExtensions
     /// <param name="candidates">The candidate <typeparamref name="TCharacter"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Character"/> of type <typeparamref name="TCharacter"/> with the minimal distance to <paramref name="building"/>.</returns>
-    /// <remarks>
-    ///     As the <see cref="Building"/> class does not hold a reference to its <see cref="GameLocation"/>, it is
-    ///     assumed to be the <see cref="Farm"/>.
-    /// </remarks>
     public static TCharacter? GetClosestCharacter<TCharacter>(
         this Building building,
         IEnumerable<TCharacter>? candidates = null,
@@ -193,11 +223,6 @@ public static class BuildingExtensions
     /// <param name="candidates">The candidate <see cref="Character"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="Farmer"/> with the minimal distance to <paramref name="building"/>.</returns>
-    /// <remarks>
-    ///     As the <see cref="Building"/> class does not hold a reference to its <see cref="GameLocation"/>, it is
-    ///     assumed to be the <see cref="Farm"/>.
-    ///     This version is required as <see cref="Farmer"/> references are stored in a different field of <see cref="GameLocation"/>.
-    /// </remarks>
     public static Farmer? GetClosestFarmer(
         this Building building,
         IEnumerable<Farmer>? candidates = null,
@@ -205,6 +230,23 @@ public static class BuildingExtensions
     {
         candidates ??= building.GetParentLocation().farmers;
         return building.GetClosest(candidates, f => f.Position, out _, predicate);
+    }
+
+    /// <summary>
+    ///     Finds the closest <see cref="SObject"/> to this
+    ///     <paramref name="building"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="candidates">The candidate objects, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="SObject"/> with the minimal distance to <paramref name="building"/>.</returns>
+    public static SObject? GetClosestObject(
+        this Building building,
+        IEnumerable<SObject>? candidates = null,
+        Func<SObject, bool>? predicate = null)
+    {
+        candidates ??= building.GetParentLocation().Objects.Values;
+        return building.GetClosest(candidates, o => o.TileLocation * Game1.tileSize, out _, predicate);
     }
 
     /// <summary>
@@ -216,10 +258,6 @@ public static class BuildingExtensions
     /// <param name="candidates">The candidate <typeparamref name="TObject"/>s, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="SObject"/> of type <typeparamref name="TObject"/> with the minimal distance to <paramref name="building"/>.</returns>
-    /// <remarks>
-    ///     As the <see cref="Building"/> class does not hold a reference to its <see cref="GameLocation"/>, it is
-    ///     assumed to be the <see cref="Farm"/>.
-    /// </remarks>
     public static TObject? GetClosestObject<TObject>(
         this Building building,
         IEnumerable<TObject>? candidates = null,
@@ -231,6 +269,23 @@ public static class BuildingExtensions
     }
 
     /// <summary>
+    ///     Find the closest <see cref="TerrainFeature"/> to this
+    ///     <paramref name="building"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="candidates">The candidate terrain features, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="TerrainFeature"/> with the minimal distance to <paramref name="building"/>.</returns>
+    public static TerrainFeature? GetClosestTerrainFeature(
+        this Building building,
+        IEnumerable<TerrainFeature>? candidates = null,
+        Func<TerrainFeature, bool>? predicate = null)
+    {
+        candidates ??= Game1.getFarm().terrainFeatures.Values;
+        return building.GetClosest(candidates, t => t.Tile * Game1.tileSize, out _, predicate);
+    }
+
+    /// <summary>
     ///     Find the closest <see cref="TerrainFeature"/> of subtype <typeparamref name="TTerrainFeature"/> to this
     ///     <paramref name="building"/> in the current <see cref="GameLocation"/>.
     /// </summary>
@@ -239,10 +294,6 @@ public static class BuildingExtensions
     /// <param name="candidates">The candidate <typeparamref name="TTerrainFeature"/>, if already available.</param>
     /// <param name="predicate">An optional condition with which to filter out candidates.</param>
     /// <returns>The <see cref="TerrainFeature"/> of type <typeparamref name="TTerrainFeature"/> with the minimal distance to <paramref name="building"/>.</returns>
-    /// <remarks>
-    ///     As the <see cref="Building"/> class does not hold a reference to its <see cref="GameLocation"/>, it is
-    ///     assumed to be the <see cref="Farm"/>.
-    /// </remarks>
     public static TTerrainFeature? GetClosestTerrainFeature<TTerrainFeature>(
         this Building building,
         IEnumerable<TTerrainFeature>? candidates = null,

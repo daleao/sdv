@@ -46,7 +46,7 @@ public static class StringExtensions
         return candidates.Any(@string.Contains);
     }
 
-    /// <summary>Determines whether the string contains all of the specified sub-strings.</summary>
+    /// <summary>Determines whether the string contains all the specified sub-strings.</summary>
     /// <param name="string">The <see cref="string"/>.</param>
     /// <param name="candidates">The sub-strings to search for.</param>
     /// <returns><see langword="true"/> if <paramref name="string"/> contains all of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>

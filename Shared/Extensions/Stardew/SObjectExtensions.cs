@@ -141,6 +141,23 @@ public static class SObjectExtensions
     }
 
     /// <summary>
+    ///     Finds the closest <see cref="Building"/> to this
+    ///     <paramref name="object"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <param name="candidates">The candidate buildings, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="Building"/> with the minimal distance to <paramref name="object"/>.</returns>
+    public static Building? GetClosestBuilding(
+        this SObject @object,
+        IEnumerable<Building>? candidates = null,
+        Func<Building, bool>? predicate = null)
+    {
+        candidates ??= @object.Location.buildings;
+        return @object.GetClosest(candidates, b => b.GetBoundingBox().Center.ToVector2(), out _, predicate);
+    }
+
+    /// <summary>
     ///     Find the closest <see cref="Building"/> of subtype <typeparamref name="TBuilding"/> to this
     ///     <paramref name="object"/> in the current <see cref="GameLocation"/>.
     /// </summary>
@@ -157,6 +174,23 @@ public static class SObjectExtensions
     {
         candidates ??= @object.Location.buildings.OfType<TBuilding>();
         return @object.GetClosest(candidates, b => b.GetBoundingBox().Center.ToVector2(), out _, predicate);
+    }
+
+    /// <summary>
+    ///     Finds the closest <see cref="NPC"/> to this
+    ///     <paramref name="object"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <param name="candidates">The candidate characters, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="Character"/> with the minimal distance to <paramref name="object"/>.</returns>
+    public static Character? GetClosestCharacter(
+        this SObject @object,
+        IEnumerable<Character>? candidates = null,
+        Func<Character, bool>? predicate = null)
+    {
+        candidates ??= @object.Location.characters;
+        return @object.GetClosest(candidates, c => c.Position, out _, predicate);
     }
 
     /// <summary>
@@ -197,6 +231,27 @@ public static class SObjectExtensions
     }
 
     /// <summary>
+    ///     Find the closest <see cref="SObject"/> to this one in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <param name="candidates">The candidate objects, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="SObject"/> with the minimal distance to <paramref name="object"/>.</returns>
+    public static SObject? GetClosestObject(
+        this SObject @object,
+        IEnumerable<SObject>? candidates = null,
+        Func<SObject, bool>? predicate = null)
+    {
+        predicate ??= _ => true;
+        candidates ??= @object.Location.Objects.Values;
+        return @object.GetClosest(
+            candidates,
+            o => o.TileLocation * Game1.tileSize,
+            out _,
+            o => !ReferenceEquals(o, @object) && predicate(o));
+    }
+
+    /// <summary>
     ///     Find the closest <see cref="SObject"/> to this one in the current <see cref="GameLocation"/>, and of the
     ///     specified subtype.
     /// </summary>
@@ -218,6 +273,23 @@ public static class SObjectExtensions
             o => o.TileLocation * Game1.tileSize,
             out _,
             o => !ReferenceEquals(o, @object) && predicate(o));
+    }
+
+    /// <summary>
+    ///     Find the closest <see cref="TerrainFeature"/> to this
+    ///     <paramref name="object"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <param name="candidates">The candidate terrain features, if already available.</param>
+    /// <param name="predicate">An optional condition with which to filter out candidates.</param>
+    /// <returns>The <see cref="TerrainFeature"/> with the minimal distance to <paramref name="object"/>.</returns>
+    public static TerrainFeature? GetClosestTerrainFeature(
+        this SObject @object,
+        IEnumerable<TerrainFeature>? candidates = null,
+        Func<TerrainFeature, bool>? predicate = null)
+    {
+        candidates ??= @object.Location.terrainFeatures.Values;
+        return @object.GetClosest(candidates, t => t.Tile * Game1.tileSize, out _, predicate);
     }
 
     /// <summary>

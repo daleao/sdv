@@ -68,16 +68,19 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
             if (__instance is GreenSlime slime && slime.Get_Piped() is { } piped)
             {
                 Vector2? targetPos = null;
-                var aggroee = slime.GetClosestCharacter(
-                    location.characters.OfType<Monster>(),
-                    m => !m.IsSlime() && m is not Spiker &&
-                         (m is not Duggy duggy || duggy.Sprite.CurrentFrame is > 0 and < 10) &&
-                         m is not LavaLurk &&
-                         slime.IsCharacterWithinThreshold(m));
-                if (aggroee is not null)
+                if (piped.Hat is null)
                 {
-                    targetPos = aggroee.Position;
-                    piped.FakeFarmer.AttachedEnemy = aggroee;
+                    var aggroee = slime.GetClosestCharacter(
+                        location.characters.OfType<Monster>(),
+                        m => !m.IsSlime() && m is not Spiker &&
+                             (m is not Duggy duggy || duggy.Sprite.CurrentFrame is > 0 and < 10) &&
+                             m is not LavaLurk &&
+                             slime.IsCharacterWithinThreshold(m));
+                    if (aggroee is not null)
+                    {
+                        targetPos = aggroee.Position;
+                        piped.FakeFarmer.AttachedEnemy = aggroee;
+                    }
                 }
                 else if (piped.Hat is not null && piped.HasEmptyInventorySlots)
                 {

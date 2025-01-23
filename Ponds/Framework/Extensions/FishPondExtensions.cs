@@ -94,7 +94,8 @@ internal static class FishPondExtensions
 
         // choose output
         Utility.consolidateStacks(held);
-        result = held.WhereNotNull().MaxBy(h => h.salePrice()) as SObject;
+        (held as List<Item?>).RemoveWhereNull();
+        result = held.MaxBy(h => h.salePrice()) as SObject;
         if (result is null)
         {
             return result;

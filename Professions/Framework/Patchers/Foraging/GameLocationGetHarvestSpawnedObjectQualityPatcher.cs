@@ -3,11 +3,10 @@
 #region using directives
 
 using System;
-using DaLion.Shared.Extensions.Stardew;
+using System.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewValley.Extensions;
 
 #endregion using directives
 
@@ -31,44 +30,34 @@ internal sealed class GameLocationGetHarvestSpawnedObjectQualityPatcher : Harmon
     /// </summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool GameLocationGetHarvestSpawnedObjectQualityPrefix(GameLocation __instance, ref int __result, Farmer who, bool isForage, Vector2 tile, Random? random)
+    private static bool GameLocationGetHarvestSpawnedObjectQualityPrefix(
+        GameLocation __instance, ref int __result, Farmer who, bool isForage, Vector2 tile, Random? random)
     {
-        var spawned = __instance.Objects[tile];
-        var isForagedMineral = spawned.IsForagedMineral();
-        if (who.HasProfession(Profession.Ecologist) && isForage && !isForagedMineral)
+        try
         {
-            who.ApplyEcologistEdibility(spawned);
-            Data.AppendToEcologistItemsForaged(spawned.ItemId);
-            __result = who.GetEcologistForageQuality();
-            return false; // don't run original logic
-        }
+            var spawned = __instance.Objects[tile];
+            if (who.HasProfession(Profession.Ecologist) && isForage)
+            {
+                who.ApplyEcologistEdibility(spawned);
+                Data.AppendToEcologistItemsForaged(spawned.ItemId);
+                __result = who.GetEcologistForageQuality();
+                return false; // don't run original logic
+            }
 
-        if (who.HasProfession(Profession.Gemologist) && isForagedMineral)
+            if (who.HasProfession(Profession.Gemologist) && !isForage)
+            {
+                Data.AppendToGemologistMineralsCollected(spawned.ItemId);
+                __result = who.GetGemologistMineralQuality();
+                return false; // don't run original logic
+            }
+
+            return true; // run original logic
+        }
+        catch (Exception ex)
         {
-            Data.AppendToGemologistMineralsCollected(spawned.ItemId);
-            __result = who.GetGemologistMineralQuality();
-            return false; // don't run original logic
+            Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
+            return true; // default to original logic
         }
-
-        if (!isForage || isForagedMineral)
-        {
-            __result = SObject.lowQuality;
-            return false; // don't run original logic
-        }
-
-        random ??= Utility.CreateDaySaveRandom(tile.X, tile.Y * 777f);
-
-        if (random.NextBool(who.ForagingLevel / 30f))
-        {
-            __result = SObject.highQuality;
-        }
-
-        if (random.NextBool(who.ForagingLevel / 15f))
-        {
-            __result = SObject.medQuality;
-        }
-
-        return false; // don't run original logic
     }
 
     #endregion harmony patches

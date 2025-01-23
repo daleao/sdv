@@ -1,10 +1,23 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.2
+
+### Added
+
+* Added FullHouse command.
+
+### Fixed
+
+* Fixed Producer not counting Premium buildings. Please note that buildings must still be *full*, even if capacity is higher.
+* Fixed picked-up items not having quality.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.1
 
 ### Fixed
 
-* Prestiged Angler fishing chain now resets upon leaving the map.
+* Prestiged Angler fishing chain now (properly) resets upon leaving the map.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
@@ -23,7 +36,7 @@
     * Purple Slimes still have the highest base stats, so you'll want to breed them in somewhere to get the highest stats, before then breeding for a specific color.
     * The Slimed Piper profession will grant benefits for each variety of Slime. This new feature is therefore intended to support the Slimed Piper profession.
     * Added special Slime variants that can be obtained by breeding:
-      * Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e. try to Red and Green Slimes).
+      * Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e. try to mix Red and Green Slimes).
       * Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
 * Added config option to show/hide minion health.
 * Added new Prestiged profession sprites using Silicon's and Kawaii's gold palettes, made to match their Mastered skill icons. These palettes will also apply to the Gold Slime. Posister's and my own Metallic gold palettes are retired to the "old" folder. You can still use them by replacing either Silicon's or Kawaii's spritesheet in the main sprite folder.
