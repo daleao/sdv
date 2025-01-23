@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

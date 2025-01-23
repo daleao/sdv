@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;

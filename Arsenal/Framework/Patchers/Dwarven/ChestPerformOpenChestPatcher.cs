@@ -4,8 +4,8 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.Extensions;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Extensions;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;

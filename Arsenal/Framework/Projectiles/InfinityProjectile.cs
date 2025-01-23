@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Enchantments;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Arsenal.Framework.Enchantments;
+using DaLion.Arsenal.Framework.VirtualProperties;
 using Enchantments;
 using Microsoft.Xna.Framework;
 using Shared.Reflection;

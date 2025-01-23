@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enums;
+﻿namespace DaLion.Arsenal.Framework.Enums;
 
 #region using directives
 

@@ -1,11 +1,11 @@
 ﻿// ReSharper disable PossibleLossOfFraction
-namespace DaLion.Overhaul.Modules.Combat.Patchers.Melee;
+namespace DaLion.Arsenal.Framework.Patchers.Melee;
 
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enchantments;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Arsenal.Framework.Enchantments;
+using DaLion.Arsenal.Framework.Enums;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

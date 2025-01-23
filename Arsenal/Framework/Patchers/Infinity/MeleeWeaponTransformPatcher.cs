@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Arsenal.Framework.Enchantments;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

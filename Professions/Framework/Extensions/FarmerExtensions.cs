@@ -427,40 +427,6 @@ internal static class FarmerExtensions
         return GreenSlime_Piped.Values.Count(pair => ReferenceEquals(pair.Value.Piper, farmer));
     }
 
-    /// <summary>Chooses a random tile near the <paramref name="farmer"/>.</summary>
-    /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="predicate">Optional filter condition based on the tile coordinates and <see cref="GameLocation"/>.</param>
-    /// <param name="location">If a <paramref name="predicate"/> is specified, use this to specify a <see cref="GameLocation"/>, otherwise defaults to the player's current location.</param>
-    /// <returns>A random tile from amongst the 8 1-connected neighboring tiles to the <paramref name="farmer"/> which satisfy the specified <paramref name="predicate"/>.</returns>
-    internal static Vector2 ChooseFromEightNeighboringTiles(this Farmer farmer, Func<Vector2, GameLocation, bool>? predicate = null, GameLocation? location = null)
-    {
-        predicate ??= (_, _) => true;
-        location ??= farmer.currentLocation;
-        var mapWidth = location.Map.Layers[0].LayerWidth;
-        var mapHeight = location.Map.Layers[0].LayerHeight;
-        return farmer.Tile
-            .GetEightNeighbors(mapWidth, mapHeight)
-            .Where(tile => predicate(tile, location))
-            .Choose();
-    }
-
-    /// <summary>Chooses a random tile near the <paramref name="farmer"/>.</summary>
-    /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <param name="predicate">Optional filter condition based on the tile coordinates and <see cref="GameLocation"/>.</param>
-    /// <param name="location">If a <paramref name="predicate"/> is specified, use this to specify a <see cref="GameLocation"/>, otherwise defaults to the player's current location.</param>
-    /// <returns>A random tile from amongst the 24 2-connected neighboring tiles to the <paramref name="farmer"/> which satisfy the specified <paramref name="predicate"/>.</returns>
-    internal static Vector2 ChooseFromTwentyFourNeighboringTiles(this Farmer farmer, Func<Vector2, GameLocation, bool>? predicate = null, GameLocation? location = null)
-    {
-        predicate ??= (_, _) => true;
-        location ??= farmer.currentLocation;
-        var mapWidth = location.Map.Layers[0].LayerWidth;
-        var mapHeight = location.Map.Layers[0].LayerHeight;
-        return farmer.Tile
-            .GetTwentyFourNeighbors(mapWidth, mapHeight)
-            .Where(tile => predicate(tile, location))
-            .Choose();
-    }
-
     /// <summary>
     ///     Determines whether the <paramref name="farmer"/> is currently using the <see cref="Profession.Poacher"/>
     ///     <see cref="LimitBreak"/>.

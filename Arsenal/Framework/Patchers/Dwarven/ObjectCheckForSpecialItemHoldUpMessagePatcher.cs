@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;

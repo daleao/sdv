@@ -5,9 +5,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.OneSecondUpdateTicked;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Enums;
+using DaLion.Arsenal.Framework.Events.GameLoop.OneSecondUpdateTicked;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

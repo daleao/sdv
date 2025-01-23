@@ -1,11 +1,11 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enchantments;
+﻿namespace DaLion.Arsenal.Framework.Enchantments;
 
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
-using DaLion.Overhaul.Modules.Combat.Events.Player.Warped;
-using DaLion.Overhaul.Modules.Combat.Projectiles;
+using DaLion.Arsenal.Framework.Events.GameLoop.UpdateTicked;
+using DaLion.Arsenal.Framework.Events.Player.Warped;
+using DaLion.Arsenal.Framework.Projectiles;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Xna;

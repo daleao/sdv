@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Enchantments;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Enchantments;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 

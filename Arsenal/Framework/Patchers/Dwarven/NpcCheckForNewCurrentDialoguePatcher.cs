@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Arsenal.Framework.Enums;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

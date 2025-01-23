@@ -22,15 +22,15 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
     private static readonly Func<Vector2, GameLocation, bool> IsMineShaftTileSpawnable = (tile, location) =>
-        location.CanSpawnCharacterHere(tile) && location is MineShaft shaft &&
-        shaft.isTileClearForMineObjects(tile) && !shaft.IsTileOccupiedBy(tile);
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
+        (location as MineShaft)!.isTileOnClearAndSolidGround(tile);
 
-    private static readonly Func<Vector2, GameLocation, bool> IsVolcanoDungeonTileSpawnable = (tile, location) =>
-        location.CanSpawnCharacterHere(tile) && location is VolcanoDungeon volcano &&
-        volcano.isTileClearForMineObjects(tile) && !volcano.IsTileOccupiedBy(tile);
+    private static readonly Func<Vector2, GameLocation, bool> IsVolcanoTileSpawnable = (tile, location) =>
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
+        (location as VolcanoDungeon)!.isTileOnClearAndSolidGround(tile);
 
-    private static readonly Func<Vector2, GameLocation, bool> IsLocationTileSpawnable = (tile, location) =>
-        location.CanSpawnCharacterHere(tile) && !location.IsTileOccupiedBy(tile);
+    private static readonly Func<Vector2, GameLocation, bool> IsGenericTileSpawnable = (tile, location) =>
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK);
 
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);
@@ -88,13 +88,11 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
             var condition = location switch
             {
                 MineShaft => IsMineShaftTileSpawnable,
-                VolcanoDungeon => IsVolcanoDungeonTileSpawnable,
-                _ => IsLocationTileSpawnable,
+                VolcanoDungeon => IsVolcanoTileSpawnable,
+                _ => IsGenericTileSpawnable,
             };
 
-            var spawnTile = piper.CountPipedSlimes() < 8
-                ? piper.ChooseFromEightNeighboringTiles(condition, location)
-                : piper.ChooseFromTwentyFourNeighboringTiles(condition, location);
+            var spawnTile = piper.ChooseFromFourtyEightNeighboringTiles(condition, location);
             var toBeCloned = piper.GetRaisedSlimes().Choose(r);
             var spawn = new GreenSlime(spawnTile * Game1.tileSize, toBeCloned.color.Value)
             {

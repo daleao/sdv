@@ -3,8 +3,8 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enums;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Enums;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

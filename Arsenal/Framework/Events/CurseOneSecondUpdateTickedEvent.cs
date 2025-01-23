@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.OneSecondUpdateTicked;
+﻿namespace DaLion.Arsenal.Framework.Events.GameLoop.OneSecondUpdateTicked;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Enchantments;
+using DaLion.Arsenal.Framework.Enchantments;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;

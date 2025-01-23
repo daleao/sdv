@@ -4,7 +4,7 @@
 
 using System.Linq;
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Arsenal.Framework.Enums;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;

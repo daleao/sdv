@@ -1,6 +1,6 @@
 ﻿namespace DaLion.Arsenal.Framework.Patchers.Dwarven;
 
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 
 #region using directives
 

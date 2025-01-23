@@ -1,10 +1,10 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enums;
+﻿namespace DaLion.Arsenal.Framework.Enums;
 
 #region using directives
 
 using System.Linq;
 using Ardalis.SmartEnum;
-using DaLion.Overhaul.Modules.Combat.Configs;
+using DaLion.Arsenal.Framework.Configs;
 using DaLion.Shared.Extensions.Stardew;
 using StardewValley;
 

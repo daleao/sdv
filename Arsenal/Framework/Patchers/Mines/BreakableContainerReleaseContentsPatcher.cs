@@ -1,9 +1,9 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers;
+﻿namespace DaLion.Arsenal.Framework.Patchers;
 
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;

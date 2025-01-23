@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enchantments;
+﻿namespace DaLion.Arsenal.Framework.Enchantments;
 
 #region using directives
 

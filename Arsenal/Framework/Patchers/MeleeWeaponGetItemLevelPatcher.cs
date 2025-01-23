@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.VirtualProperties;
+using DaLion.Arsenal.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley;

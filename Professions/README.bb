@@ -50,7 +50,7 @@ At max friendship animals are worth 10x their base price, compared to vanilla's 
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/producer.png[/img] [b]Producer (Lv10)[/b] - Happy animals produce 2x as frequently. Produce is worth 5% more for every full barn or coop.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/producer_p.png[/img] [b]Yieldmeister (Lv20)[/b] - Happy animals produce [s]2x[/s] → 3x as frequently. Deluxe Coop capacity +2.[/color][size=2]
 [spoiler]
-Note that happiness, or [url=https://stardewvalleywiki.com/Animals#Mood]mood[/url]﻿, is [b]not[/b] the same as friendship. This will [b]not[/b] allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meats. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the price bonus.
+Note that happiness, or [url=https://stardewvalleywiki.com/Animals#Mood]mood[/url] , is [b]not[/b] the same as friendship. This will [b]not[/b] allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meats. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the price bonus.
 [/spoiler]
 [/size][/spoiler][/list]
 [size=5][img]https://i.imgur.com/jf88nPt.png[/img] [font=bebas_neuebook]Foraging[/font][/size]
@@ -156,7 +156,7 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist.png[/img] [b]Aquarist (Lv10)[/b] - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist_p.png[/img] [b]Ichthyologist (Lv20)[/b] - Fish pond max capacity [s]+2[/s] → +4. Fish species raised to max pond capacity are reeled instantly.[/color][size=2]
 [spoiler]
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5). They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url]﻿ you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5). They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url]  you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
 
 For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable. This profession removes the lock on max population of legendary ponds, restoring it back to 10.
 [/spoiler]
@@ -180,7 +180,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/conservationist.png[/img] [b]Conservationist (Lv10)[/b] - Crab pots without bait can trap junk. Clean the Valley's waters to earn the village's favor and merit tax deductions.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/conservationist_p.png[/img] [b]Oceanographer (Lv20)[/b] - Crab pots without bait can also trap fish. Special conditions apply during rainy or full-moon days.[/color][size=2]
 [spoiler]
-By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url]﻿ is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url]  is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
 For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
 [/spoiler]
@@ -326,26 +326,27 @@ Journey of the Prairie King, "IRL". Charged by hitting monsters with projectiles
 [/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/superfluidity.png[/img] [b]Hamelin Concerto (Slimed Piper / Enchantress)[/b] - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
 [size=2][spoiler]
 If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes. Nearby Big Slimes burst immediately when activated. Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
-[/spoiler][/size][/list]
+[ \
+/spoiler][/size][/list]
 [font=bebas_neuebook][size=6]Misc. Changes[/size][/font]
 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
 [list]
 [*][b]Large dairy goods[/b], including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
-[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿﻿ and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b]﻿![/b]).
+[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]   and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b] ![/b]).
 [*][b]Fish Smoker[/b] will not preserve fish quality without the Artisan profession. Again, this is needed for the consistency of Artisan.
 [*][b]Heavy Tapper[/b] behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
-[*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url]﻿, which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
+[*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url] , which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 [/list]
 [size=6][font=bebas_neuebook]Compatibility[/font][/size][b]
 
 [size=3]Custom Skill Mods[/size][/b]
 
-Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it. Note that [url=https://www.nexusmods.com/stardewvalley/mods/521?tab=files]Luck Skill[/url] is not a SpaceCore skill, but [url=https://www.nexusmods.com/stardewvalley/mods/28103]Luck Skill[/url] is.
+Compatible with all custom [url=https://www.nexusmods.com/stardewvalley/mods/1348]SpaceCore[/url] skills. They can be reset, [b]but cannot be Prestiged[/b]. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it. Note that [url=https://www.nexusmods.com/stardewvalley/mods/521?tab=files]Luck Skill[/url] is not a SpaceCore skill, but [url=https://www.nexusmods.com/stardewvalley/mods/28103]Luck Skill[/url] is.
 
 [b][size=3]Automate[/size][/b]
 
-This mod expects that you use Hoppers for automation instead, as they are improved by [url=https://www.nexusmods.com/stardewvalley/mods/24332]DaLionheart[/url].That said, [url=https://www.nexusmods.com/stardewvalley/mods/1063]Automate[/url] should work fine. Attach a chest or path to a Hopper if you want to benefit from the Industrialist perk. For any other profession with perks related to a specific machine, Automating that machine will continue to apply those perks as long the machine does not require input (see FAQ below for more details).Automate is not officially supported. Please do not ask for Automate integration. If you choose to run Automate, do so with the understanding that it will retract from the intended experience.
+This mod expects that you use Hoppers for automation instead, as they are improved by [url=https://www.nexusmods.com/stardewvalley/mods/24332]DaLionheart[/url].That said, [url=https://www.nexusmods.com/stardewvalley/mods/1063]Automate[/url] should work fine. Attach a chest or path to a Hopper if you want to benefit from the Industrialist perk. For any other profession with perks related to a specific machine, Automating that machine will continue to apply those perks as long the machine does not require input (see FAQ below for more details).Automate is not officially supported. Please do not ask for Automate integration. If you choose to run Automate, do so with the understanding that it will retract from the intended experience.
 
 [b][size=3]Stardew Valley Expanded[/size][/b]
 
@@ -353,11 +354,11 @@ This mod expects that you use Hoppers for automation instead, as they are improv
 
 [b][size=3]Other Profession / Skill / Mastery Overhauls[/size][/b]
 
-For any mods that affect professions, skills or Masteries, [b]use common sense[/b].Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings.For any other mod or specific combination, do not ask me about it. I do not support integration with any of these types of mods. They are not meant to work together.
+For any mods that affect professions, skills or Masteries, [b]use common sense[/b].Mods which add alternative ways to acquire multiple professions, such as [url=https://www.nexusmods.com/stardewvalley/mods/174]All Professions[/url], [url=https://www.nexusmods.com/stardewvalley/mods/569]Skill Prestige[/url] and [url=https://www.nexusmods.com/stardewvalley/mods/23697]Mastery Extended[/url], will obviously conflict with [i]Change Profession Skill Reset[/i], so either remove those mods or disable [i]Skill Reset[/i] in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as [url=https://www.nexusmods.com/stardewvalley/mods/1471]Level Extender[/url] or [url=https://www.nexusmods.com/stardewvalley/mods/22920]Level Forever[/url], will obviously conflict with Prestige level progression, and consequently, [i]Prestige Professions[/i]. Either remove those mods or disable [i]Prestige Levels[/i] in this mod's settings.For any other mod or specific combination, do not ask me about it. I do not support integration with any of these types of mods. They are not meant to work together.
 
-The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want, keeping only the profession changes.
+The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want, keeping only the profession changes.
 
-Obviously not compatible with [url=https://www.nexusmods.com/stardewvalley/mods/20054]Vanilla Plus Professions[/url]﻿﻿. Use one or the other.Not compatible with mods that change how the game awards experience, such as [url=https://www.nexusmods.com/stardewvalley/mods/22163]Share Experience.[/url]
+Obviously not compatible with [url=https://www.nexusmods.com/stardewvalley/mods/20054]Vanilla Plus Professions[/url]  . Use one or the other.Not compatible with mods that change how the game awards experience, such as [url=https://www.nexusmods.com/stardewvalley/mods/22163]Share Experience.[/url]
 
 [b][size=3]Multiplayer[/size][/b]
 
@@ -373,25 +374,25 @@ No, it does not work on Android.
 Credits to the following asset contributors:
 [list]
 [*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
-[*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]﻿ and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
-[*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url]﻿ for golden skill icons
-[*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url]﻿ for rose-golden skill icons
+[*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]  and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
+[*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url]  for golden skill icons
+[*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url]  for rose-golden skill icons
 [*][b]Posister[/b] for alternate golden profession icons
-[*][url=https://ro.gnjoy.com/index.asp]Gravity[/url] ﻿for sound effects and skill icons
-[*][url=https://next.nexusmods.com/profile/HimeTarts/about-me?gameId=1303]HimeTarts[/url]﻿ for base letters used in the title art.
-[*][url=https://www.square-enix.com/]Square Enix[/url]﻿'s [url=https://ffvii.square-enix-games.com/en-us/games/rebirth]Final Fantasy 7 Rebirth[/url]﻿ for the "Rebirth" title text.
-[*][url=https://www.dafont.com/pt/stardew-valley.font]Stardew Valley title font[/url]﻿ by [url=https://www.dafont.com/pt/eliot-truelove.d1302]Eliot Truelove[/url]﻿﻿.
+[*][url=https://ro.gnjoy.com/index.asp]Gravity[/url]  for sound effects and skill icons
+[*][url=https://next.nexusmods.com/profile/HimeTarts/about-me?gameId=1303]HimeTarts[/url]  for base letters used in the title art.
+[*][url=https://www.square-enix.com/]Square Enix[/url] 's [url=https://ffvii.square-enix-games.com/en-us/games/rebirth]Final Fantasy 7 Rebirth[/url]  for the "Rebirth" title text.
+[*][url=https://www.dafont.com/pt/stardew-valley.font]Stardew Valley title font[/url]  by [url=https://www.dafont.com/pt/eliot-truelove.d1302]Eliot Truelove[/url]  .
 [/list]Credits to the following code contributors:[list]
-[*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]﻿ for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce﻿[/url]
+[*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]  for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce [/url]
 [/list]Credits to the following translators:[list]
 [*][url=https://github.com/CaranudLapin][img]https://i.imgur.com/ezVo9Fb.png[/img]CaranudLapin[/url] for French
 [*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303][img]https://i.imgur.com/Jvsm5YJ.png[/img]twinklesky6[/url] for Korean
 [*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303][img]https://i.imgur.com/zuQC9Di.png[/img]Awassakura[/url] for Chinese
-[*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/][img]https://i.imgur.com/cXhDLc5.png[/img]﻿darthalex2014[/url]﻿ for Russian
+[*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/][img]https://i.imgur.com/cXhDLc5.png[/img] darthalex2014[/url]  for Russian
 [/list]Special thanks to the following visionaries:[list]
 [*][url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion[/url] for [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url]
-[*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url]﻿ for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]﻿﻿
-[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url]﻿for [url=https://iro.ragnarokonline.com/]my childhood[/url]﻿
+[*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url]  for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]
+[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url] for [url=https://iro.ragnarokonline.com/]my childhood[/url]
 [/list]
 [size=6][font=bebas_neuebook]F.A.Q.[/font][/size]
 
@@ -429,28 +430,28 @@ Crab Pots are an exception. Although they may use an input (bait), their product
 [*]Open the Cornucopia mod folder. You'll see a folder named "machines". Inside you will see a different file named after each machine.
 [*]Open the machine you want, say `butterchurn.json` using any text editor. It will look something like this:
 [/list]
-[code]﻿{
-    "Changes": [
-        {
-            "Action": "EditData",
-            "Target": "Data/Machines",
-            "Entries": {
-                "(BC)Cornucopia_ButterChurn": {
-   ﻿   ﻿   ﻿   ﻿   ﻿...
+[code] {
+    "Changes": [
+        {
+            "Action": "EditData",
+            "Target": "Data/Machines",
+            "Entries": {
+                "(BC)Cornucopia_ButterChurn": {
+                    ...
 
 [/code]
 [list]
 [*]Copy the string starting with "(BC)...". This is the qualified ID of the machine.
 [list]
-[*]﻿A machine's qualified ID will always start with "(BC)".
+[*] A machine's qualified ID will always start with "(BC)".
 [*]An animal produce item's qualified ID will always start with "(O)".
 [/list][*]Open the [b]DaLion.Professions[/b] mod folder and open your `config.json`.
 [*]Find the "ArtisanMachines" field and paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
 [/list]
-[code]﻿"ArtisanMachines": [
-    "(BC)ExampleMod.ExampleMachine",
-   ﻿ "(BC)Cornucopia_ButterChurn"
-  ],
+[code] "ArtisanMachines": [
+    "(BC)ExampleMod.ExampleMachine",
+    "(BC)Cornucopia_ButterChurn"
+  ],
 [/code]
 You can remove the "(BC)ExampleMod.ExampleMachine" if you want.
 Repeat for every machine that you think is relevant. For animal produce, do the same but add to the "AnimalDerivedGoods" field instead.

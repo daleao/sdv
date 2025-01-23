@@ -100,10 +100,11 @@ public sealed class PathfindingManagerAsync : IDisposable
     /// </summary>
     /// <param name="npc">The <see cref="NPC"/> who seeks a new path.</param>
     /// <param name="location">The new <see cref="GameLocation"/>.</param>
+    /// <param name="isWalkable">A function to determine whether a <see cref="Vector2"/> tile in the <paramref name="location"/>> is walkable.</param>
     /// <returns>An instance of <see cref="NpcPathfinder"/> to facilitate the initial request.</returns>
-    public NpcPathfinder Reregister(NPC npc, GameLocation location)
+    public NpcPathfinder Reregister(NPC npc, GameLocation location, Func<GameLocation, Vector2, bool>? isWalkable = null)
     {
-        return this.Unregister(npc).Register(npc, location);
+        return this.Unregister(npc).Register(npc, location, isWalkable);
     }
 
     /// <summary>Public method the main thread can call to request a new path step.</summary>

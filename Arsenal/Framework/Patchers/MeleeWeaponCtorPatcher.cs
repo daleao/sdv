@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;

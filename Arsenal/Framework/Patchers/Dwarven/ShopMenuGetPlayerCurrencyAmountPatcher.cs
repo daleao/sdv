@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

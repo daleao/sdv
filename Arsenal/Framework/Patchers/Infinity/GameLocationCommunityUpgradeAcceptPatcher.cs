@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using DaLion.Overhaul.Modules.Combat.Enums;
+using DaLion.Arsenal.Framework.Enums;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

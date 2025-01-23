@@ -1,9 +1,9 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Enchantments;
+﻿namespace DaLion.Arsenal.Framework.Enchantments;
 
 #region using directives
 
 using System.Xml.Serialization;
-using DaLion.Overhaul.Modules.Combat.Integrations;
+using DaLion.Arsenal.Framework.Integrations;
 using DaLion.Shared.Constants;
 using StardewValley.Monsters;
 

@@ -1,8 +1,8 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Melee;
+﻿namespace DaLion.Arsenal.Framework.Patchers.Melee;
 
 #region using directives
 
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;

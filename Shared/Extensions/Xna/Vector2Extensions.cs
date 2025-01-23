@@ -99,7 +99,7 @@ public static class Vector2Extensions
         if (y < height - 1) yield return new Vector2(x, y + 1);
     }
 
-    /// <summary>Gets the 24-connected neighboring tiles in a given region.</summary>
+    /// <summary>Gets the 24 neighboring tiles in a given region.</summary>
     /// <param name="tile">The center tile as a <see cref="Vector2"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
@@ -153,6 +153,65 @@ public static class Vector2Extensions
                 if ((y + j).IsIn(..height))
                 {
                     yield return new Vector2(x + 2, y + j);
+                }
+            }
+        }
+    }
+
+    /// <summary>Gets the 48 neighboring tiles in a given region.</summary>
+    /// <param name="tile">The center tile as a <see cref="Vector2"/>.</param>
+    /// <param name="width">The width of the entire region.</param>
+    /// <param name="height">The height of the entire region.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the twenty-four-connected neighbors of the <paramref name="tile"/>.</returns>
+    public static IEnumerable<Vector2> GetFourtyEightNeighbors(this Vector2 tile, int width, int height)
+    {
+        foreach (var neighbor in tile.GetTwentyFourNeighbors(width, height))
+        {
+            yield return neighbor;
+        }
+
+        var x = (int)tile.X;
+        var y = (int)tile.Y;
+        if (y - 3 >= 0)
+        {
+            for (var i = -3; i <= 3; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Vector2(x + i, y - 3);
+                }
+            }
+        }
+
+        if (y + 3 < height)
+        {
+            for (var i = -3; i <= 3; i++)
+            {
+                if ((x + i).IsIn(..width))
+                {
+                    yield return new Vector2(x + i, y + 3);
+                }
+            }
+        }
+
+        if (x - 3 >= 0)
+        {
+            for (var j = -2; j <= 2; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Vector2(x - 3, y + j);
+                }
+            }
+        }
+
+        if (x + 3 < width)
+        {
+            for (var j = -2; j <= 2; j++)
+            {
+                if ((y + j).IsIn(..height))
+                {
+                    yield return new Vector2(x + 3, y + j);
                 }
             }
         }

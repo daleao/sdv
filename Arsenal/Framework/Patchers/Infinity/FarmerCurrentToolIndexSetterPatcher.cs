@@ -4,7 +4,7 @@
 
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using DaLion.Overhaul.Modules.Combat.Extensions;
+using DaLion.Arsenal.Framework.Extensions;
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

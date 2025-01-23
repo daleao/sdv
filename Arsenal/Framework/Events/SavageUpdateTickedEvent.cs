@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Events.GameLoop.UpdateTicked;
+﻿namespace DaLion.Arsenal.Framework.Events.GameLoop.UpdateTicked;
 
 #region using directives
 

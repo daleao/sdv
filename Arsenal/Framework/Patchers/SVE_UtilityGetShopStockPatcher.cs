@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Integration;
+﻿namespace DaLion.Arsenal.Framework.Patchers.Integration;
 
 #region using directives
 

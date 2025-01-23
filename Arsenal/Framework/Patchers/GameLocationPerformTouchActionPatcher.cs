@@ -1,4 +1,4 @@
-﻿namespace DaLion.Overhaul.Modules.Combat.Patchers.Melee;
+﻿namespace DaLion.Arsenal.Framework.Patchers.Melee;
 
 #region using directives
 

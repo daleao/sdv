@@ -22,16 +22,16 @@ using StardewValley.Objects;
 /// <summary>A <see cref="GreenSlime"/> under influence of <see cref="PiperConcerto"/>.</summary>
 internal sealed class PipedSlime
 {
+    internal const CollisionMask COLLISION_MASK = CollisionMask.Buildings | CollisionMask.Furniture |
+                                                 CollisionMask.Objects | CollisionMask.TerrainFeatures |
+                                                 CollisionMask.LocationSpecific;
+
     private const int FADE_IN_DURATION = 60;
 #if RELEASE
     private const int RESPAWN_TIME = 42000;
 #elif DEBUG
     private const int RESPAWN_TIME = 7000;
 #endif
-
-    private const CollisionMask COLLISION_MASK = CollisionMask.Buildings | CollisionMask.Furniture |
-                                                 CollisionMask.Objects | CollisionMask.TerrainFeatures |
-                                                 CollisionMask.LocationSpecific;
 
     private readonly NetRef<Hat?> _hat = [];
     private int _respawnTimer = -1;
