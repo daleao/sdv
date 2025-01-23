@@ -1,0 +1,54 @@
+{
+  /*********************
+  *** 通用模组管理菜单 ***
+  *********************/
+
+  "gmcm.sections.cmbt.combo": "组合框架",
+  "gmcm.enable_combo_hits.title": "启用近战连击",
+  "gmcm.enable_combo_hits.desc": "以更具策略性的连击系统取代原版游戏武器连击.",
+  "gmcm.combo_hits_per_weapon_type.defense_sword.title": "剑武器连击",
+  "gmcm.combo_hits_per_weapon_type.defense_sword.desc": "剑武器连击的最大连击次数.",
+  "gmcm.combo_hits_per_weapon_type.club.title": "棍棒武器连击",
+  "gmcm.combo_hits_per_weapon_type.club.desc": "棍棒武器连击的最大连击次数.",
+  "gmcm.swipe_hold.title": "启用长按",
+  "gmcm.swipe_hold.desc": "只需按住按钮即可执行连击,而无需单次点击按钮.",
+
+  "gmcm.sections.cmbt.stats": "角色数据",
+  "gmcm.use_rational_mitigation_formula.title": "使用合理的减缓公式.",
+  "gmcm.use_rational_mitigation_formula.desc": "用合理的公式取代线性伤害减免公式,使防御的影响更大,但收益递减.*之前:伤害-=防御；之后:伤害*=10/(10+防御)*.",
+  "gmcm.defense_improves_parry.title": "防御提高招架伤害",
+  "gmcm.defense_improves_parry.desc": "招架伤害(剑的特殊招式)会因防御而增加.",
+  "gmcm.crits_ignore_defense.title": "暴击. 忽略防御",
+  "gmcm.crits_ignore_defense.desc": "暴击会忽略目标的防御.",
+  "gmcm.critical_back_attacks.title": "背后暴击攻击",
+  "gmcm.critical_back_attacks.desc": "击中敌人背后有双倍几率获得暴击.",
+  "gmcm.knockback_hurts.title": "击退伤害",
+  "gmcm.knockback_hurts.desc": "当被击退的敌人与墙壁或障碍物碰撞时,增加碰撞伤害.",
+
+  "gmcm.sections.cmbt.controls": "控制设置",
+  "gmcm.slick_moves.title": "移动攻击",
+  "gmcm.slick_moves.desc": "攻击时向当前运行方向缓慢移动.",
+  "gmcm.face_mouse_cursor.title": "面向光标方向",
+  "gmcm.face_mouse_cursor.desc": "如果使用鼠标和键盘,使用工具时应朝向当前光标的位置方向.",
+  "gmcm.face_cursor_condition.never": "从不",
+  "gmcm.face_cursor_condition.weapon_only": "仅限武器",
+  "gmcm.face_cursor_condition.always": "所有工具",
+
+  "gmcm.sections.cmbt.enemies": "敌人设置",
+  "gmcm.varied_encounters.title": "各种遭遇",
+  "gmcm.varied_encounters.desc": "根据'每日运气'偏差随机化怪物属性,增加怪物遭遇的可变性.",
+  "gmcm.monster_spawn_chance_multiplier.title": "生成几率倍数",
+  "gmcm.monster_spawn_chance_multiplier.desc": "怪物生成倍增数值.",
+  "gmcm.monster_health_multiplier.title": "生命值倍数",
+  "gmcm.monster_health_multiplier.desc": "怪物生命值倍增数值.",
+  "gmcm.monster_damage_multiplier.title": "伤害值倍数",
+  "gmcm.monster_damage_multiplier.desc": "怪物伤害值倍增数值.",
+  "gmcm.monster_defense_multiplier.title": "防御值倍数",
+  "gmcm.monster_defense_multiplier.desc": "怪物防御值倍增数值.",
+  "gmcm.monster_health_summand.title": "添加生命值",
+  "gmcm.monster_health_summand.desc": "添加怪物的生命值(在倍增之前).",
+  "gmcm.monster_damage_summand.title": "添加伤害值",
+  "gmcm.monster_damage_summand.desc": "添加怪物的伤害值(在倍增之前).",
+  "gmcm.monster_defense_summand.title": "添加防御值",
+  "gmcm.monster_defense_summand.desc": "添加怪物的防御值(在倍增之前)."
+}
