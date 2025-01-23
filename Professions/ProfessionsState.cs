@@ -28,6 +28,7 @@ internal sealed class ProfessionsState
     private ProspectorHunt? _prospectorHunt;
     private ScavengerHunt? _scavengerHunt;
     private Dictionary<string, int>? _prestigedEcologistBuffsLookup;
+    private int _fishingChain;
 
     internal List<int> OrderedProfessions
     {
@@ -164,7 +165,22 @@ internal sealed class ProfessionsState
 
     internal List<ChainedExplosion> ChainedExplosions { get; } = [];
 
-    internal int FishingChain { get; set; }
+    internal int FishingChain
+    {
+        get => this._fishingChain;
+        set
+        {
+            this._fishingChain = value;
+            if (value > 0)
+            {
+                EventManager.Enable<AnglerWarpedEvent>();
+            }
+            else
+            {
+                EventManager.Disable<AnglerWarpedEvent>();
+            }
+        }
+    }
 
     internal int BruteRageCounter
     {

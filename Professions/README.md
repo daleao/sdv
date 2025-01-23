@@ -543,15 +543,18 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/angler_p.png"/> <b>Rodmancer (Lv20)</b> - Up to two tackle effects can linger on the fishing rod. Can re-encounter legendary fish.
+<img src="./resources/assets/sprites/loose/angler_p.png"/> <b>Rodmancer (Lv20)</b> - Up to two tackle effects can linger on the fishing rod. Re-encounter legendary fish on a successful fishing streak.
 </font>
 
 <font size="2">
 <details>
 
-Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk. Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. By default, the bonus caps at 100%, but this can be configured.
+- Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
+- Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
+- By default, the bonus caps at 100%, but this can be configured.
+- Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
+- If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. Each subsequent successful catch then increases the encounter rate by 1%.  
 
-Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
 </details>
 </font>
 

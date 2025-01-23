@@ -16,7 +16,7 @@ This is not a casual mod. It will make combat an overall more difficult and more
 Weapon spamming is a real problem in vanilla;
 - It means that more offense is always the best defense, which renders both the defense stat and defensive special move of the sword completely useless.
 - It lessens the impact of attack speed bonuses, which in vanilla only affects a single 1 out of the 4 ~ 5 frames in the attack swipe animation for swords and clubs.
-- It turns knockback bonuses into a hindrance, since they can cause enemies to be pushed too far outside your attack range thus impeding them from being quickly dispatched by spam-clicking.
+- It turns knockback into more of a hindrance, since you can't spam click an enemy that gets pushed outside your attack range.
 
 All of this contributes to the lack of variety in combat encounters and player builds, with flat damage becoming the only real viable option.
 
@@ -25,7 +25,7 @@ We propose a solution by implementing a combo framework for melee weapons. A com
 - Clubs: up to 2 hits, being one horizontal swipe and one downward smash, by default.
 - Daggers: unchanged, effectively up to infinite hits.
 
-You now actually have a reason to weave in special moves between regular attack combos. Attack speed bonuses from Emerald rings and weapon forges will now serve to reduce both the cooldown between combos as well as the duration of every frame in the attack animation.
+You now actually have a reason to weave special moves in between regular attacks. Attack speed bonuses from Emerald rings and weapon forges will now serve to reduce both the cooldown between combos as well as the duration of every frame in the attack animation.
 
 
 ## Control Tweaks
@@ -36,7 +36,7 @@ To improve your mobility during combos, your attacks while running will preserve
 
 ### Face Mouse CUrsor
 
-When playing with mouse and keyboard, enabling this feature will cause the farmer to swing their weapon in the direction of the mouse cursor. Combined with slick moves, this allows you to drift in a direction while attacking behind you. Mastering this mechanic will be essential for avoiding hits during combat.
+When playing with mouse and keyboard, enabling this feature will cause the farmer to swing their weapon in the direction of the mouse cursor. Combined with slick moves, this allows you to drift in a direction while attacking behind you. Mastering this mechanic will be essential to avoid hits during combat.
 
 
 ## Statistic Tweaks

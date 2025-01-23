@@ -1,5 +1,13 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.1
+
+### Fixed
+
+* Prestiged Angler fishing chain now resets upon leaving the map.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.0
 
 ### Added
@@ -28,6 +36,12 @@
   * Added: Once per day, revive at the last-visited safe room.
 * Reworked Demolitionist:
   * Manual bomb detonation is now a much more usable toggle (double tap Mod key), instead of requiring the Mod key be held.
+* Reworked Rodmancer:
+  * Re-catching Legendary fish now requires building up a chain of successful catches.
+  * At least 10 successful catches are necessary for Legendary fish to begin appearing.
+  * Every subsequent successful catch after the 10th will increase the encounter rate by 1%.
+  * The chance resets back to zero if you fail a catch. But successfully catching the Legendary fish does not.
+  * Finding trash does not interrupt the chain.
 * Reworked Slimed Piper: now works more like a Necromancer than a Beast Tamer archetype, which means you command an army of disposable Slimes instead of micromanaging a single stronger Slime. 
   * No longer tames wild Slimes.
   * Ally Slimes are now spawned in based on the number of raised Slimes, at the rate of 1 ally Slime per 10 raised Slimes.
@@ -67,7 +81,7 @@
 * Fixed an issue where Angler's second tackle memory was incorrectly being set to a Leek.
 * Fixed an issue where Angler's first tackle memory was consumed once while recording the second tackle memory.
 * Fixed an issue where Angler's tackle memory would not be consumed if no tackle were equipped.
-* Fixed Legendary fish having 0% catch rate even with Rodmancer profession.
+* Fixed Legendary fish having 0% catch rate with Rodmancer profession.
 * Fixed gamepad support for the Mastery confirmation dialogue box.
 * Fixed an issue with Mastery confirmation ignoring UI zoom level.
 * Fixed an issue where disabling Prestige Levels did nothing.
