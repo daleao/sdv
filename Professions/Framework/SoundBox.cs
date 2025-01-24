@@ -27,6 +27,15 @@ public sealed class SoundBox
     /// <summary>The <see cref="SoundBox"/> played when <see cref="PiperConcerto"/> activates.</summary>
     public static readonly SoundBox PiperProvoke = new("PiperProvoke");
 
+    /// <summary>The <see cref="SoundBox"/> played when <see cref="PiperConcerto"/> activates.</summary>
+    public static readonly SoundBox AssassinCross = new("AssassinCross");
+
+    /// <summary>The <see cref="SoundBox"/> played when <see cref="PiperConcerto"/> activates.</summary>
+    public static readonly SoundBox BragiPoem = new("BragiPoem");
+
+    /// <summary>The <see cref="SoundBox"/> played when <see cref="PiperConcerto"/> activates.</summary>
+    public static readonly SoundBox IdunApple = new("IdunApple");
+
     /// <summary>The <see cref="SoundBox"/> played when <see cref="DesperadoBlossom"/> activates.</summary>
     public static readonly SoundBox DesperadoWhoosh = new("DesperadoWhoosh");
 

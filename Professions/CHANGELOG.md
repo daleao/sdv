@@ -4,15 +4,20 @@
 
 ### Added
 
+* Added actual music to Piper's Hamelin Concerto. Activating this Limit Break now plays one of three concertos at random.
+  * The music files are a little big unfortunately.
 * Added German translations by [OromisElf](https://github.com/OromisElf).
 
 ### Changed
 
+* Poacher Ambush now immediately re-activates upon assassinating an enemy, instead of only recovering 50% charge. You can pop in and out of the shadows.
 * Updated Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
 
 ### Fixed
 
+* Poacher Limit Break now properly deactivates right before an enemy is attacked.
 * Fixed some translation keys.
+* Removed the patch that was resetting special move cooldowns.
 
 ## 1.2.2
 

@@ -264,15 +264,16 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         var poached = TryPoach(monster, who, r);
 
         // increment Poacher Limit Break meter
-        if (!Config.Masteries.EnableLimitBreaks || State.LimitBreak is not PoacherAmbush { IsActive: false } ambush)
+        if (!Config.Masteries.EnableLimitBreaks || State.LimitBreak is not PoacherAmbush ambush)
         {
             return;
         }
 
         if (monster.Health <= 0 && ambush.SecondsOutOfAmbush < 0.5d)
         {
-            ambush.ChargeValue += LimitBreak.MaxCharge / 2d;
             ambush.SecondsOutOfAmbush = double.MaxValue;
+            ambush.ChargeValue += LimitBreak.MaxCharge;
+            ambush.Activate();
         }
 
         if (poached)

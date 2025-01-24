@@ -81,7 +81,7 @@
   "spelunker.title.prestiged.male": "Cavewarden",
   "spelunker.title.prestiged.female": "Cavewarden",
   "spelunker.desc": "Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.",
-  "spelunker.desc.prestiged": "Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room upon death.",
+  "spelunker.desc.prestiged": "Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room when you pass out.",
   "spelunker.revival": "Your instincts guide you back through the shadows——alive, but only just.",
   "spelunker.buff.desc": "Ladder chance +{{ladderChance}}.",
   "prospector.title.male": "Prospector",

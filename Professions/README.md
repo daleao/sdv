@@ -388,7 +388,7 @@ This profession is completely unchanged from vanilla.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room upon death.
+<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room when you pass out in the Mines.
 </font>
 
 <font size="2">
@@ -924,7 +924,7 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slayed within 0.5s of exiting invisibility, immediately reactivate Ambuscade.
 </summary>
 
 <font size="2">
@@ -949,7 +949,7 @@ Charged by scoring critical hits, and the charge amount is proportional to crit.
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Enchantress)</b> - Inflate all nearby Slimes for 15s and place them under your control. Inflated Slimes gain a proportional stat boost, increased attack speed and vision.
+<summary><img src="./resources/assets/sprites/loose/superfluidity.png"/> <b>Hamelin Concerto (Slimed Piper / Siren)</b> - Inflate all nearby Slimes for 15s and place them under your control. Inflated Slimes gain a proportional stat boost, increased attack speed and vision.
 </summary>
 
 <font size="2">

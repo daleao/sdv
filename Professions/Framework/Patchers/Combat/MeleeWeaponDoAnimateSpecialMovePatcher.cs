@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -25,29 +26,14 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to null special move cooldown for prestiged Piper.</summary>
-    [HarmonyPostfix]
+    [HarmonyPrefix]
     [UsedImplicitly]
-    private static void MeleeWeaponDoAnimateSpecialMovePostfix(MeleeWeapon __instance)
+    private static void MeleeWeaponDoAnimateSpecialMovePrefix(MeleeWeapon __instance)
     {
-        if (MeleeWeapon.attackSwordCooldown > 0)
+        if (__instance.lastUser is { IsLocalPlayer: true } user && user.CurrentTool == __instance &&
+            State.LimitBreak is PoacherAmbush { IsActive: true } ambush)
         {
-            MeleeWeapon.attackSwordCooldown = 0;
-        }
-
-        if (MeleeWeapon.defenseCooldown > 0)
-        {
-            MeleeWeapon.defenseCooldown = 0;
-        }
-
-        if (MeleeWeapon.daggerCooldown > 0)
-        {
-            MeleeWeapon.daggerCooldown = 0;
-        }
-
-        if (MeleeWeapon.clubCooldown > 0)
-        {
-            MeleeWeapon.clubCooldown = 0;
+            ambush.Deactivate();
         }
     }
 

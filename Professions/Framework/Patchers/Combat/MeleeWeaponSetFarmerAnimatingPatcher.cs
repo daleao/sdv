@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -25,6 +26,16 @@ internal sealed class MeleeWeaponSetFarmerAnimatingPatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static void MeleeWeaponSetFarmerAnimatingPrefix(Farmer who)
+    {
+        if (who.IsLocalPlayer && State.LimitBreak is PoacherAmbush { IsActive: true } ambush)
+        {
+            ambush.Deactivate();
+        }
+    }
 
     /// <summary>Patch to increase prestiged Brute attack speed with rage.</summary>
     [HarmonyTranspiler]

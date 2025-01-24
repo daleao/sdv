@@ -33,7 +33,18 @@ internal sealed class PiperConcertoBuff : Buff
     /// <inheritdoc />
     public override void OnAdded()
     {
-        SoundBox.PiperProvoke.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
+        switch (Game1.random.Next(3))
+        {
+            case 0:
+                SoundBox.AssassinCross.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
+                break;
+            case 1:
+                SoundBox.BragiPoem.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
+                break;
+            case 2:
+                SoundBox.IdunApple.PlayAll(Game1.player.currentLocation, Game1.player.Tile);
+                break;
+        }
 
         var bigSlimes = Game1.currentLocation.characters.OfType<BigSlime>().ToList();
         for (var i = bigSlimes.Count - 1; i >= 0; i--)

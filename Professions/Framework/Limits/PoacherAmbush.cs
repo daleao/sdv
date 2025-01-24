@@ -19,6 +19,7 @@ public sealed class PoacherAmbush()
     {
         base.Activate();
         this.SecondsOutOfAmbush = 0d;
+        Game1.player.buffs.AppliedBuffs.Remove(PoacherBackstabBuff.ID);
         Game1.player.applyBuff(new PoacherAmbushBuff());
     }
 
@@ -31,7 +32,7 @@ public sealed class PoacherAmbush()
             : 0;
 
         Game1.player.buffs.AppliedBuffs.Remove(PoacherAmbushBuff.ID);
-        if (timeLeft < 100)
+        if (timeLeft < 1000)
         {
             return;
         }
