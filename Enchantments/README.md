@@ -75,7 +75,7 @@ N/A.
 ## Credits & Special Thanks
 
 Credits to the following translators:
-- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://r74n.com/pixelflags/png/country/france.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
 
 Credits and special thanks to the following for inspiration and assets:
 - [Bethesda Game Studios](https://www.bethesdagamestudios.com/) for [Skyrim](https://elderscrolls.bethesda.net/en)

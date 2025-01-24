@@ -1,5 +1,12 @@
 ﻿# TAXES Changelog
 
+## 2.1.1
+
+### Fixed
+
+* Fixed FRS mail to reflect changes made in [2.1.0](#210).
+* Fixed some translations.
+
 ## 2.1.0
 
 ### Added

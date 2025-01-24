@@ -1,5 +1,11 @@
 ﻿# CORE Changelog
 
+## 2.1.3
+
+### Added
+
+* Added Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
+
 ## 2.1.2
 
 ### Fixed

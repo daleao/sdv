@@ -396,10 +396,10 @@
   "gmcm.prestige_profession_icon_style.desc": "위신 진척 정도 표기에 사용되는 아이콘의 스타일을 변경합니다.",
   "gmcm.profession_icon_style.metallic_gold": "메탈릭 골드",
   "gmcm.profession_icon_style.posister_gold": "포시스터 골드",
-  "gmcm.mastered_skill_icon_style.title": "숙련된 기술 아이콘 스타일",
-  "gmcm.mastered_skill_icon_style.desc": "숙련된 기술에 사용되는 스프라이트의 스타일을 결정합니다.",
-  "gmcm.skill_icon_style.silicon_gold": "실리콘 골드",
-  "gmcm.skill_icon_style.kawaii_rose_gold": "카와이 로즈 골드",
+  "gmcm.gold_sprite_palette.title": "숙련된 기술 아이콘 스타일",
+  "gmcm.gold_sprite_palette.desc": "숙련된 기술에 사용되는 스프라이트의 스타일을 결정합니다.",
+  "gmcm.gold_palette.silicon_gold": "실리콘 골드",
+  "gmcm.gold_palette.kawaii_rose_gold": "카와이 로즈 골드",
 
   // links
   "gmcm.go_to.prfs.skills": "스킬 세팅으로 이동",

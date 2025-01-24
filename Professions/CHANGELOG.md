@@ -1,5 +1,19 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.3
+
+### Added
+
+* Added German translations by [OromisElf](https://github.com/OromisElf).
+
+### Changed
+
+* Updated Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
+
+### Fixed
+
+* Fixed some translation keys.
+
 ## 1.2.2
 
 ### Added

@@ -43,4 +43,5 @@ This mod uses Harmony to patch the behavior of Axe and Pickaxe. Any mods that al
 ## Credits & Special Thanks
 
 Credits to the following translators:
-- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://r74n.com/pixelflags/png/country/france.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://r74n.com/pixelflags/png/country/china.png) [BlackRosePetals](https://github.com/BlackRosePetals) for Chinese.

@@ -43,6 +43,6 @@ This mod is a companion to [Walk Of Life](../Professions)'s Aquarist profession,
 ## Credits & Special Thanks
 
 Credits to the following translators:
-- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
-- ![](https://i.imgur.com/Jvsm5YJ.png) [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.
-- ![](https://i.imgur.com/zuQC9Di.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.
+- ![](https://r74n.com/pixelflags/png/country/france.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://r74n.com/pixelflags/png/country/china.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.
+- ![](https://r74n.com/pixelflags/png/country/south_korea.png) [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.

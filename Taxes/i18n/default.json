@@ -14,7 +14,7 @@
   "hud.debt.debit": "{{amount}}g was withheld from yesterday's shipment toward outstanding debts.",
   "honorific.male": "Dear",
   "honorific.female": "Dear",
-  "when.tonight": "Tonight",
+  "when.tonight": "tonight",
   "when.day": "on the {{day}} day of the current season",
 
 
@@ -30,8 +30,6 @@
   "gmcm.income_bracket.desc": "The income ceiling for this bracket. All income between the previous bracket and this number will be taxed at the correponding tax rate.",
   "gmcm.tax_rate.title": "Tax Rate",
   "gmcm.tax_rate.desc": "The taxable percentage of income within this bracket.",
-  "gmcm.income_tax_lateness_fine.title": "Lateness Fine",
-  "gmcm.income_tax_lateness_fine.desc": "A one-time penalty rate charged over the unpaid amount when income taxes are not paid on-time.",
   "gmcm.deductible_animal_expenses.title": "Deductible Animal Expenses",
   "gmcm.deductible_animal_expenses.desc": "What percentage of gold spent on animal purchases and supplies should be tax-deductible.",
   "gmcm.deductible_building_expenses.title": "Deductible Building Expenses",
@@ -46,13 +44,13 @@
   "gmcm.deductible_extras.label.value": "Deductible Pct",
   "gmcm.income_tax_day.title": "Due Date",
   "gmcm.income_tax_day.desc": "The day of the season when income taxes are charged.",
+  "gmcm.income_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.income_tax_lateness_fine.desc": "A one-time penalty rate charged over the unpaid amount when income taxes are not paid on-time.",
 
   // property
   "gmcm.sections.txs.property": "Property Tax",
-  "gmcm.property_tax_lateness_fine.title": "Lateness Fine",
-  "gmcm.property_tax_lateness_fine.desc": "A one-time penalty rate charged once over the unpaid amount, when property taxes are not paid on-time.",
-  "gmcm.baseline_unused_tile_cost_rate.title": "Baseline Unused Tile Cost",
-  "gmcm.baseline_unused_tile_cost_rate.desc": "The baseline gold cost of unused tiles.",
+  "gmcm.baseline_unused_tile_cost.title": "Baseline Unused Tile Cost",
+  "gmcm.baseline_unused_tile_cost.desc": "The baseline gold cost of unused tiles.",
   "gmcm.unused_tile_tax_rate.title": "Unused Tile Tax Rate",
   "gmcm.unused_tile_tax_rate.desc": "The tax rate charged over a tile not actively used for productive means.",
   "gmcm.used_tile_tax_rate.title": "Used Tile Tax Rate",
@@ -63,6 +61,8 @@
   "gmcm.exempt_magical_buildings.desc": "Whether or not magical buildings (i.e., those summoned at the Wizard's Tower) are exempt from property taxes.",
   "gmcm.property_tax_day.title": "Due Date",
   "gmcm.property_tax_day.desc": "The day of the season when property taxes are charged.",
+  "gmcm.property_tax_lateness_fine.title": "Lateness Fine",
+  "gmcm.property_tax_lateness_fine.desc": "A one-time penalty rate charged once over the unpaid amount, when property taxes are not paid on-time.",
 
   // other
   "gmcm.annual_interest.title": "Annual Intereset",

@@ -13,7 +13,7 @@ internal static class CountyService
 
     /// <summary>Calculates due property tax for farm.</summary>
     /// <returns>The amount of income tax due in gold, along with other relevant stats.</returns>
-    internal static int CalculateTaxes()
+    internal static (int Valuation, int Due) CalculateTaxes()
     {
         var farm = Game1.getFarm();
         var agricultureValue = Data.ReadAs<int>(farm, DataKeys.AgricultureValue);
@@ -24,7 +24,7 @@ internal static class CountyService
         var usableTiles = Data.ReadAs(farm, DataKeys.UsableTiles, -1) - treeCount;
         if (usableTiles < 0)
         {
-            return 0;
+            return (0, 0);
         }
 
         var usedTiles = Data.ReadAs<int>(farm, DataKeys.UsedTiles);
@@ -32,10 +32,10 @@ internal static class CountyService
         var currentUsePct = (float)usedTiles / usableTiles;
         var rawGoodsValue = agricultureValue + livestockValue;
         var artisanValueWeight = Sigmoid(Game1.game1.CountPlayerArtisanMachines());
-        var totalFarmingValue =
+        var totalValuation =
             (int)((rawGoodsValue * (1f - artisanValueWeight)) + (artisanValue * artisanValueWeight));
-        var owedOverUsedLand = (int)(totalFarmingValue * currentUsePct * Config.UsedTileTaxRate);
-        var owedOverUnusedLand = (int)(totalFarmingValue * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
+        var owedOverUsedLand = (int)(totalValuation * currentUsePct * Config.UsedTileTaxRate);
+        var owedOverUnusedLand = (int)(totalValuation * (1f - currentUsePct) * Config.UnusedTileTaxRate) +
                                  (Config.BaselineUnusedTileCost * unusedTiles);
         var owedOverBuildings = (int)(buildingValue * Config.BuildingTaxRate);
         var amountDue = owedOverUsedLand + owedOverUnusedLand + owedOverBuildings;
@@ -47,7 +47,7 @@ internal static class CountyService
                 - Livestock Value:               {livestockValue}g
                 - Estimated Artisan Value:       {artisanValue}g
                 - Weight of Artisan Value:       {artisanValueWeight:0.0%}
-                - Total Land Value:              {totalFarmingValue}g
+                - Total Valuation:               {totalValuation}g
 
                 - Ecological Exemptions (trees): {treeCount} tiles
                 - Used Tiles:                    {usedTiles} ({currentUsePct:0.0%})
@@ -65,6 +65,6 @@ internal static class CountyService
             =======================================================================
         ");
 
-        return amountDue;
+        return (totalValuation, amountDue);
     }
 }

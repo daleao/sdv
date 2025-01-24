@@ -397,10 +397,10 @@
   "gmcm.prestige_profession_icon_style.desc": "Определяет стиль спрайта, используемого для Престижных профессий.",
   "gmcm.profession_icon_style.metallic_gold": "Металлическое золото",
   "gmcm.profession_icon_style.posister_gold": "Золото Posister",
-  "gmcm.mastered_skill_icon_style.title": "Mastered Skill Icon Style",
-  "gmcm.mastered_skill_icon_style.desc": "Determines the style of the sprite used for Mastered skills.",
-  "gmcm.skill_icon_style.silicon_gold": "Silicon Gold",
-  "gmcm.skill_icon_style.kawaii_rose_gold": "Kawaii Rose Gold",
+  "gmcm.gold_sprite_palette.title": "Mastered Skill Icon Style",
+  "gmcm.gold_sprite_palette.desc": "Determines the style of the sprite used for Mastered skills.",
+  "gmcm.gold_palette.silicon_gold": "Silicon Gold",
+  "gmcm.gold_palette.kawaii_rose_gold": "Kawaii Rose Gold",
 
   // links
   "gmcm.go_to.prfs.skills": "Перейти к настройкам навыков",

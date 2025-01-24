@@ -10,7 +10,7 @@ public class TaxesApi : ITaxesApi
     }
 
     /// <inheritdoc />
-    public int CalculatePropertyTax()
+    public (int Valuation, int Due) CalculatePropertyTax()
     {
         return CountyService.CalculateTaxes();
     }

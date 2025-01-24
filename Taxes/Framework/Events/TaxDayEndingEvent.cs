@@ -243,8 +243,9 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
 
     private static void CheckPropertyStatement(Farmer taxpayer)
     {
-        var amountDue = CountyService.CalculateTaxes();
-        Data.Write(taxpayer, DataKeys.AccruedPropertyTax, amountDue.ToString());
+        var (valuation, accrued) = CountyService.CalculateTaxes();
+        Data.Write(Game1.getFarm(), DataKeys.TotalValuation, valuation.ToString());
+        Data.Write(taxpayer, DataKeys.AccruedPropertyTax, accrued.ToString());
     }
 
     private static void DebitPropertyStatement(Farmer taxpayer, ref int dayIncome)

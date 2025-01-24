@@ -1003,7 +1003,7 @@ No, it does not work on Android.
 
 Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
-- [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303) and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660)﻿.
+- [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303) and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660).
 - [silicon](https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303) for golden skill icons.
 - [KawaiiMuski](https://next.nexusmods.com/profile/KawaiiMuski/about-me) for rose-golden skill icons.
 - **Posister** for alternate golden profession icons.
@@ -1013,10 +1013,11 @@ Credits to the following code contributors:
 - [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303) for [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
 
 Credits to the following translators:
-- ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
-- ![](https://i.imgur.com/Jvsm5YJ.png) [twinklesky6](https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303) and [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.
-- ![](https://i.imgur.com/zuQC9Di.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) for Chinese.
-- ![](https://i.imgur.com/cXhDLc5.png) [darthalex2014](https://forums.nexusmods.com/profile/122957028-darthalex2014/) for Russian.
+- ![](https://r74n.com/pixelflags/png/country/france.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
+- ![](https://r74n.com/pixelflags/png/country/germany.png) [OromisElf](https://github.com/OromisElf) for German.
+- ![](https://r74n.com/pixelflags/png/country/russia.png) [darthalex2014](https://forums.nexusmods.com/profile/122957028-darthalex2014/) for Russian.
+- ![](https://r74n.com/pixelflags/png/country/china.png) [Awassakura](https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303) and [BlackRosePetals](https://github.com/BlackRosePetals) for Chinese.
+- ![](https://r74n.com/pixelflags/png/country/south_korea.png) [twinklesky6](https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303) and [whdms2008](https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303) for Korean.
 
 Special thanks to the following visionaries:
 - [Enai Siaion](https://www.nexusmods.com/skyrimspecialedition/users/3959191) for [Ordinator](https://www.nexusmods.com/skyrimspecialedition/mods/1137)

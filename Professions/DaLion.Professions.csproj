@@ -100,7 +100,7 @@
   <!-- mod dependencies -->
   <ItemGroup>
     <Reference Include="SpaceCore">
-      <HintPath>..\lib\SpaceCore.dll</HintPath>
+      <HintPath>..\.lib\SpaceCore.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

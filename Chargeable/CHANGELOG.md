@@ -1,5 +1,13 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.1.1
+
+### Added
+
+* Added Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
+
 ## 2.1.0
 
 ### Added
@@ -10,9 +18,13 @@
 
 * Fixed stamina consumption disparity between Axe and Pickaxe.
 
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
+
 ## 2.0.2
 
 Just a hotfix. The previous was version was precocious.
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 2.0.1
 

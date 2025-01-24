@@ -100,11 +100,11 @@
   <!-- mod dependencies -->
   <ItemGroup>
     <Reference Include="SpaceCore">
-      <HintPath>..\lib\SpaceCore.dll</HintPath>
+      <HintPath>..\.lib\SpaceCore.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="ItemExtensions">
-      <HintPath>..\lib\ItemExtensions.dll</HintPath>
+      <HintPath>..\.lib\ItemExtensions.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

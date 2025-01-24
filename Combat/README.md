@@ -88,3 +88,6 @@ N/A.
 ## Credits & Special Thanks
 
 Credit to DjStln and NormanPCN for Combat Controls and Redux, respectively, from which the Slick Moves and Face Mouse Cursor features originate.
+
+Credits to the following translators:
+- ![](https://r74n.com/pixelflags/png/country/china.png) [BlackRosePetals](https://github.com/BlackRosePetals) for Chinese.

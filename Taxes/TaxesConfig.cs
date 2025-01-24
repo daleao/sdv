@@ -78,24 +78,10 @@ public sealed class TaxesConfig
         }
     }
 
-    /// <summary>Gets the percentage rate charged over due income taxes not paid in time.</summary>
-    [JsonProperty]
-    [GMCMSection("txs.income")]
-    [GMCMPriority(1)]
-    [GMCMRange(0f, 1f, 0.01f)]
-    public float IncomeTaxLatenessFine
-    {
-        get => this._incomeLatenessFine;
-        internal set
-        {
-            this._incomeLatenessFine = Math.Max(value, 0f);
-        }
-    }
-
     /// <summary>Gets the percentage of gold spent on animal purchases and supplies that should be tax-deductible.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(2)]
+    [GMCMPriority(1)]
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleAnimalExpenses
     {
@@ -109,7 +95,7 @@ public sealed class TaxesConfig
     /// <summary>Gets the percentage of gold spent constructing farm buildings that should be tax-deductible.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(3)]
+    [GMCMPriority(2)]
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleBuildingExpenses
     {
@@ -123,7 +109,7 @@ public sealed class TaxesConfig
     /// <summary>Gets the percentage of gold spent on seed purchases that should be tax-deductible.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(4)]
+    [GMCMPriority(3)]
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleSeedExpenses
     {
@@ -137,7 +123,7 @@ public sealed class TaxesConfig
     /// <summary>Gets the percentage of gold spent on tool purchases and upgrades that should be tax-deductible.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(5)]
+    [GMCMPriority(4)]
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleToolExpenses
     {
@@ -151,7 +137,7 @@ public sealed class TaxesConfig
     /// <summary>Gets a dictionary of extra objects that should be tax-deductible.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(6)]
+    [GMCMPriority(5)]
     [GMCMRange(0f, 1f, 0.01f)]
     [GMCMOverride(typeof(TaxesConfigMenu), "DeductibleExtrasOverride")]
     [GMCMIgnore]
@@ -170,32 +156,32 @@ public sealed class TaxesConfig
     /// <summary>Gets or sets the day of the season when income taxes are charged.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
-    [GMCMPriority(7)]
+    [GMCMPriority(6)]
     [GMCMRange(1, 27)]
     public int IncomeTaxDay { get; set; } = 5;
+
+    /// <summary>Gets the percentage rate charged over due income taxes not paid in time.</summary>
+    [JsonProperty]
+    [GMCMSection("txs.income")]
+    [GMCMPriority(7)]
+    [GMCMRange(0f, 1f, 0.01f)]
+    public float IncomeTaxLatenessFine
+    {
+        get => this._incomeLatenessFine;
+        internal set
+        {
+            this._incomeLatenessFine = Math.Max(value, 0f);
+        }
+    }
 
     #endregion income
 
     #region property
 
-    /// <summary>Gets the flat rate charged overdue income taxes not paid in time.</summary>
-    [JsonProperty]
-    [GMCMSection("txs.property")]
-    [GMCMPriority(10)]
-    [GMCMRange(0f, 1f, 0.01f)]
-    public float PropertyTaxLatenessFine
-    {
-        get => this._propertyLatenessFine;
-        internal set
-        {
-            this._propertyLatenessFine = Math.Max(value, 0f);
-        }
-    }
-
     /// <summary>Gets the baseline cost of each unused tile.</summary>
     [JsonProperty]
     [GMCMSection("txs.property")]
-    [GMCMPriority(16)]
+    [GMCMPriority(10)]
     [GMCMRange(0, 100, 5)]
     public int BaselineUnusedTileCost
     {
@@ -260,6 +246,20 @@ public sealed class TaxesConfig
     [GMCMPriority(15)]
     [GMCMRange(1, 28)]
     public int PropertyTaxDay { get; set; } = 20;
+
+    /// <summary>Gets the flat rate charged overdue income taxes not paid in time.</summary>
+    [JsonProperty]
+    [GMCMSection("txs.property")]
+    [GMCMPriority(16)]
+    [GMCMRange(0f, 1f, 0.01f)]
+    public float PropertyTaxLatenessFine
+    {
+        get => this._propertyLatenessFine;
+        internal set
+        {
+            this._propertyLatenessFine = Math.Max(value, 0f);
+        }
+    }
 
     #endregion property
 

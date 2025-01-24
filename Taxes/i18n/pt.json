@@ -1,0 +1,74 @@
+﻿{
+  // mail
+  "mail.frs.intro": "Ministério da Fazenda^Receita Federal de Ferngill^^^{{honorific}} contribuinte,^^Esta carta é para informa-lo(a) de que sua mudança de endereço para a Vila Pelicanos, Vale do Orvalho, foi processada e registrada. Toda correspondência futuras será direcionada à Fazenda {{farm}}.^^Lembramos gentilmente que as contribuições do imposto de renda federal são devidas ao final do primeiro dia de cada estação. Para a sua convêniencia, seus encargos tributários serão debitados automáticamente do seu saldo. Caso e seu saldo seja insufuciente, você será multado(a) segundo a seção 501(c)(1) do Código Tributário da República Ferngill, à taxa de {{fine}}, e um empréstimo será emitido em seu nome pelo Banco do Orvalho, sujeito a uma taxa de juros nominal de {{interest}} ao ano.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]Address Change Confirmation",
+  "mail.frs.notice": "Ministério da Fazenda^Receita Federal de Ferngill^^^{{honorific}} contribuinte,^^Esta carta é para informá-lo(a) de que seu imposto total acumulado para a estação que se encerra, no valor de {{due}}g, será debitado automáticamente de seu saldo {{when}}.^^Por favor, guarde esta carta em seus registros permanentes caso necessite resolver quaisquer questionamentos relativos à sua situação fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]FRS Monthly Notice",
+  "mail.frs.deduction": "Ministério da Fazenda^Receita Federal de Ferngill^^^{{honorific}} contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra é de {{accrued}}g. Em virtude de suas recentes atividades ambientalistas, você qualifica para uma dedução de {{deductible}} segundo a seção 501(c)(3) do Código Tributário da República Ferngill^^Assim sendo, o valor final devido, no valor de {{final}}g, será debitado de seu saldo automáticamente {{when}}.^^Por favor, guarde esta carta em seus registros permanentes caso necessite resolver quaisquer questionamentos relativos à sua situação fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]FRS Deduction Notice",
+  "mail.frs.deduction.max": "Ministério da Fazenda^Receita Federal de Ferngill^^^{{honorific}} contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra é de {{accrued}}g. Em virtude de suas recentes atividades ambientalistas, você qualifica para a completa dedução do seu imposto de renda, segundo a seção 501(c)(3) do Código Tributário da República Ferngill. Assim sendo, nenhuma cobrança será debitada de seu saldo durante a estação atual.^^Por favor, guarde esta carta em seus registros permanentes caso necessite resolver quaisquer questionamentos relativos à sua situação fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]FRS Deduction Notice",
+  "mail.frs.outstanding": "Ministério da Fazenda^Receita Federal de Ferngill^^^{{honorific}} contribuinte,^^Esta carta é para informá-lo de que seu imposto total acumulado para a estação que se encerra, no valor de {{due}}g, não pôde ser completamente debitado de seu saldo. Em acordo com a seção 501(c)(1)  do Código Tributário da República Ferngill, você será multado(a) um valor adicional de {{fine}}, e toda a renda futura da Fazenda {{farm}} será confiscada até que sua dívida pendente, totalizando {{outstanding}}g, seja completamente quitada. Lembramos que é do seu melhor interesse liquidar qualquer dívida pendente o mais rápido possível para evitar o acréscimo de juros à taxa de {{interest}} ao ano.^^Por favor, guarde esta carta em seus registros permanentes caso necessite resolver quaisquer questionamentos relativos à sua situação fiscal.^^^Cordialemente,^^Laura D. Pretto^Diretora Executiva, Receita Federal de Ferngill[#]FRS Monthly Notice",
+  "mail.lewis.intro": "@,^Bem-vindo(a) à Vila Pelicanos! Espero que esteja se acomodando direitinho ao seu novo lar. Só um lembrete amigável: como o(a) novo(a) proprietário(a) da Fazendo {{farm}}, você é responsável pelos tributos sobre a prorpiedade rural. Todo ano, o condado executa uma Avaliação de Valor Agregado (AVA) das fazendas locais. Isso quer dizer que os impostos são calculados com base no uso da propiedade para a agricultura e agropecúaria; em outras palavras, terras não utilizadas geralmente são taxas *acima* das terras ativamente em uso. Então é melhor começar a limpar esses entulhos!^^ Seu falecido avô tomou conta de todos os impostos até o último ano, então você não tem com o que se preocupar até o proximo ano. Também deixei um pacote na sua casa que espero que ajude a começar. Estou de olho no seu sucesso!  ^  Atenciosamente, Sr. Lewis[#]Municipal Property Tax Notice",
+  "mail.lewis.notice": "@,^Como já sabe, uma das minhas funções como prefeito da Vila Pelicanos é coletar imposto sobre todas as propriedades na cidade. Durante o último ano fiscal, a avaliação do condado sobre a propiedade da Fazenda {{farm}} determinou um AVA avaliado em {{valuation}}g. Assim sendo, você é responável por {{due}}g em imposto sobre propriedades pelo período aplicável. Esse valor será cobrado de sua conta no dia {{day}} da primavera. ^Em nome da Vila Pelicanos, sou eternamente grato por suas contínuas contribuições a nossa comunidade.  ^  Atenciosamente, Sr. Lewis[#]Municipal Property Tax Notice",
+  "mail.lewis.outstanding": "@,Parece que sua conta não tinha fundos suficientes para cobrir completamente o valor do imposto sobre a sua propriedade para o período atual. Em acordo com as política do condado, eu lamento informar que você será multado(a) {{fine}} em moratórios. O valor pendente de {{outstanding}}g será vendido ao Banco do Orvalho, que está autorizado a confiscar a sua receita até que a dívida seja paga integralmente, sujeito a uma taxa de juros anual de {{interest}}. ^Saiba que o povo da Vila Pelicanos está aqui para te ajudá-lo(a) em tempos magros.  ^  Atenciosamente, Sr. Lewis[#]Municipal Property Tax Notice",
+
+  // other
+  "hud.tax.debit": "{{amount}}g foi debitado de sua conta para pagar os impostos.",
+  "hud.debt.debit": "{{amount}}g foram retidos da remessa de ontem em função de dívidas abertas.",
+  "honorific.male": "Caro",
+  "honorific.female": "Cara",
+  "when.tonight": "esta noite",
+  "when.day": "no dia {{day}} da estação atual",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  // income
+  "gmcm.sections.txs.income": "IRPF",
+  "gmcm.tax_rate_per_income_bracket.title": "Alíquota por faixa de renda",
+  "gmcm.tax_rate_per_income_bracket.desc": "As alíquotas de renda aplicada em cada faixa de renda. Em cada par, o primeiro número representa o teto da renda para aquela faixa, e o segundo número representa a porcentagem taxável naquela faixa.",
+  "gmcm.income_bracket.title": "Faixa de renda",
+  "gmcm.income_bracket.desc": "O teto da renda para esta faixa. Toda renda entre a faixa anterior e este número será taxada no valor correspondente.",
+  "gmcm.tax_rate.title": "Taxa de imposto",
+  "gmcm.tax_rate.desc": "A porcentagem taxável sobre a renda dentro desta faixa.",
+  "gmcm.deductible_animal_expenses.title": "Despesas dedutíveis sobre animais",
+  "gmcm.deductible_animal_expenses.desc": "A porcentagem dos gastos na compra de animais e equipamentos relacionados que pode ser deduzida dos impostos.",
+  "gmcm.deductible_building_expenses.title": "Despesas dedutíveis sobre imóveis",
+  "gmcm.deductible_building_expenses.desc": "A porcentagem dos gastos com a construção de imóveis que pode ser deduzida dos impostos.",
+  "gmcm.deductible_seed_expenses.title": "Despesas dedutíveis sobre sementes",
+  "gmcm.deductible_seed_expenses.desc": "A porcentagem dos gastos na compra de sementes que pode ser deduzida dos impostos.",
+  "gmcm.deductible_tool_expenses.title": "Despesas dedutíveis sobre ferramentas",
+  "gmcm.deductible_tool_expenses.desc": "A porcentagem dos gastos na compra ou melhora de ferramentas que pode ser deduzida dos impostos.",
+  "gmcm.deductible_extras.title": "Outros dedutíveis",
+  "gmcm.deductible_extras.desc": "A porcentagem dos gasto com os item especificados que pode ser deduzida deve ser dedutível dos impostos. Os ítens devem ser manualmente adicionados a esta lista.",
+  "gmcm.deductible_extras.label.key": "Nome do objeto",
+  "gmcm.deductible_extras.label.value": "Porcentágem Dedutível",
+  "gmcm.income_tax_day.title": "Data de vencimento",
+  "gmcm.income_tax_day.desc": "O dia da estação no qual os impostos sobre renda são cobrados.",
+  "gmcm.income_tax_lateness_fine.title": "Moratórios",
+  "gmcm.income_tax_lateness_fine.desc": "Uma multa única cobrada sobre o valor não pago quando os impostos sobre renda não são pagos em dia.",
+
+  // property
+  "gmcm.sections.txs.property": "IPTU",
+  "gmcm.baseline_unused_tile_cost.title": "Custo base de ladrilho não utilizado",
+  "gmcm.baseline_unused_tile_cost.desc": "O custo de base em ouro sobre cada ladrilho não utilizado para meios de produção.",
+  "gmcm.unused_tile_tax_rate.title": "Taxa sobre ladrilho não utilizado",
+  "gmcm.unused_tile_tax_rate.desc": "Taxa de imposto cobrado sobre um ladrilho que não é usado para meios de produção.",
+  "gmcm.used_tile_tax_rate.title": "Taxa sobre ladrilho utilizado",
+  "gmcm.used_tile_tax_rate.desc": "O impost cobrado sobre um ladrilho que é usado para agricultura, pequária, ou silvicultura.",
+  "gmcm.building_tax_rate.title": "Taxa sobre imóveis",
+  "gmcm.building_tax_rate.desc": "O impost cobrado por um ladrilho ocupado por um imóvel.",
+  "gmcm.exempt_magical_buildings.title": "Isenção de construções mágicas",
+  "gmcm.exempt_magical_buildings.desc": "Determina se construções mágicas (ex., aquelas conjuradas na torre do mago) são isentas, ou não, de IPTU.",
+  "gmcm.property_tax_day.title": "Data de vencimento",
+  "gmcm.property_tax_day.desc": "O dia da estação no qual os impostos sobre propriedades são cobrados.",
+  "gmcm.property_tax_lateness_fine.title": "Moratórios",
+  "gmcm.property_tax_lateness_fine.desc": "Uma multa única cobrada sobre o valor não pago quando os impostos sobre propriedade não são pagos em dia.",
+
+  // other
+  "gmcm.annual_interest.title": "Juros Anuais",
+  "gmcm.annual_interest.desc": "A taxa de juros cobrada anualmente sobre qualquer dívida ativa. Juros são calculados diariamente a uma taxa de 1/112 da taxa de juros anuais.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Multiplicador sobre artesanato de agricultura",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "Um fator multiplicativo utilizado para estimar o valor relativo de produtos artesanais fabricados a partir de ítens colhidos por agricultura.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Multiplicador sobre artesanato de pecuária",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "Um fator multiplicativo utilizado para estimar o valor relativo de produtos artesanais fabricados a partir de laticínios e ítens oriundes de animais."
+}

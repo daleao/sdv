@@ -9,8 +9,8 @@
 This is the core mod which provides shared functionality required by other DaLion mods.
 
 By itself, this mod carries the following non-controversial features:
-- **Improved Hoppers:** Adds the ability for Hoppers to pull items back out from machines, allowing them to fully automate a single machine at a time and transforming them from completely useless into a more balanced version of [Automate](https://www.nexusmods.com/stardewvalley/mods/1063)﻿.
-- **Colored Slime Balls:** Causes Slime Balls to take on the color of the Slimes which produced them, and adds regular color-based Slime drops﻿ to Slime Ball loot tables.
+- **Improved Hoppers:** Adds the ability for Hoppers to pull items back out from machines, allowing them to fully automate a single machine at a time and transforming them from completely useless into a more balanced version of [Automate](https://www.nexusmods.com/stardewvalley/mods/1063).
+- **Colored Slime Balls:** Causes Slime Balls to take on the color of the Slimes which produced them, and adds regular color-based Slime drops to Slime Ball loot tables.
 
 The features above should've been part of the vanilla game all along, and are required functionality for mods like [Walk Of Life](../Professions) and therefore are not-configurable and non-negotiable.
 
@@ -50,4 +50,7 @@ N/A.
 
 ## Credits & Special Thanks
 
-Credit to [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303)﻿ for [Slime Produce﻿](https://www.nexusmods.com/stardewvalley/mods/7634).
+Credit to [Roscid](https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303) for [Slime Produce](https://www.nexusmods.com/stardewvalley/mods/7634).
+
+Credits to the following translators:
+- ![](https://r74n.com/pixelflags/png/country/china.png) [BlackRosePetals](https://github.com/BlackRosePetals) for Chinese.

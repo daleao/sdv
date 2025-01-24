@@ -1,4 +1,10 @@
-﻿~~~~# COMBAT Changelog
+﻿# COMBAT Changelog
+
+## 1.0.1
+
+### Added
+
+* Added Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
 
 ## 1.0.0 - Initial 1.6 release
 

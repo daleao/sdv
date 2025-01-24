@@ -23,4 +23,5 @@ internal sealed class DataKeys
     internal const string TreeCount = "TreeCount";
     internal const string UsedTiles = "UsedTiles";
     internal const string UsableTiles = "UsableTiles";
+    internal const string TotalValuation = "TotalValuation";
 }
