@@ -268,7 +268,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "祝尼魔收获是否应该应用职业声望,比如来自收割者和农业学家的.",
 
   // 工匠 & 生产者
-  "gmcm.sections.prfs.artisan_producer": "工匠与生产者",
+  "gmcm.sections.prfs.artisan_breeder_producer": "工匠与生产者",
   "gmcm.artisan_machines.title": "工匠机器",
   "gmcm.artisan_machines.desc": "通常用于制作工匠物品的机器.请在此列表中添加你正在使用的其他模组中的工匠机器的*合格ID*,以使它们与工匠职业声望兼容.合格的机器ID应该以“(BC)”开头.",
   "gmcm.animal_derived_goods.title": "动物制品",

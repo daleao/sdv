@@ -1,35 +1,48 @@
-Modular Gameplay Overhaul for Stardew Valley
+DaLion Mod Series for Stardew Valley
 Non-Commercial Mod License
-Version 1.0
-Date: October 20th, 2023
+Version 1.1
+Date: January 23rd, 2025
 
 Terms and Conditions:
 
 1. Grant of License:
-   Subject to the terms and conditions of this License, DaLion ("Licensor") grants you ("Licensee") a limited, non-exclusive, non-transferable license to create and distribute derivative works based on the source code of the Modular Gameplay Overhaul for Stardew Valley mod ("the Mod").
+   Subject to the terms and conditions of this License, DaLion ("Licensor") grants you ("Licensee") a limited, non-exclusive, non-transferable license to create and distribute derivative works based on the source code of the Mod Series for Stardew Valley ("the Mods").
 
 2. Copyleft Provision:
-   Any derivative works based on the Mod's source code must be licensed under the same terms and conditions as this License. This includes the prohibition on redistribution and commercial use.
+   Any derivative works based on the Mods' source code must be licensed under the same terms and conditions as this License. This includes the prohibition on redistribution and commercial use.
+   
+   A derivative work may include, but is not limited to, modifications, adaptations, translations, or additions to the source code. It does not extend to independent software projects that merely interact with the Mods, either via direct patching or provided APIs.
+      
+   Any derivative works must include an attribution notice referencing the original Mods, including the Licensor's username or handle, and a link to the original repository or platform. Attribution shall be made in a README file or front page in the case of a derivative work.
+   
+   All files and content found within the Shared project are exempt from this clause.
 
 3. Prohibited Activities:
-   a. Redistribution: Licensee is expressly prohibited from publicly redistributing, sharing, or otherwise making the Mod's compiled binaries available to third parties in any form, whether for free or for commercial gain, outside of the platforms listed below:
+   a. Redistribution: Licensee is expressly prohibited from publicly redistributing, sharing, or otherwise making the Mods' compiled binaries, including modified versions, available to third parties in any form, whether for free or for commercial gain, outside of the platforms listed below:
+		- [NexusMods](https://nexusmods.com)
         - [Stardew Valley Discord](https://discord.com/invite/stardewvalley)
-
-   b. Commercial Use: Licensee is expressly prohibited from using the Mod's source code or any derivative work created based on it for any commercial purposes, including, but not limited to, selling, licensing, hosting on monetized or donation-enabled webpage, or otherwise generating revenue from it.
+		- [GitHub](https://github.com)
+		
+   b. Commercial Use: Licensee is expressly prohibited from using the Mod's source code or any derivative work created based on it for any commercial purposes, including, but not limited to, selling, licensing, hosting on monetized, ad or donation-enabled webpage, or otherwise generating revenue from it.
 
 4. Acceptable Use:
-   a. Derivatives: Licensee may create and distribute derivative works based on the Mod's source code, provided such derivatives are used for non-commercial purposes, are not themselves redistributed, and are hosted on a public Git repository.
-
+   a. Derivatives: Licensee may create and distribute derivative works based on the Mods' source code, provided such derivatives are used for non-commercial purposes, are not themselves redistributed, and are hosted on a public Git repository.
+   
 5. Disclaimer:
-   The Mod is provided "as is," without warranty of any kind. The Licensor shall not be liable for any direct, indirect, incidental, special, exemplary, or consequential damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses.
+   The Mods are provided "as is," without warranty of any kind. The Licensor shall not be liable for any direct, indirect, incidental, special, exemplary, or consequential damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses.
 
 6. Termination:
-   This License is effective until terminated. Licensor may terminate this License at any time if Licensee breaches any of its terms. Upon termination, Licensee must immediately cease all use of the Mod and its source code and destroy any derivative works created.
+   This License is effective until terminated. Licensor may terminate this License at any time if Licensee breaches any of its terms. Upon termination, Licensee must immediately cease all use of the Mods and their source code and destroy any derivative works created.
 
 7. Governing Law:
    This License is governed by and construed in accordance with the laws of Brazil. Any disputes arising from this License shall be subject to the exclusive jurisdiction of the courts in Brazil.
+   
+   In the event of a breach of this License, the Licensor may take legal action to seek damages, injunctive relief, or any other remedy available under applicable law.
 
-By using the Mod itself or its source code, or creating derivative works based on the latter, Licensee agrees to be bound by the terms of this License.
+8. Rights Reserved:
+   Except as explicitly granted in this License, all rights, title, and interest in the Mods, including but not limited to copyright, patent, and trademark rights, are reserved by the Licensor. No rights are granted by implication, estoppel, or otherwise.
+
+By using the Mods themselves or their source code, or creating derivative works based on the latter, Licensee agrees to be bound by the terms of this License.
 
 DaLion / VonLoewe, a.k.a. Matheus Leao
 For contact please message @DaLion on the [Stardew Valley Discord](https://discord.com/invite/stardewvalley).

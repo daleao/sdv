@@ -266,7 +266,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "Se os Junimo devem aplicar vantagens profissionais, como de Cultivador e Agricultor.",
 
   // artisan & producer
-  "gmcm.sections.prfs.artisan_producer": "Artesã(o) e Produtor(a)",
+  "gmcm.sections.prfs.artisan_breeder_producer": "Artesã(o) e Produtor(a)",
   "gmcm.artisan_machines.title": "Equipamentos artesanais",
   "gmcm.artisan_machines.desc": "Máquinas normalmente usadas para fazer produtos artesanais. Adicione a esta lista o *ID qualificado* de máquinas artesanais de outros mods que você está usando para torná-las compatíveis com as vantagens da profissão Artesão. IDs de máquina qualificadas devem começar com \"(BC)\".",
   "gmcm.animal_derived_goods.title": "Produtos de origem animal",

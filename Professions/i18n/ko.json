@@ -265,7 +265,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "주니모 오두막이 농업 관련 스킬을 그대로 적용받을지 여부를 설정합니다.",
 
   // artisan & producer
-  "gmcm.sections.prfs.artisan_producer": "장인 & 생산자",
+  "gmcm.sections.prfs.artisan_breeder_producer": "장인 & 생산자",
   "gmcm.artisan_machines.title": "장인 제작 설비",
   "gmcm.artisan_machines.desc": "이 항목에 장인 설비 관련 스킬을 적용하고 싶은 다른 MOD의 제작 설비의 *장비 ID* 를 추가하십시오. 자격이 있는 장비의 ID는 \"(BC)\"로 시작하여야 합니다.",
   "gmcm.animal_derived_goods.title": "동물 관련 상품",

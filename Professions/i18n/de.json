@@ -266,7 +266,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "Ob Junimos Talente anwenden sollten.",
 
   // artisan & producer
-  "gmcm.sections.prfs.artisan_producer": "Handwerker*in & Produzent*in",
+  "gmcm.sections.prfs.artisan_breeder_producer": "Handwerker*in & Produzent*in",
   "gmcm.artisan_machines.title": "Handwerksmaschinen",
   "gmcm.artisan_machines.desc": "Maschinen die genutzt werden, um Handwerkswaren herzustellen. Füge dieser Liste *qualifizierte ID* von Maschinen von anderen mods hinzu, um sie mit Handwerks-Talenten kompatibel zu machen. Qualifizierte Maschinen-IDs sollten beginnen mit \"(BC)\".",
   "gmcm.animal_derived_goods.title": "Tierische Produkte",

@@ -267,8 +267,8 @@
   "gmcm.should_junimos_inherit_professions.title": "Should Junimos Inherit Professions",
   "gmcm.should_junimos_inherit_professions.desc": "Whether Junimo harvesters should apply profession perks, such as from Harvester and Agriculturist.",
 
-  // artisan & producer
-  "gmcm.sections.prfs.artisan_producer": "Artisan & Producer",
+  // artisan, breeder & producer
+  "gmcm.sections.prfs.artisan_breeder_producer": "Artisan, Breeder & Producer",
   "gmcm.artisan_machines.title": "Artisan Machines",
   "gmcm.artisan_machines.desc": "Machines typically used to make artisan goods. Add to this list the *qualified ID* of artisan machines from other mods you are using in order to make them compatible with Artisan profession perks. Qualified machine IDs should begin with \"(BC)\".",
   "gmcm.animal_derived_goods.title": "Animal-Derived Goods",

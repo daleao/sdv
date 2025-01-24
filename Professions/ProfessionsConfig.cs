@@ -59,8 +59,8 @@ public sealed class ProfessionsConfig
 
     /// <summary>Gets a value indicating whether to set golden and ostrich egg machine outputs to corresponding new mayo items.</summary>
     [JsonProperty]
-    [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(102)]
+    [GMCMSection("prfs.artisan_breeder_producer")]
+    [GMCMPriority(100)]
     public bool EnableGoldenOstrichMayo
     {
         get => this._enableGoldenOstrichMayo;
@@ -74,8 +74,8 @@ public sealed class ProfessionsConfig
 
     /// <summary>Gets a value indicating whether large eggs and milk should yield twice the output stack instead of higher quality.</summary>
     [JsonProperty]
-    [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(103)]
+    [GMCMSection("prfs.artisan_breeder_producer")]
+    [GMCMPriority(101)]
     public bool ImmersiveDairyYield
     {
         get => this._immersiveDairyYield;
@@ -88,9 +88,15 @@ public sealed class ProfessionsConfig
 
     /// <summary>Gets a value indicating whether Bee House products should be affected by Producer bonuses.</summary>
     [JsonProperty]
-    [GMCMSection("prfs.artisan_producer")]
-    [GMCMPriority(105)]
+    [GMCMSection("prfs.artisan_breeder_producer")]
+    [GMCMPriority(102)]
     public bool BeesAreAnimals { get; internal set; } = true;
+
+    /// <summary>Gets the multiplier applied to the value of friendly animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.artisan_breeder_producer")]
+    [GMCMPriority(103)]
+    public float BreederFriendlyAnimalMultiplier { get; internal set; } = 10f;
 
     /// <summary>Gets the number of items that must be foraged before foraged items become iridium-quality.</summary>
     [JsonProperty]
