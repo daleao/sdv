@@ -1,5 +1,11 @@
 ﻿# CORE Changelog
 
+## 2.1.2
+
+### Fixed
+
+* Fixed some issues caused by player debuff system.
+
 ## 2.1.0
 
 ### Fixed

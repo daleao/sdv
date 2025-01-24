@@ -1,14 +1,14 @@
-﻿namespace DaLion.Combat.Framework.Patchers;
+﻿namespace DaLion.Core.Framework.Patchers;
 
 #region using directives
 
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -116,7 +116,7 @@ internal sealed class FarmerMovePositionImplPatcher : HarmonyPatcher
 
     private static int InvertDirectionIfNecessary(int direction)
     {
-        return Config.ConsistentFarmerDebuffs && Game1.player.hasBuff(((int)Buff.Weakness).ToString())
+        return Config.ConsistentFarmerDebuffs && Game1.player.hasBuff(BuffIDs.Weakness)
             ? (direction + 2) % 4
             : direction;
     }

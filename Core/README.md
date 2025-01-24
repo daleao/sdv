@@ -36,6 +36,12 @@ Taking inspiration from classic game tropes, this mod adds a framework for causi
 
 Durations depend on the source. These status conditions are exclusively applied to monsters.
 
+### Consistent Farmer Debuffs
+
+This setting will optionally modify the Burnt and Frozen debuff on the player to be consistent with the player-inflicted debuffs above.
+It also modifies Jinxed and Weakness to work better with the overall balance intended by DaLion mod series:
+- **Jinxed:** Reduces player defense by 50% and prevents use of weapon special moves for the duration.
+- **~~Weakness~~ Disoriented:** Lose control of movement (movement directions are inverted).
 
 ## Compatibility
 

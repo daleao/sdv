@@ -62,14 +62,6 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             __instance.Defrost();
         }
 
-        if (__instance.IsJinxed())
-        {
-            var defense = __instance.buffs.FloatingDefense();
-            var debuff = new Buff($"{UniqueId}_Jinxed", effects: new BuffEffects() { Defense = { defense / 2f } });
-            __instance.applyBuff(debuff);
-            __state = true;
-        }
-
         return true; // run original logic
     }
 
@@ -81,11 +73,6 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         if (__instance.IsLocalPlayer)
         {
             State.SecondsOutOfCombat = 0;
-        }
-
-        if (__state)
-        {
-            __instance.buffs.Remove($"{UniqueId}_Jinxed");
         }
     }
 

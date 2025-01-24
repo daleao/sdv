@@ -2,7 +2,7 @@
 
 #region using directives
 
-using DaLion.Shared.Enums;
+using DaLion.Shared.Constants;
 
 #endregion using directives
 
@@ -14,14 +14,14 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #12, otherwise <see langword="false"/>.</returns>
     internal static bool IsBurning(this Farmer farmer)
     {
-        return farmer.hasBuff(((int)Buff.Burnt).ToString());
+        return farmer.hasBuff(BuffIDs.Burnt);
     }
 
     /// <summary>Removes the Burn debuff from the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal static void Unburn(this Farmer farmer)
     {
-        farmer.buffs.Remove(((int)Buff.Burnt).ToString());
+        farmer.buffs.Remove(BuffIDs.Burnt);
     }
 
     /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Freeze debuff.</summary>
@@ -29,14 +29,14 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #19, otherwise <see langword="false"/>.</returns>
     internal static bool IsFrozen(this Farmer farmer)
     {
-        return farmer.hasBuff(((int)Buff.Frozen).ToString());
+        return farmer.hasBuff(BuffIDs.Frozen);
     }
 
     /// <summary>Removes the Freeze debuff from the <paramref name="farmer"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal static void Defrost(this Farmer farmer)
     {
-        farmer.buffs.Remove(((int)Buff.Frozen).ToString());
+        farmer.buffs.Remove(BuffIDs.Frozen);
     }
 
     /// <summary>Checks whether the <paramref name="farmer"/> is afflicted with Jinxed debuff.</summary>
@@ -44,6 +44,6 @@ internal static class FarmerExtensions
     /// <returns><see langword="true"/> if the <paramref name="farmer"/> has buff #14, otherwise <see langword="false"/>.</returns>
     internal static bool IsJinxed(this Farmer farmer)
     {
-        return farmer.hasBuff(((int)Buff.Jinxed).ToString());
+        return farmer.hasBuff(BuffIDs.Jinxed);
     }
 }

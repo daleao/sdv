@@ -34,8 +34,8 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static bool MonsterFindPlayerPrefix(Monster __instance, ref Farmer? __result)
     {
-        if (!__instance.IsBlinded() || __instance.currentLocation is not { } location ||
-            (Game1.ticks + __instance.GetHashCode()) % 15 != 0)
+        if (!__instance.IsBlinded() || __instance.currentLocation is null ||
+            (Game1.ticks + __instance.GetHashCode()) % 30 != 0)
         {
             return true; // run original logic
         }

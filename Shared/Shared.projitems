@@ -13,6 +13,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ImplicitIgnoreAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModConflictAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Constants\BuffIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\QIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\FacingDirection.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressUpdateTickedEvent.cs" />
@@ -42,7 +43,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Content\ModDictionaryProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\ModTextureProvider.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Content\TextureProvider.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Enums\Buff.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Enums\ObjectCategory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\ModDataDictionaryExtensions.cs" />

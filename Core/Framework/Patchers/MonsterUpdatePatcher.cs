@@ -37,8 +37,8 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
     {
         try
         {
-            var ticks = time.TotalGameTime.Ticks;
-            var elapsedMs = time.ElapsedGameTime.Milliseconds;
+            const int elapsedMs = 500; // for every 30 ticks
+            var ticks = time.TotalGameTime.Ticks + __instance.GetHashCode();
             Farmer? killer = null;
             if (ticks % 30 == 0)
             {

@@ -2,11 +2,11 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using Buff = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -21,7 +21,7 @@ internal sealed class BurntOneSecondUpdateTickedEvent : OneSecondUpdateTickedEve
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.hasBuff(((int)Buff.Burnt).ToString());
+    public override bool IsEnabled => Game1.player.hasBuff(BuffIDs.Burnt);
 
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)

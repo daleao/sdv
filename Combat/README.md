@@ -87,4 +87,4 @@ N/A.
 
 ## Credits & Special Thanks
 
-Credit to DjStln and NormanPCN for Combat Controls and Redux﻿, respectively, from which the Slick Moves and Face Mouse Cursor features originate.
+Credit to DjStln and NormanPCN for Combat Controls and Redux, respectively, from which the Slick Moves and Face Mouse Cursor features originate.

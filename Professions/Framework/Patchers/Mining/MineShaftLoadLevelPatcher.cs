@@ -1,4 +1,4 @@
-﻿﻿namespace DaLion.Professions.Framework.Patchers.Mining;
+﻿namespace DaLion.Professions.Framework.Patchers.Mining;
 
 #region using directives
 

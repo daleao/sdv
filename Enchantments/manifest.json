@@ -11,7 +11,7 @@
   "Dependencies": [
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "2.1.0",
+      "MinimumVersion": "2.1.1",
       "IsRequired": true
     },
     {

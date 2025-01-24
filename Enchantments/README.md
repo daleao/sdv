@@ -78,7 +78,7 @@ Credits to the following translators:
 - ![](https://i.imgur.com/ezVo9Fb.png) [CaranudLapin](https://github.com/CaranudLapin) for French.
 
 Credits and special thanks to the following for inspiration and assets:
-- [Bethesda Game Studios](https://www.bethesdagamestudios.com/)﻿ for [Skyrim](https://elderscrolls.bethesda.net/en)
-- [Gravity](https://ro.gnjoy.com/index.asp)﻿ for **Ragnarok Online**
-- [Riot Games](https://www.riotgames.com/en)﻿ for [League Of Legends](https://www.leagueoflegends.com/en-us/)﻿
-- [Tite Kubo](https://en.wikipedia.org/wiki/Tite_Kubo) for [Bleach](https://www.crunchyroll.com/series/G63VGG2NY/bleach)﻿
+- [Bethesda Game Studios](https://www.bethesdagamestudios.com/) for [Skyrim](https://elderscrolls.bethesda.net/en)
+- [Gravity](https://ro.gnjoy.com/index.asp) for **Ragnarok Online**
+- [Riot Games](https://www.riotgames.com/en) for [League Of Legends](https://www.leagueoflegends.com/en-us/)
+- [Tite Kubo](https://en.wikipedia.org/wiki/Tite_Kubo) for [Bleach](https://www.crunchyroll.com/series/G63VGG2NY/bleach)

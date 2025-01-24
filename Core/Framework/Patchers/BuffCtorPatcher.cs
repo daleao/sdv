@@ -2,14 +2,10 @@
 
 #region using directives
 
+using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using StardewValley.Buffs;
-using StardewValley.Extensions;
-using StardewValley.TokenizableStrings;
-using BuffEnum = DaLion.Shared.Enums.Buff;
 
 #endregion using directives
 
@@ -27,41 +23,18 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [UsedImplicitly]
-    private static bool BuffCtorPrefix(
-        Buff __instance,
-        string? id,
-        string? source = null,
-        string? displaySource = null,
-        int duration = -1,
-        Texture2D? iconTexture = null,
-        int iconSheetIndex = -1,
-        BuffEffects? effects = null,
-        bool? isDebuff = null,
-        string? displayName = null,
-        string? description = null)
+    private static void BuffCtorPostfix(Buff __instance, string? id, bool? isDebuff = null)
     {
-        if (!Config.ConsistentFarmerDebuffs || id is not ("12" or "14" or "19" or "27") ||
-            !DataLoader.Buffs(Game1.content).TryGetValue(id, out var data))
+        if (!isDebuff.GetValueOrDefault() || !Config.ConsistentFarmerDebuffs)
         {
-            return true; // run original logic
+            return; // run original logic
         }
 
-        __instance.displayName = TokenParser.ParseText(data.DisplayName);
-        __instance.description = TokenParser.ParseText(data.Description);
-        __instance.glow = Utility.StringToColor(data.GlowColor) ?? __instance.glow;
-        __instance.millisecondsDuration = data.MaxDuration > 0 && data.MaxDuration > data.Duration ? Game1.random.Next(data.Duration, data.MaxDuration + 1) : data.Duration;
-        __instance.iconTexture = data.IconTexture == "TileSheets\\BuffsIcons" ? Game1.buffsIcons : Game1.content.Load<Texture2D>(data.IconTexture);
-        __instance.iconSheetIndex = data.IconSpriteIndex;
-        __instance.effects.Add(data.Effects);
-        __instance.actionsOnApply = data.ActionsOnApply?.ToArray();
-        var defaultIsDebuff = data.IsDebuff;
-        __instance.customFields.TryAddMany(data.CustomFields);
-
-        switch ((BuffEnum)int.Parse(id))
+        switch (id)
         {
-            case BuffEnum.Burnt:
+            case BuffIDs.Burnt:
                 var amount = (int)(Game1.player.maxHealth / 16f);
                 __instance.description = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.453") +
                                          Environment.NewLine + I18n.Ui_Buffs_Burnt_Damage() +
@@ -71,16 +44,18 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                 __instance.millisecondsDuration = 15000;
                 break;
 
-            case BuffEnum.Jinxed:
+            case BuffIDs.Jinxed:
                 __instance.description = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.464") +
                                          Environment.NewLine + I18n.Ui_Buffs_Jinxed_Defense() +
                                          Environment.NewLine + I18n.Ui_Buffs_Jinxed_Special();
                 __instance.effects.Clear();
+                var defense = Game1.player.buffs.FloatingDefense();
+                __instance.effects.Defense.Value = defense / 2;
                 __instance.glow = Color.HotPink;
                 __instance.millisecondsDuration = 8000;
                 break;
 
-            case BuffEnum.Frozen:
+            case BuffIDs.Frozen:
                 __instance.description = Game1.content.LoadString("Strings\\StringsFromCSFiles:Buff.cs.466") +
                                          Environment.NewLine + I18n.Ui_Buffs_Frozen_Stuck() + Environment.NewLine +
                                          I18n.Ui_Buffs_Frozen_Vulnerable();
@@ -90,7 +65,7 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                 __instance.millisecondsDuration = 5000;
                 break;
 
-            case BuffEnum.Weakness:
+            case BuffIDs.Weakness:
                 __instance.displayName = I18n.Ui_Buffs_Confused_Name();
                 __instance.description = I18n.Ui_Buffs_Confused_Desc();
                 __instance.effects.Clear();
@@ -99,46 +74,15 @@ internal sealed class BuffCtorPatcher : HarmonyPatcher
                 break;
 
             default:
-                return true; // run original logic
+                return;
         }
 
-        if (duration != -1)
-        {
-            __instance.millisecondsDuration = duration;
-        }
-
-        if (iconTexture != null)
-        {
-            __instance.iconTexture = iconTexture;
-        }
-
-        if (iconSheetIndex != -1)
-        {
-            __instance.iconSheetIndex = iconSheetIndex;
-        }
-
-        if (displayName != null)
-        {
-            __instance.displayName = displayName;
-        }
-
-        if (description != null)
-        {
-            __instance.description = description;
-        }
-
-        if (isDebuff.GetValueOrDefault(defaultIsDebuff) && Game1.player.isWearingRing("525") && __instance.millisecondsDuration != -2)
+        if (Game1.player.isWearingRing("525"))
         {
             __instance.millisecondsDuration /= 2;
         }
 
         __instance.totalMillisecondsDuration = __instance.millisecondsDuration;
-        if (effects != null)
-        {
-            __instance.effects.Add(effects);
-        }
-
-        return false; // don't run original logic
     }
 
     #endregion harmony patches
