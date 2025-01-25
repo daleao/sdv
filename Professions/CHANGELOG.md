@@ -1,5 +1,13 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.4
+
+### Added
+
+* Added config option to change the price multiplier of Breeder animals. Use this if playing with third-party balancing mods which reduce overall profits. Otherwise, I suggest leaving the default value.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.3
 
 ### Added
@@ -18,6 +26,8 @@
 * Poacher Limit Break now properly deactivates right before an enemy is attacked.
 * Fixed some translation keys.
 * Removed the patch that was resetting special move cooldowns.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 1.2.2
 

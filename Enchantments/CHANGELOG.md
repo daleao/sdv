@@ -9,6 +9,10 @@
 ### Changed
 
 * Reduced the delay before firing echo projectiles. 
+* Renamed some enchantments, again.
+    * Sunburst -> Radiant
+    * Vampiric -> Sanguine
+    * Volatile -> Detonating
 
 ### Fixed
 

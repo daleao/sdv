@@ -25,7 +25,7 @@ internal static class FarmAnimalExtensions
     internal static double GetBreederAdjustedFriendship(this FarmAnimal animal)
     {
         return Data.ReadAs<bool>(animal, DataKeys.BredByPrestigedBreeder)
-            ? 10
-            : Math.Pow(Math.Sqrt(10) * animal.friendshipTowardFarmer.Value / 1000, 2);
+            ? Config.BreederFriendlyAnimalMultiplier
+            : Config.BreederFriendlyAnimalMultiplier * animal.friendshipTowardFarmer.Value / 1000;
     }
 }
