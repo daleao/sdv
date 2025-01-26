@@ -5,6 +5,7 @@
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
 using StardewValley.GameData.Objects;
+using StardewValley.GameData.Weapons;
 
 #endregion using directives
 
@@ -19,6 +20,7 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
     protected override void Initialize()
     {
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
+        this.Edit("Data/Weapons", new AssetEditor(EditWeaponsData));
 
         this.Provide(
             $"{Manifest.UniqueID}_BleedAnimation",
@@ -39,5 +41,13 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
         data["152"].ContextTags.Add("algae_item");
+    }
+
+    /// <summary>Makes Scythe radius more reasonable.</summary>
+    private static void EditWeaponsData(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, WeaponData>().Data;
+        data["53"].AreaOfEffect = 1;
+        data["66"].AreaOfEffect = 2;
     }
 }

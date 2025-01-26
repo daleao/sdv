@@ -1,5 +1,11 @@
 ﻿# TAXES Changelog
 
+## 2.1.2
+
+### Fixed
+
+* Some more translation fixes/addendums.
+
 ## 2.1.1
 
 ### Fixed

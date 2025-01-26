@@ -1,16 +1,28 @@
 ﻿# CORE Changelog
 
+## 2.1.4
+
+### Added
+
+* Added a fix for vanilla's actually uselss Scythe AoE code, which causes all Scythe variations to have the same AoE. This will be used for Scythe's Reaching Enchantment in [Enchantments](../Enchantments).
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.1.3
 
 ### Added
 
 * Added Chinese translations by [BlackRosePetals](https://github.com/BlackRosePetals).
 
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.1.2
 
 ### Fixed
 
 * Fixed some issues caused by player debuff system.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 2.1.0
 

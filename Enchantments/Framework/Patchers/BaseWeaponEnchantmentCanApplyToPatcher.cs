@@ -26,7 +26,7 @@ internal sealed class BaseWeaponEnchantmentCanApplyToPatcher : HarmonyPatcher
     /// <summary>Haymaker as a Scythe enchantment.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool BaseEnchantmentGetAvailableEnchantmentsPrefix(
+    private static bool BaseWeaponEnchantmentCanApplyToPrefix(
         BaseWeaponEnchantment __instance, ref bool __result, Item item)
     {
         if (__instance is not HaymakerEnchantment)

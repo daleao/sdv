@@ -102,7 +102,7 @@
   "demolitionist.title.prestiged.male": "Pyrotechnician",
   "demolitionist.title.prestiged.female": "Pyrotechnician",
   "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
-  "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.",
+  "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
   "gemologist.title.male": "Gemologist",
   "gemologist.title.female": "Gemologist",

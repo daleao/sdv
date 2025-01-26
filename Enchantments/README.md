@@ -51,6 +51,18 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 \** *Echo projectiles inherit 60% of the main projectile's damage.*
 </font>
 
+## Tool Enchantments
+
+The **Master** enchantment, previously exclusive to the Fishing Rod, can now be applied to all major tools to increase the corresponding skill level by 20%; i.e., below level 10, the enchantment grants +1 skill level, and +2 at level 10. If [Professions](../Professions) is installed, will grant +3 at level 15, and +4 at level 20.
+    - Axe -> Foraging Level
+    - Pickaxe - Mining Level
+    - Hoe -> Farming Level
+    - Watering Can -> Farming Level
+    - Scythe -> Farming Level
+
+Note that only the Iridium Scythe can be enchanted. It can also receive the **Reaching** and **Haymaker** enchantments, the latter of which is now exclusively a Scythe enchantment.
+
+Finally, the **Swift** enchantment has been extended to the Watering Can.
 
 ## Jade Rebalance
 
@@ -60,12 +72,6 @@ viable we give it a small buff:
 Jade Enchantment: Critical hit damage ~~+10%~~ +50%.
 
 With this, the Jade enchantment becomes stronger than the Ruby enchantment at around 20% critical hit chance.
-
-
-## Haymaking Scythe
-
-The Haymaker enchantment is now exclusively a scythe enchantment, and can only be applied to the Iridium Scythe.
-
 
 ## Compatibility
 

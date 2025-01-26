@@ -1,5 +1,20 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.1.1
+
+### Added
+
+* Added extended Tool enchantments:
+  * Master enchantment can now be applied to all major tools, and effect was buffed from a flat +1 to a proportional +20% to the corresponding skill level.
+  * Swift enchantment can now be applied to Watering Can.
+  * Reaching enchantment can now be applied to Scythe.
+
+### Fixed
+
+* Fixed Haymaker Scythe application.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.1.0
 
 ### Added
@@ -12,7 +27,7 @@
 * Renamed some enchantments, again.
     * Sunburst -> Radiant
     * Vampiric -> Sanguine
-    * Volatile -> Detonating
+    * Volatile -> Explosive
 
 ### Fixed
 
@@ -22,6 +37,8 @@
 ### Removed
 
 * Removed unused Steadfast enchantment.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
 
 ## 2.0.2
 

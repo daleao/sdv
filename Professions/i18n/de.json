@@ -181,11 +181,11 @@
   "desperado.buff.desc": "+50% Munitionsschaden gegen verschiedene Ziele.",
   "piper.title.male": "Schleimiger Flöter",
   "piper.title.female": "Schleimige Flöterin",
-  "piper.title.prestiged.male": "Schleim Kontrolleur",
-  "piper.title.prestiged.female": "Schleim Kontrolleurin",
-  "piper.desc": "Schleime sind nicht sofort aggressiv auf dich, und können dir in den Kampf folgen. Schleimstall Kapazität +50%.",
-  "piper.desc.prestiged": "Ein zusätzlicher Schleim kann dir in den Kampf folgen. Erhalte Gegenstände von besonderer Färbung aus Schleimbällen.",
-  "piper.buff": "Geschleimt",
+  "piper.title.prestiged.male": "Prismarch",
+  "piper.title.prestiged.female": "Prismatrice",
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.slime.bag_full": "The Slime's pouch is full.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue Des Aufstiegs-^Diese Statue kann dein Level mit einer Fertigkeit zurücksetzen, ohne deine Talente zu verlieren.",

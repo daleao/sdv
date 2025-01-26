@@ -14,8 +14,8 @@
   "gmcm.swipe_hold.desc": "只需按住按钮即可执行连击,而无需单次点击按钮.",
 
   "gmcm.sections.cmbt.stats": "角色数据",
-  "gmcm.use_rational_mitigation_formula.title": "使用合理的减缓公式.",
-  "gmcm.use_rational_mitigation_formula.desc": "用合理的公式取代线性伤害减免公式,使防御的影响更大,但收益递减.*之前:伤害-=防御；之后:伤害*=10/(10+防御)*.",
+  "gmcm.geometric_mitigation_formula.title": "使用合理的减免公式",
+  "gmcm.geometric_mitigation_formula.desc": "用合理的公式取代线性伤害减免公式,使防御的影响更大,但收益递减.之前:伤害-=防御；之后:伤害*=0.9^防御.",
   "gmcm.defense_improves_parry.title": "防御提高招架伤害",
   "gmcm.defense_improves_parry.desc": "招架伤害(剑的特殊招式)会因防御而增加.",
   "gmcm.crits_ignore_defense.title": "暴击. 忽略防御",
@@ -35,8 +35,8 @@
   "gmcm.face_cursor_condition.always": "所有工具",
 
   "gmcm.sections.cmbt.enemies": "敌人设置",
-  "gmcm.varied_encounters.title": "各种遭遇",
-  "gmcm.varied_encounters.desc": "根据'每日运气'偏差随机化怪物属性,增加怪物遭遇的可变性.",
+  "gmcm.varied_encounters.title": "附加设置(随机境遇)",
+  "gmcm.varied_encounters.desc": "根据'每日运气'偏差随机化怪物属性,增加怪物境遇的可变性.",
   "gmcm.monster_spawn_chance_multiplier.title": "生成几率倍数",
   "gmcm.monster_spawn_chance_multiplier.desc": "怪物生成倍增数值.",
   "gmcm.monster_health_multiplier.title": "生命值倍数",

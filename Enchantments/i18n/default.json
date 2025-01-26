@@ -4,7 +4,7 @@
   "enchantments.cleaving.name": "Cleaving",
   "enchantments.energized.name": "Energized", // alternates: "Statikk", "Thunderlord's"
   "enchantments.energized.desc": "Energy accumulated: {{counter}}",
-  "enchantments.explosive.name": "Detonating",
+  "enchantments.explosive.name": "Explosive",
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Greedy", // alternates: "Mammonite"
   "enchantments.stabbing.name": "Reaving",

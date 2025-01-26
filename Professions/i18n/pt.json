@@ -183,9 +183,9 @@
   "piper.title.female": "Encantadora de Gosma",
   "piper.title.prestiged.male": "Prismarca", // alts: Gelivante
   "piper.title.prestiged.female": "Prismatria", // alts: Gelivanta
-  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
-  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
-  "piper.slime.bag_full": "The Slime's pouch is full.",
+  "piper.desc": "Invoque as Gosmas criadas na fazenda durante o combate. Escolha uma Gosma para carregar seus ítens. Capacidade do Galpão de Gosmas +50%.",
+  "piper.desc.prestiged": "As Gosmas aliadas ganham novas habilidades únicas a cada cor. Obtenha ítens raros de bolas de Gosma.",
+  "piper.slime.bag_full": "O inventário da Gosma esta cheio.",
 
   // prestige
   "prestige.dog_statue.first": "-Estátua da Transcendência-^A estátua pode redefinir o nível de uma habilidade, mantendo todas as profissões adquiridas.",
