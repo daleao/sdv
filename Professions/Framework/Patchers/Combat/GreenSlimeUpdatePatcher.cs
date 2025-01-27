@@ -92,8 +92,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         {
             if (character is not Monster { IsMonster: true } monster
                 || (monster.IsFloating() && !(__instance.Scale >= 1.8f || __instance.IsJumping()))
-                || monster.IsSlime()
-                || !monster.CanBeDamaged())
+                || monster.IsSlime())
             {
                 continue;
             }
@@ -105,63 +104,74 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             }
 
             // damage monster
-            var randomizedDamage = __instance.DamageToFarmer +
-                                   Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
-            var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true && CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
-                ? (int)(randomizedDamage * (10f / (10f + monster.resilience.Value)))
-                : randomizedDamage - monster.resilience.Value;
-            var damageToMonster = Math.Max(1, mitigatedDamage);
             var (xTrajectory, yTrajectory) = monster.Slipperiness < 0
                 ? Vector2.Zero
                 : Utility.getAwayFromPositionTrajectory(monsterBox, __instance.getStandingPosition()) / 2f;
-            monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
-            monster.currentLocation.debris.Add(new Debris(
-                damageToMonster,
-                new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y),
-                new Color(255, 130, 0),
-                1f,
-                monster));
-            if (!monster.IsSlime() && piped.Piper.HasProfession(Profession.Piper, true) && Game1.random.NextBool(0.3))
+            if (monster.CanBeDamaged())
             {
-                ApplyColoredDebuff(__instance, monster, piped);
+                var randomizedDamage = __instance.DamageToFarmer +
+                                       Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
+                var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true &&
+                                      CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                    ? (int)(randomizedDamage * (10f / (10f + monster.resilience.Value)))
+                    : randomizedDamage - monster.resilience.Value;
+                var damageToMonster = Math.Max(1, mitigatedDamage);
+                monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
+                monster.currentLocation.debris.Add(new Debris(
+                    damageToMonster,
+                    new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y),
+                    new Color(255, 130, 0),
+                    1f,
+                    monster));
+                if (!monster.IsSlime() && piped.Piper.HasProfession(Profession.Piper, true) &&
+                    Game1.random.NextBool(0.3))
+                {
+                    ApplyColoredDebuff(__instance, monster, piped);
+                }
+
+                // aggro monsters
+                if (monster.Get_Taunter() is null)
+                {
+                    monster.Set_Taunter(__instance);
+                }
+
+                var fakeFarmer = monster.Get_TauntFakeFarmer();
+                if (fakeFarmer is not null)
+                {
+                    fakeFarmer.Position = __instance.Position;
+                }
+
+                monster.setInvincibleCountdown(piped.Piper.Get_IsLimitBreaking().Value ? 300 : 450);
             }
 
-            // aggro monsters
-            if (monster.Get_Taunter() is null)
+            if (__instance.CanBeDamaged() && (!monster.IsBlinded() || Game1.random.NextBool()))
             {
-                monster.Set_Taunter(__instance);
-            }
+                // get damaged by monster
+                var randomizedDamage = monster.DamageToFarmer +
+                                   Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
+                var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true &&
+                                  CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                    ? (int)(randomizedDamage * (10f / (10f + __instance.resilience.Value)))
+                    : randomizedDamage - __instance.resilience.Value;
+                var damageToSlime = Math.Max(1, mitigatedDamage);
+                __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
+                if (__instance.Name == "Tiger Slime")
+                {
+                    monster.takeDamage(damageToSlime / 2, 0, 0, false, 1d, "hitEnemy");
+                }
 
-            var fakeFarmer = monster.Get_TauntFakeFarmer();
-            if (fakeFarmer is not null)
-            {
-                fakeFarmer.Position = __instance.Position;
-            }
+                if (__instance.Health > 0)
+                {
+                    __instance.setInvincibleCountdown(450);
+                    continue;
+                }
 
-            // get damaged by monster
-            randomizedDamage = monster.DamageToFarmer +
-                               Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
-            mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true && CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
-                ? (int)(randomizedDamage * (10f / (10f + __instance.resilience.Value)))
-                : randomizedDamage - __instance.resilience.Value;
-            var damageToSlime = Math.Max(1, mitigatedDamage);
-            __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
-            if (__instance.Name == "Tiger Slime")
-            {
-                monster.takeDamage(damageToSlime / 2, 0, 0, false, 1d, "hitEnemy");
+                piped.BeginRespawn();
+                break;
             }
-
-            monster.setInvincibleCountdown(piped.Piper.Get_IsLimitBreaking().Value ? 300 : 450);
-            if (__instance.Health > 0)
-            {
-                continue;
-            }
-
-            piped.BeginRespawn();
-            break;
         }
 
-        if (!piped.Piper.HasProfession(Profession.Piper, true))
+        if (!piped.Piper.HasProfession(Profession.Piper, true) || time.TotalGameTime.TotalSeconds % 5 != 0)
         {
             return;
         }
@@ -171,7 +181,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [230, 255],
             [230, 255],
             [230, 255]);
-        if (!whiteRange.Contains(__instance.color.Value) || time.TotalGameTime.TotalSeconds % 5 != 0)
+        if (!whiteRange.Contains(__instance.color.Value))
         {
             return;
         }

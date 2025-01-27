@@ -1,6 +1,17 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.6
+
+### Fixed
+
+* Blinded status now affects Piper Slimes (Blinded enemies miss against Piped Slimes).
+* Decoupled Piped Slime invincibility timer from monster invincibility timer, so Slimes can do damage will being invincible and take damage while enemy is invincible.
+
 ## 1.2.5
+
+### Added
+
+* Prismarch Black Slimes now cause Blinded status.
 
 ### Fixed
 
