@@ -20,7 +20,7 @@ using StardewValley.Objects;
 #endregion using directives
 
 /// <summary>A <see cref="GreenSlime"/> under influence of <see cref="PiperConcerto"/>.</summary>
-internal sealed class PipedSlime
+internal sealed class PipedSlime : IDisposable
 {
     internal const CollisionMask COLLISION_MASK = CollisionMask.Buildings | CollisionMask.Furniture |
                                                  CollisionMask.Objects | CollisionMask.TerrainFeatures |
@@ -261,6 +261,13 @@ internal sealed class PipedSlime
                 this._fadeInCounter = -1;
             }
         }
+    }
+
+    /// <summary>Unregisters from Pathfinders.</summary>
+    public void Dispose()
+    {
+        Pathfinder?.Unregister(this.Slime);
+        PathfinderAsync?.Unregister(this.Slime);
     }
 
     /// <summary>Grows the <see cref="PipedSlime"/> one stage.</summary>

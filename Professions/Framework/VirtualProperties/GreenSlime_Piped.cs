@@ -34,8 +34,9 @@ internal static class GreenSlime_Piped
                 return;
             }
 
-            PipedSlimes.Remove(slime);
             piped.Reset();
+            piped.Dispose();
+            PipedSlimes.Remove(slime);
             Values.Remove(slime);
         }
     }

@@ -1,5 +1,15 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.5
+
+### Fixed
+
+* Removed event which was resetting mod state each night. Dunno why that was there.
+* Better resource clean-up at end-of-day.
+* Added missing localization for BreederFriendlyAnimalMultiplier setting added in [1.2.4](#124).
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.4
 
 ### Added

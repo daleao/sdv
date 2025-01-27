@@ -18,10 +18,12 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
     {
         Lookups.ArtisanMachines.UnionWith(ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_ArtisanMachines")["ArtisanMachines"]);
         Lookups.AnimalDerivedGoods.UnionWith(ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalDerivedGoods")["AnimalDerivedGoods"]);
-        if (Config.BeesAreAnimals)
+        if (!Config.BeesAreAnimals)
         {
-            Lookups.AnimalDerivedGoods.Add(QIDs.Honey);
-            Lookups.AnimalDerivedGoods.Add(QIDs.Mead);
+            return;
         }
+
+        Lookups.AnimalDerivedGoods.Add(QIDs.Honey);
+        Lookups.AnimalDerivedGoods.Add(QIDs.Mead);
     }
 }

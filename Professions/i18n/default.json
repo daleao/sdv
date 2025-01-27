@@ -279,6 +279,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "Whether to add new Golden and Ostrich Mayonnaise items to the game in order to make Artisan produce more consistent.",
   "gmcm.immersive_dairy_yield.title": "Immersive Dairy Yields",
   "gmcm.immersive_dairy_yield.desc": "Causes one large egg or milk to produce two mayonnaise or cheese but at regular quality, instead of one at gold quality. This makes the Artisan profession perk more consistent. If Ostrich Mayo is not enabled, Ostrich Eggs still yield 10 mayonnaise but do not retain input quality. If Golden Mayo is not enabled, a Gold Egg will yield a single mayonnaise, but always at the highest quality.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "Breeder Animal Value Multiplier",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "The multiplier applied to the value of max-friendship animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.",
 
   // ecologist & gemologist
   "gmcm.sections.prfs.ecologist_gemologist": "Ecologist & Gemologist",

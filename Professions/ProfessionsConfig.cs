@@ -96,6 +96,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.artisan_breeder_producer")]
     [GMCMPriority(103)]
+    [GMCMRange(2f, 10f, 0.5f)]
     public float BreederFriendlyAnimalMultiplier { get; internal set; } = 10f;
 
     /// <summary>Gets the number of items that must be foraged before foraged items become iridium-quality.</summary>

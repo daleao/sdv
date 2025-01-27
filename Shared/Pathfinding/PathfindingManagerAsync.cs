@@ -90,6 +90,7 @@ public sealed class PathfindingManagerAsync : IDisposable
         }
 
         this._cached.TryRemove(npc, out _);
+        this._lastRequest.TryRemove(npc, out _);
         return this;
     }
 
@@ -203,8 +204,7 @@ public sealed class PathfindingManagerAsync : IDisposable
                     var height = npc.currentLocation.Map.Layers[0].LayerHeight;
                     lock (this._pathfinders)
                     {
-                        this._pathfinders.TryGetValue(npc, out var pathfinder);
-                        if (pathfinder is null)
+                        if (!this._pathfinders.TryGetValue(npc, out var pathfinder))
                         {
                             continue;
                         }
