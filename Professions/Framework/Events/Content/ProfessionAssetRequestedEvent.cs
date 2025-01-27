@@ -11,6 +11,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Newtonsoft.Json;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Buildings;
@@ -50,11 +51,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
-            $"{UniqueId}_AnimalDerivedGoods",
-            new ModDictionaryProvider<string, string[]>(() => "assets/data/AnimalDerivedGoods.json"));
+            $"{UniqueId}_AnimalDerivedGoods", new DictionaryProvider<string, string[]>(ProvideAnimalDerivedGoods));
         this.Provide(
-            $"{UniqueId}_ArtisanMachines",
-            new ModDictionaryProvider<string, string[]>(() => "assets/data/ArtisanMachines.json"));
+            $"{UniqueId}_ArtisanMachines", new DictionaryProvider<string, string[]>(ProvideArtisanMachines));
         this.Provide(
             $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
@@ -811,6 +810,58 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
 
         return path + ".png";
+    }
+
+    private static Dictionary<string, string[]> ProvideAnimalDerivedGoods()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        var animalGoods = new HashSet<string>();
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed?.TryGetValue("AnimalDerivedGoods", out var goods) == true)
+                {
+                    animalGoods.UnionWith(goods);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Animal Derived Goods data.\n{ex}");
+        }
+
+        return new Dictionary<string, string[]> { ["AnimalDerivedGoods"] = animalGoods.ToArray() };
+    }
+
+    private static Dictionary<string, string[]> ProvideArtisanMachines()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        var artisanMachines = new HashSet<string>();
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed?.TryGetValue("ArtisanMachines", out var machines) == true)
+                {
+                    artisanMachines.UnionWith(machines);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Artisan Machines data.\n{ex}");
+        }
+
+        return new Dictionary<string, string[]> { ["ArtisanMachines"] = artisanMachines.ToArray() };
     }
 
     #endregion provider callbacks

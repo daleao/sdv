@@ -77,7 +77,6 @@ With this, the Jade enchantment becomes stronger than the Ruby enchantment at ar
 
 N/A.
 
-
 ## Credits & Special Thanks
 
 Credits to the following translators:

@@ -16,18 +16,8 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        foreach (var machine in ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_ArtisanMachines")
-                     .SelectMany(pair => pair.Value))
-        {
-            Lookups.ArtisanMachines.Add(machine);
-        }
-
-        foreach (var good in ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalDerivedGoods")
-                     .SelectMany(pair => pair.Value))
-        {
-            Lookups.AnimalDerivedGoods.Add(good);
-        }
-
+        Lookups.ArtisanMachines.UnionWith(ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_ArtisanMachines")["ArtisanMachines"]);
+        Lookups.AnimalDerivedGoods.UnionWith(ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalDerivedGoods")["AnimalDerivedGoods"]);
         if (Config.BeesAreAnimals)
         {
             Lookups.AnimalDerivedGoods.Add(QIDs.Honey);

@@ -6,6 +6,10 @@
 
 * Added config option to change the price multiplier of Breeder animals. Use this if playing with third-party balancing mods which reduce overall profits. Otherwise, I suggest leaving the default value.
 
+### Changed
+
+* ArtisanMachines and AnimalDerivedGoods data now reads all JSON files in the "assets/data" folder, instead of only the hardcoded files of the same name. This should allow users to create their own modularized data files without worrying about overwriting them during an update.
+
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 1.2.3

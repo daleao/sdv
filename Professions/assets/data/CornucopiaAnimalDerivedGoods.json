@@ -1,5 +1,5 @@
 {
-	"ArtisanGoods":
+	"AnimalDerivedGoods":
 	[
 	    "(O)Cornucopia_Butter",
         "(O)Cornucopia_HoneyButter",
@@ -17,6 +17,6 @@
         "(O)Cornucopia_TruffleMayonnaise",
         "(O)Cornucopia_WasabiMayonnaise",
         "(O)Cornucopia_PickledEggs",
-        "(O)Cornucopia_CenturyEgg",
+        "(O)Cornucopia_CenturyEgg"
 	]
 }

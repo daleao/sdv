@@ -240,7 +240,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [0, 50]);
         if (blackRange.Contains(slime.color.Value) && Game1.random.NextBool(0.05))
         {
-            // convert to void essence...?
+            monster.Blind(5123 + (Game1.random.Next(-2, 3) * 456));
         }
     }
 }
