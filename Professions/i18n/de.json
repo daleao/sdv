@@ -1,4 +1,4 @@
-{
+﻿{
   // farming
   "harvester.title.male": "Gärtner",
   "harvester.title.female": "Gärtnerin",
@@ -81,7 +81,7 @@
   "spelunker.title.prestiged.male": "Höhlenexperte",
   "spelunker.title.prestiged.female": "Höhlenexpertin",
   "spelunker.desc": "Je tiefer du in eine Mine gehst, ohne sie zu verlassen, desto höher deine chance eine Leuter zu finden. Wenn du einen sicheren Raum erreichst, regeneriert du etwas Leben und Energie.",
-  "spelunker.desc.prestiged": "Stark erhöhte Chance, einen sicheren Raum zu finden. Chance liegen gelassene Gegenstände wieder zu finden.",
+  "spelunker.desc.prestiged": "Je tiefer du bist, desto höher die Chance Geröll freizulegen. Einmal am Tg kommst du zum letzten sicheren Raum zurück, wenn du ohnmächtig wirst.",
   "spelunker.buff.desc": "Leiter Chance +{{ladderChance}}.",
   "prospector.title.male": "Erzsucher",
   "prospector.title.female": "Erzsucherin",
@@ -120,7 +120,7 @@
   "angler.title.prestiged.male": "Angelkünstler",
   "angler.title.prestiged.female": "Angelkünstlerin",
   "angler.desc": "Für jeden einzelnen Fisch maximaler Größe, den du gefangen hast, sind Fische 1% mehr wert. Vollständig aufgebrauchtes Angelzubehör wirkt noch eine Weile nach.",
-  "angler.desc.prestiged": "Bis zu zwei Angelzubehör-Effekte können nachwirken. Du kannst legendäre Fische noch mal antreffen.",
+  "angler.desc.prestiged": "Bis zu zwei Angelzubehör-Effekte können nachwirken. Du kannst legendäre Fische noch mal antreffen, wenn du mehrere Fische hintereinander erfolgreich fängst.",
   "aquarist.title.male": "Aquarianer",
   "aquarist.title.female": "Aquarianerin",
   "aquarist.title.prestiged.male": "Ichthyologe",
@@ -181,11 +181,11 @@
   "desperado.buff.desc": "+50% Munitionsschaden gegen verschiedene Ziele.",
   "piper.title.male": "Schleimiger Flöter",
   "piper.title.female": "Schleimige Flöterin",
-  "piper.title.prestiged.male": "Schleim Kontrolleur",
-  "piper.title.prestiged.female": "Schleim Kontrolleurin",
-  "piper.desc": "Schleime sind nicht sofort aggressiv auf dich, und können dir in den Kampf folgen. Schleimstall Kapazität +50%.",
-  "piper.desc.prestiged": "Ein zusätzlicher Schleim kann dir in den Kampf folgen. Erhalte Gegenstände von besonderer Färbung aus Schleimbällen.",
-  "piper.buff": "Geschleimt",
+  "piper.title.prestiged.male": "Prismarch",
+  "piper.title.prestiged.female": "Prismatrice",
+  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Verbündete Schleime erhalten einzigartige Fähigkeiten basierend auf ihrer Farbe. Erhalte seltene Gegenstände von gefärbten Schleim-Bällen.",
+  "piper.slime.bag_full": "Die Schleimtasche ist voll.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue Des Aufstiegs-^Diese Statue kann dein Level mit einer Fertigkeit zurücksetzen, ohne deine Talente zu verlieren.",
@@ -266,7 +266,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "Ob Junimos Talente anwenden sollten.",
 
   // artisan & producer
-  "gmcm.sections.prfs.artisan_producer": "Handwerker*in & Produzent*in",
+  "gmcm.sections.prfs.artisan_breeder_producer": "Handwerker*in & Produzent*in",
   "gmcm.artisan_machines.title": "Handwerksmaschinen",
   "gmcm.artisan_machines.desc": "Maschinen die genutzt werden, um Handwerkswaren herzustellen. Füge dieser Liste *qualifizierte ID* von Maschinen von anderen mods hinzu, um sie mit Handwerks-Talenten kompatibel zu machen. Qualifizierte Maschinen-IDs sollten beginnen mit \"(BC)\".",
   "gmcm.animal_derived_goods.title": "Tierische Produkte",
@@ -391,10 +391,10 @@
   "gmcm.prestige_profession_icon_style.desc": "Bestimmt den Stil des Bilds für aufgestiegene Fertigkeiten.",
   "gmcm.profession_icon_style.metallic_gold": "Metallisch Gold",
   "gmcm.profession_icon_style.posister_gold": "Posister Gold",
-  "gmcm.mastered_skill_icon_style.title": "Icon-Stil gemeisterter Fertigkeiten",
-  "gmcm.mastered_skill_icon_style.desc": "Bestimmt den Stil des Bilds für gemeisterte Fertigkeiten.",
-  "gmcm.skill_icon_style.silicon_gold": "Silikon Gold",
-  "gmcm.skill_icon_style.kawaii_rose_gold": "Kawaii Rosengold",
+  "gmcm.gold_sprite_palette.title": "Icon-Stil gemeisterter Fertigkeiten",
+  "gmcm.gold_sprite_palette.desc": "Bestimmt den Stil des Bilds für gemeisterte Fertigkeiten.",
+  "gmcm.gold_palette.silicon_gold": "Silikon Gold",
+  "gmcm.gold_palette.kawaii_rose_gold": "Kawaii Rosengold",
 
   // links
   "gmcm.go_to.prfs.skills": "Einstellungen für Fähigkeiten",
