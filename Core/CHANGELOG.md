@@ -1,5 +1,19 @@
 ﻿# CORE Changelog
 
+## 2.1.6
+
+### Fixed
+
+* Fixed certain timers, such as Burn DoT, ticking during menus.
+
+## 2.1.5
+
+### Removed
+ 
+* Removed the Scythe "fix" since it led to poor user experience.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.1.4
 
 ### Added

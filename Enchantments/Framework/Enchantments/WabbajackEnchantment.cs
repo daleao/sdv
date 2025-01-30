@@ -134,7 +134,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                         case 0:
                         case 1:
                             monster.Scale *= 0.5f;
-                            monster.Speed += 2;
+                            monster.Speed++;
                             monster.Health /= 2;
                             monster.DamageToFarmer = 1;
                             break;
@@ -142,7 +142,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                         // grow
                         case 2:
                             monster.Scale *= 2f;
-                            monster.Speed -= 2;
+                            monster.Speed--;
                             monster.Health *= 2;
                             monster.DamageToFarmer *= 2;
                             break;

@@ -50,7 +50,13 @@ At max friendship animals are worth 10x their base price, compared to vanilla's 
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/producer.png[/img] [b]Producer (Lv10)[/b] - Happy animals produce 2x as frequently. Produce is worth 5% more for every full barn or coop.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/producer_p.png[/img] [b]Yieldmeister (Lv20)[/b] - Happy animals produce [s]2x[/s] → 3x as frequently. Deluxe Coop capacity +2.[/color][size=2]
 [spoiler]
-Note that happiness, or [url=https://stardewvalleywiki.com/Animals#Mood]mood[/url] , is [b]not[/b] the same as friendship. This will [b]not[/b] allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meats. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the price bonus.
+Note that happiness, or [url=https://stardewvalleywiki.com/Animals#Mood]mood[/url], is [b]not[/b] the same as friendship. This will [b]not[/b] allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day.
+
+The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees can be animals too, via settings), and meats.
+
+Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). If SVE is installed, Premium buildings will also be considered, but they, too, must be full, and not merely have 12 animals, which would be considered full for deluxe. If this profession is prestiged, a coop, again, must be *full*,  including the extra 2 animal slots.
+
+There is no limit to the price bonus.
 [/spoiler]
 [/size][/spoiler][/list]
 [size=5][img]https://i.imgur.com/jf88nPt.png[/img] [font=bebas_neuebook]Foraging[/font][/size]
@@ -103,11 +109,13 @@ In order to avoid redundancy with Heavy Tappers and maintain balance, this mod o
 This profession is completely unchanged from vanilla.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/spelunker.png[/img] [b]Spelunker (Lv10)[/b] - Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.
-[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/spelunker_p.png[/img] [b]Cavewarden (Lv20)[/b] - Greatly increased chance of finding safe rooms. Chance to resurface unclaimed mining debris.[/color][size=2]
+[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/spelunker_p.png[/img] [b]Cavewarden (Lv20)[/b] - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the nearest safe room when you pass out in the Mines.[/color][size=2]
 [spoiler]
-Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface. Increased safe room chance applies only to Skull Caverns.
+Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface.
 
-For Cavewarden, any items left behind while mining have a 20% chance to spawn back at the Mines or Skull Caverns entrance.
+For Cavewarden, any items left behind while mining have a chance to spawn back at the Mines or Skull Caverns entrance. The chance increases to near 100% below floor 100 of the Skull Caverns.
+
+For revival, a safe room is equivalent to a treasure room. In the Skull Caverns, the chance to encounter safe rooms is also bumped up a little.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/prospector.png[/img] [b]Prospector (Lv10)[/b] - Location of ladders and mining nodes revealed. Occasionally detect mineral treasures.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/prospector_p.png[/img] [b]Archaeologist (Lv20)[/b] - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.[/color][size=2]
@@ -124,7 +132,9 @@ A new style of mining which also tries to alleviate the lack of coal from having
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/demolitionist.png[/img] [b]Demolitionist (Lv10)[/b] - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/demolitionist_p.png[/img] [b]Pyrotechnician (Lv20)[/b] - Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.[/color][size=2]
 [spoiler]
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion, and gain the ability to manually detonate bombs by holding down a mod key (default LeftShift) before placing them on the ground.
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion.
+
+You also gain the ability to manually detonate bombs. Double press the mod key (default LeftShift) to engage manual detonation, and then double press again to trigger the detonation after placing your bombs on the ground.
 
 For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 
@@ -149,14 +159,18 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/angler.png[/img] [b]Angler (Lv10)[/b] - Fish are 0.5% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/angler_p.png[/img] [b]Rodmancer (Lv20)[/b] - Up to two tackle effects can linger on the fishing rod. Can re-encounter legendary fish.[/color][size=2]
 [spoiler]
-Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-iconed fish are counted for the perk. Legendary fish are worth 4 regular fish; i.e., 2% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
-
-Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
+[list]
+[*] Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
+[*] Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
+[*] By default, the bonus caps at 100%, but this can be configured.
+[*] Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
+[*] If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. Each subsequent successful catch then increases the encounter rate by 1%.
+[/list]
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist.png[/img] [b]Aquarist (Lv10)[/b] - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/aquarist_p.png[/img] [b]Ichthyologist (Lv20)[/b] - Fish pond max capacity [s]+2[/s] → +4. Fish species raised to max pond capacity are reeled instantly.[/color][size=2]
 [spoiler]
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5). They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url]  you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5). They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url] you will additionally be able to raise Extended Family in the same pond as their relatives. Doing so with Angler and Ms. Angler will allow them reproduce.
 
 For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable. This profession removes the lock on max population of legendary ponds, restoring it back to 10.
 [/spoiler]
@@ -180,7 +194,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/conservationist.png[/img] [b]Conservationist (Lv10)[/b] - Crab pots without bait can trap junk. Clean the Valley's waters to earn the village's favor and merit tax deductions.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/conservationist_p.png[/img] [b]Oceanographer (Lv20)[/b] - Crab pots without bait can also trap fish. Special conditions apply during rainy or full-moon days.[/color][size=2]
 [spoiler]
-By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url]  is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url] is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
 For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
 [/spoiler]
@@ -208,7 +222,7 @@ Completely unchanged from vanilla.
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rascal.png[/img] [b]Rascal (Lv5)[/b] - Gain one additional ammo slot. 35% chance to recover spent ammo.
 [spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/rascal_p.png[/img] [b]Master Rascal (Lv15)[/b] - [s]35%[/s] → 55% chance to recover spent ammo. Can fire both ammo slots at once.[/color][size=2]
 [spoiler]
-Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Double press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the [b]musked[/b] property.
 
@@ -221,12 +235,12 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 [b]Overcharge:[/b] Continue holding the fire button past the normal charge threshold to reveal the overcharge meter. Overcharged shots gain up to 2x the original speed, damage and knockback, and can also [b]pierce[/b] enemies.
 
-[b]Piercing Shot:[/b] Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+[b]Piercing Shot:[/b] Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. It then pierces the enemy and continues on to damage up to one more enemy behind it. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 [b]Rebound Shot:[/b] Hold the mod key (Default LeftShift) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
 [/spoiler]
 [/size][/spoiler][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
-[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper_p.png[/img] [b]Slime Conductor | Enchantress (Lv20)[/b] - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.[/color][size=2][spoiler]
+[spoiler][color=gold][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/piper_p.png[/img] [b]Prismarch | Prismatrice (Lv20)[/b] - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.[/color][size=2][spoiler]
 
 The most unique out of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
 
@@ -258,20 +272,18 @@ The most unique out of all new professions. Since we have a profession focused o
 [*] First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
 [*] IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 1 value higher than the parent's. This guarantees that IVs will eventually converge to 10 after several generations.
 [*] Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
-[*] Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
+[*] Special Gold and Prismatic Slime variants can only be obtained by [url=https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results]breeding[/url]:
     - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.    - Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).[/list]
 
 [b]Colored Item Drops:[/b]
 [list]
-[*] If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+[*] If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [url=https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results]breeding[/url].
 [/list]
 
 [b]Misc:[/b]
 [list]
 [*] Increases Slime ammo damage to 20 if not prestiged, and 40 if prestiged.
 [/list]
-
-Also doubles the damage from Slime ammo.
 [/spoiler]
 [/size][/spoiler][/list]
 [size=6][font=bebas_neuebook]Skill Progression Tropes[/font][/size]
@@ -288,11 +300,11 @@ Note that you will inevitably need to choose each 5th-level profession twice on 
 
 You will also find that leveling becomes progressively easier after each skill reset (or harder, if you choose to configure it that way). By default, resetting a skill will also cause you to forget all associated recipes, but that can also be turned off.
 
-For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired)
+For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired).
 
 Keep in mind that [b]once a skill has been Mastered it can no longer be reset[/b]. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
 
-Note also that [b]resetting a skill temporarily prevent the player receiving Mastery experience[/b], until it once again reaches level 10.
+Note also that [b]resetting a skill temporarily prevents the player from receiving Mastery experience or entering the Mastery Cave[/b], until it once again reaches level 10.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
@@ -317,26 +329,25 @@ During combat you can track the current Limit charge by the HUD bar labeled "L".
 [*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/undyingrage.png[/img] [b]Undying Frenzy (Brute / Amazon)[/b] - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
 [size=2][spoiler]
 Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
-[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/cloaking.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.
+[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/cloaking.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slayed within 0.5s of losing invisibility, immediately reactivate Ambuscade.
 [size=2][spoiler]
 Charged by scoring critical hits, and the charge amount is proportional to crit. power.
 [/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/bullettime.png[/img] [b]Death Blossom (Desperado)[/b] - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.
 [size=2][spoiler]
 Journey of the Prairie King, "IRL". Charged by hitting monsters with projectiles. Charges more quickly when low on health.
-[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/superfluidity.png[/img] [b]Hamelin Concerto (Slimed Piper / Enchantress)[/b] - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
+[/spoiler][/size][*][img]https://raw.githubusercontent.com/daleao/sdv/main/Professions/resources/assets/sprites/loose/superfluidity.png[/img] [b]Hamelin Concerto (Slimed Piper / Siren)[/b] - Place all nearby Slimes under your control for 15s, and empower all Slimes under your control, inflating them up to twice their original size and granting an equivalent power boost.
 [size=2][spoiler]
 If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes. Nearby Big Slimes burst immediately when activated. Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
-[ \
-/spoiler][/size][/list]
+[/spoiler][/size][/list]
 [font=bebas_neuebook][size=6]Misc. Changes[/size][/font]
 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
 [list]
 [*][b]Large dairy goods[/b], including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
-[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]   and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b] ![/b]).
+[*][b]Golden Mayo and Ostrich Mayo[/b], known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url] and Cas ([b]please visit and endorse [/b][url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url][b]![/b]).
 [*][b]Fish Smoker[/b] will not preserve fish quality without the Artisan profession. Again, this is needed for the consistency of Artisan.
 [*][b]Heavy Tapper[/b] behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
-[*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url] , which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
+[*][b]Common Trees[/b] age like [url=https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price]Fruit Trees[/url], which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 [/list]
 [size=6][font=bebas_neuebook]Compatibility[/font][/size][b]
 
@@ -358,7 +369,7 @@ For any mods that affect professions, skills or Masteries, [b]use common sense[/
 
 The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want, keeping only the profession changes.
 
-Obviously not compatible with [url=https://www.nexusmods.com/stardewvalley/mods/20054]Vanilla Plus Professions[/url]  . Use one or the other.Not compatible with mods that change how the game awards experience, such as [url=https://www.nexusmods.com/stardewvalley/mods/22163]Share Experience.[/url]
+Obviously not compatible with [url=https://www.nexusmods.com/stardewvalley/mods/20054]Vanilla Plus Professions[/url]. Use one or the other.Not compatible with mods that change how the game awards experience, such as [url=https://www.nexusmods.com/stardewvalley/mods/22163]Share Experience.[/url]
 
 [b][size=3]Multiplayer[/size][/b]
 
@@ -374,25 +385,26 @@ No, it does not work on Android.
 Credits to the following asset contributors:
 [list]
 [*][url=https://www.nexusmods.com/stardewvalley/users/38784845]IllogicalMoodSwing[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/4163]Profession Icons Redone[/url]
-[*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url]  and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
-[*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url]  for golden skill icons
-[*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url]  for rose-golden skill icons
+[*][url=https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303]Megan[/url] and Cas for [url=https://www.nexusmods.com/stardewvalley/mods/7660]Ostrich Mayo and Golden Mayo[/url]
+[*][url=https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303]silicon[/url] for golden skill icons
+[*][url=https://next.nexusmods.com/profile/KawaiiMuski/about-me]KawaiiMuski[/url] for rose-golden skill icons
 [*][b]Posister[/b] for alternate golden profession icons
-[*][url=https://ro.gnjoy.com/index.asp]Gravity[/url]  for sound effects and skill icons
-[*][url=https://next.nexusmods.com/profile/HimeTarts/about-me?gameId=1303]HimeTarts[/url]  for base letters used in the title art.
-[*][url=https://www.square-enix.com/]Square Enix[/url] 's [url=https://ffvii.square-enix-games.com/en-us/games/rebirth]Final Fantasy 7 Rebirth[/url]  for the "Rebirth" title text.
-[*][url=https://www.dafont.com/pt/stardew-valley.font]Stardew Valley title font[/url]  by [url=https://www.dafont.com/pt/eliot-truelove.d1302]Eliot Truelove[/url]  .
+[*][url=https://ro.gnjoy.com/index.asp]Gravity[/url] for sound effects and skill icons
+[*][url=https://next.nexusmods.com/profile/HimeTarts/about-me?gameId=1303]HimeTarts[/url] for base letters used in the title art.
+[*][url=https://www.square-enix.com/]Square Enix[/url]'s [url=https://ffvii.square-enix-games.com/en-us/games/rebirth]Final Fantasy 7 Rebirth[/url] for the "Rebirth" title text.
+[*][url=https://www.dafont.com/pt/stardew-valley.font]Stardew Valley title font[/url] by [url=https://www.dafont.com/pt/eliot-truelove.d1302]Eliot Truelove[/url].
 [/list]Credits to the following code contributors:[list]
-[*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url]  for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce [/url]
+[*][url=https://next.nexusmods.com/profile/Roscid/about-me?gameId=1303]Roscid[/url] for [url=https://www.nexusmods.com/stardewvalley/mods/7634]Slime Produce[/url]
 [/list]Credits to the following translators:[list]
-[*][url=https://github.com/CaranudLapin][img]https://i.imgur.com/ezVo9Fb.png[/img]CaranudLapin[/url] for French
-[*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303][img]https://i.imgur.com/Jvsm5YJ.png[/img]twinklesky6[/url] for Korean
-[*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303][img]https://i.imgur.com/zuQC9Di.png[/img]Awassakura[/url] for Chinese
-[*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/][img]https://i.imgur.com/cXhDLc5.png[/img] darthalex2014[/url]  for Russian
+[*][url=https://github.com/CaranudLapin]CaranudLapin[/url] for French
+[*][url=https://github.com/OromisElf]OromisElf[/url] for German.
+[*][url=https://forums.nexusmods.com/profile/122957028-darthalex2014/]darthalex2014[/url] for Russian
+[*][url=https://next.nexusmods.com/profile/Awassakura/about-me?gameId=1303]Awassakura[/url] and [url=https://github.com/BlackRosePetals]BlackRosePetals[/url] for Chinese
+[*][url=https://next.nexusmods.com/profile/twinklesky6/about-me?gameId=1303]twinklesky6[/url] and [url=https://next.nexusmods.com/profile/whdms2008/about-me?gameId=1303]whdms2008[/url] for Korean
 [/list]Special thanks to the following visionaries:[list]
 [*][url=https://www.nexusmods.com/skyrimspecialedition/users/3959191]Enai Siaion[/url] for [url=https://www.nexusmods.com/skyrimspecialedition/mods/1137]Ordinator[/url]
-[*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url]  for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]
-[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url] for [url=https://iro.ragnarokonline.com/]my childhood[/url]
+[*][url=https://www.nexusmods.com/witcher3/users/54536917]ReaperAnon[/url] and [url=https://next.nexusmods.com/profile/Kolaris/about-me?gameId=952]Kolaris[/url] for [url=https://www.nexusmods.com/witcher3/mods/5802]W3EE[/url]
+[*][url=https://ro.gnjoy.com/index.asp]Gravity [/url]for [url=https://iro.ragnarokonline.com/]my childhood[/url]
 [/list]
 [size=6][font=bebas_neuebook]F.A.Q.[/font][/size]
 
@@ -405,10 +417,11 @@ Credits to the following asset contributors:
 [b]Can Luremaster and Conservationist work together?[/b]
 [spoiler]Of course. Luremaster applies only to crab pots with bait. Conservationist applies only to crab pots without.[/spoiler]
 [b]Can I obtain all prestige professions simultaneously?[/b][spoiler]No, sorry. Making tough choices is part of this mod's design.You can cheat them in with console commands if you really want (`profs add -p all`).[/spoiler]
-[b]Can I obtain all Limit Breaks simultaneously?[/b][spoiler]Obviously not.[/spoiler][b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
+[b]Can I obtain all Limit Breaks simultaneously?[/b][spoiler]Obviously not.[/spoiler]
+[b]What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?[/b]
 [spoiler]They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.With the exception of Angler when placed together with Ms. Angler, they do not reproduce. The intent is for these ponds to be filled with Extended Family fish.[/spoiler]
 [b]The Statue of Transcendence in the Sewer doesn't work! I can't reset my skills![/b]
-[spoiler]Scroll back up to the Skill Reset section and read the part where it says [quote][b]once a skill has been Mastered it can no longer be reset[/b][/quote][/spoiler]
+[spoiler]Scroll back up to the Skill Reset section and make sure you have read the part where it says [quote][b]once a skill has been Mastered it can no longer be reset[/b][/quote][/spoiler]
 [b]Does it work with XYZ mod?[/b]
 [spoiler]I have not tested every mod on the Nexus. I have better things to do. If it's not mentioned in the [b]Compatibility[/b] section then you try it yourself and let me know.[/spoiler]
 [b]When using the Automate mod, which machines will/won't apply profession perks?[/b]
@@ -425,36 +438,37 @@ Crab Pots are an exception. Although they may use an input (bait), their product
 [b]Automate won't load bait into my Crab Pots since I got the Conservationist profession. What gives?[/b]
 [spoiler]This should no longer be an issue since 1.6.9.[/spoiler]
 [b]How can I make machines / dairy from different mods compatible with the Artisan / Producer profession?[/b]
-[spoiler]Simply add the machine's or item's qualified ID to the corresponding config within this mod.As an example, below are specific instructions for Cornucopia. Note that different mods may organize their files differently.
+[spoiler]Simply add the machine's or item's qualified ID to the corresponding data file inside the `assets/data` folder.
+
+Cornucopia is already added by default. Here is how to locate machine IDs in Cornucopia, as an example. Note that different mods may organize their files differently.
 [list]
 [*]Open the Cornucopia mod folder. You'll see a folder named "machines". Inside you will see a different file named after each machine.
 [*]Open the machine you want, say `butterchurn.json` using any text editor. It will look something like this:
 [/list]
-[code] {
+[code]{
     "Changes": [
         {
             "Action": "EditData",
             "Target": "Data/Machines",
             "Entries": {
                 "(BC)Cornucopia_ButterChurn": {
-                    ...
+               ...
 
 [/code]
 [list]
 [*]Copy the string starting with "(BC)...". This is the qualified ID of the machine.
 [list]
-[*] A machine's qualified ID will always start with "(BC)".
+[*]A machine's qualified ID will always start with "(BC)".
 [*]An animal produce item's qualified ID will always start with "(O)".
-[/list][*]Open the [b]DaLion.Professions[/b] mod folder and open your `config.json`.
-[*]Find the "ArtisanMachines" field and paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
+[/list][*]Open the [b]DaLion.Professions[/b] mod folder and navigate to `assets/data/ArtisanMachines.json`.
+[*]Paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
 [/list]
-[code] "ArtisanMachines": [
+[code]"ArtisanMachines": [
     "(BC)ExampleMod.ExampleMachine",
     "(BC)Cornucopia_ButterChurn"
   ],
 [/code]
-You can remove the "(BC)ExampleMod.ExampleMachine" if you want.
-Repeat for every machine that you think is relevant. For animal produce, do the same but add to the "AnimalDerivedGoods" field instead.
+Repeat for every machine that you think is relevant. For animal produce, do the same but add to "AnimalDerivedGoods.json" file instead.
 
 As noted above, each mod may organize their files differently, so you may not find a specific file for each machine / item. Some authors may group all machines into a single `machines.json` file for example, and yet others may put everything inside CP's base `content.json` file.
 [/spoiler]
@@ -468,5 +482,6 @@ As noted above, each mod may organize their files differently, so you may not fi
 [url=https://www.nexusmods.com/stardewvalley/mods/24832]Springmyst[/url] - Some actually interesting enchantments added to the game.
 [url=https://www.nexusmods.com/stardewvalley/mods/29612]Mineracoustics[/url] - Overly complex overhaul of gemstone ring mechanics based on real Music Theory.
 [url=https://www.nexusmods.com/stardewvalley/mods/23048]Chargeable Resource Tools[/url] - Charge the Axe and Pickaxe to break debris within an area.
+[b](NEW)[/b] [url=https://www.nexusmods.com/stardewvalley/mods/29830]Wildcat[/url] - Weapon combo framework, slick moves & other combat tweaks to improve the feel of combat.
 
 [b][url=https://github.com/daleao/sdv/tree/main/Professions]Source code[/url][/b]

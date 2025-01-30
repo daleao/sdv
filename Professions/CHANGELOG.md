@@ -1,11 +1,21 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.7
+
+### Changed
+
+* Progenitor now applies to all owned animals and not just those born after obtaining the profession. It now also considers Lax Requirements.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.6
 
 ### Fixed
 
 * Blinded status now affects Piper Slimes (Blinded enemies miss against Piped Slimes).
 * Decoupled Piped Slime invincibility timer from monster invincibility timer, so Slimes can do damage will being invincible and take damage while enemy is invincible.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
 ## 1.2.5
 

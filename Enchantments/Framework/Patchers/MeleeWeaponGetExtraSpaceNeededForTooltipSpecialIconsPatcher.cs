@@ -31,7 +31,13 @@ internal sealed class MeleeWeaponGetExtraSpaceNeededForTooltipSpecialIconsPatche
     private static void MeleeWeaponGetExtraSpaceNeededForTooltipSpecialIconsPostfix(
         MeleeWeapon __instance,
         ref Point __result,
-        SpriteFont font, int minWidth, int horizontalBuffer, int startingHeight, StringBuilder descriptionText, string boldTitleText, int moneyAmountToDisplayAtBottom)
+        SpriteFont font,
+        int minWidth,
+        int horizontalBuffer,
+        int startingHeight,
+        StringBuilder descriptionText,
+        string boldTitleText,
+        int moneyAmountToDisplayAtBottom)
     {
         if (__instance.isScythe())
         {

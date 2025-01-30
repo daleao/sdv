@@ -5,6 +5,7 @@
 using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
@@ -21,7 +22,7 @@ internal sealed class BurntOneSecondUpdateTickedEvent : OneSecondUpdateTickedEve
     }
 
     /// <inheritdoc />
-    public override bool IsEnabled => Game1.player.hasBuff(BuffIDs.Burnt);
+    public override bool IsEnabled => Game1.player.hasBuff(BuffIDs.Burnt) && Game1.game1.ShouldTimePass();
 
     /// <inheritdoc />
     protected override void OnOneSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
@@ -41,5 +42,10 @@ internal sealed class BurntOneSecondUpdateTickedEvent : OneSecondUpdateTickedEve
                 attachedCharacter = player,
                 layerDepth = 999999f,
             });
+
+        if (player.health <= 0)
+        {
+            player.buffs.Remove(BuffIDs.Burnt);
+        }
     }
 }

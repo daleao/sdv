@@ -28,9 +28,6 @@ internal sealed class DataKeys
     internal const string DatePlanted = "DatePlanted";
     internal const string Fertilized = "Fertilized";
 
-    // farm animal keys
-    internal const string BredByPrestigedBreeder = "BredByBreeder";
-
     // monster keys
     internal const string BaseAttack = "BaseAttack";
     internal const string BaseDefense = "BaseDefense";

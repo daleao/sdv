@@ -1,5 +1,21 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.1.3
+
+### Fixed
+
+* Players can no longer open the Animal Query Menu on farm animals transfigured by Wabbajack enchantment. This prevents an exploit where these animals could be sold repeatedly for infinite gold. 
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
+## 2.1.2
+
+### Changed
+
+* Changed the implementation of the Reaching enchantment for Scythe to avoid hitting tile behind the player. It now neatly extends the range by exactly 1 tile in the player's facing direction. Also optimizes the vanilla hitbox calculation without changing the area.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.1.1
 
 ### Added

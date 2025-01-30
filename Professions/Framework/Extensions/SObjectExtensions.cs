@@ -72,16 +72,14 @@ internal static class SObjectExtensions
         return @object.GetOwner().HasProfession(profession, prestiged);
     }
 
-    /// <summary>Determines whether the owner of the <paramref name="object"/> has the <see cref="VanillaProfession"/> corresponding to <paramref name="index"/>.</summary>
+    /// <summary>Determines whether the owner of this <paramref name="object"/>---or any <see cref="Farmer"/> instance in the game session, if allowed by the module's settings---has the specified <paramref name="profession"/>.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <param name="index">A valid profession index.</param>
+    /// <param name="profession">A <see cref="IProfession"/>.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
-    /// <returns><see langword="true"/> if the owner of <paramref name="object"/> the <see cref="VanillaProfession"/> with the specified <paramref name="index"/>, otherwise <see langword="false"/>.</returns>
-    /// <remarks>This overload exists only to be called by emitted ILCode. Expects a vanilla <see cref="VanillaProfession"/>.</remarks>
-    internal static bool DoesOwnerHaveProfession(this SObject @object, int index, bool prestiged = false)
+    /// <returns><see langword="true"/> if the <see cref="Farmer"/> who owns the <paramref name="object"/> has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
+    internal static bool DoesOwnerHaveProfessionOrLax(this SObject @object, IProfession profession, bool prestiged = false)
     {
-        return Profession.TryFromValue(index, out var profession) &&
-               @object.GetOwner().HasProfession(profession, prestiged);
+        return @object.GetOwner().HasProfessionOrLax(profession, prestiged);
     }
 
     /// <summary>Checks whether the <paramref name="object"/> is owned by the specified <see cref="Farmer"/>, or if <see cref="ProfessionsConfig.LaxOwnershipRequirements"/> is enabled in the mod's config settings.</summary>

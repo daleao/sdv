@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -14,7 +15,7 @@ internal sealed class TimerUpdateTickedEvent(EventManager? manager = null)
     : UpdateTickedEvent(manager ?? CoreMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.Timers.Count > 0;
+    public override bool IsEnabled => State.Timers.Count > 0 && Game1.game1.ShouldTimePass();
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

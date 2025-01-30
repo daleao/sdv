@@ -70,15 +70,9 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
     private static void AddRancherStartingFriendship(FarmAnimal newborn)
     {
         var owner = newborn.GetOwner();
-        if (!owner.HasProfessionOrLax(Profession.Rancher))
+        if (owner.HasProfessionOrLax(Profession.Rancher))
         {
-            return;
-        }
-
-        newborn.friendshipTowardFarmer.Value = 200 + Game1.random.Next(-50, 51);
-        if (owner.HasProfession(Profession.Breeder, true))
-        {
-            Data.Write(newborn, DataKeys.BredByPrestigedBreeder, true.ToString());
+            newborn.friendshipTowardFarmer.Value = 200 + Game1.random.Next(-50, 51);
         }
     }
 

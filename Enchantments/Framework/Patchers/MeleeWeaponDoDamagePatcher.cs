@@ -9,6 +9,7 @@ using DaLion.Enchantments.Framework.Enchantments;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Tools;
 
@@ -76,8 +77,91 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
             return null;
         }
 
+        // From: foreach (Vector2 v in Utility.removeDuplicates(Utility.getListOfTileLocationsForBordersOfNonTileRectangle(areaOfEffect)))
+        // To: foreach (Vector2 v in ListInnerTiles(areaOfEffect, this))
+        try
+        {
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(Utility).RequireMethod(
+                            nameof(Utility.getListOfTileLocationsForBordersOfNonTileRectangle)))
+                ])
+                .ReplaceWith(new CodeInstruction(OpCodes.Ldarg_0))
+                .Move()
+                .ReplaceWith(
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(MeleeWeaponDoDamagePatcher).RequireMethod(nameof(ListInnerTiles))));
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting inner tile enumerator.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 
     #endregion harmony patches
+
+    #region injected subroutines
+
+    private static List<Vector2> ListInnerTiles(Rectangle rectangle, MeleeWeapon weapon)
+    {
+        var left = rectangle.Left / Game1.tileSize;
+        var right = rectangle.Right / Game1.tileSize;
+        var top = rectangle.Top / Game1.tileSize;
+        var bottom = rectangle.Bottom / Game1.tileSize;
+        HashSet<Vector2> tiles = [];
+        for (var x = left; x <= right; x++)
+        {
+            for (var y = top; y <= bottom; y++)
+            {
+                tiles.Add(new Vector2(x, y));
+            }
+        }
+
+        if (!weapon.hasEnchantmentOfType<ReachingToolEnchantment>())
+        {
+            return tiles.ToList();
+        }
+
+        switch (weapon.lastUser.FacingDirection)
+        {
+            case Game1.up:
+                for (var x = left; x <= right; x++)
+                {
+                    tiles.Add(new Vector2(x, top - 1));
+                }
+
+                break;
+            case Game1.right:
+                for (var y = top; y <= bottom; y++)
+                {
+                    tiles.Add(new Vector2(right + 1, y));
+                }
+
+                break;
+            case Game1.down:
+                for (var x = left; x <= right; x++)
+                {
+                    tiles.Add(new Vector2(x, bottom + 1));
+                }
+
+                break;
+            case Game1.left:
+                for (var y = top; y <= bottom; y++)
+                {
+                    tiles.Add(new Vector2(left - 1, y));
+                }
+
+                break;
+        }
+
+        return tiles.ToList();
+    }
+
+    #endregion injected subroutines
 }
