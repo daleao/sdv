@@ -31,7 +31,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
     [HarmonyPriority(Priority.HigherThanNormal)]
     private static bool RingCombinePrefix(Ring __instance, ref Ring __result, Ring ring)
     {
-        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
+        if (__instance.ItemId != InfinityBandId)
         {
             return true; // run original logic
         }

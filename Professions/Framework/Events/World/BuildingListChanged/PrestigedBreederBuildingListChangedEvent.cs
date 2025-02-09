@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -21,7 +22,8 @@ internal sealed class PrestigedBreederBuildingListChangedEvent(EventManager? man
     {
         foreach (var building in e.Added)
         {
-            if (building.indoors.Value is AnimalHouse { Name: "Deluxe Barn" } house)
+            if (building.indoors.Value is AnimalHouse house && house.Name.Contains("Barn") &&
+                house.Name.ContainsAnyOf("Deluxe", "Premium"))
             {
                 house.animalLimit.Value += 2;
             }

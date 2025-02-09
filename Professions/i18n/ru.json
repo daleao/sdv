@@ -100,6 +100,8 @@
   "demolitionist.title.female": "Разрушитель",
   "demolitionist.title.prestiged.male": "Пиротехник",
   "demolitionist.title.prestiged.female": "Пиротехник",
+  "demolitionist.title.prestiged.male.maniac": "Пиротехник",
+  "demolitionist.title.prestiged.female.maniac": "Пиротехник",
   "demolitionist.desc": "Радиус взрыва +1. 50% шанс получить дополнительные ресурсы из взорванных камней.",
   "demolitionist.desc.prestiged": "Взрывы вызывают цепные реакции. Удваивает продолжительность действия угля, используемого для за fueling machines.", // TODO: перевести fueling machines
   "demolitionist.buff.desc": "Прилив адреналина",
@@ -325,6 +327,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Защитники природы должны собрать столько мусора за каждое очко дружбы с жителями деревни.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Максимальный налоговый вычет",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "Максимальный налоговый вычет, разрешенный Налоговой службой Фернгилла, в процентах (игнорируется, если установлен мод Taxes).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Сборщик сока",

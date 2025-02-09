@@ -100,6 +100,8 @@
   "demolitionist.title.female": "폭파 전문가",
   "demolitionist.title.prestiged.male": "화약의 달인",
   "demolitionist.title.prestiged.female": "화약의 달인",
+  "demolitionist.title.prestiged.male.maniac": "화약의 달인",
+  "demolitionist.title.prestiged.female.maniac": "화약의 달인",
   "demolitionist.desc": "폭발 범위가 1칸 증가합니다. 발파 작업으로 얻는 광물의 양이 50% 증가합니다. 폭발로 데미지를 입을 경우 잠깐 동안 이속이 증가합니다.",
   "demolitionist.desc.prestiged": "폭탄이 주변 돌을 연쇄 폭파시킵니다. 설비에 들어가는 석탄의 지속력이 두배로 증가합니다.",
   "demolitionist.buff.desc": "아드레날린 러쉬",
@@ -324,6 +326,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "자원 절약 운동가가 쓰레기를 낚을 때마다 얻는 마을 사람들의 친밀도 비율을 조절합니다.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "세액 공제한도",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "Ferngill Revenue Service에서 제공하는 최대 세액 공제 비율 (다른 세금 모드가 있을 경우 무시됨).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "수액 채취가",

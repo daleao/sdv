@@ -4,7 +4,12 @@
 
 ### Changed
 
-* Progenitor now applies to all owned animals and not just those born after obtaining the profession. It now also considers Lax Requirements.
+* Buffed Cropwhisperer: *[...]* crops can survive ~~the first day~~ up to 5 days out-of-season.
+  * A single day out-of-season was nowhere near impactful enough for an end-game prestige perk, especially in comparison to the Industrialists' much stronger ability to preserve all ingredient quality. This buff should put it in a much better spot, ensuring a full extra regrowth cycle of any regrowth crop.
+* Breeder now only applies its bonus animal value perk to animals bred after obtaining the profession. Purchased animals are unaffected. Progenitor already worked the same way.
+* Breeder and Progenitor both now consider Lax Requirements.
+* Barn and Coop max capacity change conditions are now slightly more robust. Shouldn't affect anything, but you never know.
+* Demolitionists' Get Excited buff now requires the prestiged variant and Pyromania setting enabled.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

@@ -24,10 +24,10 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
         { typeof(RubyEnchantment), new Color(225, 57, 57) },
         { typeof(AquamarineEnchantment), new Color(35, 144, 170) },
         { typeof(AmethystEnchantment), new Color(111, 60, 196) },
-        //{ typeof(GarnetEnchantment), new Color(152, 29, 45) },
         { typeof(EmeraldEnchantment), new Color(4, 128, 54) },
         { typeof(JadeEnchantment), new Color(117, 150, 99) },
         { typeof(TopazEnchantment), new Color(220, 143, 8) },
+        { "DaLion.Harmonics.Framework.GarnetEnchantment".ToType(), new Color(152, 29, 45) },
     };
 
     /// <summary>Initializes a new instance of the <see cref="IClickableMenuDrawHoverTextPatcher"/> class.</summary>

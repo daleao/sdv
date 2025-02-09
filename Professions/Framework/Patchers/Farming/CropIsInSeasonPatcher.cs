@@ -26,8 +26,7 @@ internal sealed class CropIsInSeasonPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void CropIsInSeasonPostfix(Crop __instance, ref bool __result)
     {
-        if (!__result && Data.ReadAs<bool>(__instance, DataKeys.PlantedByPrestigedAgriculturist) &&
-            Game1.dayOfMonth == 1)
+        if (!__result && Data.ReadAs<int>(__instance, DataKeys.DaysLeftOutOfSeason) > 0)
         {
             __result = true;
         }

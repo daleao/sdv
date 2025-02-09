@@ -9,15 +9,15 @@ using StardewValley.TerrainFeatures;
 #endregion using directives
 
 [UsedImplicitly]
-internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
+internal sealed class CropNewDayPatcher : HarmonyPatcher
 {
-    /// <summary>Initializes a new instance of the <see cref="HoeDirtPlantPatcher"/> class.</summary>
+    /// <summary>Initializes a new instance of the <see cref="CropNewDayPatcher"/> class.</summary>
     /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
     /// <param name="logger">A <see cref="Logger"/> instance.</param>
-    internal HoeDirtPlantPatcher(Harmonizer harmonizer, Logger logger)
+    internal CropNewDayPatcher(Harmonizer harmonizer, Logger logger)
         : base(harmonizer, logger)
     {
-        this.Target = this.RequireMethod<HoeDirt>(nameof(HoeDirt.plant));
+        this.Target = this.RequireMethod<Crop>(nameof(Crop.newDay));
     }
 
     #region harmony patches
@@ -25,11 +25,11 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
     /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void HoeDirtPlantPostfix(HoeDirt __instance, Farmer who)
+    private static void HoeDirtPlantPostfix(Crop __instance)
     {
-        if (__instance.crop is { } crop && who.HasProfession(Profession.Agriculturist, true))
+        if (Data.ReadAs<bool>(__instance, DataKeys.DaysLeftOutOfSeason))
         {
-            Data.Write(crop, DataKeys.DaysLeftOutOfSeason, 5.ToString());
+            Data.Increment(__instance, DataKeys.DaysLeftOutOfSeason, -1);
         }
     }
 

@@ -101,6 +101,8 @@
   "demolitionist.title.female": "拆除专家",
   "demolitionist.title.prestiged.male": "烟火制造师",
   "demolitionist.title.prestiged.female": "烟火制造师",
+  "demolitionist.title.prestiged.male.maniac": "烟火制造师",
+  "demolitionist.title.prestiged.female.maniac": "烟火制造师",
   "demolitionist.desc": "爆炸范围增加1.有50%的几率使爆炸后的石头产出额外资源.",
   "demolitionist.desc.prestiged": "爆炸引发连锁反应.用作燃料的煤炭持续时间翻倍.",
   "demolitionist.buff.desc": "肾上腺素激增",

@@ -5,9 +5,9 @@
     <AssemblyName>DaLion.Ponds</AssemblyName>
     <RootNamespace>DaLion.Ponds</RootNamespace>
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
-    <RepositoryUrl>???</RepositoryUrl>
+    <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Ponds</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.1.1</Version>
+    <Version>2.1.2</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>

@@ -171,7 +171,7 @@ Grants double mood *and* friendship points from petting. Newborn animals are bor
 <font size="2">
 <details>
 
-At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession. Prestige eliminates the friendship requirement.
+At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession. **Only applies to animals born *after* obtaining this profession.** Prestige eliminates the friendship requirement.
 </details>
 </font>
 

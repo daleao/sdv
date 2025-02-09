@@ -100,6 +100,8 @@
   "demolitionist.title.female": "Demolicionista",
   "demolitionist.title.prestiged.male": "Pirotécnico",
   "demolitionist.title.prestiged.female": "Pirotécnica",
+  "demolitionist.title.prestiged.male.maniac": "Piromaníaco",
+  "demolitionist.title.prestiged.female.maniac": "Piromaníaca",
   "demolitionist.desc": "Raio de explosão +1. 50% de chance de obter recursos adicionais de pedras explodidas.",
   "demolitionist.desc.prestiged": "Explosões causam reações em cadeia. Dobra a duração do carvão usado para alimentar máquinas.",
   "demolitionist.buff.desc": "Pico de Adrenalina",
@@ -325,6 +327,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Ambientalistas devem coletar essa quantidade de lixo para cada 1 ponto de amizade com os moradores.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Teto de dedução fiscal",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "A dedução fiscal máxima permitida pela Receita Federal de Ferngill, em porcentagem (ignorada se o mod TAXES estiver instalado).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Seringueiro(a)",

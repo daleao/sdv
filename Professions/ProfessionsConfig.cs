@@ -279,6 +279,12 @@ public sealed class ProfessionsConfig
         }
     }
 
+    /// <summary>Gets a value indicating whether to replace the tame Pyrotechnician with the wild Pyromaniac.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.demolitionist")]
+    [GMCMPriority(699)]
+    public bool Pyromania { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether heavy tappers should yield twice the output stack instead of produce faster. This makes it more consistent with the new Heavy Furnace and less redudant with the Tapper profession.</summary>
     [JsonProperty]
     [GMCMSection("prfs.tapper")]

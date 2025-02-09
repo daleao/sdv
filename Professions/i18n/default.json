@@ -9,7 +9,7 @@
   "agriculturist.title.prestiged.male": "Cropwhisperer",
   "agriculturist.title.prestiged.female": "Cropwhisperer",
   "agriculturist.desc": "Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.",
-  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive the first day out-of-season.",
+  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive up to 5 days out-of-season.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
   "artisan.title.prestiged.male": "Industrialist",
@@ -101,6 +101,8 @@
   "demolitionist.title.female": "Demolitionist",
   "demolitionist.title.prestiged.male": "Pyrotechnician",
   "demolitionist.title.prestiged.female": "Pyrotechnician",
+  "demolitionist.title.prestiged.male.maniac": "Pyromaniac",
+  "demolitionist.title.prestiged.female.maniac": "Pyromaniac",
   "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
   "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
@@ -329,6 +331,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Tax Deduction Ceiling",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "The maximum tax deduction allowed by the Ferngill Revenue Service, in percentage (ignored if Taxes mod is installed).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Tapper",

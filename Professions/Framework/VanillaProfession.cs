@@ -338,6 +338,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     public string GetTitle(bool? prestiged = null)
     {
         prestiged ??= this.IsPrestiged;
+        if (this == Demolitionist && prestiged.Value && Config.Pyromania)
+        {
+            return _I18n.Get("demolitionist.title.prestiged." + (Game1.player.IsMale ? "male" : "female") + ".maniac");
+        }
+
         return this.Level == 10
             ? _I18n.Get(this.Name.ToLower() + ".title." + (prestiged.Value ? "prestiged." : Empty) +
                         (Game1.player.IsMale ? "male" : "female"))

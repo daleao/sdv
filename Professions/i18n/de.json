@@ -100,6 +100,8 @@
   "demolitionist.title.female": "Explosionsmeisterin",
   "demolitionist.title.prestiged.male": "Pyrotechniker",
   "demolitionist.title.prestiged.female": "Pyrotechnikerin",
+  "demolitionist.title.prestiged.male.maniac": "Pyromane",
+  "demolitionist.title.prestiged.female.maniac": "Pyromane",
   "demolitionist.desc": "Explosionsradius +1. 50% Chance zusätzliche Resourcen aus gesprengten Steinen zu erhalten.",
   "demolitionist.desc.prestiged": "Explosionen verursachen Kettenreaktionen. Kohle lässt Maschinen doppelt so lange laufen.",
   "demolitionist.buff.desc": "Adrenalinrausch",
@@ -325,6 +327,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Konservationierer*innen müssen so viel Müll sammeln, um einen Freundschaftspunkt mit Leuten zu bekommen.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Steuervorteil Grenze",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "Die Obergrenze an Steuernachlass in Prozent (wird ignoriert, wenn du den Steuer-Mod installiert hast).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Zapfmeister*in",

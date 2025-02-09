@@ -15,7 +15,7 @@ internal static class CombinedRing_Chord
 
     internal static Chord? Get_Chord(this CombinedRing combined)
     {
-        return combined.QualifiedItemId == $"(O){InfinityBandId}" && combined.combinedRings.Count > 1
+        return combined.ItemId == InfinityBandId && combined.combinedRings.Count > 1
             ? Values.GetValue(combined, Create)
             : null;
     }

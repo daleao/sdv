@@ -72,13 +72,13 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             r,
             who);
 
-        if (!isDemolitionist)
+        if (!isPrestigedDemolitionist)
         {
             return;
         }
 
         // get excited speed buff
-        if (who.IsLocalPlayer)
+        if (who.IsLocalPlayer && Config.Pyromania)
         {
             var distanceFromEpicenter = who.SquaredTileDistance(tileLocation);
             if (distanceFromEpicenter <= radius * radius)
@@ -93,7 +93,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
         }
 
-        if (isPrestigedDemolitionist && radius >= 2)
+        if (radius >= 2)
         {
             State.ChainedExplosions.Add(new ChainedExplosion(__instance, tileLocation, radius, damage_amount, who));
         }

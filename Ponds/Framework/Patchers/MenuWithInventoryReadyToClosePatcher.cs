@@ -45,9 +45,7 @@ internal sealed class MenuWithInventoryReadyToClosePatcher : HarmonyPatcher
         }
 
         var output = inventory
-            .OrderByDescending(i => i is ColoredObject
-                ? ItemRegistry.Create<SObject>(i.QualifiedItemId).salePrice()
-                : i.salePrice())
+            .OrderByDescending(i => i.salePrice())
             .First() as SObject;
         inventory.Remove(output!);
         if (inventory.Count > 0)

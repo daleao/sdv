@@ -31,7 +31,7 @@ internal sealed class RingGetExtraSpaceNeededForTooltipSpecialIconsPatcher : Har
     [HarmonyPrefix]
     private static bool RingGetExtraSpaceNeededForTooltipSpecialIconsPostfix(Ring __instance, ref Point __result, SpriteFont font, int horizontalBuffer, int startingHeight)
     {
-        if (__instance is not CombinedRing combined || combined.QualifiedItemId != $"(O){InfinityBandId}")
+        if (__instance is not CombinedRing combined || combined.ItemId != InfinityBandId)
         {
             return true; // run original logic
         }

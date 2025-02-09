@@ -1,5 +1,15 @@
 ﻿# HARMONICS Changelog
 
+## 1.1.1
+
+### Fixed
+
+* Fixed Garnet Ring not applying cooldown reduction working correctly.
+* Fixed Garnet gem not being usable at the Forge.
+* Fixed cooldown reduction enchantment effect not displaying correctly in weapon tooltips.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.1.0
 
 ### Changed

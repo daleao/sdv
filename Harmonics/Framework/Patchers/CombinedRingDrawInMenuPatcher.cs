@@ -46,7 +46,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         Color color,
         bool drawShadow)
     {
-        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
+        if (__instance.ItemId != InfinityBandId)
         {
             return true; // run original logic
         }
@@ -207,7 +207,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float transparency,
         float layerDepth)
     {
-        if (__instance.QualifiedItemId != $"(O){InfinityBandId}" ||
+        if (__instance.ItemId != InfinityBandId ||
             __instance.combinedRings.Count == 0 || RingTextureStyle != TextureStyle.VanillaTweaks)
         {
             return;

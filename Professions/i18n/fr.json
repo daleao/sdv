@@ -100,6 +100,8 @@
   "demolitionist.title.female": "Dynamiteuse",
   "demolitionist.title.prestiged.male": "Pyrotechnicien",
   "demolitionist.title.prestiged.female": "Pyrotechnicienne",
+  "demolitionist.title.prestiged.male.maniac": "Pyromane",
+  "demolitionist.title.prestiged.female.maniac": "Pyromane",
   "demolitionist.desc": "Rayon d'explosion +1. 50 % de chance d’obtenir des ressources supplémentaires à partir des roches explosées.",
   "demolitionist.desc.prestiged": "Les explosions provoquent des réactions en chaîne. Doublez la durée du charbon utilisé pour alimenter les machines.",
   "demolitionist.buff.desc": "Ruée d'adrénaline",
@@ -325,6 +327,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Les conservationnistes doivent collecter ce montant de déchets pour chaque point d'amitié envers les villageois.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Plafond de la réduction d'impôt",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "La réduction d'impôts maximale autorisée par le Service des Revenus de Ferngill, en pourcentage (ignorée si le mod Serfdom est installé).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Saigneur",

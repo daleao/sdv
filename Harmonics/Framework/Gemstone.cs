@@ -531,7 +531,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(BuffEffects effects, float amplitude)
         {
-            effects.Get_CooldownReduction().Value += 0.1f * amplitude;
+            Game1.player.Get_CooldownReduction().Value += 0.1f * amplitude;
         }
 
         /// <inheritdoc />
