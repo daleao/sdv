@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "양치기의 시조",
   "breeder.desc": "닭,오리의 부화 속도가 2배 / 소,양,돼지의 번식 속도가 3배 빨라집니다. 친밀도 최대인 동물은 향상된 품질의 물건을 생산합니다.",
   "breeder.desc.prestiged": "동물 판매 가격이 최대치로 고정됩니다. 디럭스 외양간의 용량이 2칸 증가합니다.",
+  "breeder.desc.prestiged.sve": "동물 판매 가격이 최대치로 고정됩니다. 디럭스 외양간의 용량이 2칸 증가합니다.",
   "producer.title.male": "낙농업 종사자",
   "producer.title.female": "낙농업 종사자",
   "producer.title.prestiged.male": "낙농업 전문가",
   "producer.title.prestiged.female": "낙농업 전문가",
   "producer.desc": "친밀도 최대인 동물의 생산량이 2배로 증가합니다. 보유한 닭장, 외양간이 가득 차면 동물 생산품을 재료로 하는 생산품 가격이 5% 증가합니다.",
   "producer.desc.prestiged": "친밀도 최대치 동물의 생산량이 2배 >> 3배로 증가합니다. 디럭스 닭장의 최대 용량이 2칸 증가합니다.",
+  "producer.desc.prestiged.sve": "친밀도 최대치 동물의 생산량이 2배 >> 3배로 증가합니다. 디럭스 닭장의 최대 용량이 2칸 증가합니다.",
 
   // foraging
   "forager.title.male": "심마니",

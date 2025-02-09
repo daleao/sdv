@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "繁衍者",
   "breeder.desc": "孵化速度提高2倍,动物怀孕的可能性提高3倍.友好的动物价值显著提高.",
   "breeder.desc.prestiged": "孵化或繁殖的动物总是具有最高价值.豪华谷仓容量+2.",
+  "breeder.desc.prestiged.sve": "孵化或繁殖的动物总是具有最高价值.豪华谷仓容量+2.",
   "producer.title.male": "生产者",
   "producer.title.female": "生产者",
   "producer.title.prestiged.male": "产量大师",
   "producer.title.prestiged.female": "产量大师",
   "producer.desc": "快乐动物的生产频率提高2倍.谷仓或鸡舍每满一次,产物价值提高5%.",
   "producer.desc.prestiged": "快乐动物的生产频率从2倍提高到3倍.豪华鸡舍容量+2.",
+  "producer.desc.prestiged.sve": "快乐动物的生产频率从2倍提高到3倍.豪华鸡舍容量+2.",
 
   // 采集
   "forager.title.male": "采集者",

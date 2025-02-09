@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "Progénitrice",
   "breeder.desc": "Incubation 2 fois plus rapide et grossesse animale 3 fois plus probable. Les animaux amicaux ont une valeur nettement supérieure.",
   "breeder.desc.prestiged": "Les animaux éclos ou élevés valent toujours leur valeur maximale. Capacité de la grange de luxe +2.",
+  "breeder.desc.prestiged.sve": "Les animaux éclos ou élevés valent toujours leur valeur maximale. Capacité de la grange de luxe ou premium +2.",
   "producer.title.male": "Producteur",
   "producer.title.female": "Productrice",
   "producer.title.prestiged.male": "Maître du rendement",
   "producer.title.prestiged.female": "Maîtresse du rendement",
   "producer.desc": "Les animaux heureux produisent 2 fois plus fréquemment. Les produits valent 5 % de plus pour chaque grange ou poulailler plein.",
   "producer.desc.prestiged": "Les animaux heureux produisent 2 fois >> 3 fois plus fréquemment. Capacité du poulailler de luxe +2.",
+  "producer.desc.prestiged": "Les animaux heureux produisent 2 fois >> 3 fois plus fréquemment. Capacité du poulailler de luxe ou premium +2.",
 
   // foraging
   "forager.title.male": "Fourrageur",
@@ -268,7 +270,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "Indique si les récolteurs Junimos doivent appliquer les avantages de la profession, tels que ceux de Récolteur et Agriculteur.",
 
   // artisan & producer
-  "gmcm.sections.prfs.artisan_breeder_producer": "Artisan & Producteur",
+  "gmcm.sections.prfs.artisan_breeder_producer": "Artisan et Producteur",
   "gmcm.artisan_machines.title": "Machines artisanales",
   "gmcm.artisan_machines.desc": "Machines généralement utilisées pour fabriquer des produits artisanaux. Ajoutez à cette liste l'ID qualifié des machines artisanales d'autres mods que vous utilisez pour les rendre compatibles avec les avantages de la profession Artisan. Les ID des machines qualifiées doivent commencer par \"(BC)\".",
   "gmcm.animal_derived_goods.title": "Produits animaliers",
@@ -281,14 +283,14 @@
   "gmcm.immersive_dairy_yield.desc": "Un gros œuf ou du grand lait produit deux mayonnaise ou fromage de qualité normale, au lieu d'un seul de qualité dorée. Cela rend l'avantage de la profession Artisan plus cohérent. Si la Mayonnaise d'Autruche n'est pas activée, les œufs d'autruche produisent toujours 10 mayonnaises mais ne conservent pas la qualité d'entrée. Si la mayonnaise dorée n'est pas activée, un œuf doré donnera une seule mayonnaise mais toujours de la plus haute qualité.",
 
   // ecologist & gemologist
-  "gmcm.sections.prfs.ecologist_gemologist": "Écologiste & Gemmologue",
+  "gmcm.sections.prfs.ecologist_gemologist": "Écologiste et Gemmologue",
   "gmcm.forages_needed_for_best_quality.title": "Cueillettes optimales",
   "gmcm.forages_needed_for_best_quality.desc": "Les écologistes doivent cueillir ce nombre d'objets différents pour obtenir une qualité iridium. Par défaut, ce nombre est équilibré pour la version de base ; vous devez augmenter ce nombre si vous utilisez des mods ajoutant de nombreux nouveaux objets à chercher. Réglez sur zéro pour restaurer le comportement du Botaniste de base.",
   "gmcm.minerals_needed_for_best_quality.title": "Minéraux optimaux",
   "gmcm.minerals_needed_for_best_quality.desc": "Les gemmologues doivent extraire ce nombre de minéraux différents pour obtenir une qualité iridium. Par défaut, ce nombre est équilibré pour la version de base ; vous devez augmenter ce nombre si vous utilisez des mods ajoutant de nombreux nouveaux gemmes ou minéraux.",
 
   // scavenger & prospector
-  "gmcm.sections.prfs.scavenger_prospector": "Pilleur & Prospecteur",
+  "gmcm.sections.prfs.scavenger_prospector": "Pilleur et Prospecteur",
   "gmcm.treasure_hunt_start_chance_multiplier.title": "Probabilité de chasse au trésor",
   "gmcm.treasure_hunt_start_chance_multiplier.desc": "Multiplie la chance de base que vos sens de chasse de pilleurs ou de prospecteur commencent à picoter.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Chasses au trésor à la ferme",
@@ -311,7 +313,7 @@
   "gmcm.use_legacy_prospector_hunt.desc": "Activer pour restaurer la flèche violette pour les chasses du prospecteur au lieu des nouveaux signaux sonores. Ceci est une option accessible pour les malentendants.",
 
   // angler & aquarist
-  "gmcm.sections.prfs.angler_aquarist": "Pêcheur & Aquariophile",
+  "gmcm.sections.prfs.angler_aquarist": "Pêcheur et Aquariophile",
   "gmcm.angler_price_bonus_ceiling.title": "Plafond du bonus de prix",
   "gmcm.angler_price_bonus_ceiling.desc": "Le nombre le plus élevé qui sera ajouté à vos autres multiplicateurs de prix pour le bonus du pêcheur à la ligne ; chaque espèce de poisson unique à taille maximale ajoute 0,005 jusqu'à ce nombre. Ajustez ceci si vous avez plusieurs mods de nouveaux poissons installés.",
   "gmcm.aquarist_fish_pond_ceiling.title": "Plafond du bonus de pêche",
@@ -358,7 +360,7 @@
   "gmcm.forget_recipes_on_skill_reset.title": "Oublier les recettes",
   "gmcm.forget_recipes_on_skill_reset.desc": "Désactivez ceci pour conserver toutes les recettes de compétences lors de la réinitialisation des compétences.",
   "gmcm.allow_multiple_resets.title": "Réinitialisations multiples",
-  "gmcm.allow_multiple_resets.desc": "Indique si le joueur peut réinitialiser plusieurs compétences par jour.\nNOTE : cela cause le jeu à se bloquer pendant la nuit pour certaines personnes.",
+  "gmcm.allow_multiple_resets.desc": "Indique si le joueur peut réinitialiser plusieurs compétences par jour. NOTE: cela cause le jeu à se bloquer pendant la nuit pour certaines personnes.",
   "gmcm.skill_exp_multiplier_per_reset.title": "Multiplicateur d'EXP par reset",
   "gmcm.skill_exp_multiplier_per_reset.desc": "Un multiplicateur appliqué au gain d'expérience d'une compétence après chaque réinitialisation. Cela peut rendre de manière permanente plus facile ou plus difficile les montées de niveaux successives.",
   "gmcm.reset_ribbon_style.title": "Style du ruban",
@@ -368,7 +370,7 @@
   "gmcm.ribbon_style.gen4_ribbons": "Rubans gén. 4",
 
   "gmcm.sections.prfs.skill_exp": "Multiplicateurs d’expérience",
-  "gmcm.skill_exp_multipliers.title": "Multiplicateur d'EXP de base\npour {{skill}}",
+  "gmcm.skill_exp_multipliers.title": "Multiplicateur d'EXP de base pour {{skill}}",
   "gmcm.skill_exp_multipliers.desc": "Multiplie toute l'expérience de {{skill}} acquise depuis le début du jeu.",
 
   // limit break

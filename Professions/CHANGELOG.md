@@ -2,6 +2,10 @@
 
 ## 1.2.7
 
+### Added
+
+* Added SVE-specific descriptions for Breeder and Producer to include Premium buildings.
+
 ### Changed
 
 * Buffed Cropwhisperer: *[...]* crops can survive ~~the first day~~ up to 5 days out-of-season.
@@ -10,6 +14,10 @@
 * Breeder and Progenitor both now consider Lax Requirements.
 * Barn and Coop max capacity change conditions are now slightly more robust. Shouldn't affect anything, but you never know.
 * Demolitionists' Get Excited buff now requires the prestiged variant and Pyromania setting enabled.
+
+### Fixed
+
+* Minor corrections to localizations.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

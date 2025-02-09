@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "Progenitora",
   "breeder.desc": "Incubação é 2x mais rápida e animais engravidam com 3x mais probabilidade. O valor do animal aumenta significativamente conforme a sua amizade.",
   "breeder.desc.prestiged": "Animais nascidos da incubadora ou de outros animais da fazenda valem sempre o valor máximo. Capacidade do Celeiro de Luxo +2.",
+  "breeder.desc.prestiged.sve": "Animais nascidos da incubadora ou de outros animais da fazenda valem sempre o valor máximo. Capacidade do Celeiro de Luxo ou Premium +2.",
   "producer.title.male": "Produtor",
   "producer.title.female": "Produtora",
   "producer.title.prestiged.male": "Mestre do Rendimento",
   "producer.title.prestiged.female": "Mestra da Rendimento",
   "producer.desc": "Animais felizes produzem 2x mais rápido. Produtos de origem animal valem 5% a mais por cada Celeiro ou Galinheiro cheio.",
   "producer.desc.prestiged": "Animais feliz produzem 2x >> 3x mais rápido. Capacidade do Galinheiro de Luxo +2.",
+  "producer.desc.prestiged.sve": "Animais feliz produzem 2x >> 3x mais rápido. Capacidade do Galinheiro de Luxo ou Premium +2.",
 
   // foraging
   "forager.title.male": "Forrageador",
@@ -281,14 +283,14 @@
   "gmcm.immersive_dairy_yield.desc": "Faz com que um ovo grande ou leite grande produza duas maioneses ou queijos, mas de qualidade regular, em vez de uma unidade em qualidade ouro. Isso torna a profissão Artesão mais consistente. Se a Maionese de Avestruz não estiver ativada, os ovos de avestruz ainda rendem 10 maionese, mas não retêm a qualidade de entrada. Se Maionese Dourada não estiver ativada, um Ovo Dourado renderá uma única maionese, mas sempre da mais alta qualidade.",
 
   // ecologist & gemologist
-  "gmcm.sections.prfs.ecologist_gemologist": "Ecologista & Gemólogo(a)",
+  "gmcm.sections.prfs.ecologist_gemologist": "Ecologista e Gemólogo(a)",
   "gmcm.forages_needed_for_best_quality.title": "Coletas necessárias para melhor qualidade",
   "gmcm.forages_needed_for_best_quality.desc": "Ecologistas devem coletar esta quantidade de itens de forragem para alcançar a qualidade irídio. Por padrão, está balanceado para vanilla; aumente esse número se estiver usando mods que adicionam muitos itens de forragem novos. Configurando para zero restaura o comportamento normal do Botanista vanilla.",
   "gmcm.minerals_needed_for_best_quality.title": "Minerais necessários para melhor qualidade",
   "gmcm.minerals_needed_for_best_quality.desc": "Gemólogos devem extrair essa quantiade de minerais para obter a qualidade irídio. Por padrão, está balanceado para vanilla; aumente esse número se estiver usando mods que adicionam muitas novas gemas ou minerais.",
 
   // scavenger & prospector
-  "gmcm.sections.prfs.scavenger_prospector": "Rastreador(a) & Prospector(a)",
+  "gmcm.sections.prfs.scavenger_prospector": "Rastreador(a) e Prospector(a)",
   "gmcm.treasure_hunt_start_chance_multiplier.title": "Multiplicador de chance de ativar a Caça ao Tesouro",
   "gmcm.treasure_hunt_start_chance_multiplier.desc": "Multiplica a chance de base dos seus sentidos começarem a formigar.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Permitir Caça ao Tesouro na fazenda",
@@ -311,7 +313,7 @@
   "gmcm.use_legacy_prospector_hunt.desc": "Ative para restaurar a seta roxa original para Caça ao Tesouro de Prospector, ao invés do áudio. Uma opção de acessibilidade para deficientes auditivos.",
 
   // angler & aquarist
-  "gmcm.sections.prfs.angler_aquarist": "Mestre Pescador & Aquarista",
+  "gmcm.sections.prfs.angler_aquarist": "Mestre Pescador e Aquarista",
   "gmcm.angler_price_bonus_ceiling.title": "Teto de bônus de Mestre Pescador",
   "gmcm.angler_price_bonus_ceiling.desc": "O bonus mais alto que será aplicado ao preço dos seus peixes; cada peixe único de tamanho máximo somará 0,01 e cada peixe lendário somará 0,05, até esse número. Ajuste caso tenha vários mods instalados que introduzam novos peixes.",
   "gmcm.aquarist_fish_pond_ceiling.title": "Teto de bônus de Aquarista",

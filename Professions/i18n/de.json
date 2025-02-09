@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "Stammmutter",
   "breeder.desc": "Inkubatoren sind 2x schneller, und Tier-Schwangerschaft 3x wahrscheinlicher. Tiere mit hoher Freundschaft sind signifikant mehr wert.",
   "breeder.desc.prestiged": "Geschlüpfte oder gezüchtete Tiere haben immer den maximalen Wert. Luxus-Stall Kapazität +2.",
+  "breeder.desc.prestiged.sve": "Geschlüpfte oder gezüchtete Tiere haben immer den maximalen Wert. Luxus-Stall Kapazität +2.",
   "producer.title.male": "Produzent",
   "producer.title.female": "Produzentin",
   "producer.title.prestiged.male": "Ertragsmeister",
   "producer.title.prestiged.female": "Ertragsmeisterin",
   "producer.desc": "Glückliche Tiere produzieren 2x häufiger. Tierische Produkte sind 5% mehr wert für jeden vollen Stall oder Hühnerstall.",
   "producer.desc.prestiged": "Glückliche Tiere produzieren 2x >> 3x häufiger. Luxus-Hühnerstall Kapazität +2.",
+  "producer.desc.prestiged.sve": "Glückliche Tiere produzieren 2x >> 3x häufiger. Luxus-Hühnerstall Kapazität +2.",
 
   // foraging
   "forager.title.male": "Sammler",

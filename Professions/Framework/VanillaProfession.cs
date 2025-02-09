@@ -355,6 +355,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     /// <returns>A human-readable <see cref="string"/> description of the profession.</returns>
     public string GetDescription(bool prestiged = false)
     {
+        if ((this == Breeder || this == Producer) && prestiged &&
+            ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+        {
+            return _I18n.Get(this.Name.ToLowerInvariant() + ".desc.prestiged.sve");
+        }
+
         return _I18n.Get(this.Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
     }
 

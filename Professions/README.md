@@ -924,7 +924,7 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slayed within 0.5s of exiting invisibility, immediately reactivate Ambuscade.
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slain within 0.5s of exiting invisibility, immediately reactivates Ambuscade.
 </summary>
 
 <font size="2">
