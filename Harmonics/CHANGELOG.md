@@ -1,10 +1,18 @@
 ﻿# HARMONICS Changelog
 
+## 1.1.2
+
+### Fixed
+
+* Hotfix for Null-Ref Exception when using Wear More Rings.
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.1.1
 
 ### Fixed
 
-* Fixed Garnet Ring not applying cooldown reduction working correctly.
+* Fixed Garnet Ring cooldown reduction not applying correctly.
 * Fixed Garnet gem not being usable at the Forge.
 * Fixed cooldown reduction enchantment effect not displaying correctly in weapon tooltips.
 

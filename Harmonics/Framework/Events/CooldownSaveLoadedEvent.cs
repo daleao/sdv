@@ -26,7 +26,7 @@ internal sealed class CooldownSaveLoadedEvent(EventManager? manager = null)
             for (var slot = 0; slot < api.RingSlotCount(); slot++)
             {
                 var ring = api.GetRing(slot);
-                if (ring.ItemId == GarnetRingId)
+                if (ring?.ItemId == GarnetRingId)
                 {
                     Game1.player.Get_CooldownReduction().Value += 0.1f;
                 }
