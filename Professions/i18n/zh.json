@@ -1,4 +1,4 @@
-﻿{
+{
   // 耕种
   "harvester.title.male": "收割者",
   "harvester.title.female": "收割者",
@@ -27,14 +27,14 @@
   "breeder.title.prestiged.female": "繁衍者",
   "breeder.desc": "孵化速度提高2倍,动物怀孕的可能性提高3倍.友好的动物价值显著提高.",
   "breeder.desc.prestiged": "孵化或繁殖的动物总是具有最高价值.豪华谷仓容量+2.",
-  "breeder.desc.prestiged.sve": "孵化或繁殖的动物总是具有最高价值.豪华谷仓容量+2.",
+  "breeder.desc.prestiged.sve": "孵化或繁殖的动物总是具有最高价值.豪华或优质谷仓容量+2.",
   "producer.title.male": "生产者",
   "producer.title.female": "生产者",
   "producer.title.prestiged.male": "产量大师",
   "producer.title.prestiged.female": "产量大师",
   "producer.desc": "快乐动物的生产频率提高2倍.谷仓或鸡舍每满一次,产物价值提高5%.",
   "producer.desc.prestiged": "快乐动物的生产频率从2倍提高到3倍.豪华鸡舍容量+2.",
-  "producer.desc.prestiged.sve": "快乐动物的生产频率从2倍提高到3倍.豪华鸡舍容量+2.",
+  "producer.desc.prestiged.sve": "快乐动物的生产频率从2倍提高到3倍.豪华或高级鸡舍容量+2.",
 
   // 采集
   "forager.title.male": "采集者",
@@ -103,8 +103,8 @@
   "demolitionist.title.female": "拆除专家",
   "demolitionist.title.prestiged.male": "烟火制造师",
   "demolitionist.title.prestiged.female": "烟火制造师",
-  "demolitionist.title.prestiged.male.maniac": "烟火制造师",
-  "demolitionist.title.prestiged.female.maniac": "烟火制造师",
+  "demolitionist.title.prestiged.male.maniac": "纵火狂",
+  "demolitionist.title.prestiged.female.maniac": "纵火狂",
   "demolitionist.desc": "爆炸范围增加1.有50%的几率使爆炸后的石头产出额外资源.",
   "demolitionist.desc.prestiged": "爆炸引发连锁反应.用作燃料的煤炭持续时间翻倍.",
   "demolitionist.buff.desc": "肾上腺素激增",
@@ -272,7 +272,7 @@
   "gmcm.should_junimos_inherit_professions.desc": "祝尼魔收获是否应该应用职业声望,比如来自收割者和农业学家的.",
 
   // 工匠 & 生产者
-  "gmcm.sections.prfs.artisan_breeder_producer": "工匠与生产者",
+  "gmcm.sections.prfs.artisan_producer": "工匠与生产者",
   "gmcm.artisan_machines.title": "工匠机器",
   "gmcm.artisan_machines.desc": "通常用于制作工匠物品的机器.请在此列表中添加你正在使用的其他模组中的工匠机器的*合格ID*,以使它们与工匠职业声望兼容.合格的机器ID应该以“(BC)”开头.",
   "gmcm.animal_derived_goods.title": "动物制品",
@@ -283,6 +283,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "是否向游戏中添加新的金蛋和鸵鸟蛋黄酱项目,以使工匠生产更加一致.",
   "gmcm.immersive_dairy_yield.title": "沉浸式乳品产量",
   "gmcm.immersive_dairy_yield.desc": "使一个大型鸡蛋或牛奶产出两个蛋黄酱或奶酪,但品质为普通,而不是一个为金星品质.这使工匠职业声望更加一致.如果未启用鸵鸟蛋黄酱,鸵鸟蛋仍然产出10个蛋黄酱,但不保留输入品质.如果未启用金蛋黄酱,金蛋将产出一个蛋黄酱,但始终为最高品质.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "繁衍者动物价格倍数",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "该倍数适用于繁衍者出售的最大友谊动物的价值.这应该只用于补偿第三方利润平衡模组.",
 
   // 生态学家 & 宝石学家
   "gmcm.sections.prfs.ecologist_gemologist": "生态学家 & 宝石学家",
@@ -331,6 +333,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "环保主义者必须收集这么多垃圾,以获得每1点村民友谊点.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "税收减免上限",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "由Ferngill税务局允许的最大税收减免百分比（如果安装了Taxes模组则忽略）.",
+
+  // 拆迁专家
+  "gmcm.sections.prfs.demolitionist": "拆迁专家",
+  "gmcm.pyromania.title": "纵火狂",
+  "gmcm.pyromania.desc": "将'烟火制造师'换成'纵火狂',它在被爆炸击中时会获得一个肾上腺素增益状态.",
 
   // 采液者
   "gmcm.sections.prfs.tapper": "采液者",
@@ -403,12 +410,12 @@
   "gmcm.prestige_profession_icon_style.desc": "确定用于声望职业的图标风格.",
   "gmcm.profession_icon_style.metallic_gold": "金属金",
   "gmcm.profession_icon_style.posister_gold": "波希米亚金",
+  "gmcm.mastered_skill_icon_style.title": "精通技能图标风格",
+  "gmcm.mastered_skill_icon_style.desc": "确定角色用于精通技能的图标风格.",
+  "gmcm.skill_icon_style.silicon_gold": "硅金",
+  "gmcm.skill_icon_style.kawaii_rose_gold": "卡哇伊玫瑰金",
   "gmcm.gold_sprite_palette.title": "精通技能图标风格",
   "gmcm.gold_sprite_palette.desc": "确定角色用于精通技能的图标风格.",
-  "gmcm.gold_palette.silicon_gold": "硅金",
-  "gmcm.gold_palette.kawaii_rose_gold": "卡哇伊玫瑰金",
-  "gmcm.gold_sprite_palette.title": "金色角色调色板",
-  "gmcm.gold_sprite_palette.desc": "确定角色用于金色调色板的风格",
   "gmcm.gold_palette.silicon_gold": "硅金",
   "gmcm.gold_palette.kawaii_rose_gold": "卡哇伊玫瑰金",
 
