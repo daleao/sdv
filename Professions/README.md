@@ -95,7 +95,7 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster and can survive the first day out-of-season.
+<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster and can survive up to five days out-of-season.
 </font>
 
 <font size="2">
