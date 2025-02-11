@@ -24,7 +24,7 @@ internal sealed class DataKeys
 
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";
-    internal const string PlantedByPrestigedAgriculturist = "PlantedByAgriculturist";
+    internal const string DaysLeftOutOfSeason = "DaysLeftOutOfSeason";
     internal const string DatePlanted = "DatePlanted";
     internal const string Fertilized = "Fertilized";
 
@@ -35,6 +35,10 @@ internal sealed class DataKeys
     internal const string AttackIV = "AttackIV";
     internal const string DefenseIV = "DefenseIV";
     internal const string HealthIV = "HealthIV";
+
+    // animal keys
+    internal const string BredByBreeder = "BredByBreeder";
+    internal const string BredByProgenitor = "BredByProgenitor";
 
     // building keys
     internal const string FamilyLivingHere = "FamilyLivingHere";

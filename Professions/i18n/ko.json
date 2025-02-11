@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "양치기의 시조",
   "breeder.desc": "닭,오리의 부화 속도가 2배 / 소,양,돼지의 번식 속도가 3배 빨라집니다. 친밀도 최대인 동물은 향상된 품질의 물건을 생산합니다.",
   "breeder.desc.prestiged": "동물 판매 가격이 최대치로 고정됩니다. 디럭스 외양간의 용량이 2칸 증가합니다.",
+  "breeder.desc.prestiged.sve": "동물 판매 가격이 최대치로 고정됩니다. 디럭스 외양간의 용량이 2칸 증가합니다.",
   "producer.title.male": "낙농업 종사자",
   "producer.title.female": "낙농업 종사자",
   "producer.title.prestiged.male": "낙농업 전문가",
   "producer.title.prestiged.female": "낙농업 전문가",
   "producer.desc": "친밀도 최대인 동물의 생산량이 2배로 증가합니다. 보유한 닭장, 외양간이 가득 차면 동물 생산품을 재료로 하는 생산품 가격이 5% 증가합니다.",
   "producer.desc.prestiged": "친밀도 최대치 동물의 생산량이 2배 >> 3배로 증가합니다. 디럭스 닭장의 최대 용량이 2칸 증가합니다.",
+  "producer.desc.prestiged.sve": "친밀도 최대치 동물의 생산량이 2배 >> 3배로 증가합니다. 디럭스 닭장의 최대 용량이 2칸 증가합니다.",
 
   // foraging
   "forager.title.male": "심마니",
@@ -100,6 +102,8 @@
   "demolitionist.title.female": "폭파 전문가",
   "demolitionist.title.prestiged.male": "화약의 달인",
   "demolitionist.title.prestiged.female": "화약의 달인",
+  "demolitionist.title.prestiged.male.maniac": "화약의 달인",
+  "demolitionist.title.prestiged.female.maniac": "화약의 달인",
   "demolitionist.desc": "폭발 범위가 1칸 증가합니다. 발파 작업으로 얻는 광물의 양이 50% 증가합니다. 폭발로 데미지를 입을 경우 잠깐 동안 이속이 증가합니다.",
   "demolitionist.desc.prestiged": "폭탄이 주변 돌을 연쇄 폭파시킵니다. 설비에 들어가는 석탄의 지속력이 두배로 증가합니다.",
   "demolitionist.buff.desc": "아드레날린 러쉬",
@@ -324,6 +328,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "자원 절약 운동가가 쓰레기를 낚을 때마다 얻는 마을 사람들의 친밀도 비율을 조절합니다.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "세액 공제한도",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "Ferngill Revenue Service에서 제공하는 최대 세액 공제 비율 (다른 세금 모드가 있을 경우 무시됨).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "수액 채취가",

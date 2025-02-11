@@ -3,10 +3,10 @@
 #region using directives
 
 using System.Xml.Serialization;
+using DaLion.Harmonics.Framework.VirtualProperties;
 using StardewValley;
 using StardewValley.Enchantments;
 using StardewValley.Tools;
-using VirtualProperties;
 
 #endregion using directives
 

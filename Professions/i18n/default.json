@@ -9,7 +9,7 @@
   "agriculturist.title.prestiged.male": "Cropwhisperer",
   "agriculturist.title.prestiged.female": "Cropwhisperer",
   "agriculturist.desc": "Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.",
-  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive the first day out-of-season.",
+  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive up to 5 days out-of-season.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
   "artisan.title.prestiged.male": "Industrialist",
@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "Progenitor",
   "breeder.desc": "Incubation 2x faster and animal pregnancy 3x more likely. Friendly animals are valued significantly higher.",
   "breeder.desc.prestiged": "Hatched or bred animals are always worth maximum value. Deluxe Barn capacity +2.",
+  "breeder.desc.prestiged.sve": "Hatched or bred animals are always worth maximum value. Deluxe or Premium Barn capacity +2.",
   "producer.title.male": "Producer",
   "producer.title.female": "Producer",
   "producer.title.prestiged.male": "Yieldmeister",
   "producer.title.prestiged.female": "Yieldmeister",
   "producer.desc": "Happy animals produce 2x as frequently. Produce is worth 5% more for every full barn or coop.",
   "producer.desc.prestiged": "Happy animals produce 2x >> 3x as frequently. Deluxe Coop capacity +2.",
+  "producer.desc.prestiged.sve": "Happy animals produce 2x >> 3x as frequently. Deluxe or Premium Coop capacity +2.",
 
   // foraging
   "forager.title.male": "Forager",
@@ -101,6 +103,8 @@
   "demolitionist.title.female": "Demolitionist",
   "demolitionist.title.prestiged.male": "Pyrotechnician",
   "demolitionist.title.prestiged.female": "Pyrotechnician",
+  "demolitionist.title.prestiged.male.maniac": "Pyromaniac",
+  "demolitionist.title.prestiged.female.maniac": "Pyromaniac",
   "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
   "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
@@ -329,6 +333,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Conservationists must collect this much trash for every 1 friendship point towards villagers.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Tax Deduction Ceiling",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "The maximum tax deduction allowed by the Ferngill Revenue Service, in percentage (ignored if Taxes mod is installed).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Tapper",

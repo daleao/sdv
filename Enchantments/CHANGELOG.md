@@ -1,5 +1,14 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.1.4
+
+### Fixed
+
+* Shrunk Slimes no longer display misplaced eyes and antenna.
+* Fixed Garnet gemstone forge slot not displaying correctly in weapon tooltips.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.1.3
 
 ### Fixed

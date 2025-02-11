@@ -26,7 +26,7 @@ public sealed class PondsConfig
     /// <summary>Gets the multiplier to a fish's base chance to produce roe each day.</summary>
     [JsonProperty]
     [GMCMPriority(1)]
-    [GMCMRange(0.1f, 10f)]
+    [GMCMRange(0.2f, 5f, 0.2f)]
     public float RoeProductionChanceMultiplier
     {
         get => this._roeProductionChanceMultiplier;

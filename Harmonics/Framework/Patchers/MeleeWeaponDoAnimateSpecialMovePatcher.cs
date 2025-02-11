@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Harmonics.Framework.Extensions;
 using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -34,8 +33,8 @@ internal sealed class MeleeWeaponDoAnimateSpecialMovePatcher : HarmonyPatcher
             return;
         }
 
-        var cooldownReductionMultiplier = 1f - (__instance.Get_CooldownReduction().Value * (1f + lastUser.buffs.CooldownReduction()));
-        if (Math.Abs(cooldownReductionMultiplier - 1f) < 0.01f)
+        var cooldownReductionMultiplier = 2f - ((1f + __instance.Get_CooldownReduction().Value) * (1f + lastUser.Get_CooldownReduction().Value));
+        if (cooldownReductionMultiplier > 0.99f)
         {
             return;
         }

@@ -32,7 +32,7 @@ internal sealed class RingDrawTooltipPatcher : HarmonyPatcher
     private static bool RingDrawTooltipPrefix(
         Ring __instance, SpriteBatch spriteBatch, ref int x, ref int y, SpriteFont font, float alpha)
     {
-        if (__instance is not CombinedRing combined || combined.QualifiedItemId != $"(O){InfinityBandId}")
+        if (__instance is not CombinedRing combined || combined.ItemId != InfinityBandId)
         {
             return true; // run original logic
         }

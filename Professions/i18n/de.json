@@ -27,12 +27,14 @@
   "breeder.title.prestiged.female": "Stammmutter",
   "breeder.desc": "Inkubatoren sind 2x schneller, und Tier-Schwangerschaft 3x wahrscheinlicher. Tiere mit hoher Freundschaft sind signifikant mehr wert.",
   "breeder.desc.prestiged": "Geschlüpfte oder gezüchtete Tiere haben immer den maximalen Wert. Luxus-Stall Kapazität +2.",
+  "breeder.desc.prestiged.sve": "Geschlüpfte oder gezüchtete Tiere haben immer den maximalen Wert. Luxus-Stall Kapazität +2.",
   "producer.title.male": "Produzent",
   "producer.title.female": "Produzentin",
   "producer.title.prestiged.male": "Ertragsmeister",
   "producer.title.prestiged.female": "Ertragsmeisterin",
   "producer.desc": "Glückliche Tiere produzieren 2x häufiger. Tierische Produkte sind 5% mehr wert für jeden vollen Stall oder Hühnerstall.",
   "producer.desc.prestiged": "Glückliche Tiere produzieren 2x >> 3x häufiger. Luxus-Hühnerstall Kapazität +2.",
+  "producer.desc.prestiged.sve": "Glückliche Tiere produzieren 2x >> 3x häufiger. Luxus-Hühnerstall Kapazität +2.",
 
   // foraging
   "forager.title.male": "Sammler",
@@ -100,6 +102,8 @@
   "demolitionist.title.female": "Explosionsmeisterin",
   "demolitionist.title.prestiged.male": "Pyrotechniker",
   "demolitionist.title.prestiged.female": "Pyrotechnikerin",
+  "demolitionist.title.prestiged.male.maniac": "Pyromane",
+  "demolitionist.title.prestiged.female.maniac": "Pyromane",
   "demolitionist.desc": "Explosionsradius +1. 50% Chance zusätzliche Resourcen aus gesprengten Steinen zu erhalten.",
   "demolitionist.desc.prestiged": "Explosionen verursachen Kettenreaktionen. Kohle lässt Maschinen doppelt so lange laufen.",
   "demolitionist.buff.desc": "Adrenalinrausch",
@@ -325,6 +329,11 @@
   "gmcm.conservationist_trash_needed_per_friendship_point.desc": "Konservationierer*innen müssen so viel Müll sammeln, um einen Freundschaftspunkt mit Leuten zu bekommen.",
   "gmcm.conservationist_tax_deduction_ceiling.title": "Steuervorteil Grenze",
   "gmcm.conservationist_tax_deduction_ceiling.desc": "Die Obergrenze an Steuernachlass in Prozent (wird ignoriert, wenn du den Steuer-Mod installiert hast).",
+
+  // demolitionist
+  "gmcm.sections.prfs.demolitionist": "Demolitionist",
+  "gmcm.pyromania.title": "Pyromania",
+  "gmcm.pyromania.desc": "Replaces \"Pyrotechnician\" with \"Pyromaniac\", which receives an adrenaline buff when hit with an explosion.",
 
   // tapper
   "gmcm.sections.prfs.tapper": "Zapfmeister*in",

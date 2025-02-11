@@ -35,7 +35,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
         GreenSlime __instance,
         SpriteBatch b)
     {
-        if (__instance.Get_Piped() is not { } piped)
+        if (__instance.Get_Piped() is not { IsSummoned: true } piped)
         {
             return true; // run original logic
         }

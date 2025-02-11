@@ -32,10 +32,12 @@ internal static class FarmAnimalExtensions
     /// <summary>Adjusts the price of the <paramref name="animal"/> for <see cref="Profession.Breeder"/>.</summary>
     /// <param name="animal">The <see cref="FarmAnimal"/>.</param>
     /// <returns>The adjusted friendship value.</returns>
-    internal static double GetBreederAdjustedFriendship(this FarmAnimal animal)
+    internal static float GetBreederAdjustedFriendship(this FarmAnimal animal)
     {
-        return animal.DoesOwnerHaveProfessionOrLax(Profession.Breeder, true)
+        return Data.ReadAs<bool>(animal, DataKeys.BredByProgenitor)
             ? Config.BreederFriendlyAnimalMultiplier
-            : Config.BreederFriendlyAnimalMultiplier * animal.friendshipTowardFarmer.Value / 1000;
+            : Data.ReadAs<bool>(animal, DataKeys.BredByBreeder)
+                ? Config.BreederFriendlyAnimalMultiplier * animal.friendshipTowardFarmer.Value / 1000f
+                : 1f;
     }
 }

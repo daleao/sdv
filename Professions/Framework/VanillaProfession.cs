@@ -338,6 +338,11 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     public string GetTitle(bool? prestiged = null)
     {
         prestiged ??= this.IsPrestiged;
+        if (this == Demolitionist && prestiged.Value && Config.Pyromania)
+        {
+            return _I18n.Get("demolitionist.title.prestiged." + (Game1.player.IsMale ? "male" : "female") + ".maniac");
+        }
+
         return this.Level == 10
             ? _I18n.Get(this.Name.ToLower() + ".title." + (prestiged.Value ? "prestiged." : Empty) +
                         (Game1.player.IsMale ? "male" : "female"))
@@ -350,6 +355,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     /// <returns>A human-readable <see cref="string"/> description of the profession.</returns>
     public string GetDescription(bool prestiged = false)
     {
+        if ((this == Breeder || this == Producer) && prestiged &&
+            ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+        {
+            return _I18n.Get(this.Name.ToLowerInvariant() + ".desc.prestiged.sve");
+        }
+
         return _I18n.Get(this.Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
     }
 

@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 2.1.2
+
+### Fixed
+
+* Adjusted the pond inventory logic to prevent empty slots when opening up the chum bucket.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.1.1
 
 ### Fixed

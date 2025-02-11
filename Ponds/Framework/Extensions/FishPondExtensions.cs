@@ -208,11 +208,12 @@ internal static class FishPondExtensions
         }
         else
         {
-            var inventory = new List<Item> { pond.output.Value };
+            var inventory = new List<Item?> { pond.output.Value };
             try
             {
                 inventory.AddRange(held);
                 Utility.consolidateStacks(inventory);
+                inventory.RemoveWhereNull();
                 var menu = new ItemGrabMenu(inventory, pond).setEssential(false);
                 menu.source = ItemGrabMenu.source_none;
                 Game1.activeClickableMenu = menu;
@@ -391,10 +392,10 @@ internal static class FishPondExtensions
                 continue;
             }
 
-            held.Add(ItemRegistry.Create<SObject>(
-                roeIndex,
-                producedWithThisQuality * (pond.goldenAnimalCracker.Value ? 2 : 1),
-                quality: i == 3 ? 4 : i));
+            var roe = ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(fish);
+            roe.Stack = producedWithThisQuality * (pond.goldenAnimalCracker.Value ? 2 : 1);
+            roe.Quality = i == 3 ? 4 : i;
+            held.Add(roe);
             if (i > 0)
             {
                 roeQualities[i - 1] += roeQualities[i] - producedWithThisQuality;

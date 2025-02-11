@@ -31,12 +31,12 @@ internal sealed class RingCanCombinePatcher : HarmonyPatcher
     {
         if (__instance.QualifiedItemId == QIDs.IridiumBand ||
             ring.QualifiedItemId == QIDs.IridiumBand ||
-            ring.QualifiedItemId == InfinityBandId)
+            ring.ItemId == InfinityBandId)
         {
             return false; // don't run original logic
         }
 
-        if (__instance.QualifiedItemId != $"(O){InfinityBandId}")
+        if (__instance.ItemId != InfinityBandId)
         {
             return true; // run original logic
         }

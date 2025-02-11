@@ -5,7 +5,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -69,10 +68,17 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
 
     private static void AddRancherStartingFriendship(FarmAnimal newborn)
     {
-        var owner = newborn.GetOwner();
-        if (owner.HasProfessionOrLax(Profession.Rancher))
+        if (newborn.DoesOwnerHaveProfessionOrLax(Profession.Rancher))
         {
             newborn.friendshipTowardFarmer.Value = 200 + Game1.random.Next(-50, 51);
+        }
+
+        if (newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder))
+        {
+            Data.Write(
+                newborn,
+                newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder, true) ? DataKeys.BredByProgenitor : DataKeys.BredByBreeder,
+                true.ToString());
         }
     }
 

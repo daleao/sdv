@@ -133,7 +133,12 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                         // shrink
                         case 0:
                         case 1:
-                            monster.Scale *= 0.5f;
+                            monster.Scale /= 2f;
+                            if (monster is GreenSlime slime)
+                            {
+                                slime.ageUntilFullGrown.Value = 1;
+                            }
+
                             monster.Speed++;
                             monster.Health /= 2;
                             monster.DamageToFarmer = 1;
