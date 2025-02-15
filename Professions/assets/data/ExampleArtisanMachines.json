@@ -1,6 +1,7 @@
 {
 	"ArtisanMachines":
 	[
-	    "(BC)ExampleMod_ExampleMachine",
+	    "ExampleMod_MayonnaiseMachineProductionRuleId",
+        "ExampleMod_CheesePreesMachineProductionRuleId",
 	]
 }
