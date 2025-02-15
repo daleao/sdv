@@ -5,7 +5,7 @@
 ### Added
 
 * Added compatibility files for SVE Artisan Machines and Animal Derived Goods.
-* Added new Slime Mayo and Cheese items to further develop the Slime Rancher playstyle, although they're not very useful.
+* Added new Slime Mayo and Cheese items to further flesh out the Slime Rancher playstyle (although they're not very useful to be frank).
 * Added NPC gift tastes for modded mayo and cheese items, coherent with vanilla tastes (basical.
 
 ### Changed
