@@ -8,7 +8,7 @@
 
 ### Fixed
 
-* Fixed the NullReference issue caused by mods which don't specify a goddamn ID for their machine output rules.
+* Fixed the Null-Ref exception caused by mods which don't specify a goddamn ID for their machine output rules.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
