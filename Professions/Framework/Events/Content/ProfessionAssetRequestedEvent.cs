@@ -750,7 +750,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 }
 
                 foreach (var rule in machine.OutputRules.Where(r =>
-                             r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")))
+                             r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")))
                 {
                     foreach (var output in rule.OutputItem)
                     {

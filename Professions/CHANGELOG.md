@@ -1,5 +1,17 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.9
+
+### Added
+
+* Forgot to add SVE's Yarn to Animal Derived Goods data.
+
+### Fixed
+
+* Fixed the NullReference issue caused by mods which don't specify a goddamn ID for their machine output rules.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.8
 
 ### Added
