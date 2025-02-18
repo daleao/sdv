@@ -371,7 +371,6 @@ public class ModDataManager
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     public void Increment(Building building, string key, string? modId = null)
     {
-        modId ??= this._id;
         this.Increment(building, key, 1, modId);
     }
 
@@ -435,6 +434,7 @@ public class ModDataManager
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     public void Write(Character character, string key, string? newValue, string? modId = null)
     {
+        modId ??= this._id;
         this.AssertKeyNotEmpty(key);
         var oldValue = character.modData.Read($"{modId}/{key}");
         character.modData.Write($"{modId}/{key}", newValue);
@@ -480,6 +480,7 @@ public class ModDataManager
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     public void Append(Character character, string key, string value, char separator = ',', string? modId = null)
     {
+        modId ??= this._id;
         this.AssertKeyNotEmpty(key);
         if (this.WriteIfNotExists(character, key, value))
         {
@@ -508,6 +509,7 @@ public class ModDataManager
     public void Increment<T>(Character character, string key, T amount, string? modId = null)
         where T : struct
     {
+        modId ??= this._id;
         this.AssertKeyNotEmpty(key);
         var oldValue = character.modData.Read<T>($"{modId}/{key}");
         var newValue = oldValue.GenericAdd(amount);
@@ -688,7 +690,6 @@ public class ModDataManager
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     public void Increment(GameLocation location, string key, string? modId = null)
     {
-        modId ??= this._id;
         this.Increment(location, key, 1, modId);
     }
 

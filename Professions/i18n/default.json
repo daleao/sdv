@@ -124,7 +124,7 @@
   "angler.title.female": "Angler",
   "angler.title.prestiged.male": "Rodmancer",
   "angler.title.prestiged.female": "Rodmancer",
-  "angler.desc": "Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.",
+  "angler.desc": "Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes its effects to linger on the fishing rod.",
   "angler.desc.prestiged": "Up to two tackle effects can linger on the fishing rod. Re-encounter legendary fish on a successful fishing streak.",
   "aquarist.title.male": "Aquarist",
   "aquarist.title.female": "Aquarist",
@@ -252,6 +252,10 @@
   "objects.goldenmayo.desc": "Perfect for King Midas' sandwiches.",
   "objects.ostrichmayo.name": "Delight Mayonnaise",
   "objects.ostrichmayo.desc": "This is an absolutely absurd amount of mayonnaise...",
+  "objects.slimemayo.name": "Slime Mayonnaise",
+  "objects.slimemayo.desc": "Thick, odorless goo. Very spreadable.",
+  "objects.slimecheese.name": "Slime Cheese",
+  "objects.slimecheese.desc": "It smells terrible! Would anyone really want to eat this?",
 
   /***********
   *** GMCM ***

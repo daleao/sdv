@@ -1,5 +1,13 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.1.5
+
+### Fixed
+
+* Fixed an error thrown when [Harmonics](../Harmonics) is not installed.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.1.4
 
 ### Fixed

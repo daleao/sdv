@@ -35,7 +35,12 @@ internal sealed class GameLocationGetHarvestSpawnedObjectQualityPatcher : Harmon
     {
         try
         {
-            var spawned = __instance.Objects[tile];
+            if (!__instance.Objects.TryGetValue(tile, out var spawned))
+            {
+                __result = 0;
+                return false; // don't run original logic
+            }
+
             if (who.HasProfession(Profession.Ecologist) && isForage)
             {
                 who.ApplyEcologistEdibility(spawned);

@@ -6,6 +6,7 @@ using DaLion.Harmonics.Framework.Integrations;
 using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
+using Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -37,7 +38,7 @@ internal sealed class CooldownSaveLoadedEvent(EventManager? manager = null)
 
         foreach (var ring in Game1.player.leftRing.Value.Collect(Game1.player.rightRing.Value))
         {
-            if (ring.ItemId == GarnetRingId)
+            if (ring?.ItemId == GarnetRingId)
             {
                 Game1.player.Get_CooldownReduction().Value += 0.1f;
             }

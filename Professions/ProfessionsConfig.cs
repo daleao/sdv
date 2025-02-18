@@ -16,6 +16,7 @@ using StardewModdingAPI.Utilities;
 public sealed class ProfessionsConfig
 {
     private bool _enableGoldenOstrichMayo = true;
+    private bool _enableSlimeGoods = true;
     private bool _immersiveDairyYield = true;
     private float _scavengerHuntHandicap = 1f;
     private float _prospectorHuntHandicap = 1f;
@@ -359,6 +360,21 @@ public sealed class ProfessionsConfig
             }
 
             this._useAsyncMinionPathfinder = value;
+        }
+    }
+
+    /// <summary>Gets a value indicating whether to add slime cheese and mayo items to the game.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.rascal")]
+    [GMCMPriority(803)]
+    public bool EnableSlimeGoods
+    {
+        get => this._enableSlimeGoods;
+        internal set
+        {
+            this._enableSlimeGoods = value;
+            ModHelper.GameContent.InvalidateCache("Data/Machines");
+            ModHelper.GameContent.InvalidateCache("Data/Objects");
         }
     }
 }

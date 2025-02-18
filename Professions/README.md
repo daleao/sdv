@@ -537,7 +537,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <!--- Angler --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b> - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
+<summary><img src="./resources/assets/sprites/loose/angler.png"/> <b>Angler (Lv10)</b> - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes its effects to linger on the fishing rod.
 </summary>
 
 <ul>

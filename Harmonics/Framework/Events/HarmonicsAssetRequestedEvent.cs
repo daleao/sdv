@@ -12,6 +12,7 @@ using ItemExtensions.Models.Enums;
 using ItemExtensions.Models.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Shared.Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.Objects;
 
@@ -69,6 +70,8 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
     private static void EditObjectsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
+
+        // garnet stone and ring
         data[GarnetStoneId] = new ObjectData
         {
             Name = "Garnet Gemstone",
@@ -87,13 +90,17 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
         };
 
         var ringSpriteIndex = 6;
-        if (RingTextureStyle == TextureStyle.BetterRings)
+        switch (RingTextureStyle)
         {
-            ringSpriteIndex += 9;
-        }
-        else if (RingTextureStyle == TextureStyle.VanillaTweaks)
-        {
-            ringSpriteIndex += 18;
+            case TextureStyle.BetterRings:
+                ringSpriteIndex += 9;
+                break;
+            case TextureStyle.VanillaTweaks:
+                ringSpriteIndex += 18;
+                break;
+            case TextureStyle.VanillaTweaks_Warrior:
+                ringSpriteIndex += 27;
+                break;
         }
 
         data[GarnetRingId] = new ObjectData
@@ -114,15 +121,16 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             ],
         };
 
-        ringSpriteIndex = 8;
-        if (RingTextureStyle == TextureStyle.BetterRings)
-        {
-            ringSpriteIndex += 9;
-        }
-        else if (RingTextureStyle == TextureStyle.VanillaTweaks)
-        {
-            ringSpriteIndex += 18;
-        }
+        // vanilla gemstone rings
+        data[QIDs.AmethystRing.Split(")")[1]].Description = I18n.Rings_Amethyst_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:AmethystRing_Description");
+        data[QIDs.TopazRing.Split(")")[1]].Description = I18n.Rings_Topaz_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:TopazRing_Description");
+        data[QIDs.AquamarineRing.Split(")")[1]].Description = I18n.Rings_Aquamarine_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:AquamarineRing_Description");
+        data[QIDs.JadeRing.Split(")")[1]].Description = I18n.Rings_Jade_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:JadeRing_Description").Replace("10", "50");
+        data[QIDs.EmeraldRing.Split(")")[1]].Description = I18n.Rings_Emerald_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:EmeraldRing_Description");
+        data[QIDs.RubyRing.Split(")")[1]].Description = I18n.Rings_Ruby_Prefix() + ' ' + Game1.content.LoadString("Strings\\Objects:RubyRing_Description");
+
+        // infinity band
+        ringSpriteIndex += 2;
 
         data[InfinityBandId] = new ObjectData
         {
@@ -142,18 +150,26 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             ],
         };
 
-        data[QIDs.IridiumBand.Split(")")[1]].Description = I18n.Rings_Iridium_Ring_Desc();
+        data[QIDs.IridiumBand.Split(")")[1]].Description = I18n.Rings_Iridium_Desc();
     }
 
     private static void EditSpringObjectsSpritesheet(IAssetData asset)
     {
+        var sourceY = RingTextureStyle switch
+        {
+            TextureStyle.BetterRings => 16,
+            TextureStyle.VanillaTweaks => 32,
+            TextureStyle.VanillaTweaks_Warrior => 48,
+            _ => 0,
+        };
+
         var editor = asset.AsImage();
         var targetArea = new Rectangle(16, 352, 96, 16);
-        var sourceArea = new Rectangle(0, 0, 96, 16);
+        var sourceArea = new Rectangle(0, sourceY, 96, 16);
         editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/rings"), sourceArea, targetArea);
 
         targetArea = new Rectangle(368, 336, 16, 16);
-        sourceArea = new Rectangle(112, 0, 16, 16);
+        sourceArea = new Rectangle(112, sourceY, 16, 16);
         editor.PatchImage(ModHelper.ModContent.Load<Texture2D>("assets/rings"), sourceArea, targetArea);
     }
 
@@ -210,7 +226,7 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.10, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
+                    Floors = "80/77376", SpawnFrequency = 0.0010, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
                 },
             ],
         };

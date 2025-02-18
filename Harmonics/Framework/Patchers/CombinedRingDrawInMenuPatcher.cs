@@ -76,7 +76,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
             location.Y -= (oldScaleSize - 1f) * 32f;
 
             var usingBetterRings = RingTextureStyle == TextureStyle.BetterRings;
-            var usingVanillaTweaks = RingTextureStyle == TextureStyle.VanillaTweaks;
+            var usingVanillaTweaks = RingTextureStyle is TextureStyle.VanillaTweaks or TextureStyle.VanillaTweaks_Warrior;
 
             // better rings needs to draw the ring underneath the gems, but after the scale hover is converted to y-displacement
             if (usingBetterRings)
@@ -208,7 +208,7 @@ internal sealed class CombinedRingDrawInMenuPatcher : HarmonyPatcher
         float layerDepth)
     {
         if (__instance.ItemId != InfinityBandId ||
-            __instance.combinedRings.Count == 0 || RingTextureStyle != TextureStyle.VanillaTweaks)
+            __instance.combinedRings.Count == 0 || RingTextureStyle is not TextureStyle.VanillaTweaks and not TextureStyle.VanillaTweaks_Warrior)
         {
             return;
         }

@@ -1,5 +1,31 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.9
+
+### Added
+
+* Forgot to add SVE's Yarn to Animal Derived Goods data.
+
+### Fixed
+
+* Fixed the Null-Ref exception caused by mods which don't specify a goddamn ID for their machine output rules.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 1.2.8
+
+### Added
+
+* Added compatibility files for SVE Artisan Machines and Animal Derived Goods.
+* Added new Slime Mayo and Cheese items to further flesh out the Slime Rancher playstyle (although they're not very useful to be frank).
+* Added NPC gift tastes for modded mayo and cheese items, coherent with vanilla tastes (basical.
+
+### Changed
+
+* ImmersiveDairyYield setting should now apply to all mod machine rules for large eggs and milk, provided the machine rule ID follows the vanilla convention by including the words "LargeEgg" or "LargeMilk".
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.7
 
 ### Added

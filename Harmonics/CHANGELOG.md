@@ -1,5 +1,20 @@
 ﻿# HARMONICS Changelog
 
+## 1.1.3
+
+### Added
+
+* Added compatible ring sprites for newer version of Vanilla Tweaks - Warrior Edition.
+
+### Fixed
+
+* Fixed high Garnet node spawn chance which I forgot to revert after testing.
+* Fixed modded descriptions for gemstone rings not applying.
+* Fixed third-party compatible modded sprites for gemstone rings not applying.
+* Fixed Null-Ref Exception when *not* using Wear More Rings...
+
+<sup><sup>[🔼 Back to top](#harmonics-changelog)</sup></sup>
+
 ## 1.1.2
 
 ### Fixed

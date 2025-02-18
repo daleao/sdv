@@ -40,7 +40,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
-        this.Edit("Data/Machines", new AssetEditor(EditMachinesData));
+        this.Edit("Data/Machines", new AssetEditor(EditMachinesData, AssetEditPriority.Late));
+        this.Edit("Data/NPCGiftTastes", new AssetEditor(EditNPCGiftTastesData));
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap, AssetEditPriority.Late));
@@ -78,6 +79,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_Mayo",
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
+        this.Provide(
+            $"{UniqueId}_SlimeGoods",
+            new ModTextureProvider(() => "assets/sprites/slimegoods.png"));
         this.Provide(
             $"{UniqueId}_GoldSlime",
             new ModTextureProvider(() => $"assets/sprites/slime_{Config.Masteries.GoldSpritePalette}.png"));
@@ -661,7 +665,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         data[$"{UniqueId}_ConservationistTaxNotice"] = message;
     }
 
-    /// <summary>Patches machine rules for new mayo objects.</summary>
+    /// <summary>Patches machine rules for new mayo and other objects.</summary>
     private static void EditMachinesData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, MachineData>().Data;
@@ -687,32 +691,121 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             output.Quality = -1;
         }
 
+        if (Config.EnableSlimeGoods)
+        {
+            data[QIDs.MayonnaiseMachine]
+                .OutputRules
+                .Add(new MachineOutputRule()
+                    {
+                        Id = $"{UniqueId}_Slime",
+                        Triggers =
+                        [
+                            new MachineOutputTriggerRule
+                            {
+                                Id = "ItemPlacedInMachine",
+                                Trigger = MachineOutputTrigger.ItemPlacedInMachine,
+                                RequiredItemId = QIDs.Slime,
+                                RequiredCount = 10,
+                            },
+                        ],
+                        OutputItem =
+                        [
+                            new MachineItemOutput { Id = $"(O){SlimeMayoId}", ItemId = $"(O){SlimeMayoId}", }
+                        ],
+                        MinutesUntilReady = 180,
+                    }
+                );
+
+            data[QIDs.CheesePress]
+                .OutputRules
+                .Add(new MachineOutputRule()
+                    {
+                        Id = $"{UniqueId}_Slime",
+                        Triggers =
+                        [
+                            new MachineOutputTriggerRule
+                            {
+                                Id = "ItemPlacedInMachine",
+                                Trigger = MachineOutputTrigger.ItemPlacedInMachine,
+                                RequiredItemId = QIDs.Slime,
+                                RequiredCount = 25,
+                            },
+                        ],
+                        OutputItem =
+                        [
+                            new MachineItemOutput { Id = $"(O){SlimeCheeseId}", ItemId = $"(O){SlimeCheeseId}", }
+                        ],
+                        MinutesUntilReady = 200,
+                    }
+                );
+        }
+
         if (Config.ImmersiveDairyYield)
         {
-            var rule = data[QIDs.MayonnaiseMachine]
-                .OutputRules
-                .First(r => r.Id == "Default_LargeEgg");
-            var output = rule.OutputItem.Single();
-            output.Quality = -1;
-            output.MinStack = 2;
+            foreach (var (_, machine) in data)
+            {
+                if (machine.OutputRules is null)
+                {
+                    continue;
+                }
 
-            rule = data[QIDs.CheesePress]
-                .OutputRules
-                .First(r => r.Id == "Default_LargeMilk");
-            output = rule.OutputItem.Single();
-            output.Quality = -1;
-            output.MinStack = 2;
+                foreach (var rule in machine.OutputRules.Where(r =>
+                             r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")))
+                {
+                    foreach (var output in rule.OutputItem)
+                    {
+                        if (output.Quality == 2)
+                        {
+                            output.Quality = -1;
+                        }
 
-            rule = data[QIDs.CheesePress]
-                .OutputRules
-                .First(r => r.Id == "Default_LargeGoatMilk");
-            output = rule.OutputItem.Single();
-            output.Quality = -1;
-            output.MinStack = 2;
+                        if (output.MinStack < 0)
+                        {
+                            output.MinStack = 2;
+                        }
+                        else
+                        {
+                            output.MinStack *= 2;
+                        }
+                    }
+                }
+            }
         }
     }
 
-    /// <summary>Patches new mayo objects.</summary>
+    /// <summary>Patches NPC gift tastes for new mayo and other objects.</summary>
+    private static void EditNPCGiftTastesData(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        if (Config.EnableGoldenOstrichMayo)
+        {
+            foreach (var (key, value) in data)
+            {
+                if (!value.ContainsAllOf("306", "307"))
+                {
+                    continue;
+                }
+
+                var split = value.Split("307");
+                data[key] = split[0] + "307 " + OstrichMayoId + ' ' + GoldenMayoId + split[1];
+            }
+        }
+
+        if (Config.EnableSlimeGoods)
+        {
+            data["Universal_Hate"] += ' ' + SlimeCheeseId + ' ' + SlimeMayoId;
+
+            var split = data["Krobus"].Split('/');
+            split[5] += ' ' + SlimeCheeseId + ' ' + SlimeMayoId;
+            data["Krobus"] = string.Join('/', split);
+
+            split = data["Wizard"].Split('/');
+            split[5] += ' ' + SlimeCheeseId + ' ' + SlimeMayoId;
+            data["Wizard"] = string.Join('/', split);
+        }
+    }
+
+    /// <summary>Patches new mayo and other objects.</summary>
     private static void EditObjectsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
@@ -725,7 +818,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Ostrichmayo_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 2000,
+                Price = 190,
                 Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 1,
                 Edibility = 50,
@@ -744,7 +837,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Goldenmayo_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 2500,
+                Price = 230,
                 Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 0,
                 Edibility = 20,
@@ -755,6 +848,47 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     "mayo_item",
                 ],
                 ExcludeFromShippingCollection = true,
+            };
+        }
+
+        if (Config.EnableSlimeGoods)
+        {
+            data[$"{SlimeMayoId}"] = new ObjectData
+            {
+                Name = "Slime Mayonnaise",
+                DisplayName = I18n.Objects_Slimemayo_Name(),
+                Description = I18n.Objects_Slimemayo_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.ArtisanGoods,
+                Price = 2000,
+                Texture = $"{UniqueId}_SlimeGoods",
+                SpriteIndex = 0,
+                Edibility = -30,
+                IsDrink = true,
+                ContextTags =
+                [
+                    "color_green",
+                    "mayo_item",
+                ],
+            };
+
+            data[$"{SlimeCheeseId}"] = new ObjectData
+            {
+                Name = "Slime Cheese",
+                DisplayName = I18n.Objects_Slimecheese_Name(),
+                Description = I18n.Objects_Slimecheese_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.ArtisanGoods,
+                Price = 2500,
+                Texture = $"{UniqueId}_SlimeGoods",
+                SpriteIndex = 1,
+                Edibility = -30,
+                IsDrink = true,
+                ContextTags =
+                [
+                    "color_green",
+                    "mayo_item",
+                ],
             };
         }
 

@@ -31,6 +31,9 @@ public sealed class HarmonicsMod : Mod
 
         /// <summary>Vanilla Tweaks by Taiyokun installed.</summary>
         VanillaTweaks,
+
+        /// <summary>Vanilla Tweaks Warrior by Taiyokun installed.</summary>
+        VanillaTweaks_Warrior,
     }
 
     /// <summary>Gets the static <see cref="HarmonicsMod"/> instance.</summary>
@@ -126,9 +129,10 @@ public sealed class HarmonicsMod : Mod
         InfinityBandId = $"{UniqueId}_InfinityBand";
         RingTextureStyle = helper.ModRegistry.IsLoaded("BBR.BetterRings")
             ? TextureStyle.BetterRings
-            : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks") ||
-              helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks.Warrior")
+            : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks")
                 ? TextureStyle.VanillaTweaks
-                : TextureStyle.Vanilla;
+                : helper.ModRegistry.IsLoaded("Taiyo.VanillaTweaks.Warrior")
+                    ? TextureStyle.VanillaTweaks_Warrior
+                    : TextureStyle.Vanilla;
     }
 }

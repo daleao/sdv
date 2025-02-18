@@ -1,10 +1,26 @@
 ﻿# CORE Changelog
 
+## 2.1.8
+
+### Fixed
+
+* Some fixed to the Shared library.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
+## 2.1.7
+
+???
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.1.6
 
 ### Fixed
 
 * Fixed certain timers, such as Burn DoT, ticking during menus.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 2.1.5
 
