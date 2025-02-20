@@ -281,6 +281,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "Добавлять ли в игру новые предметы Золотой и Страусиный майонез, чтобы сделать продукцию Ремесленника более последовательной.",
   "gmcm.immersive_dairy_yield.title": "Реалистичный выход молочных продуктов",
   "gmcm.immersive_dairy_yield.desc": "Одно большое яйцо или молоко дает два майонеза или сыра обычного качества вместо одного золотого качества. Это делает перк профессии Ремесленник более последовательным. Если Страусиный майонез не включен, Страусиные яйца по-прежнему дают 10 майонезов, но не сохраняют качество исходного продукта. Если Золотой майонез не включен, Золотое яйцо даст один майонез, но всегда самого высокого качества.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "Breeder Animal Value Multiplier",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "The multiplier applied to the value of max-friendship animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.",
 
   // ecologist & gemologist
   "gmcm.sections.prfs.ecologist_gemologist": "Эколог и Геммолог",

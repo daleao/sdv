@@ -281,6 +281,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "Indique si de nouveaux objets de mayonnaise dorée et d'autruche doivent être ajoutés au jeu afin de rendre la production artisanale plus cohérente.",
   "gmcm.immersive_dairy_yield.title": "Rendements laitiers immersifs",
   "gmcm.immersive_dairy_yield.desc": "Un gros œuf ou du grand lait produit deux mayonnaise ou fromage de qualité normale, au lieu d'un seul de qualité dorée. Cela rend l'avantage de la profession Artisan plus cohérent. Si la Mayonnaise d'Autruche n'est pas activée, les œufs d'autruche produisent toujours 10 mayonnaises mais ne conservent pas la qualité d'entrée. Si la mayonnaise dorée n'est pas activée, un œuf doré donnera une seule mayonnaise mais toujours de la plus haute qualité.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "Breeder Animal Value Multiplier",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "The multiplier applied to the value of max-friendship animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.",
 
   // ecologist & gemologist
   "gmcm.sections.prfs.ecologist_gemologist": "Écologiste et Gemmologue",

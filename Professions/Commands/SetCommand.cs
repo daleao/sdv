@@ -380,7 +380,7 @@ internal sealed class SetCommand(CommandHandler handler)
 
         switch (value)
         {
-            case "friendship" or "friendly":
+            case "friendship" or "friendly" or "friend":
                 Log.I($"The friendship of {count} animals has been set to max.");
                 break;
             case "happiness" or "happy" or "mood":

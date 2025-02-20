@@ -281,6 +281,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "Ob neue Goldene and Straußen Mayonnaise Gegenstände zum Spiel hinzugefügt werden sollten, um Handwerkswaren stimmiger zu machen.",
   "gmcm.immersive_dairy_yield.title": "Immersive Milchprodukte",
   "gmcm.immersive_dairy_yield.desc": "Sorgt dafür, dass ein großes Ei, oder eine große Milch zwei Mayonnaise bzw. Käse aber mit normaler Qualität herstellen. Sorgt für stimmigere Handwerks-Talente. Falls Straußen Mayo nicht aktiviert ist, geben die immer noch 10 mayo, aber behalten nicht die Qualität des Straußen-Eis. Wenn Goldene Mayo nicht aktiviert ist, wird ein goldenes Ei immer eine Mayo aber mit maximaler Qualität produziern.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "Breeder Animal Value Multiplier",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "The multiplier applied to the value of max-friendship animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.",
 
   // ecologist & gemologist
   "gmcm.sections.prfs.ecologist_gemologist": "Ökologe/Ökologin & Gemmologe/Gemmologin",

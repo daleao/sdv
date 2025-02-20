@@ -37,7 +37,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/BigCraftables", new AssetEditor(EditBigCraftablesData));
         this.Edit("Data/Buildings", new AssetEditor(EditBuildingsData));
-        this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData));
+        this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData, AssetEditPriority.Late));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
         this.Edit("Data/Machines", new AssetEditor(EditMachinesData, AssetEditPriority.Late));
@@ -818,7 +818,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Ostrichmayo_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 190,
+                Price = 2000,
                 Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 1,
                 Edibility = 50,
@@ -837,7 +837,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Goldenmayo_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 230,
+                Price = 2500,
                 Texture = $"{UniqueId}_Mayo",
                 SpriteIndex = 0,
                 Edibility = 20,
@@ -860,7 +860,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Slimemayo_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 2000,
+                Price = 190,
                 Texture = $"{UniqueId}_SlimeGoods",
                 SpriteIndex = 0,
                 Edibility = -30,
@@ -879,7 +879,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 Description = I18n.Objects_Slimecheese_Desc(),
                 Type = "Basic",
                 Category = (int)ObjectCategory.ArtisanGoods,
-                Price = 2500,
+                Price = 230,
                 Texture = $"{UniqueId}_SlimeGoods",
                 SpriteIndex = 1,
                 Edibility = -30,

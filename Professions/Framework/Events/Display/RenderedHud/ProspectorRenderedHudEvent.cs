@@ -32,18 +32,18 @@ internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
         {
             if (@object.ShouldBeTrackedBy(Profession.Prospector))
             {
-                tile.TrackWhenOffScreen(Color.OrangeRed);
+                tile.TrackWhenOffScreen(Game1.spriteBatch, Color.OrangeRed);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.OrangeRed);
+                    tile.TrackWhenOnScreen(Game1.spriteBatch, Color.OrangeRed);
                 }
             }
             else if (@object.QualifiedItemId == QIDs.ArtifactSpot)
             {
-                tile.TrackWhenOffScreen(Color.Lime);
+                tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Lime);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Lime);
+                    tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Lime);
                 }
             }
         }
@@ -57,10 +57,10 @@ internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
             }
 
             var tile = clump.Tile + new Vector2(0.5f, 0f);
-            tile.TrackWhenOffScreen(Color.Orange);
+            tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Orange);
             if (shouldHighlightOnScreen)
             {
-                tile.TrackWhenOnScreen(Color.Orange);
+                tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Orange);
             }
         }
 
@@ -68,10 +68,10 @@ internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
         if (!Game1.currentLocation.orePanPoint.Value.Equals(Point.Zero))
         {
             var tile = Game1.currentLocation.orePanPoint.Value.ToVector2();
-            tile.TrackWhenOffScreen(Color.Cyan);
+            tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Cyan);
             if (shouldHighlightOnScreen)
             {
-                tile.TrackWhenOnScreen(Color.Cyan);
+                tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Cyan);
             }
         }
 
@@ -83,10 +83,10 @@ internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
         // track mine ladders and shafts
         foreach (var tile in shaft.GetLadderTiles())
         {
-            tile.TrackWhenOffScreen(Color.Cyan);
+            tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Cyan);
             if (shouldHighlightOnScreen)
             {
-                tile.TrackWhenOnScreen(Color.Cyan);
+                tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Cyan);
             }
         }
     }

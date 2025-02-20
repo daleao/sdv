@@ -1,5 +1,14 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.2.10
+
+### Fixed
+
+* Fixed the prices of Ostrich and Golden Mayo, and new Slime goods, which were switched for some reason. 
+* Professions should now apply to SVE animals.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.9
 
 ### Added

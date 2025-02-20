@@ -29,13 +29,13 @@ internal sealed class ScavengerHuntRenderedHudEvent(EventManager? manager = null
         var treasureTile = State.ScavengerHunt.TreasureTile.Value;
 
         // track target
-        HudPointer.Instance.DrawAsTrackingPointer(treasureTile, Color.Violet);
+        HudPointer.Instance.DrawAsTrackingPointer(e.SpriteBatch, treasureTile, Color.Violet);
 
         // reveal if close enough
         if (Game1.player.SquaredTileDistance(treasureTile) <=
             Config.ScavengerDetectionDistance * Config.ScavengerDetectionDistance)
         {
-            HudPointer.Instance.DrawOverTile(treasureTile, Color.Violet);
+            HudPointer.Instance.DrawOverTile(e.SpriteBatch, treasureTile, Color.Violet);
         }
     }
 }

@@ -29,13 +29,13 @@ internal sealed class ProspectorHuntRenderedHudEvent(EventManager? manager = nul
         var treasureTile = State.ProspectorHunt.TreasureTile.Value;
 
         // track target
-        HudPointer.Instance.DrawAsTrackingPointer(treasureTile, Color.Violet);
+        HudPointer.Instance.DrawAsTrackingPointer(e.SpriteBatch, treasureTile, Color.Violet);
 
         // reveal if close enough
         if (Game1.player.SquaredTileDistance(treasureTile) <=
             Config.ProspectorDetectionDistance * Config.ProspectorDetectionDistance)
         {
-            HudPointer.Instance.DrawOverTile(treasureTile, Color.Violet);
+            HudPointer.Instance.DrawOverTile(e.SpriteBatch, treasureTile, Color.Violet);
         }
     }
 }

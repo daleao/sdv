@@ -30,18 +30,18 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
         {
             if (@object.ShouldBeTrackedBy(Profession.Scavenger))
             {
-                tile.TrackWhenOffScreen(Color.Yellow);
+                tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Yellow);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Yellow);
+                    tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Yellow);
                 }
             }
             else if (@object.QualifiedItemId == QIDs.ArtifactSpot)
             {
-                tile.TrackWhenOffScreen(Color.Lime);
+                tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Lime);
                 if (shouldHighlightOnScreen)
                 {
-                    tile.TrackWhenOnScreen(Color.Lime);
+                    tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Lime);
                 }
             }
         }
@@ -56,10 +56,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
             }
 
             var tile = bush.Tile + new Vector2(0.5f, -1f);
-            tile.TrackWhenOffScreen(Color.Yellow);
+            tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                tile.TrackWhenOnScreen(Color.Yellow);
+                tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Yellow);
             }
         }
 
@@ -71,10 +71,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                 continue;
             }
 
-            dirt.Tile.TrackWhenOffScreen(Color.Yellow);
+            dirt.Tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                dirt.Tile.TrackWhenOnScreen(Color.Yellow);
+                dirt.Tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Yellow);
             }
         }
 
@@ -86,10 +86,10 @@ internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
                 continue;
             }
 
-            tree.Tile.TrackWhenOffScreen(Color.Yellow);
+            tree.Tile.TrackWhenOffScreen(Game1.spriteBatch, Color.Yellow);
             if (shouldHighlightOnScreen)
             {
-                tree.Tile.TrackWhenOnScreen(Color.Yellow);
+                tree.Tile.TrackWhenOnScreen(Game1.spriteBatch, Color.Yellow);
             }
         }
     }

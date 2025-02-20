@@ -4,7 +4,7 @@
 
 ### Fixed
 
-* Some fixed to the Shared library.
+* Some fixes to the Shared library.
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 

@@ -49,7 +49,7 @@ internal sealed class HudPointer
     /// <summary>Gets or sets the rate at which the pointer animates (higher is faster).</summary>
     internal float BobRate { get; set; }
 
-    /// <summary>Gets or sets a value indicating whether or not the pointer is currently being rendered.</summary>
+    /// <summary>Gets or sets a value indicating whether the pointer is currently being rendered.</summary>
     internal bool ShouldBob { get; set; }
 
     /// <summary>Advance the pointer's bobbing motion one step.</summary>
@@ -76,9 +76,10 @@ internal sealed class HudPointer
     }
 
     /// <summary>Draw the pointer at the edge of the screen, pointing to a target tile off-screen.</summary>
+    /// <param name="spriteBatch">The <see cref="SpriteBatch"/>.</param>
     /// <param name="target">The target tile to point to.</param>
     /// <param name="color">The color of the pointer.</param>
-    public void DrawAsTrackingPointer(Vector2 target, Color color)
+    public void DrawAsTrackingPointer(SpriteBatch spriteBatch, Vector2 target, Color color)
     {
         if (Utility.isOnScreen((target * 64f) + new Vector2(32f, 32f), 64))
         {
@@ -100,7 +101,7 @@ internal sealed class HudPointer
         }
         else
         {
-            onScreenPosition.X = (target.X * 64f) - Game1.viewport.X;
+            onScreenPosition.X = Utility.ModifyCoordinateForUIScale((target.X * 64f) - Game1.viewport.X);
         }
 
         if (target.Y * 64f > Game1.viewport.MaxCorner.Y - 64)
@@ -114,7 +115,7 @@ internal sealed class HudPointer
         }
         else
         {
-            onScreenPosition.Y = (target.Y * 64f) - Game1.viewport.Y;
+            onScreenPosition.Y = Utility.ModifyCoordinateForUIScale((target.Y * 64f) - Game1.viewport.Y);
         }
 
         if ((int)onScreenPosition.X == 8 && (int)onScreenPosition.Y == 8)
@@ -138,12 +139,12 @@ internal sealed class HudPointer
         }
 
         var safePos = Utility.makeSafe(
-            renderSize: new Vector2(
+            onScreenPosition,
+            new Vector2(
                 this._sourceRect.Width * Game1.pixelZoom * this.Scale,
-                this._sourceRect.Height * Game1.pixelZoom * this.Scale),
-            renderPos: onScreenPosition);
+                this._sourceRect.Height * Game1.pixelZoom * this.Scale));
 
-        Game1.spriteBatch.Draw(
+        spriteBatch.Draw(
             this._texture,
             safePos,
             this._sourceRect,
@@ -156,10 +157,11 @@ internal sealed class HudPointer
     }
 
     /// <summary>Draw the pointer over a target tile on-screen.</summary>
+    /// <param name="spriteBatch">The <see cref="SpriteBatch"/>.</param>
     /// <param name="target">A target tile.</param>
     /// <param name="color">The color of the pointer.</param>
     /// <remarks>Credit to <c>Bpendragon</c>.</remarks>
-    public void DrawOverTile(Vector2 target, Color color)
+    public void DrawOverTile(SpriteBatch spriteBatch, Vector2 target, Color color)
     {
         if (!Utility.isOnScreen((target * 64f) + new Vector2(32f, 32f), 64))
         {
@@ -171,7 +173,7 @@ internal sealed class HudPointer
             (target.Y * Game1.tileSize) + 32f + this._height);
         var adjustedPixel = Game1.GlobalToLocal(Game1.viewport, targetPixel);
         adjustedPixel = Utility.ModifyCoordinatesForUIScale(adjustedPixel);
-        Game1.spriteBatch.Draw(
+        spriteBatch.Draw(
             this._texture,
             adjustedPixel,
             this._sourceRect,

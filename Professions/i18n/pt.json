@@ -281,6 +281,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "Adiciona novos itens, Maionese Dourada e de Avestruz, ao jogo para tornar a produção artesanal mais consistente.",
   "gmcm.immersive_dairy_yield.title": "Produção de laticínios imersiva",
   "gmcm.immersive_dairy_yield.desc": "Faz com que um ovo grande ou leite grande produza duas maioneses ou queijos, mas de qualidade regular, em vez de uma unidade em qualidade ouro. Isso torna a profissão Artesão mais consistente. Se a Maionese de Avestruz não estiver ativada, os ovos de avestruz ainda rendem 10 maionese, mas não retêm a qualidade de entrada. Se Maionese Dourada não estiver ativada, um Ovo Dourado renderá uma única maionese, mas sempre da mais alta qualidade.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "Breeder Animal Value Multiplier",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "The multiplier applied to the value of max-friendship animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.",
 
   // ecologist & gemologist
   "gmcm.sections.prfs.ecologist_gemologist": "Ecologista e Gemólogo(a)",

@@ -9,7 +9,7 @@
   "agriculturist.title.prestiged.male": "作物细语者",
   "agriculturist.title.prestiged.female": "作物细语者",
   "agriculturist.desc": "作物生长速度提高10%.有机会在不使用肥料的情况下收获最佳品质的作物.",
-  "agriculturist.desc.prestiged": "作物生长速度从10%提高到20%,并且作物能够在下个季节的第一天存活.",
+  "agriculturist.desc.prestiged": "作物生长速度从10%提高到20%,并且作物能够在下个季节的前5天存活.",
   "artisan.title.male": "工匠",
   "artisan.title.female": "工匠",
   "artisan.title.prestiged.male": "工业家",
@@ -283,6 +283,8 @@
   "gmcm.enable_golden_ostrich_mayo.desc": "是否向游戏中添加新的金蛋和鸵鸟蛋黄酱项目,以使工匠生产更加一致.",
   "gmcm.immersive_dairy_yield.title": "沉浸式乳品产量",
   "gmcm.immersive_dairy_yield.desc": "使一个大型鸡蛋或牛奶产出两个蛋黄酱或奶酪,但品质为普通,而不是一个为金星品质.这使工匠职业声望更加一致.如果未启用鸵鸟蛋黄酱,鸵鸟蛋仍然产出10个蛋黄酱,但不保留输入品质.如果未启用金蛋黄酱,金蛋将产出一个蛋黄酱,但始终为最高品质.",
+  "gmcm.breeder_friendly_animal_multiplier.title": "动物价值倍率调节",
+  "gmcm.breeder_friendly_animal_multiplier.desc": "此倍率用于调整通过繁殖者出售的满好感度动物的价值。该选项仅建议在安装第三方利润平衡模组时用于补偿收益。",
 
   // 生态学家 & 宝石学家
   "gmcm.sections.prfs.ecologist_gemologist": "生态学家 & 宝石学家",
