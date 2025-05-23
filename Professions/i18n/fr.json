@@ -1,4 +1,4 @@
-﻿{
+{
   // farming
   "harvester.title.male": "Moissonneur",
   "harvester.title.female": "Moissonneuse",
@@ -34,7 +34,7 @@
   "producer.title.prestiged.female": "Maîtresse du rendement",
   "producer.desc": "Les animaux heureux produisent 2 fois plus fréquemment. Les produits valent 5 % de plus pour chaque grange ou poulailler plein.",
   "producer.desc.prestiged": "Les animaux heureux produisent 2 fois >> 3 fois plus fréquemment. Capacité du poulailler de luxe +2.",
-  "producer.desc.prestiged": "Les animaux heureux produisent 2 fois >> 3 fois plus fréquemment. Capacité du poulailler de luxe ou premium +2.",
+  "producer.desc.prestiged.sve": "Les animaux heureux produisent 2 fois >> 3 fois plus fréquemment. Capacité du poulailler de luxe ou premium +2.",
 
   // foraging
   "forager.title.male": "Fourrageur",
@@ -84,6 +84,7 @@
   "spelunker.title.prestiged.female": "Gardienne des grottes",
   "spelunker.desc": "La chance de trouver des échelles et des trous augmente à mesure que vous minez plus profondément sans remonter à la surface. Restaure un peu de santé et d'énergie lorsque vous atteignez une salle sûre.",
   "spelunker.desc.prestiged": "Chance considérablement accrue de trouver des salles sûres. Chance de trouver des débris miniers non réclamés.",
+  "spelunker.revival": "Votre instinct vous guide à travers les ombres -- en vie, mais de justesse.",
   "spelunker.buff.desc": "Chance d'échelle +{{ladderChance}}.",
   "prospector.title.male": "Prospecteur",
   "prospector.title.female": "Prospectrice",
@@ -215,6 +216,7 @@
   "prestige.level_up.single": "Prestige gagné",
 
   "prestige.mastery.warning": "Mastering this skill will prevent it from being reset. Continue?",
+  "prestige.mastery.lock": "Il reste encore des connaissances à acquérir avant de parvenir à une véritable maîtrise.",
   "prestige.mastery.unlocked": "Peut maintenant développer davantage la compétence {{skill}}.",
   "prestiged.title": "Expert",
 
@@ -250,6 +252,10 @@
   "objects.goldenmayo.desc": "Parfaite pour les sandwiches du roi Midas.",
   "objects.ostrichmayo.name": "Mayonnaise délicieuse ",
   "objects.ostrichmayo.desc": "C'est une quantité absolument absurde de mayonnaise...",
+  "objects.slimemayo.name": "Mayonnaise de limon",
+  "objects.slimemayo.desc": "Gelée épaisse et inodore. Très facile à étaler.",
+  "objects.slimecheese.name": "Fromage de limon",
+  "objects.slimecheese.desc": "Ça sent terriblement mauvais ! Est-ce que quelqu'un voudrait vraiment manger ça ?",
 
   /***********
   *** GMCM ***
@@ -269,7 +275,7 @@
   "gmcm.should_junimos_inherit_professions.title": "Junimos héritent des professions",
   "gmcm.should_junimos_inherit_professions.desc": "Indique si les récolteurs Junimos doivent appliquer les avantages de la profession, tels que ceux de Récolteur et Agriculteur.",
 
-  // artisan & producer
+  // artisan, breeder & producer
   "gmcm.sections.prfs.artisan_breeder_producer": "Artisan et Producteur",
   "gmcm.artisan_machines.title": "Machines artisanales",
   "gmcm.artisan_machines.desc": "Machines généralement utilisées pour fabriquer des produits artisanaux. Ajoutez à cette liste l'ID qualifié des machines artisanales d'autres mods que vous utilisez pour les rendre compatibles avec les avantages de la profession Artisan. Les ID des machines qualifiées doivent commencer par \"(BC)\".",
