@@ -1,13 +1,13 @@
 {
-  "ui.buffs.burnt.damage": "-50% Damage",
-  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
-  "ui.buffs.frozen.stuck": "Can't move",
-  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
-  "ui.buffs.jinxed.defense": "-50% Defense",
-  "ui.buffs.jinxed.special": "Can't use special moves",
-  "ui.buffs.confused.name": "Disoriented",
-  "ui.buffs.confused.desc": "Movement is inverted.",
-  "ui.buffs.warrior.attack": "+{{value}} Attack",
+  "ui.buffs.burnt.damage": "-50% dégâts",
+  "ui.buffs.burnt.dot": "-{{amount}} santé toutes les 3 secondes",
+  "ui.buffs.frozen.stuck": "Ne peut pas bouger",
+  "ui.buffs.frozen.vulnerable": "Vulnérable à l'attaque suivante",
+  "ui.buffs.jinxed.defense": "-50% Défense",
+  "ui.buffs.jinxed.special": "Ne peut pas utiliser les mouvements spéciaux",
+  "ui.buffs.confused.name": "Désorienté",
+  "ui.buffs.confused.desc": "Le mouvement est inversé.",
+  "ui.buffs.warrior.attack": "+{{value}} Attaque",
 
   /************
   *** GMCM ***
@@ -15,4 +15,5 @@
 
   "gmcm.crop_wither_chance.title": "Chance de dépérissement des cultures",
   "gmcm.crop_wither_chance.desc": "Le pourcentage de probabilité qu'une culture donnée dépérisse chaque jour si elle n'est pas laissée-arrosé."
+
 }
