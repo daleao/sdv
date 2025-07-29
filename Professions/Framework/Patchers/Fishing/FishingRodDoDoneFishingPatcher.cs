@@ -116,7 +116,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void RecordTackleMemory(FishingRod rod, SObject tackle)
     {
@@ -139,5 +139,5 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

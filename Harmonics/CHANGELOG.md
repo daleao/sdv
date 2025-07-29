@@ -1,5 +1,18 @@
 ﻿# HARMONICS Changelog
 
+## 1.2.0
+
+### Changed
+
+* Replaced the garnet texture. All credit to [blueacid20020](https://next.nexusmods.com/profile/blueacid20020).
+
+### Fixed
+
+* Fixed several issues with Forge resonance. Aquamarine, Jade and Topaz were not applying correctly.
+* Fixed Garnet enchantment not persisting after reloading a save.
+
+<sup><sup>[🔼 Back to top]( #harmonics-changelog)</sup></sup>
+
 ## 1.1.3
 
 ### Added

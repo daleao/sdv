@@ -55,7 +55,7 @@ internal sealed class MineShaftLoadLevelPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static double GetPrestigedSpelunkerTreasureRoomMultiplier()
     {
@@ -64,5 +64,5 @@ internal sealed class MineShaftLoadLevelPatcher : HarmonyPatcher
             : 1d + (spelunkers.Count(spelunker => spelunker.currentLocation is MineShaft { mineLevel: > 120 }) * 0.5);
     }
 
-    #endregion injections
+    #endregion injected
 }

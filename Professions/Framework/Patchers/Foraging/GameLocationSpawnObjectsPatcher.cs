@@ -83,14 +83,14 @@ internal sealed class GameLocationSpawnObjectsPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static int GetScavengerForageSpawnBonus()
     {
         _highestStreak ??= Game1.game1.DoesAnyPlayerHaveProfession(Profession.Scavenger, out var scavengers, prestiged: true)
             ? scavengers.Aggregate(
                 0,
-                (current, scavenger) => Math.Max(current, Data.ReadAs<int>(scavenger, DataKeys.ScavengerHuntStreak)))
+                (current, scavenger) => Math.Max(current, Data.ReadAs<int>(scavenger, DataKeys.LongestScavengerHuntStreak)))
             : 0;
         return _highestStreak.Value / 2;
     }
@@ -100,10 +100,10 @@ internal sealed class GameLocationSpawnObjectsPatcher : HarmonyPatcher
         _highestStreak ??= Game1.game1.DoesAnyPlayerHaveProfession(Profession.Scavenger, out var scavengers, prestiged: true)
             ? scavengers.Aggregate(
                 0,
-                (current, scavenger) => Math.Max(current, Data.ReadAs<int>(scavenger, DataKeys.ScavengerHuntStreak)))
+                (current, scavenger) => Math.Max(current, Data.ReadAs<int>(scavenger, DataKeys.LongestScavengerHuntStreak)))
             : 0;
         return _highestStreak.Value + 11;
     }
 
-    #endregion injections
+    #endregion injected
 }

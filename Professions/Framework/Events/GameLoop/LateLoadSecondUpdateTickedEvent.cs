@@ -21,7 +21,7 @@ internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = nu
         // may themselves register to SpaceCore on FirstSecondUpdateTicked
         Log.D("Doing first pass load of custom skills...");
         SpaceCoreIntegration.Instance!.Register();
-        if (ProfessionsConfigMenu.Instance?.IsLoaded == true)
+        if (ProfessionsConfigMenu.Instance?.IsLoaded ?? false)
         {
             ProfessionsConfigMenu.Instance.Register();
         }

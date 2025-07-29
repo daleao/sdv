@@ -29,7 +29,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     private static void GameLocationExplodePostfix(
         GameLocation __instance, Vector2 tileLocation, int radius, Farmer? who)
     {
-        var tiles = new CircleTileGrid(tileLocation, (uint)radius * 2).Tiles.ToHashSet();
+        var tiles = new CircleTileGrid(tileLocation, radius * 2).Tiles.ToHashSet();
         foreach (var sprite in __instance.TemporarySprites)
         {
             if (sprite.bombRadius > 0 && tiles.Contains(sprite.Position / 64f))

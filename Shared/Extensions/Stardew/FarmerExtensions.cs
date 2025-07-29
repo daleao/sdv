@@ -159,4 +159,13 @@ public static class FarmerExtensions
 
         return count;
     }
+
+    /// <summary>Gets the screen ID of the <paramref name="farmer"/>. </summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="helper">The <see cref="IMultiplayerHelper"/> API.</param>
+    /// <returns>The <paramref name="farmer"/>'s screen ID.</returns>
+    public static int? GetScreenId(this Farmer farmer, IMultiplayerHelper helper)
+    {
+        return farmer.IsLocalPlayer ? 1 : helper.GetConnectedPlayer(farmer.UniqueMultiplayerID)?.ScreenID;
+    }
 }

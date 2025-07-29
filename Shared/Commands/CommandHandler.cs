@@ -86,7 +86,7 @@ public sealed class CommandHandler
     {
         logger.D($"[CommandHandler]: Gathering commands in {@namespace}...");
         return new CommandHandler(helper, logger)
-            .HandleImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true)
+            .HandleImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) ?? false)
             .Register(mod, entry, conditional);
     }
 

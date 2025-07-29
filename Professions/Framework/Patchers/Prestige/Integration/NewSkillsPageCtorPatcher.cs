@@ -3,10 +3,10 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using SpaceCore;
 using SpaceCore.Interface;
 using StardewValley.Menus;
 
@@ -42,55 +42,28 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
     {
         if (ShouldEnableSkillReset)
         {
-            ISkill? maxSkill = null;
-            var maxLength = 0;
-            foreach (var skill in Skill.List)
+            var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
+            if (resetData.Any())
             {
-                var length = Game1.player.GetProfessionsForSkill(skill, true).Length;
-                if (maxSkill is null)
+                var maxResets = resetData.Max(pair => pair.Value);
+                if (maxResets > 0)
                 {
-                    maxSkill = skill;
-                    maxLength = length;
-                    continue;
+                    var highestLevel = Skill.List.Cast<ISkill>()
+                        .Concat(CustomSkill.Loaded.Values)
+                        .Max(skill => skill.CurrentLevel);
+                    var addedWidth = (maxResets + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
+                    __instance.width += addedWidth;
+                    ___upButton.bounds.X += addedWidth;
+                    ___downButton.bounds.X += addedWidth;
+                    ___scrollBar.bounds.X += addedWidth;
+                    ___scrollBarRunner.X += addedWidth;
+                    NewSkillsPageDrawPatcher.RibbonXOffset = 48 - (maxResets * 12);
+                    NewSkillsPageDrawPatcher.ShouldDrawRibbons = true;
                 }
-
-                if (length <= maxLength &&
-                    (length != maxLength || maxSkill.HasBeenReset() || !((ISkill)skill).HasBeenReset()))
+                else
                 {
-                    continue;
+                    NewSkillsPageDrawPatcher.ShouldDrawRibbons = false;
                 }
-
-                maxSkill = skill;
-                maxLength = length;
-            }
-
-            foreach (var skill in CustomSkill.Loaded.Values)
-            {
-                if (Game1.player.GetProfessionsForSkill(skill, true).Length is var length &&
-                    (length > maxLength || (length == maxLength && !maxSkill!.HasBeenReset() && ((ISkill)skill).HasBeenReset())))
-                {
-                    maxSkill = skill;
-                    maxLength = length;
-                }
-            }
-
-            if (maxLength > 1 || maxSkill?.HasBeenReset() == true)
-            {
-                var highestLevel = Skill.List.Cast<ISkill>()
-                    .Concat(CustomSkill.Loaded.Values)
-                    .Max(skill => skill.CurrentLevel);
-                var addedWidth = (maxLength + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
-                __instance.width += addedWidth;
-                ___upButton.bounds.X += addedWidth;
-                ___downButton.bounds.X += addedWidth;
-                ___scrollBar.bounds.X += addedWidth;
-                ___scrollBarRunner.X += addedWidth;
-                NewSkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
-                NewSkillsPageDrawPatcher.ShouldDrawRibbons = true;
-            }
-            else
-            {
-                NewSkillsPageDrawPatcher.ShouldDrawRibbons = false;
             }
         }
 

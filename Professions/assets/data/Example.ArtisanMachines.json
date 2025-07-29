@@ -1,0 +1,7 @@
+{
+	"ArtisanMachines":
+	[
+	    "ExampleMod_MayonnaiseMachineProductionRuleId",
+        "ExampleMod_CheesePreesMachineProductionRuleId"
+	]
+}

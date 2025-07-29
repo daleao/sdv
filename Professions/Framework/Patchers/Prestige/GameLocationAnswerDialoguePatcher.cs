@@ -70,8 +70,6 @@ internal sealed class GameLocationAnswerDialoguePatcher : HarmonyPatcher
             // woof woof
             DelayedAction.playSoundAfterDelay("dog_bark", 1300);
             DelayedAction.playSoundAfterDelay("dog_bark", 1900);
-
-            State.UsedStatueToday = true;
             __result = true;
             return false; // don't run original logic
         }

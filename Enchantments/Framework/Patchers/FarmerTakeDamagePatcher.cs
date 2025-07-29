@@ -79,7 +79,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void OnDamageTaken(Farmer farmer, int damage)
     {
@@ -106,5 +106,5 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         }
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

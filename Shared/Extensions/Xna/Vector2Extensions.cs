@@ -66,10 +66,10 @@ public static class Vector2Extensions
     public static IEnumerable<Vector2> GetFourNeighbors(this Vector2 tile, int width, int height)
     {
         var (x, y) = tile;
-        if (x > 0 && y > 0) yield return new Vector2(x - 1, y - 1);
-        if (x > 0 && y < height - 1) yield return new Vector2(x - 1, y + 1);
-        if (x < width - 1 && y > 0) yield return new Vector2(x + 1, y - 1);
-        if (x < width - 1 && y < height - 1) yield return new Vector2(x + 1, y + 1);
+        if (x > 0f) yield return new Vector2(x - 1f, y);
+        if (y > 0f) yield return new Vector2(x, y - 1f);
+        if (x < width - 1f) yield return new Vector2(x + 1f, y);
+        if (y < height - 1) yield return new Vector2(x, y + 1f);
     }
 
     /// <summary>Gets the 8-connected neighboring tiles in a given region.</summary>
@@ -81,22 +81,22 @@ public static class Vector2Extensions
     public static IEnumerable<Vector2> GetEightNeighbors(this Vector2 tile, int width, int height)
     {
         var (x, y) = tile;
-        if (x > 0)
+        if (x > 0f)
         {
-            yield return new Vector2(x - 1, y);
-            if (y > 0) yield return new Vector2(x - 1, y - 1);
-            if (y < height - 1) yield return new Vector2(x - 1, y + 1);
+            yield return new Vector2(x - 1f, y);
+            if (y > 0f) yield return new Vector2(x - 1f, y - 1f);
+            if (y < height - 1f) yield return new Vector2(x - 1f, y + 1f);
         }
 
-        if (x < width - 1)
+        if (x < width - 1f)
         {
-            yield return new Vector2(x + 1, y);
-            if (y > 0) yield return new Vector2(x + 1, y - 1);
-            if (y < height - 1) yield return new Vector2(x + 1, y + 1);
+            yield return new Vector2(x + 1f, y);
+            if (y > 0f) yield return new Vector2(x + 1f, y - 1f);
+            if (y < height - 1f) yield return new Vector2(x + 1f, y + 1f);
         }
 
-        if (y > 0) yield return new Vector2(x, y - 1);
-        if (y < height - 1) yield return new Vector2(x, y + 1);
+        if (y > 0f) yield return new Vector2(x, y - 1f);
+        if (y < height - 1f) yield return new Vector2(x, y + 1f);
     }
 
     /// <summary>Gets the 24 neighboring tiles in a given region.</summary>
@@ -232,43 +232,51 @@ public static class Vector2Extensions
     /// <param name="width">The width of the region.</param>
     /// <param name="height">The height of the region.</param>
     /// <param name="boundary">The boundary condition.</param>
-    /// <param name="minDistance">The shortest Chebyshev distance acceptable from the origin.</param>
-    /// <param name="maxDistance">The largest Chebyshev distance acceptable from the origin.</param>
-    /// <returns>The list of <see cref="Vector2"/>s belonging to the enclosed region.</returns>
-    public static IReadOnlyList<Vector2> FloodFill(this Vector2 origin, int width, int height, Func<Vector2, bool> boundary, int minDistance = 0, int maxDistance = int.MaxValue)
+    /// <param name="minDistance">The shortest Manhattan distance acceptable from the origin.</param>
+    /// <param name="maxDistance">The largest Manhattan distance acceptable from the origin.</param>
+    /// <param name="maxSteps">The maximum allowed number of iterations for the algorithm.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of <see cref="Vector2"/>s belonging to the enclosed region and their respective Manhattan distances from the origin.</returns>
+    public static IEnumerable<(Vector2 Tile, int Distance)> FloodFill(
+        this Vector2 origin,
+        int width,
+        int height,
+        Func<Vector2, bool> boundary,
+        int minDistance = 0,
+        int maxDistance = int.MaxValue,
+        int maxSteps = int.MaxValue)
     {
         var flooded = new List<Vector2>();
-        var tested = new HashSet<Vector2> { origin };
-        var queue = new Queue<Vector2>();
-        var distanceByTile = new Dictionary<Vector2, int>();
-        foreach (var neighbor in origin.GetEightNeighbors(width, height))
+        var queue = new Queue<Vector2>([origin]);
+        var distanceByTile = new Dictionary<Vector2, int> { [origin] = 0 };
+        foreach (var neighbor in origin.GetFourNeighbors(width, height))
         {
-            queue.Enqueue(neighbor);
-            distanceByTile[neighbor] = 1;
+            if (boundary(neighbor) && distanceByTile.TryAdd(neighbor, 1))
+            {
+                queue.Enqueue(neighbor);
+            }
         }
 
-        while (queue.Count > 0)
+        var steps = 0;
+        while (queue.TryDequeue(out var tile) && steps++ < maxSteps)
         {
-            var tile = queue.Dequeue();
-            if (tile.X < 0 || tile.Y < 0 || tile.X >= width || tile.Y >= height || !tested.Add(tile) ||
-                !boundary(tile))
+            if (!boundary(tile))
             {
                 continue;
             }
 
             flooded.Add(tile);
-            foreach (var neighbor in tile.GetEightNeighbors(width, height))
+            var distance = distanceByTile[tile];
+            foreach (var neighbor in tile.GetFourNeighbors(width, height))
             {
-                if (tested.Contains(neighbor) || queue.Contains(neighbor))
+                if (distanceByTile.TryAdd(neighbor, distance + 1))
                 {
-                    continue;
+                    queue.Enqueue(neighbor);
                 }
-
-                queue.Enqueue(neighbor);
-                distanceByTile[neighbor] = distanceByTile[tile] + 1;
             }
         }
 
-        return flooded.Where(tile => distanceByTile[tile] < minDistance || distanceByTile[tile] > maxDistance).ToList();
+        return flooded
+            .Select(tile => (Tile: tile, Distance: distanceByTile[tile]))
+            .Where(tuple => tuple.Distance >= minDistance && tuple.Distance <= maxDistance);
     }
 }

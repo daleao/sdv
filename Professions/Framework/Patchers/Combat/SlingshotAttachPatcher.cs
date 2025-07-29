@@ -99,7 +99,7 @@ internal sealed class SlingshotAttachPatcher : HarmonyPatcher
                         __result = top;
                         Game1.playSound("button1");
                     }
-                    else if (bottom?.canStackWith(o) == true && bottom.Stack < 999)
+                    else if ((bottom?.canStackWith(o) ?? false) && bottom.Stack < 999)
                     {
                         bottom.Stack = o.addToStack(bottom);
                         if (bottom.Stack <= 0)

@@ -123,12 +123,37 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
             return null;
         }
 
+        // From: if (who.ActiveObject.ItemId != fishType)
+        // To: if (!IsSameFishOrExtendedFamily(who.ActiveObject.ItemId, fishType))
+        try
+        {
+            helper
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Ldfld, typeof(FishPond).RequireField(nameof(FishPond.fishType))),
+                        new CodeInstruction(OpCodes.Callvirt, typeof(NetString).RequireMethod("get_Value")),
+                        new CodeInstruction(OpCodes.Call, typeof(string).RequireMethod("op_Inequality")),
+                        new CodeInstruction(OpCodes.Brfalse),
+                    ],
+                    ILHelper.SearchOption.First)
+                .Move(2)
+                .ReplaceWith(
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsSameFishOrExtendedFamily))));
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding family ties to legendary fish in ponds.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static bool TryThrowMetalIntoPond(FishPond pond, Farmer who)
     {
@@ -174,5 +199,20 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
         return true;
     }
 
-    #endregion injected subroutines
+    private static bool IsSameFishOrExtendedFamily(string heldId, string otherId)
+    {
+        if (heldId == otherId)
+        {
+            return false;
+        }
+
+        if (!Lookups.FamilyPairs.TryGetValue($"(O){otherId}", out var pairId))
+        {
+            return true;
+        }
+
+        return pairId != $"(O){heldId}";
+    }
+
+    #endregion injected
 }

@@ -15,17 +15,17 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 
 ## Melee Weapon Enchantments
 
-| Name       | Effect                                                                                                                                                                                                                          |
-|------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Carving    | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero.                                     |
-| Cleaving   | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target.                                                                                                                           |
-| Detonating | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion.                                                                                 |
-| Energized  | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area.                                                      |
-| Greedy     | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.*     |
-| Radiant    | Deal 50% more damage to shadow and undead monsters. Weapon swings create a mid-range sunlight projectile which blinds enemies upon collision. Prevents Mummies from resurrecting.                                               |
-| Reckless   | Replaces the defensive parry special move with a stabbing lunge attack. You can perform two special moves in succession. **Sword only**.                                                                                        |
-| Sanguine   | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |
-| Wabbajack  | Causes unpredictable effects.**                                                                                                                                                                                                 |
+| Name      | Effect                                                                                                                                                                                                                          |
+|-----------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Carving   | Attacks on-hit reduce enemy defense by 1 point (continuing below zero). Armored enemies (i.e., Armored Bugs and shelled Rock Crabs) lose their armor when their defense is reduced to zero.                                     |
+| Cleaving  | Attacks on-hit spread 60% - 20% (based on distance) of the damage to other enemies around the target.                                                                                                                           |
+| Explosive | Absorbs and stores the damage from enemy hits (before mitigation). The next special move releases twice the accumulated damage as an explosion.                                                                                 |
+| Energized | Moving and attacking generates energy, up to 100 stacks. At maximum stacks, the next attack causes a powerful electric discharge which deals heavy damage in a large area.                                                      |
+| Greedy    | Attacks that would leave an enemy below 10% max health immediately execute the enemy, converting the remaining health into gold. Each consecutive takedown increases this threshold by 1%, resetting when you take damage.*     |
+| Radiant   | Deal 50% more damage to shadow and undead monsters. Weapon swings create a mid-range sunlight projectile which blinds enemies upon collision. Prevents Mummies from resurrecting.                                               |
+| Reckless  | Replaces the defensive parry special move with a stabbing lunge attack. You can perform two special moves in succession. **Sword only**.                                                                                        |
+| Sanguine  | Enemy takedowns recover some health proportional to the enemy's max health. Excess healing is converted into a shield for up to 20% of the player's max health, which slowly decays after not dealing or taking damage for 15s. |
+| Wabbajack | Causes unpredictable effects.**                                                                                                                                                                                                 |
 
 <font size="1">
 
@@ -54,16 +54,27 @@ Finally, this mod optionally replaces the generic vanilla "Forged" text in weapo
 
 ## Tool Enchantments
 
-The **Master** enchantment, previously exclusive to the Fishing Rod, can now be applied to all major tools to increase the corresponding skill level by 20%; i.e., below level 10, the enchantment grants +1 skill level, and +2 at level 10. If [Professions](../Professions) is installed, will grant +3 at level 15, and +4 at level 20.
+
+| Name     | Applicable Tools                                             | Effect                                                                           |
+|----------|--------------------------------------------------------------|----------------------------------------------------------------------------------|
+| Master   | **Axe**, **Pickaxe**, **Hoe**, **Watering Can**, Fishing Rod | ~~Fishing Level +1~~ Increases the corresponding skill level by 20%.*            |
+| Swift    | Axe, Pickaxe, Hoe, **Watering Can**                          | _Same as vanilla. Now applicable to Watering._                                   |
+| Reaching | Hoe, Watering Can, Scythe (Iridium)                          | _Same as vanilla. Now applicable to Iridium Scythe (increased area of effect).** |
+| Haymaker | Scythe (Iridium)                                             | _Same as vanilla. Now applicable **only** to Iridium Scythe._                    |
+| Sharp    | Pickaxe (Iridium), Scythe (Iridium)                          | Deals increased damage to enemies.***                                            |
+
+<font size="1">
+\* Below level 10, grants +1 skill level, and +2 at level 10. If [Professions](../Professions) is installed, will grant +3 at level 15, and +4 at level 20.
+
     - Axe -> Foraging Level
-    - Pickaxe - Mining Level
+    - Pickaxe -> Mining Level
     - Hoe -> Farming Level
     - Watering Can -> Farming Level
-    - Scythe -> Farming Level
 
-Note that only the Iridium Scythe can be enchanted. It can also receive the **Reaching** and **Haymaker** enchantments, the latter of which is now exclusively a Scythe enchantment.
+\** If [Chargeable](../Chargeable) is installed, Reaching is also applicable to Axe and Pickaxe (doesn't depend on this mod).
 
-Finally, the **Swift** enchantment has been extended to the Watering Can.
+\*** Iridium Scythe deals damage equal to a Galaxy Sword. Iridium Pickaxe deals damage equal to a Galaxy Hammer.
+</font>
 
 
 ## Jade Rebalance

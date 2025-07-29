@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -33,40 +34,23 @@ internal sealed class SkillsPageCtorPatcher : HarmonyPatcher
     {
         if (ShouldEnableSkillReset)
         {
-            ISkill? maxSkill = null;
-            var maxLength = 0;
-            foreach (var skill in Skill.List)
+            var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
+            if (resetData.Any())
             {
-                var length = Game1.player.GetProfessionsForSkill(skill, true).Length;
-                if (maxSkill is null)
+                var maxResets = resetData.Max(pair => pair.Value);
+                if (maxResets > 0)
                 {
-                    maxSkill = skill;
-                    maxLength = length;
-                    continue;
+                    var highestLevel = Skill.List.Cast<ISkill>()
+                        .Concat(CustomSkill.Loaded.Values)
+                        .Max(skill => skill.CurrentLevel);
+                    __instance.width += (maxResets + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
+                    SkillsPageDrawPatcher.RibbonXOffset = 48 - (maxResets * 12);
+                    SkillsPageDrawPatcher.ShouldDrawRibbons = true;
                 }
-
-                if (length <= maxLength &&
-                    (length != maxLength || maxSkill.HasBeenReset() || !((ISkill)skill).HasBeenReset()))
+                else
                 {
-                    continue;
+                    SkillsPageDrawPatcher.ShouldDrawRibbons = false;
                 }
-
-                maxSkill = skill;
-                maxLength = length;
-            }
-
-            if (maxLength > 1 || maxSkill?.HasBeenReset() == true)
-            {
-                var highestLevel = Skill.List.Cast<ISkill>()
-                    .Concat(CustomSkill.Loaded.Values)
-                    .Max(skill => skill.CurrentLevel);
-                __instance.width += (maxLength + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
-                SkillsPageDrawPatcher.RibbonXOffset = 48 - (maxLength * 12);
-                SkillsPageDrawPatcher.ShouldDrawRibbons = true;
-            }
-            else
-            {
-                SkillsPageDrawPatcher.ShouldDrawRibbons = false;
             }
         }
 

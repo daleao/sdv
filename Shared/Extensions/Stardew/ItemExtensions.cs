@@ -117,14 +117,6 @@ public static class ItemExtensions
         return item.HasContextTag("forage_item_beach");
     }
 
-    /// <summary>Determines whether the <paramref name="item"/> is a simple Stone.</summary>
-    /// <param name="item">The <see cref="Item"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="item"/> is a mining node not containing only stone, otherwise <see langword="false"/>.</returns>
-    public static bool IsStone(this Item item)
-    {
-        return item.Name == "Stone";
-    }
-
     /// <summary>Determines whether the <paramref name="item"/> is a twig.</summary>
     /// <param name="item">The <see cref="Item"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="item"/> is twig, otherwise <see langword="false"/>.</returns>

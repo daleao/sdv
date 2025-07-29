@@ -6,6 +6,7 @@ using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -85,12 +86,20 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
 
         State.SpelunkerLadderStreak++;
         _previousMineLevel = newShaft.mineLevel;
-        if (!player.HasProfession(Profession.Spelunker, true) || !newShaft.IsTreasureOrSafeRoom())
+        if (!newShaft.IsTreasureOrSafeRoom())
         {
             return;
         }
 
-        player.health = Math.Min(player.health + (int)(player.maxHealth * 0.05f), player.maxHealth);
+        var healed = (int)(player.maxHealth * 0.05f);
+        player.health = Math.Min(player.health + healed, player.maxHealth);
         player.Stamina = Math.Min(player.Stamina + (player.MaxStamina * 0.05f), player.MaxStamina);
+        newLocation.debris.Add(new Debris(
+            healed,
+            new Vector2(player.StandingPixel.X, player.StandingPixel.Y),
+            Color.Lime,
+            1f,
+            player));
+        Game1.playSound("healSound");
     }
 }

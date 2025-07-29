@@ -75,7 +75,7 @@ public sealed class Harmonizer
     {
         logger.D($"[Harmonizer]: Preparing to apply all patches in {@namespace}...");
         return new Harmonizer(modRegistry, logger, harmonyId ?? @namespace)
-            .ApplyImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true);
+            .ApplyImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) ?? false);
     }
 
     /// <summary>Implicitly applies only the <see cref="IHarmonyPatcher"/> types with the specified <paramref name="assembly"/>> which are also decorated with <typeparamref name="TAttribute"/>.</summary>

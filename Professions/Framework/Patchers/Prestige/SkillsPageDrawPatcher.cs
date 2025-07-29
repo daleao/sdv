@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -160,7 +161,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldarg_1),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawExtras))),
+                            typeof(SkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))),
                     ],
                     labels);
         }
@@ -175,7 +176,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
     internal static int AdjustForRibbonWidth()
@@ -213,7 +214,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    private static void DrawExtras(SkillsPage page, SpriteBatch b)
+    private static void DrawRibbons(SkillsPage page, SpriteBatch b)
     {
         var x = CurrentLanguageCode is LanguageCode.ru or LanguageCode.it
             ? page.xPositionOnScreen + page.width - 448 - 48
@@ -255,6 +256,7 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
             new Vector2(
                 page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth + Textures.PROGRESSION_VERTICAL_OFFSET);
+        var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
         for (var i = 0; i < 5; i++)
         {
             position.Y += verticalSpacing;
@@ -267,7 +269,8 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
                 _ => Skill.FromValue(i),
             };
 
-            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            //var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            var count = resetData.GetValueOrDefault(skill.StringId, 0);
             if (count == 0)
             {
                 continue;
@@ -293,5 +296,5 @@ internal sealed class SkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

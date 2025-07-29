@@ -72,7 +72,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                         break;
                     case 3:
                         amount = -777;
-                        location.playSound("heal");
+                        location.playSound("healSound");
                         break;
                 }
 

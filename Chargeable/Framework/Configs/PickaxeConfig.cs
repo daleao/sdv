@@ -19,7 +19,7 @@ public sealed class PickaxeConfig
     [JsonProperty]
     [GMCMPriority(1)]
     [GMCMOverride(typeof(ChargeableConfigMenu), "PickaxeRadiusAtEachLevelOverride")]
-    public uint[] RadiusAtEachPowerLevel { get; internal set; } = [1, 2, 3, 4, 5, 6, 7];
+    public int[] RadiusAtEachPowerLevel { get; internal set; } = [1, 2, 3, 4, 5, 6, 7];
 
     /// <summary>Gets a value indicating whether to break boulders and meteorites.</summary>
     [JsonProperty]

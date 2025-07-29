@@ -22,6 +22,8 @@ internal sealed class ProfessionSavingEvent(EventManager? manager = null)
         var player = Game1.player;
         Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', State.OrderedProfessions));
         Data.Write(player, DataKeys.LimitBreakId, State.LimitBreak?.Id.ToString());
+        Data.Write(player, DataKeys.ProspectorPointPool, State.ProspectorHunt?.TriggerPool.ToString());
+        Data.Write(player, DataKeys.ScavengerPointPool, State.ScavengerHunt?.TriggerPool.ToString());
         Data.Write(
             player,
             DataKeys.PrestigedEcologistBuffLookup,

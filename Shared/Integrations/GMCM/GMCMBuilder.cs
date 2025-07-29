@@ -121,9 +121,9 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
 
             // crawl config properties and sort by priority
             var properties = configType.GetProperties();
-            var prioritized = new SortedDictionary<uint, PropertyInfo>();
-            var unprioritized = new List<PropertyInfo>();
-            var links = new List<GMCMPage>();
+            SortedDictionary<uint, PropertyInfo> prioritized = [];
+            List<PropertyInfo> unprioritized = [];
+            List<GMCMPage> links = [];
             foreach (var property in properties)
             {
                 if (property.GetCustomAttribute<GMCMIgnoreAttribute>() is not null)
@@ -192,7 +192,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
 
             // add sectioned form fields
             var currentSection = string.Empty;
-            var others = new List<PropertyInfo>();
+            List<PropertyInfo> others = [];
             foreach (var property in prioritized.Values)
             {
                 if (property.GetCustomAttribute<GMCMSectionAttribute>() is { } sectionAttribute &&
@@ -299,7 +299,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
     /// <returns>The <typeparamref name="TGenericModConfigMenu"/> instance.</returns>
     /// <remarks>
     ///     You must also call <see cref="AddPageLink"/> to make the page accessible. This is only needed to set up a
-    ///     multi-page config UI. If you don't call this method, all options will be part of the mod's main config UI instead.
+    ///     multipage config UI. If you don't call this method, all options will be part of the mod's main config UI instead.
     /// </remarks>
     protected TGenericModConfigMenu AddPage(string pageId, Func<string>? pageTitle = null)
     {

@@ -26,7 +26,7 @@ internal sealed class PipedSlime : IDisposable
                                                  CollisionMask.Objects | CollisionMask.TerrainFeatures |
                                                  CollisionMask.LocationSpecific;
 
-    private const int FADE_IN_DURATION = 60;
+    private const int FADE_DURATION = 60;
 #if RELEASE
     private const int RESPAWN_TIME = 42000;
 #elif DEBUG
@@ -35,11 +35,14 @@ internal sealed class PipedSlime : IDisposable
 
     private readonly NetRef<Hat?> _hat = [];
     private int _respawnTimer = -1;
-    private int _fadeInCounter = -1;
+    private int _fadeCounter = -1;
+    private int _fadeDelta = 0;
+    private bool _dismissed;
 
     /// <summary>Initializes a new instance of the <see cref="PipedSlime"/> class.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
     /// <param name="piper">The <see cref="Farmer"/> who cast <see cref="PiperConcerto"/>.</param>
+    /// <param name="summoned"><see cref="true"/> indicates that this is a summoned minion instance (permanent). <see langword="false"/> indicates that this instance is temporarily charmed by Piper limit break.</param>
     /// <paramref name="summoned">Whether the instance is a temporary Concerto Slime.</paramref>
     internal PipedSlime(GreenSlime slime, Farmer piper, bool summoned = true)
     {
@@ -79,6 +82,9 @@ internal sealed class PipedSlime : IDisposable
         }
     }
 
+    /// <summary>Gets a value indicating whether a Hat Slime already exists in the world.</summary>
+    internal static bool HatSlimeIsUponUs { get; private set; }
+
     /// <summary>Gets the <see cref="GreenSlime"/> instance.</summary>
     internal GreenSlime Slime { get; }
 
@@ -86,8 +92,8 @@ internal sealed class PipedSlime : IDisposable
     internal Farmer Piper { get; }
 
     /// <summary>Gets the alpha value for drawing the <seealso cref="Slime"/>.</summary>
-    internal float Alpha => this._fadeInCounter >= 0
-        ? (float)((-1d / (1d + Math.Exp((12d * this._fadeInCounter / FADE_IN_DURATION) - 6d))) + 1d)
+    internal float Alpha => this._fadeCounter >= 0
+        ? (float)((-1d / (1d + Math.Exp((12d * this._fadeCounter / FADE_DURATION) - 6d))) + 1d)
         : 1f;
 
     /// <summary>Gets the fake <see cref="Farmer"/> instance used for aggroing onto non-players.</summary>
@@ -117,6 +123,36 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Gets a value indicating whether the instance is a raised Slime or a temporary Concerto Slime.</summary>
     internal bool IsSummoned { get; }
 
+    /// <summary>Gets or sets a value indicating whether the instance has been dismissed.</summary>
+    internal bool IsDismissed
+    {
+        get => this._dismissed;
+        set
+        {
+            if (value == this._dismissed)
+            {
+                return;
+            }
+
+            if (value)
+            {
+                this.FadeOut();
+            }
+            else
+            {
+                this.FadeIn();
+            }
+
+            this._dismissed = value;
+        }
+    }
+
+    /// <summary>Gets the time until the next respawn, in seconds.</summary>
+    internal int RespawnTimer => (this._respawnTimer / 1000) + 1;
+
+    /// <summary>Gets the <see cref="Color"/> value of the underlying <see cref="GreenSlime"/> instance.</summary>
+    internal Color Color => this.Slime.color.Value;
+
     /// <summary>Gets or sets the currently worn hat.</summary>
     internal Hat? Hat
     {
@@ -132,6 +168,8 @@ internal sealed class PipedSlime : IDisposable
             }
 
             this._hat.Value = value;
+            HatSlimeIsUponUs = value != null;
+            State.PipedMinionMenu?.populateClickableComponentList();
         }
     }
 
@@ -172,11 +210,19 @@ internal sealed class PipedSlime : IDisposable
 
         if (who.Items.Count > who.CurrentToolIndex && who.Items[who.CurrentToolIndex] is Hat hat)
         {
-            if (this.Hat is not null)
+            if (this.Hat is not null && who.addItemToInventoryBool(this.Hat))
             {
                 var slime = this.Slime;
-                Game1.createItemDebris(this.Hat, slime.Position, slime.FacingDirection);
                 this.Hat = null;
+                foreach (var item in this.Inventory)
+                {
+                    if (item is not null)
+                    {
+                        Game1.createItemDebris(item, slime.Position, slime.FacingDirection);
+                    }
+                }
+
+                this.Inventory.Clear();
 
                 var currentLocation = slime.currentLocation;
                 var inDangerZone = currentLocation.IsEnemyArea() ||
@@ -186,7 +232,7 @@ internal sealed class PipedSlime : IDisposable
                     slime.Set_Piped(null);
                 }
             }
-            else
+            else if (!HatSlimeIsUponUs)
             {
                 who.Items[who.CurrentToolIndex] = null;
                 this.Hat = hat;
@@ -208,6 +254,7 @@ internal sealed class PipedSlime : IDisposable
     }
 
     /// <summary>Draws the <seealso cref="Hat"/>.</summary>
+    /// <param name="b">The <see cref="SpriteBatch"/>.</param>
     public void DrawHat(SpriteBatch b)
     {
         if (this.Hat is null)
@@ -247,19 +294,27 @@ internal sealed class PipedSlime : IDisposable
             this._respawnTimer -= time.ElapsedGameTime.Milliseconds;
             if (this._respawnTimer <= 0)
             {
-                this.Slime.Health = this.Slime.MaxHealth;
-                this.WarpToPiper();
-                this._fadeInCounter = 0;
+                this.Piper.SpawnMinions(1);
+                this.Slime.Set_Piped(null);
             }
         }
 
-        if (this._fadeInCounter >= 0)
+        if (this._fadeCounter < 0)
         {
-            this._fadeInCounter++;
-            if (this._fadeInCounter >= FADE_IN_DURATION)
-            {
-                this._fadeInCounter = -1;
-            }
+            return;
+        }
+
+        this._fadeCounter += this._fadeDelta;
+        if (this._fadeCounter is < FADE_DURATION and >= 0)
+        {
+            return;
+        }
+
+        this._fadeCounter = -1;
+        this._fadeDelta = 0;
+        if (this.IsDismissed)
+        {
+            this.Slime.currentLocation.characters.Remove(this.Slime);
         }
     }
 
@@ -384,6 +439,22 @@ internal sealed class PipedSlime : IDisposable
     internal void BeginRespawn()
     {
         this._respawnTimer = RESPAWN_TIME;
+    }
+
+    /// <summary>Initiates fade in.</summary>
+    internal void FadeIn()
+    {
+        this._fadeCounter = 0;
+        this._fadeDelta = 1;
+        this.Slime.currentLocation.characters.Add(this.Slime);
+        this.WarpToPiper();
+    }
+
+    /// <summary>Initiates fade out.</summary>
+    internal void FadeOut()
+    {
+        this._fadeCounter = FADE_DURATION;
+        this._fadeDelta = -1;
     }
 
     /// <summary>Warps the <seealso cref="Slime"/> to a new position near its <seealso cref="Piper"/> and resets the AI state.</summary>

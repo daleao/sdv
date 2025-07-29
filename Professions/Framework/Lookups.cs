@@ -36,23 +36,6 @@ internal static class Lookups
         $"(O){UniqueId}_OstrichMayo",
     ];
 
-    /// <summary>Gets a map from a legendary fish ID to that of its corresponding extended family pair.</summary>
-    internal static Dictionary<string, string> FamilyPairs { get; } = new()
-    {
-        { QIDs.Crimsonfish, QIDs.SonOfCrimsonfish },
-        { QIDs.Angler, QIDs.MsAngler },
-        { QIDs.Legend, QIDs.LegendII },
-        { QIDs.MutantCarp, QIDs.RadioactiveCarp },
-        { QIDs.Glacierfish, QIDs.GlacierfishJr },
-        { QIDs.SonOfCrimsonfish, QIDs.Crimsonfish },
-        { QIDs.MsAngler, QIDs.Angler },
-        { QIDs.LegendII, QIDs.Legend },
-        { QIDs.RadioactiveCarp, QIDs.MutantCarp },
-        { QIDs.GlacierfishJr, QIDs.Glacierfish },
-        { "MNF.MoreNewFish_tui", "MNF.MoreNewFish_la" },
-        { "MNF.MoreNewFish_la", "MNF.MoreNewFish_tui" },
-    };
-
     /// <summary>Gets or sets the ids of resource nodes.</summary>
     internal static HashSet<string> ResourceNodeIds { get; set; } =
     [

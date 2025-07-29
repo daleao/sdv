@@ -14,9 +14,12 @@ internal sealed class ScavengerHuntUpdateTickedEvent(EventManager? manager = nul
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
+    public override bool IsEnabled => State.ScavengerHunt?.IsActive ?? false;
+
+    /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        State.ScavengerHunt!.Update(e.Ticks);
+        State.ScavengerHunt!.TimeUpdate(e.Ticks);
         if (Game1.player.HasProfession(Profession.Scavenger, true))
         {
             Game1.gameTimeInterval = 0;

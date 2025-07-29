@@ -522,7 +522,7 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static int GetCurrentBranchForSkill(int currentSkill)
     {
@@ -542,5 +542,5 @@ internal sealed class LevelUpMenuUpdatePatcher : HarmonyPatcher
                 (currentLevel == 10 && Game1.player.HasProfession(profession)));
     }
 
-    #endregion injections
+    #endregion injected
 }

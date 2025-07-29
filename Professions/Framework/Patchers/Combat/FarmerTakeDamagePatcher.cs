@@ -130,7 +130,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void IncrementBruteCounters(Farmer farmer, Monster? damager, int damage)
     {
@@ -154,6 +154,6 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         frenzy.ChargeValue += damage / 4.0;
     }
 
-    #endregion injections
+    #endregion injected
 
 }

@@ -61,7 +61,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                         (__instance.TileLocation.X * 777f) + __instance.TileLocation.Y);
                     if (r.NextBool(0.25))
                     {
-                        item.Stack++;
+                        item.Stack *= 2;
                     }
                 }
 

@@ -2,8 +2,8 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Events;
+using Hunting;
 using StardewModdingAPI.Events;
 using StardewValley.Extensions;
 
@@ -32,16 +32,24 @@ internal sealed class ScavengerWarpedEvent(EventManager? manager = null)
             State.ScavengerHunt.Fail();
         }
 
-        if (!e.Player.HasProfession(Profession.Scavenger, true) || e.NewLocation.currentEvent is not null ||
-            !e.NewLocation.IsOutdoors || e.NewLocation.IsFarm)
+        var newLocation = e.NewLocation;
+        if (newLocation.currentEvent is not null)
         {
             return;
         }
 
-        var chance = Math.Atan(16d / 625d * Data.ReadAs<int>(e.Player, DataKeys.ScavengerHuntStreak));
+        State.ScavengerHunt.TryCacheEligibleTreasureTiles(newLocation);
+
+        if (!e.Player.HasProfession(Profession.Scavenger, true) || newLocation.currentEvent is not null ||
+            !newLocation.IsOutdoors || newLocation.IsFarm)
+        {
+            return;
+        }
+
+        var chance = Math.Atan(16d / 625d * Data.ReadAs<int>(e.Player, DataKeys.LongestScavengerHuntStreak));
         if (Game1.random.NextBool(chance))
         {
-            e.NewLocation.spawnObjects();
+            newLocation.spawnObjects();
         }
     }
 }

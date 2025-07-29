@@ -12,7 +12,6 @@ using ItemExtensions.Models.Enums;
 using ItemExtensions.Models.Items;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Shared.Extensions;
 using StardewModdingAPI.Events;
 using StardewValley.GameData.Objects;
 

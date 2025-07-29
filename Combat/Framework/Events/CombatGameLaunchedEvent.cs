@@ -16,7 +16,7 @@ internal sealed class CombatGameLaunchedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        if (CombatConfigMenu.Instance?.IsLoaded == true)
+        if (CombatConfigMenu.Instance?.IsLoaded ?? false)
         {
             CombatConfigMenu.Instance.Register();
         }

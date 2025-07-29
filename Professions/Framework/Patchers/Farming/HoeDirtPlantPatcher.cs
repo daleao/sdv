@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -22,14 +23,19 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
+    /// <summary>Patch to record crops planted by Agriculturist.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void HoeDirtPlantPostfix(HoeDirt __instance, Farmer who)
     {
-        if (__instance.crop is { } crop && who.HasProfession(Profession.Agriculturist, true))
+        if (__instance.crop is not { } crop)
         {
-            Data.Write(crop, DataKeys.DaysLeftOutOfSeason, 5.ToString());
+            return;
+        }
+
+        if (who.HasProfessionOrLax(Profession.Agriculturist, true))
+        {
+            Data.Write(crop, DataKeys.DaysOutOfSeason, "1");
         }
     }
 

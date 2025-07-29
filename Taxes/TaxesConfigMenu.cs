@@ -44,7 +44,7 @@ internal sealed class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
             () => Config.TaxRatePerIncomeBracket.Select(pair => new KeyValuePair<string, string>($"{pair.Key}", $"{pair.Value}")).ToList(),
             pairs =>
             {
-                var parsedPairs = new List<KeyValuePair<int, float>>();
+                List<KeyValuePair<int, float>> parsedPairs = [];
                 for (var i = 0; i < pairs.Count; i++)
                 {
                     var pair = pairs[i];
@@ -81,7 +81,7 @@ internal sealed class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
             () => Config.DeductibleExtras.Select(pair => new KeyValuePair<string, string>(pair.Key.TrimAll(), $"{pair.Value}")).ToList(),
             pairs =>
             {
-                var parsedPairs = new List<KeyValuePair<string, float>>();
+                List<KeyValuePair<string, float>> parsedPairs = [];
                 foreach (var pair in pairs)
                 {
                     if (!float.TryParse(pair.Value, out var deductible))

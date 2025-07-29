@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 
 #endregion using directives
 
@@ -23,6 +24,14 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    /// <summary>Patch to trigger and manage Prospector hunt.</summary>
+    [HarmonyPostfix]
+    [UsedImplicitly]
+    private static void OnStoneDestroyedPostfix(GameLocation __instance, int x, int y)
+    {
+        State.ProspectorHunt?.OnStoneDestroyed(__instance, new Vector2(x, y));
+    }
 
     /// <summary>Patch to remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]

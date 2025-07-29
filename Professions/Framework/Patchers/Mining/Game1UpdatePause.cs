@@ -62,7 +62,7 @@ internal sealed class Game1UpdatePause : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool DoSpelunkerRevival()
     {
@@ -87,5 +87,5 @@ internal sealed class Game1UpdatePause : HarmonyPatcher
         return true;
     }
 
-    #endregion injections
+    #endregion injected
 }

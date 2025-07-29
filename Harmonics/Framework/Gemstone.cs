@@ -137,7 +137,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     public int NaturalPitch { get; }
 
     /// <summary>Gets the pitch adjustments for every note in the corresponding <see cref="DiatonicScale"/>.</summary>
-    public int[] Harmonics { get; } = { 0, 200, 400, 500, 700, 900, 1100 };
+    public int[] Harmonics { get; } = [0, 200, 400, 500, 700, 900, 1100];
 
     /// <summary>Gets the <see cref="ICue"/> of the <see cref="Gemstone"/>'s vibration.</summary>
     public ICue Cue { get; } = Game1.soundBank.GetCue("SinWave");
@@ -441,13 +441,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.critChance.Value += (int)(0.023f * forge.GetLevel());
+            weapon.critChance.Value += 0.023f * forge.GetLevel();
         }
 
         /// <inheritdoc />
         internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.critChance.Value -= (int)(0.023f * forge.GetLevel());
+            weapon.critChance.Value -= 0.023f * forge.GetLevel();
         }
 
         /// <inheritdoc />
@@ -537,13 +537,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.Get_CooldownReduction().Value += 0.05f * forge.GetLevel();
+            weapon.Get_CooldownReduction().Value += 0.025f * forge.GetLevel();
         }
 
         /// <inheritdoc />
         internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.Get_CooldownReduction().Value -= 0.05f * forge.GetLevel();
+            weapon.Get_CooldownReduction().Value -= 0.025f * forge.GetLevel();
         }
 
         /// <inheritdoc />
@@ -633,13 +633,13 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Resonate(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.critMultiplier.Value += (int)(0.25f * forge.GetLevel());
+            weapon.critMultiplier.Value += 0.25f * forge.GetLevel();
         }
 
         /// <inheritdoc />
         internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.critMultiplier.Value += (int)(0.25f * forge.GetLevel());
+            weapon.critMultiplier.Value -= 0.25f * forge.GetLevel();
         }
 
         /// <inheritdoc />
@@ -687,7 +687,7 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
         /// <inheritdoc />
         internal override void Quench(MeleeWeapon weapon, BaseWeaponEnchantment forge)
         {
-            weapon.addedDefense.Value += (int)(0.5f * forge.GetLevel());
+            weapon.addedDefense.Value -= (int)(0.5f * forge.GetLevel());
         }
 
         /// <inheritdoc />

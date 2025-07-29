@@ -27,6 +27,14 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Patch to reset monster aggro when a piped slime is defeated.</summary>
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static bool GreenSlimeTakeDamagePrefix(GreenSlime __instance, bool isBomb)
+    {
+        return __instance.Get_Piped() is null || !isBomb;
+    }
+
+    /// <summary>Patch to reset monster aggro when a piped slime is defeated.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance, Farmer who)

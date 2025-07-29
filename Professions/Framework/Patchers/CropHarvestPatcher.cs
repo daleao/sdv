@@ -5,11 +5,14 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.CodeAnalysis;
 using StardewValley.Characters;
-using StardewValley.Extensions;
+using FarmerExtensions = DaLion.Professions.Framework.Extensions.FarmerExtensions;
 
 #endregion using directives
 
@@ -72,6 +75,24 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         catch (Exception ex)
         {
             Log.E($"Failed patching modded Ecologist spring onion quality.\nHelper returned {ex}");
+            return null;
+        }
+
+        try
+        {
+            helper
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[12])])
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(CropHarvestPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
+                    new CodeInstruction(OpCodes.Mul)
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding whispered crop quality boost.\nHelper returned {ex}");
             return null;
         }
 
@@ -150,9 +171,58 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         return helper.Flush();
     }
 
+    [HarmonyPostfix]
+    [UsedImplicitly]
+    private static void CropHarvestPostfix(Crop __instance)
+    {
+        if (!Game1.player.HasProfessionOrLax(Profession.Agriculturist))
+        {
+            return;
+        }
+
+        var dirt = __instance.Dirt;
+        if (dirt is null)
+        {
+            return;
+        }
+
+        var location = dirt.Location;
+        if (location is null || location.IsGreenhouse || !location.IsOutdoors)
+        {
+            return;
+        }
+
+        var cropId = __instance.GetData().HarvestItemId;
+        if (cropId is null)
+        {
+            return;
+        }
+
+        var soilMemory = Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>();
+        if (soilMemory.Count > 0 && soilMemory[^1] == cropId)
+        {
+            soilMemory.RemoveAt(soilMemory.Count - 1);
+        }
+        else
+        {
+            if (soilMemory.Contains(cropId))
+            {
+                soilMemory.Remove(cropId);
+            }
+
+            soilMemory.Add(cropId);
+            if (soilMemory.Count > 3)
+            {
+                soilMemory.RemoveAt(0);
+            }
+        }
+
+        Data.Write(dirt, DataKeys.SoilMemory, string.Join(',', soilMemory));
+    }
+
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool ShouldIncreaseHarvestYield(JunimoHarvester? junimoHarvester, Random r)
     {
@@ -167,5 +237,19 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         return r.NextBool(chance);
     }
 
-    #endregion injections
+    private static double GetAgriculturistMultiplier(Crop crop)
+    {
+        var cropMemory = Data.Read(crop.Dirt, DataKeys.SoilMemory);
+        var stacks = 0;
+        if (!string.IsNullOrEmpty(cropMemory))
+        {
+            stacks = cropMemory.Count(c => c == ',') + 1;
+        }
+
+        var multiplier = 1d + (stacks * 0.05);
+        Log.D($"Applied a {multiplier}x quality multiplier.");
+        return multiplier;
+    }
+
+    #endregion injected
 }

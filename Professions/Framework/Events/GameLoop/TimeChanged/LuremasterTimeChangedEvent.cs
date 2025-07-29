@@ -2,9 +2,9 @@
 
 #region using directives
 
-using System.Threading.Tasks;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 using StardewValley.Extensions;
@@ -34,7 +34,7 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
     /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
-        Parallel.ForEach(Game1.game1.EnumerateAllCrabPots(), crabPot =>
+        Game1.game1.EnumerateAllCrabPots().ForEach(crabPot =>
         {
             if (crabPot.bait.Value is null)
             {

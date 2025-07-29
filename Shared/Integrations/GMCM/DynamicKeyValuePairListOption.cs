@@ -53,7 +53,7 @@ public class DynamicKeyValuePairListOption : DynamicListOption
             () => string.Join(' ', getPairs().Select(pair => $"{pair.Key} {pair.Value}")).Split().ToList(),
             values =>
             {
-                var pairs = new List<KeyValuePair<string, string>>();
+                List<KeyValuePair<string, string>> pairs = [];
                 for (var i = 0; i < values.Count; i += 2)
                 {
                     pairs.Add(new KeyValuePair<string, string>(values[i], values[i + 1]));
@@ -102,7 +102,7 @@ public class DynamicKeyValuePairListOption : DynamicListOption
                 {
                     var split = keys.Split(';');
                     var currentPairs = this.GetPairs();
-                    var newPairs = new List<KeyValuePair<string, string>>();
+                    List<KeyValuePair<string, string>> newPairs = [];
                     for (var i = 0; i < currentPairs.Count; i++)
                     {
                         if (i < split.Length)
@@ -165,7 +165,7 @@ public class DynamicKeyValuePairListOption : DynamicListOption
         }
 
         var isMouseLeftPressed = Game1.input.GetMouseState().LeftButton == ButtonState.Pressed;
-        var didClick = isMouseLeftPressed && this.wasMouseLeftPressed == false;
+        var didClick = isMouseLeftPressed && (this.wasMouseLeftPressed == false);
         this.wasMouseLeftPressed = isMouseLeftPressed;
         var mouseX = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseX() : Game1.getOldMouseX();
         var mouseY = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseY() : Game1.getOldMouseY();

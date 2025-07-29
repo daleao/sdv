@@ -23,10 +23,13 @@ public enum Direction
 
     /// <summary>The left direction.</summary>
     Left = Game1.left,
+
+    /// <summary>An illegal direction.</summary>
+    Undefined = -1,
 }
 
 /// <summary>Extensions for the <see cref="Direction"/> enum.</summary>
-public static partial class FacingDirectionExtensions
+public static partial class DirectionExtensions
 {
     /// <summary>Checks whether the <see cref="Direction"/> is left or right.</summary>
     /// <param name="direction">The <see cref="Direction"/>.</param>
@@ -47,7 +50,7 @@ public static partial class FacingDirectionExtensions
     /// <summary>Gets the opposite <see cref="Direction"/>.</summary>
     /// <param name="direction">The <see cref="Direction"/>.</param>
     /// <returns>The opposite direction.</returns>
-    public static Direction Invert(this Direction direction)
+    public static Direction Inverse(this Direction direction)
     {
         return (Direction)(((int)direction + 2) % 4);
     }
@@ -68,11 +71,11 @@ public static partial class FacingDirectionExtensions
         return (Direction)(((int)direction + 3) % 4);
     }
 
-    /// <summary>Gets the angle between two <see cref="Direction"/>s.</summary>
+    /// <summary>Gets the angle between two <see cref="Direction"/>s, in degrees.</summary>
     /// <param name="direction">The <see cref="Direction"/>.</param>
     /// <param name="other">Another <see cref="Direction"/>.</param>
     /// <returns>The angle between the two directions, in degrees.</returns>
-    public static int AngleWith(this Direction direction, Direction other)
+    public static int AngleBetween(this Direction direction, Direction other)
     {
         if (direction == other)
         {
@@ -96,6 +99,36 @@ public static partial class FacingDirectionExtensions
         }
 
         return 0; // should never happen
+    }
+
+    /// <summary>Gets the angle which points in this direction, in degrees.</summary>
+    /// <param name="direction">A <see cref="Direction"/>.</param>
+    /// <returns>The angle which points in this direction, in degrees.</returns>
+    public static float Degrees(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => -90f,
+            Direction.Right => 0f,
+            Direction.Down => 90f,
+            Direction.Left => 180f,
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Direction, float>(direction),
+        };
+    }
+
+    /// <summary>Gets the angle which points in this direction, in radians.</summary>
+    /// <param name="direction">A <see cref="Direction"/>.</param>
+    /// <returns>The angle which points in this direction, in radians.</returns>
+    public static float Radians(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => -(float)(Math.PI / 2f),
+            Direction.Right => 0f,
+            Direction.Down => (float)(Math.PI / 2f),
+            Direction.Left => (float)Math.PI,
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Direction, float>(direction),
+        };
     }
 
     /// <summary>Gets a unit vector which points in the specified direction.</summary>

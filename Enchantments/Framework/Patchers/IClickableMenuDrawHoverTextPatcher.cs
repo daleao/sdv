@@ -272,7 +272,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void DrawForgeIcons(Tool tool, int x, ref int y, SpriteBatch b, SpriteFont font)
     {
@@ -341,5 +341,5 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
         y += (int)font.MeasureString("T").Y;
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

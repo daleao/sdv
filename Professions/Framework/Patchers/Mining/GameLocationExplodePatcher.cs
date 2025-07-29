@@ -31,7 +31,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GameLocationExplodePrefix(ref int radius, Farmer? who, bool destroyObjects)
     {
-        if (destroyObjects && who?.HasProfession(Profession.Demolitionist) == true)
+        if (destroyObjects && (who?.HasProfession(Profession.Demolitionist) ?? false))
         {
             radius++;
         }
@@ -60,7 +60,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
         var r = new Random(Guid.NewGuid().GetHashCode());
-        var circle = new CircleTileGrid(tileLocation, (uint)radius);
+        var circle = new CircleTileGrid(tileLocation, radius);
         CreateExtraDebris(
             __instance,
             circle,
@@ -116,7 +116,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         // it's not entirely clear when each one is used, but they are all replicated here to be sure
         foreach (var tile in circle.Tiles)
         {
-            if (!location.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsStone())
+            if (!location.objects.TryGetValue(tile, out var tileObj) || !tileObj.IsBreakableStone())
             {
                 continue;
             }

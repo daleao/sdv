@@ -4,6 +4,8 @@
 
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Xna;
 
 #endregion using directives
 
@@ -152,5 +154,25 @@ public static class Vector2Extensions
 
         distance = (int)Math.Sqrt(distanceToClosest);
         return closest;
+    }
+
+    /// <summary>Highlights the tile at the position defined by the specified <paramref name="vector"/> with the specified <paramref name="color"/>.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="color">Border color.</param>
+    /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
+    /// <param name="offset">An optional offset.</param>
+    public static void TileHighlight(this Vector2 vector, Color color, SpriteBatch batch, Vector2? offset = null)
+    {
+        new Rectangle((int)vector.X, (int)vector.Y, Game1.tileSize, Game1.tileSize).TileHighlight(color, batch, offset);
+    }
+
+    /// <summary>Highlights the border of the tile at the position defined by the specified <paramref name="vector"/> with the specified <paramref name="color"/>.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="color">Border color.</param>
+    /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
+    /// <param name="thickness">Border thickness.</param>
+    public static void BorderHighlight(this Vector2 vector, Color color, SpriteBatch batch, int thickness = 4)
+    {
+        new Rectangle((int)vector.X, (int)vector.Y, Game1.tileSize, Game1.tileSize).BorderHighlight(color, batch, thickness);
     }
 }

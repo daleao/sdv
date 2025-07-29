@@ -1,0 +1,36 @@
+﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "破甲-减少防御",
+  "enchantments.cleaving.name": "群攻-击中有范围",
+  "enchantments.energized.name": "能量积累",
+  "enchantments.energized.desc": "能量满攻击敌人可爆炸 : {{counter}}",
+  "enchantments.explosive.name": "爆炸",
+  "enchantments.explosive.desc": "爆炸半径 : {{counter}}",
+  "enchantments.mammonite.name": "吸血",
+  "enchantments.stabbing.name": "抢夺-攻击抢金币",
+  "enchantments.sunburst.name": "剑气",
+  "enchantments.vampiric.name": "架势-攻击加盾",
+  "enchantments.wabbajack.name": "攻击随机抽取能力",
+
+  "enchantments.chilling.name": "减速冻结",
+  "enchantments.quincy.name": "激光弹丸",
+  "enchantments.echo.name": "跟踪弹丸",
+
+  "enchantments.sharp.name": "Sharp",
+
+
+  /************
+  *** GMCM ***
+  ************/
+
+  "gmcm.gemstone_socket_style.title": "宝石插槽样式",
+  "gmcm.gemstone_socket_style.desc": "将武器工具提示中的通用“锻造”文本替换为各种样式的宝石插槽图标。",
+  "gmcm.socket_style.diamond": "钻石",
+  "gmcm.socket_style.round": "圆形",
+  "gmcm.socket_style.iridium": "铱",
+  "gmcm.gemstone_socket_position.title": "宝石插槽位置",
+  "gmcm.gemstone_socket_position.desc": "确定宝石插槽的绘制位置（如果启用）。",
+  "gmcm.socket_position.standard": "标准",
+  "gmcm.socket_position.above_separator": "分隔线上方"
+}

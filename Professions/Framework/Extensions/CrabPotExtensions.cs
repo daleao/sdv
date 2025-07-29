@@ -439,13 +439,23 @@ internal static class CrabPotExtensions
     {
         owner ??= crabPot.GetOwner();
         r ??= Game1.random;
-        return isSpecialOceanographerCondition
-            ? r.Next(20)
-            : crabPot.HasWildBait() && isLuremaster && r.NextBool(0.25 + (owner.DailyLuck / 2d))
-                ? 2
-                : TrapperPirateTreasureTable.TryGetValue(trap, out var treasureData)
-                    ? r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1)
-                    : 1;
+        if (isSpecialOceanographerCondition)
+        {
+            return r.Next(10, 20);
+        }
+
+        if (TrapperPirateTreasureTable.TryGetValue(trap, out var treasureData))
+        {
+            return r.Next(Convert.ToInt32(treasureData[1]), Convert.ToInt32(treasureData[2]) + 1);
+        }
+
+        var quantity = 1;
+        if (crabPot.HasWildBait() && (r.NextBool(0.25) || isLuremaster))
+        {
+            quantity++;
+        }
+
+        return quantity;
     }
 
     /// <summary>Chooses the ID of a random trash item.</summary>

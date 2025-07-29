@@ -5,6 +5,7 @@
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -33,12 +34,18 @@ internal sealed class HuntingForTreasureModMessageReceivedEvent(EventManager? ma
             return;
         }
 
-        var isHunting = e.ReadAs<bool>();
-        who.Get_IsHuntingTreasure().Value = isHunting;
-        if (!isHunting)
+        var hunt = e.ReadAs<string>().Split('/');
+        var theHuntIsOn = bool.Parse(hunt[0]);
+        if (!theHuntIsOn)
         {
-            return;
+            who.Get_TreasureHunt().IsHuntingTreasure.Value = false;
+            who.Get_TreasureHunt().LocationNameOrUniqueName = string.Empty;
+            who.Get_TreasureHunt().TreasureTile = Vector2.Zero;
         }
+
+        who.Get_TreasureHunt().IsHuntingTreasure.Value = true;
+        who.Get_TreasureHunt().LocationNameOrUniqueName = hunt[1];
+        who.Get_TreasureHunt().TreasureTile = new Vector2(float.Parse(hunt[2]), float.Parse(hunt[3]));
 
         var profession = e.Type.Split('/')[1] == "Prospector" ? Profession.Prospector : Profession.Scavenger;
         if (who.HasProfession(profession, true))

@@ -18,7 +18,7 @@ internal sealed class PrestigeTreasureHuntUpdateTickedEvent(EventManager? manage
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        if (Farmer_TreasureHunt.HuntingState.AsEnumerable().All(pair => pair.Value.Value == false))
+        if (Farmer_TreasureHunt.Values.AsEnumerable().All(pair => !pair.Value.IsHuntingTreasure.Value))
         {
             this.Disable();
         }

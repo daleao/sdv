@@ -27,6 +27,15 @@ public static class GameLocationExtensions
                    "AsteroidsDungeon");
     }
 
+    /// <summary>Determines whether there is a stone at the specified <paramref name="tile"/>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="tile">The <see cref="Vector2"/> tile position.</param>
+    /// <returns><see langword="true"/> if there is a stone at the specified <paramref name="tile"/>, otherwise <see langword="false"/>.</returns>
+    public static bool HasStoneAt(this GameLocation location, Vector2 tile)
+    {
+        return location.Objects.TryGetValue(tile, out var @object) && @object.IsBreakableStone();
+    }
+
     /// <summary>Determines whether there is anything to interact with in the specified <paramref name="tile"></paramref>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="tile">The tile's position as <see cref="Vector2"/>.</param>

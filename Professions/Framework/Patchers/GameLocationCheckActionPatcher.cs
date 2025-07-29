@@ -6,12 +6,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Stardew;
 using StardewValley.Monsters;
-using SObjectExtensions = Extensions.SObjectExtensions;
 
 #endregion using directives
 
@@ -31,11 +30,11 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
 
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool GameLocationCheckActionPrefix(GameLocation __instance, xTile.Dimensions.Location tileLocation, Farmer who)
+    private static void GameLocationCheckActionPrefix(GameLocation __instance, xTile.Dimensions.Location tileLocation, Farmer who)
     {
         if (!who.HasProfession(Profession.Piper))
         {
-            return true; // run original logic
+            return;
         }
 
         var tileRect = new Rectangle(
@@ -63,8 +62,6 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 }
             }
         }
-
-        return true; // run original logic
     }
 
     /// <summary>Patch for Gemologist to harvest quality minerals + prestiged Forager double forage.</summary>

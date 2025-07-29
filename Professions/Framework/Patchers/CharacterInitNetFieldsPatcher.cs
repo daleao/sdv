@@ -32,7 +32,7 @@ internal sealed class CharacterInitNetFieldsPatcher : HarmonyPatcher
             __instance.NetFields
                 .AddField(farmer.Get_LimitBreakId())
                 .AddField(farmer.Get_IsLimitBreaking())
-                .AddField(farmer.Get_IsHuntingTreasure());
+                .AddField(farmer.Get_TreasureHunt().IsHuntingTreasure);
         }
     }
 

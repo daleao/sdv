@@ -11,6 +11,7 @@ using DaLion.Shared.Extensions.Collections;
 using StardewValley;
 using StardewValley.Tools;
 using VampiricEnchantment = DaLion.Enchantments.Framework.Enchantments.VampiricEnchantment;
+using VanillaVampiricEnchantment = StardewValley.Enchantments.VampiricEnchantment;
 
 #endregion using directives
 
@@ -35,12 +36,6 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
         }
 
         var tool = Game1.player.CurrentTool;
-        if (tool is null or not (MeleeWeapon or Slingshot))
-        {
-            Log.W("You must select a weapon or slingshot first.");
-            return false;
-        }
-
         while (args.Length > 0)
         {
             BaseEnchantment? enchantment = args[0].ToLower() switch
@@ -70,14 +65,30 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 "runaan" or "echo" or "reverb" => new EchoEnchantment(),
 
                 // unisex enchants
-                "energized" or "shocking" or "statikk" or "thunderlords" => tool is Slingshot ? new EnergizedSlingshotEnchantment() : new EnergizedMeleeEnchantment(),
+                "energized" or "shock" or "shocking" or "statikk" or "thunderlords" => tool is Slingshot ? new EnergizedSlingshotEnchantment() : new EnergizedMeleeEnchantment(),
+
+                // tool enchants
+                "autohook" or "auto-hook" => new AutoHookEnchantment(),
+                "archaeologist" => new ArchaeologistEnchantment(),
+                "bottomless" => new BottomlessEnchantment(),
+                "efficient" => new EfficientToolEnchantment(),
+                "generous" => new GenerousEnchantment(),
+                "fisher" => new FisherEnchantment(),
+                "master" => new MasterEnchantment(),
+                "powerful" => new PowerfulEnchantment(),
+                "preserving" => new PreservingEnchantment(),
+                "reaching" => new ReachingToolEnchantment(),
+                "shaving" => new ShavingEnchantment(),
+                "swift" => new SwiftToolEnchantment(),
+
+                "haymaker" => new HaymakerEnchantment(),
+                "sharp" => new SharpEnchantment(),
 
                 // vanilla weapon enchants
-                "haymaker" => new HaymakerEnchantment(),
                 "v_artful" => new ArtfulEnchantment(),
                 "v_bugkiller" => new BugKillerEnchantment(),
                 "v_crusader" => new CrusaderEnchantment(),
-                "v_vampiric" => new StardewValley.Enchantments.VampiricEnchantment(),
+                "v_vampiric" => new VanillaVampiricEnchantment(),
                 "v_magic" or "v_sunburst" => new MagicEnchantment(),
 
                 _ => null,

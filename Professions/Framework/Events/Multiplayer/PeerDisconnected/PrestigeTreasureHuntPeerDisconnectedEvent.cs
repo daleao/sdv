@@ -27,6 +27,6 @@ internal sealed class PrestigeTreasureHuntPeerDisconnectedEvent(EventManager? ma
             return;
         }
 
-        Farmer_TreasureHunt.HuntingState.Remove(who);
+        Farmer_TreasureHunt.Values.Remove(who);
     }
 }

@@ -128,7 +128,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void OnFire(BasicProjectile firedProjectile, Slingshot instance, GameLocation location, Farmer firer)
     {
@@ -138,5 +138,5 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

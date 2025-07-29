@@ -158,7 +158,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             return;
         }
 
-        var skillResponses = new List<Response>();
+        List<Response> skillResponses = [];
         if (location.CanRespecPrestiged(Skill.Farming))
         {
             skillResponses.Add(new Response(
@@ -275,8 +275,6 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         // woof woof
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
-
-        State.UsedStatueToday = true;
     }
 
     private static void HandlePrestigeRespec(Skill skill)
@@ -329,8 +327,6 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         // woof woof
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
-
-        State.UsedStatueToday = true;
     }
 
     private static void HandlePrestigeRespec(CustomSkill skill)
@@ -377,8 +373,6 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
         // woof woof
         DelayedAction.playSoundAfterDelay("dog_bark", 1300);
         DelayedAction.playSoundAfterDelay("dog_bark", 1900);
-
-        State.UsedStatueToday = true;
     }
 
     private static void HandleChangeLimit(Farmer who, string choice)

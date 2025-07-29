@@ -66,7 +66,7 @@ internal sealed class MonsterParseMonsterInfoPatcher : HarmonyPatcher
         __instance.resilience.Value =
             (int)Math.Round(
                 Math.Max(
-                    __instance.resilience.Value + (Config.GeometricMitigationFormula ? 1 : 0) +
+                    __instance.resilience.Value + (Config.HyperbolicMitigationFormula ? 1 : 0) +
                     Config.MonsterDefenseSummand,
                     0) * Config.MonsterDefenseMultiplier);
 

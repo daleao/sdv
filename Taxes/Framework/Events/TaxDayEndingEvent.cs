@@ -70,8 +70,11 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             // handle Conservationist profession
             case 28:
             {
-                CheckIncomeStatement(taxpayer);
-                PostalService.Send(CheckDeductions(taxpayer) ? Mail.FrsDeduction : Mail.FrsNotice);
+                if (CheckIncomeStatement(taxpayer))
+                {
+                    PostalService.Send(CheckDeductions(taxpayer) ? Mail.FrsDeduction : Mail.FrsNotice);
+                }
+
                 if (Game1.currentSeason == "winter")
                 {
                     CheckPropertyStatement(taxpayer);
@@ -190,10 +193,11 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
         return true;
     }
 
-    private static void CheckIncomeStatement(Farmer taxpayer)
+    private static bool CheckIncomeStatement(Farmer taxpayer)
     {
         var (amountDue, _, _, _, _) = RevenueService.CalculateTaxes(taxpayer);
         Data.Write(taxpayer, DataKeys.AccruedIncomeTax, amountDue.ToString());
+        return amountDue > 0;
     }
 
     private static void DebitIncomeStatement(Farmer taxpayer, ref int dayIncome)

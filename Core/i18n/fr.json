@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "ui.buffs.burnt.damage": "-50% Damage",
   "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
   "ui.buffs.frozen.stuck": "Can't move",

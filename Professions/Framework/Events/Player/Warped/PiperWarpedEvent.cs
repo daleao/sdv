@@ -3,15 +3,12 @@
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
+using DaLion.Professions.Framework.UI;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
-using StardewValley.Locations;
-using StardewValley.Monsters;
 
 #endregion using directives
 
@@ -21,17 +18,6 @@ using StardewValley.Monsters;
 internal sealed class PiperWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    private static readonly Func<Vector2, GameLocation, bool> IsMineShaftTileSpawnable = (tile, location) =>
-        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
-        (location as MineShaft)!.isTileOnClearAndSolidGround(tile);
-
-    private static readonly Func<Vector2, GameLocation, bool> IsVolcanoTileSpawnable = (tile, location) =>
-        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
-        (location as VolcanoDungeon)!.isTileOnClearAndSolidGround(tile);
-
-    private static readonly Func<Vector2, GameLocation, bool> IsGenericTileSpawnable = (tile, location) =>
-        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK);
-
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);
 
@@ -46,19 +32,24 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         var piper = e.Player;
         var newLocation = e.NewLocation;
         var toDangerZone = newLocation.IsEnemyArea() || newLocation.Name.ContainsAnyOf("Mine", "SkullCave");
-        if (!toDangerZone)
+        if (!toDangerZone && GreenSlime_Piped.Values.Any())
         {
             this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
             if (!newLocation.IsOutdoors)
             {
+                State.PipedMinionMenu = null;
                 return;
             }
 
             foreach (var (_, piped) in GreenSlime_Piped.Values)
             {
-                piped.WarpToPiper();
+                if (!piped.IsDismissed)
+                {
+                    piped.WarpToPiper();
+                }
             }
 
+            State.PipedMinionMenu = null;
             return;
         }
 
@@ -66,65 +57,24 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         var fromDangerZone = oldLocation.IsEnemyArea() || oldLocation.Name.ContainsAnyOf("Mine", "SkullCave");
         if (!fromDangerZone)
         {
-            SpawnMinions(piper, newLocation);
+            var numberRaised = piper.CountRaisedSlimes();
+            var numberToSpawn = numberRaised / 10;
+            if (numberToSpawn == 0)
+            {
+                return;
+            }
+
+            piper.SpawnMinions(numberToSpawn);
         }
 
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
+            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation) && !piped.IsDismissed)
             {
                 piped.WarpToPiper();
             }
         }
-    }
 
-    private static void SpawnMinions(Farmer piper, GameLocation location)
-    {
-        var numberRaised = piper.CountRaisedSlimes();
-        var toSpawn = numberRaised / 10;
-        var r = new Random(Guid.NewGuid().GetHashCode());
-        for (var i = 0; i < toSpawn; i++)
-        {
-            var condition = location switch
-            {
-                MineShaft => IsMineShaftTileSpawnable,
-                VolcanoDungeon => IsVolcanoTileSpawnable,
-                _ => IsGenericTileSpawnable,
-            };
-
-            var spawnTile = piper.ChooseFromFourtyEightNeighboringTiles(condition, location);
-            var toBeCloned = piper.GetRaisedSlimes().Choose(r);
-            var spawn = new GreenSlime(spawnTile * Game1.tileSize, toBeCloned.color.Value)
-            {
-                currentLocation = location,
-                Health = toBeCloned.Health,
-                DamageToFarmer = toBeCloned.DamageToFarmer,
-                resilience = { Value = toBeCloned.resilience.Value },
-            };
-
-            spawn.MaxHealth = spawn.Health;
-            switch (toBeCloned.Name)
-            {
-                case "Tiger Slime":
-                    spawn.makeTigerSlime(onlyAppearance: true);
-                    break;
-                case "Gold Slime":
-                    spawn.MakeGoldSlime();
-                    break;
-                default:
-                {
-                    if (toBeCloned.prismatic.Value)
-                    {
-                        spawn.prismatic.Value = true;
-                        spawn.Name = "Prismatic Slime";
-                    }
-
-                    break;
-                }
-            }
-
-            location.characters.Add(spawn);
-            spawn.Set_Piped(piper);
-        }
+        State.PipedMinionMenu = new PipedMinionHud();
     }
 }

@@ -30,19 +30,27 @@ public sealed class GarnetEnchantment : BaseWeaponEnchantment
     protected override void _ApplyTo(Item item)
     {
         base._ApplyTo(item);
-        if (item is MeleeWeapon weapon)
+        if (item is not MeleeWeapon weapon)
         {
-            weapon.Get_CooldownReduction().Value += 0.05f * this.GetLevel();
+            return;
         }
+
+        var value = 0.05f * this.GetLevel();
+        weapon.Get_CooldownReduction().Value += value;
+        Data.Increment(weapon, DataKeys.CooldownReduction, value);
     }
 
     /// <inheritdoc />
     protected override void _UnapplyTo(Item item)
     {
         base._UnapplyTo(item);
-        if (item is MeleeWeapon weapon)
+        if (item is not MeleeWeapon weapon)
         {
-            weapon.Get_CooldownReduction().Value -= 0.05f * this.GetLevel();
+            return;
         }
+
+        var value = 0.05f * this.GetLevel();
+        weapon.Get_CooldownReduction().Value -= value;
+        Data.Increment(weapon, DataKeys.CooldownReduction, -value);
     }
 }

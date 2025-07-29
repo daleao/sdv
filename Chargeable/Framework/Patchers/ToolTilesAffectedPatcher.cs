@@ -13,9 +13,9 @@ using StardewValley.Tools;
 [HarmonyPatch(typeof(Tool), "tilesAffected")]
 internal sealed class ToolTilesAffectedPatcher
 {
-    private static uint[] AxeAffectedTilesRadii => Config.Axe.RadiusAtEachPowerLevel;
+    private static int[] AxeAffectedTilesRadii => Config.Axe.RadiusAtEachPowerLevel;
 
-    private static uint[] PickaxeAffectedTilesRadii => Config.Pick.RadiusAtEachPowerLevel;
+    private static int[] PickaxeAffectedTilesRadii => Config.Pick.RadiusAtEachPowerLevel;
 
     #region harmony patches
 

@@ -6,13 +6,18 @@ internal sealed class DataKeys
     internal const string EcologistVarietiesForaged = "EcologistVarietiesForaged";
     internal const string PrestigedEcologistBuffLookup = "PrestigedEcologistBuffLookup";
     internal const string GemologistMineralsStudied = "GemologistMineralsStudied";
-    internal const string ProspectorHuntStreak = "ProspectorHuntStreak";
-    internal const string ScavengerHuntStreak = "ScavengerHuntStreak";
+    internal const string CurrentProspectorHuntStreak = "CurrentProspectorHuntStreak";
+    internal const string LongestProspectorHuntStreak = "LongestProspectorHuntStreak";
+    internal const string ProspectorPointPool = "ProspectorPointPool";
+    internal const string CurrentScavengerHuntStreak = "CurrentScavengerHuntStreak";
+    internal const string LongestScavengerHuntStreak = "LongestScavengerHuntStreak";
+    internal const string ScavengerPointPool = "ScavengerPointPool";
     internal const string ConservationistTrashCollectedThisSeason = "ConservationistTrashCollectedThisSeason";
     internal const string ConservationistActiveTaxDeduction = "ConservationistActiveTaxDeduction";
     internal const string ForgottenRecipesDict = "ForgottenRecipesDict";
     internal const string LimitBreakId = "LimitBreakId";
     internal const string OrderedProfessions = "OrderedProfessions";
+    internal const string ResetCountBySkill = "ResetCountBySkill";
 
     // object keys
     internal const string FirstMemorizedTackle = "FirstMemorizedTackle";
@@ -24,9 +29,9 @@ internal sealed class DataKeys
 
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";
-    internal const string DaysLeftOutOfSeason = "DaysLeftOutOfSeason";
-    internal const string DatePlanted = "DatePlanted";
-    internal const string Fertilized = "Fertilized";
+    internal const string TreeDatePlanted = "DatePlanted";
+    internal const string DaysOutOfSeason = "DaysLeftOutOfSeason";
+    internal const string SoilMemory = "CropMemory";
 
     // monster keys
     internal const string BaseAttack = "BaseAttack";
@@ -39,9 +44,6 @@ internal sealed class DataKeys
     // animal keys
     internal const string BredByBreeder = "BredByBreeder";
     internal const string BredByProgenitor = "BredByProgenitor";
-
-    // building keys
-    internal const string FamilyLivingHere = "FamilyLivingHere";
 
     // projectile keys
     internal const string Overcharge = "Overcharge";

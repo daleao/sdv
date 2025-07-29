@@ -89,19 +89,29 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <!--- Agriculturist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Crops grow <s>10%</s> → 20% faster and can survive up to five days out-of-season.
+<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.
 </font>
 
 <font size="2">
 <details>
 
-Allows harvesting iridium-quality crops, normally only possible with Deluxe Fertilizer. Chance is equivalent to half of the chance with Deluxe Fertilizer, which means that **fertilizers are by no means obsolete**. Note that quality is determined only on the moment of harvest; planted crops have no quality, which means the perk will apply to crops planted before obtaining this profession.
+Crop rotation works as follows:
+- Every tilled tile keeps a memory of the previous 3 crops grown on that tile.
+- For each unique crop in that memory, the *next* crop gains 5% bonus to both growth speed and quality (max 15%).
+- Repeating the previous crop removes it from memory, nullifying its bonus. Repeating any other crop still in memory provides no additional bonus or penalty.
+- Untilling a tile fully erases its memory.
+
+Best-quality refers to iridium quality, which normally requires Deluxe Fertilizer. This does not affect the *chance* to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
+Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
+
+Out-of-season crop survival also applies from Fall to Winter.
+
 </details>
 </font>
 
@@ -243,7 +253,7 @@ Other than the name, this profession is unchanged from vanilla.
 <font size="2">
 <details>
 
-All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage. Unlike vanilla, this perk will also apply to hoed forage (such as Winter Root, Snow Yams and Ginger) and shaken fruits from Fruit Trees.
+All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage.
 
 For Bioharmonist, a buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
 </details>
@@ -267,13 +277,19 @@ For Bioharmonist, a buff will be chosen at random the first time a forage is con
 <font size="2">
 <details>
 
-Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame; find the hidden buried treasure by following the purple HUD arrows, and dig it up (with a hoe) before the time limit to obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak.
+Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minigame:
+- Works like a game of "hot-and-cold"; you must hoe the tiles around you and follow the cues until you find the treasure-containing tile before the time limit. Hoed tiles will point you in the right direction.
+- If you are far away from the treasure tile, a purple tracking arrow will be displayed pointing you towards the general treasure vicinity.
+- Rewards include smelted metal bars, artifacts, rare seeds and special equipment.
+- If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. This uses your longest win streak instead of your current streak. 
 
-You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+You can also hold the mod key (LeftShift by default) to highlight all forageable items currently on-screen for easier viewing.
+There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
 Pointer colors:
 - **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
 - **Green:** Artifact spots
+- **Purple:** Buried treasure (Scavenger Hunt only)
 </details>
 </font>
 
@@ -420,9 +436,14 @@ Revival via the Cavewarden perk avoids all item loss penalties. A "safe room" is
 <font size="2">
 <details>
 
-This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts. While mining, there is a chance to trigger a Prospector Hunt minigame; break stones to trigger a pitched sound cue. Follow the higher pitched cues to find the treasure stone within the time limit and obtain a reward. Rewards may start out underwheming, but can be improved dramatically by building up a streak. For accessibility purposes, enable `UseLegacyProspectorHunt` in the config settings to replace this auditory minigame with a visual minigame of "follow-the-purple-arrow", exactly like the Scavenger Hunt.
+This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts.
+While mining, there is a chance to trigger a Prospector Hunt minigame:
+- Works like a game of "Simon says"; a random nearby stone will begin to glow. Break the glowing stone to reveal the next stone. Continue the sequence until the 7th stone to obtain the treasure.
+- Each target stone in the sequence becomes progressively harder to break.
+- Rewards include ores, rare minerals, fossilized artifacts and special equipment.
 
-You also gain the ability to hold a mod key (LeftShift by default) to highlight all forageable items currently on-screen, for your convenience. Moreover, you can optionally configure the tracking HUD arrows to not be active all the time, and instead appear only when holding that same mod key.
+You can also hold the mod key (LeftShift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
+There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
 Pointer colors:
 - **Orange:** Mining nodes and forage minerals
@@ -1099,6 +1120,18 @@ Obviously not.
 </details>
 
 <details>
+<summary><b>I don't like X or Y perk. Can I disable it?</b></summary>
+
+No. If you dislike a particular perk, make your case in the description page. Tell me what your experience has been, why it was negative, and what you would do differently. My goal is not to make an un-fun mod. So, if something isn't working, I need your feedback to improve it.
+</details>
+
+<details>
+<summary><b>Can I individually pick which professions I want to be modded or remain vanilla?</b></summary>
+
+No. See previous question. If you just want vanilla Artisan back then I don't think you understand the point of the mod.
+</details>
+
+<details>
 <summary><b>What do Legendary Fish produce in Fish Ponds? How long do they take to multiply?</b></summary>
 
 They will produce ores, gems and other valuables fitting to the fish's theme, as well as, obviously, roe.
@@ -1106,9 +1139,85 @@ With the exception of Angler when placed together with Ms. Angler, they do not r
 </details>
 
 <details>
+<summary><b>The Statue of Transcendence in the Sewer doesn't work! I can't reset my skills!</b></summary>
+
+Refer to the [Skill Reset](#profession-change-skill-reset) section and make sure you have read the part where it says:
+> **once a skill has been Mastered it can no longer be reset**
+</details>
+
+<details>
+<summary>I didn't read the description and/or chose to ignore the warnings. How can I undo my masteries?</summary>
+
+As with 90% of self-inflicted problems, the answer is console commands. Always check the console commands first. You can list them with `prfs help`.
+
+To save you a few seconds, here are the console commands to undo your masteries and reset your skill levels back down to 10:
+- `prfs set <skill name> unmastered`
+- `prfs set <skill name> <level>`
+</details>
+
+<details>
 <summary><b>Does it work with XYZ mod?</b></summary>
 
 Why don't you try it and let me know.
+</details>
+
+<details>
+<summary><b>When using the Automate mod, which machines will/won't apply profession perks?</b></summary>
+
+Machines generally operate on the following 3-stage cycle:
+1. It chooses an output (profession perks apply here).
+2. It makes you wait for the output.
+3. You retrieve the output.
+
+When automated, the Automate mod takes over step 3 on all machines, and also step 1 if and only if an input item is required. Therefore, as long as a machine does not require any input, then whether or not step 3 is automated is irrelevant. Hence, these machines always apply profession perks. This includes things like Tapper, and also the Crystalarium (after the initial gem).
+
+When input is required, Automate bypasses the vanilla code which needs to run in step 1 for profession perks to apply. Most machines that do take an input therefore will not apply profession perks. This includes all Artisan machines. Could they be made compatible? Yes. But my stance is that Artisan perks should not apply to automated products, as that is antithetical to the idea of an Artisan (i.e., one who makes things by hand).
+
+Crab Pots are an exception. Although they may use an input (bait), their production is delayed until a specific moment in time (i.e., new day), instead of being chosen right away. In other words, the Crab Pot (and similar machines that produce per day instead of after X minutes) output is not determined in step 1, but actually during step 2. Hence, as Automate never interferes in step 2, that means professions will be applied.
+</details>
+
+<details>
+<summary><b>How can I make machines / dairy from different mods compatible with the Artisan / Producer profession?</b></summary>
+
+Make a copy of one of the example files inside `assets/data` folder, either `Example.ArtisanMachines.json` or `Example.AnimalDerivedGoods.json`, depending on what you want to add. Change the file prefix to whatever you like (I recommend naming it after the particular mod and creating a new file for each mod), **but you must keep the format `xyz.ArtisanMachines.json` or `xyz.AnimalDerivedGoods.json`. Then, add the Qualified Item IDs of the desired items into the corresponding list.
+
+Cornucopia compatibility already ships with the mod, so you can use it as an example as well. Below it is explained how to locate machine IDs in Cornucopia. Note that different mods may organize their internal files differently.
+Open the Cornucopia mod folder. You'll see a folder named `machines`. Inside you will see a different file named after each machine.
+Open the machine you want, say `butterchurn.json` using any text editor. It will look something like this:
+
+```json
+{
+  "Changes": [
+    {
+      "Action": "EditData",
+      "Target": "Data/Machines",
+      "Entries": {
+        "(BC)Cornucopia_ButterChurn": {
+          // ...
+        }
+      }
+    }
+  ]
+}
+```
+
+Copy the string starting with "(BC)...". This is the qualified ID of the machine.
+- A machine's qualified ID will always start with "(BC)".
+- An animal produce item's qualified ID will always start with "(O)".
+
+Open your new asset file at `DaLion.Professions/assets/data/xyz.ArtisanMachines.json`.
+Paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
+
+```json
+"ArtisanMachines": [
+        "(BC)ExampleMod.ExampleMachine",
+        "(BC)Cornucopia_ButterChurn"
+    ],
+```
+
+Repeat for every machine that you think is relevant.
+
+As noted above, each mod may organize their files differently, so you may not find a specific file for each machine / item. Some authors may group all machines into a single `machines.json` file for example, and yet others may put everything inside CP's base `content.json` file.
 </details>
 
 

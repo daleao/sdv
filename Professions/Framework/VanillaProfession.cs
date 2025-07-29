@@ -8,11 +8,14 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
+using DaLion.Professions.Framework.Events.Display.RenderedHud;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
+using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
+using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
+using DaLion.Professions.Framework.Hunting;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using static System.String;
@@ -369,16 +372,20 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     /// <param name="prestiged">Whether the added profession is prestiged.</param>
     internal void OnAdded(Farmer who, bool prestiged = false)
     {
+        if (prestiged)
+        {
+            this
+                .When(Angler).Then(() =>
+                {
+                    ModHelper.GameContent.InvalidateCache("Data/Locations");
+                });
+
+            return;
+        }
+
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Angler).Then(() =>
-            {
-                if (prestiged)
-                {
-                    ModHelper.GameContent.InvalidateCache("Data/Locations");
-                }
-            })
             .When(Aquarist).Then(() =>
             {
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
@@ -387,8 +394,22 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Luremaster).Then(() => EventManager.Enable(
                 typeof(LuremasterDayStartedEvent),
                 typeof(LuremasterTimeChangedEvent)))
-            .When(Prospector).Then(() => State.ProspectorHunt ??= new ProspectorHunt())
-            .When(Scavenger).Then(() => State.ScavengerHunt ??= new ScavengerHunt())
+            .When(Prospector).Then(() =>
+            {
+                State.ProspectorHunt ??= new ProspectorHunt();
+                EventManager.Enable(
+                    typeof(ProspectorRenderedHudEvent),
+                    typeof(ProspectorWarpedEvent),
+                    typeof(TrackerButtonsChangedEvent));
+            })
+            .When(Scavenger).Then(() =>
+            {
+                State.ScavengerHunt ??= new ScavengerHunt();
+                EventManager.Enable(
+                    typeof(ScavengerRenderedHudEvent),
+                    typeof(ScavengerWarpedEvent),
+                    typeof(TrackerButtonsChangedEvent));
+            })
             .When(Fighter).Then(() => Game1.player.maxHealth += 15)
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Piper).Then(() =>
@@ -409,23 +430,43 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     /// <param name="prestiged">Whether the removed profession was prestiged.</param>
     internal void OnRemoved(Farmer who, bool prestiged = false)
     {
+        if (prestiged)
+        {
+            this
+                .When(Angler).Then(() =>
+                {
+                    ModHelper.GameContent.InvalidateCache("Data/Locations");
+                });
+
+            return;
+        }
+
         this
             .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
             .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Angler).Then(() =>
-            {
-                if (prestiged)
-                {
-                    ModHelper.GameContent.InvalidateCache("Data/Locations");
-                }
-            })
             .When(Aquarist).Then(() =>
             {
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 ModHelper.GameContent.InvalidateCache("Data/Objects");
             })
-            .When(Prospector).Then(() => State.ProspectorHunt = null)
-            .When(Scavenger).Then(() => State.ScavengerHunt = null)
+            .When(Prospector).Then(() =>
+            {
+                State.ProspectorHunt = null;
+                EventManager.Disable(typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent));
+                if (!who.HasProfession(Scavenger))
+                {
+                    EventManager.Disable<TrackerButtonsChangedEvent>();
+                }
+            })
+            .When(Scavenger).Then(() =>
+            {
+                State.ScavengerHunt = null;
+                EventManager.Enable(typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent));
+                if (!who.HasProfession(Prospector))
+                {
+                    EventManager.Disable<TrackerButtonsChangedEvent>();
+                }
+            })
             .When(Fighter).Then(() => Game1.player.maxHealth -= 15)
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Piper).Then(() =>

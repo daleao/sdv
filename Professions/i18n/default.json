@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // farming
   "harvester.title.male": "Harvester",
   "harvester.title.female": "Harvester",
@@ -8,8 +10,8 @@
   "agriculturist.title.female": "Agriculturist",
   "agriculturist.title.prestiged.male": "Cropwhisperer",
   "agriculturist.title.prestiged.female": "Cropwhisperer",
-  "agriculturist.desc": "Crops grow 10% faster. Can harvest best-quality crops organically without fertilizer.",
-  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive up to 5 days out-of-season.",
+  "agriculturist.desc": "Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.",
+  "agriculturist.desc.prestiged": "Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
   "artisan.title.prestiged.male": "Industrialist",
@@ -174,8 +176,8 @@
 
   "rascal.title.male": "Rascal",
   "rascal.title.female": "Rascal",
-  "rascal.desc": "Gain one additional ammo slot. 35% chance to recover certain ammo.",
-  "rascal.desc.prestiged": "35% >> 55% chance to recover certain ammo. Can fire both ammo slots at once.",
+  "rascal.desc": "Gain one additional ammo slot. 35% chance to recover ammo.",
+  "rascal.desc.prestiged": "35% >> 55% chance to recover ammo. Can fire both ammo slots at once.",
   "desperado.title.male": "Desperado",
   "desperado.title.female": "Desperada",
   "desperado.title.prestiged.male": "Deadeye",
@@ -187,10 +189,14 @@
   "piper.title.male": "Slimed Piper",
   "piper.title.female": "Slimed Siren",
   "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
-  "piper.title.prestiged.female": "Prismatriz", // alts: Gelivanta
-  "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.desc": "Slime Hutch capacity +50%. Slimes raised in a Hutch are summoned to fight alongside you. One can be assigned as a Hat Slime to carry items.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
+  "piper.slime.health": "{{value}} Health",
+  "piper.slime.attack": "{{value}} Attack",
+  "piper.slime.defense": "{{value}} Defense",
+  "piper.slime.dismiss": "(Click to dismiss)",
 
   // prestige
   "prestige.dog_statue.first": "-Statue Of Transcendence-^The statue can reset a skill's level while retaining all acquired professions.",
@@ -257,6 +263,9 @@
   "objects.slimecheese.name": "Slime Cheese",
   "objects.slimecheese.desc": "It smells terrible! Would anyone really want to eat this?",
 
+  "honorific.male": "Dear",
+  "honorific.female": "Dear",
+
   /***********
   *** GMCM ***
   ************/
@@ -299,18 +308,16 @@
 
   // scavenger & prospector
   "gmcm.sections.prfs.scavenger_prospector": "Scavenger & Prospector",
-  "gmcm.treasure_hunt_start_chance_multiplier.title": "Treasure Hunt Start Chance Multiplier",
-  "gmcm.treasure_hunt_start_chance_multiplier.desc": "Multiplies the base chance that your Scavenger or Prospector hunt senses will start to tingle.",
+  "gmcm.treasure_hunt_trigger_modifier.title": "Treasure Hunt Trigger Threshold Modifier",
+  "gmcm.treasure_hunt_trigger_modifier.desc": "Multiplier applied to the point threshold to trigger a Scavenger or Prospector hunt",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Allow Scavenger Hunts on Farm",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "Whether a Scavenger Hunt can trigger while on the farm map.",
-  "gmcm.scavenger_detection_distance.title": "Scavenger Detection Distance",
-  "gmcm.scavenger_detection_distance.desc": "How close you must be to the treasure tile to reveal it's location, in tiles.",
-  "gmcm.scavenger_hunt_handicap.title": "Scavenger Hunt Handicap",
-  "gmcm.scavenger_hunt_handicap.desc": "Increase this number if you find that Scavenger hunts end too quickly.",
-  "gmcm.prospector_detection_distance.title": "Prospector Detection Distance",
-  "gmcm.prospector_detection_distance.desc": "How close you must be to the treasure tile to hear the sound cue, in tiles.",
-  "gmcm.prospector_hunt_handicap.title": "Prospector Hunt Handicap",
-  "gmcm.prospector_hunt_handicap.desc": "Increase this number if you find that Prospector hunts end too quickly.",
+  "gmcm.scavenger_hunt_range.title": "Scavenger Hunt Tracking Range",
+  "gmcm.scavenger_hunt_range.desc": "How far you must be to the treasure tile to track it's location, in tiles.",
+  "gmcm.scavenger_hunt_time_limit.title": "Scavenger Hunt Time Limit",
+  "gmcm.scavenger_hunt_time_limit.desc": "The time limit of the Scavenger hunt, in seconds.",
+  "gmcm.prospector_hunt_time_limit.title": "Prospector Hunt Time Limit",
+  "gmcm.prospector_hunt_time_limit.desc": "The time limit of the Prospector hunt, in seconds.",
   "gmcm.tracking_pointer_scale.title": "Tracking Pointer Scale",
   "gmcm.tracking_pointer_scale.desc": "Changes the size of the pointer used to track objects by Prospector and Scavenger professions.",
   "gmcm.tracking_pointer_bob_rate.title": "Tracking Pointer Bob Rate",
@@ -354,10 +361,17 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
-  "gmcm.show_minion_health.title": "Show Minion Health",
-  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.minion_hud_anchor_position.title": "Minion HUD Anchor Position",
+  "gmcm.minion_hud_anchor_position.desc": "Screen position to which the minion HUD should be anchored.",
+  "gmcm.screen_anchor_position.top": "Top",
+  "gmcm.screen_anchor_position.left": "Left",
+  "gmcm.screen_anchor_position.right": "Right",
+  "gmcm.minion_hud_offset.title": "Minion HUD Offset",
+  "gmcm.minion_hud_offset.desc": "X and Y offsets applied to the default position of minion HUD.",
   "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
   "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
+  "gmcm.enable_slime_goods.title": "Enable Slime Goods",
+  "gmcm.enable_slime_goods.desc": "Whether to add new Slime Mayonnaise and Slime Cheese items to the game in order to add more depth to Slime Ranching playstyle.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Skill Reset",

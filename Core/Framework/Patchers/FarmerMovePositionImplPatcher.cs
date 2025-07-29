@@ -112,7 +112,7 @@ internal sealed class FarmerMovePositionImplPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static int InvertDirectionIfNecessary(int direction)
     {
@@ -121,5 +121,5 @@ internal sealed class FarmerMovePositionImplPatcher : HarmonyPatcher
             : direction;
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

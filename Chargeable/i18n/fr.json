@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "gmcm.pages.tols": "Outils",
   "gmcm.pages.tols.axe": "Paramètres de la hache",
   "gmcm.pages.tols.pick": "Paramètres de la pioche",

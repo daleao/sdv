@@ -40,7 +40,7 @@ public class DynamicListOption
     protected readonly Lazy<Rectangle> PlusButtonSourceRect = new(() => new Rectangle(184, 345, 7, 8));
     protected readonly string? Id;
 
-    protected IList<TextBox> textBoxes = new List<TextBox>();
+    protected IList<TextBox> textBoxes = [];
     protected IList<string> cachedValues;
     protected bool? wasMouseLeftPressed;
     protected bool added = false;
@@ -198,7 +198,7 @@ public class DynamicListOption
         }
 
         var isMouseLeftPressed = Game1.input.GetMouseState().LeftButton == ButtonState.Pressed;
-        var didClick = isMouseLeftPressed && this.wasMouseLeftPressed == false;
+        var didClick = isMouseLeftPressed && (this.wasMouseLeftPressed == false);
         this.wasMouseLeftPressed = isMouseLeftPressed;
         var mouseX = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseX() : Game1.getOldMouseX();
         var mouseY = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseY() : Game1.getOldMouseY();

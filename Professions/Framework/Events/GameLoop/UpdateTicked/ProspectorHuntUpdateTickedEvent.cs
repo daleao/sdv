@@ -14,9 +14,12 @@ internal sealed class ProspectorHuntUpdateTickedEvent(EventManager? manager = nu
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
+    public override bool IsEnabled => State.ProspectorHunt?.IsActive ?? false;
+
+    /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        State.ProspectorHunt!.Update(e.Ticks);
+        State.ProspectorHunt!.TimeUpdate(e.Ticks);
         if (Game1.player.HasProfession(Profession.Prospector, true))
         {
             Game1.gameTimeInterval = 0;

@@ -82,11 +82,11 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
     private static int ApplyBurnIfNecessary(Farmer? farmer, int damageAmount)
     {
-        return farmer?.IsBurning() == true ? damageAmount / 2 : damageAmount;
+        return (farmer?.IsBurning() ?? false) ? damageAmount / 2 : damageAmount;
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

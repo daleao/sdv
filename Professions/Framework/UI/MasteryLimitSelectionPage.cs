@@ -11,7 +11,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 /// <summary>The Limit Break selection menu displayed upon Mastering the Combat skill.</summary>
-public sealed class MasteryLimitSelectionPage : IClickableMenu
+internal sealed class MasteryLimitSelectionPage : IClickableMenu
 {
     private readonly List<ClickableTextureComponent> _textureComponents = [];
     private readonly Color _backItemColor = new(132, 160, 255, 220);

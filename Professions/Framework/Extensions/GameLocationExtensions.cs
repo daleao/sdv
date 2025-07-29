@@ -5,10 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
-using StardewValley.Locations;
-using StardewValley.TerrainFeatures;
 using xTile.Dimensions;
 
 #endregion using directives
@@ -59,35 +56,6 @@ internal static class GameLocationExtensions
         return players.Any();
     }
 
-    /// <summary>Checks whether the <paramref name="location"/> is suitable for a <see cref="TreasureHunts.ScavengerHunt"/>.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="location"/> is suitable for a <see cref="TreasureHunts.ScavengerHunt"/>, otherwise <see langword="false"/>.</returns>
-    internal static bool IsSuitableScavengerHuntLocation(this GameLocation location)
-    {
-        return location.IsOutdoors && (!location.IsFarm || Config.AllowScavengerHuntsOnFarm) && location.currentEvent is null;
-    }
-
-    /// <summary>Checks whether the <paramref name="location"/> is suitable for a <see cref="TreasureHunts.ProspectorHunt"/>.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="location"/> is suitable for a <see cref="TreasureHunts.ProspectorHunt"/>, otherwise <see langword="false"/>.</returns>
-    internal static bool IsSuitablePropsectorHuntLocation(this GameLocation location)
-    {
-        return ((location is MineShaft shaft && !shaft.IsTreasureOrSafeRoom()) || location is VolcanoDungeon) && location.currentEvent is null;
-    }
-
-    /// <summary>Determines whether a <paramref name="tile"/> on a map is valid for spawning diggable treasure.</summary>
-    /// <param name="location">The <see cref="GameLocation"/>.</param>
-    /// <param name="tile">The tile to check.</param>
-    /// <returns><see langword="true"/> if the <paramref name="tile"/> is completely clear of any <see cref="SObject"/>, <see cref="TerrainFeature"/> or other map property that would make it inaccessible, otherwise <see langword="false"/>.</returns>
-    internal static bool IsTileValidForTreasure(this GameLocation location, Vector2 tile)
-    {
-        return (!location.objects.TryGetValue(tile, out var @object) || @object == null) &&
-               location.CanItemBePlacedHere(tile) &&
-               location.getTileIndexAt((int)tile.X, (int)tile.Y, "AlwaysFront") == -1 &&
-               location.getTileIndexAt((int)tile.X, (int)tile.Y, "Front") == -1 && !location.isBehindBush(tile) &&
-               !location.isBehindTree(tile);
-    }
-
     /// <summary>Determines whether a <paramref name="tile"/> is clear of <see cref="Debris"/>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="tile">The tile to check.</param>
@@ -105,7 +73,7 @@ internal static class GameLocationExtensions
     /// <summary>Forces a <paramref name="tile"/> to be susceptible to a <see cref="StardewValley.Tools.Hoe"/>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="tile">The tile to change.</param>
-    internal static void MakeTileDiggable(this GameLocation location, Vector2 tile)
+    internal static void EnforceTileDiggable(this GameLocation location, Vector2 tile)
     {
         var (x, y) = tile;
         if (location.doesTileHaveProperty((int)x, (int)y, "Diggable", "Back") is not null)
@@ -114,7 +82,7 @@ internal static class GameLocationExtensions
         }
 
         var digSpot = new Location((int)x * Game1.tileSize, (int)y * Game1.tileSize);
-        location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = true;
+        location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = "T";
     }
 
     /// <summary>Determines whether the local player is eligible to respec Prestige choices for the skill with the specified <paramref name="skillIndex"/>.</summary>

@@ -41,11 +41,12 @@ internal static class RevenueService
         }
 
         var dueI = (int)Math.Round(dueF);
+        var season = Game1.dayOfMonth <= Config.IncomeTaxDay ? Game1.season.Previous() : Game1.season;
         Log.I($@"
             Income Tax Report for {farmer.Name}
             ===============================================
             Season Summary:
-                - Season:                    {Game1.season.Previous()} (Year {Game1.year})
+                - Season:                    {season} (Year {Game1.year})
                 - Total Income:              {income}g
                 - Business Expenses:         {expenses}g
                 - Eligible Deductions:       {deductions:0.0%}

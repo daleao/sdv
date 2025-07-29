@@ -160,7 +160,7 @@ public sealed class TaxesConfig
     [GMCMRange(1, 27)]
     public int IncomeTaxDay { get; set; } = 5;
 
-    /// <summary>Gets the percentage rate charged over due income taxes not paid in time.</summary>
+    /// <summary>Gets the percentage rate charged overdue income taxes not paid in time.</summary>
     [JsonProperty]
     [GMCMSection("txs.income")]
     [GMCMPriority(7)]

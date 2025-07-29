@@ -61,7 +61,7 @@ internal sealed class HudPointer
             return;
         }
 
-        if (ticks % (8f / this.BobRate) != 0)
+        if (ticks % (int)(8f / this.BobRate) != 0)
         {
             return;
         }

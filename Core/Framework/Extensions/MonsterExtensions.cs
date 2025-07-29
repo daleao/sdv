@@ -29,7 +29,7 @@ public static class MonsterExtensions
         int maxStacks = 5)
     {
         if (monster is Skeleton or Ghost or DwarvishSentry or RockGolem or Bat { hauntedSkull.Value: true }
-            or Bat { cursedDoll.Value: true })
+            or Bat { cursedDoll.Value: true } or ShadowBrute or ShadowGuy or ShadowGirl or ShadowShaman)
         {
             return;
         }
@@ -134,7 +134,7 @@ public static class MonsterExtensions
         switch (monster)
         {
             case Serpent serpent when serpent.IsRoyalSerpent():
-                var burnList = new List<BurnAnimation>();
+                List<BurnAnimation> burnList = [];
                 for (var i = serpent.segments.Count - 1; i >= 0; i--)
                 {
                     burnList.Add(new BurnAnimation(serpent, duration, i));
@@ -235,7 +235,7 @@ public static class MonsterExtensions
                         break;
 
                     case Serpent serpent when serpent.IsRoyalSerpent():
-                        var freezeList = new List<FreezeAnimation>();
+                        List<FreezeAnimation> freezeList = [];
                         for (var i = serpent.segments.Count - 1; i >= 0; i--)
                         {
                             var (x, y, _) = serpent.segments[i];

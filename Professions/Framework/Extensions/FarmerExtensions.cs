@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Professions.Framework.Buffs;
 using DaLion.Professions.Framework.Limits;
+using DaLion.Professions.Framework.UI;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
-using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
+using StardewValley.Locations;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -20,6 +21,17 @@ using StardewValley.Monsters;
 /// <summary>Extensions for the <see cref="Farmer"/> class.</summary>
 internal static class FarmerExtensions
 {
+    private static readonly Func<Vector2, GameLocation, bool> IsMineShaftTileSpawnable = (tile, location) =>
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
+        (location as MineShaft)!.isTileOnClearAndSolidGround(tile);
+
+    private static readonly Func<Vector2, GameLocation, bool> IsVolcanoTileSpawnable = (tile, location) =>
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK) &&
+        (location as VolcanoDungeon)!.isTileOnClearAndSolidGround(tile);
+
+    private static readonly Func<Vector2, GameLocation, bool> IsGenericTileSpawnable = (tile, location) =>
+        location.isTileOnMap(tile) && !location.IsTileBlockedBy(tile, PipedSlime.COLLISION_MASK);
+
     /// <summary>Determines whether the <paramref name="farmer"/> has the specified <paramref name="profession"/>.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
@@ -436,5 +448,58 @@ internal static class FarmerExtensions
     internal static bool IsAmbushing(this Farmer farmer)
     {
         return farmer.Get_LimitBreak() is PoacherAmbush { IsActive: true };
+    }
+
+    /// <summary>Spawns a <see cref="GreenSlime"/> minion next to the <paramref name="piper"/>.</summary>
+    /// <param name="piper">The <see cref="Farmer"/>.</param>
+    /// <param name="numberToSpawn">The number of minions to spawn.</param>
+    internal static void SpawnMinions(this Farmer piper, int numberToSpawn)
+    {
+        var location = piper.currentLocation;
+        var r = new Random(Guid.NewGuid().GetHashCode());
+        for (var i = 0; i < numberToSpawn; i++)
+        {
+            var condition = location switch
+            {
+                MineShaft => IsMineShaftTileSpawnable,
+                VolcanoDungeon => IsVolcanoTileSpawnable,
+                _ => IsGenericTileSpawnable,
+            };
+
+            var spawnTile = piper.ChooseFromFourtyEightNeighboringTiles(condition, location);
+            var toBeCloned = piper.GetRaisedSlimes().Choose(r);
+            var spawn = new GreenSlime(spawnTile * Game1.tileSize, toBeCloned!.color.Value)
+            {
+                currentLocation = location,
+                Health = toBeCloned.Health,
+                DamageToFarmer = toBeCloned.DamageToFarmer,
+                resilience = { Value = toBeCloned.resilience.Value },
+            };
+
+            spawn.MaxHealth = spawn.Health;
+            switch (toBeCloned.Name)
+            {
+                case "Tiger Slime":
+                    spawn.makeTigerSlime();
+                    break;
+                case "Gold Slime":
+                    spawn.MakeGoldSlime();
+                    break;
+                default:
+                {
+                    if (toBeCloned.prismatic.Value)
+                    {
+                        spawn.prismatic.Value = true;
+                        spawn.Name = "Prismatic Slime";
+                    }
+
+                    break;
+                }
+            }
+
+            location.characters.Add(spawn);
+            var piped = spawn.Set_Piped(piper);
+            State.PipedMinionMenu?.populateClickableComponentList();
+        }
     }
 }

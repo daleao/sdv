@@ -60,7 +60,7 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void DoSlimeGenetics(GreenSlime daddy, GreenSlime mommy, GreenSlime baby)
     {
@@ -69,8 +69,8 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
         var inheritHealthFrom = r.Choose(daddy, mommy)!;
         var parentBaseHealth = Data.ReadAs<int>(inheritHealthFrom, DataKeys.BaseHealth);
         var parentHealthIV = Data.ReadAs<int>(inheritHealthFrom, DataKeys.HealthIV);
-        var babyHealthIV = (int)Math.Min(r.NextGaussian(parentHealthIV + 1, 2), 10);
-        baby.Health = (int)(parentBaseHealth * (1f + (babyHealthIV / 10f)));
+        var babyHealthIV = (int)Math.Min(r.NextGaussian(parentHealthIV + 1, 2), 5);
+        baby.Health = (int)(parentBaseHealth * (1f + (babyHealthIV / 5f)));
         baby.MaxHealth = baby.Health;
         Data.Write(baby, DataKeys.BaseHealth, parentBaseHealth.ToString());
         Data.Write(baby, DataKeys.HealthIV, babyHealthIV.ToString());
@@ -78,16 +78,16 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
         var inheritAttackFrom = r.Choose(daddy, mommy)!;
         var parentBaseAttack = Data.ReadAs<int>(inheritAttackFrom, DataKeys.BaseAttack);
         var parentAttackIV = Data.ReadAs<int>(inheritAttackFrom, DataKeys.AttackIV);
-        var babyAttackIV = (int)Math.Min(r.NextGaussian(parentAttackIV + 1, 2), 10);
-        baby.DamageToFarmer = (int)(parentBaseAttack * (1f + (babyAttackIV / 10f)));
+        var babyAttackIV = (int)Math.Min(r.NextGaussian(parentAttackIV + 1, 2), 5);
+        baby.DamageToFarmer = (int)(parentBaseAttack * (1f + (babyAttackIV / 5f)));
         Data.Write(baby, DataKeys.BaseAttack, parentBaseAttack.ToString());
         Data.Write(baby, DataKeys.AttackIV, babyAttackIV.ToString());
 
         var inheritDefenseFrom = r.Choose(daddy, mommy)!;
         var parentBaseDefense = Data.ReadAs<int>(inheritDefenseFrom, DataKeys.BaseDefense);
         var parentDefenseIV = Data.ReadAs<int>(inheritDefenseFrom, DataKeys.DefenseIV);
-        var babyDefenseIV = (int)Math.Min(r.NextGaussian(parentDefenseIV + 1, 2), 10);
-        baby.resilience.Value = parentBaseDefense + (parentDefenseIV / 2);
+        var babyDefenseIV = (int)Math.Min(r.NextGaussian(parentDefenseIV + 1, 2), 5);
+        baby.resilience.Value = parentBaseDefense + babyDefenseIV;
         Data.Write(baby, DataKeys.BaseDefense, parentBaseDefense.ToString());
         Data.Write(baby, DataKeys.DefenseIV, babyDefenseIV.ToString());
 
@@ -117,5 +117,5 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

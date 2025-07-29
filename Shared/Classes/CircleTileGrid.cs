@@ -2,7 +2,7 @@
 
 #region using directives
 
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Microsoft.Xna.Framework;
 
@@ -16,8 +16,13 @@ public sealed class CircleTileGrid
     /// <summary>Initializes a new instance of the <see cref="CircleTileGrid"/> class.</summary>
     /// <param name="origin">The center tile of the circle in the world reference.</param>
     /// <param name="radius">The radius of the circle in tile units.</param>
-    public CircleTileGrid(Vector2 origin, uint radius)
+    public CircleTileGrid(Vector2 origin, int radius)
     {
+        if (radius < 0)
+        {
+            ThrowHelper.ThrowArgumentException("Radius cannot be negative.");
+        }
+
         this.Origin = origin;
         this.Radius = radius;
         this._outlineBoolArray = this.GetOutline();
@@ -27,10 +32,10 @@ public sealed class CircleTileGrid
     public Vector2 Origin { get; }
 
     /// <summary>Gets the radius of the circle.</summary>
-    public uint Radius { get; }
+    public int Radius { get; }
 
     /// <summary>Enumerates all the tiles in the grid.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
     public IEnumerable<Vector2> Tiles
     {
         get
@@ -72,7 +77,7 @@ public sealed class CircleTileGrid
     }
 
     /// <summary>Enumerates only the outline tiles of the grid.</summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1623:Property summary documentation should match accessors", Justification = "Enumerator.")]
     public IEnumerable<Vector2> Outline
     {
         get
@@ -148,12 +153,12 @@ public sealed class CircleTileGrid
         // mirror point into the first quadrant
         if (point.X > this.Radius)
         {
-            point.X = ((int)this.Radius * 2) - point.X;
+            point.X = (this.Radius * 2) - point.X;
         }
 
         if (point.Y > this.Radius)
         {
-            point.Y = ((int)this.Radius * 2) - point.Y;
+            point.Y = (this.Radius * 2) - point.Y;
         }
 
         // cast horizontal rays
@@ -232,11 +237,11 @@ public sealed class CircleTileGrid
     private bool[,] GetOutline()
     {
         var outline = new bool[(this.Radius * 2) + 1, (this.Radius * 2) + 1];
-        var f = 1 - (int)this.Radius;
+        var f = 1 - this.Radius;
         var ddFx = 1;
-        var ddFy = -2 * (int)this.Radius;
+        var ddFy = -2 * this.Radius;
         var x = 0;
-        var y = (int)this.Radius;
+        var y = this.Radius;
         outline[this.Radius, this.Radius + this.Radius] = true;
         outline[this.Radius, this.Radius - this.Radius] = true;
         outline[this.Radius + this.Radius, this.Radius] = true;

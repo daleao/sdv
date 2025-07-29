@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "enchantments.carving.name": "Tranchant",
   "enchantments.cleaving.name": "Fendant",
   "enchantments.energized.name": "Choquant",
@@ -14,6 +16,8 @@
   "enchantments.chilling.name": "Glaçant",
   "enchantments.quincy.name": "Quincy",
   "enchantments.runaan.name": "Écho",
+
+  "enchantments.sharp.name": "Sharp",
 
 
   /************

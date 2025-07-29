@@ -197,7 +197,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void DamageMonsterSubroutine(
         int damageAmount, bool isBomb, bool didCrit, float critMultiplier, Monster monster, Farmer who)
@@ -234,7 +234,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 
     #region helper methods
 

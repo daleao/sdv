@@ -147,7 +147,7 @@ internal sealed class ObjectProjectile : BasicProjectile
                 }
 
                 // do heal Slime
-                var amount = (int)(Game1.random.NextFloat(0.15f, 0.25f) * monster.MaxHealth);
+                var amount = (int)(Game1.random.NextFloat(0.15f, 0.33f) * monster.MaxHealth);
                 monster.Health = Math.Min(monster.Health + amount, monster.MaxHealth);
                 location.debris.Add(new Debris(
                     amount,
@@ -272,7 +272,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             location.debris.Add(
                 new Debris(
-                    this.Ammo.ParentSheetIndex,
+                    this.Ammo.QualifiedItemId,
                     new Vector2((int)this.position.X, (int)this.position.Y),
                     this.Firer.getStandingPosition()));
         }
@@ -316,7 +316,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             location.debris.Add(
                 new Debris(
-                    this.Ammo.ParentSheetIndex,
+                    this.Ammo.QualifiedItemId,
                     new Vector2((int)this.position.X, (int)this.position.Y),
                     this.Firer.getStandingPosition()));
         }

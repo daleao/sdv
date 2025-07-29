@@ -82,7 +82,7 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static int DrawCooldown(MeleeWeapon weapon, SpriteBatch b, int x, int y, SpriteFont font, float alpha)
     {
@@ -101,5 +101,5 @@ internal sealed class MeleeWeaponDrawTooltipPatcher : HarmonyPatcher
         return (int)Math.Max(font.MeasureString("TT").Y, 48f);
     }
 
-    #endregion injections
+    #endregion injected
 }

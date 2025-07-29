@@ -1,5 +1,22 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.2.0
+
+### Added
+
+* Added Sharp enchantment to Iridium Scythe and Pickaxe.
+
+### Fixed
+
+* Fixed Master enchantment not working as advertised.
+* Fixed some enchantment names in the documentation.
+
+### Removed
+
+* Master enchantment can no longer be applied to Scythe.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.1.5
 
 ### Fixed

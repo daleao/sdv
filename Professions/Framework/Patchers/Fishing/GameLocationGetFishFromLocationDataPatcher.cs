@@ -83,12 +83,12 @@ internal sealed class GameLocationGetFishFromLocationDataPatcher : HarmonyPatche
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool PassesPrestigedAnglerCheck(SpawnFishData spawn, Farmer who, FishingRod? rod)
     {
         return spawn.IsBossFish && who.HasProfession(Profession.Angler, true) && rod is not null;
     }
 
-    #endregion injections
+    #endregion injected
 }

@@ -101,7 +101,7 @@ public sealed class EventManager
     {
         this._log.D("[EventManager]: Gathering all events...");
         this.ManageImplicitly(assembly, t =>
-            @namespace is null || t.Namespace?.StartsWith(@namespace) == true ||
+            @namespace is null || (t.Namespace?.StartsWith(@namespace) ?? false) ||
             t.IsAssignableToAnyOf(typeof(GameLaunchedEvent), typeof(FirstSecondUpdateTickedEvent), typeof(SecondSecondUpdateTickedEvent)) ||
             t.HasAttribute<AlwaysEnabledEventAttribute>() ||
             t.GetProperty(nameof(IManagedEvent.IsEnabled))!.DeclaringType == t);
@@ -125,7 +125,7 @@ public sealed class EventManager
     public EventManager ManageNamespace(Assembly assembly, string @namespace)
     {
         this._log.D($"[EventManager]: Gathering events in {@namespace}...");
-        this.ManageImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) == true);
+        this.ManageImplicitly(assembly, t => t.Namespace?.StartsWith(@namespace) ?? false);
         return this;
     }
 
@@ -196,7 +196,7 @@ public sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     public bool Enable(Type eventType)
     {
-        if (this.GetOrCreate(eventType)?.Enable() == true)
+        if (this.GetOrCreate(eventType)?.Enable() ?? false)
         {
             this._log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
@@ -231,7 +231,7 @@ public sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     public bool EnableForScreen(int screenId, Type eventType)
     {
-        if (this.GetOrCreate(eventType)?.EnableForScreen(screenId) == true)
+        if (this.GetOrCreate(eventType)?.EnableForScreen(screenId) ?? false)
         {
             this._log.D($"[EventManager]: Enabled {eventType.Name}.");
             return true;
@@ -293,7 +293,7 @@ public sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     public bool Disable(Type eventType)
     {
-        if (this.GetOrCreate(eventType)?.Disable() == true)
+        if (this.GetOrCreate(eventType)?.Disable() ?? false)
         {
             this._log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;
@@ -328,7 +328,7 @@ public sealed class EventManager
     /// <returns><see langword="true"/> if the event's enabled status was changed, otherwise <see langword="false"/>.</returns>
     public bool DisableForScreen(Type eventType, int screenId)
     {
-        if (this.GetOrCreate(eventType)?.DisableForScreen(screenId) == true)
+        if (this.GetOrCreate(eventType)?.DisableForScreen(screenId) ?? false)
         {
             this._log.D($"[EventManager]: Disabled {eventType.Name}.");
             return true;

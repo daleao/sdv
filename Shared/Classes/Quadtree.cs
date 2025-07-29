@@ -178,8 +178,8 @@ public sealed class Quadtree<TSpatialEntity>
     /// <returns>A <see cref="IEnumerable{T}"/> of the <typeparamref name="TSpatialEntity"/>'s belonging to this and all descendant nodes.</returns>
     public IEnumerable<TSpatialEntity> GetEntities()
     {
-        var children = new List<TSpatialEntity>();
-        var nodes = new Queue<Quadtree<TSpatialEntity>>();
+        List<TSpatialEntity> children = [];
+        Queue<Quadtree<TSpatialEntity>> nodes = [];
         nodes.Enqueue(this);
         while (nodes.TryDequeue(out var node))
         {

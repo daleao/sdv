@@ -64,7 +64,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.stats")]
     [GMCMPriority(100)]
-    public bool GeometricMitigationFormula { get; internal set; } = true;
+    public bool HyperbolicMitigationFormula { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether defense should improve parry damage.</summary>
     [JsonProperty]

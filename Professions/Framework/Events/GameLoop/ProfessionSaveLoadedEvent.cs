@@ -8,7 +8,6 @@ using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
 using DaLion.Professions.Framework.Events.Player;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
@@ -49,17 +48,6 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             }
         }
 
-        // initialize treasure hunts
-        if (player.HasProfession(Profession.Prospector))
-        {
-            State.ProspectorHunt = new ProspectorHunt();
-        }
-
-        if (player.HasProfession(Profession.Scavenger))
-        {
-            State.ScavengerHunt = new ScavengerHunt();
-        }
-
         if (player.HasProfession(Profession.Aquarist))
         {
             ModHelper.GameContent.InvalidateCache("Data/Objects");
@@ -67,12 +55,53 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
 
         this.Manager.Enable<RevalidateBuildingsDayStartedEvent>();
 
+        // fix for new skill reset count method
+        if (string.IsNullOrEmpty(Data.Read(player, DataKeys.ResetCountBySkill)))
+        {
+            Dictionary<string, int> resetCountBySkill = [];
+            foreach (ISkill vanilla in VanillaSkill.List)
+            {
+                if (vanilla.AcquiredProfessions.Length == 0 ||
+                    (vanilla.AcquiredProfessions.Length == 1 && vanilla.CurrentLevel >= 10))
+                {
+                    continue;
+                }
+
+                var count = vanilla.AcquiredProfessions.Length - 1;
+                if (vanilla.CurrentLevel < 10)
+                {
+                    count++;
+                }
+
+                resetCountBySkill[vanilla.StringId] = count;
+            }
+
+            foreach (ISkill custom in CustomSkill.Loaded.Values)
+            {
+                if (custom.AcquiredProfessions.Length == 0 ||
+                    (custom.AcquiredProfessions.Length == 1 && custom.CurrentLevel >= 10))
+                {
+                    continue;
+                }
+
+                var count = custom.AcquiredProfessions.Length - 1;
+                if (custom.CurrentLevel < 10)
+                {
+                    count++;
+                }
+
+                resetCountBySkill[custom.StringId] = count;
+            }
+
+            Data.Write(player, DataKeys.ResetCountBySkill, resetCountBySkill.Stringify());
+        }
+
         if (!Context.IsMainPlayer)
         {
             return;
         }
 
-        // enable events
+        // enable host events
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
         {
             this.Manager.Enable(

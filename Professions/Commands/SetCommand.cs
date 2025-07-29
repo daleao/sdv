@@ -8,6 +8,7 @@ using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 using StardewValley.Constants;
 using StardewValley.Menus;
 using StardewValley.Tools;
@@ -55,17 +56,69 @@ internal sealed class SetCommand(CommandHandler handler)
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
     {
+        var tokens = args.ToList();
+        var farmerIndex = 1;
+        var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();
+        if (farmerArgs.Any())
+        {
+            var fIndex = tokens.IndexOf(farmerArgs.First());
+            if (fIndex != -1 && tokens.Count > fIndex + 1 && int.TryParse(tokens[fIndex + 1], out var parsed))
+            {
+                farmerIndex = parsed;
+            }
+            else
+            {
+                Log.W("The `--farmer` flag is missing an accompanying farmer index. Please specify \"1\" for player 1 or \"2\" for player 2.");
+                return false;
+            }
+
+            tokens.RemoveAt(fIndex + 1);
+            tokens.RemoveAt(fIndex);
+        }
+
+        var player = Game1.player;
+        if (farmerIndex > 1)
+        {
+            if (!Context.IsSplitScreen)
+            {
+                Log.W("Can't assign professions to co-op players in a non-splitscreen session.");
+                return false;
+            }
+
+            var screenId = farmerIndex - 1;
+            var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
+            if (screenId > onlinePlayers.Count)
+            {
+                Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
+                return false;
+            }
+
+            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
+            if (multiplayerId is null)
+            {
+                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
+                return false;
+            }
+
+            player = Game1.getFarmer(multiplayerId.Value);
+            if (player is null)
+            {
+                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                return false;
+            }
+        }
+
         if (args.Length < 2)
         {
             Log.W("You must specify a data key and value.");
             return false;
         }
 
-        var key = args[0].ToLower();
-        var value = args[1];
+        var key = tokens[0].ToLower();
+        var value = tokens[1];
         if (this._dataKeys.Contains(key))
         {
-            this.SetModData(key, value);
+            this.SetModData(key, value, player);
             return true;
         }
 
@@ -74,7 +127,30 @@ internal sealed class SetCommand(CommandHandler handler)
         {
             if (int.TryParse(value, out level))
             {
-                vanillaSkill.SetLevel(level);
+                if (level > 10 && player.stats.Get(StatKeys.Mastery(vanillaSkill.Value)) == 0)
+                {
+                    Log.W($"The {vanillaSkill.Name} skill must be mastered before setting the level to {level}.");
+                    return false;
+                }
+
+                var currentLevel = player.GetUnmodifiedSkillLevel(vanillaSkill.Value);
+                for (var l = currentLevel + 1; l <= level; l++)
+                {
+                    var point = new Point(vanillaSkill.Value, l);
+                    if (!player.newLevels.Contains(point))
+                    {
+                        player.newLevels.Add(point);
+                    }
+                }
+
+                vanillaSkill
+                    .When(Skill.Farming).Then(() => player.farmingLevel.Value = level)
+                    .When(Skill.Fishing).Then(() => player.fishingLevel.Value = level)
+                    .When(Skill.Foraging).Then(() => player.foragingLevel.Value = level)
+                    .When(Skill.Mining).Then(() => player.miningLevel.Value = level)
+                    .When(Skill.Combat).Then(() => player.combatLevel.Value = level);
+                player.experiencePoints[vanillaSkill.Value] =
+                    Math.Max(player.experiencePoints[vanillaSkill.Value], ISkill.ExperienceCurve[level]);
                 return true;
             }
 
@@ -82,13 +158,14 @@ internal sealed class SetCommand(CommandHandler handler)
             {
                 case "master":
                 case "mastered":
-                    if (vanillaSkill.CanGainPrestigeLevels())
+                    if (player.stats.Get(StatKeys.Mastery(vanillaSkill.Value)) != 0)
                     {
+                        Log.I($"The {vanillaSkill.Name} skill is already mastered.");
                         return true;
                     }
 
-                    Game1.player.stats.Set(StatKeys.Mastery(vanillaSkill), 1);
-                    Game1.player.stats.Set(
+                    player.stats.Set(StatKeys.Mastery(vanillaSkill), 1);
+                    player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
                     Log.I($"Mastered the {vanillaSkill} skill.");
@@ -96,13 +173,14 @@ internal sealed class SetCommand(CommandHandler handler)
                 case "unmaster":
                 case "unmastered":
                 case "brainfart":
-                    if (!vanillaSkill.CanGainPrestigeLevels())
+                    if (player.stats.Get(StatKeys.Mastery(vanillaSkill.Value)) == 0)
                     {
+                        Log.I($"The {vanillaSkill.Name} skill is already not mastered.");
                         return true;
                     }
 
-                    Game1.player.stats.Set(StatKeys.Mastery(vanillaSkill), 0);
-                    Game1.player.stats.Set(
+                    player.stats.Set(StatKeys.Mastery(vanillaSkill), 0);
+                    player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
                     Log.I($"Unmastered the {vanillaSkill} skill.");
@@ -117,30 +195,38 @@ internal sealed class SetCommand(CommandHandler handler)
             s.DisplayName.ToLower().Contains(key.ToLowerInvariant()));
         if (customSkill is not null)
         {
-            if (int.TryParse(value, out level))
+            if (!int.TryParse(value, out level))
             {
-                customSkill.SetLevel(level);
-                return true;
+                Log.W($"Invalid parameter value {value}.");
+                return false;
             }
 
-            return false;
+            if (level > 10)
+            {
+                Log.W($"The {customSkill.StringId} cannot be set above level 10.");
+                return false;
+            }
+
+            var diff = ISkill.ExperienceCurve[level] - SCSkills.GetExperienceFor(player, customSkill.StringId);
+            SCSkills.AddExperience(player, customSkill.StringId, diff);
+            return true;
         }
 
         switch (key)
         {
             case "limit":
-                this.SetLimitBreak(value);
+                this.SetLimitBreak(value, player);
                 break;
 
             case "fishingdex":
             case "fishdex":
-                if (args.Length > 2 && args.Any(arg => arg is "-t" or "--trap"))
+                if (tokens.Count > 2 && tokens.Any(arg => arg is "--trap" or "-t"))
                 {
-                    this.SetFishPokedex(value, true);
+                    this.SetFishPokedex(value, player, true);
                 }
                 else
                 {
-                    this.SetFishPokedex(value);
+                    this.SetFishPokedex(value, player);
                 }
 
                 break;
@@ -148,7 +234,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "rodmemory":
             case "rodmemo":
             case "rodmem":
-                this.SetFishingRodMemory(value);
+                this.SetFishingRodMemory(value, player);
                 break;
             case "maxtackleuses" when int.TryParse(value, out var maxTackleUses):
                 FishingRod.maxTackleUses = maxTackleUses;
@@ -156,7 +242,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "animals":
             case "animal":
             case "anim":
-                this.SetAnimalDispositions(value);
+                this.SetAnimalDispositions(value, player);
                 break;
         }
 
@@ -165,10 +251,11 @@ internal sealed class SetCommand(CommandHandler handler)
 
     protected override string GetUsage()
     {
-        var sb = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <key> <value>");
+        var sb = new StringBuilder($"\n\nUsage: {this.Handler.EntryCommand} {this.Triggers[0]} <key> <value> [--<flag>]");
         sb.Append("\n\nParameters:");
         sb.Append("\n\t<key> - A skill name to set the level of, or data key to set the value of.");
         sb.Append("\n\t<value> - The desired new level or value.");
+        sb.Append("\n\t<flag> - Optional flags that can be passed onto specific commands, such as 'farmer' setting to a specific farmer in a local co-op session.");
         sb.Append("\n\nExamples:");
         sb.Append(
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} farming 10 => sets the player's Farming skill level to 10");
@@ -188,11 +275,13 @@ internal sealed class SetCommand(CommandHandler handler)
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim friendship => sets the friendship of all owned animals to the maximum value (for testing Breeder profession)");
         sb.Append(
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim mood => sets the mood of all owned animals to the maximum value (for testing Producer profession)");
+        sb.Append(
+            $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishing 15 --farmer 2 => sets player 2's Fishing skill level to 15");
         sb.Append(this.GetAvailableKeys());
         return sb.ToString();
     }
 
-    private void SetModData(string key, string value)
+    private void SetModData(string key, string value, Farmer who)
     {
         if (string.Equals(value, "clear", StringComparison.InvariantCultureIgnoreCase) ||
             string.Equals(value, "reset", StringComparison.InvariantCultureIgnoreCase) ||
@@ -208,7 +297,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "varietiesforaged":
             case "ecologist":
             case "ecologistitemsforaged":
-                this.SetEcologistVarietiesForaged(value);
+                this.SetEcologistVarietiesForaged(value, who);
                 break;
 
             case "minerals":
@@ -216,33 +305,33 @@ internal sealed class SetCommand(CommandHandler handler)
             case "mineralsstudied":
             case "gemologist":
             case "gemologistmineralscollected":
-                this.SetGemologistMineralsStudied(value);
+                this.SetGemologistMineralsStudied(value, who);
                 break;
 
             case "shunt":
             case "scavengerhunt":
             case "scavenger":
             case "scavengerhuntstreak":
-                this.SetScavengerHuntStreak(value);
+                this.SetScavengerHuntStreak(value, who);
                 break;
 
             case "phunt":
             case "prospectorhunt":
             case "prospector":
             case "prospectorhuntstreak":
-                this.SetProspectorHuntStreak(value);
+                this.SetProspectorHuntStreak(value, who);
                 break;
 
             case "trash":
             case "trashcollected":
             case "conservationist":
             case "conservationisttrashcollectedthisseason":
-                this.SetConservationistTrashCollectedThisSeason(value);
+                this.SetConservationistTrashCollectedThisSeason(value, who);
                 break;
         }
     }
 
-    private void SetLimitBreak(string value)
+    private void SetLimitBreak(string value, Farmer who)
     {
         if (string.Equals(value, "clear", StringComparison.InvariantCultureIgnoreCase) ||
             string.Equals(value, "reset", StringComparison.InvariantCultureIgnoreCase) ||
@@ -290,20 +379,28 @@ internal sealed class SetCommand(CommandHandler handler)
                 return;
         }
 
-        if (!Game1.player.HasProfession(limit.ParentProfession))
+        if (!who.HasProfession(limit.ParentProfession))
         {
             Log.W(
                 "You don't have the required profession. Use the \"add\" command first if you would like to set this Limit Break.");
             return;
         }
 
-        State.LimitBreak = limit;
+        if (!who.IsLocalPlayer)
+        {
+            var screenId = who.GetScreenId(ModHelper.Multiplayer)!;
+            PerScreenState.GetValueForScreen(screenId.Value).LimitBreak = limit;
+        }
+        else
+        {
+            State.LimitBreak = limit;
+        }
     }
 
-    private void SetFishPokedex(string value, bool trap = false)
+    private void SetFishPokedex(string value, Farmer who, bool trap = false)
     {
         var caughtOnly = string.Equals(value, "caught", StringComparison.InvariantCultureIgnoreCase);
-        var fishCaught = Game1.player.fishCaught;
+        var fishCaught = who.fishCaught;
         foreach (var (key, values) in DataLoader.Fish(Game1.content))
         {
             if (key.IsTrashId() || key.IsAlgaeId() || (values.Contains("trap") && !trap) ||
@@ -330,17 +427,17 @@ internal sealed class SetCommand(CommandHandler handler)
             Game1.stats.checkForFishingAchievements();
         }
 
-        Log.I($"{Game1.player.Name}'s FishingDex has been updated.");
+        Log.I($"{who.Name}'s FishingDex has been updated.");
     }
 
-    private void SetAnimalDispositions(string value)
+    private void SetAnimalDispositions(string value, Farmer who)
     {
         var both = string.Equals(value, "both", StringComparison.InvariantCultureIgnoreCase) || string.Equals(value, "all", StringComparison.InvariantCultureIgnoreCase);
         var count = 0;
         var animals = Game1.getFarm().getAllFarmAnimals();
         foreach (var animal in animals)
         {
-            if (!animal.IsOwnedBy(Game1.player))
+            if (!animal.IsOwnedBy(who))
             {
                 continue;
             }
@@ -389,11 +486,11 @@ internal sealed class SetCommand(CommandHandler handler)
         }
     }
 
-    private void SetEcologistVarietiesForaged(string value)
+    private void SetEcologistVarietiesForaged(string value, Farmer who)
     {
-        if (!Game1.player.HasProfession(Profession.Ecologist))
+        if (!who.HasProfession(Profession.Ecologist))
         {
-            Log.W("You must have the Ecologist profession.");
+            Log.W($"The player {who.Name} must have the Ecologist profession.");
             return;
         }
 
@@ -406,17 +503,17 @@ internal sealed class SetCommand(CommandHandler handler)
 
         for (var i = 0; i < parsed; i++)
         {
-            Data.AppendToEcologistItemsForaged(i.ToString());
+            Data.AppendToEcologistItemsForaged(i.ToString(), who);
         }
 
         Log.I($"Added {value} varieties foraged as Ecologist.");
     }
 
-    private void SetGemologistMineralsStudied(string value)
+    private void SetGemologistMineralsStudied(string value, Farmer who)
     {
-        if (!Game1.player.HasProfession(Profession.Gemologist))
+        if (!who.HasProfession(Profession.Gemologist))
         {
-            Log.W("You must have the Gemologist profession.");
+            Log.W($"The player {who.Name} must have the Gemologist profession.");
             return;
         }
 
@@ -429,17 +526,17 @@ internal sealed class SetCommand(CommandHandler handler)
 
         for (var i = 0; i < parsed; i++)
         {
-            Data.AppendToGemologistMineralsCollected(i.ToString());
+            Data.AppendToGemologistMineralsCollected(i.ToString(), who);
         }
 
         Log.I($"Added {value} minerals collected as Gemologist.");
     }
 
-    private void SetProspectorHuntStreak(string value)
+    private void SetProspectorHuntStreak(string value, Farmer who)
     {
-        if (!Game1.player.HasProfession(Profession.Prospector))
+        if (!who.HasProfession(Profession.Prospector))
         {
-            Log.W("You must have the Prospector profession.");
+            Log.W($"The player {who.Name} must have the Prospector profession.");
             return;
         }
 
@@ -449,15 +546,15 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        Data.Write(Game1.player, DataKeys.ProspectorHuntStreak, value);
+        Data.Write(who, DataKeys.LongestProspectorHuntStreak, value);
         Log.I($"Prospector Hunt was streak set to {value}.");
     }
 
-    private void SetScavengerHuntStreak(string value)
+    private void SetScavengerHuntStreak(string value, Farmer who)
     {
-        if (!Game1.player.HasProfession(Profession.Scavenger))
+        if (!who.HasProfession(Profession.Scavenger))
         {
-            Log.W("You must have the Scavenger profession.");
+            Log.W($"The player {who.Name} must have the Scavenger profession.");
             return;
         }
 
@@ -467,15 +564,15 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        Data.Write(Game1.player, DataKeys.ScavengerHuntStreak, value);
+        Data.Write(who, DataKeys.LongestScavengerHuntStreak, value);
         Log.I($"Scavenger Hunt streak was set to {value}.");
     }
 
-    private void SetConservationistTrashCollectedThisSeason(string value)
+    private void SetConservationistTrashCollectedThisSeason(string value, Farmer who)
     {
-        if (!Game1.player.HasProfession(Profession.Conservationist))
+        if (!who.HasProfession(Profession.Conservationist))
         {
-            Log.W("You must have the Conservationist profession.");
+            Log.W($"The player {who.Name} must have the Conservationist profession.");
             return;
         }
 
@@ -485,14 +582,14 @@ internal sealed class SetCommand(CommandHandler handler)
             return;
         }
 
-        Data.Write(Game1.player, DataKeys.ConservationistTrashCollectedThisSeason, value);
+        Data.Write(who, DataKeys.ConservationistTrashCollectedThisSeason, value);
         Log.I(
             $"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
     }
 
-    private void SetFishingRodMemory(string value)
+    private void SetFishingRodMemory(string value, Farmer who)
     {
-        if (Game1.player.CurrentTool is not FishingRod { UpgradeLevel: > 2 } rod)
+        if (who.CurrentTool is not FishingRod { UpgradeLevel: > 2 } rod)
         {
             Log.W("You must equip an Iridium Rod to use this command.");
             return;

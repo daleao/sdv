@@ -20,7 +20,7 @@ public sealed class SkillsConfig
     };
 
     private float _skillResetCostMultiplier = 1f;
-    private float _skillExpMultiplierPerReset = 1.25f;
+    private float _skillExpMultiplierPerReset = 1.1f;
 
     /// <summary>Gets a value indicating whether the player can reset their skills to gain a new profession.</summary>
     [JsonProperty]

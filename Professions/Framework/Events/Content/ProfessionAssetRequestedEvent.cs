@@ -42,19 +42,21 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/mail", new AssetEditor(EditMailData));
         this.Edit("Data/Machines", new AssetEditor(EditMachinesData, AssetEditPriority.Late));
         this.Edit("Data/NPCGiftTastes", new AssetEditor(EditNPCGiftTastesData));
-        this.Edit("Data/Objects", new AssetEditor(EditObjectsData));
+        this.Edit("Data/Objects", new AssetEditor(EditObjectsData, AssetEditPriority.Early));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
         this.Edit("Maps/Barn3", new AssetEditor(EditDeluxeBarnMap, AssetEditPriority.Late));
         this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumBarn", new AssetEditor(EditPremiumBarnMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumCoop", new AssetEditor(EditPremiumCoopMap, AssetEditPriority.Late));
-        this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
+        //this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap)); // not actually needed
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
             $"{UniqueId}_AnimalDerivedGoods", new DictionaryProvider<string, string[]>(ProvideAnimalDerivedGoods));
         this.Provide(
             $"{UniqueId}_ArtisanMachines", new DictionaryProvider<string, string[]>(ProvideArtisanMachines));
+        this.Provide(
+            $"{UniqueId}_LegendaryFishPondData", new DictionaryProvider<string, List<FishPondData>>(ProvideLegendaryFishPondData));
         this.Provide(
             $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
@@ -85,6 +87,15 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_GoldSlime",
             new ModTextureProvider(() => $"assets/sprites/slime_{Config.Masteries.GoldSpritePalette}.png"));
+        this.Provide(
+            $"{UniqueId}_DirtArrow",
+            new ModTextureProvider(() => $"assets/sprites/dirtarrow_{(ModHelper.ModRegistry.IsLoaded("Acerbicon.Recolor") ? "Wittily" : "Vanilla")}.png"));
+        this.Provide(
+            $"{UniqueId}_Highlight",
+            new ModTextureProvider(() => $"assets/sprites/highlight.png"));
+        this.Provide(
+            $"{UniqueId}_Minion",
+            new ModTextureProvider(() => $"assets/sprites/minion.png"));
     }
 
     #region editor callback
@@ -252,396 +263,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     /// <summary>Patches fish pond data with legendary fish data.</summary>
     private static void EditFishPondDataData(IAssetData asset)
     {
-        ((List<FishPondData>)asset.Data).AddRange(
-            [
-                new FishPondData
-                {
-                    Id = UniqueId + "/Glacierfish",
-                    RequiredTags =
-                    [
-                        "item_glacierfish",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    WaterColor = [
-                        new FishPondWaterColor
-                        {
-                            Id = "Glacierfish",
-                            Color = "100 240 220",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)775 (O)902",
-                        },
-                    ],
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.05f,
-                            ItemId = QIDs.FrozenGeode,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.075f,
-                            ItemId = QIDs.FrozenTear,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QIDs.IronOre,
-                            MinStack = 10,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.01f,
-                            ItemId = QIDs.Diamond,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Angler",
-                    RequiredTags =
-                    [
-                        "item_angler",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    WaterColor = [
-                        new FishPondWaterColor
-                        {
-                            Id = "Angler",
-                            Color = "255 120 0",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)160",
-                        },
-                        new FishPondWaterColor
-                        {
-                            Id = "MsAngler",
-                            Color = "255 120 200",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)899",
-                        },
-                    ],
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QIDs.CopperOre,
-                            MinStack = 10,
-                            MaxStack = 15,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.01f,
-                            ItemId = QIDs.SolarEssence,
-                            MinStack = 10,
-                            MaxStack = 20,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/MutantCarp",
-                    RequiredTags =
-                    [
-                        "item_mutant_carp",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    WaterColor = [
-                        new FishPondWaterColor
-                        {
-                            Id = "MutantCarp",
-                            Color = "50 220 100",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)682 (O)901",
-                        },
-                    ],
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QIDs.RadioactiveOre,
-                            MinStack = 5,
-                            MaxStack = 15,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Crimsonfish",
-                    RequiredTags =
-                    [
-                        "item_crimsonfish",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    WaterColor = [
-                        new FishPondWaterColor
-                        {
-                            Id = "CrimsonFish",
-                            Color = "230 70 110",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)159 (O)898",
-                        },
-                    ],
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.05f,
-                            ItemId = QIDs.MagmaGeode,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.075f,
-                            ItemId = QIDs.FireQuartz,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QIDs.GoldOre,
-                            MinStack = 10,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.033f,
-                            ItemId = QIDs.CherryBomb,
-                            MinStack = 1,
-                            MaxStack = 3,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.02f,
-                            ItemId = QIDs.ExplosiveAmmo,
-                            MinStack = 1,
-                            MaxStack = 3,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.01f,
-                            ItemId = QIDs.MegaBomb,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Legend",
-                    RequiredTags =
-                    [
-                        "item_legend",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    WaterColor = [
-                        new FishPondWaterColor
-                        {
-                            Id = "Legend",
-                            Color = "40 150 50",
-                            MinPopulation = 1,
-                            MinUnlockedPopulationGate = 0,
-                            Condition = "ITEM_ID Input (O)163 (O)900",
-                        },
-                    ],
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.1f,
-                            ItemId = QIDs.IridiumOre,
-                            MinStack = 5,
-                            MaxStack = 10,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1.0f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.Roe,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/Tui",
-                    RequiredTags =
-                    [
-                        "item_tui",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1f,
-                            ItemId = QIDs.SolarEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.SolarEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-                new FishPondData
-                {
-                    Id = UniqueId + "/La",
-                    RequiredTags =
-                    [
-                        "item_la",
-                    ],
-                    Precedence = 200,
-                    SpawnTime = -1,
-                    ProducedItems =
-                    [
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 1f,
-                            ItemId = QIDs.VoidEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-                        new FishPondReward
-                        {
-                            RequiredPopulation = 0,
-                            Chance = 0.8f,
-                            ItemId = QIDs.VoidEssence,
-                            MinStack = 1,
-                            MaxStack = 1,
-                        },
-
-                    ],
-                    PopulationGates = null,
-                },
-            ]);
+        var data =
+            ModHelper.GameContent.Load<Dictionary<string, List<FishPondData>>>($"{UniqueId}_LegendaryFishPondData");
+        ((List<FishPondData>)asset.Data).AddRange(data["LegendaryFishPondData"]);
     }
 
     /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
@@ -713,8 +337,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             new MachineItemOutput { Id = $"(O){SlimeMayoId}", ItemId = $"(O){SlimeMayoId}", }
                         ],
                         MinutesUntilReady = 180,
-                    }
-                );
+                    });
 
             data[QIDs.CheesePress]
                 .OutputRules
@@ -736,8 +359,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                             new MachineItemOutput { Id = $"(O){SlimeCheeseId}", ItemId = $"(O){SlimeCheeseId}", }
                         ],
                         MinutesUntilReady = 200,
-                    }
-                );
+                    });
         }
 
         if (Config.ImmersiveDairyYield)
@@ -887,7 +509,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 ContextTags =
                 [
                     "color_green",
-                    "mayo_item",
                 ],
             };
         }
@@ -920,14 +541,14 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static string ProvideLimitGauge()
     {
         var path = "assets/sprites/gauge";
-        if (SveIntegration.Instance?.IsLoaded == true)
+        if (SveIntegration.Instance?.IsLoaded ?? false)
         {
             if (!SveIntegration.Instance.DisabeGaldoranTheme &&
-                (Game1.currentLocation?.NameOrUniqueName.IsAnyOf(
+                ((Game1.currentLocation?.NameOrUniqueName.IsAnyOf(
                      "Custom_CastleVillageOutpost",
                      "Custom_CrimsonBadlands",
                      "Custom_IridiumQuarry",
-                     "Custom_TreasureCave") == true ||
+                     "Custom_TreasureCave") ?? false) ||
                  SveIntegration.Instance.UseGaldoranThemeAllTimes))
             {
                 return path + "_galdora.png";
@@ -949,16 +570,16 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static Dictionary<string, string[]> ProvideAnimalDerivedGoods()
     {
         var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        var animalGoods = new HashSet<string>();
+        HashSet<string> animalGoods = [];
 
         try
         {
-            var files = Directory.GetFiles(path, "*.json");
+            var files = Directory.GetFiles(path, "*.AnimalDerivedGoods.json");
             foreach (var file in files)
             {
                 var json = File.ReadAllText(file);
                 var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
-                if (parsed?.TryGetValue("AnimalDerivedGoods", out var goods) == true)
+                if (parsed?.TryGetValue("AnimalDerivedGoods", out var goods) ?? false)
                 {
                     animalGoods.UnionWith(goods);
                 }
@@ -975,16 +596,16 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static Dictionary<string, string[]> ProvideArtisanMachines()
     {
         var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        var artisanMachines = new HashSet<string>();
+        HashSet<string> artisanMachines = [];
 
         try
         {
-            var files = Directory.GetFiles(path, "*.json");
+            var files = Directory.GetFiles(path, "*.ArtisanMachines.json");
             foreach (var file in files)
             {
                 var json = File.ReadAllText(file);
                 var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
-                if (parsed?.TryGetValue("ArtisanMachines", out var machines) == true)
+                if (parsed?.TryGetValue("ArtisanMachines", out var machines) ?? false)
                 {
                     artisanMachines.UnionWith(machines);
                 }
@@ -996,6 +617,23 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
 
         return new Dictionary<string, string[]> { ["ArtisanMachines"] = artisanMachines.ToArray() };
+    }
+
+    private static Dictionary<string, List<FishPondData>> ProvideLegendaryFishPondData()
+    {
+        var file = Path.Combine(ModHelper.DirectoryPath, "assets", "data", "LegendaryFishPondData.json");
+
+        try
+        {
+            var json = File.ReadAllText(file);
+            var parsed = JsonConvert.DeserializeObject<Dictionary<string, List<FishPondData>>>(json);
+            return (parsed?.TryGetValue("LegendaryFishPondData", out _) ?? false) ? parsed : [];
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Legendary Fish Pond data.\n{ex}");
+            return [];
+        }
     }
 
     #endregion provider callbacks

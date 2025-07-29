@@ -37,7 +37,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
 
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
-            bb.Highlight(Color.Blue * 0.5f, e.SpriteBatch);
+            bb.TileHighlight(Color.Blue * 0.5f, e.SpriteBatch);
         }
 
         foreach (var feature in Game1.currentLocation.terrainFeatures.Values)
@@ -50,7 +50,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
 
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
-            bb.Highlight(Color.Yellow * 0.5f, e.SpriteBatch);
+            bb.TileHighlight(Color.Yellow * 0.5f, e.SpriteBatch);
         }
 
         foreach (var feature in Game1.currentLocation.largeTerrainFeatures)
@@ -63,7 +63,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
 
             bb.X -= Game1.viewport.X;
             bb.Y -= Game1.viewport.Y;
-            bb.Highlight(Color.Yellow * 0.5f, e.SpriteBatch);
+            bb.TileHighlight(Color.Yellow * 0.5f, e.SpriteBatch);
         }
 
         foreach (var character in Game1.currentLocation.characters.Cast<Character>()
@@ -82,7 +82,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
             {
                 case Monster monster:
                 {
-                    bb.Highlight(Color.Red * 0.5f, e.SpriteBatch);
+                    bb.TileHighlight(Color.Red * 0.5f, e.SpriteBatch);
 
                     var @string = character.Name + $" ({monster.Health} / {monster.MaxHealth})";
                     var textWidth = Game1.dialogueFont.MeasureString(@string).X;
@@ -102,7 +102,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                     bb = new Rectangle((int)character.Position.X - 2, (int)character.Position.Y - 2, 4, 4);
                     bb.X -= Game1.viewport.X;
                     bb.Y -= Game1.viewport.Y;
-                    bb.Highlight(Color.White, e.SpriteBatch);
+                    bb.TileHighlight(Color.White, e.SpriteBatch);
 
                     var bbc = character.GetBoundingBox().Center;
                     @string = $"BB Center: {bbc}";
@@ -115,7 +115,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                     bb = new Rectangle(bbc.X - 2, bbc.Y - 2, 4, 4);
                     bb.X -= Game1.viewport.X;
                     bb.Y -= Game1.viewport.Y;
-                    bb.Highlight(Color.White, e.SpriteBatch);
+                    bb.TileHighlight(Color.White, e.SpriteBatch);
                     @string = $"Damage: {monster.DamageToFarmer} | Defense: {monster.resilience.Value}";
                     textWidth = Game1.dialogueFont.MeasureString(@string).X;
                     e.SpriteBatch.DrawString(
@@ -130,7 +130,7 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                         {
                             bb.X = (int)(segment.X + offset.X);
                             bb.Y = (int)(segment.Y + offset.Y);
-                            bb.Highlight(Color.Red * 0.5f, e.SpriteBatch);
+                            bb.TileHighlight(Color.Red * 0.5f, e.SpriteBatch);
                         }
                     }
 
@@ -158,14 +158,14 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                         farmer.FarmerSprite.currentAnimationIndex);
                     bb.X -= Game1.viewport.X;
                     bb.Y -= Game1.viewport.Y;
-                    bb.Highlight(Color.Purple * 0.5f, e.SpriteBatch);
+                    bb.TileHighlight(Color.Purple * 0.5f, e.SpriteBatch);
                     bb = farmer.GetBoundingBox();
                     goto default;
                 }
 
                 default:
                 {
-                    bb.Highlight(Color.Green * 0.5f, e.SpriteBatch);
+                    bb.TileHighlight(Color.Green * 0.5f, e.SpriteBatch);
 
                     var @string = character.Name;
                     var textWidth = Game1.dialogueFont.MeasureString(@string).X;

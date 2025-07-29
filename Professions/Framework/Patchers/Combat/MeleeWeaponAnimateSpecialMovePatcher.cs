@@ -65,7 +65,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool DoSpendBruteRage()
     {
@@ -78,5 +78,5 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
         return false;
     }
 
-    #endregion injections
+    #endregion injected
 }

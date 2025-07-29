@@ -70,11 +70,11 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void CollisionDetectedSubroutine(Monster monster)
     {
-        if (monster.Health <= 0 || !monster.Get_KnockedBack())
+        if (monster.Health <= 0 || !monster.Get_KnockedBack() || monster.isGlider.Value || !Config.KnockbackHurts)
         {
             return;
         }
@@ -108,5 +108,5 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
         monster.Set_KnockedBack(null);
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

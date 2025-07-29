@@ -150,65 +150,22 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
             return null;
         }
 
-        // From: else return false;
-        // To: else return TryFertilizeFruitTree(location, placementTile);
-        // After: return tree2.fertilize();
-        try
-        {
-            helper
-                .PatternMatch(
-                    [
-                        new CodeInstruction(
-                            OpCodes.Callvirt,
-                            typeof(Tree).RequireMethod(nameof(Tree.fertilize))),
-                    ],
-                    ILHelper.SearchOption.First)
-                .PatternMatch([new CodeInstruction(OpCodes.Ldc_I4_0)])
-                .StripLabels(out var labels)
-                .Remove()
-                .Insert(
-                    [
-                        new CodeInstruction(OpCodes.Ldloc_0),
-                        new CodeInstruction(OpCodes.Ldloc_1),
-                        new CodeInstruction(
-                            OpCodes.Call,
-                            typeof(ObjectPlacementActionPatcher).RequireMethod(nameof(TryFertilizeFruitTree))),
-                    ],
-                    labels);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed injecting Fruit Tree fertilization.\nHelper returned {ex}");
-            return null;
-        }
-
         return helper.Flush();
     }
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void RecordTreeData(TerrainFeature feature, Farmer? planter)
     {
         var date = Game1.game1.GetCurrentDateNumber();
-        Data.Write(feature, DataKeys.DatePlanted, date.ToString());
-        if (planter?.HasProfession(Profession.Arborist) == true)
+        Data.Write(feature, DataKeys.TreeDatePlanted, date.ToString());
+        if (planter?.HasProfession(Profession.Arborist) ?? false)
         {
             Data.Write(feature, DataKeys.PlantedByArborist, true.ToString());
         }
     }
 
-    private static bool TryFertilizeFruitTree(GameLocation location, Vector2 placementTile)
-    {
-        if (!location.terrainFeatures.TryGetValue(placementTile, out var feature) || feature is not FruitTree)
-        {
-            return false;
-        }
-
-        Data.Write(feature, DataKeys.Fertilized, true.ToString());
-        return true;
-    }
-
-    #endregion injections
+    #endregion injected
 }

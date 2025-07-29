@@ -4,7 +4,6 @@ namespace DaLion.Ponds.Framework.Patchers;
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
@@ -32,7 +31,7 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Adjust fish pond query menu for algae.</summary>
+    /// <summary>Adjust fish pond query menu for algae and mixed legendary pairs.</summary>
     [HarmonyPrefix]
     [HarmonyPriority(Priority.High)]
     [HarmonyBefore("DaLion.Professions")]
@@ -51,7 +50,8 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
         try
         {
             var isAlgaePond = ____fishItem.IsAlgae();
-            if (!isAlgaePond)
+            var isLegendaryPond = ____fishItem.IsBossFish();
+            if (!isAlgaePond && !isLegendaryPond)
             {
                 return true; // run original logic
             }
@@ -70,7 +70,11 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
 
             var hasUnresolvedNeeds = ____pond.neededItem.Value is not null && ____pond.HasUnresolvedNeeds() &&
                                      !____pond.hasCompletedRequest.Value;
-            var pondNameText = I18n.Algae();
+            var pondNameText = isAlgaePond
+				? I18n.Algae()
+				: Game1.content.LoadString(
+                    "Strings\\UI:PondQuery_Name",
+                    ____fishItem.DisplayName);
             var textSize = Game1.smallFont.MeasureString(pondNameText);
             Game1.DrawBox(
                 (int)((Game1.uiViewport.Width / 2) - ((textSize.X + 64f) * 0.5f)),
@@ -122,22 +126,19 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 Game1.textColor);
 
             // draw fish
-            int x = 0, y = 0, seaweedCount = 0, greenAlgaeCount = 0, whiteAlgaeCount = 0, familyCount = 0;
+            int x = 0, y = 0;
             var slotsToDraw = ____pond.maxOccupants.Value;
             var columns = Math.Min(slotsToDraw, 5);
             const int slotSpacing = 13;
-            SObject? itemToDraw = null,
-                seaweedItemToDraw = ItemRegistry.Create<SObject>(QIDs.Seaweed),
-                greenAlgaeItemToDraw = ItemRegistry.Create<SObject>(QIDs.GreenAlgae),
-                whiteAlgaeItemToDraw = ItemRegistry.Create<SObject>(QIDs.WhiteAlgae);
-            if (isAlgaePond)
+            var fishes = ____pond.ParsePondFishes();
+            if (fishes.Count != ____pond.FishCount)
             {
-                var algae = ____pond.ParsePondFishes();
-                seaweedCount = algae.Count(f => f?.Id == "152");
-                greenAlgaeCount = algae.Count(f => f?.Id == "153");
-                whiteAlgaeCount = algae.Count(f => f?.Id == "157");
+                ThrowHelper.ThrowInvalidDataException(
+                    $"Mismatch between fish population data and actual population:" +
+                    $"\n\t- Population: {____pond.FishCount}\n\t- Data: {Data.Read(____pond, DataKeys.PondFish)}");
             }
 
+            fishes.SortDescending();
             for (var i = 0; i < slotsToDraw; ++i)
             {
                 var yOffset = (float)Math.Sin(____age + (x * 0.75f) + (y * 0.25f)) * 2f;
@@ -145,17 +146,9 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
                 var xPos = __instance.xPositionOnScreen + (PondQueryMenu.width / 2) -
                     (columns * slotSpacing * 2f) + (x * slotSpacing * 4f);
 
-                itemToDraw = seaweedCount-- > 0
-                    ? seaweedItemToDraw
-                    : greenAlgaeCount-- > 0
-                        ? greenAlgaeItemToDraw
-                        : whiteAlgaeCount-- > 0
-                            ? whiteAlgaeItemToDraw
-                            : itemToDraw;
-
-                if (itemToDraw is not null)
+                if (i < fishes.Count)
                 {
-                    itemToDraw.drawInMenu(
+                    ItemRegistry.Create<SObject>(fishes[i].Id).drawInMenu(
                         b,
                         new Vector2(xPos, yPos),
                         0.75f,
@@ -310,10 +303,13 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             __instance.changeNettingButton.draw(b);
             if (___confirmingEmpty)
             {
-                b.Draw(
-                    Game1.fadeToBlackRect,
-                    Game1.graphics.GraphicsDevice.Viewport.Bounds,
-                    Color.Black * 0.75f);
+                if (!Game1.options.showClearBackgrounds)
+                {
+                    b.Draw(
+                        Game1.fadeToBlackRect,
+                        Game1.graphics.GraphicsDevice.Viewport.Bounds,
+                        Color.Black * 0.75f);
+                }
 
                 const int padding = 16;
                 ____confirmationBoxRectangle.Width += padding;
@@ -347,6 +343,12 @@ internal sealed class PondQueryMenuDrawPatcher : HarmonyPatcher
             __instance.drawMouse(b);
 
             return false; // don't run original logic
+        }
+        catch (InvalidDataException ex)
+        {
+            Log.W($"{ex}\nThe data will be reset.");
+            ____pond.ResetPondFishData();
+            return true; // default to original logic
         }
         catch (Exception ex)
         {

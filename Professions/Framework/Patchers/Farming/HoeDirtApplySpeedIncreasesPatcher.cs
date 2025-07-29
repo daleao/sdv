@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -34,23 +35,20 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
-        // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += who.professions.Contains(100 + <agriculturist_id>)) ? 0.2f : 0.1f;
+        // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += GetWhispererMultiplier(dirt);
         try
         {
-            var isNotPrestiged = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
                 .MatchProfessionCheck(Profession.Agriculturist.Value)
                 .Move()
                 .MatchProfessionCheck(Profession.Agriculturist.Value)
                 .PatternMatch([new CodeInstruction(OpCodes.Ldc_R4, 0.1f)])
-                .AddLabels(isNotPrestiged)
-                .Insert([new CodeInstruction(OpCodes.Ldarg_1)])
-                .InsertProfessionCheck(Farmer.agriculturist + 100, forLocalPlayer: false)
+                .Remove()
                 .Insert([
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                    new CodeInstruction(OpCodes.Ldc_R4, 0.2f),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution),
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    new CodeInstruction(OpCodes.Call, typeof(HoeDirtApplySpeedIncreasesPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
                 ])
                 .Move()
                 .AddLabels(resumeExecution);
@@ -65,4 +63,27 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
     }
 
     #endregion harmony patches
+
+    #region injected
+
+    private static float GetAgriculturistMultiplier(HoeDirt dirt, Farmer who)
+    {
+        if (!who.HasProfessionOrLax(Profession.Agriculturist))
+        {
+            return 0f;
+        }
+
+        var cropMemory = Data.Read(dirt.crop, DataKeys.SoilMemory);
+        var stacks = 0;
+        if (!string.IsNullOrEmpty(cropMemory))
+        {
+            stacks = cropMemory.Count(c => c == ',') + 1;
+        }
+
+        var multiplier = stacks * 0.05f;
+        Log.D($"Applied a {multiplier}x speed multiplier.");
+        return multiplier;
+    }
+
+    #endregion injected
 }

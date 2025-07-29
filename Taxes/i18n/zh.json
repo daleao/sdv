@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // mail
   "mail.frs.intro": "财政部^芬吉尔税务局^^^尊敬的纳税人，^^此信是为了通知您，您迁往星露谷鹈鹕镇的新地址已经记录在案。自此，所有后续通信将发送至您的{{farm}}农场。^^我们温馨提醒您，联邦所得税的缴纳截止日期为每个季节的第一天晚上。为了方便，您应缴纳的税款将自动从您的余额中扣除。如果您的余额不足，您将根据芬吉尔税法第501(c)(1)条被罚款{{fine}}，并且将以您的名义在星露谷银行发出贷款，年利率为{{interest}}。^^^此致，^^Laura D. Pretto^执行董事，芬吉尔税务局[#]Address Change Confirmation",
   "mail.frs.notice": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^This letter is to inform you that your total accrued income tax for the closing season in the amount of {{due}}g will be deducted from your balance automatically {{when}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Monthly Notice",
@@ -16,6 +18,7 @@
   "honorific.female": "尊敬的",
   "when.tonight": "Tonight",
   "when.day": "on the {{day}} day of the current season",
+
 
   /************
   *** GMCM ***

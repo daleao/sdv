@@ -16,7 +16,7 @@ internal sealed class CoreGameLaunchedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)
     {
-        if (CoreConfigMenu.Instance?.IsLoaded == true)
+        if (CoreConfigMenu.Instance?.IsLoaded ?? false)
         {
             CoreConfigMenu.Instance.Register();
         }

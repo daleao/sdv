@@ -50,7 +50,7 @@ internal static class IlHelperExtensions
     internal static ILHelper InsertProfessionCheck(
         this ILHelper helper, int professionIndex, Label[]? labels = null, bool forLocalPlayer = true)
     {
-        var toInsert = new List<CodeInstruction>();
+        List<CodeInstruction> toInsert = [];
         if (forLocalPlayer)
         {
             toInsert.Add(new CodeInstruction(OpCodes.Call, typeof(Game1).RequirePropertyGetter(nameof(Game1.player))));

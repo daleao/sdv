@@ -14,6 +14,11 @@ internal sealed class ToolEndUsingPatcher
     /// <summary>Do shockwave.</summary>
     private static void Postfix(Farmer who)
     {
+        if (!who.IsLocalPlayer)
+        {
+            return;
+        }
+
         var tool = who.CurrentTool;
         var power = who.toolPower.Value;
         if (power <= 0 || tool is not (Axe or Pickaxe))
@@ -21,7 +26,7 @@ internal sealed class ToolEndUsingPatcher
             return;
         }
 
-        uint radius = tool switch
+        var radius = tool switch
         {
             Axe => Config.Axe.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),
             Pickaxe => Config.Pick.RadiusAtEachPowerLevel.ElementAtOrDefault(power - 1),

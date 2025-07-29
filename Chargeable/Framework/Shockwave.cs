@@ -2,8 +2,6 @@
 
 #region using directives
 
-using System.Collections.Generic;
-using System.Linq;
 using DaLion.Chargeable.Framework.Effects;
 using DaLion.Shared.Classes;
 using Microsoft.Xna.Framework;
@@ -21,10 +19,10 @@ internal class Shockwave
     private readonly GameLocation _location;
     private readonly Tool _tool;
     private readonly Vector2 _epicenter;
-    private readonly uint _finalRadius;
+    private readonly int _finalRadius;
     private readonly double _millisecondsWhenReleased;
     private readonly List<CircleTileGrid> _tileGrids = [];
-    private uint _currentRadius = 1;
+    private int _currentRadius = 1;
 
     /// <summary>Initializes a new instance of the <see cref="Shockwave"/> class.</summary>
     /// <param name="radius">The maximum radius of the <see cref="Shockwave"/>.</param>
@@ -33,7 +31,7 @@ internal class Shockwave
     ///     The total elapsed <see cref="GameTime"/> in milliseconds at the moment the tool was
     ///     released.
     /// </param>
-    internal Shockwave(uint radius, Farmer who, double milliseconds)
+    internal Shockwave(int radius, Farmer who, double milliseconds)
     {
         this._farmer = who;
         this._location = who.currentLocation;
@@ -52,12 +50,12 @@ internal class Shockwave
 
         if (Config.TicksBetweenWaves <= 0)
         {
-            this._tileGrids.Add(new CircleTileGrid(this._epicenter, (uint)this._finalRadius));
+            this._tileGrids.Add(new CircleTileGrid(this._epicenter, this._finalRadius));
             this._currentRadius = this._finalRadius;
         }
         else
         {
-            for (uint i = 0; i < this._finalRadius; i++)
+            for (var i = 0; i < this._finalRadius; i++)
             {
                 this._tileGrids.Add(new CircleTileGrid(this._epicenter, i + 1));
             }
@@ -79,10 +77,10 @@ internal class Shockwave
         IEnumerable<Vector2> affectedTiles;
         if (this._tileGrids.Count > 1)
         {
-            affectedTiles = this._tileGrids[(int)this._currentRadius - 1].Tiles;
+            affectedTiles = this._tileGrids[this._currentRadius - 1].Tiles;
             if (this._currentRadius > 1)
             {
-                affectedTiles = affectedTiles.Except(this._tileGrids[(int)this._currentRadius - 2].Tiles);
+                affectedTiles = affectedTiles.Except(this._tileGrids[this._currentRadius - 2].Tiles);
             }
         }
         else
@@ -90,7 +88,7 @@ internal class Shockwave
             affectedTiles = this._tileGrids[0].Tiles;
         }
 
-        foreach (var tile in affectedTiles.Except([this._epicenter, this._farmer.Tile]))
+        foreach (var tile in affectedTiles.Except([this._epicenter]))
         {
             this._farmer.TemporarilyFakeInteraction(() =>
             {

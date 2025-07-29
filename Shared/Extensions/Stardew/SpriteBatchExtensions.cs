@@ -10,6 +10,24 @@ using Microsoft.Xna.Framework.Graphics;
 /// <summary>Extensions for the <see cref="SpriteBatch"/> class.</summary>
 public static class SpriteBatchExtensions
 {
+    /// <summary>Draws health icon.</summary>
+    /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
+    /// <param name="position">The <see cref="Vector2"/> position.</param>
+    public static void DrawHealthIcon(this SpriteBatch batch, Vector2 position)
+    {
+        Utility.drawWithShadow(
+            batch,
+            Game1.mouseCursors,
+            position,
+            new Rectangle(0, 428, 10, 10),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            4f,
+            false,
+            1f);
+    }
+
     /// <summary>Draws attack icon.</summary>
     /// <param name="batch">The <see cref="SpriteBatch"/>.</param>
     /// <param name="position">The <see cref="Vector2"/> position.</param>

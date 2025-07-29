@@ -57,7 +57,7 @@ internal sealed class GameLocationPerformOrePanTenMinuteUpdatePatcher : HarmonyP
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static int GetBonusAttempts(GameLocation location)
     {
@@ -70,9 +70,9 @@ internal sealed class GameLocationPerformOrePanTenMinuteUpdatePatcher : HarmonyP
         return Math.Min(
             prospectorList.Aggregate(
                 0,
-                (current, prospector) => current + Data.ReadAs<int>(prospector, DataKeys.ScavengerHuntStreak)) / 2,
+                (current, prospector) => current + Data.ReadAs<int>(prospector, DataKeys.LongestScavengerHuntStreak)) / 2,
             prospectorList.Count * 8);
     }
 
-    #endregion injections
+    #endregion injected
 }

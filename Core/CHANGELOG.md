@@ -1,6 +1,14 @@
 ﻿# CORE Changelog
 
-## 2.1.8
+## 2.2.0
+
+### Added
+
+* Hoppers will now attempt to push their contents to a Chest if one is placed immediately below it.
+
+### Changed
+
+* Bleeding no longer affects shadow folk.
 
 ### Fixed
 
@@ -8,7 +16,7 @@
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
-## 2.1.7
+## 2.1.7 - 2.1.8
 
 ???
 

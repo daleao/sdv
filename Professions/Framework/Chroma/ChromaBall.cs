@@ -21,7 +21,7 @@ internal sealed class ChromaBall(SObject slimeBall, Vector2? tile = null) : Slim
             [(byte)(closest.B - 10), (byte)(closest.B + 10)]);
         if (range.Contains(closest))
         {
-            drops.Add(ChromaMapper.ItemsByColor[closest].Choose(r), 1);
+            drops.Add(ChromaMapper.ItemsByColor[closest].Choose(r)!, 1);
         }
 
         return drops;

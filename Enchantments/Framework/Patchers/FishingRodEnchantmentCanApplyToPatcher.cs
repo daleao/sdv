@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Shared.Constants;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Tools;
@@ -30,8 +29,7 @@ internal sealed class FishingRodEnchantmentCanApplyToPatcher : HarmonyPatcher
     {
         if (!__result && __instance is MasterEnchantment)
         {
-            __result = item is Axe or Hoe or Pickaxe or WateringCan ||
-                       (item is MeleeWeapon weapon && weapon.isScythe() && weapon.QualifiedItemId == QIDs.IridiumScythe);
+            __result = item is Axe or Hoe or Pickaxe or WateringCan;
         }
     }
 

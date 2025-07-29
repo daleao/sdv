@@ -1,17 +1,30 @@
 ﻿# TAXES Changelog
 
+## 2.2.0
+
+### Fixed
+
+* FRS no longer sends a notice when the player doesn't owe any taxes.
+* Fixed incorrect season displayed on tax reports.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.1.2
 
 ### Fixed
 
 * Some more translation fixes/addendums.
 
-## 2.1.1
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
+## 2.a1.1
 
 ### Fixed
 
 * Fixed FRS mail to reflect changes made in [2.1.0](#210).
 * Fixed some translations.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
 
 ## 2.1.0
 

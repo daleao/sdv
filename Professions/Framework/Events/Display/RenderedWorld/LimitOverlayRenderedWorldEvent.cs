@@ -16,7 +16,7 @@ internal sealed class LimitOverlayRenderedWorldEvent(EventManager? manager = nul
     : RenderedWorldEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.LimitBreak?.IsActive == true;
+    public override bool IsEnabled => State.LimitBreak?.IsActive ?? false;
 
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)

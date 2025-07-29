@@ -14,6 +14,7 @@ using DaLion.Shared.Extensions.SMAPI;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using DaLion.Shared.Networking;
+using Newtonsoft.Json;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
 using StardewValley.GameData.FishPonds;
@@ -110,7 +111,7 @@ public sealed class PondsMod : Mod
                 {
                     new() // seaweed
                     {
-                        Id = Manifest.UniqueID + "/Seaweed",
+                        Id = Manifest.UniqueID + "_Seaweed",
                         PopulationGates =
                             new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
                         ProducedItems =
@@ -126,7 +127,7 @@ public sealed class PondsMod : Mod
                     },
                     new() // green algae
                     {
-                        Id = Manifest.UniqueID + "/GreenAlgae",
+                        Id = Manifest.UniqueID + "_GreenAlgae",
                         PopulationGates =
                             new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
                         ProducedItems =
@@ -142,7 +143,7 @@ public sealed class PondsMod : Mod
                     },
                     new() // white algae
                     {
-                        Id = Manifest.UniqueID + "/WhiteAlgae",
+                        Id = Manifest.UniqueID + "_WhiteAlgae",
                         PopulationGates =
                             new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
                         ProducedItems =
@@ -157,6 +158,24 @@ public sealed class PondsMod : Mod
                         Precedence = 0,
                     },
                 });
+
+                if (!Config.AddLegendaryFishPondData || ModHelper.ModRegistry.IsLoaded("DaLion.Professions"))
+                {
+                    return;
+                }
+
+                var file = Path.Combine(ModHelper.DirectoryPath, "assets", "data", "LegendaryFishPondData.json");
+
+                try
+                {
+                    var json = File.ReadAllText(file);
+                    var parsed = JsonConvert.DeserializeObject<List<FishPondData>>(json) ?? [];
+                    data.AddRange(parsed);
+                }
+                catch (Exception ex)
+                {
+                    Log.E($"Failed loading Legendary Fish Pond data.\n{ex}");
+                }
             },
             AssetEditPriority.Late);
     }
@@ -177,7 +196,7 @@ public sealed class PondsMod : Mod
 
     private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        if (PondsConfigMenu.Instance?.IsLoaded == true)
+        if (PondsConfigMenu.Instance?.IsLoaded ?? false)
         {
             PondsConfigMenu.Instance.Register();
         }

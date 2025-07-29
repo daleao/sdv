@@ -7,7 +7,7 @@ using DaLion.Shared.Commands;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="EnrageCommand"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="PipeSlimeCommand"/> class.</summary>
 /// <param name="handler">The <see cref="CommandHandler"/> instance that handles this command.</param>
 [UsedImplicitly]
 [Debug]

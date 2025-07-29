@@ -27,9 +27,9 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
     /// <summary>Patch to increase Prestiged Piper Hutch capacity.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool SlimeHutchUpdateWhenCurrentLocationPostfix(SlimeHutch __instance, GameTime time)
+    private static bool SlimeHutchUpdateWhenCurrentLocationPrefix(SlimeHutch __instance, GameTime time)
     {
-        if (!__instance.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper, true))
+        if (!__instance.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper))
         {
             return true; // run original logic
         }

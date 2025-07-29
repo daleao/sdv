@@ -22,7 +22,7 @@ public static class ILHelperExtensions
     public static ILHelper InsertDiceRoll(
         this ILHelper helper, double chance, Label[]? labels = null, bool forStaticRandom = true)
     {
-        var toInsert = new List<CodeInstruction>();
+        List<CodeInstruction> toInsert = [];
         if (forStaticRandom)
         {
             toInsert.Add(new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));
@@ -52,7 +52,7 @@ public static class ILHelperExtensions
     public static ILHelper InsertDiceRoll(
         this ILHelper helper, int minValue, int maxValue, Label[]? labels = null, bool forStaticRandom = true)
     {
-        var toInsert = new List<CodeInstruction>();
+        List<CodeInstruction> toInsert = [];
         if (forStaticRandom)
         {
             toInsert.Add(new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.random))));

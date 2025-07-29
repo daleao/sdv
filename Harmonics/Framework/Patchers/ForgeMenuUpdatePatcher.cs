@@ -81,7 +81,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void UnforgeInfinityBand(ForgeMenu menu, CombinedRing infinity)
     {
@@ -98,5 +98,5 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         Game1.playSound("coin");
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

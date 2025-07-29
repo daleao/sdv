@@ -77,7 +77,7 @@ internal sealed class FishPondDayUpdatePatcher : HarmonyPatcher
 
         // if pond is empty, spontaneously grow algae/seaweed
         Data.Increment(__instance, DataKeys.DaysEmpty);
-        if (Data.ReadAs<uint>(__instance, DataKeys.DaysEmpty) < Config.DaysUntilAlgaeSpawn + 1)
+        if (Data.ReadAs<int>(__instance, DataKeys.DaysEmpty) < Config.DaysUntilAlgaeSpawn + 1)
         {
             return;
         }

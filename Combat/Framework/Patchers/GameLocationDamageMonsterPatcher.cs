@@ -124,12 +124,12 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static bool IsBackAttack(Farmer? farmer, Monster monster)
     {
         return Config.CriticalBackAttacks && farmer?.FacingDirection == monster.FacingDirection;
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

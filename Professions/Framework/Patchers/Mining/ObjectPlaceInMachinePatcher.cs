@@ -71,7 +71,7 @@ internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool ShouldSkipFuelConsumption(
         SObject machine,
@@ -94,5 +94,5 @@ internal sealed class ObjectPlaceInMachinePatcher : HarmonyPatcher
         return false;
     }
 
-    #endregion injections
+    #endregion injected
 }

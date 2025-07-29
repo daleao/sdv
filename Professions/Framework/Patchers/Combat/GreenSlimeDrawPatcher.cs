@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Netcode;
 using StardewValley.Monsters;
+using HealthBarPosition = DaLion.Professions.ProfessionsConfig.HealthBarPosition;
 
 #endregion using directives
 
@@ -211,7 +212,8 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GreenSlimeDrawPostfix(GreenSlime __instance, SpriteBatch b)
     {
-        if (!Config.ShowMinionHealth || __instance.Get_Piped() is not { Hat: null })
+        if (Config.MinionHealthBarPosition is not (HealthBarPosition.Sprite or HealthBarPosition.Both) ||
+            __instance.Get_Piped() is not { Hat: null })
         {
             return;
         }

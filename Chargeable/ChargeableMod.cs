@@ -44,6 +44,9 @@ public sealed class ChargeableMod : Mod
     /// <summary>Gets the unique ID for this mod.</summary>
     internal static string UniqueId => Manifest.UniqueID;
 
+    /// <summary>Gets the highest tool upgrade level allowed in the current game session.</summary>
+    internal static int MaxUpgradeLevel { get; private set; }
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -67,11 +70,13 @@ public sealed class ChargeableMod : Mod
         helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
         helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
         new Harmony(this.ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
+
+        MaxUpgradeLevel = helper.ModRegistry.IsLoaded("iargue.PrismaticToolsContinued") ? 6 : 5;
     }
 
     private static void OnGameLaunched(object? sender, GameLaunchedEventArgs e)
     {
-        if (ChargeableConfigMenu.Instance?.IsLoaded == true)
+        if (ChargeableConfigMenu.Instance?.IsLoaded ?? false)
         {
             ChargeableConfigMenu.Instance.Register();
         }

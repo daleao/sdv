@@ -22,7 +22,7 @@ internal sealed class TaxGameLaunchedEvent(EventManager? manager = null)
             Lookups.ArtisanMachines.Add(machine);
         }
 
-        if (TaxesConfigMenu.Instance?.IsLoaded == true)
+        if (TaxesConfigMenu.Instance?.IsLoaded ?? false)
         {
             TaxesConfigMenu.Instance.Register();
         }

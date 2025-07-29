@@ -122,7 +122,7 @@ internal static class FishPondExtensions
         if (fish.IsBossFish())
         {
             var bosses = pond.ParsePondFishes();
-            if (bosses.Choose().Id is { } id)
+            if (bosses.Choose()!.Id is { } id)
             {
                 fish = ItemRegistry.Create<SObject>($"(O){id}");
             }
@@ -208,7 +208,7 @@ internal static class FishPondExtensions
         }
         else
         {
-            var inventory = new List<Item?> { pond.output.Value };
+            List<Item?> inventory = [pond.output.Value];
             try
             {
                 inventory.AddRange(held);
@@ -242,17 +242,6 @@ internal static class FishPondExtensions
     internal static void ResetPondFishData(this FishPond pond)
     {
         var fish = Enumerable.Repeat(new PondFish(pond.fishType.Value, SObject.lowQuality), pond.FishCount);
-        if (pond.HasBossFish() &&
-            Data.ReadAs<int>(pond, "FamilyLivingHere", modId: "DaLion.Professions") is var familyLivingHere and > 0)
-        {
-            fish = fish
-                .Take(pond.FishCount - familyLivingHere)
-                .Concat(Enumerable.Repeat(
-                    new PondFish(Lookups.FamilyPairs[$"(O){pond.fishType.Value}"], SObject.lowQuality),
-                    familyLivingHere))
-                .ToList();
-        }
-
         Data.Write(pond, DataKeys.PondFish, string.Join(';', fish));
     }
 
@@ -295,8 +284,8 @@ internal static class FishPondExtensions
 
         // Mean daily roe value by fish value assuming regular-quality
         // roe and fully-populated pond (population = 10):
-        //     30g (anchovy) -> ~270g (~90% roe chance per fish)
-        //     200g (sturgeon) -> ~1100g (~55% roe chance per fish)
+        //     30g (anchovy) -> ~270g (~88% roe chance per fish)
+        //     200g (sturgeon) -> ~1100g (~54% roe chance per fish)
         //     700g (lava eel) -> ~1750g (~25% roe chance per fish) <-- capped here
         //     5000g (legend) -> ~12500g (~25% roe chance per fish)
         const double a = 117d;
@@ -373,7 +362,6 @@ internal static class FishPondExtensions
             return;
         }
 
-        var roeIndex = fish.Name.Contains("Squid") ? QIDs.SquidInk : QIDs.Roe;
         for (var i = 3; i >= 0; i--)
         {
             if (roeQualities[i] <= 0)
@@ -392,7 +380,9 @@ internal static class FishPondExtensions
                 continue;
             }
 
-            var roe = ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(fish);
+            var roe = fish.Name.Contains("Squid")
+                ? ItemRegistry.Create<SObject>(QIDs.SquidInk)
+                : ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(fish);
             roe.Stack = producedWithThisQuality * (pond.goldenAnimalCracker.Value ? 2 : 1);
             roe.Quality = i == 3 ? 4 : i;
             held.Add(roe);

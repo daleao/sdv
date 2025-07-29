@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // Here you can replace the enchantment names with anything you wish (alternate name suggestions are given below)
   "enchantments.carving.name": "Carving",
   "enchantments.cleaving.name": "Cleaving",
@@ -7,7 +9,7 @@
   "enchantments.explosive.name": "Explosive",
   "enchantments.explosive.desc": "Blast radius: {{counter}}",
   "enchantments.mammonite.name": "Greedy", // alternates: "Mammonite"
-  "enchantments.stabbing.name": "Reaving",
+  "enchantments.stabbing.name": "Reckless",
   "enchantments.sunburst.name": "Radiant",
   "enchantments.vampiric.name": "Sanguine",
   "enchantments.wabbajack.name": "Wabbajack",
@@ -15,6 +17,8 @@
   "enchantments.chilling.name": "Chilling", // alternates: "Freljord"
   "enchantments.quincy.name": "Quincy",
   "enchantments.echo.name": "Echoing", // alternates: "Runaan"
+
+  "enchantments.sharp.name": "Sharp",
 
 
   /************

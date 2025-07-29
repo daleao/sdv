@@ -2,11 +2,12 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using Hunting;
 using Microsoft.Xna.Framework;
+using Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 using xTile.Dimensions;
@@ -19,13 +20,15 @@ using xTile.Dimensions;
 internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
+    private static int _previousMineLevel;
+
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Prospector);
 
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)
     {
-        if (!e.IsLocalPlayer || e.NewLocation.farmers.Except(e.Player.Collect()).Any())
+        if (!e.IsLocalPlayer)
         {
             return;
         }
@@ -36,17 +39,40 @@ internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
             State.ProspectorHunt.Fail();
         }
 
-        if (!e.Player.HasProfession(Profession.Prospector) || e.NewLocation.currentEvent is not null ||
-            e.NewLocation is not MineShaft shaft || shaft.IsTreasureOrSafeRoom())
+        var player = e.Player;
+        var oldLocation = e.OldLocation;
+        var newLocation = e.NewLocation;
+        if (newLocation is not MineShaft newShaft)
+        {
+            _previousMineLevel = 0;
+            return;
+        }
+
+        if (oldLocation is MineShaft && newShaft.mineLevel > _previousMineLevel)
+        {
+            State.ProspectorHunt.UpdateTriggerPool(0, 0, 1);
+            _previousMineLevel = newShaft.mineLevel;
+        }
+        else if (oldLocation is not MineShaft)
+        {
+            _previousMineLevel = 0;
+        }
+        else if (newShaft.mineLevel < _previousMineLevel)
+        {
+            _previousMineLevel = newShaft.mineLevel;
+        }
+
+        if (!player.HasProfession(Profession.Prospector, true) || newLocation.currentEvent is not null ||
+            newShaft.IsTreasureOrSafeRoom())
         {
             return;
         }
 
-        var streak = Data.ReadAs<int>(e.Player, DataKeys.ProspectorHuntStreak);
+        var streak = Data.ReadAs<int>(player, DataKeys.LongestProspectorHuntStreak);
         var chance = Math.Atan(16d / 625d * streak);
         if (streak > 1 && Game1.random.NextBool(chance))
         {
-            TrySpawnOreNodes(streak, shaft);
+            TrySpawnOreNodes(streak, newShaft);
         }
     }
 

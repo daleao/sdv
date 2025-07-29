@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // farming
   "harvester.title.male": "작물 수확 전문가",
   "harvester.title.female": "작물 수확 전문가",
@@ -8,8 +10,8 @@
   "agriculturist.title.female": "작물 육성 전문가",
   "agriculturist.title.prestiged.male": "대지에 속삭이는 자",
   "agriculturist.title.prestiged.female": "대지에 속삭이는 자",
-  "agriculturist.desc": "작물이 10% 더 빨리 자라며, 비료 없이도 이리듐 등급의 작물을 수확할 확률이 생깁니다.",
-  "agriculturist.desc.prestiged": "작물 성장 속도가 10% >> 20% 로 빨라지며 계절이 넘어가도 시들지 않습니다.",
+  "agriculturist.desc": "Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.",
+  "agriculturist.desc.prestiged": "Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.",
   "artisan.title.male": "설비 제작 장인",
   "artisan.title.female": "설비 제작 장인",
   "artisan.title.prestiged.male": "설비 산업화 전문가",
@@ -190,6 +192,10 @@
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
+  "piper.slime.health": "{{value}} Health",
+  "piper.slime.attack": "{{value}} Attack",
+  "piper.slime.defense": "{{value}} Defense",
+  "piper.slime.dismiss": "(Click to dismiss)",
 
   // prestige
   "prestige.dog_statue.first": "-초월의 석상-^이 석상은 직업을 유지한 채로 레벨을 리셋하고 재설정할 수 있다.",
@@ -250,6 +256,9 @@
   "objects.ostrichmayo.name": "환희의 마요네즈",
   "objects.ostrichmayo.desc": "이건 정말 터무니없는 양의 마요네즈입니다...",
 
+  "honorific.male": "존경하는",
+  "honorific.female": "존경하는",
+
   /***********
   *** GMCM ***
   ************/
@@ -296,14 +305,12 @@
   "gmcm.treasure_hunt_start_chance_multiplier.desc": "멀티플레이에서 추적자의 감각 또는 탐광자의 감각이 발동할 확률을 조정합니다.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "추적자의 감각이 농장에서 발동할지 여부",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "농장 내에서 추적자의 감각이 발동할지 여부를 설정합니다.",
-  "gmcm.scavenger_detection_distance.title": "스캐빈저 탐색 범위",
-  "gmcm.scavenger_detection_distance.desc": "보물이 묻힌 지점을 감지할 수 있는 범위를 타일 수로 조정합니다.",
-  "gmcm.scavenger_hunt_handicap.title": "추적자의 감각 핸디캡",
-  "gmcm.scavenger_hunt_handicap.desc": "추적자의 감각 지속시간을 조정합니다.",
-  "gmcm.prospector_detection_distance.title": "탐광자 탐색 범위",
-  "gmcm.prospector_detection_distance.desc": "보물이 숨겨진 곳을 알려주는 탐지 범위를 타일 수로 조정합니다.",
-  "gmcm.prospector_hunt_handicap.title": "탐광자의 감각 핸디캡",
-  "gmcm.prospector_hunt_handicap.desc": "탐광자의 감각 지속시간을 조정합니다.",
+  "gmcm.scavenger_hunt_range.title": "Scavenger Hunt Tracking Range",
+  "gmcm.scavenger_hunt_range.desc": "How far you must be to the treasure tile to track it's location, in tiles.",
+  "gmcm.scavenger_hunt_time_limit.title": "Scavenger Hunt Time Limit",
+  "gmcm.scavenger_hunt_time_limit.desc": "The time limit of the Scavenger hunt, in seconds.",
+  "gmcm.prospector_hunt_time_limit.title": "Prospector Hunt Time Limit",
+  "gmcm.prospector_hunt_time_limit.desc": "The time limit of the Prospector hunt, in seconds.",
   "gmcm.tracking_pointer_scale.title": "추적 표시 포인터 크기",
   "gmcm.tracking_pointer_scale.desc": "유물 또는 보물이 묻힌 지점을 표기하는 포인터의 크기를 조정합니다.",
   "gmcm.tracking_pointer_bob_rate.title": "추적 표시 포인터 움직임 정도 ",
@@ -347,10 +354,17 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
-  "gmcm.show_minion_health.title": "Show Minion Health",
-  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.minion_hud_anchor_position.title": "Minion HUD Anchor Position",
+  "gmcm.minion_hud_anchor_position.desc": "Screen position to which the minion HUD should be anchored.",
+  "gmcm.screen_anchor_position.top_left": "Top Left",
+  "gmcm.screen_anchor_position.bottom_left": "Bottom Left",
+  "gmcm.screen_anchor_position.bottom_right": "Bottom Right",
+  "gmcm.minion_hud_offset.title": "Minion HUD Offset",
+  "gmcm.minion_hud_offset.desc": "X and Y offsets applied to the default position of minion HUD.",
   "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
   "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
+  "gmcm.enable_slime_goods.title": "Enable Slime Goods",
+  "gmcm.enable_slime_goods.desc": "Whether to add new Slime Mayonnaise and Slime Cheese items to the game in order to add more depth to Slime Ranching playstyle.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "스킬 리셋",

@@ -51,31 +51,35 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var user = who;
         var owner = __instance.GetOwner();
         var r = new Random(Guid.NewGuid().GetHashCode());
+        var newQuality = 0;
+
         // artisan users can preserve the input quality
         if (__instance.QualifiedItemId != QIDs.Cask && user.HasProfession(Profession.Artisan))
         {
-            output.Quality = input.Quality;
+            newQuality = input.Quality;
             if (!user.HasProfession(Profession.Artisan, true))
             {
-                output.Quality = input.Quality;
+                newQuality = input.Quality;
                 if (r.NextDouble() > who.FarmingLevel / 30d)
                 {
-                    output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
+                    newQuality = (int)((ObjectQuality)output.Quality).Decrement();
                     if (r.NextDouble() > who.FarmingLevel / 15d)
                     {
-                        output.Quality = (int)((ObjectQuality)output.Quality).Decrement();
+                        newQuality = (int)((ObjectQuality)output.Quality).Decrement();
                     }
                 }
             }
         }
 
+        output.Quality = Math.Max(output.Quality, newQuality);
+
         // artisan-owned machines work faster and may upgrade quality
-        if (!owner.HasProfessionOrLax(Profession.Artisan))
+        if (!owner.HasProfessionOrLax(Profession.Artisan) || output.Quality >= SObject.bestQuality)
         {
             return;
         }
 
-        if (__instance.QualifiedItemId != QIDs.Cask && output.Quality < SObject.bestQuality && Game1.random.NextBool(0.05))
+        if (__instance.QualifiedItemId != QIDs.Cask && Game1.random.NextBool(0.05))
         {
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
         }

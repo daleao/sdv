@@ -62,7 +62,7 @@ internal sealed class RemoveEnchantmentsCommand(CommandHandler handler) : Consol
             }
 
             tool.RemoveEnchantment(enchantment);
-            Log.I($"Removed {enchantment.GetDisplayName()} enchantment from {tool.DisplayName}.");
+            Log.I($"Removed {enchantment.GetType().Name} enchantment from {tool.DisplayName}.");
             args = args.Skip(1).ToArray();
         }
 

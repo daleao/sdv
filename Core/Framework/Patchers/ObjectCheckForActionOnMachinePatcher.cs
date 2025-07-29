@@ -80,27 +80,20 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static bool AttemptPushToHopper(SObject machine, MachineData machineData, SObject objectThatWasHeld, Farmer who)
     {
-        Chest hopper;
         var tileBelow = new Vector2(machine.TileLocation.X, machine.TileLocation.Y + 1f);
         if (machine.Location?.Objects.TryGetValue(tileBelow, out var objBelow) != true ||
-            objBelow is not Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperBelow)
+            !objBelow.TryGetHopper(out var hopper))
         {
             var tileAbove = new Vector2(machine.TileLocation.X, machine.TileLocation.Y - 1f);
             if (machine.Location?.Objects.TryGetValue(tileAbove, out var objAbove) != true ||
-                objAbove is not Chest { SpecialChestType: Chest.SpecialChestTypes.AutoLoader } hopperAbove)
+                !objAbove.TryGetHopper(out hopper))
             {
                 return false;
             }
-
-            hopper = hopperAbove;
-        }
-        else
-        {
-            hopper = hopperBelow;
         }
 
         // this should always be false
@@ -121,5 +114,5 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
         return true;
     }
 
-    #endregion injections
+    #endregion injected
 }

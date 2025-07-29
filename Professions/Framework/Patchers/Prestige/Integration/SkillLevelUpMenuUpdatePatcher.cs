@@ -478,7 +478,7 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     [SuppressMessage("StyleCop.CSharp.OrderingRules", "SA1202:Elements should be ordered by access", Justification = "Harmony-injected subroutine shared by a SpaceCore patch.")]
     internal static SCPair? ChooseProfessionPair(string skillId, int currentLevel)
@@ -509,5 +509,5 @@ internal sealed class SkillLevelUpMenuUpdatePatcher : HarmonyPatcher
                 (currentLevel == 10 && Game1.player.HasProfession(profession)));
     }
 
-    #endregion injections
+    #endregion injected
 }

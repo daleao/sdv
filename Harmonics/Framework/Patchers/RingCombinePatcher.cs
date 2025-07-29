@@ -38,7 +38,7 @@ internal sealed class RingCombinePatcher : HarmonyPatcher
 
         try
         {
-            var toCombine = new List<Ring>();
+            List<Ring> toCombine = [];
             if (__instance is CombinedRing combined)
             {
                 if (combined.combinedRings.Count >= 4)

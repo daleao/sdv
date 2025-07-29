@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "objects.garnet.name": "Garnet",
   "objects.garnet.desc": "The namesake of a beautiful princess from a faraway land.",
   "rings.garnet.name": "Garnet Ring",

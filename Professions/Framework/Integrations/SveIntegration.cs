@@ -16,14 +16,12 @@ internal sealed class SveIntegration()
     : ModIntegration<SveIntegration>(ModHelper.ModRegistry)
 {
     /// <summary>Gets a value indicating whether the <c>DisableGaldoranTheme</c> config setting is enabled.</summary>
-    internal bool DisabeGaldoranTheme => this.IsLoaded && ModHelper
-        .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")
-        ?.Value<bool?>("DisableGaldoranTheme") == true;
+    internal bool DisabeGaldoranTheme => this.IsLoaded &&
+        (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("DisableGaldoranTheme") ?? false);
 
     /// <summary>Gets a value indicating whether the <c>UseGaldoranThemeAllTimes</c> config setting is enabled.</summary>
-    internal bool UseGaldoranThemeAllTimes => this.IsLoaded && ModHelper
-        .ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")
-        ?.Value<bool?>("UseGaldoranThemeAllTimes") == true;
+    internal bool UseGaldoranThemeAllTimes => this.IsLoaded &&
+        (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("UseGaldoranThemeAllTimes") ?? false);
 
     protected override bool RegisterImpl()
     {

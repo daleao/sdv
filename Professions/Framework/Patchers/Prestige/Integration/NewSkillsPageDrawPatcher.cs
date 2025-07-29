@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -244,7 +245,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                             typeof(NewSkillsPage).RequireField("skillScrollOffset")),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawExtras))),
+                            typeof(NewSkillsPageDrawPatcher).RequireMethod(nameof(DrawRibbons))),
                     ],
                     labels);
         }
@@ -283,7 +284,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void DrawExtendedLevelBars(
         int levelIndex, int indexWithLuckSkill, int x, int y, int addedX, int skillLevel, SpriteBatch b)
@@ -315,7 +316,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    private static void DrawExtras(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
+    private static void DrawRibbons(NewSkillsPage page, SpriteBatch b, int skillScrollOffset)
     {
         var x = CurrentLanguageCode == LanguageCode.ru
             ? (page.xPositionOnScreen + page.width - 448 - 48)
@@ -362,6 +363,7 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 Textures.PROGRESSION_VERTICAL_OFFSET + 12);
         var lastVisibleSkillIndex =
             Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("LastVisibleSkillIndex").Invoke(page);
+        var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
         for (var i = 0; i < 5; i++)
         {
             // need to do this bullshit switch because mining and fishing are inverted in the skills page
@@ -380,7 +382,8 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
             }
 
             position.Y += verticalSpacing;
-            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            //var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            var count = resetData.GetValueOrDefault(skill.StringId, 0);
             if (count == 0)
             {
                 continue;
@@ -426,7 +429,8 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
             }
 
             position.Y += 56;
-            var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            //var count = Game1.player.GetProfessionsForSkill(skill, true).Length;
+            var count = resetData.GetValueOrDefault(skill.StringId, 0);
             if (count == 0)
             {
                 customSkillIndex++;
@@ -454,5 +458,5 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

@@ -22,7 +22,7 @@ internal static class Lookups
         { QIDs.LegendII, QIDs.Legend },
         { QIDs.RadioactiveCarp, QIDs.MutantCarp },
         { QIDs.GlacierfishJr, QIDs.Glacierfish },
-        { "MNF.MoreNewFish_tui", "MNF.MoreNewFish_la" },
-        { "MNF.MoreNewFish_la", "MNF.MoreNewFish_tui" },
+        { "(O)MNF.MoreNewFish_tui", "(O)MNF.MoreNewFish_la" },
+        { "(O)MNF.MoreNewFish_la", "(O)MNF.MoreNewFish_tui" },
     };
 }

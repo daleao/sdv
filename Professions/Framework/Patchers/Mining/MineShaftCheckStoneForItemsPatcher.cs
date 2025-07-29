@@ -162,7 +162,7 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static double GetSpelunkerBonusLadderChance(Farmer? who)
     {
@@ -171,5 +171,5 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
             : 0d;
     }
 
-    #endregion injections
+    #endregion injected
 }

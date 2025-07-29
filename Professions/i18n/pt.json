@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // farming
   "harvester.title.male": "Cultivador",
   "harvester.title.female": "Cultivadora",
@@ -8,8 +10,8 @@
   "agriculturist.title.female": "Agricultora",
   "agriculturist.title.prestiged.male": "Encantador de Colheitas",
   "agriculturist.title.prestiged.female": "Encantadora de Colheitas",
-  "agriculturist.desc": "Plantações crescem 10% mais rápido. Permite cultivar produtos da mais alta qualidade organicamente sem fertilizantes.",
-  "agriculturist.desc.prestiged": "Plantações crescem 10% >> 20% mais rápido e podem sobreviver o primeiro dia da próxima estação.",
+  "agriculturist.desc": "Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.",
+  "agriculturist.desc.prestiged": "Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.",
   "artisan.title.male": "Artesão",
   "artisan.title.female": "Artesã",
   "artisan.title.prestiged.male": "Industrialista",
@@ -173,8 +175,8 @@
 
   "rascal.title.male": "Patife",
   "rascal.title.female": "Patife",
-  "rascal.desc": "Estilingues acomodam até duas munições. 35% de chance de recuperar algumas munições.",
-  "rascal.desc.prestiged": "35% >> 55% de chance de recuperar algumas munições. Pode disparar ambas as munições ao mesmo tempo.",
+  "rascal.desc": "Estilingues acomodam até duas munições. 35% de chance de recuperar munições.",
+  "rascal.desc.prestiged": "35% >> 55% de chance de recuperar munições. Pode disparar ambas as munições ao mesmo tempo.",
   "desperado.title.male": "Foragido",
   "desperado.title.female": "Foragida",
   "desperado.title.prestiged.male": "Atirador",
@@ -190,6 +192,10 @@
   "piper.desc": "Invoque as Gosmas criadas na fazenda durante o combate. Escolha uma Gosma para carregar seus ítens. Capacidade do Galpão de Gosmas +50%.",
   "piper.desc.prestiged": "As Gosmas aliadas ganham novas habilidades únicas a cada cor. Obtenha ítens raros de bolas de Gosma.",
   "piper.slime.bag_full": "O inventário da Gosma esta cheio.",
+  "piper.slime.health": "{{value}} Health",
+  "piper.slime.attack": "{{value}} Attack",
+  "piper.slime.defense": "{{value}} Defense",
+  "piper.slime.dismiss": "(Click to dismiss)",
 
   // prestige
   "prestige.dog_statue.first": "-Estátua da Transcendência-^A estátua pode redefinir o nível de uma habilidade, mantendo todas as profissões adquiridas.",
@@ -251,6 +257,9 @@
   "objects.ostrichmayo.name": "Maionese de Avestruz",
   "objects.ostrichmayo.desc": "Esta é uma quantidade absurda de maionese...",
 
+  "honorific.male": "Caro",
+  "honorific.female": "Cara",
+
   /***********
   *** GMCM ***
   ************/
@@ -297,14 +306,12 @@
   "gmcm.treasure_hunt_start_chance_multiplier.desc": "Multiplica a chance de base dos seus sentidos começarem a formigar.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Permitir Caça ao Tesouro na fazenda",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "Se uma caça ao tesouro pode ser acionada estando na fazenda.",
-  "gmcm.scavenger_detection_distance.title": "Distância de detecção de Rastreador",
-  "gmcm.scavenger_detection_distance.desc": "Quão perto você deve estar da peça de tesouro para revelar sua localização, em quadrados.",
-  "gmcm.scavenger_hunt_handicap.title": "Desvantagem de Caça ao Tesouro",
-  "gmcm.scavenger_hunt_handicap.desc": "Aumente esse número se você achar que as Caças ao Tesouro de Rastreador terminam muito rapidamente.",
-  "gmcm.prospector_detection_distance.title": "Distância de detecção de Prospector",
-  "gmcm.prospector_detection_distance.desc": "Quão perto você deve estar da peça de tesouro para ouvir o sinal sonoro, em quadrados.",
-  "gmcm.prospector_hunt_handicap.title": "Desvantagem de Caça ao Garimpo",
-  "gmcm.prospector_hunt_handicap.desc": "Aumente esse número se você achar que as Caças ao Tesouro de Prospector terminam muito rapidamente.",
+  "gmcm.scavenger_hunt_range.title": "Scavenger Hunt Tracking Range",
+  "gmcm.scavenger_hunt_range.desc": "How far you must be to the treasure tile to track it's location, in tiles.",
+  "gmcm.scavenger_hunt_time_limit.title": "Scavenger Hunt Time Limit",
+  "gmcm.scavenger_hunt_time_limit.desc": "The time limit of the Scavenger hunt, in seconds.",
+  "gmcm.prospector_hunt_time_limit.title": "Prospector Hunt Time Limit",
+  "gmcm.prospector_hunt_time_limit.desc": "The time limit of the Prospector hunt, in seconds.",
   "gmcm.tracking_pointer_scale.title": "Escala do ponteiro de rastreamento",
   "gmcm.tracking_pointer_scale.desc": "Altera o tamanho do ponteiro usado para rastrear objetos pelas profissões Rastreador e Prospector.",
   "gmcm.tracking_pointer_bob_rate.title": "Taxa de movimento do ponteiro de rastreamento",
@@ -348,10 +355,17 @@
   "gmcm.sections.prfs.rascal": "Patife",
   "gmcm.show_equipped_ammo.title": "Mostrar munição equipada",
   "gmcm.show_equipped_ammo.desc": "Se deve mostrar a munição atualmente equipada sobre o estilingue.",
-  "gmcm.show_minion_health.title": "Show Minion Health",
-  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.minion_hud_anchor_position.title": "Minion HUD Anchor Position",
+  "gmcm.minion_hud_anchor_position.desc": "Screen position to which the minion HUD should be anchored.",
+  "gmcm.screen_anchor_position.top_left": "Top Left",
+  "gmcm.screen_anchor_position.bottom_left": "Bottom Left",
+  "gmcm.screen_anchor_position.bottom_right": "Bottom Right",
+  "gmcm.minion_hud_offset.title": "Minion HUD Offset",
+  "gmcm.minion_hud_offset.desc": "X and Y offsets applied to the default position of minion HUD.",
   "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
   "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
+  "gmcm.enable_slime_goods.title": "Enable Slime Goods",
+  "gmcm.enable_slime_goods.desc": "Whether to add new Slime Mayonnaise and Slime Cheese items to the game in order to add more depth to Slime Ranching playstyle.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Transcendência de Habilidades",

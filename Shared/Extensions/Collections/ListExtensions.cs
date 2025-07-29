@@ -281,17 +281,26 @@ public static class ListExtensions
     /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
     /// <returns>A random element from the <paramref name="list"/>.</returns>
-    public static T Choose<T>(this IList<T> list, Random? r = null)
+    public static T? Choose<T>(this IList<T> list, Random? r = null)
     {
-        r ??= new Random(Guid.NewGuid().GetHashCode());
-        return list[r.Next(list.Count)];
+        switch (list.Count)
+        {
+            case 0:
+                return default;
+            case 1:
+                return list[0];
+            default:
+                r ??= new Random(Guid.NewGuid().GetHashCode());
+                return list[r.Next(list.Count)];
+        }
     }
 
     /// <summary>Shuffles the elements in the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
-    public static void Shuffle<T>(this IList<T> list, Random? r = null)
+    /// <returns>The same <paramref name="list"/>, with shuffled elements.</returns>
+    public static IList<T> Shuffle<T>(this IList<T> list, Random? r = null)
     {
         r ??= new Random(Guid.NewGuid().GetHashCode());
         for (var i = list.Count - 1; i > 0; i--)
@@ -299,5 +308,7 @@ public static class ListExtensions
             var j = r.Next(i + 1);
             (list[j], list[i]) = (list[i], list[j]);
         }
+
+        return list;
     }
 }

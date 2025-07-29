@@ -275,7 +275,7 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
 
     #endregion harmony
 
-    #region injections
+    #region injected
 
     private static void DrawSubroutine(SkillLevelUpMenu menu, int currentLevel, SpriteBatch b)
     {
@@ -331,5 +331,5 @@ internal sealed class SkillLevelUpMenuDrawPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

@@ -64,7 +64,7 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static int ApplyProducerProductionSpeedBonus(int produceSpeedBonus, FarmAnimal animal, FarmAnimalData data)
     {
@@ -75,5 +75,5 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
                 : produceSpeedBonus + (int)Math.Ceiling(data.DaysToProduce / 2f);
     }
 
-    #endregion injections
+    #endregion injected
 }

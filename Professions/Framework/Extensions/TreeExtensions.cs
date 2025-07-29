@@ -15,7 +15,7 @@ internal static class TreeExtensions
     /// <returns>A <see cref="SObject"/> quality value.</returns>
     internal static int GetQualityFromAge(this Tree tree)
     {
-        var datePlanted = Data.ReadAs<int>(tree, DataKeys.DatePlanted);
+        var datePlanted = Data.ReadAs<int>(tree, DataKeys.TreeDatePlanted);
         var currentDate = Game1.game1.GetCurrentDateNumber();
         var age = currentDate - datePlanted;
         return age switch

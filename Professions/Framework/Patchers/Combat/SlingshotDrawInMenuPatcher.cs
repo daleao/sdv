@@ -73,7 +73,7 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void DrawAmmo(
         Slingshot instance,
@@ -101,5 +101,5 @@ internal sealed class SlingshotDrawInMenuPatcher : HarmonyPatcher
             layerDepth);
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

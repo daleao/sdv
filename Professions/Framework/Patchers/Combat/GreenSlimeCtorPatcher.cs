@@ -46,7 +46,7 @@ internal sealed class GreenSlimeCtorPatcher : HarmonyPatcher
 
         // Choose Health IV
         var healthIV = r.Next(3);
-        __instance.Health = (int)(__instance.Health * (1f + (healthIV / 10f)));
+        __instance.Health = (int)(__instance.Health * (1f + (healthIV / 5f)));
         __instance.MaxHealth = __instance.Health;
         Data.Write(__instance, DataKeys.HealthIV, healthIV.ToString());
 
@@ -66,7 +66,7 @@ internal sealed class GreenSlimeCtorPatcher : HarmonyPatcher
 
         // Choose Attack IV
         var attackIV = r.Next(3);
-        __instance.DamageToFarmer = (int)(__instance.DamageToFarmer * (1f + (attackIV / 10f)));
+        __instance.DamageToFarmer = (int)(__instance.DamageToFarmer * (1f + (attackIV / 5f)));
         Data.Write(__instance, DataKeys.AttackIV, attackIV.ToString());
 
         // Record base Defense
@@ -74,7 +74,7 @@ internal sealed class GreenSlimeCtorPatcher : HarmonyPatcher
 
         // Choose Defense IV
         var defenseIV = r.Next(3);
-        __instance.resilience.Value += defenseIV / 2;
+        __instance.resilience.Value += defenseIV;
         Data.Write(__instance, DataKeys.DefenseIV, defenseIV.ToString());
     }
 

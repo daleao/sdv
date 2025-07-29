@@ -14,7 +14,34 @@ using StardewValley;
 /// <summary>Interface for all the <see cref="Farmer"/>'s skills.</summary>
 public interface ISkill : IEquatable<ISkill>
 {
-    /// <summary>The vanilla experience cap.</summary>
+    /// <summary>The vanilla experience to level 1.</summary>
+    public const int LEVEL_1_EXP = 100;
+
+    /// <summary>The vanilla experience to level 2.</summary>
+    public const int LEVEL_2_EXP = 380;
+
+    /// <summary>The vanilla experience to level 3.</summary>
+    public const int LEVEL_3_EXP = 770;
+
+    /// <summary>The vanilla experience to level 4.</summary>
+    public const int LEVEL_4_EXP = 1300;
+
+    /// <summary>The vanilla experience to level 5.</summary>
+    public const int LEVEL_5_EXP = 2150;
+
+    /// <summary>The vanilla experience to level 6.</summary>
+    public const int LEVEL_6_EXP = 3300;
+
+    /// <summary>The vanilla experience to level 7.</summary>
+    public const int LEVEL_7_EXP = 4800;
+
+    /// <summary>The vanilla experience to level 8.</summary>
+    public const int LEVEL_8_EXP = 6900;
+
+    /// <summary>The vanilla experience to level 9.</summary>
+    public const int LEVEL_9_EXP = 10000;
+
+    /// <summary>The vanilla experience cap (level 10).</summary>
     public const int LEVEL_10_EXP = 15000;
 
     /// <summary>Gets a string that uniquely identifies this skill.</summary>
@@ -44,9 +71,12 @@ public interface ISkill : IEquatable<ISkill>
     /// <summary>Gets the base experience multiplier set by the player for this skill.</summary>
     float BaseExperienceMultiplier { get; }
 
-    /// <summary>Gets the experience multiplier due to this skill's prestige level.</summary>
+    /// <summary>Gets the number of times this skill has been reset.</summary>
+    int TimesReset => Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>().GetValueOrDefault(this.StringId, 0);
+
+    /// <summary>Gets the experience multiplier due to resets.</summary>
     float BonusExperienceMultiplier =>
-        (float)Math.Pow(Config.Skills.SkillExpMultiplierPerReset, this.AcquiredProfessions.Length);
+        (float)Math.Pow(Config.Skills.SkillExpMultiplierPerReset, this.TimesReset);
 
     /// <summary>Gets the new levels gained during the current game day, which have not yet been accomplished by an overnight menu.</summary>
     IEnumerable<int> NewLevels { get; }
@@ -85,15 +115,15 @@ public interface ISkill : IEquatable<ISkill>
     internal static int[] ExperienceCurve { get; } =
     [
         0,
-        100,
-        380,
-        770,
-        1300,
-        2150,
-        3300,
-        4800,
-        6900,
-        10000,
+        LEVEL_1_EXP,
+        LEVEL_2_EXP,
+        LEVEL_3_EXP,
+        LEVEL_4_EXP,
+        LEVEL_5_EXP,
+        LEVEL_6_EXP,
+        LEVEL_7_EXP,
+        LEVEL_8_EXP,
+        LEVEL_9_EXP,
         LEVEL_10_EXP,
         LEVEL_10_EXP + (int)Config.Masteries.ExpPerPrestigeLevel,
         LEVEL_10_EXP + ((int)Config.Masteries.ExpPerPrestigeLevel * 2),
@@ -201,13 +231,15 @@ public interface ISkill : IEquatable<ISkill>
     /// <returns>A sum of gold to be paid.</returns>
     internal static int GetResetCost(ISkill skill)
     {
+        var player = Game1.player;
         var multiplier = Config.Skills.SkillResetCostMultiplier;
         if (multiplier <= 0f)
         {
             return 0;
         }
 
-        var baseCost = skill.AcquiredProfessions.Length switch
+        var resetData = Data.Read(player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
+        var baseCost = resetData.GetValueOrDefault(skill.StringId, 0) switch
         {
             1 => 10000,
             2 => 50000,

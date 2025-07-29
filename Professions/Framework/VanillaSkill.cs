@@ -17,7 +17,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 /// <summary>Represents a vanilla skill.</summary>
-public class VanillaSkill : SmartEnum<Skill>, ISkill
+public sealed class VanillaSkill : SmartEnum<Skill>, ISkill
 {
     #region enum entries
 
@@ -41,10 +41,9 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     /// <summary>Initializes a new instance of the <see cref="Skill"/> class.</summary>
     /// <param name="name">The skill name.</param>
     /// <param name="value">The skill index.</param>
-    protected VanillaSkill(string name, int value)
+    private VanillaSkill(string name, int value)
         : base(name, value)
     {
-        this.StringId = this.Name;
         this.Professions = [];
         this.DisplayName = value switch
         {
@@ -79,7 +78,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     }
 
     /// <inheritdoc />
-    public string StringId { get; protected set; }
+    public string StringId => this.Name;
 
     /// <inheritdoc />
     public int Id => this.Value;
@@ -94,7 +93,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     public int CurrentLevel => Game1.player.GetUnmodifiedSkillLevel(this.Value);
 
     /// <inheritdoc />
-    public virtual int MaxLevel => this.CanGainPrestigeLevels() ? 20 : 10;
+    public int MaxLevel => this.CanGainPrestigeLevels() ? 20 : 10;
 
     /// <inheritdoc />
     public float BaseExperienceMultiplier => Config.Skills.BaseMultipliers[this.Name];
@@ -160,7 +159,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
             .When(Foraging).Then(() => player.foragingLevel.Value = level)
             .When(Mining).Then(() => player.miningLevel.Value = level)
             .When(Combat).Then(() => player.combatLevel.Value = level);
-        Game1.player.experiencePoints[this] =
+        player.experiencePoints[this] =
             Math.Max(Game1.player.experiencePoints[this], ISkill.ExperienceCurve[level]);
     }
 
@@ -173,28 +172,28 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     /// <inheritdoc />
     public void Reset()
     {
-        var farmer = Game1.player;
+        var player = Game1.player;
 
         // reset skill level
         this
-            .When(Farming).Then(() => farmer.farmingLevel.Value = 0)
-            .When(Fishing).Then(() => farmer.fishingLevel.Value = 0)
-            .When(Foraging).Then(() => farmer.foragingLevel.Value = 0)
-            .When(Mining).Then(() => farmer.miningLevel.Value = 0)
-            .When(Combat).Then(() => farmer.combatLevel.Value = 0);
+            .When(Farming).Then(() => player.farmingLevel.Value = 0)
+            .When(Fishing).Then(() => player.fishingLevel.Value = 0)
+            .When(Foraging).Then(() => player.foragingLevel.Value = 0)
+            .When(Mining).Then(() => player.miningLevel.Value = 0)
+            .When(Combat).Then(() => player.combatLevel.Value = 0);
 
         // reset new levels
-        for (var i = 0; i < farmer.newLevels.Count; i++)
+        for (var i = 0; i < player.newLevels.Count; i++)
         {
-            var level = farmer.newLevels[i];
+            var level = player.newLevels[i];
             if (level.X == this.Value)
             {
-                farmer.newLevels.Remove(level);
+                player.newLevels.Remove(level);
             }
         }
 
         // reset skill experience
-        farmer.experiencePoints[this] = 0;
+        player.experiencePoints[this] = 0;
 
         // forget recipes
         if (Config.Skills.ForgetRecipesOnSkillReset)
@@ -205,8 +204,13 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
         // revalidate health if necessary
         if (this.Value == Farmer.combatSkill)
         {
-            LevelUpMenu.RevalidateHealth(farmer);
+            LevelUpMenu.RevalidateHealth(player);
         }
+
+        // record data
+        var resetData = Data.Read(player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
+        resetData.AddOrUpdate(this.StringId, 1, (a, b) => a + b);
+        Data.Write(player, DataKeys.ResetCountBySkill, resetData.Stringify());
     }
 
     /// <inheritdoc />
@@ -270,7 +274,7 @@ public class VanillaSkill : SmartEnum<Skill>, ISkill
     }
 
     /// <inheritdoc />
-    public virtual void Revalidate()
+    public void Revalidate()
     {
         var maxLevel = this.MaxLevel;
         if (this.CurrentLevel > maxLevel)

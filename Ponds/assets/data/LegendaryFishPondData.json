@@ -1,0 +1,338 @@
+﻿[
+  {
+    "Id": "DaLion.Professions_Glacierfish",
+    "RequiredTags": [ "item_glacierfish" ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "WaterColor": [
+      {
+        "Id": "Glacierfish",
+        "Color": "100 240 220",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)775 (O)902"
+      }
+    ],
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.05,
+        "ItemId": "(O)536", // frozen geode
+        "MinStack": 5,
+        "MaxStack": 10
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.075,
+        "ItemId": "(O)84", // frozen tear
+        "MinStack": 5,
+        "MaxStack": 10
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.1,
+        "ItemId": "(O)380", // iron ore
+        "MinStack": 10,
+        "MaxStack": 20
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.01,
+        "ItemId": "(O)72", // diamond
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_Angler",
+    "RequiredTags": [ "item_angler" ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "WaterColor": [
+      {
+        "Id": "Angler",
+        "Color": "255 120 0",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)160"
+      },
+      {
+        "Id": "MsAngler",
+        "Color": "255 120 200",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)899"
+      }
+    ],
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.05,
+        "ItemId": "(O)787", // battery pack
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_MutantCarp",
+    "RequiredTags": [ "item_mutant_carp" ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "WaterColor": [
+      {
+        "Id": "MutantCarp",
+        "Color": "50 220 100",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)682 (O)901"
+      }
+    ],
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.1,
+        "ItemId": "(O)909", // radioactive ore
+        "MinStack": 5,
+        "MaxStack": 15
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_Crimsonfish",
+    "RequiredTags": [ "item_crimsonfish" ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "WaterColor": [
+      {
+        "Id": "Crimsonfish",
+        "Color": "230 70 110",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)159 (O)898"
+      }
+    ],
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.05,
+        "ItemId": "(O)537", // magma geode
+        "MinStack": 5,
+        "MaxStack": 10
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.075,
+        "ItemId": "(O)82", // fire quartz
+        "MinStack": 5,
+        "MaxStack": 10
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.1,
+        "ItemId": "(O)384", // gold ore
+        "MinStack": 10,
+        "MaxStack": 20
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.0333,
+        "ItemId": "(O)286", // cherry bomb
+        "MinStack": 1,
+        "MaxStack": 3
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.02,
+        "ItemId": "(O)441", // explosive ammo
+        "MinStack": 1,
+        "MaxStack": 3
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.00666,
+        "ItemId": "(O)288", // mega bomb
+        "MinStack": 1,
+        "MaxStack": 3
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_Legend",
+    "RequiredTags": [ "item_legend" ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "WaterColor": [
+      {
+        "Id": "MutantCarp",
+        "Color": "40 150 50",
+        "MinPopulation": 1,
+        "MinUnlockedPopulationGate": 0,
+        "Condition": "ITEM_ID Input (O)163 (O)900"
+      }
+    ],
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.1,
+        "ItemId": "(O)386", // iridium ore
+        "MinStack": 5,
+        "MaxStack": 10
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_Tui",
+    "RequiredTags": [
+      "item_mnf.morenewfish_tui"
+    ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.5,
+        "ItemId": "(O)768", // solar essence
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.4,
+        "ItemId": "(O)768", // solar essence
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  },
+  {
+    "Id": "DaLion.Professions_La",
+    "RequiredTags": [
+      "item_mnf.morenewfish_la"
+    ],
+    "Precedence": 200,
+    "SpawnTime": -2,
+    "ProducedItems": [
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.5,
+        "ItemId": "(O)769", // void essence
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.4,
+        "ItemId": "(O)769", // void essence
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 1,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      },
+      {
+        "RequiredPopulation": 0,
+        "Chance": 0.8,
+        "ItemId": "(O)812", // roe
+        "MinStack": 1,
+        "MaxStack": 1
+      }
+    ],
+    "PopulationGates": null
+  }
+]

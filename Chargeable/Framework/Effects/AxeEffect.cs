@@ -36,7 +36,7 @@ internal sealed class AxeEffect : IToolEffect
         Vector2 tile, SObject? tileObj, TerrainFeature tileFeature, Tool tool, GameLocation location, Farmer who)
     {
         // clear debris
-        if (this.Config.ClearDebris && (tileObj?.IsTwig() == true || tileObj?.IsWeed() == true))
+        if (this.Config.ClearDebris && tileObj is not null && (tileObj.IsTwig() || tileObj.IsWeed()))
         {
             return tool.UseOnTile(tile, location, who);
         }

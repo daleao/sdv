@@ -133,16 +133,16 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static int DoDamageMitigation(int damage, Monster monster)
     {
         return monster.Get_GotCrit() && Config.CritsIgnoreDefense
             ? damage
-            : Config.GeometricMitigationFormula
+            : Config.HyperbolicMitigationFormula
                 ? (int)(damage * (10f / (10f + monster.resilience.Value)))
                 : Math.Max(1, damage - monster.resilience.Value);
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "ui.buffs.burnt.damage": "-50%伤害",
   "ui.buffs.burnt.dot": "-每3秒恢复{{amount}}生命值",
   "ui.buffs.frozen.stuck": "无法移动",
@@ -6,7 +8,7 @@
   "ui.buffs.jinxed.defense": "-50%防御",
   "ui.buffs.jinxed.special": "无法使用特殊动作",
   "ui.buffs.confused.name": "昏迷",
-  "ui.buffs.confused.desc": "反方向移动.",
+  "ui.buffs.confused.desc": "反方向移动。",
   "ui.buffs.warrior.attack": "+{{value}}攻击",
 
   /**********************
@@ -14,6 +16,6 @@
   **********************/
 
   "gmcm.crop_wither_chance.title": "作物枯萎几率",
-  "gmcm.crop_wither_chance.desc": "如果不浇水,赋予任何作物每天枯萎的几率百分比."
+  "gmcm.crop_wither_chance.desc": "如果不浇水,赋予任何作物每天枯萎的几率百分比。"
 
 }

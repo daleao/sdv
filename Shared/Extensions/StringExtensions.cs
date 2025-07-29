@@ -382,10 +382,10 @@ public static class StringExtensions
         }
 
         var pairs = @string
-            .Split(new[] { pairSeparator }, StringSplitOptions.RemoveEmptyEntries)
-            .Select(p => p.Split(new[] { keyValueSeparator }, StringSplitOptions.RemoveEmptyEntries));
+            .Split([pairSeparator], StringSplitOptions.RemoveEmptyEntries)
+            .Select(p => p.Split([keyValueSeparator], StringSplitOptions.RemoveEmptyEntries));
 
-        var dict = new Dictionary<TKey, TValue>();
+        Dictionary<TKey, TValue> dict = [];
         foreach (var pair in pairs)
         {
             if (pair[0].TryParse<TKey>(out var key) && !dict.ContainsKey(key) &&

@@ -19,7 +19,7 @@ internal sealed class HarmonicsGameLaunchedEvent(EventManager? manager = null)
     {
         SpaceCoreIntegration.Instance!.Register();
         BetterCraftingIntegration.Instance?.Register();
-        if (HarmonicsConfigMenu.Instance?.IsLoaded == true)
+        if (HarmonicsConfigMenu.Instance?.IsLoaded ?? false)
         {
             HarmonicsConfigMenu.Instance.Register();
         }

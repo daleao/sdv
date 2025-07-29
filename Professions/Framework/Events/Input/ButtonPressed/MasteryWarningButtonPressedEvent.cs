@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Events.ButtonPressed;
+﻿namespace DaLion.Professions.Framework.Events.Input.ButtonPressed;
 
 #region using directives
 

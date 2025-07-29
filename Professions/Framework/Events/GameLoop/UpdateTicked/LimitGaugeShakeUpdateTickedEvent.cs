@@ -16,7 +16,7 @@ internal sealed class LimitGaugeShakeUpdateTickedEvent(EventManager? manager = n
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.LimitBreak?.CanActivate == true;
+    public override bool IsEnabled => State.LimitBreak?.CanActivate ?? false;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

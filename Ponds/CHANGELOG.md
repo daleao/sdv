@@ -1,5 +1,19 @@
 ﻿# PONDS Changelog
 
+## 2.2.0
+
+### Added
+
+* Mixing of legendary and extended family fishes in a pond has been moved to this mod and removed from [Professions](../Professions). The code for tracking legendary fish has been simplified.
+* Added optional Legendary Fish Pond data.
+
+### Fixed
+
+* Tui and La can now be placed in the same pond.
+* Fixed Squids producing roe instead of ink.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.1.2
 
 ### Fixed

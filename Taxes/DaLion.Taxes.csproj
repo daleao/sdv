@@ -7,7 +7,7 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Taxes</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.1.1</Version>
+    <Version>2.2.0</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
     <SmapiVersion>4.1</SmapiVersion>

@@ -3,13 +3,11 @@
 #region using directives
 
 using System.Collections.Generic;
-using DaLion.Professions.Framework.Events.Display.RenderedHud;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
-using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
 using DaLion.Professions.Framework.Events.Player.Warped;
+using DaLion.Professions.Framework.Hunting;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
@@ -29,6 +27,7 @@ internal sealed class ProfessionsState
     private ScavengerHunt? _scavengerHunt;
     private Dictionary<string, int>? _prestigedEcologistBuffsLookup;
     private int _fishingChain;
+    private PipedMinionHud? _pipedMinionMenu;
 
     internal List<int> OrderedProfessions
     {
@@ -96,22 +95,13 @@ internal sealed class ProfessionsState
         get => this._prospectorHunt;
         set
         {
-            if (value is null)
+            if (value is null && this._scavengerHunt is null)
             {
-                EventManager.Disable(
-                    typeof(ProspectorHuntTimeChangedEvent),
-                    typeof(ProspectorRenderedHudEvent));
-                if (!Game1.player.HasProfession(Profession.Scavenger))
-                {
-                    EventManager.Disable<TrackerButtonsChangedEvent>();
-                }
+                EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
             else
             {
-                EventManager.Enable(
-                    typeof(ProspectorHuntTimeChangedEvent),
-                    typeof(ProspectorRenderedHudEvent),
-                    typeof(TrackerButtonsChangedEvent));
+                EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
             this._prospectorHunt = value;
@@ -123,22 +113,13 @@ internal sealed class ProfessionsState
         get => this._scavengerHunt;
         set
         {
-            if (value is null)
+            if (value is null && this._prospectorHunt is null)
             {
-                EventManager.Disable(
-                    typeof(ScavengerHuntTimeChangedEvent),
-                    typeof(ScavengerRenderedHudEvent));
-                if (!Game1.player.HasProfession(Profession.Prospector))
-                {
-                    EventManager.Disable<TrackerButtonsChangedEvent>();
-                }
+                EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
             else
             {
-                EventManager.Enable(
-                    typeof(ScavengerHuntTimeChangedEvent),
-                    typeof(ScavengerRenderedHudEvent),
-                    typeof(TrackerButtonsChangedEvent));
+                EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
             this._scavengerHunt = value;
@@ -147,7 +128,7 @@ internal sealed class ProfessionsState
 
     internal int SpelunkerLadderStreak { get; set; }
 
-    internal List<(string ItemId, double ChanceToRecover)> SpelunkerUncollectedItems { get; set; } = [];
+    internal List<(string ItemId, double ChanceToRecover)> SpelunkerUncollectedItems { get; } = [];
 
     internal MineShaft? SpelunkerCheckpoint { get; set; }
 
@@ -222,7 +203,19 @@ internal sealed class ProfessionsState
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
 
-    internal bool UsedStatueToday { get; set; }
+    internal PipedMinionHud? PipedMinionMenu
+    {
+        get => this._pipedMinionMenu;
+        set
+        {
+            if (this._pipedMinionMenu is not null && value is null)
+            {
+                this._pipedMinionMenu.Dispose();
+            }
+
+            this._pipedMinionMenu = value;
+        }
+    }
 
     internal MasteryWarningBox? WarningBox { get; set; }
 }

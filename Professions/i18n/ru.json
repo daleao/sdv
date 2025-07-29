@@ -1,4 +1,6 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   // farming
   "harvester.title.male": "Сборщик урожая",
   "harvester.title.female": "Сборщица урожая",
@@ -8,8 +10,8 @@
   "agriculturist.title.female": "Агроном",
   "agriculturist.title.prestiged.male": "Знахарь урожая",
   "agriculturist.title.prestiged.female": "Знахарка урожая",
-  "agriculturist.desc": "Культуры растут на 10% быстрее. Можно собирать урожай самого высокого качества органически, без удобрений.",
-  "agriculturist.desc.prestiged": "Культуры растут на 10% >> 20% быстрее и могут пережить первый день вне сезона.",
+  "agriculturist.desc": "Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.",
+  "agriculturist.desc.prestiged": "Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.",
   "artisan.title.male": "Ремесленник",
   "artisan.title.female": "Ремесленница",
   "artisan.title.prestiged.male": "Промышленник",
@@ -190,6 +192,10 @@
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
+  "piper.slime.health": "{{value}} Health",
+  "piper.slime.attack": "{{value}} Attack",
+  "piper.slime.defense": "{{value}} Defense",
+  "piper.slime.dismiss": "(Click to dismiss)",
 
   // prestige
   "prestige.dog_statue.first": "-Статуя Превосходства-^Статуя может сбросить уровень навыка, сохранив все полученные профессии.",
@@ -251,6 +257,9 @@
   "objects.ostrichmayo.name": "Восхитительный майонез",
   "objects.ostrichmayo.desc": "Это просто абсурдное количество майонеза...",
 
+  "honorific.male": "Dear",
+  "honorific.female": "Dear",
+
   /***********
   *** GMCM ***
   ************/
@@ -297,14 +306,12 @@
   "gmcm.treasure_hunt_start_chance_multiplier.desc": "Умножает базовый шанс, что ваши чувства Мусорщика или Старателя начнут подсказывать о сокровищах.",
   "gmcm.allow_scavenger_hunts_on_farm.title": "Разрешить Охоту мусорщика на ферме",
   "gmcm.allow_scavenger_hunts_on_farm.desc": "Может ли Охота мусорщика начаться при входе на карту фермы.",
-  "gmcm.scavenger_detection_distance.title": "Дистанция обнаружения Мусорщика",
-  "gmcm.scavenger_detection_distance.desc": "Насколько близко вы должны быть к клетке с сокровищем, чтобы раскрыть ее местоположение, в клетках.",
-  "gmcm.scavenger_hunt_handicap.title": "Штраф Охоты мусорщика",
-  "gmcm.scavenger_hunt_handicap.desc": "Увеличьте это число, если вы считаете, что Охота мусорщика заканчивается слишком быстро.",
-  "gmcm.prospector_detection_distance.title": "Дистанция обнаружения Старателя",
-  "gmcm.prospector_detection_distance.desc": "Насколько близко вы должны быть к клетке с сокровищем, чтобы услышать звуковой сигнал, в клетках.",
-  "gmcm.prospector_hunt_handicap.title": "Штраф Поиска старателя",
-  "gmcm.prospector_hunt_handicap.desc": "Увеличьте это число, если вы считаете, что Поиск старателя заканчивается слишком быстро.",
+  "gmcm.scavenger_hunt_range.title": "Scavenger Hunt Tracking Range",
+  "gmcm.scavenger_hunt_range.desc": "How far you must be to the treasure tile to track it's location, in tiles.",
+  "gmcm.scavenger_hunt_time_limit.title": "Scavenger Hunt Time Limit",
+  "gmcm.scavenger_hunt_time_limit.desc": "The time limit of the Scavenger hunt, in seconds.",
+  "gmcm.prospector_hunt_time_limit.title": "Prospector Hunt Time Limit",
+  "gmcm.prospector_hunt_time_limit.desc": "The time limit of the Prospector hunt, in seconds.",
   "gmcm.tracking_pointer_scale.title": "Масштаб указателя отслеживания",
   "gmcm.tracking_pointer_scale.desc": "Изменяет размер указателя, используемого для отслеживания объектов профессиями Старатель и Мусорщик.",
   "gmcm.tracking_pointer_bob_rate.title": "Скорость покачивания указателя отслеживания",
@@ -348,10 +355,17 @@
   "gmcm.sections.prfs.rascal": "Rascal",
   "gmcm.show_equipped_ammo.title": "Show Equipped Ammo",
   "gmcm.show_equipped_ammo.desc": "Whether to draw the currently equipped ammo over the slingshot's tooltip.",
-  "gmcm.show_minion_health.title": "Show Minion Health",
-  "gmcm.show_minion_health.desc": "Whether to draw the Slime minions' health.",
+  "gmcm.minion_hud_anchor_position.title": "Minion HUD Anchor Position",
+  "gmcm.minion_hud_anchor_position.desc": "Screen position to which the minion HUD should be anchored.",
+  "gmcm.screen_anchor_position.top_left": "Top Left",
+  "gmcm.screen_anchor_position.bottom_left": "Bottom Left",
+  "gmcm.screen_anchor_position.bottom_right": "Bottom Right",
+  "gmcm.minion_hud_offset.title": "Minion HUD Offset",
+  "gmcm.minion_hud_offset.desc": "X and Y offsets applied to the default position of minion HUD.",
   "gmcm.use_async_minion_pathfinder.title": "Use Async Minion Pathfinder",
   "gmcm.use_async_minion_pathfinder.desc": "Whether to use the asynchronous multithreaded version of the Slime Pathfinder, which should perform better in most modern systems. Recommended to keep this enabled unless your Slimes behave weirdly.",
+  "gmcm.enable_slime_goods.title": "Enable Slime Goods",
+  "gmcm.enable_slime_goods.desc": "Whether to add new Slime Mayonnaise and Slime Cheese items to the game in order to add more depth to Slime Ranching playstyle.",
 
   // skill reset
   "gmcm.sections.prfs.skill_reset": "Сброс навыков",

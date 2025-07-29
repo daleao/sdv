@@ -33,12 +33,12 @@ public static class RectangleExtensions
         }
     }
 
-    /// <summary>Highlights the <paramref name="rectangle"/> with the specified <paramref name="color"/>.</summary>
+    /// <summary>Highlights the tile defined by the specified <paramref name="rectangle"/> with the specified <paramref name="color"/>.</summary>
     /// <param name="rectangle">The <see cref="Rectangle"/>.</param>
     /// <param name="color">Border color.</param>
     /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
     /// <param name="offset">An optional offset.</param>
-    public static void Highlight(
+    public static void TileHighlight(
         this Rectangle rectangle, Color color, SpriteBatch batch, Vector2? offset = null)
     {
         offset ??= Vector2.Zero;
@@ -52,12 +52,12 @@ public static class RectangleExtensions
             color);
     }
 
-    /// <summary>Draws the <paramref name="rectangle"/>'s border.</summary>
+    /// <summary>Highlights the border of the tile defined by the specified <paramref name="rectangle"/> with the specified <paramref name="color"/>.</summary>
     /// <param name="rectangle">The <see cref="Rectangle"/>.</param>
     /// <param name="color">Border color.</param>
     /// <param name="batch"><see cref="SpriteBatch"/> to draw to.</param>
     /// <param name="thickness">Border thickness.</param>
-    public static void DrawBorder(
+    public static void BorderHighlight(
         this Rectangle rectangle, Color color, SpriteBatch batch, int thickness = 4)
     {
         batch.Draw(

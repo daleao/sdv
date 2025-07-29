@@ -28,10 +28,11 @@ public static class EnumerableExtensions
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
     /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the highest <typeparamref name="TComparable"/> predicate result.</returns>
-    public static T ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+    public static T? ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
+        var list = enumerable as IList<T> ?? enumerable.ToList();
+        return !list.Any() ? default : list.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
     }
 
     /// <summary>Finds the item which minimizes the given <paramref name="predicate"/>.</summary>
@@ -40,10 +41,11 @@ public static class EnumerableExtensions
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="predicate">A predicate which must return <see cref="IComparable"/>.</param>
     /// <returns>The <typeparamref name="T"/> item in the enumerable which yields the lowest <typeparamref name="TComparable"/> predicate result.</returns>
-    public static T ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
+    public static T? ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        return enumerable.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
+        var list = enumerable as IList<T> ?? enumerable.ToList();
+        return !list.Any() ? default : list.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
     }
 
     /// <summary>Filters out <see langword="null"/> references from the <paramref name="enumerable"/>.</summary>
@@ -90,6 +92,17 @@ public static class EnumerableExtensions
         }
 
         return selected;
+    }
+
+    /// <summary>Shuffles the elements in the specified <paramref name="enumerable"/>.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
+    /// <param name="enumerable">An <see cref="IEnumerable{T}"/>.</param>
+    /// <param name="r">A <see cref="Random"/> number generator.</param>
+    /// <returns>The <paramref name="enumerable"/> with shuffled elements.</returns>
+    public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable, Random? r = null)
+    {
+        r ??= new Random(Guid.NewGuid().GetHashCode());
+        return enumerable.OrderBy(_ => r.Next());
     }
 
     /// <summary>Calculates the standard deviation of the <paramref name="values"/>.</summary>

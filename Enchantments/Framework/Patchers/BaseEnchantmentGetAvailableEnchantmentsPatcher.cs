@@ -56,7 +56,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
         var enchantmentTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetExecutingAssembly())
             .Where(t => t.IsAssignableTo(typeof(BaseEnchantment)) &&
-                        t.Namespace?.Contains("DaLion.Enchantments.Framework.Enchantments") == true);
+                        (t.Namespace?.Contains("DaLion.Enchantments.Framework.Enchantments") ?? false));
         foreach (var type in enchantmentTypes)
         {
             if (Activator.CreateInstance(type) is BaseEnchantment enchantment)

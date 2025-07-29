@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
-using Shared.Extensions;
+using DaLion.Shared.Extensions;
 using StardewModdingAPI.Events;
 
 #endregion using directives

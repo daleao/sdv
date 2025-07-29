@@ -21,7 +21,7 @@ internal sealed class ChainedExplosion
         this._damage = damage;
         this._pyro = pyro;
         HashSet<Vector2> chained = [];
-        foreach (var candidate in new CircleTileGrid(origin, (uint)radius + 2) - new CircleTileGrid(origin, (uint)radius))
+        foreach (var candidate in new CircleTileGrid(origin, radius + 2) - new CircleTileGrid(origin, radius))
         {
             if (this._location.Objects.ContainsKey(candidate) || this._location.characters.Any(c => c.Tile == candidate))
             {

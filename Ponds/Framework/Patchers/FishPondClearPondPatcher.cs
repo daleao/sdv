@@ -76,7 +76,6 @@ internal sealed class FishPondClearPondPatcher : HarmonyPatcher
             __instance.Reseed();
             __instance.overrideWaterColor.Value = Color.White;
             Data.Write(__instance, DataKeys.PondFish, string.Empty);
-            Data.Write(__instance, "FamilyLivingHere", string.Empty);
             return false; // don't run original logic
         }
         catch (Exception ex)
@@ -93,7 +92,7 @@ internal sealed class FishPondClearPondPatcher : HarmonyPatcher
     private static Item CreateAlgaeInstance(FishPond pond)
     {
         var algae = pond.ParsePondFishes();
-        var pulled = algae.Choose();
+        var pulled = algae.Choose()!;
         var id = pulled.Id;
         Data.Write(pond, DataKeys.PondFish, string.Join(';', algae));
         return ItemRegistry.Create(id);
@@ -103,24 +102,7 @@ internal sealed class FishPondClearPondPatcher : HarmonyPatcher
     {
         var fishes = pond.ParsePondFishes();
         fishes.SortDescending();
-        PondFish pulled;
-        if (pond.HasBossFish())
-        {
-            if (Data.ReadAs<int>(pond, "FamilyLivingHere") > 0 && Game1.random.NextBool())
-            {
-                pulled = fishes.Last(f => $"(O){f.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]);
-                Data.Increment(pond, "FamilyLivingHere", -1);
-            }
-            else
-            {
-                pulled = fishes.Last(f => f.Id == pond.fishType.Value);
-            }
-        }
-        else
-        {
-            pulled = fishes.Last();
-        }
-
+        var pulled = fishes.Last();
         var (id, quality) = pulled;
         Data.Write(pond, DataKeys.PondFish, string.Join(';', fishes));
         return ItemRegistry.Create(id, quality: quality);

@@ -1,5 +1,78 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.0
+
+### Added
+
+* Slimed Piper summoned minions are now represented by individual HUD portraits and can be dismissed by clicking the respective portrait.
+  * The Hat Slime does not show up in the HUD as it cannot fight, and thus cannot be dismissed without first unequipping said hat.
+* Added swirly VFX to piped Slimes, to distinguish from regular enemy Slimes (thanks [bblueberry](https://next.nexusmods.com/profile/bblueberry?gameId=1303)).
+* Add, Set and Print commands now also work in local co-op. Use the `-f` flag to specify a player number (i.e., "1" for the host player, "2" for player 2, etc.).
+
+### Changed
+
+* Renamed data file patterns. Artisan Machines data must now end with `.ArtisanMachines.json` and Animal Derived Goods data must now end with `.AnimalDerivedGoods.json`. If you had previously made your own data files for compatibility with other mods, make sure to rename them accordingly.
+* Due to changes with how the mod tracks skill resets, **gold** is now the highest stacked star that will show up in the skills menu, indicating three skill resets, which is enough to obtain all four 10th-level professions. There is no longer an iridium star, so don't be alarmed!!
+* Legendary Fish Pond Data now has its own data asset file, so users can easily open it and read what items are configured to be produced, and customize it if they wish.
+* Agriculturist has been reworked. No longer grants a flat 10% growth speed bonus. Instead, implements new crop rotation mechanic:
+  * Each tile remembers the last 3 crops grown. Planting different crop varieties increases soil fertility, granting +5% growth speed and quality per unique crop, up to +15%. Repeating the same crop twice in a row cancels the most recent bonus. Replanting a different crop already in memory provides no effect. _Encourages rotating between different crops instead of repeatedly growing just Hoppers / Blueberries / whatever, promotes experimentation and crop variety._
+* Cropwhisperer is also changed. Since the base Agriculturist can already provide up to 20% growth speed boost, additional growth speed is redundant. Players who reach the very late-game stages required for level 20 would rather step away from micromanagement and towards more optimized and automated layout.
+  * ~~Crops grow 20% faster~~ Growth speed boosts also apply to regrowth cycles of multi-harvest crops. _This would be broken in the early game, but should be sufficiently strong as a late game perk._
+  * Crop survival out of season increased from 5 days to 1 week (i.e., they will die on the 8th).
+* Prospector and Scavenger Hunts have been overhauled:
+  * Changes to the mini-game:
+    * The Scavenger Hunt has been overhauled as "hot-or-cold" mini-game. Chasing a tiny arrow was mindless and boring. Now, the player must dig and follow the cues to the right dig spot.
+    * The Prospector Hunt has be overhauled as a "Simon-says" mini-game. The target rock isn't hidden; it will be prominently displayed. But the player must mine a sequence of 8 highlighted rocks within the time limit. Each rock is progressively harder to mine.
+    * The legacy mini-games have been retired. Players can no longer opt into "Legacy Treasure Hunt" mode.
+  * Changes to the treasure tables:
+    * Treasure tables have been boosted significantly. Previously they shared a similar logic to fishing treasure chests, which are very stingy. The logic would choose 1 out of 6 possible loot tables and then roll the dice for the items within that table. This did not work well, because fishing chests can be triggered many times by fishing repeatedly, and therefore can afford to be stingy. Whereas treasure hunts are meant to be triggered randomly only once or twice per day. The player must also go out of their way to complete the treasure hunt, while a fishing chest is an additional reward to the player's current activity. There was also a chance to repeat the looting algorithm, based on the player's winning streak. The player effectively had to put up with dozens of rounds winning trash until they could build enough momentum to begin seeing decent rewards. Failing or ignoring a treasure hunt would break the streak. This made treasure hunts feels like an annoying chore, more so than an exciting reward opportunity.
+    * New treasure logic rolls multiple dice for each loot table, all with substantially increased odds. Overall, every hunt is now so rewarding that there is a big opportunity cost to ignoring it.
+    * Loot tables no longer depend on hunting streaks, but do depend on luck and daily luck.
+  * Changes to hunting streak mechanic:
+    * Streaks no longer affect loot tables, but still affect the prestiged Prospector and Scavenger's first perk (increased spawns of forage and minerals).
+    * The mod now remembers your longest streak, and uses that for the bonus instead of the current streak. So the punishment for missing a hunt is far less significant.
+  * QoL changes:
+    * The time limits of each treasure hunt can now be set directly, instead of setting an indirect handicap multiplier.
+    * Treasure hunts now apply a dummy buff so that players can keep an eye on the time left.
+* Artisan quality perks now apply as a quality floor; if the machine would already produce a higher quality, then that quality will no longer be overriden.
+* Respawned Piper minions will now spawn as a new randomly chosen Slime, instead of continuously respawning the same one.
+* Slime IVs have been slightly simplified. The max IV is now 5 instead of 10, and the growth curve mean value has been shifted by +1, so it is significantly easier to maximize Slime stats.
+* Removing a Slime's hat now forces it do drop all items.
+* The default value of bonus skill experience after a skill reset has been reduced from 25% to 10%.
+* Improved formatting for some console command outputs.
+
+### Fixed
+
+* Fixed issues with Cropwhisperer out of season crop survival.
+* Fixed tracking arrows not bobbing as they should.
+* Slimed Piper summoned minions are no longer damaged by explosions.
+* Fixed tile position of water spots in the Slime Hutch.
+* Fixed players being able to assign more than one Hat Slimes.
+* Added missing "honorific" key to i18n.
+* Fixed a bug with Rascal ammo recovery.
+* Fixed a long-standing issue with how the mod counts skill resets. Previously, just acquiring a level 10 profession would count as a reset. This also means that the bonus exp after completing all resets would be applied 4 times instead of 3. The mod now persists data at the moment a skill is reset. Bonus experience only begins applying after an actual reset, and can only be stacked up to 3 times, once per reset.
+  * This will also change how stacked stars are displayed in the skills page; a star now indicates a *reset* and not a 10th-level profession acquired. The highest star is now gold, instead of iridium. 
+* Players can no longer change ExpPerPrestigeLevel setting *after* having gained a prestige level. Additionally, changing this setting will now correctly adjust the cached experience curve.
+* Fixed Wild Bait not working without Luremaster profession (I guess this was added in 1.6).
+* Fixed The Art O' Crabbing bonus not stacking with Wild Bait.
+* Fixed Spelunker safe-room recovery incorrectly requiring prestige.
+
+### Removed
+
+* Removed global chat notifications when a player starts/ends a treasure hunt.
+* Mixing of legendary and extended family fishes in a pond has been moved to [Ponds](../Ponds) and removed from this mod.
+* Fixed and then removed the broken code for using Tree Fertilizer on Fruit Trees. Dunno why that was in here in the first place.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 1.2.11
+
+### Fixed
+
+* Fixed soft-lock during prestige level-up menu for farmhands in local-coop, caused by the single-profession selection menu being unresponsive to gamepad input.  
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.2.10
 
 ### Fixed

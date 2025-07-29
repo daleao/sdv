@@ -2,9 +2,9 @@
 
 #region using directives
 
-using System.Threading.Tasks;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -19,7 +19,7 @@ internal sealed class LuremasterDayStartedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        Parallel.ForEach(Game1.game1.EnumerateAllCrabPots(), crabPot =>
+        Game1.game1.EnumerateAllCrabPots().ForEach(crabPot =>
         {
             crabPot.ResetCatchAttempts();
             crabPot.UnblockAdditionalCatches();

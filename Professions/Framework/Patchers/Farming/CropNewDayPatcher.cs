@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
@@ -25,11 +24,22 @@ internal sealed class CropNewDayPatcher : HarmonyPatcher
     /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void HoeDirtPlantPostfix(Crop __instance)
+    private static void CropNewDayPostfix(Crop __instance)
     {
-        if (Data.ReadAs<bool>(__instance, DataKeys.DaysLeftOutOfSeason))
+        if (__instance.GetData()?.Seasons.Contains(Game1.season) ?? true)
         {
-            Data.Increment(__instance, DataKeys.DaysLeftOutOfSeason, -1);
+            return;
+        }
+
+        var daysOutOfSeason = Data.ReadAs(__instance, DataKeys.DaysOutOfSeason, -1);
+        switch (daysOutOfSeason)
+        {
+            case >= 7:
+                Data.Write(__instance, DataKeys.DaysOutOfSeason, null);
+                break;
+            case >= 0:
+                Data.Increment(__instance, DataKeys.DaysOutOfSeason);
+                break;
         }
     }
 

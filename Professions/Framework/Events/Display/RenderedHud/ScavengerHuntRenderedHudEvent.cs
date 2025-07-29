@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.TreasureHunts;
 using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Stardew;
@@ -18,24 +17,15 @@ internal sealed class ScavengerHuntRenderedHudEvent(EventManager? manager = null
     : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
+    public override bool IsEnabled => State.ScavengerHunt?.IsActive ?? false;
+
+    /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
     {
-        State.ScavengerHunt ??= new ScavengerHunt();
-        if (!State.ScavengerHunt.TreasureTile.HasValue)
+        var treasureTile = State.ScavengerHunt!.TargetTile!.Value;
+        if (Game1.player.SquaredTileDistance(treasureTile) >= (Config.ScavengerHuntRange * Config.ScavengerHuntRange))
         {
-            return;
-        }
-
-        var treasureTile = State.ScavengerHunt.TreasureTile.Value;
-
-        // track target
-        HudPointer.Instance.DrawAsTrackingPointer(e.SpriteBatch, treasureTile, Color.Violet);
-
-        // reveal if close enough
-        if (Game1.player.SquaredTileDistance(treasureTile) <=
-            Config.ScavengerDetectionDistance * Config.ScavengerDetectionDistance)
-        {
-            HudPointer.Instance.DrawOverTile(e.SpriteBatch, treasureTile, Color.Violet);
+            HudPointer.Instance.DrawAsTrackingPointer(e.SpriteBatch, treasureTile, Color.Violet);
         }
     }
 }

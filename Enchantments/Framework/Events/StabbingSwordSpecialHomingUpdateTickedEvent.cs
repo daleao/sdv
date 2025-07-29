@@ -100,7 +100,7 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
         }
 
         Log.D($"Auto-turned towards {newDirection}!");
-        var angle = currentDirection.AngleWith(newDirection);
+        var angle = currentDirection.AngleBetween(newDirection);
         var trajectory = new Vector2(user.xVelocity, user.yVelocity);
         var rotated = trajectory.Rotate(angle);
         user.setTrajectory(rotated);

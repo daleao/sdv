@@ -64,7 +64,7 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void AddRancherStartingFriendship(FarmAnimal newborn)
     {
@@ -82,5 +82,5 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

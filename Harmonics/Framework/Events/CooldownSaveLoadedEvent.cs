@@ -6,7 +6,6 @@ using DaLion.Harmonics.Framework.Integrations;
 using DaLion.Harmonics.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
-using Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -21,7 +20,7 @@ internal sealed class CooldownSaveLoadedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        if (WearMoreRingsIntegration.Instance?.IsLoaded == true)
+        if (WearMoreRingsIntegration.Instance?.IsLoaded ?? false)
         {
             var api = WearMoreRingsIntegration.Instance.ModApi;
             for (var slot = 0; slot < api.RingSlotCount(); slot++)

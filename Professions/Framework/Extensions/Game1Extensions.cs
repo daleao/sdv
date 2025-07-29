@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
 using StardewValley.Objects;
+using StardewValley.TerrainFeatures;
 
 #endregion using directives
 
@@ -53,7 +54,7 @@ internal static class Game1Extensions
         return players.Any();
     }
 
-    /// <summary>Enumerates all <see cref="CrabPot"/> instances currently placed in a location.</summary>
+    /// <summary>Enumerates all <see cref="CrabPot"/> instances currently placed in any location.</summary>
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of all placed <see cref="CrabPot"/> instances in the game world.</returns>
     internal static IEnumerable<CrabPot> EnumerateAllCrabPots(this Game1 game1)
@@ -65,6 +66,23 @@ internal static class Game1Extensions
                 if (@object is CrabPot crabPot)
                 {
                     yield return crabPot;
+                }
+            }
+        }
+    }
+
+    /// <summary>Enumerates all <see cref="HoeDirt"/> instances currently in any location.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="HoeDirt"/> instances in the game world.</returns>
+    internal static IEnumerable<HoeDirt> EnumerateAllHoeDirt(this Game1 game1)
+    {
+        foreach (var location in Game1.locations)
+        {
+            foreach (var feature in location.terrainFeatures.Values)
+            {
+                if (feature is HoeDirt dirt)
+                {
+                    yield return dirt;
                 }
             }
         }

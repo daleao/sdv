@@ -17,7 +17,7 @@ internal sealed class LimitActiveUpdateTickedEvent(EventManager? manager = null)
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.LimitBreak?.IsActive == true;
+    public override bool IsEnabled => State.LimitBreak?.IsActive ?? false;
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

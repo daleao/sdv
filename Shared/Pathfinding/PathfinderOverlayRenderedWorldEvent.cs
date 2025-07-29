@@ -48,7 +48,7 @@ internal sealed class PathfinderOverlayRenderedWorldEvent(EventManager manager)
                     : state.IsWalkable
                         ? Color.Yellow
                         : Color.Red;
-            r.Highlight(color * 0.2f, e.SpriteBatch);
+            r.TileHighlight(color * 0.2f, e.SpriteBatch);
 
             Utility.drawTinyDigits(
                 state.G == int.MaxValue ? 999 : state.G,

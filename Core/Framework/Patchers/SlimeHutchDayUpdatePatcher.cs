@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Constants;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
@@ -42,8 +43,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
         string getSlimeString(GreenSlime slime)
         {
             var color = slime.color.Value;
-            var isTiger = slime.Name == "Tiger Slime";
-            return $"{color.PackedValue}/{isTiger}/{slime.firstGeneration.Value}/{slime.specialNumber.Value}";
+            return $"{color.PackedValue}/{slime.IsTigerSlime()}/{slime.firstGeneration.Value}/{slime.specialNumber.Value}";
         }
     }
 

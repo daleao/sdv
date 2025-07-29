@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   /************
   *** GMCM ***
   ************/
@@ -14,8 +16,8 @@
   "gmcm.swipe_hold.desc": "Allows performing combos by simply holding the tool button instead of spam-clicking.",
 
   "gmcm.sections.cmbt.stats": "Character Stats",
-  "gmcm.geometric_mitigation_formula.title": "Use Geometric Mitigation Formula",
-  "gmcm.geometric_mitigation_formula.desc": "Replaces the linear damage mitigation formula with a rational formula that gives more impactful but diminishing returns from the defense stat. BEFORE: Damage -= Defense; AFTER: Damage *= 0.9 ^ Defense",
+  "gmcm.hyperbolic_mitigation_formula.title": "Use Hyperbolic Mitigation Formula",
+  "gmcm.hyperbolic_mitigation_formula.desc": "Replaces the linear damage mitigation formula with a diminishing curve that gives more impactful but returns from each defense stat. BEFORE: Damage -= Defense; AFTER: Damage *= 10 / (10 + Defense)",
   "gmcm.defense_improves_parry.title": "Defense Improves Parry Damage",
   "gmcm.defense_improves_parry.desc": "Parry damage (sword special move) is increased by the defense stat.",
   "gmcm.crits_ignore_defense.title": "Crits. Ignore Defense",

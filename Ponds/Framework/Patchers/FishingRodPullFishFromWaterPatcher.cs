@@ -50,7 +50,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
             var pond = Game1.currentLocation.buildings.OfType<FishPond>().FirstOrDefault(p =>
                 x > p.tileX.Value && x < p.tileX.Value + p.tilesWide.Value - 1 &&
                 y > p.tileY.Value && y < p.tileY.Value + p.tilesHigh.Value - 1);
-            if (pond is null || pond.FishCount < 0)
+            if (pond is null || pond.FishCount <= 0)
             {
                 return;
             }
@@ -80,7 +80,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         try
         {
             var algae = pond.ParsePondFishes();
-            var pulled = algae.Choose();
+            var pulled = algae.Choose()!;
             id = pulled.Id;
             algae.Remove(pulled);
             if (algae.Count != pond.FishCount)
@@ -105,24 +105,7 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
         {
             var fishes = pond.ParsePondFishes();
             fishes.SortDescending();
-            PondFish pulled;
-            if (pond.HasBossFish())
-            {
-                if (Data.ReadAs<int>(pond, "FamilyLivingHere") > 0 && Game1.random.NextBool())
-                {
-                    pulled = fishes.Last(f => $"(O){f.Id}" == Lookups.FamilyPairs[$"(O){pond.fishType.Value}"]);
-                    Data.Increment(pond, "FamilyLivingHere", -1);
-                }
-                else
-                {
-                    pulled = fishes.Last(f => f.Id == pond.fishType.Value);
-                }
-            }
-            else
-            {
-                pulled = fishes.Last();
-            }
-
+            var pulled = fishes.Last();
             (id, quality) = pulled;
             fishes.Remove(pulled);
             if (fishes.Count != pond.FishCount)

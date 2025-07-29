@@ -192,12 +192,10 @@ public sealed class Chord : IChord
 
         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
         {
-            if (!enchantment.IsForge() || enchantment.GetType() != this.Root.EnchantmentType)
+            if (enchantment.IsForge() && enchantment.GetType() == this.Root.EnchantmentType)
             {
-                continue;
+                this.Root.Resonate(weapon, enchantment);
             }
-
-            this.Root.Resonate(weapon, enchantment);
         }
     }
 
@@ -223,12 +221,10 @@ public sealed class Chord : IChord
 
         foreach (var enchantment in weapon.enchantments.OfType<BaseWeaponEnchantment>())
         {
-            if (!enchantment.IsForge() || enchantment.GetType() != this.Root.EnchantmentType)
+            if (enchantment.IsForge() && enchantment.GetType() == this.Root.EnchantmentType)
             {
-                continue;
+                this.Root.Quench(weapon, enchantment);
             }
-
-            this.Root.Quench(weapon, enchantment);
         }
     }
 
@@ -244,24 +240,20 @@ public sealed class Chord : IChord
     /// <param name="location">The new location.</param>
     internal void OnNewLocation(GameLocation location)
     {
-        if (this._lightSource is null)
+        if (this._lightSource is not null)
         {
-            return;
+            location.sharedLights[this._lightSource.Id] = this._lightSource;
         }
-
-        location.sharedLights[this._lightSource.Id] = this._lightSource;
     }
 
     /// <summary>Removes resonance effects from the old <paramref name="location"/>.</summary>
     /// <param name="location">The left location.</param>
     internal void OnLeaveLocation(GameLocation location)
     {
-        if (this._lightSource is null)
+        if (this._lightSource is not null)
         {
-            return;
+            location.removeLightSource(this._lightSource.Id);
         }
-
-        location.removeLightSource(this._lightSource.Id);
     }
 
     /// <summary>Begins playback of the sine wave <see cref="ICue"/> for each note in the <see cref="Chord"/>.</summary>
@@ -328,17 +320,19 @@ public sealed class Chord : IChord
 
         this._position = (int)((this._position + 1) % this._period);
         this._phase = Range[this._position];
-        if (this._lightSource is not null)
+        if (this._lightSource is null)
         {
-            this._lightSource.radius.Value = this.LightSourceRadius;
-            var offset = Vector2.Zero;
-            if (who.shouldShadowBeOffset)
-            {
-                offset += who.drawOffset;
-            }
-
-            this._lightSource.position.Value = new Vector2(who.Position.X + 32f, who.Position.Y + 32) + offset;
+            return;
         }
+
+        this._lightSource.radius.Value = this.LightSourceRadius;
+        var offset = Vector2.Zero;
+        if (who.shouldShadowBeOffset)
+        {
+            offset += who.drawOffset;
+        }
+
+        this._lightSource.position.Value = new Vector2(who.Position.X + 32f, who.Position.Y + 32) + offset;
     }
 
     /// <summary>Initializes the <see cref="_lightSource"/> if a resonant harmony exists in the <see cref="Chord"/>.</summary>
@@ -427,7 +421,7 @@ public sealed class Chord : IChord
             }
 
             this._cues[0].Pitch = this.Root.NaturalPitch;
-            var seenIntervals = new HashSet<HarmonicInterval>();
+            HashSet<HarmonicInterval> seenIntervals = [];
             for (var i = 1; i < size; i++)
             {
                 var intervalPitch = this.Root.Harmonics[(int)this._intervalMatrix[i][0].Number];

@@ -1,5 +1,14 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.2.0
+
+### Fixed
+
+* Fixed charged shockwave duplicating resources and experience for all players in multiplayer. 
+* Mod now recognizes [Prismatic Tools Continued](https://www.nexusmods.com/stardewvalley/mods/21450).
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</
+
 ## 2.1.1
 
 ### Added

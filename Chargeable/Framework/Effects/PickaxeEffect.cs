@@ -44,8 +44,8 @@ internal sealed class PickaxeEffect : IToolEffect
         Farmer who)
     {
         // clear debris
-        if (this.Config.ClearDebris && tileObj is not null && (tileObj.IsStone() || tileObj.IsWeed() ||
-            (ItemExtensionsIntegration.Instance?.IsLoaded == true && ItemExtensionsIntegration.Instance.ModApi.IsStone(tileObj.ItemId))))
+        if (this.Config.ClearDebris && tileObj is not null && (tileObj.IsBreakableStone() || tileObj.IsWeed() ||
+            ((ItemExtensionsIntegration.Instance?.IsLoaded ?? false) && ItemExtensionsIntegration.Instance.ModApi.IsStone(tileObj.ItemId))))
         {
             return tool.UseOnTile(tile, location, who);
         }

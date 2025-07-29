@@ -86,8 +86,8 @@ public static class PointExtensions
     {
         var (x, y) = point;
         if (x > 0) yield return new Point(x - 1, y);
-        if (x < width - 1 ) yield return new Point(x + 1, y);
         if (y > 0) yield return new Point(x, y - 1);
+        if (x < width - 1 ) yield return new Point(x + 1, y);
         if (y < height - 1) yield return new Point(x, y + 1);
     }
 
@@ -182,17 +182,16 @@ public static class PointExtensions
     /// <param name="height">The height of the region.</param>
     /// <param name="boundary">The boundary condition.</param>
     /// <returns>The list of <see cref="Point"/>s belonging to the enclosed region.</returns>
-    public static IReadOnlyList<Point> FloodFill(this Point origin, int width, int height, Func<Point, bool> boundary)
+    public static IList<Point> FloodFill(this Point origin, int width, int height, Func<Point, bool> boundary)
     {
-        var flooded = new List<Point>();
-        var tested = new HashSet<Point>();
-        var queue = new Queue<Point>();
+        List<Point> flooded = [];
+        HashSet<Point> visited = [];
+        Queue<Point> queue = [];
         queue.Enqueue(origin);
         while (queue.Count > 0)
         {
             var tile = queue.Dequeue();
-            if (tile.X < 0 || tile.Y < 0 || tile.X >= width || tile.Y >= height || !tested.Add(tile) ||
-                !boundary(tile))
+            if (tile.X < 0 || tile.Y < 0 || tile.X >= width || tile.Y >= height || !boundary(tile))
             {
                 continue;
             }
@@ -200,7 +199,7 @@ public static class PointExtensions
             flooded.Add(tile);
             foreach (var neighbor in tile.GetEightNeighbors(width, height))
             {
-                if (!tested.Contains(neighbor))
+                if (visited.Add(neighbor))
                 {
                     queue.Enqueue(neighbor);
                 }

@@ -106,7 +106,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static List<Vector2> ListInnerTiles(Rectangle rectangle, MeleeWeapon weapon)
     {
@@ -163,5 +163,5 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
         return tiles.ToList();
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

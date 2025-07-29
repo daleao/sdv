@@ -153,11 +153,17 @@ public sealed class CustomSkill : ISkill
         // reset new levels
         var newLevels = SpaceCoreIntegration.Instance!.GetNewLevels();
         SpaceCoreIntegration.Instance.SetNewLevels(newLevels.Where(pair => pair.Key != this.StringId).ToList());
+
         // reset recipes
         if (Config.Skills.ForgetRecipesOnSkillReset)
         {
             this.ForgetRecipes();
         }
+
+        // record data
+        var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
+        resetData.AddOrUpdate(this.StringId, 1, (a, b) => a + b);
+        Data.Write(Game1.player, DataKeys.ResetCountBySkill, resetData.Stringify());
 
         Log.D($"{Game1.player.Name}'s {this.DisplayName} skill has been reset.");
     }
@@ -169,7 +175,7 @@ public sealed class CustomSkill : ISkill
         var forgottenRecipesDict = Data.Read(player, DataKeys.ForgottenRecipesDict)
             .ParseDictionary<string, int>();
 
-        var cookingRecipes = new HashSet<CraftingRecipe>();
+        HashSet<CraftingRecipe> cookingRecipes = [];
         for (var level = 1; level <= 20; level++)
         {
             cookingRecipes.UnionWith(SkillLevelUpMenu.GetCookingRecipesForLevel(this.StringId, level));
@@ -187,7 +193,7 @@ public sealed class CustomSkill : ISkill
             player.cookingRecipes.Remove(name);
         }
 
-        var craftingRecipes = new HashSet<CraftingRecipe>();
+        HashSet<CraftingRecipe> craftingRecipes = [];
         for (var level = 1; level <= 20; level++)
         {
             craftingRecipes.UnionWith(SkillLevelUpMenu.GetCraftingRecipesForLevel(this.StringId, level));

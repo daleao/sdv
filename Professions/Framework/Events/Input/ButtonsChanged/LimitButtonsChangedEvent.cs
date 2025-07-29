@@ -16,7 +16,7 @@ internal sealed class LimitButtonsChangedEvent(EventManager? manager = null)
     : ButtonsChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.LimitBreak?.CanActivate == true;
+    public override bool IsEnabled => State.LimitBreak?.CanActivate ?? false;
 
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)

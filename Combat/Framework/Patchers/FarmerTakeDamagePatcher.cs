@@ -60,7 +60,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                             typeof(CombatMod).RequirePropertyGetter(nameof(Config))),
                         new CodeInstruction(
                             OpCodes.Callvirt,
-                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.GeometricMitigationFormula))),
+                            typeof(CombatConfig).RequirePropertyGetter(nameof(CombatConfig.HyperbolicMitigationFormula))),
                         new CodeInstruction(OpCodes.Brtrue_S, skipSoftCap),
                     ],
                     labels)
@@ -84,7 +84,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
                     [
                         new CodeInstruction(OpCodes.Ldc_I4_1),
                         new CodeInstruction(OpCodes.Ldarg_1), // arg 1 = int damage
-                        new CodeInstruction(OpCodes.Ldloc_3), // loc 4 = int defense
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[4]), // loc 4 = int defense
                         new CodeInstruction(OpCodes.Sub),
                         new CodeInstruction(
                             OpCodes.Call,
@@ -110,20 +110,22 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static int CalculateDamage(Farmer who, int rawDamage, int defense)
     {
-        if (!Config.GeometricMitigationFormula)
+        var linearMitigatedDamage = Math.Max(0, rawDamage - defense);
+        if (!Config.HyperbolicMitigationFormula)
         {
-            return Math.Max(1, rawDamage - defense);
+            return linearMitigatedDamage;
         }
 
-        var playerDefense = who.buffs.FloatingDefense();
         var weaponDefense = (who.CurrentTool as MeleeWeapon)?.addedDefense.Value ?? 0;
-        var damage = (int)Math.Max(1, rawDamage * (10f / (10f + playerDefense + weaponDefense)));
-        return damage;
+        var playerDefense = who.buffs.FloatingDefense() - weaponDefense;
+        var bookDefense = who.stats.Get("Book_Defense") != 0 ? 1 : 0;
+        var hyperbolicMitigatedDamage = (int)(rawDamage * (10f / (10f + playerDefense) * (10f / (10f + weaponDefense)) * (10f / (10f + bookDefense))));
+        return Math.Min(hyperbolicMitigatedDamage, linearMitigatedDamage);
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

@@ -2,14 +2,27 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
+using StardewValley.Objects;
 
 #endregion using directives
 
 /// <summary>Extensions for the <see cref="GameLocation"/> class.</summary>
 public static class GameLocationExtensions
 {
+    /// <summary>Checks if there is a hopper at the specified <paramref name="tile"/> in the <paramref name="location"/>.</summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="tile">The <see cref="Vector2"/> tile coordinates.</param>
+    /// <param name="hopper">A <see cref="Chest"/> reference to the hopper, if found. Otherwise <see langword="null"/>.</param>
+    /// <returns><see langword="true"/> if the instance is a hopper chest, otherwise <see langword="false"/>.</returns>
+    internal static bool TryGetHopperAt(this GameLocation location, Vector2 tile, [NotNullWhen(true)] out Chest? hopper)
+    {
+        hopper = null;
+        return location.Objects.TryGetValue(tile, out var @object) && @object.TryGetHopper(out hopper);
+    }
+
     /// <summary>Triggers a barrage of lightning strikes at the specified <paramref name="tileLocation"/>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="tileLocation">The <see cref="Vector2"/> tile location.</param>

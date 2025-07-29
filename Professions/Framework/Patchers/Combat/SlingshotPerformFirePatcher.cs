@@ -39,7 +39,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     {
         try
         {
-            var canDoQuincy = EnchantmentsIntegration.Instance?.IsLoaded == true &&
+            var canDoQuincy = (EnchantmentsIntegration.Instance?.IsLoaded ?? false) &&
                               __instance.enchantments
                                   .OfType<BaseSlingshotEnchantment>()
                                   .Any(e => e.GetType().Name.Contains("Quincy")) &&

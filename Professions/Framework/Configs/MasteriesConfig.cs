@@ -18,6 +18,7 @@ public sealed class MasteriesConfig
     private bool _enableLimitBreaks = true;
     private double _limitGainFactor = 1d;
     private double _limitDrainFactor = 1d;
+    private uint _expPerPrestigeLevel = 5000;
     private GoldPalette _goldSpritePalette = GoldPalette.SiliconGold;
 
     #region dropdown enums
@@ -37,7 +38,7 @@ public sealed class MasteriesConfig
     /// <summary>Gets or sets a value indicating whether to prevent the player from purchasing a skill Mastery if there are professions left to acquire.</summary>
     [JsonProperty]
     [GMCMPriority(1)]
-    public bool LockMasteryUntilFullReset { get; set; } = false;
+    public bool LockMasteryUntilFullReset { get; set; } = true;
 
     /// <summary>Gets a value indicating whether to allow Limit Breaks to be used in-game.</summary>
     [JsonProperty]
@@ -156,7 +157,33 @@ public sealed class MasteriesConfig
     [GMCMSection("prfs.prestige")]
     [GMCMPriority(202)]
     [GMCMRange(1000, 10000, 500)]
-    public uint ExpPerPrestigeLevel { get; internal set; } = 5000;
+    public uint ExpPerPrestigeLevel
+    {
+        get => this._expPerPrestigeLevel;
+        internal set
+        {
+            var oldValue = this._expPerPrestigeLevel;
+            this._expPerPrestigeLevel = value;
+            if (!Context.IsWorldReady)
+            {
+                return;
+            }
+
+            if (VanillaSkill.List.Any(skill => skill.CurrentLevel > 10) ||
+                CustomSkill.Loaded.Values.Any(skill => skill.CurrentLevel > 10))
+            {
+                this._expPerPrestigeLevel = oldValue;
+                Log.W(
+                    "You cannot change the experience points required for a prestige level after having gained prestige levels. Please make sure all skills have been reset to level 10 before attempting to change this setting.");
+                return;
+            }
+
+            for (var i = 1; i <= 10; i++)
+            {
+                ISkill.ExperienceCurve[i + 10] = ISkill.LEVEL_10_EXP + (int)(value * i);
+            }
+        }
+    }
 
     /// <summary>Gets the monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     [JsonProperty]

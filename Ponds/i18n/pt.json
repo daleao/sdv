@@ -1,5 +1,12 @@
 ﻿{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "algae": "Algas",
+
+  /************
+  *** GMCM ***
+  ************/
+
   "gmcm.days_until_algae_spawn.title": "Dias até Algas aparecerem",
   "gmcm.days_until_algae_spawn.desc": "O número de dias que um Lago de Peixes vazio começará a produzir algas.",
   "gmcm.roe_production_chance_multiplier.title": "Multiplicador da Chance para a Produção de Ovas",

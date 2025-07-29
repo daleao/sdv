@@ -1,4 +1,6 @@
 {
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
   "gmcm.pages.tols": "Tools",
   "gmcm.pages.tols.axe": "Axe Settings",
   "gmcm.pages.tols.pick": "Pickaxe Settings",

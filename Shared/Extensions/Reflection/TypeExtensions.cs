@@ -49,7 +49,7 @@ public static class TypeExtensions
     public static bool OverridesMethod(this Type type, string methodName)
     {
         return type.GetMethod(methodName, BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
-            ?.IsOverride() == true;
+            ?.IsOverride() ?? false;
     }
 
     /// <summary>Determines whether the <paramref name="type"/> is decorated with an <see cref="Attribute"/> of the the specified <paramref name="attributeType"/>.</summary>

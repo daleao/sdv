@@ -59,6 +59,7 @@ Moreover, the defense stat will also increase reflected damage, which includes t
 
 Defensive builds focusing on Topaz rings and weapon forges should now actually be viable, even offensively.
 
+**I do not recommend using this option with [Sword and Sorcery](https://www.nexusmods.com/stardewvalley/mods/12369**. There shouldn't be any issues, but that mod's Artificer skill and new Armor and Shield gear slots are designed with the vanilla system in mind, and this feature is designed with the vanilla defense maximum of around 20. With both, it becomes very easy to completely nullify all damage. 
 
 ### Knockback
 

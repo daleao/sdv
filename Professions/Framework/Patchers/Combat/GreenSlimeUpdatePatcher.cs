@@ -36,14 +36,15 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GreenSlimeUpdatePostfix(GreenSlime __instance, ref int ___readyToJump, GameTime time)
     {
+        var location = __instance.currentLocation;
         if (__instance.Get_Piped() is not { } piped ||
-            !ReferenceEquals(__instance.currentLocation, piped.Piper.currentLocation))
+            !ReferenceEquals(location, piped.Piper.currentLocation))
         {
             return;
         }
 
         if (time.TotalGameTime.Ticks % 60 == 0 &&
-            !Utility.isOnScreen(__instance.TilePoint, 4 * Game1.tileSize, __instance.currentLocation))
+            !Utility.isOnScreen(__instance.TilePoint, 4 * Game1.tileSize, location))
         {
             piped.WarpToPiper();
         }
@@ -63,9 +64,9 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
                     typeof(Debris),
                     "approximatePosition");
-            for (var i = __instance.currentLocation.debris.Count - 1; i >= 0; i--)
+            for (var i = location.debris.Count - 1; i >= 0; i--)
             {
-                var debris = __instance.currentLocation.debris[i];
+                var debris = location.debris[i];
                 if (debris.itemId is null)
                 {
                     continue;
@@ -78,7 +79,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                     continue;
                 }
 
-                __instance.currentLocation.debris.RemoveAt(i);
+                location.debris.RemoveAt(i);
                 if (!piped.HasEmptyInventorySlots)
                 {
                     Game1.addHUDMessage(new HUDMessage(I18n.Piper_Slime_BagFull()));
@@ -88,7 +89,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var character in __instance.currentLocation.characters)
+        foreach (var character in location.characters)
         {
             if (character is not Monster { IsMonster: true } monster
                 || (monster.IsFloating() && !(__instance.Scale >= 1.8f || __instance.IsJumping()))
@@ -111,13 +112,13 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             {
                 var randomizedDamage = __instance.DamageToFarmer +
                                        Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
-                var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true &&
+                var mitigatedDamage = (CombatIntegration.Instance?.IsLoaded ?? false) &&
                                       CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
                     ? (int)(randomizedDamage * (10f / (10f + monster.resilience.Value)))
                     : randomizedDamage - monster.resilience.Value;
                 var damageToMonster = Math.Max(1, mitigatedDamage);
                 monster.takeDamage(damageToMonster, (int)xTrajectory, (int)yTrajectory, false, 1d, "slime");
-                monster.currentLocation.debris.Add(new Debris(
+                location.debris.Add(new Debris(
                     damageToMonster,
                     new Vector2(monsterBox.Center.X + 16, monsterBox.Center.Y),
                     new Color(255, 130, 0),
@@ -149,13 +150,13 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 // get damaged by monster
                 var randomizedDamage = monster.DamageToFarmer +
                                    Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
-                var mitigatedDamage = CombatIntegration.Instance?.IsLoaded == true &&
+                var mitigatedDamage = (CombatIntegration.Instance?.IsLoaded ?? false) &&
                                   CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
                     ? (int)(randomizedDamage * (10f / (10f + __instance.resilience.Value)))
                     : randomizedDamage - __instance.resilience.Value;
                 var damageToSlime = Math.Max(1, mitigatedDamage);
                 __instance.takeDamage(damageToSlime, (int)-xTrajectory, (int)-yTrajectory, false, 1d, "slime");
-                if (__instance.Name == "Tiger Slime")
+                if (__instance.IsTigerSlime())
                 {
                     monster.takeDamage(damageToSlime / 2, 0, 0, false, 1d, "hitEnemy");
                 }
@@ -169,6 +170,28 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 piped.BeginRespawn();
                 break;
             }
+        }
+
+        if (time.TotalGameTime.Ticks % Game1.random.Next(60, 120) == 0)
+        {
+            var color = __instance.IsTigerSlime() ? Color.OrangeRed : __instance.color.Value;
+            var sprite = new TemporaryAnimatedSprite("LooseSprites/Cursors", new Rectangle(359, 1437, 14, 14), Vector2.Zero, flipped: false, 0.01f, color)
+            {
+                alpha = (float)((Game1.random.NextDouble() / 3.0) + 0.5),
+                xPeriodic = true,
+                xPeriodicLoopTime = Game1.random.Next(2000, 3000),
+                xPeriodicRange = Game1.random.Next(-32, 32),
+                motion = new Vector2(0f, -1f),
+                rotationChange = (float)(Math.PI / Game1.random.Next(32, 64)),
+                positionFollowsAttachedCharacter = true,
+                attachedCharacter = __instance,
+                layerDepth = 1f,
+                scaleChange = 0.04f,
+                scaleChangeChange = -0.0008f,
+                scale = (float)(2.0 + Game1.random.NextDouble()),
+            };
+
+            Game1.Multiplayer.broadcastSprites(location, sprite);
         }
 
         if (!piped.Piper.HasProfession(Profession.Piper, true) || time.TotalGameTime.TotalSeconds % 5 != 0)
@@ -186,7 +209,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        foreach (var farmer in __instance.currentLocation.farmers)
+        foreach (var farmer in location.farmers)
         {
             if (__instance.TileDistanceToPlayer(farmer) < 3)
             {

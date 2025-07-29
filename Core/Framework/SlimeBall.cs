@@ -32,7 +32,7 @@ public class SlimeBall
 
     public virtual Dictionary<string, int> GetDrops()
     {
-        var drops = new Dictionary<string, int>();
+        Dictionary<string, int> drops = [];
         var r = new Random(Guid.NewGuid().GetHashCode());
         if (this.IsTiger)
         {

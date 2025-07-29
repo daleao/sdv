@@ -37,12 +37,64 @@ internal sealed class AddCommand(CommandHandler handler)
             return false;
         }
 
-        if (args[0].ToLower() is "mastery" or "masteries")
+        var tokens = args.ToList();
+        var farmerIndex = 1;
+        var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();
+        if (farmerArgs.Any())
         {
-            args = args.Skip(1).ToArray();
-            foreach (var arg in args)
+            var fIndex = tokens.IndexOf(farmerArgs.First());
+            if (fIndex != -1 && tokens.Count > fIndex + 1 && int.TryParse(tokens[fIndex + 1], out var parsed))
             {
-                if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
+                farmerIndex = parsed;
+            }
+            else
+            {
+                Log.W("The `--farmer` flag is missing an accompanying farmer index. Please specify \"1\" for player 1 or \"2\" for player 2.");
+                return false;
+            }
+
+            tokens.RemoveAt(fIndex + 1);
+            tokens.RemoveAt(fIndex);
+        }
+
+        var player = Game1.player;
+        if (farmerIndex > 1)
+        {
+            if (!Context.IsSplitScreen)
+            {
+                Log.W("Can't assign professions to co-op players in a non-splitscreen session.");
+                return false;
+            }
+
+            var screenId = farmerIndex - 1;
+            var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
+            if (screenId > onlinePlayers.Count)
+            {
+                Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
+                return false;
+            }
+
+            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
+            if (multiplayerId is null)
+            {
+                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
+                return false;
+            }
+
+            player = Game1.getFarmer(multiplayerId.Value);
+            if (player is null)
+            {
+                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                return false;
+            }
+        }
+
+        if (tokens[0].ToLower() is "mastery" or "masteries")
+        {
+            tokens = tokens.Skip(1).ToList();
+            foreach (var token in tokens)
+            {
+                if (string.Equals(token, "all", StringComparison.InvariantCultureIgnoreCase))
                 {
                     foreach (var skill1 in Skill.List)
                     {
@@ -51,15 +103,15 @@ internal sealed class AddCommand(CommandHandler handler)
                             continue;
                         }
 
-                        Game1.player.stats.Set(StatKeys.Mastery(skill1), 1);
+                        player.stats.Set(StatKeys.Mastery(skill1), 1);
                         Log.I($"Mastered the {skill1} skill.");
                     }
 
-                    Game1.player.stats.Set(StatKeys.MasteryExp, MasteryTrackerMenu.getMasteryExpNeededForLevel(5));
+                    player.stats.Set(StatKeys.MasteryExp, MasteryTrackerMenu.getMasteryExpNeededForLevel(5));
                     return true;
                 }
 
-                if (Skill.TryFromName(arg, true, out var skill2))
+                if (Skill.TryFromName(token, true, out var skill2))
                 {
                     if (skill2.CanGainPrestigeLevels())
                     {
@@ -67,8 +119,8 @@ internal sealed class AddCommand(CommandHandler handler)
                         return true;
                     }
 
-                    Game1.player.stats.Set(StatKeys.Mastery(skill2), 1);
-                    Game1.player.stats.Set(
+                    player.stats.Set(StatKeys.Mastery(skill2), 1);
+                    player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
                     Log.I($"Mastered the {skill2} skill.");
@@ -80,17 +132,17 @@ internal sealed class AddCommand(CommandHandler handler)
             }
         }
 
-        var prestigeArgs = args.Where(a => a.ToLower() is "-p" or "--prestiged").ToArray();
+        var prestigeArgs = tokens.Where(a => a.ToLower() is "--prestiged" or "-p").ToList();
         var prestige = prestigeArgs.Any();
         if (prestige)
         {
-            args = args.Except(prestigeArgs).ToArray();
+            tokens = tokens.Except(prestigeArgs).ToList();
         }
 
         List<int> professionsToAdd = [];
-        foreach (var arg in args)
+        foreach (var token in tokens)
         {
-            if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(token, "all", StringComparison.InvariantCultureIgnoreCase))
             {
                 var range = Profession.GetRange().ToArray();
                 if (prestige)
@@ -101,18 +153,18 @@ internal sealed class AddCommand(CommandHandler handler)
                 range = [.. range, .. CustomProfession.List.Select(p => p.Id)];
                 professionsToAdd.AddRange(range);
                 Log.I(
-                    $"Added all {(prestige ? "prestiged " : string.Empty)}professions to {Game1.player.Name}.");
+                    $"Added all {(prestige ? "prestiged " : string.Empty)}professions to {player.Name}.");
                 break;
             }
 
-            if (Profession.TryFromName(arg, true, out var profession) ||
-                Profession.TryFromLocalizedName(arg, true, out profession) ||
-                (int.TryParse(arg, out var id) && Profession.TryFromValue(id, out profession)))
+            if (Profession.TryFromName(token, true, out var profession) ||
+                Profession.TryFromLocalizedName(token, true, out profession) ||
+                (int.TryParse(token, out var id) && Profession.TryFromValue(id, out profession)))
             {
-                if ((!prestige && Game1.player.HasProfession(profession)) ||
-                    (prestige && Game1.player.HasProfession(profession, true)))
+                if ((!prestige && player.HasProfession(profession)) ||
+                    (prestige && player.HasProfession(profession, true)))
                 {
-                    Log.W($"Farmer {Game1.player.Name} already has the {profession.StringId} profession.");
+                    Log.W($"Farmer {player.Name} already has the {profession.StringId} profession.");
                     continue;
                 }
 
@@ -123,17 +175,17 @@ internal sealed class AddCommand(CommandHandler handler)
                 }
 
                 Log.I(
-                    $"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {Game1.player.Name}.");
+                    $"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {player.Name}.");
             }
             else
             {
                 var customProfession = CustomProfession.List.FirstOrDefault(p =>
-                    string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    (int.TryParse(arg, out id) && id == p.Id));
+                    string.Equals(token, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    string.Equals(token, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    (int.TryParse(token, out id) && id == p.Id));
                 if (customProfession is null)
                 {
-                    Log.W($"{arg} is not a valid profession name.");
+                    Log.W($"{token} is not a valid profession name.");
                     continue;
                 }
 
@@ -143,28 +195,28 @@ internal sealed class AddCommand(CommandHandler handler)
                     continue;
                 }
 
-                if (Game1.player.HasProfession(customProfession))
+                if (player.HasProfession(customProfession))
                 {
                     Log.W(
-                        $"Farmer {Game1.player.Name} already has the {customProfession.StringId} profession.");
+                        $"Farmer {player.Name} already has the {customProfession.StringId} profession.");
                     continue;
                 }
 
                 professionsToAdd.Add(customProfession.Id);
-                Log.I($"Added the {customProfession.StringId} profession to {Game1.player.Name}.");
+                Log.I($"Added the {customProfession.StringId} profession to {player.Name}.");
             }
         }
 
         LevelUpMenu levelUpMenu = new();
-        foreach (var pid in professionsToAdd.Distinct().Except(Game1.player.professions))
+        foreach (var pid in professionsToAdd.Distinct().Except(player.professions))
         {
-            if (Game1.player.professions.AddOrReplace(pid))
+            if (player.professions.AddOrReplace(pid))
             {
                 levelUpMenu.getImmediateProfessionPerk(pid);
             }
         }
 
-        LevelUpMenu.RevalidateHealth(Game1.player);
+        LevelUpMenu.RevalidateHealth(player);
         if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");

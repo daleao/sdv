@@ -77,7 +77,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injected subroutines
+    #region injected
 
     private static void DrawHealthBarSubroutine(Vector2 topOfBar)
     {
@@ -202,5 +202,5 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injected subroutines
+    #endregion injected
 }

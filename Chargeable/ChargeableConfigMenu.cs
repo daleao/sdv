@@ -35,13 +35,12 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
     [UsedImplicitly]
     private static void AxeRadiusAtEachLevelOverride()
     {
-        const int maxUpgradeLevel = 5;
         Instance!
             .AddIntSlider(
                 I18n.Gmcm_RadiusAtEachPowerLevel_Copper_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Copper_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[0],
-                (config, value) => config.RadiusAtEachPowerLevel[0] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[0] = value,
                 () => Config.Axe,
                 1,
                 10,
@@ -50,7 +49,7 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Steel_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Steel_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[1],
-                (config, value) => config.RadiusAtEachPowerLevel[1] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[1] = value,
                 () => Config.Axe,
                 1,
                 10,
@@ -59,7 +58,7 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Gold_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Gold_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[2],
-                (config, value) => config.RadiusAtEachPowerLevel[2] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[2] = value,
                 () => Config.Axe,
                 1,
                 10,
@@ -68,34 +67,34 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Iridium_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Iridium_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[3],
-                (config, value) => config.RadiusAtEachPowerLevel[3] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[3] = value,
                 () => Config.Axe,
                 1,
                 10,
                 id: "RadiusAtEachPowerLevel.Axe.Iridium");
 
-        if (maxUpgradeLevel > 5 && Config.Axe.RadiusAtEachPowerLevel.Length > 5)
+        if (MaxUpgradeLevel > 5 && Config.Axe.RadiusAtEachPowerLevel.Length > 5)
         {
             Instance
                 .AddIntSlider(
                     I18n.Gmcm_RadiusAtEachPowerLevel_Radioactive_Title,
                     I18n.Gmcm_RadiusAtEachPowerLevel_Radioactive_Desc,
                     config => (int)config.RadiusAtEachPowerLevel[4],
-                    (config, value) => config.RadiusAtEachPowerLevel[4] = (uint)value,
+                    (config, value) => config.RadiusAtEachPowerLevel[4] = value,
                     () => Config.Axe,
                     1,
                     10,
                     id: "RadiusAtEachPowerLevel.Axe.Radioactive");
         }
 
-        if (maxUpgradeLevel > 6 && Config.Axe.RadiusAtEachPowerLevel.Length > 6)
+        if (MaxUpgradeLevel > 6 && Config.Axe.RadiusAtEachPowerLevel.Length > 6)
         {
             Instance
                 .AddIntSlider(
                     I18n.Gmcm_RadiusAtEachPowerLevel_Mythicite_Title,
                     I18n.Gmcm_RadiusAtEachPowerLevel_Mythicite_Desc,
                     config => (int)config.RadiusAtEachPowerLevel[5],
-                    (config, value) => config.RadiusAtEachPowerLevel[5] = (uint)value,
+                    (config, value) => config.RadiusAtEachPowerLevel[5] = value,
                     () => Config.Axe,
                     1,
                     10,
@@ -106,8 +105,8 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
             .AddIntSlider(
                 I18n.Gmcm_RadiusAtEachPowerLevel_Reaching_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Reaching_Desc,
-                config => (int)config.RadiusAtEachPowerLevel[maxUpgradeLevel - 1],
-                (config, value) => config.RadiusAtEachPowerLevel[maxUpgradeLevel - 1] = (uint)value,
+                config => (int)config.RadiusAtEachPowerLevel[MaxUpgradeLevel - 1],
+                (config, value) => config.RadiusAtEachPowerLevel[MaxUpgradeLevel - 1] = value,
                 () => Config.Axe,
                 1,
                 10,
@@ -117,13 +116,12 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
     [UsedImplicitly]
     private static void PickaxeRadiusAtEachLevelOverride()
     {
-        const int maxUpgradeLevel = 5;
         Instance!
             .AddIntSlider(
                 I18n.Gmcm_RadiusAtEachPowerLevel_Copper_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Copper_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[0],
-                (config, value) => config.RadiusAtEachPowerLevel[0] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[0] = value,
                 () => Config.Pick,
                 1,
                 10,
@@ -132,7 +130,7 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Steel_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Steel_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[1],
-                (config, value) => config.RadiusAtEachPowerLevel[1] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[1] = value,
                 () => Config.Pick,
                 1,
                 10,
@@ -141,7 +139,7 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Gold_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Gold_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[2],
-                (config, value) => config.RadiusAtEachPowerLevel[2] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[2] = value,
                 () => Config.Pick,
                 1,
                 10,
@@ -150,34 +148,34 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
                 I18n.Gmcm_RadiusAtEachPowerLevel_Iridium_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Iridium_Desc,
                 config => (int)config.RadiusAtEachPowerLevel[3],
-                (config, value) => config.RadiusAtEachPowerLevel[3] = (uint)value,
+                (config, value) => config.RadiusAtEachPowerLevel[3] = value,
                 () => Config.Pick,
                 1,
                 10,
                 id: "RadiusAtEachPowerLevel.Pick.Iridium");
 
-        if (maxUpgradeLevel > 5 && Config.Pick.RadiusAtEachPowerLevel.Length > 5)
+        if (MaxUpgradeLevel > 5 && Config.Pick.RadiusAtEachPowerLevel.Length > 5)
         {
             Instance
                 .AddIntSlider(
                     I18n.Gmcm_RadiusAtEachPowerLevel_Radioactive_Title,
                     I18n.Gmcm_RadiusAtEachPowerLevel_Radioactive_Desc,
                     config => (int)config.RadiusAtEachPowerLevel[4],
-                    (config, value) => config.RadiusAtEachPowerLevel[4] = (uint)value,
+                    (config, value) => config.RadiusAtEachPowerLevel[4] = value,
                     () => Config.Pick,
                     1,
                     10,
                     id: "RadiusAtEachPowerLevel.Pick.Radioactive");
         }
 
-        if (maxUpgradeLevel > 6 && Config.Pick.RadiusAtEachPowerLevel.Length > 6)
+        if (MaxUpgradeLevel > 6 && Config.Pick.RadiusAtEachPowerLevel.Length > 6)
         {
             Instance
                 .AddIntSlider(
                     I18n.Gmcm_RadiusAtEachPowerLevel_Mythicite_Title,
                     I18n.Gmcm_RadiusAtEachPowerLevel_Mythicite_Desc,
                     config => (int)config.RadiusAtEachPowerLevel[5],
-                    (config, value) => config.RadiusAtEachPowerLevel[5] = (uint)value,
+                    (config, value) => config.RadiusAtEachPowerLevel[5] = value,
                     () => Config.Pick,
                     1,
                     10,
@@ -188,8 +186,8 @@ internal sealed class ChargeableConfigMenu : GMCMBuilder<ChargeableConfigMenu>
             .AddIntSlider(
                 I18n.Gmcm_RadiusAtEachPowerLevel_Reaching_Title,
                 I18n.Gmcm_RadiusAtEachPowerLevel_Reaching_Desc,
-                config => (int)config.RadiusAtEachPowerLevel[maxUpgradeLevel - 1],
-                (config, value) => config.RadiusAtEachPowerLevel[maxUpgradeLevel - 1] = (uint)value,
+                config => (int)config.RadiusAtEachPowerLevel[MaxUpgradeLevel - 1],
+                (config, value) => config.RadiusAtEachPowerLevel[MaxUpgradeLevel - 1] = value,
                 () => Config.Pick,
                 1,
                 10,

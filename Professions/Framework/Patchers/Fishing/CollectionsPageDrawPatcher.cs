@@ -69,7 +69,7 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static void DrawMaxIcons(CollectionsPage page, SpriteBatch b)
     {
@@ -108,5 +108,5 @@ internal sealed class CollectionsPageDrawPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

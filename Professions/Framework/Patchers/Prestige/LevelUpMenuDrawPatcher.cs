@@ -280,7 +280,7 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    #region injections
+    #region injected
 
     private static string GetChooseProfessionText(int currentLevel)
     {
@@ -343,5 +343,5 @@ internal sealed class LevelUpMenuDrawPatcher : HarmonyPatcher
         }
     }
 
-    #endregion injections
+    #endregion injected
 }

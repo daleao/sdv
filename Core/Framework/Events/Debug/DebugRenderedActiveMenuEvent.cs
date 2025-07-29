@@ -25,7 +25,7 @@ internal sealed class DebugRenderedActiveMenuEvent(EventManager? manager = null)
     {
         foreach (var component in DebugMenuChangedEvent.ClickableComponents)
         {
-            component.bounds.DrawBorder(Color.Red, e.SpriteBatch);
+            component.bounds.BorderHighlight(Color.Red, e.SpriteBatch);
         }
     }
 }

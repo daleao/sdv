@@ -33,7 +33,6 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
         // FRS letters
         string honorific = _I18n.Get("honorific" + (Game1.player.IsMale ? ".male" : ".female"));
         var player = Game1.player;
-        var farm = Game1.getFarm();
         var interest = CurrentCulture($"{Config.AnnualInterest:0.#%}");
 
         data[$"{UniqueId}_{Mail.FrsIntro}"] =

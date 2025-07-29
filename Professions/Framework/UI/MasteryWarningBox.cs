@@ -11,7 +11,7 @@ using StardewValley.Menus;
 #endregion using directives
 
 /// <summary>Warning dialogue box to inform players when they might be locked out of Skill Reset.</summary>
-public sealed class MasteryWarningBox : DialogueBox
+internal sealed class MasteryWarningBox : DialogueBox
 {
     private readonly MasteryTrackerMenu _masteryTrackerMenu;
 
@@ -21,8 +21,8 @@ public sealed class MasteryWarningBox : DialogueBox
     public MasteryWarningBox(GameLocation location, MasteryTrackerMenu masteryTrackerMenu)
         : base(
             Config.Masteries.LockMasteryUntilFullReset
-                ? I18n.Prestige_Mastery_Warning()
-                : I18n.Prestige_Mastery_Lock(),
+                ? I18n.Prestige_Mastery_Lock()
+                : I18n.Prestige_Mastery_Warning(),
             Config.Masteries.LockMasteryUntilFullReset
                 ? [new Response("OK", Game1.content.LoadString("Strings\\UI:Confirm")).SetHotKey(Keys.Escape)]
                 : location.createYesNoResponses())

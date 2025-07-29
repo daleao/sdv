@@ -171,7 +171,7 @@ public class MultiCheckboxOption<TCheckbox>
     protected virtual void Draw(SpriteBatch b, Vector2 basePosition)
     {
         var isMouseLeftPressed = Game1.input.GetMouseState().LeftButton == ButtonState.Pressed;
-        var didClick = isMouseLeftPressed && this.wasMouseLeftPressed == false;
+        var didClick = isMouseLeftPressed && (this.wasMouseLeftPressed == false);
         this.wasMouseLeftPressed = isMouseLeftPressed;
         var mouseX = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseX() : Game1.getOldMouseX();
         var mouseY = Constants.TargetPlatform == GamePlatform.Android ? Game1.getMouseY() : Game1.getOldMouseY();

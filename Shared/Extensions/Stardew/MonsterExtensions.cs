@@ -22,6 +22,14 @@ public static class MonsterExtensions
         return monster is GreenSlime or BigSlime;
     }
 
+    /// <summary>Determines whether the <paramref name="slime"/> is a Tiger Slime.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="slime"/>'s name is "Tiger Slime", otherwise <see langword="false"/>.</returns>
+    public static bool IsTigerSlime(this GreenSlime slime)
+    {
+        return slime.Name == "Tiger Slime";
+    }
+
     /// <summary>Determines whether the <paramref name="monster"/> is an undead being or void spirit.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="monster"/> is an undead being or void spirit, otherwise <see langword="false"/>.</returns>
