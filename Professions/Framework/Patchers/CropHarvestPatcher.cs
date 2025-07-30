@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.CodeAnalysis;
+using Microsoft.Xna.Framework;
 using StardewValley.Characters;
+using StardewValley.Objects;
+using StardewValley.TerrainFeatures;
 using FarmerExtensions = DaLion.Professions.Framework.Extensions.FarmerExtensions;
 
 #endregion using directives
@@ -78,23 +80,23 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             return null;
         }
 
-        try
-        {
-            helper
-                .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[12])])
-                .Insert([
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(CropHarvestPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
-                    new CodeInstruction(OpCodes.Mul)
-                ]);
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed adding whispered crop quality boost.\nHelper returned {ex}");
-            return null;
-        }
+        // try
+        // {
+        //     helper
+        //         .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[12])])
+        //         .Insert([
+        //             new CodeInstruction(OpCodes.Ldarg_0),
+        //             new CodeInstruction(
+        //                 OpCodes.Call,
+        //                 typeof(CropHarvestPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
+        //             new CodeInstruction(OpCodes.Mul)
+        //         ]);
+        // }
+        // catch (Exception ex)
+        // {
+        //     Log.E($"Failed adding whispered crop quality boost.\nHelper returned {ex}");
+        //     return null;
+        // }
 
         // Injected: or (Game1.player.professions.Contains(<agriculturist_id>) && random2.NextDouble() < chanceForGoldQuality / 3.0)
         // After: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
@@ -168,56 +170,38 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             return null;
         }
 
+        try
+        {
+            helper
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[9]),
+                        new CodeInstruction(OpCodes.Brtrue_S),
+                        new CodeInstruction(OpCodes.Ldc_I4_M1),
+                        new CodeInstruction(OpCodes.Br_S),
+                    ],
+                    ILHelper.SearchOption.Last)
+                .StripLabels(out var labels)
+                .Insert(
+                    [
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_1),
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(OpCodes.Ldarg_3),
+                        new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(CropHarvestPatcher).RequireMethod(nameof(DoAgriculturistCropMemory))),
+                    ],
+                    labels);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding Agriculturist crop memory stuff.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
-    }
-
-    [HarmonyPostfix]
-    [UsedImplicitly]
-    private static void CropHarvestPostfix(Crop __instance)
-    {
-        if (!Game1.player.HasProfessionOrLax(Profession.Agriculturist))
-        {
-            return;
-        }
-
-        var dirt = __instance.Dirt;
-        if (dirt is null)
-        {
-            return;
-        }
-
-        var location = dirt.Location;
-        if (location is null || location.IsGreenhouse || !location.IsOutdoors)
-        {
-            return;
-        }
-
-        var cropId = __instance.GetData().HarvestItemId;
-        if (cropId is null)
-        {
-            return;
-        }
-
-        var soilMemory = Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>();
-        if (soilMemory.Count > 0 && soilMemory[^1] == cropId)
-        {
-            soilMemory.RemoveAt(soilMemory.Count - 1);
-        }
-        else
-        {
-            if (soilMemory.Contains(cropId))
-            {
-                soilMemory.Remove(cropId);
-            }
-
-            soilMemory.Add(cropId);
-            if (soilMemory.Count > 3)
-            {
-                soilMemory.RemoveAt(0);
-            }
-        }
-
-        Data.Write(dirt, DataKeys.SoilMemory, string.Join(',', soilMemory));
     }
 
     #endregion harmony patches
@@ -237,19 +221,141 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         return r.NextBool(chance);
     }
 
-    private static double GetAgriculturistMultiplier(Crop crop)
+    private static void DoAgriculturistCropMemory(
+        Crop crop,
+        int xTile,
+        int yTile,
+        HoeDirt soil,
+        JunimoHarvester? junimoHarvester = null)
     {
-        var cropMemory = Data.Read(crop.Dirt, DataKeys.SoilMemory);
-        var stacks = 0;
-        if (!string.IsNullOrEmpty(cropMemory))
+        if (!Game1.player.HasProfessionOrLax(Profession.Agriculturist))
         {
-            stacks = cropMemory.Count(c => c == ',') + 1;
+            return;
         }
 
-        var multiplier = 1d + (stacks * 0.05);
-        Log.D($"Applied a {multiplier}x quality multiplier.");
-        return multiplier;
+        var location = soil.Location;
+        if (location is null || location.IsGreenhouse || !location.IsOutdoors)
+        {
+            return;
+        }
+
+        var cropId = crop.GetData().HarvestItemId;
+        if (cropId is null)
+        {
+            return;
+        }
+
+        var soilMemory = Data.Read(soil, DataKeys.SoilMemory).ParseList<string>();
+        while (soilMemory.Count > 0 && string.IsNullOrEmpty(soilMemory[^1]))
+        {
+            soilMemory.RemoveAt(soilMemory.Count - 1);
+        }
+
+        if (Game1.player.HasProfession(Profession.Agriculturist, true) && soilMemory.Count > 0)
+        {
+            for (var i = 0; i < soilMemory.Count; i++)
+            {
+                var previousId = soilMemory[^(i + 1)]!;
+                if (previousId == cropId)
+                {
+                    continue;
+                }
+
+                var chance = 0.2 / (i + 1.0);
+                var r1 = Utility.CreateRandom(
+                    xTile * 7.0,
+                    yTile * 11.0,
+                    Game1.stats.DaysPlayed,
+                    Game1.uniqueIDForThisGame);
+                if (!r1.NextBool(chance))
+                {
+                    continue;
+                }
+
+                if (!Lookups.SeedByCrop.TryGetValue(previousId, out var previousSeedId))
+                {
+                    previousSeedId = Game1.cropData.First(pair => pair.Value.HarvestItemId == previousId).Key;
+                    Lookups.SeedByCrop[previousId] = previousSeedId;
+                }
+
+                if (!Game1.cropData.TryGetValue(previousSeedId, out var hybridHarvestData))
+                {
+                    return;
+                }
+
+                var fertilizerQualityLevel = soil.GetFertilizerQualityBoostLevel();
+                var chanceForGoldQuality = (0.2 * (Game1.player.FarmingLevel / 10.0)) +
+                                           (0.2 * fertilizerQualityLevel * ((Game1.player.FarmingLevel + 2.0) / 12.0)) +
+                                           0.01;
+                var chanceForSilverQuality = Math.Min(0.75, chanceForGoldQuality * 2.0);
+                var cropQuality = SObject.lowQuality;
+                if (r1.NextBool(chanceForGoldQuality / 2.0))
+                {
+                    cropQuality = SObject.bestQuality;
+                }
+                else if (r1.NextBool(chanceForGoldQuality))
+                {
+                    cropQuality = SObject.highQuality;
+                }
+                else if (r1.NextBool(chanceForSilverQuality) || fertilizerQualityLevel >= 3)
+                {
+                    cropQuality = SObject.medQuality;
+                }
+
+                Item? hybridHarvest;
+                if (hybridHarvestData.TintColors is not null && hybridHarvestData.TintColors.Count > 0)
+                {
+                    var r2 = Utility.CreateRandom(xTile * 1000.0, yTile, Game1.dayOfMonth);
+                    var color = Utility.StringToColor(hybridHarvestData.TintColors.Choose(r2));
+                    hybridHarvest = new ColoredObject(previousId, 1, color!.Value) { Quality = cropQuality, };
+                }
+                else
+                {
+                    hybridHarvest = ItemRegistry.Create(previousId, 1, cropQuality);
+                }
+
+                if (hybridHarvest is null)
+                {
+                    continue;
+                }
+
+                if (junimoHarvester is not null)
+                {
+                    junimoHarvester.tryToAddItemToHut(hybridHarvest.getOne());
+                }
+                else
+                {
+                    Game1.createItemDebris(
+                        hybridHarvest.getOne(),
+                        new Vector2((xTile * Game1.tileSize) + 32, (yTile * Game1.tileSize) + 32),
+                        -1);
+                }
+            }
+        }
+
+        var existingIndex = soilMemory.IndexOf(cropId);
+        if (existingIndex != -1)
+        {
+            soilMemory.RemoveAt(existingIndex);
+        }
+
+        soilMemory.Add(cropId);
+        Data.Write(soil, DataKeys.SoilMemory, string.Join(',', soilMemory));
     }
+
+    // private static double GetAgriculturistMultiplier(Crop crop)
+    // {
+    //     var cropMemory = Data.Read(crop.Dirt, DataKeys.SoilMemory);
+    //     var stacks = 0;
+    //     if (!string.IsNullOrEmpty(cropMemory))
+    //     {
+    //         stacks = cropMemory.Count(c => c == ',') + 1;
+    //     }
+    //
+    //     var multiplier = 1d + (stacks * 0.05);
+    //     Log.D($"Applied a {multiplier}x quality multiplier.");
+    //     return multiplier;
+    // }
 
     #endregion injected
 }

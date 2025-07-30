@@ -104,9 +104,7 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         // enable host events
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
         {
-            this.Manager.Enable(
-                typeof(LuremasterDayStartedEvent),
-                typeof(LuremasterTimeChangedEvent));
+            this.Manager.Enable(typeof(LuremasterTimeChangedEvent));
         }
         else if (Context.IsMultiplayer)
         {

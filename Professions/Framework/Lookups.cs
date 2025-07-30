@@ -36,8 +36,8 @@ internal static class Lookups
         $"(O){UniqueId}_OstrichMayo",
     ];
 
-    /// <summary>Gets or sets the ids of resource nodes.</summary>
-    internal static HashSet<string> ResourceNodeIds { get; set; } =
+    /// <summary>Gets the IDs of resource nodes.</summary>
+    internal static HashSet<string> ResourceNodeIds { get; } =
     [
         QIDs.Stone_Node_Copper0,
         QIDs.Stone_Node_Copper1,
@@ -67,6 +67,9 @@ internal static class Lookups
         QIDs.Stone_Node_MysticStone
     ];
 
-    /// <summary>Gets or sets the ids of (valuable) resource clumps.</summary>
-    internal static HashSet<int> ResourceClumpIds { get; set; } = [];
+    /// <summary>Gets the IDs of (valuable) resource clumps.</summary>
+    internal static HashSet<int> ResourceClumpIds { get; } = [];
+
+    /// <summary>Gets the seed object ID from the corresponding crop ID.</summary>
+    internal static Dictionary<string, string> SeedByCrop { get; } = [];
 }

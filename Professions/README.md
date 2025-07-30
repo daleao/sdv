@@ -825,7 +825,7 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 <font size="2">
 <details>
 
-The most unique out of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
+The most unique of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
 
 **Slime Minions:**
 - For every 10 Slimes raised in a Slime Hutch or outside on the Farm, a random Slime will be summoned automatically to aid the Piper in combat. Each full Hutch (at +50% capacity) will spawn 3 Slime minions. There is no cap.
@@ -852,14 +852,15 @@ The most unique out of all new professions. Since we have a profession focused o
 - Removing the Slime's hat will dismiss it, turning it back into a wild Slime. Any held items will be permanently lost when dismissed, so be careful to retrieve all items beforehand!
 
 **Slime Breeding:**
-- Every Slime is assigned an IV (Individual Value) between 0 and 10 for each of Attack, Defense and Health.
-- IVs grant a multiplicative bonus to the corresponding stat (x2 at 10).
+- Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.
+- IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).
 - First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
-- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 1 value higher than the parent's. This guarantees that IVs will eventually converge to 10 after several generations.
+- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 2 values higher than the parent's. This guarantees that IVs will eventually converge to max after a few generations.
 - Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
 - Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
     - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.
     - Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
+- This is a power gamer feature. Most users can ignore this and still have a good time.
 
 **Colored Item Drops:**
 - If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
@@ -1179,7 +1180,7 @@ Crab Pots are an exception. Although they may use an input (bait), their product
 <details>
 <summary><b>How can I make machines / dairy from different mods compatible with the Artisan / Producer profession?</b></summary>
 
-Make a copy of one of the example files inside `assets/data` folder, either `Example.ArtisanMachines.json` or `Example.AnimalDerivedGoods.json`, depending on what you want to add. Change the file prefix to whatever you like (I recommend naming it after the particular mod and creating a new file for each mod), **but you must keep the format `xyz.ArtisanMachines.json` or `xyz.AnimalDerivedGoods.json`. Then, add the Qualified Item IDs of the desired items into the corresponding list.
+Make a copy of one of the example files inside `assets/data` folder, either `Example.ArtisanMachines.json` or `Example.AnimalDerivedGoods.json`, depending on what you want to add. Change the file prefix to whatever you like (I recommend naming it after the particular mod and creating a new file for each mod), **but you must keep the format `xyz.ArtisanMachines.json` or `xyz.AnimalDerivedGoods.json`**. Then, add the Qualified Item IDs of the desired items into the corresponding list.
 
 Cornucopia compatibility already ships with the mod, so you can use it as an example as well. Below it is explained how to locate machine IDs in Cornucopia. Note that different mods may organize their internal files differently.
 Open the Cornucopia mod folder. You'll see a folder named `machines`. Inside you will see a different file named after each machine.
@@ -1206,7 +1207,7 @@ Copy the string starting with "(BC)...". This is the qualified ID of the machine
 - An animal produce item's qualified ID will always start with "(O)".
 
 Open your new asset file at `DaLion.Professions/assets/data/xyz.ArtisanMachines.json`.
-Paste the ID of the machine into the list, separated by a comma. The result should look soemthing like this:
+Paste the ID of the machine into the list, separated by a comma. The result should look something like this:
 
 ```json
 "ArtisanMachines": [

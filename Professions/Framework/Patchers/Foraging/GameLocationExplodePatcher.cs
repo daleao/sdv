@@ -86,6 +86,11 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             return true;
         }
 
+        if (!Context.IsMultiplayer)
+        {
+            return false;
+        }
+
         var anyGlobalHuntIsOn = Farmer_TreasureHunt.Values.Any(pair =>
             pair.Value.IsHuntingTreasure.Value &&
             pair.Value.LocationNameOrUniqueName == location.NameOrUniqueName &&

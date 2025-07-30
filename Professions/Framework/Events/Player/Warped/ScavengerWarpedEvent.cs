@@ -2,8 +2,8 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Hunting;
 using DaLion.Shared.Events;
-using Hunting;
 using StardewModdingAPI.Events;
 using StardewValley.Extensions;
 

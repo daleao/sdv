@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -35,7 +36,7 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += 0.1f;
-        // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += GetWhispererMultiplier(dirt);
+        // To: if (who.professions.Contains(<agriculturist_id>)) speedIncrease += GetAgriculturistMultiplier(dirt);
         try
         {
             var resumeExecution = generator.DefineLabel();
@@ -68,21 +69,9 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
 
     private static float GetAgriculturistMultiplier(HoeDirt dirt, Farmer who)
     {
-        if (!who.HasProfessionOrLax(Profession.Agriculturist))
-        {
-            return 0f;
-        }
-
-        var cropMemory = Data.Read(dirt.crop, DataKeys.SoilMemory);
-        var stacks = 0;
-        if (!string.IsNullOrEmpty(cropMemory))
-        {
-            stacks = cropMemory.Count(c => c == ',') + 1;
-        }
-
-        var multiplier = stacks * 0.05f;
-        Log.D($"Applied a {multiplier}x speed multiplier.");
-        return multiplier;
+        var professionBonus = who.HasProfession(Profession.Agriculturist, true) ? 0.2f : 0.1f;
+        var memoryBonus = Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>().ToHashSet().Count * 0.05f;
+        return professionBonus + memoryBonus;
     }
 
     #endregion injected

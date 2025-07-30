@@ -1,5 +1,23 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.1
+
+### Changed
+
+* New changes to Agriculturist:
+  * It was not my intention to nerf the vanilla profession. So I changed it again to a compromise; now grants flat 10% faster growth, *plus* 5% for each new crop type grown in the same tile and in the same season (no longer limited to 3 previous crops -> no more micromanagement).
+  * Cropwhisperer perk was a placeholder until I could come up with something better.
+    * Removed: Growth speed boosts also apply to regrowth cycles of multi-harvest crops.
+    * Restored: Additional 10% flat growth speed boost.
+    * Added: Chance to harvest crops grown previously in the same tile and season. _I wanted it to build on the crop rotation mechanic, and I like the idea of hybrid crops. This is a simpler version of that idea that I think still feels interesting._
+
+### Fixed
+
+* Fixed out-of-range exception with Treasure Hunt in multiplayer.
+* Fixed incorrect skill reset cost.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.3.0
 
 ### Added

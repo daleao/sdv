@@ -51,7 +51,7 @@ The problem is that damage continually scales as you encounter tougher enemies b
 
 This mod replaces the vanilla mitigation formula with a very simple exponential formula:
 
-`damage *= 0.9 ^ defense`
+`damage *= 10 / (10 + defense)`
 
 This results in a geometric progression, which causes every additional point of defense to mitigate exactly 10% more damage, guaranteeing that defense is always equally useful throughout every point in the game.
 

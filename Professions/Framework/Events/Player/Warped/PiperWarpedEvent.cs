@@ -32,12 +32,12 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         var piper = e.Player;
         var newLocation = e.NewLocation;
         var toDangerZone = newLocation.IsEnemyArea() || newLocation.Name.ContainsAnyOf("Mine", "SkullCave");
-        if (!toDangerZone && GreenSlime_Piped.Values.Any())
+        if (!toDangerZone)
         {
             this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
+            State.PipedMinionMenu = null;
             if (!newLocation.IsOutdoors)
             {
-                State.PipedMinionMenu = null;
                 return;
             }
 
@@ -49,7 +49,6 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
                 }
             }
 
-            State.PipedMinionMenu = null;
             return;
         }
 
@@ -65,6 +64,11 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
             }
 
             piper.SpawnMinions(numberToSpawn);
+        }
+
+        if (!GreenSlime_Piped.Values.Any())
+        {
+            return;
         }
 
         foreach (var (_, piped) in GreenSlime_Piped.Values)

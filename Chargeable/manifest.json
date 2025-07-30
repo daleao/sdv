@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Chargeable",
   "Name": "Chargeable Resource Tools",
   "Author": "DaLion",
-  "Version": "2.1.2-Debug",
+  "Version": "2.2.0",
   "Description": "Charge the Axe and Pickaxe to break debris within an area.",
   "MinimumApiVersion": "4.1",
   "MinimumGameVersion": "1.6",

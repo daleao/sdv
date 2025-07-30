@@ -241,9 +241,9 @@ public interface ISkill : IEquatable<ISkill>
         var resetData = Data.Read(player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();
         var baseCost = resetData.GetValueOrDefault(skill.StringId, 0) switch
         {
-            1 => 10000,
-            2 => 50000,
-            3 => 100000,
+            0 => 10000,
+            1 => 50000,
+            2 => 100000,
             _ => 0,
         };
 

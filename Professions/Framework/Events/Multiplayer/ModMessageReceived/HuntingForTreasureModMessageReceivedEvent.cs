@@ -41,6 +41,7 @@ internal sealed class HuntingForTreasureModMessageReceivedEvent(EventManager? ma
             who.Get_TreasureHunt().IsHuntingTreasure.Value = false;
             who.Get_TreasureHunt().LocationNameOrUniqueName = string.Empty;
             who.Get_TreasureHunt().TreasureTile = Vector2.Zero;
+            return;
         }
 
         who.Get_TreasureHunt().IsHuntingTreasure.Value = true;

@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Combat",
   "Name": "Wildcat",
   "Author": "DaLion",
-  "Version": "1.1.0-Debug",
+  "Version": "1.1.0",
   "Description": "Combo framework, slick moves & other combat tweaks.",
   "MinimumApiVersion": "4.1",
   "MinimumGameVersion": "1.6",

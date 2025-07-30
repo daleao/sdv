@@ -24,9 +24,7 @@ internal sealed class LuremasterPeerConnectedEvent(EventManager? manager = null)
             return;
         }
 
-        this.Manager.Enable(
-            typeof(LuremasterDayStartedEvent),
-            typeof(LuremasterTimeChangedEvent));
+        this.Manager.Enable(typeof(LuremasterTimeChangedEvent));
         this.Disable();
     }
 }

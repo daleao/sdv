@@ -391,15 +391,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
                 ModHelper.GameContent.InvalidateCache("Data/Objects");
             })
-            .When(Luremaster).Then(() => EventManager.Enable(
-                typeof(LuremasterDayStartedEvent),
-                typeof(LuremasterTimeChangedEvent)))
+            .When(Luremaster).Then(() => EventManager.Enable(typeof(LuremasterTimeChangedEvent)))
             .When(Prospector).Then(() =>
             {
                 State.ProspectorHunt ??= new ProspectorHunt();
                 EventManager.Enable(
                     typeof(ProspectorRenderedHudEvent),
-                    typeof(ProspectorWarpedEvent),
                     typeof(TrackerButtonsChangedEvent));
             })
             .When(Scavenger).Then(() =>
@@ -407,7 +404,6 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 State.ScavengerHunt ??= new ScavengerHunt();
                 EventManager.Enable(
                     typeof(ScavengerRenderedHudEvent),
-                    typeof(ScavengerWarpedEvent),
                     typeof(TrackerButtonsChangedEvent));
             })
             .When(Fighter).Then(() => Game1.player.maxHealth += 15)
