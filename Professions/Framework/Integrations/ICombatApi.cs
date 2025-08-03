@@ -7,7 +7,7 @@ public interface ICombatApi
     public interface ICombatConfig
     {
         /// <summary>Gets a value indicating whether to replace the linear damage mitigation formula with a rational formula that gives more impactful but diminishing returns from the defense stat.</summary>
-        public bool GeometricMitigationFormula { get; }
+        public bool HyperbolicMitigationFormula { get; }
     }
 
     /// <summary>Gets the mod's current config schema.</summary>

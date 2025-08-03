@@ -2,8 +2,10 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Events.Display.RenderedHud;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
+using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
 using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
 using DaLion.Professions.Framework.Events.Player;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
@@ -94,6 +96,24 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             }
 
             Data.Write(player, DataKeys.ResetCountBySkill, resetCountBySkill.Stringify());
+        }
+
+        var hasTrackingProfession = false;
+        if (player.HasProfession(Profession.Scavenger))
+        {
+            this.Manager.Enable<ScavengerRenderedHudEvent>();
+            hasTrackingProfession = true;
+        }
+
+        if (player.HasProfession(Profession.Prospector))
+        {
+            this.Manager.Enable<ProspectorRenderedHudEvent>();
+            hasTrackingProfession = true;
+        }
+
+        if (hasTrackingProfession)
+        {
+            this.Manager.Enable<TrackerButtonsChangedEvent>();
         }
 
         if (!Context.IsMainPlayer)

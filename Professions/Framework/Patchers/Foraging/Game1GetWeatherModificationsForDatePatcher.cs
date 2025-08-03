@@ -32,13 +32,13 @@ internal sealed class Game1GetWeatherModificationsForDatePatcher : HarmonyPatche
             return;
         }
 
-        var greenRainTrees = Math.Min(Game1.getFarm().CountGreenRainTrees(), 21);
+        var greenRainTrees = Math.Min(Game1.getFarm().CountGreenRainTrees(), 20);
         if (greenRainTrees == 0)
         {
             return;
         }
 
-        var greenRainChance = greenRainTrees * 0.015;
+        var greenRainChance = 0.1 + (greenRainTrees * 0.02);
         if (Game1.random.NextBool(greenRainChance))
         {
             __result = "GreenRain";

@@ -5,9 +5,6 @@
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Buildings;
-using StardewValley.Extensions;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -29,12 +26,19 @@ internal sealed class FishingRodPullFishFromWaterPatcher : HarmonyPatcher
     /// <summary>Count trash fished by rod.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void FishingRodPullFishFromWaterPostfix(string fishId, bool fromFishPond)
+    private static void FishingRodPullFishFromWaterPostfix(FishingRod __instance, string fishId, bool wasPerfect, bool fromFishPond, bool isBossFish)
     {
         if (!fromFishPond && fishId.IsTrashId() && Game1.player.HasProfession(Profession.Conservationist))
         {
             Data.Increment(Game1.player, DataKeys.ConservationistTrashCollectedThisSeason);
         }
+
+        if (!__instance.lastUser.HasProfession(Profession.Angler, true))
+        {
+            return;
+        }
+
+        State.FishingChain += wasPerfect ? 2 : 1;
     }
 
     #endregion harmony patches

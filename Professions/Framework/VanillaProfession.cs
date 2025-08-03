@@ -457,7 +457,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Scavenger).Then(() =>
             {
                 State.ScavengerHunt = null;
-                EventManager.Enable(typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent));
+                EventManager.Disable(typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent));
                 if (!who.HasProfession(Prospector))
                 {
                     EventManager.Disable<TrackerButtonsChangedEvent>();

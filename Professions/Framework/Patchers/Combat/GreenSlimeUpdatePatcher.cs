@@ -113,7 +113,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 var randomizedDamage = __instance.DamageToFarmer +
                                        Game1.random.Next(-__instance.DamageToFarmer / 4, __instance.DamageToFarmer / 4);
                 var mitigatedDamage = (CombatIntegration.Instance?.IsLoaded ?? false) &&
-                                      CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                                      CombatIntegration.Instance.ModApi.GetConfig().HyperbolicMitigationFormula
                     ? (int)(randomizedDamage * (10f / (10f + monster.resilience.Value)))
                     : randomizedDamage - monster.resilience.Value;
                 var damageToMonster = Math.Max(1, mitigatedDamage);
@@ -151,7 +151,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                 var randomizedDamage = monster.DamageToFarmer +
                                    Game1.random.Next(-monster.DamageToFarmer / 4, monster.DamageToFarmer / 4);
                 var mitigatedDamage = (CombatIntegration.Instance?.IsLoaded ?? false) &&
-                                  CombatIntegration.Instance.ModApi.GetConfig().GeometricMitigationFormula
+                                  CombatIntegration.Instance.ModApi.GetConfig().HyperbolicMitigationFormula
                     ? (int)(randomizedDamage * (10f / (10f + __instance.resilience.Value)))
                     : randomizedDamage - __instance.resilience.Value;
                 var damageToSlime = Math.Max(1, mitigatedDamage);

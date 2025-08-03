@@ -3,13 +3,11 @@
 #region using directives
 
 using System.Collections.Generic;
-using System.Formats.Asn1;
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Netcode;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -35,11 +33,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
     {
         if (__instance.lastUser.HasProfession(Profession.Angler, true))
         {
-            if (__instance.fishCaught)
-            {
-                State.FishingChain++;
-            }
-            else
+            if (!__instance.fishCaught)
             {
                 State.FishingChain = 0;
             }

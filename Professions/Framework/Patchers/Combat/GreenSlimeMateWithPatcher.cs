@@ -66,27 +66,27 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
     {
         var r = new Random(Guid.NewGuid().GetHashCode());
 
-        var inheritHealthFrom = r.Choose(daddy, mommy)!;
+        var inheritHealthFrom = daddy.Collect(mommy).MaxBy(parent => parent.MaxHealth)!;
         var parentBaseHealth = Data.ReadAs<int>(inheritHealthFrom, DataKeys.BaseHealth);
         var parentHealthIV = Data.ReadAs<int>(inheritHealthFrom, DataKeys.HealthIV);
-        var babyHealthIV = (int)Math.Min(r.NextGaussian(parentHealthIV + 1, 2), 5);
+        var babyHealthIV = (int)Math.Min(r.NextGaussian(parentHealthIV + 2, 2), 5);
         baby.Health = (int)(parentBaseHealth * (1f + (babyHealthIV / 5f)));
         baby.MaxHealth = baby.Health;
         Data.Write(baby, DataKeys.BaseHealth, parentBaseHealth.ToString());
         Data.Write(baby, DataKeys.HealthIV, babyHealthIV.ToString());
 
-        var inheritAttackFrom = r.Choose(daddy, mommy)!;
+        var inheritAttackFrom = daddy.Collect(mommy).MaxBy(parent => parent.DamageToFarmer)!;
         var parentBaseAttack = Data.ReadAs<int>(inheritAttackFrom, DataKeys.BaseAttack);
         var parentAttackIV = Data.ReadAs<int>(inheritAttackFrom, DataKeys.AttackIV);
-        var babyAttackIV = (int)Math.Min(r.NextGaussian(parentAttackIV + 1, 2), 5);
+        var babyAttackIV = (int)Math.Min(r.NextGaussian(parentAttackIV + 2, 2), 5);
         baby.DamageToFarmer = (int)(parentBaseAttack * (1f + (babyAttackIV / 5f)));
         Data.Write(baby, DataKeys.BaseAttack, parentBaseAttack.ToString());
         Data.Write(baby, DataKeys.AttackIV, babyAttackIV.ToString());
 
-        var inheritDefenseFrom = r.Choose(daddy, mommy)!;
+        var inheritDefenseFrom = daddy.Collect(mommy).MaxBy(parent => parent.resilience.Value)!;
         var parentBaseDefense = Data.ReadAs<int>(inheritDefenseFrom, DataKeys.BaseDefense);
         var parentDefenseIV = Data.ReadAs<int>(inheritDefenseFrom, DataKeys.DefenseIV);
-        var babyDefenseIV = (int)Math.Min(r.NextGaussian(parentDefenseIV + 1, 2), 5);
+        var babyDefenseIV = (int)Math.Min(r.NextGaussian(parentDefenseIV + 2, 2), 5);
         baby.resilience.Value = parentBaseDefense + babyDefenseIV;
         Data.Write(baby, DataKeys.BaseDefense, parentBaseDefense.ToString());
         Data.Write(baby, DataKeys.DefenseIV, babyDefenseIV.ToString());

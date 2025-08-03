@@ -74,7 +74,7 @@ internal sealed class GameLocationCheckGenericFishRequirementsPatcher : HarmonyP
     #elif RELEASE
         return fish.IsBossFish() && player.IsLocalPlayer && player.HasProfession(Profession.Angler, true) &&
                State.FishingChain > 10
-            ? 0.01f * (State.FishingChain - 10)
+            ? 0.01f * State.FishingChain
             : 0f;
     #endif
     }

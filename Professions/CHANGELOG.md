@@ -1,5 +1,20 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.2
+
+### Changed
+
+* Silviculturist green rain chance changed from 1.5% per green rain tree to a base 10% + 2% per green rain tree. 
+* Rodmancer legendary encounter chance now increases by 2% on a perfect catch. The chance now also counts the initial 10 catches, instead of starting at 0% after those 10 initial catches. 
+* Baby Slimes now always inherit the highest stats from each parent, instead of inheriting from a random parent.
+
+### Fixed
+
+* Fixed tracking profession markers not appearing.
+* Fixed renamed method in [Combat](../Combat) API.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.3.1
 
 ### Changed

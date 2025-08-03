@@ -102,12 +102,13 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <details>
 
 Crop rotation works as follows:
-- Every tilled tile keeps a memory of the previous 3 crops grown on that tile.
-- For each unique crop in that memory, the *next* crop gains 5% bonus to both growth speed and quality (max 15%).
-- Repeating the previous crop removes it from memory, nullifying its bonus. Repeating any other crop still in memory provides no additional bonus or penalty.
+- Every tilled tile keeps a memory of the previous crops grown on that tile in the current season.
+- For each unique crop in that memory, the next crop gains 5% bonus to growth speed.
+- If prestiged, each crop in memory has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5% / etc.).
+- Crop memory resets on the 1st of every season.
 - Untilling a tile fully erases its memory.
 
-Best-quality refers to iridium quality, which normally requires Deluxe Fertilizer. This does not affect the *chance* to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
+Highest-quality refers to iridium, which normally requires Deluxe Fertilizer. This does not affect the chance to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
 Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
 
 Out-of-season crop survival also applies from Fall to Winter.
@@ -335,7 +336,7 @@ Other than the name, this profession is unchanged from vanilla.
 
 Applies to both common trees and fruit trees. Note that common trees grow randomly, and so gain 25% bonus chance to advance a stage each night. Fruit trees, on the other hand, grow on a fixed schedule, in which case the perk simply causes every 4th day to be skipped so as to preserve that predictable nature.
 
-For Silviculturist, every fully-grown Green Rain Tree on the Farm adds a 1.5% chance to convert any rainy weather, even those caused by Rain Totems, to Green Rain, up to a maximum of 21%.
+For Silviculturist, as long as at least one Green Rain Tree grows on the farm, there is a 10% base chance to convert any rainy weather, even those caused by Rain Totems, into Green Rain, plus 2% for each fully-grown Green Rain Tree, up to a maximum of 50%.
 </details>
 </font>
 
@@ -437,7 +438,7 @@ Revival via the Cavewarden perk avoids all item loss penalties. A "safe room" is
 <details>
 
 This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts.
-While mining, there is a chance to trigger a Prospector Hunt minigame:
+While mining, there is a chance to trigger a **Prospector Hunt** minigame:
 - Works like a game of "Simon says"; a random nearby stone will begin to glow. Break the glowing stone to reveal the next stone. Continue the sequence until the 7th stone to obtain the treasure.
 - Each target stone in the sequence becomes progressively harder to break.
 - Rewards include ores, rare minerals, fossilized artifacts and special equipment.
@@ -574,7 +575,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 - Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
 - By default, the bonus caps at 100%, but this can be configured.
 - Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
-- If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. Each subsequent successful catch then increases the encounter rate by 1%.  
+- If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. The encounter chance increases by 1% per catch, or 2% for a perfect catch. Failing any catch resets the streak back to 0.  
 
 </details>
 </font>
@@ -597,7 +598,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <font size="2">
 <details>
 
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, with stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings.
+Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, which stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings.
 
 Though it isn't stated, this profession also unlocks the ability to raise legendary fish in pond (since game version 1.6 this a vanilla feature; with this mod, **the Aquarist profession is required to enable this**). They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives if [Aquarism](../Ponds) mod is also installed. Doing so with Angler and Ms. Angler will allow them reproduce. The max population of legendary ponds is always half of the regular limit, unless the player also has the prestiged version Aquarist; i.e., Ichthyologist.
 
@@ -673,7 +674,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 <font size="2">
 <details>
 
-By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [Serfdom](../Taxes) is installed; if so, a tax deduction works as you would expect, reducing your overall amount due. Otherwise, a tax deduction works as a % value increase to all items shipped in the bin. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [Serfdom](../Taxes) is installed; if it is, then a tax deduction works as you would expect: a percent reduction of your overall amount due (in **income** tax only). Otherwise, a tax deduction works as a flat % price increase to all items. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
 For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
 </details>
@@ -855,7 +856,7 @@ The most unique of all new professions. Since we have a profession focused on Fi
 - Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.
 - IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).
 - First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
-- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from a random parent, and IVs are picked from a normal distribution peaking at 2 values higher than the parent's. This guarantees that IVs will eventually converge to max after a few generations.
+- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from highest between the two parents. IVs are then picked from a normal distribution peaking at 2 points higher than that parent's. This guarantees that IVs will eventually converge to max after a few generations.
 - Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
 - Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
     - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.
