@@ -11,7 +11,7 @@
 * Final take at Cropwhisperer rework. Took a few tries, but I think we got there:
   * Removed: Crops grow 20% faster. *Since base Agriculturist can now use crop rotation to increase growth speed further, this is unnecessary.* 
   * Removed: ~~Crops survive up to one week out of season.~~
-  * Added: **Use Retaining Soil to grow crops out of season.** _This preserves the out of season mechanic, while also resolving the complaint about that feature forcing manual disposal of crops at the start of a new season, improving the usefulness of a massively underused resource (Retaining Soil), and also dramatically expanding the realm of possibilities for the player at a reasonable cost, all in one fell swoop. See the updated [README](./README.md#-farming) for details on how this will work.
+  * Added: **Use Retaining Soil to grow crops out of season.** _This preserves the out of season mechanic, while also resolving the complaint about that feature forcing manual disposal of crops at the start of a new season, improving the usefulness of a massively underused resource (Retaining Soil), and also dramatically expanding the realm of possibilities for the player at a reasonable cost, all in one fell swoop. See the updated [README](./README.md#-farming) for details on how this will work._
 * Some balance tweaks to Prospector and Scavenger Hunt treasure tables to avoid ridiculous stacks of ores.
 
 ### Fixed
