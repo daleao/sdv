@@ -1,5 +1,17 @@
 ﻿# CORE Changelog
 
+## 2.2.1
+
+### Fixed
+
+* Fixed a long-standing issue where Slow-based effects, including Chill and Freeze, ended much faster than they should.
+
+### Changed
+
+* Hopper features now auto-disable if Automate is installed.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.2.0
 
 ### Added

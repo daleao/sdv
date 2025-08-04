@@ -11,15 +11,15 @@ using StardewValley.Monsters;
 // ReSharper disable once InconsistentNaming
 internal static class Monster_Blinded
 {
-    internal static ConditionalWeakTable<Monster, NetInt> Values { get; } = [];
+    internal static ConditionalWeakTable<Monster, NetDouble> Values { get; } = [];
 
-    internal static NetInt Get_BlindTimer(this Monster monster)
+    internal static NetDouble Get_BlindTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster);
     }
 
     // Net types are readonly
-    internal static void Set_BlindTimer(this Monster monster, NetInt value)
+    internal static void Set_BlindTimer(this Monster monster, NetDouble value)
     {
     }
 }

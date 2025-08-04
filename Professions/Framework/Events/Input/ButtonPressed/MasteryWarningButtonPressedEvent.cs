@@ -34,7 +34,7 @@ internal sealed class MasteryWarningButtonPressedEvent(EventManager? manager = n
             case SButton.DPadRight:
             case SButton.DPadDown:
             case SButton.DPadLeft:
-                State.WarningBox!.receiveGamePadButton(e.Button.ToButton());
+                State.WarningBox!.receiveGamePadButton(e.Button.ToButtons());
                 break;
             case SButton.ControllerB:
             case SButton.ControllerBack:

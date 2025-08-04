@@ -37,11 +37,13 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
     {
         try
         {
-            const int elapsedMs = 500; // for every 30 ticks
+            double elapsedMs;
             var ticks = time.TotalGameTime.Ticks + __instance.GetHashCode();
             Farmer? killer = null;
             if (ticks % 30 == 0)
             {
+                elapsedMs = 500d; // for every 30 ticks
+
                 var bleedHolder = __instance.Get_BleedHolder();
                 if (bleedHolder.BleedTimer.Value > 0)
                 {
@@ -143,6 +145,8 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return true; // run original logic
             }
 
+            elapsedMs = Game1.currentGameTime.ElapsedGameTime.TotalMilliseconds;
+
             var (slowTimer, slowIntensity) = slowHolder;
             slowTimer.Value -= elapsedMs;
             if (slowTimer.Value <= 0)
@@ -183,7 +187,7 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                 return false; // don't run original logic
             }
 
-            invincibility -= elapsedMs;
+            invincibility -= (int)elapsedMs;
             Reflector.GetUnboundFieldSetter<Monster, int>("invincibleCountdown")
                 .Invoke(__instance, invincibility);
             return false; // don't run original logic

@@ -415,67 +415,26 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         if (mineLevel > 120 && this.Random.NextBool(0.45 + luck))
         {
-            var stack = this.Random.Next(2, 5);
-            while (this.Random.NextBool(0.4))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.IridiumOre, stack, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.IridiumOre, this.RollStack(2, 5, 0.3, 0.9), (a, b) => a + b);
         }
 
         if ((mineLevel < 0 || Game1.mine.GetAdditionalDifficulty() > 0) && this.Random.NextBool(0.45 + luck))
         {
-            var stack = this.Random.Next(2, 5);
-            while (this.Random.NextBool(0.3))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.RadioactiveOre, stack, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.RadioactiveOre, this.RollStack(2, 5, 0.3, 0.9), (a, b) => a + b);
         }
 
         if (mineLevel is < 0 or > 80 && this.Random.NextBool(0.65 + luck))
         {
-            var stack = this.Random.Next(2, 5);
-            while (this.Random.NextBool(0.45))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.GoldOre, stack, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.GoldOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
         }
 
         if (mineLevel is < 0 or > 40 && this.Random.NextBool(0.85 + luck))
         {
-            var stack = this.Random.Next(2, 5);
-            while (this.Random.NextBool(0.45))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.IronOre, stack, (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(QIDs.IronOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
         }
 
-        {
-            var stack = this.Random.Next(2, 5);
-            while (this.Random.NextBool(0.45))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.CopperOre, stack, (a, b) => a + b);
-        }
-
-        {
-            var stack = this.Random.Next(3, 10);
-            while (this.Random.NextBool(0.49))
-            {
-                stack *= 2;
-            }
-
-            treasuresAndQuantities.AddOrUpdate(QIDs.Coal, stack, (a, b) => a + b);
-        }
+        treasuresAndQuantities.AddOrUpdate(QIDs.CopperOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
+        treasuresAndQuantities.AddOrUpdate(QIDs.Coal, this.RollStack(3, 10, 0.4, 0.9), (a, b) => a + b);
     }
 
     private void AddArtifacts(Dictionary<string, int> treasuresAndQuantities, double luck)

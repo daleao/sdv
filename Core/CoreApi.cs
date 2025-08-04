@@ -66,9 +66,9 @@ public class CoreApi : ICoreApi
     }
 
     /// <inheritdoc />
-    public void Chill(Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool playSoundEffect = true)
+    public void Chill(Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool isActuallyFrozen = false, bool playSoundEffect = true)
     {
-        monster.Chill(duration, intensity, freezeThreshold, playSoundEffect);
+        monster.Chill(duration, intensity, freezeThreshold, isActuallyFrozen, playSoundEffect);
     }
 
     /// <inheritdoc />

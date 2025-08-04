@@ -27,13 +27,13 @@ internal static class Monster_Slowed
         holder.SlowIntensity.Value = intensity;
     }
 
-    internal static NetInt Get_SlowTimer(this Monster monster)
+    internal static NetDouble Get_SlowTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).SlowTimer;
     }
 
     // Net types are readonly
-    internal static void Set_SlowTimer(this Monster monster, NetInt value)
+    internal static void Set_SlowTimer(this Monster monster, NetDouble value)
     {
     }
 
@@ -55,11 +55,11 @@ internal static class Monster_Slowed
 
     internal class Holder
     {
-        public NetInt SlowTimer { get; } = new(-1);
+        public NetDouble SlowTimer { get; } = new(-1);
 
         public NetFloat SlowIntensity { get; } = new(0);
 
-        public void Deconstruct(out NetInt timer, out NetFloat intensity)
+        public void Deconstruct(out NetDouble timer, out NetFloat intensity)
         {
             timer = this.SlowTimer;
             intensity = this.SlowIntensity;

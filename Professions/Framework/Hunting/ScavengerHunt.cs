@@ -430,46 +430,22 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         if (Game1.player.deepestMineLevel > 120 && this.Random.NextBool(0.35 + luck))
         {
-            var stack = this.Random.Next(1, 3);
-            while (this.Random.NextBool(0.4))
-            {
-                stack *= 2;
-            }
-
-            treasures.Add(ItemRegistry.Create(QIDs.IridiumBar, stack));
+            treasures.Add(ItemRegistry.Create(QIDs.IridiumBar, this.RollStack(1, 3, 0.3, 0.9)));
         }
 
         if (Game1.player.deepestMineLevel > 80 && this.Random.NextBool(0.55 + luck))
         {
-            var stack = this.Random.Next(1, 3);
-            while (this.Random.NextBool(0.4))
-            {
-                stack *= 2;
-            }
-
-            treasures.Add(ItemRegistry.Create(QIDs.GoldBar, stack));
+            treasures.Add(ItemRegistry.Create(QIDs.GoldBar, this.RollStack(1, 3, 0.35, 0.9)));
         }
 
         if (Game1.player.deepestMineLevel > 40 && this.Random.NextBool(0.75 + luck))
         {
-            var stack = this.Random.Next(1, 3);
-            while (this.Random.NextBool(0.4))
-            {
-                stack *= 2;
-            }
-
-            treasures.Add(ItemRegistry.Create(QIDs.IronBar, stack));
+            treasures.Add(ItemRegistry.Create(QIDs.IronBar, this.RollStack(1, 3, 0.35, 0.9)));
         }
 
         if (this.Random.NextBool(0.9 + luck))
         {
-            var stack = this.Random.Next(1, 3);
-            while (this.Random.NextBool(0.4))
-            {
-                stack *= 2;
-            }
-
-            treasures.Add(ItemRegistry.Create(QIDs.CopperBar, stack));
+            treasures.Add(ItemRegistry.Create(QIDs.CopperBar, this.RollStack(1, 3, 0.35, 0.9)));
         }
     }
 

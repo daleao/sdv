@@ -12,7 +12,7 @@ public static class SButtonExtensions
     /// <summary>Get the <see cref="Buttons" /> equivalent for the given <see cref="SButton"/>.</summary>
     /// <param name="button">The controller button to convert.</param>
     /// <returns>The <see cref="Buttons"/> equivalent.</returns>
-    public static Buttons ToButton(this SButton button)
+    public static Buttons ToButtons(this SButton button)
     {
         return (Buttons)(button - 2000);
     }

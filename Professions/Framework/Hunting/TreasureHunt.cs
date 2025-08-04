@@ -7,6 +7,7 @@ using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions.Stardew;
 using Events;
 using Microsoft.Xna.Framework;
+using Shared.Extensions;
 
 #endregion using directives
 
@@ -160,5 +161,23 @@ internal abstract class TreasureHunt : ITreasureHunt
     private void OnEnded(bool found)
     {
         Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, this.Profession, found));
+    }
+
+    /// <summary>Rolls a big fat stack of ores or metal bars.</summary>
+    /// <param name="baseMin">The minimum value of the base roll.</param>
+    /// <param name="baseMax">The maximum value of the base roll.</param>
+    /// <param name="chanceToDouble">The base chance to double the stack.</param>
+    /// <param name="chanceDecay">The decay to the <paramref name="chanceToDouble"/> after a successful doubling.</param>
+    /// <returns>A big fat stack.</returns>
+    protected int RollStack(int baseMin, int baseMax, double chanceToDouble, double chanceDecay)
+    {
+        var stack = this.Random.Next(baseMin, baseMax + 1);
+        while (this.Random.NextBool(chanceToDouble))
+        {
+            stack *= 2;
+            chanceToDouble *= chanceDecay;
+        }
+
+        return stack;
     }
 }

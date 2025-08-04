@@ -20,7 +20,7 @@ internal static class Monster_Burnt
         holder.Burner = burner;
     }
 
-    internal static NetInt Get_BurnTimer(this Monster monster)
+    internal static NetDouble Get_BurnTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).BurnTimer;
     }
@@ -48,11 +48,11 @@ internal static class Monster_Burnt
 
     internal class Holder
     {
-        public NetInt BurnTimer { get; } = new(-1);
+        public NetDouble BurnTimer { get; } = new(-1);
 
         public Farmer? Burner { get; internal set; }
 
-        public void Deconstruct(out NetInt timer, out Farmer? burner)
+        public void Deconstruct(out NetDouble timer, out Farmer? burner)
         {
             timer = this.BurnTimer;
             burner = this.Burner;

@@ -11,15 +11,15 @@ using StardewValley.Monsters;
 // ReSharper disable once InconsistentNaming
 internal static class Monster_Feared
 {
-    internal static ConditionalWeakTable<Monster, NetInt> Values { get; } = [];
+    internal static ConditionalWeakTable<Monster, NetDouble> Values { get; } = [];
 
-    internal static NetInt Get_FearTimer(this Monster monster)
+    internal static NetDouble Get_FearTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster);
     }
 
     // Net types are readonly
-    internal static void Set_FearTimer(this Monster monster, NetInt value)
+    internal static void Set_FearTimer(this Monster monster, NetDouble value)
     {
     }
 }

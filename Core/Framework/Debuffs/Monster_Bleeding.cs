@@ -29,13 +29,13 @@ internal static class Monster_Bleeding
         holder.Bleeder = bleeder;
     }
 
-    internal static NetInt Get_BleedTimer(this Monster monster)
+    internal static NetDouble Get_BleedTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).BleedTimer;
     }
 
     // Net types are readonly
-    internal static void Set_BleedTimer(this Monster monster, NetInt value)
+    internal static void Set_BleedTimer(this Monster monster, NetDouble value)
     {
     }
 
@@ -67,13 +67,13 @@ internal static class Monster_Bleeding
 
     internal class Holder
     {
-        public NetInt BleedTimer { get; } = new(-1);
+        public NetDouble BleedTimer { get; } = new(-1);
 
         public NetInt BleedStacks { get; internal set; } = new(0);
 
         public Farmer? Bleeder { get; internal set; }
 
-        public void Deconstruct(out NetInt timer, out NetInt stacks, out Farmer? bleeder)
+        public void Deconstruct(out NetDouble timer, out NetInt stacks, out Farmer? bleeder)
         {
             timer = this.BleedTimer;
             stacks = this.BleedStacks;

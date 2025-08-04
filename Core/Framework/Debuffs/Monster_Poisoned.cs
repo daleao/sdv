@@ -39,13 +39,13 @@ internal static class Monster_Poisoned
         holder.Poisoner = poisoner;
     }
 
-    internal static NetInt Get_PoisonTimer(this Monster monster)
+    internal static NetDouble Get_PoisonTimer(this Monster monster)
     {
         return Values.GetOrCreateValue(monster).PoisonTimer;
     }
 
     // Net types are readonly
-    internal static void Set_PoisonTimer(this Monster monster, NetInt value)
+    internal static void Set_PoisonTimer(this Monster monster, NetDouble value)
     {
     }
 
@@ -77,13 +77,13 @@ internal static class Monster_Poisoned
 
     internal class Holder
     {
-        public NetInt PoisonTimer { get; } = new(-1);
+        public NetDouble PoisonTimer { get; } = new(-1);
 
         public NetInt PoisonStacks { get; internal set; } = new(0);
 
         public Farmer? Poisoner { get; internal set; }
 
-        public void Deconstruct(out NetInt timer, out NetInt stacks, out Farmer? poisoner)
+        public void Deconstruct(out NetDouble timer, out NetInt stacks, out Farmer? poisoner)
         {
             timer = this.PoisonTimer;
             stacks = this.PoisonStacks;

@@ -25,6 +25,12 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
         this.Target = this.RequireMethod<SObject>(nameof(SObject.onReadyForHarvest));
     }
 
+    /// <inheritdoc />
+    protected override bool ApplyImpl(Harmony harmony)
+    {
+        return !ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") && base.ApplyImpl(harmony);
+    }
+
     #region harmony patches
 
     /// <summary>Patch to make Hopper actually useful.</summary>

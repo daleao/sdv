@@ -62,8 +62,9 @@ public interface ICoreApi
     /// <param name="duration">The duration in milliseconds.</param>
     /// <param name="intensity">The intensity of the slow effect.</param>
     /// <param name="freezeThreshold">The required slow intensity total for the target to be considered frozen.</param>
+    /// <param name="isActuallyFrozen"><see langword="false"/> if this a stacked chill effect, or <see langword="true"/> if this is actually an immediate freeze.</param>
     /// <param name="playSoundEffect">Whether to play the chill sound effect.</param>
-    public void Chill(Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool playSoundEffect = true);
+    public void Chill(Monster monster, int duration = 5000, float intensity = 0.5f, float freezeThreshold = 1f, bool isActuallyFrozen = false, bool playSoundEffect = true);
 
     /// <summary>Removes chilled status from the <paramref name="monster"/>.</summary>
     /// <param name="monster">The <see cref="Monster"/>.</param>

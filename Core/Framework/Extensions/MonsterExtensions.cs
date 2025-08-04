@@ -87,7 +87,7 @@ public static class MonsterExtensions
 
         monster.startGlowing(Color.Black, true, 0.05f);
         State.Timers.Add(new Timer(
-            () => monster.Get_BlindTimer().Value,
+            () => (int)monster.Get_BlindTimer().Value,
             value => monster.Get_BlindTimer().Value = value,
             monster.Unblind));
     }
@@ -175,12 +175,14 @@ public static class MonsterExtensions
     /// <param name="duration">The duration in milliseconds.</param>
     /// <param name="intensity">The intensity of the slow effect.</param>
     /// <param name="freezeThreshold">The required slow intensity total for the target to be considered frozen.</param>
+    /// <param name="isActuallyFrozen"><see langword="false"/> if this a stacked chill effect, or <see langword="true"/> if this is actually an immediate freeze.</param>
     /// <param name="playSoundEffect">Whether to play the chill sound effect.</param>
     public static void Chill(
         this Monster monster,
         int duration = 5000,
         float intensity = 0.5f,
         float freezeThreshold = 1f,
+        bool isActuallyFrozen = false,
         bool playSoundEffect = true)
     {
         if (monster is Ghost or Skeleton { isMage.Value: true })
@@ -199,7 +201,11 @@ public static class MonsterExtensions
             if (monster.Get_SlowIntensity().Value >= freezeThreshold)
             {
                 monster.Get_Frozen().Value = true;
-                monster.Get_SlowTimer().Value *= 3;
+                if (!isActuallyFrozen)
+                {
+                    monster.Get_SlowTimer().Value *= 3;
+                }
+
                 switch (monster)
                 {
                     case BigSlime:
@@ -261,7 +267,7 @@ public static class MonsterExtensions
         else
         {
             monster.Get_Chilled().Value = true;
-            monster.SetOrIncrement_Slowed(duration, 0.5f);
+            monster.SetOrIncrement_Slowed(duration, intensity);
             if (playSoundEffect)
             {
                 SoundBox.Chill.PlayAll(monster.currentLocation, monster.Tile, Game1.random.Next(-3, 4) * 100);
@@ -296,7 +302,7 @@ public static class MonsterExtensions
         monster.Get_FearTimer().Value = duration;
         monster.Speed *= 2;
         State.Timers.Add(new Timer(
-            () => monster.Get_FearTimer().Value,
+            () => (int)monster.Get_FearTimer().Value,
             value => monster.Get_FearTimer().Value = value,
             monster.Unfear));
     }
@@ -324,10 +330,10 @@ public static class MonsterExtensions
     {
         if (!monster.IsChilled())
         {
-            monster.Chill();
+            monster.Chill(playSoundEffect: false);
         }
 
-        monster.Chill(duration);
+        monster.Chill(duration, isActuallyFrozen: true);
     }
 
     /// <summary>Removes frozen status from the <paramref name="monster"/>.</summary>
