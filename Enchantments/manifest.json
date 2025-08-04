@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Enchantments",
   "Name": "Springmyst",
   "Author": "DaLion",
-  "Version": "2.2.0",
+  "Version": "2.2.0-Debug",
   "Description": "Adds some actually interesting enchantments.",
   "MinimumApiVersion": "4.1",
   "MinimumGameVersion": "1.6",

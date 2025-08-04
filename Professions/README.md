@@ -95,7 +95,7 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Growth speed bonuses also apply to the regrowth phase of multi-harvest crops. Crops can survive up to one week out of season.
+<img src="./resources/assets/sprites/loose/agriculturist_p.png"/> <b>Cropwhisperer (Lv20)</b> - Chance to harvest crops grown previously in the same tile and season. Use Retaining Soil to grow crops out of season.
 </font>
 
 <font size="2">
@@ -108,10 +108,18 @@ Crop rotation works as follows:
 - Crop memory resets on the 1st of every season.
 - Untilling a tile fully erases its memory.
 
-Highest-quality refers to iridium, which normally requires Deluxe Fertilizer. This does not affect the chance to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
+Highest-quality refers to iridium, which normally requires Deluxe Fertilizer. This does not affect the actual *chance* to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
 Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
 
-Out-of-season crop survival also applies from Fall to Winter.
+When prestiged, Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season.
+Each quality of Retaining Soil allows a single tile to grow an out-of-season crop for a limited number of days:
+- **Basic Retaining Soil:** 3 days
+- **Quality Retaining Soil:** 7 days
+- **Deluxe Retaining Soil:** 13 days
+
+Any crop that fully matures within that time can be grown entirely out of season.
+
+Retaining Soil can be used to extend a crop's lifetime into the winter season, but **cannot be used to plant crops during winter**.
 
 </details>
 </font>

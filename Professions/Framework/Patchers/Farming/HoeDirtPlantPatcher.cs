@@ -2,7 +2,9 @@
 
 #region using directives
 
-using DaLion.Shared.Extensions;
+using System.Reflection;
+using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.TerrainFeatures;
@@ -26,18 +28,89 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
     /// <summary>Patch to record crops planted by Agriculturist.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void HoeDirtPlantPostfix(HoeDirt __instance, Farmer who)
+    private static void HoeDirtPlantPostfix(HoeDirt __instance, ref bool __result, string itemId, Farmer who, bool isFertilizer)
     {
-        if (__instance.crop is not { } crop)
+        if (!__result || !who.HasProfessionOrLax(Profession.Agriculturist, true) || __instance.crop is not { } crop)
         {
             return;
         }
 
-        if (who.HasProfessionOrLax(Profession.Agriculturist, true))
+        var retention = __instance.GetFertilizerWaterRetentionChance();
+        var daysLeftOutOfSeason = retention switch
         {
-            Data.Write(crop, DataKeys.DaysOutOfSeason, "1");
+            < 0.01f => 0,
+            < 0.34f => 3,
+            < 0.67f => 7,
+            _ => 13,
+        };
+
+        if (daysLeftOutOfSeason > 0)
+        {
+            Data.Write(crop, DataKeys.DaysLeftOutOfSeason, daysLeftOutOfSeason.ToString());
+            __instance.fertilizer.Value = null;
         }
+
+        __result = true;
+    }
+
+    /// <summary>Patch for Prestiged Agriculturist crop endurance.</summary>
+    [HarmonyTranspiler]
+    [UsedImplicitly]
+    private static IEnumerable<CodeInstruction>? HoeDirtCanPlantThisSeedHereTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            var testRetentionSoil = generator.DefineLabel();
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(GameLocation).RequireMethod(nameof(GameLocation.SeedsIgnoreSeasonsHere))),
+                ])
+                .PatternMatch([new CodeInstruction(OpCodes.Brfalse)])
+                .GetOperand(out var falseBranch)
+                .PatternMatch([new CodeInstruction(OpCodes.Ldarg_0)])
+                .GetLabels(out var trueLabels)
+                .Return()
+                .SetOpCode(OpCodes.Brfalse_S)
+                .SetOperand(testRetentionSoil)
+                .PatternMatch([new CodeInstruction(OpCodes.Brfalse)])
+                .SetOpCode(OpCodes.Brtrue_S)
+                .SetOperand(trueLabels[0])
+                .Move()
+                .Insert(
+                    [
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_2),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(HoeDirtPlantPatcher).RequireMethod(
+                                nameof(CanGrowWithRetainingSoil))),
+                        new CodeInstruction(OpCodes.Brfalse_S, falseBranch)
+                    ],
+                    [testRetentionSoil]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting crop retention.\nHelper returned {ex}");
+            return null;
+        }
+
+        return helper.Flush();
     }
 
     #endregion harmony patches
+
+    #region injected
+
+    private static bool CanGrowWithRetainingSoil(HoeDirt dirt, Farmer who)
+    {
+        return who.HasProfessionOrLax(Profession.Agriculturist, true) &&
+               dirt.GetFertilizerWaterRetentionChance() > 0f && dirt.Location.GetSeason() != Season.Winter;
+    }
+
+    #endregion injected
 }

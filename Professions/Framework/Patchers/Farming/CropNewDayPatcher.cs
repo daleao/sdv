@@ -31,15 +31,10 @@ internal sealed class CropNewDayPatcher : HarmonyPatcher
             return;
         }
 
-        var daysOutOfSeason = Data.ReadAs(__instance, DataKeys.DaysOutOfSeason, -1);
-        switch (daysOutOfSeason)
+        var daysOutOfSeason = Data.ReadAs<int>(__instance, DataKeys.DaysLeftOutOfSeason);
+        if (daysOutOfSeason > 0)
         {
-            case >= 7:
-                Data.Write(__instance, DataKeys.DaysOutOfSeason, null);
-                break;
-            case >= 0:
-                Data.Increment(__instance, DataKeys.DaysOutOfSeason);
-                break;
+            Data.Increment(__instance, DataKeys.DaysLeftOutOfSeason, -1);
         }
     }
 

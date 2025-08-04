@@ -11,7 +11,7 @@
   "agriculturist.title.prestiged.male": "Cropwhisperer",
   "agriculturist.title.prestiged.female": "Cropwhisperer",
   "agriculturist.desc": "Crops grow 10% faster, plus 5% for each new crop type grown in the same tile and season. Highest-quality crops can be harvested organically, without fertilizers.",
-  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive up to one week out of season. Chance to harvest crops grown previously in the same tile and season.",
+  "agriculturist.desc.prestiged": "Chance to harvest crops grown previously in the same tile and season. Use Retaining Soil to grow crops out of season.",
   "artisan.title.male": "Artisan",
   "artisan.title.female": "Artisan",
   "artisan.title.prestiged.male": "Industrialist",
@@ -67,7 +67,7 @@
   "arborist.title.prestiged.male": "Silviculturist",
   "arborist.title.prestiged.female": "Silviculturist",
   "arborist.desc": "Planted trees grow 25% faster. All trees have a chance to drop hardwood.",
-  "arborist.desc.prestiged": "All trees can drop even more hardwood. The Green Rain may fall in any season if Green Rain Trees are grown on the farm.",
+  "arborist.desc.prestiged": "All trees can drop even more hardwood. Green Rain may fall in any season if Green Rain Trees are grown on the farm.",
   "tapper.title.male": "Tapper",
   "tapper.title.female": "Tapper",
   "tapper.title.prestiged.male": "Syrupwright",
@@ -132,8 +132,8 @@
   "aquarist.title.female": "Aquarist",
   "aquarist.title.prestiged.male": "Ichthyologist",
   "aquarist.title.prestiged.female": "Ichthyologist",
-  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond. Can raise legendary fish at half capacity.",
-  "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4. Fish species raised to max pond capacity are reeled instantly. Unlocked legendary Fish Pond capacity.",
+  "aquarist.desc": "Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.",
+  "aquarist.desc.prestiged": "Fish pond max capacity +2 >> +4. Fish species raised to max pond capacity are reeled instantly.",
 
   "trapper.title.male": "Trapper",
   "trapper.title.female": "Trapper",
@@ -190,7 +190,7 @@
   "piper.title.female": "Slimed Siren",
   "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
   "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
-  "piper.desc": "Slime Hutch capacity +50%. Slimes raised in a Hutch are summoned to fight alongside you. One can be assigned as a Hat Slime to carry items.",
+  "piper.desc": "Slime Hutch capacity +50%. Slimes raised in a Hutch are summoned in combat. One can be assigned as a Hat Slime to carry items.",
   "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
   "piper.slime.health": "{{value}} Health",

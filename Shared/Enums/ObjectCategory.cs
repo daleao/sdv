@@ -36,6 +36,9 @@ public enum ObjectCategory
     /// <summary>The category for animal goods.</summary>
     AnimalGoods = SObject.sellAtPierresAndMarnies, // -18
 
+    /// <summary>The category for fertilizers.</summary>
+    Fertilizer = SObject.fertilizerCategory, // -19
+
     /// <summary>The category for junk items.</summary>
     Junk = SObject.junkCategory, // -20
 

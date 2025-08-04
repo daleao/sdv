@@ -48,7 +48,6 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
                 .Remove()
                 .Insert([
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldarg_1),
                     new CodeInstruction(OpCodes.Call, typeof(HoeDirtApplySpeedIncreasesPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
                 ])
                 .Move()
@@ -67,11 +66,9 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
 
     #region injected
 
-    private static float GetAgriculturistMultiplier(HoeDirt dirt, Farmer who)
+    private static float GetAgriculturistMultiplier(HoeDirt dirt)
     {
-        var professionBonus = who.HasProfession(Profession.Agriculturist, true) ? 0.2f : 0.1f;
-        var memoryBonus = Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>().ToHashSet().Count * 0.05f;
-        return professionBonus + memoryBonus;
+        return 0.1f + (Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>().ToHashSet().Count * 0.05f);
     }
 
     #endregion injected

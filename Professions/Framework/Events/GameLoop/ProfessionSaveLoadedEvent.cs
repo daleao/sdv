@@ -131,7 +131,7 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             this.Manager.Enable<LuremasterPeerConnectedEvent>();
         }
 
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, true))
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, prestiged: true))
         {
             this.Manager.Enable<ChromaBallObjectListChangedEvent>();
         }

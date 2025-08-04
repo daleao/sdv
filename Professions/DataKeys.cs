@@ -30,7 +30,7 @@ internal sealed class DataKeys
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";
     internal const string TreeDatePlanted = "DatePlanted";
-    internal const string DaysOutOfSeason = "DaysLeftOutOfSeason";
+    internal const string DaysLeftOutOfSeason = "DaysLeftOutOfSeason";
     internal const string SoilMemory = "CropMemory";
 
     // monster keys

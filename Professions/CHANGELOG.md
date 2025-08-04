@@ -1,5 +1,24 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.3
+
+### Added
+
+* Silviculturist now also doubles the chance of a Crop Fairy event (that's just an extra 1%).
+
+### Changed
+
+* Final take at Cropwhisperer rework. Took a few tries, but I think we got there:
+  * Removed: Crops grow 20% faster. *Since base Agriculturist can now use crop rotation to increase growth speed further, this is unnecessary.* 
+  * Removed: ~~Crops survive up to one week out of season.~~
+  * Added: **Use Retaining Soil to grow crops out of season.** This preserve the out of season mechanic while solving the complaint about forcing manual disposal of crops at the start of a season, improving the usefulness of a massively underused resource (Retaining Soil), and also dramatically expanding the realm of possibilities for the player, all in one fell swoop.
+
+### Fixed
+
+* Fixed a bug causing Prestiged Slimed Piper Chroma Balls to spawn despite the profession not being prestiged.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.3.2
 
 ### Changed

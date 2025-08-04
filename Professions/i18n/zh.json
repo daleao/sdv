@@ -11,7 +11,7 @@
   "agriculturist.title.prestiged.male": "作物细语者",
   "agriculturist.title.prestiged.female": "作物细语者",
   "agriculturist.desc": "Crops grow 10% faster, plus 5% for each new crop type grown in the same tile and season. Highest-quality crops can be harvested organically, without fertilizers.",
-  "agriculturist.desc.prestiged": "Crops grow 10% >> 20% faster and can survive up to one week out of season. Chance to harvest crops grown previously in the same tile and season.",
+  "agriculturist.desc.prestiged": "Chance to harvest crops grown previously in the same tile and season. Use Retaining Soil to grow crops out of season.",
   "artisan.title.male": "工匠",
   "artisan.title.female": "工匠",
   "artisan.title.prestiged.male": "工业家",
