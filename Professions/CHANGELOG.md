@@ -10,6 +10,7 @@
 
 * Fixed an issue with regular Artisan not assigning quality correctly.
 * Fixed an issue where machine would not receive the production speed bonus if the output quality is iridium. Can't believe nobody reported this.
+* Fixed Crop Fairy chance promised in the previous version.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
