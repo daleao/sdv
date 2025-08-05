@@ -19,7 +19,7 @@ internal sealed class UtilityPickFarmEventPatcher : HarmonyPatcher
     internal UtilityPickFarmEventPatcher(Harmonizer harmonizer, Logger logger)
         : base(harmonizer, logger)
     {
-        //this.Target = typeof(Utility).GetInnerMethodsContaining("<pickFarmEvent>b__213_0").Single();
+        this.Target = typeof(Utility).GetInnerMethodsContaining("<pickFarmEvent>b__213_0").Single();
     }
 
     #region harmony patches

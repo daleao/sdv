@@ -71,7 +71,7 @@ internal sealed class HoeDirtCanPlantThisSeedHerePatcher : HarmonyPatcher
 
     private static bool CanGrowWithRetainingSoil(HoeDirt dirt)
     {
-        return Game1.player.HasProfessionOrLax(Profession.Agriculturist, true) &&
+        return Game1.player.HasProfession(Profession.Agriculturist, true) &&
                dirt.GetFertilizerWaterRetentionChance() > 0f && dirt.Location.GetSeason() != Season.Winter;
     }
 

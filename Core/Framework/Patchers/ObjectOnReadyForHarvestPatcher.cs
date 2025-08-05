@@ -28,7 +28,7 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
     /// <inheritdoc />
     protected override bool ApplyImpl(Harmony harmony)
     {
-        return !ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") && base.ApplyImpl(harmony);
+        return ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") || base.ApplyImpl(harmony);
     }
 
     #region harmony patches

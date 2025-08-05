@@ -56,7 +56,7 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
     /// <summary>Patch for Prestiged Agriculturist crop endurance.</summary>
     [HarmonyTranspiler]
     [UsedImplicitly]
-    private static IEnumerable<CodeInstruction>? HoeDirtCanPlantThisSeedHereTranspiler(
+    private static IEnumerable<CodeInstruction>? HoeDirtPlantTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -108,7 +108,7 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
 
     private static bool CanGrowWithRetainingSoil(HoeDirt dirt, Farmer who)
     {
-        return who.HasProfessionOrLax(Profession.Agriculturist, true) &&
+        return who.HasProfession(Profession.Agriculturist, true) &&
                dirt.GetFertilizerWaterRetentionChance() > 0f && dirt.Location.GetSeason() != Season.Winter;
     }
 

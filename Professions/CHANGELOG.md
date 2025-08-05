@@ -1,5 +1,18 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.4
+
+### Changed
+
+* Cropwhisperer perks now only apply to the local player.
+
+### Fixed
+
+* Fixed an issue with regular Artisan not assigning quality correctly.
+* Fixed an issue where machine would not receive the production speed bonus if the output quality is iridium. Can't believe nobody reported this.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.3.3
 
 ### Added
