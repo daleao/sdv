@@ -7,11 +7,11 @@
     <PackageLicenseFile>../LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/daleao/sdv/tree/main/Core</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
-    <Version>2.2.1</Version>
+    <Version>2.2.2</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
-    <SmapiVersion>4.1</SmapiVersion>
-    <MinimumApiVersion>4.1</MinimumApiVersion>
+    <SmapiVersion>4.3.2</SmapiVersion>
+    <MinimumApiVersion>4.3.2</MinimumApiVersion>
 
     <!-- mod manifest fields -->
     <Name>DaLionheart</Name>

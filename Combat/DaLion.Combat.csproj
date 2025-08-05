@@ -10,8 +10,8 @@
     <Version>1.1.0</Version>
     <GameVersion>1.6</GameVersion>
     <MinimumGameVersion>1.6</MinimumGameVersion>
-    <SmapiVersion>4.1</SmapiVersion>
-    <MinimumApiVersion>4.1</MinimumApiVersion>
+    <SmapiVersion>4.3.2</SmapiVersion>
+    <MinimumApiVersion>4.3.2</MinimumApiVersion>
 
     <!-- mod manifest fields -->
     <Name>Wildcat</Name>

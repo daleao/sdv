@@ -5,7 +5,6 @@
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;

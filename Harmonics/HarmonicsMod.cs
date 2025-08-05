@@ -1,4 +1,5 @@
-﻿global using DaLion.Shared.Reflection;
+﻿global using DaLion.Harmonics.Framework;
+global using DaLion.Shared.Reflection;
 global using static DaLion.Harmonics.HarmonicsMod;
 
 namespace DaLion.Harmonics;

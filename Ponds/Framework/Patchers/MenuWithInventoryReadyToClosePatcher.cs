@@ -8,7 +8,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Buildings;
 using StardewValley.Menus;
-using StardewValley.Objects;
 
 #endregion using directives
 

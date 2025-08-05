@@ -3,7 +3,6 @@
 #region using directives
 
 using System.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 

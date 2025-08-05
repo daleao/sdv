@@ -2,7 +2,6 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;

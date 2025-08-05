@@ -1,4 +1,5 @@
-﻿global using DaLion.Ponds.Framework.Extensions;
+﻿global using DaLion.Ponds.Framework;
+global using DaLion.Ponds.Framework.Extensions;
 global using DaLion.Shared.Constants;
 global using static DaLion.Ponds.PondsMod;
 

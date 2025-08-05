@@ -1,4 +1,5 @@
-﻿global using DaLion.Core.Framework.Extensions;
+﻿global using DaLion.Core.Framework;
+global using DaLion.Core.Framework.Extensions;
 global using DaLion.Shared.Reflection;
 global using static DaLion.Core.CoreMod;
 
@@ -79,6 +80,12 @@ public sealed class CoreMod : Mod
         Data = new ModDataManager(UniqueId, Log);
         PerScreenState = new PerScreen<CoreState>(() => new CoreState());
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
+
+        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+        {
+            Log.I("Automate is installed, therefore Hopper changes will not be applied.");
+        }
+
         Harmonizer.ApplyAll(
             assembly,
             helper.ModRegistry,

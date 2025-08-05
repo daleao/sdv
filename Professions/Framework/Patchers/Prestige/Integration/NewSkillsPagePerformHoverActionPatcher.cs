@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Attributes;
-using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using SpaceCore.Interface;

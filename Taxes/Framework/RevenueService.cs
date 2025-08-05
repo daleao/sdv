@@ -4,7 +4,6 @@
 
 using System.Collections.Immutable;
 using DaLion.Shared.Extensions.Stardew;
-using static System.FormattableString;
 
 #endregion using directives
 

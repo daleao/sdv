@@ -6,7 +6,6 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
-using StardewValley.Objects;
 
 #endregion using directives
 

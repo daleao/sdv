@@ -3,9 +3,9 @@
   "UniqueID": "DaLion.Core",
   "Name": "DaLionheart",
   "Author": "DaLion",
-  "Version": "2.2.1",
+  "Version": "2.2.2",
   "Description": "Provides core functionality required by DaLion mods.",
-  "MinimumApiVersion": "4.1",
+  "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6",
   "EntryDll": "DaLion.Core.dll",
   "UpdateKeys": [

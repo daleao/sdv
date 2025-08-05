@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using DaLion.Professions.Framework.Buffs;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.UI;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;

@@ -1,5 +1,18 @@
 ﻿# CORE Changelog
 
+## 2.2.2
+
+### Added
+
+* Hoppers can now pull items from a chest behind it. This makes it usable with Auto-Grabber.
+
+### Changed
+
+* Removed the warning if Automate is not installed, since people freak out.
+* Updated SMAPI dependency.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.2.1
 
 ### Fixed
@@ -13,10 +26,6 @@
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 2.2.0
-
-### Added
-
-* Hoppers will now attempt to push their contents to a Chest if one is placed immediately below it.
 
 ### Changed
 

@@ -1,11 +1,5 @@
 ﻿namespace DaLion.Taxes.Framework;
 
-#region using directives
-
-using static System.FormattableString;
-
-#endregion using directives
-
 /// <summary>Collects federal taxes.</summary>
 internal static class CountyService
 {

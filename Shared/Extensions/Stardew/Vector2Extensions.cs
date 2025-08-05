@@ -5,7 +5,6 @@
 using DaLion.Shared.Enums;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Xna;
 
 #endregion using directives
 

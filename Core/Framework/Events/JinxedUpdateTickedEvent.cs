@@ -4,8 +4,6 @@
 
 using DaLion.Shared.Constants;
 using DaLion.Shared.Events;
-using DaLion.Shared.Extensions;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley.Tools;
 

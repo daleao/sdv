@@ -5,7 +5,7 @@
   "Author": "DaLion",
   "Version": "1.2.0",
   "Description": "An overly complicated overhaul of gemstone rings based on real Music Theory.",
-  "MinimumApiVersion": "4.1",
+  "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6",
   "EntryDll": "DaLion.Harmonics.dll",
   "Dependencies": [
@@ -16,7 +16,7 @@
     },
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "2.2.1",
+      "MinimumVersion": "2.2.2",
       "IsRequired": true
     },
     {

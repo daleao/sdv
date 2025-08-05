@@ -28,21 +28,17 @@ internal sealed class UtilityPickFarmEventPatcher : HarmonyPatcher
     [HarmonyTranspiler]
     [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? UtilityPickFarmEventTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         try
         {
+            var resumeExecution = generator.DefineLabel();
             helper
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Br_S),
-                    new CodeInstruction(OpCodes.Ldc_R8),
-                    new CodeInstruction(OpCodes.Stloc_1)
-                ])
-                .GetOperand(out var resumeExecution)
-                .Move(2)
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_1)])
                 .StripLabels(out var labels)
+                .AddLabels(resumeExecution)
                 .Insert(
                     [
                         new CodeInstruction(OpCodes.Ldsfld, typeof(Game1).RequireField(nameof(Game1.game1))),

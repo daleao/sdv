@@ -10,7 +10,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley.GameData.Machines;
-using StardewValley.Objects;
 
 #endregion using directives
 
@@ -24,6 +23,12 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
         : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<SObject>("CheckForActionOnMachine");
+    }
+
+    /// <inheritdoc />
+    protected override bool ApplyImpl(Harmony harmony)
+    {
+        return ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") || base.ApplyImpl(harmony);
     }
 
     #region harmony patches

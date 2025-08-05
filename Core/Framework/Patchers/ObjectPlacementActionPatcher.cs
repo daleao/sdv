@@ -25,6 +25,12 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <inheritdoc />
+    protected override bool ApplyImpl(Harmony harmony)
+    {
+        return ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") || base.ApplyImpl(harmony);
+    }
+
     /// <summary>Patch to make Hopper actually useful.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]

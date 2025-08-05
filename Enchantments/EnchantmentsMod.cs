@@ -1,4 +1,5 @@
-﻿global using DaLion.Shared.Reflection;
+﻿global using DaLion.Enchantments.Framework;
+global using DaLion.Shared.Reflection;
 global using StardewValley.Enchantments;
 global using static DaLion.Enchantments.EnchantmentsMod;
 

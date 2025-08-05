@@ -1,5 +1,15 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.2.1
+
+Rebuilt with updated [Core](../Core) version.
+
+### Fixed
+
+* Fixed Vampiric Ring removing the overheal from Sanguine Enchantment.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.2.0
 
 ### Added

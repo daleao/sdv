@@ -2,12 +2,11 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Hunting;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Hunting;
 using Microsoft.Xna.Framework;
-using Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 using StardewValley.Locations;
 using xTile.Dimensions;

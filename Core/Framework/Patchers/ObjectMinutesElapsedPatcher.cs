@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -21,6 +22,12 @@ internal sealed class ObjectMinutesElapsedPatcher : HarmonyPatcher
         this.Target = this.RequireMethod<SObject>(nameof(SObject.minutesElapsed));
     }
 
+    /// <inheritdoc />
+    protected override bool ApplyImpl(Harmony harmony)
+    {
+        return ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate") || base.ApplyImpl(harmony);
+    }
+
     #region harmony patches
 
     /// <summary>Patch to make Hopper actually useful. Attempt load to chest underneath.</summary>
@@ -35,17 +42,46 @@ internal sealed class ObjectMinutesElapsedPatcher : HarmonyPatcher
         }
 
         var tileBelowHopper = new Vector2(hopper.TileLocation.X, hopper.TileLocation.Y + 1f);
-        if (!location.Objects.TryGetValue(tileBelowHopper, out var @object) || @object is not Chest chest ||
-            chest.SpecialChestType == Chest.SpecialChestTypes.AutoLoader)
+        if (!location.Objects.TryGetValue(tileBelowHopper, out var objectBelow) || objectBelow.GetMachineData() is null)
         {
             return;
         }
 
-        while (hopper.Items.Count > 0 && hopper.Items[0] is { } item && chest.addItem(item) is null)
+        var owner = hopper.GetOwner();
+        var tileAboveHopper = new Vector2(hopper.TileLocation.X, hopper.TileLocation.Y - 1);
+        if (!location.Objects.TryGetValue(tileAboveHopper, out var objectAbove))
         {
-            hopper.Items.RemoveAt(0);
+            return;
         }
+
+        var chest = objectAbove as Chest ?? objectAbove.heldObject.Value as Chest;
+        if (chest is null)
+        {
+            return;
+        }
+
+        AttemptAutoLoad(chest, objectBelow, owner);
     }
 
     #endregion harmony patches
+
+    public static Task<bool> AttemptAutoLoad(Chest source, SObject destination, Farmer who)
+    {
+        var taskSource = new TaskCompletionSource<bool>();
+        source.GetMutex().RequestLock(() =>
+        {
+            try
+            {
+                source.GetMutex().ReleaseLock();
+                var result = destination.AttemptAutoLoad(source.Items, who);
+                taskSource.SetResult(result);
+            }
+            catch (Exception e)
+            {
+                taskSource.SetException(e);
+            }
+        });
+
+        return taskSource.Task;
+    }
 }
