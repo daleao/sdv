@@ -2,7 +2,6 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
@@ -29,35 +28,12 @@ internal sealed class CraftingRecipeCtorPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void CraftingRecipeCtorPostfix(CraftingRecipe __instance)
     {
-        switch (__instance.name)
+        if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
         {
-            case "Tapper" when Game1.player.HasProfession(Profession.Tapper):
-                __instance.recipeList = new Dictionary<string, int>
-                {
-                    { QIDs.Wood, 20 },
-                    { QIDs.CopperBar, 1 },
-                };
-                break;
-            case "Heavy Tapper" when Game1.player.HasProfession(Profession.Tapper):
-                __instance.recipeList = new Dictionary<string, int>
-                {
-                    { QIDs.Hardwood, 15 },
-                    { QIDs.RadioactiveBar, 1 },
-                };
-                break;
-            default:
-                {
-                    if (__instance.name.ContainsAnyOf("Bomb", "Explosive") && Game1.player.HasProfession(Profession.Blaster))
-                    {
-                        __instance.numberProducedPerCraft *= 2;
-                    }
-
-                    break;
-                }
+            __instance.numberProducedPerCraft *= 2;
         }
-
-        if (Game1.player.HasProfession(Profession.Tapper, true) &&
-            __instance.recipeList.Keys.Any(key => key.IsSyrupId()))
+        else if (Game1.player.HasProfession(Profession.Tapper, true) &&
+                 __instance.recipeList.Keys.Any(key => key.IsSyrupId()))
         {
             __instance.numberProducedPerCraft *= 2;
         }

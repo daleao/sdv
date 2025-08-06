@@ -37,6 +37,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/BigCraftables", new AssetEditor(EditBigCraftablesData));
         this.Edit("Data/Buildings", new AssetEditor(EditBuildingsData));
+        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Early));
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData, AssetEditPriority.Late));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
@@ -149,6 +150,25 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         {
             asset.AsDictionary<string, BuildingData>().Data["Deluxe Barn"].IndoorItems[0].Tile.X -= 2;
         }
+    }
+
+    /// <summary>Patches Tapper recipes for Foraging professions.</summary>
+    private static void EditCraftingRecipesData(IAssetData asset)
+    {
+        if (!Context.IsWorldReady || (!Game1.player?.HasProfession(Profession.Tapper) ?? false))
+        {
+            return;
+        }
+
+        var data = asset.AsDictionary<string, string>().Data;
+
+        var fields = data["Tapper"].Split('/');
+        fields[0] = $"{QIDs.Wood} 20 {QIDs.CopperBar} 1";
+        data["Tapper"] = string.Join('/', fields);
+
+        fields = data["Heavy Tapper"].Split('/');
+        fields[0] = $"{QIDs.Hardwood} 15 {QIDs.RadioactiveBar} 1";
+        data["Heavy Tapper"] = string.Join('/', fields);
     }
 
     /// <summary>Patches cursors with modded profession icons.</summary>

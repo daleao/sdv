@@ -1,5 +1,13 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.3.5
+
+### Changed
+
+* Tapper recipes from the Tapper profession can now be edited by other CP mods.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.3.4
 
 ### Changed

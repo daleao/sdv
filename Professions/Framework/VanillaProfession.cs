@@ -406,6 +406,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     typeof(ScavengerRenderedHudEvent),
                     typeof(TrackerButtonsChangedEvent));
             })
+            .When(Tapper).Then(() => ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes"))
             .When(Fighter).Then(() => Game1.player.maxHealth += 15)
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Piper).Then(() =>
@@ -463,6 +464,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     EventManager.Disable<TrackerButtonsChangedEvent>();
                 }
             })
+            .When(Tapper).Then(() => ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes"))
             .When(Fighter).Then(() => Game1.player.maxHealth -= 15)
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Piper).Then(() =>
