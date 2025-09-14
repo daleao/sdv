@@ -1,0 +1,100 @@
+[list]
+[*][img]https://i.imgur.com/3aU0VmO.png[/img] [b]Fighter (Lv5)[/b] - Damage +10%. +15 HP.
+[spoiler][color=gold][img]https://i.imgur.com/CWig7vg.png[/img] [b]Master Fighter (Lv15)[/b] - Damage [s]+10%[/s] → +20%.[/color][size=2]
+[spoiler]
+Completely unchanged from vanilla.
+[/spoiler]
+[/size][/spoiler][*][img]https://i.imgur.com/kqh3VY0.png[/img] [b]Brute | Amazon (Lv10)[/b] - Become enraged as you suffer damage, gradually increasing your own damage and attack speed. +25 HP.
+[spoiler][color=gold][img]https://i.imgur.com/ukKSybP.png[/img] [b]Wildheart (Lv20)[/b] - Stay enraged for twice as long. Rage can be expended to perform a special move while on cooldown.[/color][size=2]
+[spoiler]
+[b]Rage:[/b] Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds, increasing to 40 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
+[/spoiler]
+[/size][/spoiler][*][img]https://i.imgur.com/0nODoMq.png[/img] [b]Bushwhacker (Lv10)[/b] - Crit. chance +50%. Chance to poach an item from the enemy with each attack.
+[spoiler][color=gold][img]https://i.imgur.com/pz38M5L.png[/img] [b]Saboteur (Lv20)[/b] - Enemies can be poached twice. Inflict deadly poison with each successful poach.[/color][size=2]
+[spoiler]
+[b]Poaching:[/b] Unless prestiged, each monster can only be poached once. Poach chance is increased by your critical strike chance and luck ([b]not[/b] Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
+
+[b]Deadly Poison:[/b] Deals tick damage every second. On second application causes instant-death.
+[/spoiler]
+[/size][/spoiler][*][img]https://i.imgur.com/B6HwzRC.png[/img] [b]Rascal (Lv5)[/b] - Gain one additional ammo slot. 35% chance to recover spent ammo.
+[spoiler][color=gold][img]https://i.imgur.com/djcciFv.png[/img] [b]Master Rascal (Lv15)[/b] - [s]35%[/s] → 55% chance to recover spent ammo. Can fire both ammo slots at once.[/color][size=2]
+[spoiler]
+Double press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explosive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+
+If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the [b]musked[/b] property.
+
+[b]Musked Ammo:[/b] When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.
+[/spoiler]
+[/size][/spoiler][*][img]https://i.imgur.com/h7P2nZI.png[/img] [b]Desperado (Lv10)[/b] - Damage +50% from hip-fired shots that hit a new target within 0.8 seconds of the last. Can overcharge the slingshot.
+[spoiler][color=gold][img]https://i.imgur.com/fSH1QEc.png[/img] [b]Deadeye (Lv20)[/b] - Hip-fired shots can ricochet. Double damage from rebound or pierced shots.[/color][size=2]
+[spoiler]
+[b]Hip-firing:[/b] Refers to shots that are released as early as possible (before the overcharge meter appears). When any shot hits an enemy, your next hip-fired shot against a different enemy receives a 50% damage buff if it hits a target within 0.8 seconds. This rewards expert quick-shooting and quickly switching targets, as you would expect of a Desperado.
+
+[b]Overcharge:[/b] Continue holding the fire button past the normal charge threshold to reveal the overcharge meter. Overcharged shots gain up to 2x the original speed, damage and knockback, and can also [b]pierce[/b] enemies.
+
+[b]Piercing Shot:[/b] Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. It then pierces the enemy and continues on to damage up to one more enemy behind it. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+
+[b]Rebound Shot:[/b] A prestiged hip-fired shot can bounce off of walls once, allowing you to hit those expert curve shots.
+[/spoiler]
+[/size][/spoiler][*][img]https://i.imgur.com/XV5jQ3k.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Slime Hutch capacity +50%. Slimes raised in a hutch may be summoned in combat. Can assign a Hat Slime to carry items. 
+[spoiler][color=gold][img]https://i.imgur.com/g6pfah7.png[/img] [b]Prismarch | Prismatrice (Lv20)[/b] - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.[/color][size=2][spoiler]
+
+[/size][/list]   ﻿This is the most unique profession, so the description is a little long. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
+
+All Slimes gain the following Pokemon-inspired features, [b]before any professions[/b]:
+[list]
+[*]Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.
+[*]IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).
+[*]First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
+[*]IVs can be increased by [url=https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results]breeding[/url]; when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease. This guarantees that IVs will converge to max after a few generations.
+[*]Baby Slime stats are inherited independently of color, so that Slimes of any color can be raised to max stats.
+[*]A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e., try breeding Red and Green Slimes together).
+[/list]
+Note that breeding is an optional feature tailored at "power gamers". Most users can ignore this and still benefit from all the class perks. For those interested, [url=https://www.reddit.com/r/StardewValley/comments/m1hkgk/15_the_new_definitive_guide_to_rgb_slime_ranching/]here is a useful guide[/url] about Slime breeding.
+
+The following perks are gained when obtaining the [b]Slimed Piper[/b] profession:
+[list]
+[*]Slime Hutch capacity will be increased to 30 the following day. **Please remove Sprinklers or other items placed above and below the water spots**, as those tiles will be overwritten by additional water spots, deleting any placed objects.
+[*]All Slimes will act neutral toward players on the current map. They will still damage players if touched (unless, of course, the player wears the Slime Charmer Ring).
+[*]Automatically summon raised Slimes in combat. Only Slimes that are raised inside a Hutch can be summoned. One additional Slime will be summoned for every 10 Slimes raised inside a Hutch (i.e., 1 summoned Slime for up to 10 raised Slimes, 2 summoned Slimes for 11 to 20 raised Slimes, and so on). There is no upper limit.
+[*]Summoned Slimes are immune to damage from the player, including from explosives. But they can be damaged by other non-Slime enemies.
+[*]Summoned Slimes will fight and distract other non-Slime enemies by grabbing aggro.
+[*]Summoned Slimes inherit the stats (attack, defense and health) of the chosen raised Slime. _This is where breeding comes in handy._
+[*]Summoned Slimes regain health if shot at with a Slime ammo (Rascal feature).
+[*]Summoned Slimes are indicated by individual HUD portraits. The portraits can be clicked to dismiss and re-summon Slimes at will. 
+[*]When a Summoned Slime is defeated, it goes on a 42-second cooldown (1 in-game hour), after which a new raised Slime will automatically take its place. This has no actual effect on the Slimes in your Hutches.
+[*]A summoned Slime, or any raised Slime, can be interacted with while holding a hat to turn it into a **Hat Slime**:
+[*]A Hat Slime does not participate in combat. Instead, it functions as an "item mule". It has access to a 12-slot inventory, which can be checked at any moment by interacting with the Hat Slime.
+[*]When viewing the Hat Slime's inventory, you can take items from it, but cannot directly give it any items. The Hat Slime will only pick up items that are dropped on the ground nearby (and **only** dropped items, **not** spawned forage). _To give it an item, simply drop it from your own inventory._
+[*]When the Hat Slime picks up an item, it will be automatically given to the player if, and only if, the player is already carrying a stack of that item. Otherwise, the item is added to the Hat Slime's inventory.
+[*]To dismiss a Hat Slime, interact with it while holding a different hat. This will unequip the current hat, returning the Slime to a wild state. All of its held items will be dropped on the ground.
+[*]The Hat Slime can follow you even outside of combat zones, unlike other Summoned Slimes. But it cannot follow you indoors (it'll just wait outside for you).
+[*]Holding the Mod Key (Left Shift, by default) will temporarily charm the nearest Slime in a 3-tile radius. A charmed Slime behaves like a regular Summoned Slime. Releasing the Mod Key removes the effect. _The main usecase for this feature is for herding Slimes for breeding._
+[*]The damage of Slime ammo is increased to 20 (equivalent to iron ore).
+[/list]
+The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Prismarchs, a.k.a. Slime Painters:
+[list]
+[*]Learn to craft Slime Brushes using wood, fiber and a Slime Egg of the desired color. These brushes can be used on raised Slimes to change their pigmentation, increasing only the corresponding color component. If that color component is already maxed out, the brush then reduces the other two components.
+[/list]   ﻿   ﻿[spoiler]
+   ﻿   ﻿- Green Brush -> increases a Slime's green component, or reduces its red and blue components.
+   ﻿   ﻿- Blue Brush -> increases a Slime's blue component, or reduces its red and green components.
+   ﻿   ﻿- Red Brush -> increases a Slime's red component, or reduces its green and blue components.
+   ﻿   ﻿- Purple Brush -> increases a Slime's red and blue components, or reduces its green component.
+   ﻿   ﻿- Prismatic Brush -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
+   ﻿   ﻿[/spoiler][list]
+[*]Each of the Slime color variants below gain a special combat ability:
+[/list]   ﻿   ﻿[spoiler]
+   ﻿   ﻿- Green Slimes -> can cause Slimed debuff.
+   ﻿   ﻿- Blue Slimes -> can cause Chilled/Frozen debuff.
+   ﻿   ﻿- Red & Purple Slimes -> can cause Burn debuff.
+   ﻿   ﻿- White Slimes -> emit an aura that heals a low amount of health over time.
+   ﻿   ﻿- Black Slimes -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void Essence.
+   ﻿   ﻿- Gold Slimes -> cause nearby enemies to drop gold when defeated (100g per kill).
+   ﻿   ﻿- Prismatic Slimes -> combine all previous effects, except for Black and Gold Slime effects.
+   ﻿   ﻿[/spoiler][list]
+[*]Colored Slime Balls will always drop one random item of the [Dyeing loot table](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
+[*]Both color-specific features above are valid within a range of 10 chroma values from the precise Slime or dye color.
+[*]The damage of Slime ammo is increased to 40 (between gold ore and iridium ore).
+[/list]
+
+[/spoiler][/spoiler][/list]
