@@ -59,6 +59,11 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         if (!fromDangerZone)
         {
             var numberRaised = piper.CountRaisedSlimes();
+            if (numberRaised == 0)
+            {
+                return;
+            }
+
             var numberToSpawn = ((numberRaised - 1) / 10) + 1;
             if (numberToSpawn == 0)
             {

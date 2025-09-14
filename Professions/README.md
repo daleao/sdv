@@ -879,7 +879,7 @@ The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Pr
   - White Slimes -> emit an aura that heals a low amount of health over time.
   - Black Slimes -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void Essence.
   - Gold Slimes -> cause nearby enemies to drop gold when defeated (100g per kill).
-  - Prismatic Slimes -> combine all previous effects, except for the Black Slime effect.
+  - Prismatic Slimes -> combine all previous effects, except for Black and Gold Slime effects.
 - Colored Slime Balls will always drop one random item of the [Dyeing loot table](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
 - Both color-specific features above are valid within a range of 10 chroma values from the precise Slime or dye color.
 - The damage of Slime ammo is increased to 40 (between gold ore and iridium ore).

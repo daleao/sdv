@@ -211,7 +211,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [230, 255],
             [230, 255],
             [230, 255]);
-        if (!whiteRange.Contains(__instance.color.Value))
+        if (!whiteRange.Contains(__instance.color.Value) || __instance.prismatic.Value)
         {
             return;
         }
@@ -233,7 +233,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
     private static void ApplyColoredDebuff(GreenSlime slime, Monster monster, PipedSlime piped)
     {
-        if (slime.Name == "Gold Slime" || slime.prismatic.Value)
+        if (slime.Name == "Gold Slime")
         {
             return;
         }
@@ -242,7 +242,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [22, 127],
             [200, 255],
             [0, 55]);
-        if (greenRange.Contains(slime.color.Value))
+        if (greenRange.Contains(slime.color.Value) || slime.prismatic.Value)
         {
             // simulated Slimed debuff
             monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
@@ -254,7 +254,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [22, 180],
             [170, 255],
             [200, 255]);
-        if (blueRange.Contains(slime.color.Value))
+        if (blueRange.Contains(slime.color.Value) || slime.prismatic.Value)
         {
             monster.Chill(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
             return;
@@ -268,7 +268,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [138, 158],
             [23, 63],
             [206, 246]);
-        if (redRange.Contains(slime.color.Value) || purpleRange.Contains(slime.color.Value))
+        if (redRange.Contains(slime.color.Value) || purpleRange.Contains(slime.color.Value) || slime.prismatic.Value)
         {
             monster.Burn(piped.Piper, 5123 + (Game1.random.Next(-2, 3) * 456));
             return;
@@ -281,6 +281,15 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         if (blackRange.Contains(slime.color.Value) && Game1.random.NextBool(0.05))
         {
             monster.Blind(5123 + (Game1.random.Next(-2, 3) * 456));
+        }
+        else if (Game1.random.NextBool(0.01))
+        {
+            slime.currentLocation.characters.Remove(monster);
+            slime.currentLocation.debris.Add(
+                new Debris(
+                    QIDs.VoidEssence,
+                    new Vector2((int)monster.Position.X, (int)monster.Position.Y),
+                    slime.getStandingPosition()));
         }
     }
 }
