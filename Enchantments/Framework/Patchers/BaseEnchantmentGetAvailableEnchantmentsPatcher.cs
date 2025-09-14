@@ -52,7 +52,7 @@ internal sealed class BaseEnchantmentGetAvailableEnchantmentsPatcher : HarmonyPa
             new HaymakerEnchantment(),
         ];
 
-        // The Springmyst combat enchantments
+        // The Springmyst enchantments
         var enchantmentTypes = AccessTools
             .GetTypesFromAssembly(Assembly.GetExecutingAssembly())
             .Where(t => t.IsAssignableTo(typeof(BaseEnchantment)) &&

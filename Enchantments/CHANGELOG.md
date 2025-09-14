@@ -1,5 +1,14 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.2.2
+
+### Changed
+
+* Changed the damage of echo projectiles. The first echo now deals 70% damage (10% increase). The second echo now deals 49% damage (11% decrease).
+* Greedy enchantment HP threshold scaling increased from 1% to 2.5% per kill.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.2.1
 
 Rebuilt with updated [Core](../Core) version.
@@ -127,9 +136,9 @@ Updated for game version 1.6.14.
 
 ### Added
 
-* Added non-optional Jade Enchantment rebalance. The vanilla version is completely useless at 10% crit. power because it's the same amount given by Ruby Enchantment, but while the Ruby applies to every hit, the Jade only applies to critical hits.
-    * Before: crit. power +10%
-    * After: crit. power +50%
+* Added non-optional Jade Enchantment rebalance. The vanilla version is completely useless at 10% crit power because it's the same amount given by Ruby Enchantment, but while the Ruby applies to every hit, the Jade only applies to critical hits.
+    * Before: crit power +10%
+    * After: crit power +50%
 
 <sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
 

@@ -33,7 +33,17 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Record knockback for damage and crit. for defense ignore + back attacks.</summary>
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static void GameLocationDamageMonsterPrefix(ref float critChance, Farmer who)
+    {
+        if (Config.LuckImprovesCritAndDodge)
+        {
+            critChance += 0.01f * who.LuckLevel;
+        }
+    }
+
+    /// <summary>Record knockback for damage and crit for defense ignore + back attacks.</summary>
     [HarmonyTranspiler]
     [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(

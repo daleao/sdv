@@ -405,7 +405,8 @@ internal static class FarmerExtensions
     /// <returns>The total number of <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</returns>
     internal static int CountRaisedSlimes(this Farmer farmer)
     {
-        var count = Game1.getFarm().characters.OfType<GreenSlime>().Count();
+        //var count = Game1.getFarm().characters.OfType<GreenSlime>().Count();
+        var count = 0;
         Utility.ForEachBuilding(b =>
         {
             if (b.IsOwnedByOrLax(farmer) && b.indoors.Value is SlimeHutch)

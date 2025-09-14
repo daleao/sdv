@@ -30,7 +30,7 @@ internal sealed class ConcertoBuffCountdownUpdateTickedEvent(EventManager? manag
         this.Manager.Enable<SlimeDeflationUpdateTickedEvent>();
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (!piped.IsSummoned)
+            if (piped.Source == PipedSlime.PipingSource.Concerto)
             {
                 piped.Burst();
             }

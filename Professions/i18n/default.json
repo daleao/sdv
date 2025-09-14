@@ -171,7 +171,7 @@
   "poacher.title.female": "Bushwhacker",
   "poacher.title.prestiged.male": "Saboteur", // alternatives: Infiltrator
   "poacher.title.prestiged.female": "Saboteur",
-  "poacher.desc": "Crit. chance +50%. Chance to poach an item from the enemy with each attack.",
+  "poacher.desc": "Crit chance +50%. Chance to poach an item from the enemy with each attack.",
   "poacher.desc.prestiged": "Enemies can be poached twice. Inflict deadly poison with each successful poach.",
 
   "rascal.title.male": "Rascal",
@@ -188,15 +188,17 @@
   "desperado.buff.desc": "+50% ammo damage against a different target.",
   "piper.title.male": "Slimed Piper",
   "piper.title.female": "Slimed Siren",
-  "piper.title.prestiged.male": "Prismarch", // alts: Gelivante
-  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
-  "piper.desc": "Slime Hutch capacity +50%. Slimes raised in a Hutch are summoned in combat. One can be assigned as a Hat Slime to carry items.",
-  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.title.prestiged.male": "Prismarch", // Slime Painter
+  "piper.title.prestiged.female": "Prismatrice", // Slime Paintress
+  "piper.desc": "Slimes raised in a Hutch are summoned in combat. Can assign a Hat Slime to carry items. Slime Hutch capacity +50%.",
+  "piper.desc.prestiged": "Can craft colored Slime Brushes. Summoned Slimes gain special abilities tied to color. Slime Balls drop rare colored items.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
   "piper.slime.health": "{{value}} Health",
   "piper.slime.attack": "{{value}} Attack",
   "piper.slime.defense": "{{value}} Defense",
   "piper.slime.dismiss": "(Click to dismiss)",
+  "piper.usebrush": "Use the paintbrush?",
+  "piper.usebrush.cant": "It doesn't work on this target.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue Of Transcendence-^The statue can reset a skill's level while retaining all acquired professions.",
@@ -234,8 +236,8 @@
   "poacher.limit.title.male": "Ambuscade",
   "poacher.limit.title.female": "Ambuscade",
   "poacher.limit.desc.hidden": "Hidden.",
-  "poacher.limit.desc.revealed": "Crit. power x2.",
-  "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.",
+  "poacher.limit.desc.revealed": "Crit power x2.",
+  "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.",
   "desperado.limit.title.male": "Deadly Blossom",
   "desperado.limit.title.female": "Deadly Blossom",
   "desperado.limit.desc": "Auto-fire in eight cardinal directions at once.",
@@ -262,6 +264,16 @@
   "objects.slimemayo.desc": "Thick, odorless goo. Very spreadable.",
   "objects.slimecheese.name": "Slime Cheese",
   "objects.slimecheese.desc": "It smells terrible! Would anyone really want to eat this?",
+  "objects.redbrush.name": "Red Slime Paintbrush",
+  "objects.redbrush.desc": "A brush bristling with a thick chunk of red sludge.",
+  "objects.greenbrush.name": "Green Slime Paintbrush",
+  "objects.greenbrush.desc": "A brush tipped in a blob of sticky green goo.",
+  "objects.bluebrush.name": "Blue Slime Paintbrush",
+  "objects.bluebrush.desc": "A brush topped with a frosty clump of blue jelly.",
+  "objects.purplebrush.name": "Purple Slime Paintbrush",
+  "objects.purplebrush.desc": "A brush gripped by a velvety, violet lump of grime.",
+  "objects.prismaticbrush.name": "Prismatic Slime Paintbrush",
+  "objects.prismaticbrush.desc": "A brush infused with a shimmering, rainbow glob of iridescent slime.",
 
   "honorific.male": "Dear",
   "honorific.female": "Dear",

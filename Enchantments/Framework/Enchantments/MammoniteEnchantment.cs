@@ -40,6 +40,6 @@ public sealed class MammoniteEnchantment : BaseWeaponEnchantment
 
         who.Money += monster.Health;
         monster.Health = 0;
-        this.Threshold += 0.01f;
+        this.Threshold += 0.025f;
     }
 }

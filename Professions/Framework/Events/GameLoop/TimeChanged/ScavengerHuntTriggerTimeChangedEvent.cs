@@ -16,6 +16,11 @@ internal sealed class ScavengerHuntTriggerTimeChangedEvent(EventManager? manager
     /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
+        if (Game1.currentLocation.IsRainingHere())
+        {
+            return;
+        }
+
         Log.D("Attempting to start Scavenger Hunt.");
         if (State.ScavengerHunt!.TryStart(Game1.currentLocation))
         {

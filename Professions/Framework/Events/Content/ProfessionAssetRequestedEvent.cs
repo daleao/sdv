@@ -13,6 +13,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
 using StardewModdingAPI.Events;
+using StardewValley.GameData;
 using StardewValley.GameData.BigCraftables;
 using StardewValley.GameData.Buildings;
 using StardewValley.GameData.FarmAnimals;
@@ -41,7 +42,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData, AssetEditPriority.Late));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
-        this.Edit("Data/Machines", new AssetEditor(EditMachinesData, AssetEditPriority.Late));
+        this.Edit("Data/Machines", new AssetEditor(EditMachinesData, (AssetEditPriority)int.MaxValue));
         this.Edit("Data/NPCGiftTastes", new AssetEditor(EditNPCGiftTastesData));
         this.Edit("Data/Objects", new AssetEditor(EditObjectsData, AssetEditPriority.Early));
         this.Edit("LooseSprites/Cursors", new AssetEditor(EditCursorsLooseSprites));
@@ -49,7 +50,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Maps/Coop3", new AssetEditor(EditDeluxeCoopMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumBarn", new AssetEditor(EditPremiumBarnMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumCoop", new AssetEditor(EditPremiumCoopMap, AssetEditPriority.Late));
-        //this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap)); // not actually needed
+        this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
@@ -93,10 +94,13 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             new ModTextureProvider(() => $"assets/sprites/dirtarrow_{(ModHelper.ModRegistry.IsLoaded("Acerbicon.Recolor") ? "Wittily" : "Vanilla")}.png"));
         this.Provide(
             $"{UniqueId}_Highlight",
-            new ModTextureProvider(() => $"assets/sprites/highlight.png"));
+            new ModTextureProvider(() => "assets/sprites/highlight.png"));
         this.Provide(
             $"{UniqueId}_Minion",
-            new ModTextureProvider(() => $"assets/sprites/minion.png"));
+            new ModTextureProvider(() => "assets/sprites/minion.png"));
+        this.Provide(
+            $"{UniqueId}_Brushes",
+            new ModTextureProvider(() => "assets/sprites/PaintBrush.png"));
     }
 
     #region editor callback
@@ -155,12 +159,28 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     /// <summary>Patches Tapper recipes for Foraging professions.</summary>
     private static void EditCraftingRecipesData(IAssetData asset)
     {
+        var data = asset.AsDictionary<string, string>().Data;
+
+        var redBrushRecipe =
+            $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.RedSlimeEgg} 1/Field/{RedBrushId}/false/none/";
+        var greenBrushRecipe =
+            $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.GreenSlimeEgg} 1/Field/{GreenBrushId}/false/none/";
+        var blueBrushRecipe =
+            $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.BlueSlimeEgg} 1/Field/{BlueBrushId}/false/none/";
+        var purpleBrushRecipe =
+            $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PurpleSlimeEgg} 1/Field/{PurpleBrushId}/false/none/";
+        var prismaticBrushRecipe =
+            $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PrismaticJelly} 1/Field/{PrismaticBrushId}/false/none/";
+
+        data["Red Paintbrush"] = redBrushRecipe;
+        data["Green Paintbrush"] = greenBrushRecipe;
+        data["Blue Paintbrush"] = blueBrushRecipe;
+        data["Purple Paintbrush"] = purpleBrushRecipe;
+        data["Prismatic Paintbrush"] = prismaticBrushRecipe;
         if (!Context.IsWorldReady || (!Game1.player?.HasProfession(Profession.Tapper) ?? false))
         {
             return;
         }
-
-        var data = asset.AsDictionary<string, string>().Data;
 
         var fields = data["Tapper"].Split('/');
         fields[0] = $"{QIDs.Wood} 20 {QIDs.CopperBar} 1";
@@ -263,7 +283,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             return;
         }
 
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, true, true))
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, true))
         {
             asset.AsMap().ReplaceWith(ModHelper.ModContent.Load<Map>("assets/maps/SlimeHutch.tmx"));
         }
@@ -283,9 +303,11 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     /// <summary>Patches fish pond data with legendary fish data.</summary>
     private static void EditFishPondDataData(IAssetData asset)
     {
-        var data =
-            ModHelper.GameContent.Load<Dictionary<string, List<FishPondData>>>($"{UniqueId}_LegendaryFishPondData");
-        ((List<FishPondData>)asset.Data).AddRange(data["LegendaryFishPondData"]);
+        var assetData = (List<FishPondData>)asset.Data;
+        var modData =
+            ModHelper.GameContent.Load<Dictionary<string, List<FishPondData>>>($"{UniqueId}_LegendaryFishPondData")[
+                "LegendaryFishPondData"];
+        assetData.AddRange(modData);
     }
 
     /// <summary>Patches mail data with mail from the Ferngill Revenue Service.</summary>
@@ -391,23 +413,74 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     continue;
                 }
 
-                foreach (var rule in machine.OutputRules.Where(r =>
-                             r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")))
+                Func<MachineOutputRule, bool> appliesToLargeDairyItem = r =>
+                    (r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")) ||
+                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                     first.RequiredTags.ContainsAny("large_milk_item", "large_egg_item"));
+                Func<MachineOutputRule, bool> appliesToEggItem = r =>
+                    (r.Id is not null && r.Id.ContainsAnyOf("Egg")) ||
+                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                     first.RequiredTags.ContainsAny("egg_item"));
+                Func<MachineOutputRule, bool> appliesToMilkItem = r =>
+                    (r.Id is not null && r.Id.ContainsAnyOf("Milk")) ||
+                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                     first.RequiredTags.ContainsAny("milk_item"));
+                foreach (var rule in machine.OutputRules)
                 {
-                    foreach (var output in rule.OutputItem)
+                    if (appliesToLargeDairyItem(rule))
                     {
-                        if (output.Quality == 2)
+                        foreach (var output in rule.OutputItem)
                         {
-                            output.Quality = -1;
-                        }
+                            if (output.Quality > 0)
+                            {
+                                output.Quality = -1;
+                            }
 
-                        if (output.MinStack < 0)
-                        {
-                            output.MinStack = 2;
+                            output.StackModifiers ??= [];
+                            output.StackModifiers.Add(new QuantityModifier()
+                            {
+                                Id = $"{UniqueId}_ImmersiveDairyYield",
+                                Modification = QuantityModifier.ModificationType.Multiply,
+                                Amount = 2f,
+                            });
                         }
-                        else
+                    }
+                    else if (appliesToEggItem(rule))
+                    {
+                        foreach (var output in rule.OutputItem)
                         {
-                            output.MinStack *= 2;
+                            if (output.Quality > 0)
+                            {
+                                output.Quality = -1;
+                            }
+
+                            output.StackModifiers ??= [];
+                            output.StackModifiers.Add(new QuantityModifier()
+                            {
+                                Id = $"{UniqueId}_ImmersiveDairyYield",
+                                Modification = QuantityModifier.ModificationType.Multiply,
+                                Amount = 2f,
+                                Condition = "ITEM_CONTEXT_TAG Input large_egg_item",
+                            });
+                        }
+                    }
+                    else if (appliesToMilkItem(rule))
+                    {
+                        foreach (var output in rule.OutputItem)
+                        {
+                            if (output.Quality > 0)
+                            {
+                                output.Quality = -1;
+                            }
+
+                            output.StackModifiers ??= [];
+                            output.StackModifiers.Add(new QuantityModifier()
+                            {
+                                Id = $"{UniqueId}_ImmersiveDairyYield",
+                                Modification = QuantityModifier.ModificationType.Multiply,
+                                Amount = 2f,
+                                Condition = "ITEM_CONTEXT_TAG Input large_milk_item",
+                            });
                         }
                     }
                 }
@@ -444,6 +517,31 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             split = data["Wizard"].Split('/');
             split[5] += ' ' + SlimeCheeseId + ' ' + SlimeMayoId;
             data["Wizard"] = string.Join('/', split);
+        }
+
+        data["Universal_Neutral"] += " slime_paint_item";
+        var loved = "Leah".Collect("Emily", "Krobus", "Jas", "Vincent", "Leo");
+        foreach (var name in loved)
+        {
+            var split = data[name].Split('/');
+            split[1] += " slime_paint_item";
+            data[name] = string.Join('/', split);
+        }
+
+        var liked = "Penny".Collect("Robin");
+        foreach (var name in liked)
+        {
+            var split = data[name].Split('/');
+            split[3] += " slime_paint_item";
+            data[name] = string.Join('/', split);
+        }
+
+        var disliked = "Haley".Collect("Pam", "Sebastian");
+        foreach (var name in disliked)
+        {
+            var split = data[name].Split('/');
+            split[1] += " slime_paint_item";
+            data[name] = string.Join('/', split);
         }
     }
 
@@ -529,15 +627,107 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 ContextTags =
                 [
                     "color_green",
+                    "cheese_item",
                 ],
             };
         }
 
-        data["898"].ContextTags.Add("item_crimsonfish");
-        data["899"].ContextTags.Add("item_angler");
-        data["900"].ContextTags.Add("item_legend");
-        data["901"].ContextTags.Add("item_mutant_carp");
-        data["902"].ContextTags.Add("item_glacierfish");
+        data[$"{RedBrushId}"] = new ObjectData
+        {
+            Name = "Red Paintbrush",
+            DisplayName = I18n.Objects_Redbrush_Name(),
+            Description = I18n.Objects_Redbrush_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 250,
+            Texture = $"{UniqueId}_Brushes",
+            SpriteIndex = 0,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_red",
+                "slime_paint_item",
+            ],
+        };
+
+        data[$"{GreenBrushId}"] = new ObjectData
+        {
+            Name = "Green Paintbrush",
+            DisplayName = I18n.Objects_Greenbrush_Name(),
+            Description = I18n.Objects_Greenbrush_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 100,
+            Texture = $"{UniqueId}_Brushes",
+            SpriteIndex = 1,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_green",
+                "slime_paint_item",
+            ],
+        };
+
+        data[$"{BlueBrushId}"] = new ObjectData
+        {
+            Name = "Blue Paintbrush",
+            DisplayName = I18n.Objects_Bluebrush_Name(),
+            Description = I18n.Objects_Bluebrush_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 175,
+            Texture = $"{UniqueId}_Brushes",
+            SpriteIndex = 2,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_blue",
+                "slime_paint_item",
+            ],
+        };
+
+        data[$"{PurpleBrushId}"] = new ObjectData
+        {
+            Name = "Purple Paintbrush",
+            DisplayName = I18n.Objects_Purplebrush_Name(),
+            Description = I18n.Objects_Purplebrush_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 500,
+            Texture = $"{UniqueId}_Brushes",
+            SpriteIndex = 3,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_purple",
+                "slime_paint_item",
+            ],
+        };
+
+        data[$"{PrismaticBrushId}"] = new ObjectData
+        {
+            Name = "Prismatic Paintbrush",
+            DisplayName = I18n.Objects_Prismaticbrush_Name(),
+            Description = I18n.Objects_Prismaticbrush_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.ArtisanGoods,
+            Price = 1000,
+            Texture = $"{UniqueId}_Brushes",
+            SpriteIndex = 4,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_white",
+                "color_prismatic",
+                "slime_paint_item",
+            ],
+        };
+
+        // data["898"].ContextTags.Add("item_crimsonfish");
+        // data["899"].ContextTags.Add("item_angler");
+        // data["900"].ContextTags.Add("item_legend");
+        // data["901"].ContextTags.Add("item_mutant_carp");
+        // data["902"].ContextTags.Add("item_glacierfish");
     }
 
     #endregion editor callbacks

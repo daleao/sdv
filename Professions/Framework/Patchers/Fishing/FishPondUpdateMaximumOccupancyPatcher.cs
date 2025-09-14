@@ -31,23 +31,22 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
     private static void FishPondUpdateMaximumOccupancyPostfix(
         FishPond __instance, FishPondData? ____fishPondData)
     {
-        if (____fishPondData is null || !__instance.HasUnlockedFinalPopulationGate())
+        if (____fishPondData is null)
         {
             return;
         }
 
-        if (__instance.fishType.Value is "MNF.MoreNewFish_tui" or "MNF.MoreNewFish_la")
+        var owner = __instance.GetOwner();
+        if (!owner.HasProfessionOrLax(Profession.Aquarist))
         {
-            __instance.maxOccupants.Set(2);
-            __instance.currentOccupants.Set(Math.Min(__instance.currentOccupants.Value, __instance.maxOccupants.Value));
+            return;
         }
 
-        var owner = __instance.GetOwner();
         var occupancy = 10;
         var isLegendaryPond = __instance.GetFishObject().IsBossFish();
-        if (owner.HasProfessionOrLax(Profession.Aquarist))
+        if (!isLegendaryPond)
         {
-            if (!isLegendaryPond)
+            if (__instance.HasUnlockedFinalPopulationGate())
             {
                 occupancy += 2;
                 if (owner.HasProfession(Profession.Aquarist, true))
@@ -55,18 +54,23 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
                     occupancy += 2;
                 }
             }
-            else if (!owner.HasProfession(Profession.Aquarist, true))
+            else
             {
-                occupancy /= 2;
+                return;
             }
         }
-        else if (isLegendaryPond)
+        else if (!owner.HasProfession(Profession.Aquarist, true))
         {
-            Log.W(
-                $"Player {owner} has a Legendary Fish Pond, but does not have the required Aquarist profession. " +
-                $"The profession was likely removed, or the pond already existed before installing Walk Of Life. " +
-                $"Please reset the {__instance.GetFishObject().Name} pond.");
+            occupancy /= 2;
         }
+
+        // else if (isLegendaryPond)
+        // {
+        //     Log.W(
+        //         $"Player {owner} has a Legendary Fish Pond, but does not have the required Aquarist profession. " +
+        //         $"The profession was likely removed, or the pond already existed before installing Walk Of Life. " +
+        //         $"Please reset the {__instance.GetFishObject().Name} pond.");
+        // }
 
         __instance.maxOccupants.Set(occupancy);
         __instance.currentOccupants.Set(Math.Min(__instance.currentOccupants.Value, __instance.maxOccupants.Value));

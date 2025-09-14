@@ -45,7 +45,8 @@ public sealed class EchoEnchantment : BaseSlingshotEnchantment
                 firedProjectile,
                 startingPosition,
                 location,
-                firer);
+                firer,
+                0.7f);
         firer.currentLocation.projectiles.Add(clockwise);
 
         // do anti-clockwise projectile
@@ -54,7 +55,8 @@ public sealed class EchoEnchantment : BaseSlingshotEnchantment
                 firedProjectile,
                 startingPosition,
                 location,
-                firer);
+                firer,
+                0.49f);
         firer.currentLocation.projectiles.Add(antiClockwise);
     }
 }

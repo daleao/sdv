@@ -138,6 +138,29 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
     }
 
+    /// <inheritdoc />
+    internal override void TimeUpdate(uint ticks)
+    {
+        if (!Game1.game1.ShouldTimePass())
+        {
+            return;
+        }
+
+        if (this.IsActive && ticks % 60 == 0 &&
+            (this.Location?.terrainFeatures.TryGetValue(this.TargetTile.Value, out var feature) == true &&
+             feature is HoeDirt))
+        {
+            this.Complete();
+        }
+
+#if RELEASE
+        if (ticks % 60 == 0 && ++this.Elapsed > this.TimeLimit)
+        {
+            this.Fail();
+        }
+#endif
+    }
+
     /// <summary>Launches a background task to cache eligible treasure tiles in the specified <paramref name="location"/>.</summary>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     internal void TryCacheEligibleTreasureTiles(GameLocation location)
@@ -226,8 +249,14 @@ internal sealed class ScavengerHunt : TreasureHunt
     /// <inheritdoc />
     protected override void End(bool success)
     {
+        if (!this._eligibleTreasureHuntTilesByMap.TryGetValue(this.Location!.NameOrUniqueName, out var eligible))
+        {
+            base.End(false);
+            return;
+        }
+
         this.TriggerPool = 0;
-        foreach (var tuple in this._eligibleTreasureHuntTilesByMap[this.Location!.NameOrUniqueName])
+        foreach (var tuple in eligible)
         {
             if (this.Location.terrainFeatures.TryGetValue(tuple.Tile, out var feature) && feature is HoeDirt)
             {

@@ -104,11 +104,33 @@ internal sealed class ProspectorHunt : TreasureHunt
             Log.D("[Prospector Hunt]: Trigger threshold reached. Attempting to start Prospector Hunt.");
             this.TryStart(location);
         }
-        else if (this.IsActive && tile == this.TargetTile)
+        else if (this.IsActive && tile == this.TargetTile.Value)
         {
             Log.D("[Prospector Hunt]: Target found! Completing current hunt cycle...");
             this.Complete();
         }
+    }
+
+    /// <inheritdoc />
+    internal override void TimeUpdate(uint ticks)
+    {
+        if (!Game1.game1.ShouldTimePass())
+        {
+            return;
+        }
+
+        if (this.IsActive && ticks % 60 == 0 &&
+            (!this.Location?.Objects.ContainsKey(this.TargetTile.Value) ?? false))
+        {
+            this.Complete();
+        }
+
+#if RELEASE
+        if (ticks % 60 == 0 && ++this.Elapsed > this.TimeLimit)
+        {
+            this.Fail();
+        }
+#endif
     }
 
     /// <inheritdoc />

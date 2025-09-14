@@ -2,7 +2,10 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Events.Input.CursorMoved;
 using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -27,6 +30,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Patch to draw Hat Slime.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
     private static bool GreenSlimeDrawPrefix(
@@ -36,7 +40,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
         GreenSlime __instance,
         SpriteBatch b)
     {
-        if (__instance.Get_Piped() is not { IsSummoned: true } piped)
+        if (__instance.Get_Piped() is not { Hat: not null } piped)
         {
             return true; // run original logic
         }
@@ -199,11 +203,7 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
                 Math.Max(0f, __instance.drawOnTop ? 0.991f : __instance.StandingPixel.Y / 10000f));
         }
 
-        if (piped.Hat is not null)
-        {
-            piped.DrawHat(b);
-        }
-
+        piped.DrawHat(b);
         return false; // don't run original logic
     }
 
@@ -212,21 +212,101 @@ internal sealed class GreenSlimeDrawPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GreenSlimeDrawPostfix(GreenSlime __instance, SpriteBatch b)
     {
-        if (Config.MinionHealthBarPosition is not (HealthBarPosition.Sprite or HealthBarPosition.Both) ||
-            __instance.Get_Piped() is not { Hat: null })
+        var location = __instance.currentLocation;
+        if (location is null)
         {
             return;
         }
 
-        const float fullBarWidth = Game1.tileSize * 0.67f;
-        var position = __instance.getLocalPosition(Game1.viewport);
-        position.Y += __instance.Sprite.SpriteHeight * 2.5f;
-        var fillPercent = (float)__instance.Health / __instance.MaxHealth;
-        var width = fullBarWidth * fillPercent;
-        position.X += (__instance.Sprite.SpriteWidth * 2) - (width / 2f) + 2;
-        const int height = 4;
-        var color = Utility.getRedToGreenLerpColor(fillPercent);
-        b.Draw(Game1.staminaRect, new Rectangle((int)position.X, (int)position.Y, (int)width, height), color);
+        var inDangerZone = location.IsEnemyArea() || location.Name.ContainsAnyOf("Mine", "SkullCave");
+
+        Vector2 position;
+        float width;
+        float height;
+        if (inDangerZone && Config.MinionHealthBarPosition is HealthBarPosition.Sprite or HealthBarPosition.Both &&
+            __instance.Get_Piped() is { Source: PipedSlime.PipingSource.Summoned })
+        {
+            const float fullBarWidth = Game1.tileSize * 0.67f;
+            position = __instance.getLocalPosition(Game1.viewport);
+            position.Y += __instance.Sprite.SpriteHeight * 2.5f;
+            var fillPercent = (float)__instance.Health / __instance.MaxHealth;
+            width = fullBarWidth * fillPercent;
+            position.X += (__instance.Sprite.SpriteWidth * 2) - (width / 2f) + 2;
+            height = 4f;
+            var color = Utility.getRedToGreenLerpColor(fillPercent);
+            b.Draw(Game1.staminaRect, new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height), color);
+        }
+
+        if (inDangerZone || (__instance != PiperVisionCursorMovedEvent.SlimeBeingHovered && !Config.ModKey.IsDown()) ||
+            !Game1.player.HasProfession(Profession.Piper, true))
+        {
+            return;
+        }
+
+        position = __instance.getLocalPosition(Game1.viewport);
+        position.X += Game1.tileSize;
+        width = Textures.Dots.Height * 3;
+        height = Textures.Dots.Height * 3;
+
+        // R:
+        var sourceRect = new Rectangle(0, 0, 5, 5);
+        position.Y -= __instance.Sprite.SpriteHeight / 2;
+        b.Draw(
+            Textures.Dots,
+            new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height),
+            sourceRect,
+            Color.White,
+            0f,
+            Vector2.Zero,
+            SpriteEffects.None,
+            1.1f);
+        Utility.drawTinyDigits(
+            __instance.color.R,
+            b,
+            position + new Vector2(width + 4, -2),
+            3f,
+            1f,
+            Color.White);
+
+        // G:
+        sourceRect.X += 5;
+        position.Y += height + 6;
+        b.Draw(
+            Textures.Dots,
+            new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height),
+            sourceRect,
+            Color.White,
+            0f,
+            Vector2.Zero,
+            SpriteEffects.None,
+            1.1f);
+        Utility.drawTinyDigits(
+            __instance.color.G,
+            b,
+            position + new Vector2(width + 4, -2),
+            3f,
+            1f,
+            Color.White);
+
+        // B:
+        sourceRect.X += 5;
+        position.Y += height + 6;
+        b.Draw(
+            Textures.Dots,
+            new Rectangle((int)position.X, (int)position.Y, (int)width, (int)height),
+            sourceRect,
+            Color.White,
+            0f,
+            Vector2.Zero,
+            SpriteEffects.None,
+            1.1f);
+        Utility.drawTinyDigits(
+            __instance.color.B,
+            b,
+            position + new Vector2(width + 4, -2),
+            3f,
+            1f,
+            Color.White);
     }
 
     #endregion harmony patches

@@ -1,10 +1,28 @@
 ﻿# PONDS Changelog
 
+## 2.2.2
+
+### Fixed
+
+* Mod now correctly checks pond reward conditions.
+* Mod now correctly checks `RandomItemId` when `ItemId` is null, fixing a possible NRE with certain mod-added `FishPondReward`s (e.g., VPP).
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
+## 2.2.1
+
+### Added
+
+* Added a bonus to the roe production chance of legendary fish.
+* Max population is now automatically increased to 2 when trying to place Tui in La pond or vice versa (no longer requires [Walk of Life](../Professions).
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.2.0
 
 ### Added
 
-* Mixing of legendary and extended family fishes in a pond has been moved to this mod and removed from [Professions](../Professions). The code for tracking legendary fish has been simplified.
+* Mixing of legendary and extended family fishes in a pond has been moved to this mod and removed from [Walk of Life](../Professions). The code for tracking legendary fish has been simplified.
 * Added optional Legendary Fish Pond data.
 
 ### Fixed

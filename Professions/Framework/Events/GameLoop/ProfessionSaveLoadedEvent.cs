@@ -116,6 +116,13 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
             this.Manager.Enable<TrackerButtonsChangedEvent>();
         }
 
+        if (player.HasProfession(Profession.Piper))
+        {
+            this.Manager.Enable(
+                typeof(ChromaBallObjectListChangedEvent),
+                typeof(PiperButtonsChangedEvent));
+        }
+
         if (!Context.IsMainPlayer)
         {
             return;

@@ -34,6 +34,9 @@ internal static class Textures
     private static Lazy<Texture2D> _minion =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_Minion"));
 
+    private static Lazy<Texture2D> _dots =
+        new(() => ModHelper.ModContent.Load<Texture2D>("assets/sprites/dots.png"));
+
     internal static Texture2D PrestigeRibbons => _prestigeRibbons.Value;
 
     internal static Texture2D MaxIcon => _maxIcon.Value;
@@ -47,6 +50,8 @@ internal static class Textures
     internal static Texture2D DirtArrow => _dirtarrow.Value;
 
     internal static Texture2D Minion => _minion.Value;
+
+    internal static Texture2D Dots => _dots.Value;
 
     internal static void Reload(IEnumerable<IAssetName> assets)
     {

@@ -8,7 +8,10 @@ using DaLion.Core.Framework.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Extensions;
+using StardewValley.Monsters;
 using StardewValley.Tools;
 
 #endregion using directives
@@ -34,6 +37,33 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
+
+        try
+        {
+            helper
+                .PatternMatch([
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(Monster).RequireMethod(nameof(Monster.onDealContactDamage)))
+                ])
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Brfalse)
+                    ],
+                    ILHelper.SearchOption.Previous)
+                .GetOperand(out var endExecution)
+                .Move()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmerTakeDamagePatcher).RequireMethod(nameof(TryDodge))),
+                    new CodeInstruction(OpCodes.Brtrue, endExecution)
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting dodge chance.\nHelper returned {ex}");
+            return null;
+        }
 
         // Injected: if (Config.OverhauledDefense)
         //     skip
@@ -125,6 +155,28 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
         var bookDefense = who.stats.Get("Book_Defense") != 0 ? 1 : 0;
         var hyperbolicMitigatedDamage = (int)(rawDamage * (10f / (10f + playerDefense) * (10f / (10f + weaponDefense)) * (10f / (10f + bookDefense))));
         return Math.Min(hyperbolicMitigatedDamage, linearMitigatedDamage);
+    }
+
+    private static bool TryDodge(Farmer who)
+    {
+        if (!Config.LuckImprovesCritAndDodge || !Game1.random.NextBool(0.01f * who.LuckLevel))
+        {
+            return false;
+        }
+
+        who.temporarilyInvincible = true;
+        who.flashDuringThisTemporaryInvincibility = false;
+        who.temporaryInvincibilityTimer = 0;
+        who.currentTemporaryInvincibilityDuration = 1200 + (who.GetEffectsOfRingMultiplier("861") * 400);
+        var missText = Game1.content.LoadString("Strings\\StringsFromCSFiles:Attack_Miss");
+        var standingPixel = who.StandingPixel;
+        who.currentLocation.debris.Add(
+            new Debris(missText, 1, new Vector2(standingPixel.X + 8, standingPixel.Y), Color.LightGray, 1f, 0f)
+            {
+                toHover = who,
+            });
+        who.playNearbySoundAll("miss");
+        return true;
     }
 
     #endregion injected

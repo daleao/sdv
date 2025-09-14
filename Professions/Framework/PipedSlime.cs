@@ -2,6 +2,7 @@
 
 #region using directives
 
+using System.Diagnostics.CodeAnalysis;
 using DaLion.Core.Framework;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
@@ -22,6 +23,22 @@ using StardewValley.Objects;
 /// <summary>A <see cref="GreenSlime"/> under influence of <see cref="PiperConcerto"/>.</summary>
 internal sealed class PipedSlime : IDisposable
 {
+    /// <summary>Describes how the slime was piped.</summary>
+    internal enum PipingSource
+    {
+        /// <summary>This Slime is a summoned minion in a combat area. The piping lasts indefinitely, or until the Piper leaves the combat area.</summary>
+        Summoned,
+
+        /// <summary>This Slime was temporarily piped by a Piper's Limit Break. The piping ends when the Limit Break ends, causing these Slimes to burst.</summary>
+        Concerto,
+
+        /// <summary>This Slime was given a hat to wear. The piping lasts indefinitely, or until the Piper removes the Slime's hat.</summary>
+        Hat,
+
+        /// <summary>This Slime is being manually herded by a Piper. The piping lasts as long as the Piper holds the Mod Key.</summary>
+        Herded,
+    }
+
     internal const CollisionMask COLLISION_MASK = CollisionMask.Buildings | CollisionMask.Furniture |
                                                  CollisionMask.Objects | CollisionMask.TerrainFeatures |
                                                  CollisionMask.LocationSpecific;
@@ -42,19 +59,17 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Initializes a new instance of the <see cref="PipedSlime"/> class.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
     /// <param name="piper">The <see cref="Farmer"/> who cast <see cref="PiperConcerto"/>.</param>
-    /// <param name="summoned"><see cref="true"/> indicates that this is a summoned minion instance (permanent). <see langword="false"/> indicates that this instance is temporarily charmed by Piper limit break.</param>
-    /// <paramref name="summoned">Whether the instance is a temporary Concerto Slime.</paramref>
-    internal PipedSlime(GreenSlime slime, Farmer piper, bool summoned = true)
+    /// <param name="source">The <see cref="PipingSource"/> of the piping.</param>
+    internal PipedSlime(GreenSlime slime, Farmer piper, PipingSource source = PipingSource.Summoned)
     {
         this.Slime = slime;
         this.Piper = piper;
-        this.IsSummoned = summoned;
+        this.Source = source;
         this.OriginalHealth = slime.MaxHealth;
         this.OriginalDamage = slime.DamageToFarmer;
         this.OriginalSpeed = slime.Speed;
         this.OriginalRange = slime.moveTowardPlayerThreshold.Value;
         this.OriginalScale = slime.Scale;
-
         this.FakeFarmer = new FakeFarmer
         {
             UniqueMultiplayerID = slime.GetHashCode(), currentLocation = piper.currentLocation,
@@ -82,8 +97,18 @@ internal sealed class PipedSlime : IDisposable
         }
     }
 
+    /// <summary>Initializes a new instance of the <see cref="PipedSlime"/> class.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
+    /// <param name="piper">The <see cref="Farmer"/> who cast <see cref="PiperConcerto"/>.</param>
+    /// <param name="hat">A <see cref="Hat"/>.</param>
+    internal PipedSlime(GreenSlime slime, Farmer piper, Hat hat)
+        : this(slime, piper, PipingSource.Hat)
+    {
+        this.Hat = hat;
+    }
+
     /// <summary>Gets a value indicating whether a Hat Slime already exists in the world.</summary>
-    internal static bool HatSlimeIsUponUs { get; private set; }
+    internal static bool TheHatSlimeIsUponUs { get; private set; }
 
     /// <summary>Gets the <see cref="GreenSlime"/> instance.</summary>
     internal GreenSlime Slime { get; }
@@ -120,8 +145,8 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Gets a value indicating whether the instance has been fully inflated.</summary>
     internal bool DoneInflating { get; private set; }
 
-    /// <summary>Gets a value indicating whether the instance is a raised Slime or a temporary Concerto Slime.</summary>
-    internal bool IsSummoned { get; }
+    /// <summary>Gets a value indicating the source of the piping.</summary>
+    internal PipingSource Source { get; private set; }
 
     /// <summary>Gets or sets a value indicating whether the instance has been dismissed.</summary>
     internal bool IsDismissed
@@ -168,7 +193,7 @@ internal sealed class PipedSlime : IDisposable
             }
 
             this._hat.Value = value;
-            HatSlimeIsUponUs = value != null;
+            TheHatSlimeIsUponUs = value != null;
             State.PipedMinionMenu?.populateClickableComponentList();
         }
     }
@@ -201,14 +226,15 @@ internal sealed class PipedSlime : IDisposable
 
     /// <summary>Checks for actions on the instance.</summary>
     /// <param name="who">The <see cref="Farmer"/> who is checking.</param>
-    public void CheckAction(Farmer who)
+    /// <param name="hat">A <see cref="Hat"/>.</param>
+    public void CheckAction(Farmer who, Hat? hat = null)
     {
         if (!ReferenceEquals(who, this.Piper))
         {
             return;
         }
 
-        if (who.Items.Count > who.CurrentToolIndex && who.Items[who.CurrentToolIndex] is Hat hat)
+        if (hat is not null)
         {
             if (this.Hat is not null && who.addItemToInventoryBool(this.Hat))
             {
@@ -232,10 +258,11 @@ internal sealed class PipedSlime : IDisposable
                     slime.Set_Piped(null);
                 }
             }
-            else if (!HatSlimeIsUponUs)
+            else if (!TheHatSlimeIsUponUs)
             {
                 who.Items[who.CurrentToolIndex] = null;
                 this.Hat = hat;
+                this.Source = PipingSource.Hat;
                 Game1.playSound("dirtyHit");
             }
 

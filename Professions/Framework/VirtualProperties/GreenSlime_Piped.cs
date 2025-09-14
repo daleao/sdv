@@ -5,6 +5,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using StardewValley.Monsters;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -21,11 +22,16 @@ internal static class GreenSlime_Piped
     }
 
     [return: NotNullIfNotNull(nameof(piper))]
-    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer? piper, bool summoned = true)
+    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer? piper, PipedSlime.PipingSource source = PipedSlime.PipingSource.Summoned)
     {
+        if (source == PipedSlime.PipingSource.Hat)
+        {
+            return null;
+        }
+
         if (piper is not null)
         {
-            var piped = new PipedSlime(slime, piper, summoned);
+            var piped = new PipedSlime(slime, piper, source);
             Values.AddOrUpdate(slime, piped);
             PipedSlimes.Add(slime);
             return piped;
@@ -43,5 +49,13 @@ internal static class GreenSlime_Piped
             Values.Remove(slime);
             return null;
         }
+    }
+
+    internal static PipedSlime Set_Piped(this GreenSlime slime, Farmer piper, Hat hat)
+    {
+        var piped = new PipedSlime(slime, piper, hat);
+        Values.AddOrUpdate(slime, piped);
+        PipedSlimes.Add(slime);
+        return piped;
     }
 }

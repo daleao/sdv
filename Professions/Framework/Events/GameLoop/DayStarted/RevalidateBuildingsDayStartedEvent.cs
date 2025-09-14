@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
+using Shared.Enums;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
 using StardewValley.Monsters;
@@ -64,6 +65,7 @@ internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager =
                                     barn.Objects.Remove(hopper.TileLocation);
                                     hopper.TileLocation = new Vector2(4, 3);
                                     barn.Objects[hopper.TileLocation] = hopper;
+                                    barn.feedAllAnimals();
                                 }
 
                                 break;
@@ -77,6 +79,7 @@ internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager =
                                     barn.Objects.Remove(hopper.TileLocation);
                                     hopper.TileLocation = new Vector2(2, 5);
                                     barn.Objects[hopper.TileLocation] = hopper;
+                                    barn.feedAllAnimals();
                                 }
 
                                 break;
@@ -136,6 +139,8 @@ internal sealed class RevalidateBuildingsDayStartedEvent(EventManager? manager =
                         Reflector
                             .GetUnboundFieldSetter<SlimeHutch, int>(hutch, "_slimeCapacity")
                             .Invoke(hutch, 30);
+                        hutch.Objects.Remove(new Vector2(16, 5));
+                        hutch.Objects.Remove(new Vector2(16, 10));
                         hutch.waterSpots.SetCount(6);
                     }
                     else

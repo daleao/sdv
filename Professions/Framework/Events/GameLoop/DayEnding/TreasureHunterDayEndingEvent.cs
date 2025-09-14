@@ -19,7 +19,22 @@ internal sealed class TreasureHunterDayEndingEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
     {
-        State.ScavengerHunt?.FlushMapCache();
-        Log.D("Flushed treasure hunt caches.");
+        if (State.ScavengerHunt is { } scavenging)
+        {
+            if (scavenging.IsActive)
+            {
+                scavenging.Fail();
+            }
+
+            scavenging.FlushMapCache();
+        }
+
+        if (State.ProspectorHunt is { } prospecting)
+        {
+            if (prospecting.IsActive)
+            {
+                prospecting.Fail();
+            }
+        }
     }
 }

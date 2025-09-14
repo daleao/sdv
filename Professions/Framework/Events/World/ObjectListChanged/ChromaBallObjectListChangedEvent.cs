@@ -29,11 +29,12 @@ internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = n
     /// <inheritdoc />
     protected override void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e)
     {
-        if (!e.IsCurrentLocation || e.Location is not SlimeHutch hutch)
+        if (e.Location is not SlimeHutch hutch)
         {
             return;
         }
 
+        var isOwnerSlimePainter = hutch.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper, true);
         foreach (var (key, value) in e.Removed)
         {
             if (value.QualifiedItemId != QIDs.SlimeBall)
@@ -41,7 +42,7 @@ internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = n
                 continue;
             }
 
-            var drops = hutch.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper, true)
+            var drops = isOwnerSlimePainter
                 ? new ChromaBall(value, key).GetDrops()
                 : new SlimeBall(value, key).GetDrops();
             foreach (var (id, stack) in drops)

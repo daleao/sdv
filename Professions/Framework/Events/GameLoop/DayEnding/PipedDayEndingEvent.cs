@@ -22,7 +22,7 @@ internal sealed class PipedDayEndingEvent(EventManager? manager = null)
     {
         GreenSlime_Piped.Values.ToList().ForEach(pair =>
         {
-            if (pair.Value.Hat is null)
+            if (pair.Value.Source != PipedSlime.PipingSource.Hat)
             {
                 pair.Key.Set_Piped(null);
             }

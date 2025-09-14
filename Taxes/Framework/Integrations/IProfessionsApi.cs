@@ -4,7 +4,7 @@ public interface IProfessionsApi
 {
     public interface IProfessionsConfig
     {
-        uint ConservationistTrashNeededPerTaxDeduction { get; }
+        int ConservationistTrashNeededPerTaxDeduction { get; }
 
         float ConservationistTaxDeductionCeiling { get; }
     }

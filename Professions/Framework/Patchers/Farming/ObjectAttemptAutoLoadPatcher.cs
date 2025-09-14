@@ -5,6 +5,7 @@
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Inventories;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -28,7 +29,16 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ObjectAttemptAutoLoadPostfix(SObject __instance, bool __result, Farmer who)
     {
-        if (__instance.IsArtisanMachine() && __result && who.HasProfession(Profession.Artisan, true))
+        if (!__instance.IsArtisanMachine() || !__result || !who.HasProfession(Profession.Artisan, true))
+        {
+            return;
+        }
+
+        if (__instance is Cask cask)
+        {
+            cask.daysToMature.Value -= cask.daysToMature.Value / 4;
+        }
+        else
         {
             __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 4;
         }

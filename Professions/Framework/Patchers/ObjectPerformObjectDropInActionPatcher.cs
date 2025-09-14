@@ -7,6 +7,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -83,7 +84,14 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
         }
 
-        __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+        if (__instance is Cask cask)
+        {
+            cask.daysToMature.Value -= cask.daysToMature.Value / 10;
+        }
+        else
+        {
+            __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 10;
+        }
     }
 
     #endregion harmony patches

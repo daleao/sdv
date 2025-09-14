@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using DaLion.Core.Framework.VirtualProperties;
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
@@ -36,6 +37,13 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
 
         try
         {
+            if (((__instance is GreenSlime slime && slime.Get_Piped() is null) || __instance is BigSlime) &&
+                __instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper))
+            {
+                __result = false;
+                return false; // don't run original logic
+            }
+
             if (!__instance.Get_Target().IsAmbushing())
             {
                 return true; // run original method

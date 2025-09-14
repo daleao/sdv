@@ -78,7 +78,7 @@ public sealed class CombatConfig
     [GMCMPriority(102)]
     public bool CritsIgnoreDefense { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating whether back attacks gain double crit. chance.</summary>
+    /// <summary>Gets a value indicating whether back attacks gain double crit chance.</summary>
     [JsonProperty]
     [GMCMSection("cmbt.stats")]
     [GMCMPriority(103)]
@@ -89,6 +89,12 @@ public sealed class CombatConfig
     [GMCMSection("cmbt.stats")]
     [GMCMPriority(104)]
     public bool KnockbackHurts { get; internal set; } = true;
+
+    /// <summary>Gets a value indicating whether to add luck to crit chance and dodge chance.</summary>
+    [JsonProperty]
+    [GMCMSection("cmbt.stats")]
+    [GMCMPriority(105)]
+    public bool LuckImprovesCritAndDodge { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to allow drifting in the movement direction when swinging weapons.</summary>
     [JsonProperty]

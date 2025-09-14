@@ -89,6 +89,16 @@ public sealed class ProfessionsMod : Mod
 
     internal static string SlimeCheeseId { get; private set; } = null!; // set in Entry;
 
+    internal static string RedBrushId { get; private set; } = null!; // set in Entry;
+
+    internal static string GreenBrushId { get; private set; } = null!; // set in Entry;
+
+    internal static string BlueBrushId { get; private set; } = null!; // set in Entry;
+
+    internal static string PurpleBrushId { get; private set; } = null!; // set in Entry;
+
+    internal static string PrismaticBrushId { get; private set; } = null!; // set in Entry;
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -133,6 +143,11 @@ public sealed class ProfessionsMod : Mod
         OstrichMayoId = $"{UniqueId}_OstrichMayo";
         SlimeMayoId = $"{UniqueId}_SlimeMayo";
         SlimeCheeseId = $"{UniqueId}_SlimeCheese";
+        RedBrushId = $"{UniqueId}_RedPaintBrush";
+        GreenBrushId = $"{UniqueId}_GreenPaintBrush";
+        BlueBrushId = $"{UniqueId}_BluePaintBrush";
+        PurpleBrushId = $"{UniqueId}_PurplePaintBrush";
+        PrismaticBrushId = $"{UniqueId}_PrismaticPaintBrush";
     }
 
     /// <inheritdoc />

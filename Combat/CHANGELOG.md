@@ -1,5 +1,11 @@
 ﻿# COMBAT Changelog
 
+## 1.2.0
+
+### Added
+
+* Added option for Luck to affect chance to crit and chance to dodge.
+
 ## 1.1.0
 
 ### Changed

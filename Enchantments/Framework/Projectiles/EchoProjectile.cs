@@ -24,9 +24,10 @@ internal sealed class EchoProjectile : BasicProjectile
     /// <param name="startingPosition">The projectile's starting position.</param>
     /// <param name="location">The <see cref="GameLocation"/>.</param>
     /// <param name="firer">The <see cref="Farmer"/> who fired the shot.</param>
-    public EchoProjectile(BasicProjectile original, Vector2 startingPosition, GameLocation location, Farmer firer)
+    /// <param name="damageMultiplier">The damage multiplier.</param>
+    public EchoProjectile(BasicProjectile original, Vector2 startingPosition, GameLocation location, Farmer firer, float damageMultiplier)
     : base(
-        (int)(original.damageToFarmer.Value * 0.6),
+        (int)(original.damageToFarmer.Value * damageMultiplier),
         original.currentTileSheetIndex.Value,
         0,
         original.tailLength.Value,

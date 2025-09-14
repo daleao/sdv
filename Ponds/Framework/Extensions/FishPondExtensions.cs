@@ -275,8 +275,9 @@ internal static class FishPondExtensions
     /// <summary>Gets a fish's chance to produce roe in this <paramref name="pond"/>.</summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
     /// <param name="value">The fish's sale value.</param>
+    /// <param name="isLegendary">Whether the fish is a unique legendary fish.</param>
     /// <returns>The percentage chance of a fish with the given <paramref name="value"/> to produce roe in this <paramref name="pond"/>.</returns>
-    private static double GetRoeChance(this FishPond pond, int? value)
+    private static double GetRoeChance(this FishPond pond, int? value, bool isLegendary = false)
     {
         // version 1
         const int maxValue = 700;
@@ -291,7 +292,13 @@ internal static class FishPondExtensions
         const double a = 117d;
         const double b = 234d;
         var neighbors = pond.FishCount - 1;
-        return a / (x + b) * (1d + (neighbors / 9d)) * Config.RoeProductionChanceMultiplier;
+        var chance = a / (x + b) * (1d + (neighbors / 9d));
+        if (isLegendary)
+        {
+            chance *= Math.Pow(1.1, neighbors + 1);
+        }
+
+        return chance * Config.RoeProductionChanceMultiplier;
     }
 
     private static void ProduceFromPondData(this FishPond pond, List<Item> held, Random r)
@@ -304,15 +311,32 @@ internal static class FishPondExtensions
 
         foreach (var reward in fishPondData.ProducedItems)
         {
-            var qid = reward.ItemId.StartsWith("(O)") ? reward.ItemId : "(O)" + reward.ItemId;
-            if (qid is QIDs.Roe or QIDs.SquidInk ||
-                pond.currentOccupants.Value < reward.RequiredPopulation ||
-                !r.Any(reward.Chance, pond.currentOccupants.Value - reward.RequiredPopulation))
+            var location = pond.GetParentLocation();
+            var fish = pond.GetFishObject();
+            if (pond.currentOccupants.Value < reward.RequiredPopulation ||
+                !GameStateQuery.CheckConditions(reward.Condition, location, pond.GetOwner(), null, fish))
             {
                 continue;
             }
 
-            held.Add(ItemRegistry.Create<SObject>(reward.ItemId, r.Next(reward.MinStack, reward.MaxStack + 1)));
+            var qid = reward.ItemId ?? reward.RandomItemId?.Choose(r);
+            if (qid is null)
+            {
+                continue;
+            }
+
+            if (!qid.StartsWith("(O)"))
+            {
+                qid = "(O)" + qid;
+            }
+
+            var attempts = pond.currentOccupants.Value - reward.RequiredPopulation;
+            if (qid is QIDs.Roe or QIDs.SquidInk || !r.Any(reward.Chance, attempts))
+            {
+                continue;
+            }
+
+            held.Add(ItemRegistry.Create<SObject>(qid, r.Next(reward.MinStack, reward.MaxStack + 1)));
             if (pond.goldenAnimalCracker.Value)
             {
                 held.Last().Stack *= 2;
@@ -336,7 +360,7 @@ internal static class FishPondExtensions
             }
         }
 
-        var productionChancePerFish = pond.GetRoeChance(fish.Price);
+        var productionChancePerFish = pond.GetRoeChance(fish.Price, fish.IsBossFish());
         var roeQualities = new int[4];
         for (var i = 0; i < 4; i++)
         {

@@ -1,10 +1,59 @@
 ﻿# PROFESSIONS Changelog
 
-## 1.3.5
+## 1.4.0
+
+### TL;DR
+
+* Small buffs and QoL to Slimed Piper.
+  * A small nod to Expedition 33, Prestiged Slimed Pipers can now "paint" over their Slimes.
+* No more gate-keeping legendary Fish Ponds.
+* Several bug fixes.
+
+### Added
+
+* Added population gates to legendary fish ponds (this doesn't mean they can reproduce).
+* Slimed Piper now pacifies wild Slimes. They will act neutral towards all players while in the presence of a Piper.
+* Slimed Piper can now hold the Mod Key to temporarily charm the nearest Slime. This can be used to add an extra unit to your Slime army, but the main use of this perk is to manually herd Slimes for breeding.
+* Prestiged Slimed Piper can now craft Slime Paintbrushes. 5 new recipes will be added upon choosing this prestige (Green Brush, Blue Brush, Red Brush, Purple Brush and Prismatic Brush). Brushes other than Prismatic can be applied to raised Slimes to increase their RGB color values, bringing them closer to perfect white. The Prismatic Brush can only be applied to a perfect White Slime, and will convert it into a Prismatic Slime. Prismatic Slimes gain a significant boost to combat stats and also gain access to all special colored abilities. For the purpose of breeding, a Prismatic Slime behaves like a regular White Slime.
+    * Slime Paintbrushes are a universal neutral gift, except for:
+      * Loved by: Leah, Emily, Jas, Vincent, Leo and Krobus (he's fascinated by colorful things).
+      * Liked by: Penny and Robin.
+      * Disliked by: Haley (it's icky), Pam and Sebastian (hates colorful things).
+* Prestiged Slime Piper can now "see" the color components of raised Slimes, either by hovering the cursor over the Slime (Mouse & KB only) or by holding the Mod Key.
 
 ### Changed
 
+* Slimed Piper now restricts summons to Slimes inside a Hutch, instead of the entire farm. This gives a small degree of control over which Slimes can be summoned, while doing the gross of your breeding outdoors.
+* In combination with the previous point, also changed the algorithm that determines Slimed Piper number of Slimes to summon;
+  * Before: # of raised slimes / 10 -> this required 10 raised Slimes before any would be summoned at all, increasing to 2 at 20 and 3 at full capacity of 30.
+  * After: (# of raised slimes - 1) / 10 + 1 -> this forces a Slime to be summoned if at least 1 Slime is found inside a Hutch, increased to 2 at 11 and 3 at 21.
+  * Improved again the Slimed Piper description in the README.
 * Tapper recipes from the Tapper profession can now be edited by other CP mods.
+* Scavenger hunts no longer occur on rainy days, because the rain makes the dirt hints impossible to see.
+* Changes to LegendaryFishPondData.
+* Extended Family Legendary fish can no longer be plprfs add piperaced in ponds by themselves; they can only be placed in ponds with their parents (and only if [Aquarism](../Ponds) is installed).
+* Updated Chinese localization, credit to [Ellillilliott](https://forums.nexusmods.com/profile/121177218-ellillilliott/).
+
+### Fixed
+
+* Fixed ammo being duplicated by Desperado's Death Blossom.
+* Legendary fish Aquarist condition changed from a Prefix to Transpiler to avoid the inlining issue which caused it to not apply for some users.
+* Artisan and Industrialist processing speed perks now apply correctly to casks.
+* Fixed some possible null-reference exceptions in Angler tackle memorization.
+* Fixed Breeder incubation time bonus being applied twice.
+* Removed an incorrect water source tile data from Premium Barn map.
+* Fixed an edge case where passing out during a Scavenger Hunt would trigger an error loop.
+* Fixed an issue caused by SVE's dumbass CP code which resulted in Immersive Dairy Yield setting not applying to the Butter Churn.
+  * If anyone from SVE team reads this, your Machine Data entries for Butter Churn regarding Large Milk and Large Egg do not apply, as the regular Milk and Egg entries take precedence. Instead of separate entries, I recommend setting the `StackModifier` field with condition `ITEM_CONTEXT_TAG Input large_milk_item` or likewise for Large Eggs. Also, please just use `CopyQuality` field instead of adding individual entries for each quality. This way you can reduce 16 entries down to just 2 ([Modding: Machines](https://stardewvalleywiki.com/Modding:Machines)).
+  * Note that this "fix" also removes the copy quality property of SVE Butter Churn, which is intended for consistency.
+* Fixed a possible issue where Piper events were not enabled on save load.
+* Added failsafe to check completion status during Treasure Hunts (hopefully should fix issues related to using bombs, especially in Prospector Hunts).
+* Fixed a possible issue with Chroma Balls in multiplayer.
+
+### Removed
+
+* Removed the Aquarist restriction on legendary fish ponds; the Aquarist profession is no longer required to place legendary fish in ponds, as per vanilla rules (max population of 1).
+  * Aquarist profession will instead open up the population gate quests, which will allow increasing the max population to 5 before prestige.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

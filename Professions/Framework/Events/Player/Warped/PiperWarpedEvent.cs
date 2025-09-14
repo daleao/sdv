@@ -8,6 +8,7 @@ using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using Input.CursorMoved;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -36,7 +37,7 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         {
             this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
             State.PipedMinionMenu = null;
-            if (!newLocation.IsOutdoors)
+            if (!newLocation.IsOutdoors && newLocation is not SlimeHutch)
             {
                 return;
             }
@@ -49,6 +50,7 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
                 }
             }
 
+            this.Manager.Enable<PiperVisionCursorMovedEvent>();
             return;
         }
 
@@ -57,7 +59,7 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         if (!fromDangerZone)
         {
             var numberRaised = piper.CountRaisedSlimes();
-            var numberToSpawn = numberRaised / 10;
+            var numberToSpawn = ((numberRaised - 1) / 10) + 1;
             if (numberToSpawn == 0)
             {
                 return;

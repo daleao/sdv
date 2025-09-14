@@ -378,6 +378,14 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 .When(Angler).Then(() =>
                 {
                     ModHelper.GameContent.InvalidateCache("Data/Locations");
+                })
+                .When(Piper).Then(() =>
+                {
+                    who.craftingRecipes.TryAdd("Green Paintbrush", 0);
+                    who.craftingRecipes.TryAdd("Blue Paintbrush", 0);
+                    who.craftingRecipes.TryAdd("Red Paintbrush", 0);
+                    who.craftingRecipes.TryAdd("Purple Paintbrush", 0);
+                    who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
                 });
 
             return;
@@ -411,8 +419,10 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
-                EventManager.Enable<ChromaBallObjectListChangedEvent>();
+                EventManager.Enable(
+                    typeof(ChromaBallObjectListChangedEvent),
+                    typeof(PiperButtonsChangedEvent),
+                    typeof(RevalidateBuildingsDayStartedEvent));
             });
 
         if ((Skill)this.ParentSkill == Skill.Combat && this.Level == 10 && this.ParentSkill.CanGainPrestigeLevels() &&
@@ -433,6 +443,14 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 .When(Angler).Then(() =>
                 {
                     ModHelper.GameContent.InvalidateCache("Data/Locations");
+                })
+                .When(Piper).Then(() =>
+                {
+                    who.craftingRecipes.Remove("Green Paintbrush");
+                    who.craftingRecipes.Remove("Blue Paintbrush");
+                    who.craftingRecipes.Remove("Red Paintbrush");
+                    who.craftingRecipes.Remove("Purple Paintbrush");
+                    who.craftingRecipes.Remove("Prismatic Paintbrush");
                 });
 
             return;
@@ -469,8 +487,10 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Piper).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
-                EventManager.Unmanage<ChromaBallObjectListChangedEvent>();
+                EventManager.Disable(
+                    typeof(ChromaBallObjectListChangedEvent),
+                    typeof(PiperButtonsChangedEvent),
+                    typeof(RevalidateBuildingsDayStartedEvent));
             });
 
         if ((Skill)this.ParentSkill == Skill.Combat && this.Level == 10 && State.LimitBreak == LimitBreak.FromId(this))

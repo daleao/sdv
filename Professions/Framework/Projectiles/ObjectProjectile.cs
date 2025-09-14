@@ -87,6 +87,8 @@ internal sealed class ObjectProjectile : BasicProjectile
             this.Ammo.Category is (int)ObjectCategory.Eggs or (int)ObjectCategory.Fruits or (int)ObjectCategory.Vegetables ||
             this.Ammo.QualifiedItemId is QIDs.Slime or QIDs.ExplosiveAmmo;
         this.HasMonsterMusk = isMusked;
+        this.CanBeRecovered = this.Firer.HasProfession(Profession.Rascal) && !this.IsSquishyOrExplosive &&
+                              State.LimitBreak is not DesperadoBlossom { IsActive: true };
         if (this.Ammo.QualifiedItemId is QIDs.Slime)
         {
             this.localScale = 0.75f;
@@ -113,6 +115,8 @@ internal sealed class ObjectProjectile : BasicProjectile
     public bool IsSquishyOrExplosive { get; }
 
     public bool HasMonsterMusk { get; }
+
+    public bool CanBeRecovered { get; }
 
     /// <inheritdoc />
     public override void behaviorOnCollisionWithMonster(NPC n, GameLocation location)
@@ -256,12 +260,12 @@ internal sealed class ObjectProjectile : BasicProjectile
             }
         }
 
-        if (this.IsSquishyOrExplosive || !this.Firer.HasProfession(Profession.Rascal) || State.LimitBreak is DesperadoBlossom { IsActive: true })
+        // try to recover
+        if (!this.CanBeRecovered)
         {
             return;
         }
 
-        // try to recover
         var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
         if (this.Ammo.QualifiedItemId is QIDs.Wood or QIDs.Coal)
         {
@@ -300,12 +304,12 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (this.IsSquishyOrExplosive || !this.Firer.HasProfession(Profession.Rascal))
+        // try to recover
+        if (!this.CanBeRecovered)
         {
             return;
         }
 
-        // try to recover
         var recoveryChance = this.Firer.HasProfession(Profession.Rascal, true) ? 0.55 : 0.35;
         if (this.Ammo.QualifiedItemId is QIDs.Wood or QIDs.Coal)
         {

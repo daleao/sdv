@@ -53,9 +53,9 @@ This mod replaces the vanilla mitigation formula with a very simple exponential 
 
 `damage *= 10 / (10 + defense)`
 
-This results in a geometric progression, which causes every additional point of defense to mitigate exactly 10% more damage, guaranteeing that defense is always equally useful throughout every point in the game.
+This results in a hyperbolic curve with diminishing returns, which causes every additional point of defense to mitigate exactly 10% damage. This keeps defense useful throughout the game.
 
-Moreover, the defense stat will also increase reflected damage, which includes the sword's parry special move as well as the Ring of Thorns.
+Moreover, the defense stat will also increase reflected damage, which includes the sword's parry special move as well as the [Ring of Thorns](https://stardewvalleywiki.com/Thorns_Ring).
 
 Defensive builds focusing on Topaz rings and weapon forges should now actually be viable, even offensively.
 
@@ -63,7 +63,7 @@ Defensive builds focusing on Topaz rings and weapon forges should now actually b
 
 ### Knockback
 
-In many games, when a character hits a wall or an object while being knocked back they will suffer environment damage. This mod introduces a similar mechanic. This creates an additional strategic layer to combat, where fighting enemies close to stones, walls or other objects can be more favorable than combat in open areas. The amount of environment damage suffered depends on the velocity of the character at the moment of collision, which of course is increased by the knockback stat from Amethyst rings and weapon forges.
+In many games, when a character hits a wall or an object while being knocked back they will suffer environment damage. This mod introduces a similar mechanic. This creates an additional strategic layer to combat, where fighting enemies close to stones, walls or other objects can be more favorable than combat in the open. The amount of environment damage suffered depends on the velocity of the character at the moment of collision, which of course is increased by the knockback stat from Amethyst rings and weapon forges.
 
 Now, knocking enemies away from your combo is no longer necessarily a bad thing.
 
@@ -76,6 +76,23 @@ So far, we've introduced tweaks to attack speed, defense and knockback. To round
     Critical back strikes: Successful strikes to enemies from behind benefit from double critical strike chance. While this is ordinarily impossible against most enemies in vanilla, the DaLion suite of mods introduces various forms of Crowd Control that you may be able to abuse for this effect.
 
 
+### Luck
+
+Because I'm a fan of classic Ragnarok Online and a lot of my mods take inspiration from it, I thought it'd be cool if the Luck stat also had a similar effect in combat. So I've also added an option for Luck to improve critical hit chance<sup>1</sup> as well as introduce a dodge chance. The chance 1% per Luck level for both.
+
+<sup>[1]</sup> The vanilla game already has a tiny amount of luck effect on crit chance, but it's a self-dependent (multiplicative) effect;
+```
+critChance *= (1 + luck / 40)
+```
+
+This mod makes it a flat increase:
+```
+critChance += luck / 10
+```
+
+This has an actually noticeable impact while still being subtle — a few points of luck can take you from no crits to a few, whereas with the vanilla formula, luck won’t help unless you already have a decent crit chance.
+
+
 ## Enemy Tweaks
 
 Lastly, this mod provides optional sliders for tweaking enemy statistics including Health, Damage and Defense. There is also a toggle for randomizing encounters based on Daily Luck to create more varied dungeon experiences.
@@ -83,7 +100,7 @@ Lastly, this mod provides optional sliders for tweaking enemy statistics includi
 
 ## Compatibility
 
-N/A.
+Potential conflict with mods that affect combat controls and attack animations.
 
 
 ## Credits & Special Thanks

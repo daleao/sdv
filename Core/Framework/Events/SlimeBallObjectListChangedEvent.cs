@@ -17,7 +17,7 @@ public sealed class SlimeBallObjectListChangedEvent(EventManager? manager = null
     /// <inheritdoc />
     protected override void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e)
     {
-        if (!e.IsCurrentLocation || e.Location is not SlimeHutch)
+        if (e.Location is not SlimeHutch)
         {
             return;
         }

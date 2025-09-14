@@ -744,7 +744,7 @@ Completely unchanged from vanilla.
 <!--- Poacher --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b> - Crit. chance +50%. Chance to poach an item from the enemy with each attack.
+<summary><img src="./resources/assets/sprites/loose/poacher.png"/> <b>Bushwhacker (Lv10)</b> - Crit chance +50%. Chance to poach an item from the enemy with each attack.
 </summary>
 
 <ul>
@@ -822,60 +822,67 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 <!--- Piper --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Wild Slime are pacified. Slimes raised in a Hutch are summoned in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/piper_p.png"/> <b>Slime Conductor | Enchantress (Lv20)</b> - Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.
+<img src="./resources/assets/sprites/loose/piper_p.png"/> <b>Prismarch | Prismatrice (Lv20)</b> - Can craft colored Slime Brushes. Summoned Slimes gain special abilities tied to color. Slime Balls drop rare colored items.
 </font>
 
 <font size="2">
 <details>
 
-The most unique of all new professions. Since we have a profession focused on Fish Ponds, it makes sense to have a combat profession focused on the most underused building in the game: the Slime Hutch. This profession seeks to provide a compelling use for Slime Hutches, both for utility/profit as well as combat effectiveness.
+This is the most unique profession, so the description is a little long. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
 
-**Slime Minions:**
-- For every 10 Slimes raised in a Slime Hutch or outside on the Farm, a random Slime will be summoned automatically to aid the Piper in combat. Each full Hutch (at +50% capacity) will spawn 3 Slime minions. There is no cap.
-- Slime minions are immune to damage from the player, but can be damaged by monsters.
-- Slime minions can fight other enemies. They can even grab and tank enemy aggro.
-- Slime minions ignore enemy Slimes.
-- If low on health, you can heal a Slime minion by firing a piece of slime ammo at it from your slingshot.
-- When a Slime minion is defeated, a new one will be summoned automatically after a 42-second cooldown (1 in-game hour). This does not affect the Slimes in your Farm (they do not disappear when a Slime minion dies).
-- Slime minions inherit the same stats of the chosen raised Slime, therefore Slimes can be bred to achieve optimal combat stats (see below).
-- If the profession is prestiged, certain Slime variants will gain unique special abilities:
-    - **Green:** Causes Slimed debuff.
-    - **Blue:** Causes Chilled/Frozen debuff.
-    - **Red/Purple:** Causes Burn debuff.
-    - **Black:** Chance to transform enemies into Void Essence.
-    - **White:** Grants an aura that heals a low amount of health over time.
-    - **Gold:** Causes nearby enemies to drop gold (100g per kill).
-    - **Prismatic:** Causes nearby enemies to drop Prismatic Shards.
-
-**Hat Slime:**
-- Interact with any raised or summoned Slime while holding a hat to turn it into a Hat Slime.
-- As long as it wears a hat, the Hat Slime functions as an item mule; it will follow you around everywhere except indoors, and attempt to collect items dropped on the ground (only dropped items, not forage!).
-- If a stack of the same item already exists in the player's inventory, the item will be sent to the player automatically. Otherwise, the item will be added to the Slime's own 12-slot inventory.
-- The Hat Slime's inventory can be checked at any moment by simply interacting with it.
-- Removing the Slime's hat will dismiss it, turning it back into a wild Slime. Any held items will be permanently lost when dismissed, so be careful to retrieve all items beforehand!
-
-**Slime Breeding:**
+All Slimes gain the following Pokemon-inspired features, **before any professions**:
 - Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.
 - IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).
 - First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
-- IVs can be increased by breeding; when a baby Slime is born, it inherits each base stat from highest between the two parents. IVs are then picked from a normal distribution peaking at 2 points higher than that parent's. This guarantees that IVs will eventually converge to max after a few generations.
-- Baby Slime stats are inherited independently of color; any Slime color can be raised effectively to maximum stats.
-- Special Gold and Prismatic Slime variants can only be obtained by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results):
-    - Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold.
-    - Prismatic Slime variant can be bred at a low chance when breeding a White Slime RGB(230+, 230+, 230+).
-- This is a power gamer feature. Most users can ignore this and still have a good time.
+- IVs can be increased by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results); when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease. This guarantees that IVs will converge to max after a few generations.
+- Baby Slime stats are inherited independently of color, so that Slimes of any color can be raised to max stats.
+- A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e., try breeding Red and Green Slimes together).
 
-**Colored Item Drops:**
-- If this profession is prestiged, a colored Slime Ball will always drop one random item of the same corresponding color from the game's color-based [Dyeing List](https://stardewvalleywiki.com/Dyeing). This requires that the Slime Ball's color be within a 10 chroma-value range of the dye color, which may also require some intelligent [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+Note that breeding is an optional feature tailored at "power gamers". Most users can ignore this and still benefit from all the class perks. For those interested, [here is a useful guide](https://www.reddit.com/r/StardewValley/comments/m1hkgk/15_the_new_definitive_guide_to_rgb_slime_ranching/) about Slime breeding.
 
-**Misc:**
-- Increases Slime ammo damage to 20 if not prestiged, and 40 if prestiged.
+The following perks are gained when obtaining the Slimed Piper profession:
+- Slime Hutch capacity will be increased to 30 the following day. **Please remove Sprinklers or other items placed above and below the water spots**, as those tiles will be overwritten by additional water spots, deleting any placed objects.
+- All Slimes will act neutral toward players on the current map. They will still damage players if touched (unless, of course, the player wears the Slime Charmer Ring).
+- Automatically summon raised Slimes in combat. Only Slimes that are raised inside a Hutch can be summoned. One additional Slime will be summoned for every 10 Slimes raised inside a Hutch (i.e., 1 summoned Slime for up to 10 raised Slimes, 2 summoned Slimes for 11 to 20 raised Slimes, and so on). There is no upper limit.
+- Summoned Slimes are immune to damage from the player, including from explosives. But they can be damaged by other non-Slime enemies.
+- Summoned Slimes will fight and distract other non-Slime enemies by grabbing aggro.
+- Summoned Slimes inherit the stats (attack, defense and health) of the chosen raised Slime. _This is where breeding comes in handy._
+- Summoned Slimes regain health if shot at with a Slime ammo (Rascal feature).
+- Summoned Slimes are indicated by individual HUD portraits. The portraits can be clicked to dismiss and re-summon Slimes at will. 
+- When a Summoned Slime is defeated, it goes on a 42-second cooldown (1 in-game hour), after which a new raised Slime will automatically take its place. This has no actual effect on the Slimes in your Hutches.
+- A summoned Slime, or any raised Slime, can be interacted with while holding a hat to turn it into a **Hat Slime**:
+  - A Hat Slime does not participate in combat. Instead, it functions as an "item mule". It has access to a 12-slot inventory, which can be checked at any moment by interacting with the Hat Slime.
+  - When viewing the Hat Slime's inventory, you can take items from it, but cannot directly give it any items. The Hat Slime will only pick up items that are dropped on the ground nearby (and **only** dropped items, **not** spawned forage). _To give it an item, simply drop it from your own inventory._
+  - When the Hat Slime picks up an item, it will be automatically given to the player if, and only if, the player is already carrying a stack of that item. Otherwise, the item is added to the Hat Slime's inventory.
+  - To dismiss a Hat Slime, interact with it while holding a different hat. This will unequip the current hat, returning the Slime to a wild state. All of its held items will be dropped on the ground.
+  - The Hat Slime can follow you even outside of combat zones, unlike other Summoned Slimes. But it cannot follow you indoors (it'll just wait outside for you).
+- Holding the Mod Key (Left Shift, by default) will temporarily charm the nearest Slime in a 3-tile radius. A charmed Slime behaves like a regular Summoned Slime. Releasing the Mod Key removes the effect. _The main usecase for this feature is for herding Slimes for breeding._
+- The damage of Slime ammo is increased to 20 (equivalent to iron ore).
+
+The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Prismarchs, a.k.a. Slime Painters:
+- Learn to craft Slime Brushes using wood, fiber and a Slime Egg of the desired color. These brushes can be used on raised Slimes to change their pigmentation, increasing only the corresponding color component. If that color component is already maxed out, the brush then reduces the other two components.
+  - Green Brush -> increases a Slime's green component, or reduces its red and blue components.
+  - Blue Brush -> increases a Slime's blue component, or reduces its red and green components.
+  - Red Brush -> increases a Slime's red component, or reduces its green and blue components.
+  - Purple Brush -> increases a Slime's red and blue components, or reduces its green component.
+  - Prismatic Brush -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
+- Each of the Slime color variants below gain a special combat ability:
+  - Green Slimes -> can cause Slimed debuff.
+  - Blue Slimes -> can cause Chilled/Frozen debuff.
+  - Red & Purple Slimes -> can cause Burn debuff.
+  - White Slimes -> emit an aura that heals a low amount of health over time.
+  - Black Slimes -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void Essence.
+  - Gold Slimes -> cause nearby enemies to drop gold when defeated (100g per kill).
+  - Prismatic Slimes -> combine all previous effects, except for the Black Slime effect.
+- Colored Slime Balls will always drop one random item of the [Dyeing loot table](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
+- Both color-specific features above are valid within a range of 10 chroma values from the precise Slime or dye color.
+- The damage of Slime ammo is increased to 40 (between gold ore and iridium ore).
 
 </details>
 </font>
@@ -955,13 +962,13 @@ Charged by taking damage or defeating enemies. Charges more quickly if enemies a
 </details>
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slain within 0.5s of exiting invisibility, immediately reactivates Ambuscade.
+<summary><img src="./resources/assets/sprites/loose/cloaking.png"/> <b>Ambuscade (Bushwhacker)</b> - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit power is doubled for twice the leftover invisibility duration. If an enemy is slain within 0.5s of exiting invisibility, immediately reactivates Ambuscade.
 </summary>
 
 <font size="2">
 <ul>
 
-Charged by scoring critical hits, and the charge amount is proportional to crit. power.
+Charged by scoring critical hits, and the charge amount is proportional to crit power.
 </ul>
 </font>
 </details>
@@ -1038,6 +1045,7 @@ Credits to the following asset contributors:
 - [silicon](https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303) for golden skill icons.
 - [KawaiiMuski](https://next.nexusmods.com/profile/KawaiiMuski/about-me) for rose-golden skill icons.
 - **Posister** for alternate golden profession icons.
+- [PeacefulEnd](https://next.nexusmods.com/profile/PeacefulEnd?gameId=1303) for paintbrush sprite.
 - [Gravity](https://ro.gnjoy.com/index.asp) for sound effects and skill icons.
 
 Credits to the following code contributors:

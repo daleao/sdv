@@ -187,15 +187,17 @@
   "desperado.buff.desc": "+50% de dégâts de munitions contre une cible différente.",
   "piper.title.male": "Charmeur de limon",
   "piper.title.female": "Charmeuse de limon",
-  "piper.title.prestiged.male": "Prismarque", // alts: Gelivante
-  "piper.title.prestiged.female": "Prismatrice", // alts: Gelivanta
+  "piper.title.prestiged.male": "Prismarque", // Peintre de Slime
+  "piper.title.prestiged.female": "Prismatrice", // Peintre de Slimes
   "piper.desc": "Summon raised Slimes to aid you in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.",
-  "piper.desc.prestiged": "Ally Slimes gain unique abilities based on their color. Obtain rare colored items from Slime Balls.",
+  "piper.desc.prestiged": "Can craft colored Slime Brushes. Summoned Slimes gain special abilities tied to color. Slime Balls drop rare colored items.",
   "piper.slime.bag_full": "The Slime's pouch is full.",
   "piper.slime.health": "{{value}} Health",
   "piper.slime.attack": "{{value}} Attack",
   "piper.slime.defense": "{{value}} Defense",
   "piper.slime.dismiss": "(Click to dismiss)",
+  "piper.usebrush": "Use the paintbrush?",
+  "piper.usebrush.cant": "It doesn't work on this target.",
 
   // prestige
   "prestige.dog_statue.first": "-Statue de la transcendance-^La statue peut réinitialiser le niveau d'une compétence tout en conservant toutes les professions acquises.",
@@ -256,6 +258,20 @@
   "objects.goldenmayo.desc": "Parfaite pour les sandwiches du roi Midas.",
   "objects.ostrichmayo.name": "Mayonnaise délicieuse ",
   "objects.ostrichmayo.desc": "C'est une quantité absolument absurde de mayonnaise...",
+  "objects.slimemayo.name": "Slime Mayonnaise",
+  "objects.slimemayo.desc": "Thick, odorless goo. Very spreadable.",
+  "objects.slimecheese.name": "Slime Cheese",
+  "objects.slimecheese.desc": "It smells terrible! Would anyone really want to eat this?",
+  "objects.redbrush.name": "Red Slime Paintbrush",
+  "objects.redbrush.desc": "A brush bristling with a thick chunk of red sludge.",
+  "objects.greenbrush.name": "Green Slime Paintbrush",
+  "objects.greenbrush.desc": "A brush tipped in a blob of sticky green goo.",
+  "objects.bluebrush.name": "Blue Slime Paintbrush",
+  "objects.bluebrush.desc": "A brush topped with a frosty clump of blue jelly.",
+  "objects.purplebrush.name": "Purple Slime Paintbrush",
+  "objects.purplebrush.desc": "A brush gripped by a velvety, violet lump of grime.",
+  "objects.prismaticbrush.name": "Prismatic Slime Paintbrush",
+  "objects.prismaticbrush.desc": "A brush infused with a shimmering, rainbow glob of iridescent slime.",
 
   "honorific.male": "Monsieur",
   "honorific.female": "Madame",

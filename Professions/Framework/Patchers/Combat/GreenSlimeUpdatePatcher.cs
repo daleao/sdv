@@ -40,6 +40,11 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         if (__instance.Get_Piped() is not { } piped ||
             !ReferenceEquals(location, piped.Piper.currentLocation))
         {
+            if (__instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper))
+            {
+                ___readyToJump = -1;
+            }
+
             return;
         }
 
@@ -58,6 +63,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             ___readyToJump = 800;
         }
 
+        // do looting behavior
         if (piped.Hat is not null)
         {
             var approximatePosition =
@@ -89,6 +95,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             return;
         }
 
+        // do and receive damage
         foreach (var character in location.characters)
         {
             if (character is not Monster { IsMonster: true } monster

@@ -254,7 +254,7 @@ Completely unchanged from vanilla.
 [spoiler]
 [b]Rage:[/b] Damage +1% and Attack Speed +0.5% per stack, up to 100 stacks. Rage slowly decays after not dealing or taking damage for 20 seconds, increasing to 40 when prestiged. Wildhearts can expend 10 rage to trigger a special move during cooldown.
 [/spoiler]
-[/size][/spoiler][*][img]https://i.imgur.com/0nODoMq.png[/img] [b]Bushwhacker (Lv10)[/b] - Crit. chance +50%. Chance to poach an item from the enemy with each attack.
+[/size][/spoiler][*][img]https://i.imgur.com/0nODoMq.png[/img] [b]Bushwhacker (Lv10)[/b] - Crit chance +50%. Chance to poach an item from the enemy with each attack.
 [spoiler][color=gold][img]https://i.imgur.com/pz38M5L.png[/img] [b]Saboteur (Lv20)[/b] - Enemies can be poached twice. Inflict deadly poison with each successful poach.[/color][size=2]
 [spoiler]
 [b]Poaching:[/b] Unless prestiged, each monster can only be poached once. Poach chance is increased by your critical strike chance and luck ([b]not[/b] Daily Luck!), and decreased by the enemy's resistance and jitteriness (yes, that's a real stat which monsters have). Any item from the monster's available loot table can be obtained by this method.
@@ -368,9 +368,9 @@ During combat you can track the current Limit charge by the HUD bar labeled "L".
 [*][img]https://i.imgur.com/K81pOdR.png[/img] [b]Undying Frenzy (Brute / Amazon)[/b] - Unleash your fury for 15s. During this time, you gain double rage accumulation and your health cannot drop below 1. When the effect ends, recover 5% of your max health for every enemy slain during the frenzy.
 [size=2][spoiler]
 Charged by taking damage or defeating enemies. Charges more quickly if enemies are defeated using a blunt weapon.
-[/spoiler][/size][*][img]https://i.imgur.com/WgSlFvA.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit. power is doubled for twice the leftover invisibility duration. If an enemy is slain within 0.5s of losing invisibility, immediately reactivates Ambuscade.
+[/spoiler][/size][*][img]https://i.imgur.com/WgSlFvA.png[/img] [b]Ambuscade (Bushwhacker)[/b] - Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit power is doubled for twice the leftover invisibility duration. If an enemy is slain within 0.5s of losing invisibility, immediately reactivates Ambuscade.
 [size=2][spoiler]
-Charged by scoring critical hits, and the charge amount is proportional to crit. power.
+Charged by scoring critical hits, and the charge amount is proportional to crit power.
 [/spoiler][/size][*][img]https://i.imgur.com/wc6J7DV.png[/img] [b]Death Blossom (Desperado)[/b] - For 15s, enable auto-fire and all shots fire in eight cardinal directions at once at no additional ammo cost.
 [size=2][spoiler]
 Journey of the Prairie King, "IRL". Charged by hitting monsters with projectiles. Charges more quickly when low on health.

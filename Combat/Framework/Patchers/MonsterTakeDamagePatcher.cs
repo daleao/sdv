@@ -124,7 +124,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed adding crit. ignore enemy defense.\nHelper returned {ex}");
+            Log.E($"Failed adding crit ignore enemy defense.\nHelper returned {ex}");
             return null;
         }
 

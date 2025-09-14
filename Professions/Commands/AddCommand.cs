@@ -37,6 +37,18 @@ internal sealed class AddCommand(CommandHandler handler)
             return false;
         }
 
+        if (args.Length == 1 && (args[0].ToLowerInvariant() is "brushes" or "paint" or "paintbrushes"))
+        {
+            var who = Game1.player;
+            who.craftingRecipes.TryAdd("Green Paintbrush", 0);
+            who.craftingRecipes.TryAdd("Blue Paintbrush", 0);
+            who.craftingRecipes.TryAdd("Red Paintbrush", 0);
+            who.craftingRecipes.TryAdd("Purple Paintbrush", 0);
+            who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
+            Log.I($"Added paintbrush recipes to {who.Name}.");
+            return true;
+        }
+
         var tokens = args.ToList();
         var farmerIndex = 1;
         var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();

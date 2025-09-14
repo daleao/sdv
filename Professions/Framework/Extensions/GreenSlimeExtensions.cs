@@ -20,22 +20,91 @@ internal static class GreenSlimeExtensions
         return Math.Sqrt((slime.xVelocity * slime.xVelocity) + (slime.yVelocity * slime.yVelocity)) >= 1d;
     }
 
-    /// <summary>Checks for actions on the instance.</summary>
+    /// <summary>Gives the hat to the <see cref="GreenSlime"/> instance.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/>.</param>
     /// <param name="who">The <see cref="Farmer"/> who is checking.</param>
+    /// <param name="hat">A <see cref="Hat"/>.</param>
     /// <remarks>Used for raised Slimes who are not yet piped.</remarks>
-    internal static void CheckActionNonPiped(this GreenSlime slime, Farmer who)
+    internal static void GiveHatNonPiped(this GreenSlime slime, Farmer who, Hat hat)
     {
-        if (!who.HasProfession(Profession.Piper) || who.Items.Count <= who.CurrentToolIndex ||
-            who.Items[who.CurrentToolIndex] is not Hat hat)
+        slime.Set_Piped(who, hat);
+        who.Items[who.CurrentToolIndex] = null;
+        Game1.playSound("dirtyHit");
+    }
+
+    /// <summary>Applies the <paramref name="brush"/> to the <see cref="GreenSlime"/> instance.</summary>
+    /// <param name="slime">The <see cref="GreenSlime"/>.</param>
+    /// <param name="brush">A <see cref="Hat"/>.</param>
+    /// <returns><see langword="true"/> if the brush was applied, otherwise <see langword="false"/>.</returns>
+    internal static bool TryUsePaintbrush(this GreenSlime slime, SObject brush)
+    {
+        if (brush.ItemId == RedBrushId)
         {
-            return;
+            if (slime.color.R < byte.MaxValue)
+            {
+                slime.color.R = (byte)Math.Min(slime.color.R + 50, byte.MaxValue);
+            }
+            else
+            {
+                slime.color.G = (byte)Math.Max(slime.color.G - 25, 0);
+                slime.color.B = (byte)Math.Max(slime.color.B - 25, 0);
+            }
+        }
+        else if (brush.ItemId == GreenBrushId)
+        {
+            if (slime.color.G < byte.MaxValue)
+            {
+                slime.color.G = (byte)Math.Min(slime.color.G + 50, byte.MaxValue);
+            }
+            else
+            {
+                slime.color.R = (byte)Math.Max(slime.color.R - 25, 0);
+                slime.color.B = (byte)Math.Max(slime.color.B - 25, 0);
+            }
+        }
+        else if (brush.ItemId == BlueBrushId)
+        {
+            if (slime.color.B < byte.MaxValue)
+            {
+                slime.color.B = (byte)Math.Min(slime.color.B + 50, byte.MaxValue);
+            }
+            else
+            {
+                slime.color.R = (byte)Math.Max(slime.color.R - 25, 0);
+                slime.color.G = (byte)Math.Max(slime.color.G - 25, 0);
+            }
+        }
+        else if (brush.ItemId == PurpleBrushId)
+        {
+            if (slime.color.R < byte.MaxValue || slime.color.B < byte.MaxValue)
+            {
+                slime.color.R = (byte)Math.Min(slime.color.R + 25, byte.MaxValue);
+                slime.color.B = (byte)Math.Min(slime.color.B + 25, byte.MaxValue);
+            }
+            else
+            {
+                slime.color.G = (byte)Math.Max(slime.color.G - 50, 0);
+            }
+        }
+        else if (brush.ItemId == PrismaticBrushId)
+        {
+            if (slime.color.R != byte.MaxValue || slime.color.G != byte.MaxValue || slime.color.B != byte.MaxValue)
+            {
+                return false;
+            }
+
+            slime.makePrismatic();
+            slime.MaxHealth *= 2;
+            slime.Health = slime.MaxHealth;
+            slime.DamageToFarmer *= 2;
+            slime.resilience.Value *= 2;
+        }
+        else
+        {
+            return false;
         }
 
-        slime.Set_Piped(who);
-        who.Items[who.CurrentToolIndex] = null;
-        slime.Get_Piped()!.Hat = hat;
-        Game1.playSound("dirtyHit");
+        return true;
     }
 
     /// <summary>Changes the <paramref name="slime"/> into a Gold Slime.</summary>

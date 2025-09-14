@@ -146,7 +146,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed removing vanilla Desperado crit. bonus.\nHelper returned {ex}");
+            Log.E($"Failed removing vanilla Desperado crit bonus.\nHelper returned {ex}");
 
             return null;
         }

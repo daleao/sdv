@@ -2,9 +2,13 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.GameData;
+using StardewValley.GameData.Machines;
 
 #endregion using directives
 
@@ -25,7 +29,7 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
     /// <summary>Patch to increase production frequency of Producer Bee House + set Prestiged Gemologist Crystalaria quality + double Prestiged Demolitionist coal generation.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void ObjectOutputMachinePostfix(SObject __instance, Item inputItem)
+    private static void ObjectOutputMachinePostfix(SObject __instance, MachineOutputRule outputRule, Item inputItem)
     {
         var held = __instance.heldObject.Value;
         var owner = __instance.GetOwner();
@@ -59,10 +63,11 @@ internal sealed class ObjectOutputMachinePatcher : HarmonyPatcher
             }
 
             default:
-                if (__instance.GetMachineData().IsIncubator && Game1.player.HasProfession(Profession.Breeder))
-                {
-                    __instance.MinutesUntilReady /= 2;
-                }
+                // not needed
+                // if (__instance.GetMachineData().IsIncubator && Game1.player.HasProfession(Profession.Breeder))
+                // {
+                //     __instance.MinutesUntilReady /= 2;
+                // }
 
                 if (held?.Category == SObject.baitCategory && owner.HasProfession(Profession.Luremaster, true))
                 {

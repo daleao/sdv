@@ -61,15 +61,19 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
         }
 
         memorizedTackle = Data.Read(__instance, DataKeys.SecondMemorizedTackle);
-        if (!string.IsNullOrEmpty(memorizedTackle))
+        if (string.IsNullOrEmpty(memorizedTackle))
         {
-            Data.Increment(__instance, DataKeys.SecondMemorizedTackleUses, -1);
-            if (Data.ReadAs<int>(__instance, DataKeys.SecondMemorizedTackleUses) <= 0)
-            {
-                Data.Write(__instance, DataKeys.SecondMemorizedTackle, null);
-                Data.Write(__instance, DataKeys.SecondMemorizedTackleUses, null);
-            }
+            return;
         }
+
+        Data.Increment(__instance, DataKeys.SecondMemorizedTackleUses, -1);
+        if (Data.ReadAs<int>(__instance, DataKeys.SecondMemorizedTackleUses) > 0)
+        {
+            return;
+        }
+
+        Data.Write(__instance, DataKeys.SecondMemorizedTackle, null);
+        Data.Write(__instance, DataKeys.SecondMemorizedTackleUses, null);
     }
 
     /// <summary>Patch to record Angler tackle uses.</summary>
@@ -112,9 +116,9 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
 
     #region injected
 
-    private static void RecordTackleMemory(FishingRod rod, SObject tackle)
+    private static void RecordTackleMemory(FishingRod rod, SObject? tackle)
     {
-        if (!rod.lastUser.HasProfession(Profession.Angler))
+        if (tackle is null || !rod.lastUser.HasProfession(Profession.Angler))
         {
             return;
         }
@@ -125,11 +129,11 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
             Data.Write(rod, DataKeys.FirstMemorizedTackleUses, ((FishingRod.maxTackleUses / 2) + 1).ToString());
             return;
         }
-        else if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2].QualifiedItemId)
+
+        if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2]?.QualifiedItemId)
         {
             Data.Write(rod, DataKeys.SecondMemorizedTackle, tackle.QualifiedItemId);
             Data.Write(rod, DataKeys.SecondMemorizedTackleUses, ((FishingRod.maxTackleUses / 2) + 1).ToString());
-            return;
         }
     }
 

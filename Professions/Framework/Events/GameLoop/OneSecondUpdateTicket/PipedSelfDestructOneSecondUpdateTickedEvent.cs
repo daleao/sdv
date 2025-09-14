@@ -32,7 +32,7 @@ internal sealed class PipedSelfDestructOneSecondUpdateTickedEvent(EventManager? 
 
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (piped.Hat is null)
+            if (piped.Source is PipedSlime.PipingSource.Summoned)
             {
                 piped.Burst();
             }

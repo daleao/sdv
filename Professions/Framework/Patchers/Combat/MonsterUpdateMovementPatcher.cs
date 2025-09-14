@@ -40,11 +40,11 @@ internal sealed class MonsterUpdateMovementPatcher : HarmonyPatcher
 
         if (slime.Get_Piped() is not { } piped)
         {
-            // // this would make non-piped Slimes neutral / non-aggressive
-            // slime.defaultMovementBehavior(time);
-            // goto realizeMovement;
-
-            return true; // run original logic
+            // this would make non-piped Slimes neutral / non-aggressive
+            slime.IsWalkingTowardPlayer = false;
+            slime.defaultMovementBehavior(time);
+            __instance.MovePosition(time, Game1.viewport, location);
+            return false; // don't run original logic
         }
 
         __instance.Speed = piped.Piper.Speed;

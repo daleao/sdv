@@ -71,7 +71,7 @@ internal sealed class PiperConcertoBuff : Buff
         {
             if (character is GreenSlime slime && slime.IsCharacterWithinThreshold() && slime.Get_Piped() is null)
             {
-                slime.Set_Piped(Game1.player, false);
+                slime.Set_Piped(Game1.player, PipedSlime.PipingSource.Concerto);
             }
         }
 
@@ -86,7 +86,7 @@ internal sealed class PiperConcertoBuff : Buff
         EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (!piped.IsSummoned)
+            if (piped.Source == PipedSlime.PipingSource.Concerto)
             {
                 piped.Burst();
             }

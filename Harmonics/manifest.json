@@ -16,7 +16,7 @@
     },
     {
       "UniqueID": "DaLion.Core",
-      "MinimumVersion": "2.2.2",
+      "MinimumVersion": "2.2.3",
       "IsRequired": true
     },
     {

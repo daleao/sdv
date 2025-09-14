@@ -103,7 +103,7 @@ internal abstract class TreasureHunt : ITreasureHunt
 
     /// <summary>Check for completion or failure.</summary>
     /// <param name="ticks">The number of ticks elapsed since the game started.</param>
-    internal void TimeUpdate(uint ticks)
+    internal virtual void TimeUpdate(uint ticks)
     {
         if (!Game1.game1.ShouldTimePass())
         {

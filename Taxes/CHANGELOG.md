@@ -1,5 +1,13 @@
 ﻿# TAXES Changelog
 
+## 2.2.1
+
+### Fixed
+
+* Fixed error due to change in Walk Of Life API.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.2.0
 
 ### Fixed

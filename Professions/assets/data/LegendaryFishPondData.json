@@ -4,7 +4,8 @@
       "Id": "DaLion.Professions_Glacierfish",
       "RequiredTags": [ "item_glacierfish" ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 15,
       "WaterColor": [
         {
           "Id": "Glacierfish",
@@ -58,13 +59,35 @@
           "MaxStack": 1
         }
       ],
-      "PopulationGates": null
+      "PopulationGates": {
+        "1": [
+          "(O)536 5 11", // frozen geode
+          "(O)84 5 11" // frozen tear
+        ],
+        "2": [
+          "(O)536 10 16", // frozen geode
+          "(O)84 10 16" // frozen tear
+        ],
+        "3": [
+          "(O)536 15 21", // frozen geode
+          "(O)84 15 21" // frozen tear
+        ],
+        "4": [
+          "(O)536 20 26", // frozen geode
+          "(O)84 20 26" // frozen tear
+        ],
+        "5": [
+          "(O)536 50", // frozen geode
+          "(O)84 50" // frozen tear
+        ]
+      }
     },
     {
       "Id": "DaLion.Professions_Angler",
       "RequiredTags": [ "item_angler" ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 15,
       "WaterColor": [
         {
           "Id": "Angler",
@@ -91,6 +114,20 @@
         },
         {
           "RequiredPopulation": 0,
+          "Chance": 0.075,
+          "ItemId": "(O)338", // refined quartz
+          "MinStack": 1,
+          "MaxStack": 1
+        },
+        {
+          "RequiredPopulation": 0,
+          "Chance": 0.1,
+          "ItemId": "(O)378", // iron ore
+          "MinStack": 10,
+          "MaxStack": 20
+        },
+        {
+          "RequiredPopulation": 0,
           "Chance": 1,
           "ItemId": "(O)812", // roe
           "MinStack": 1,
@@ -104,13 +141,30 @@
           "MaxStack": 1
         }
       ],
-      "PopulationGates": null
+      "PopulationGates": {
+        "1": [
+          "(O)787 1" // battery pack
+        ],
+        "2": [
+          "(O)787 2" // battery pack
+        ],
+        "3": [
+          "(O)787 3" // battery pack
+        ],
+        "4": [
+          "(O)787 4" // battery pack
+        ],
+        "5": [
+          "(O)787 10" // battery pack
+        ]
+      }
     },
     {
       "Id": "DaLion.Professions_MutantCarp",
       "RequiredTags": [ "item_mutant_carp" ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 15,
       "WaterColor": [
         {
           "Id": "MutantCarp",
@@ -143,13 +197,30 @@
           "MaxStack": 1
         }
       ],
-      "PopulationGates": null
+      "PopulationGates": {
+        "1": [
+          "(O)910 1" // radioactive bar
+        ],
+        "2": [
+          "(O)910 1" // radioactive bar
+        ],
+        "3": [
+          "(O)910 1" // radioactive bar
+        ],
+        "4": [
+          "(O)910 1" // radioactive bar
+        ],
+        "5": [
+          "(O)910 3" // radioactive bar
+        ]
+      }
     },
     {
       "Id": "DaLion.Professions_Crimsonfish",
       "RequiredTags": [ "item_crimsonfish" ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 15,
       "WaterColor": [
         {
           "Id": "Crimsonfish",
@@ -217,16 +288,38 @@
           "MaxStack": 1
         }
       ],
-      "PopulationGates": null
+      "PopulationGates": {
+        "1": [
+          "(O)537 5 11", // magma geode
+          "(O)82 5 11" // fire quartz
+        ],
+        "2": [
+          "(O)537 10 16", // magma geode
+          "(O)82 10 16" // fire quartz
+        ],
+        "3": [
+          "(O)537 15 21", // magma geode
+          "(O)82 15 21" // fire quartz
+        ],
+        "4": [
+          "(O)537 20 26", // magma geode
+          "(O)82 20 26" // fire quartz
+        ],
+        "5": [
+          "(O)537 50", // magma geode
+          "(O)82 50" // fire quartz
+        ]
+      }
     },
     {
       "Id": "DaLion.Professions_Legend",
       "RequiredTags": [ "item_legend" ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 21,
       "WaterColor": [
         {
-          "Id": "MutantCarp",
+          "Id": "Legend",
           "Color": "40 150 50",
           "MinPopulation": 1,
           "MinUnlockedPopulationGate": 0,
@@ -243,6 +336,13 @@
         },
         {
           "RequiredPopulation": 0,
+          "Chance": 0.005,
+          "ItemId": "(O)74", // prismatic shard
+          "MinStack": 1,
+          "MaxStack": 1
+        },
+        {
+          "RequiredPopulation": 0,
           "Chance": 1,
           "ItemId": "(O)812", // roe
           "MinStack": 1,
@@ -256,7 +356,23 @@
           "MaxStack": 1
         }
       ],
-      "PopulationGates": null
+      "PopulationGates": {
+        "1": [
+          "(O)74 1" // prismatic shard
+        ],
+        "2": [
+          "(O)74 1" // prismatic shard
+        ],
+        "3": [
+          "(O)74 1" // prismatic shard
+        ],
+        "4": [
+          "(O)74 1" // prismatic shard
+        ],
+        "5": [
+          "(O)74 3" // prismatic shard
+        ]
+      }
     },
     {
       "Id": "DaLion.Professions_MNF_Tui",
@@ -264,7 +380,8 @@
         "item_mnf.morenewfish_tui"
       ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 999999,
       "ProducedItems": [
         {
           "RequiredPopulation": 0,
@@ -303,7 +420,8 @@
         "item_mnf.morenewfish_la"
       ],
       "Precedence": 200,
-      "SpawnTime": -2,
+      "MaxPopulation": 1,
+      "SpawnTime": 999999,
       "ProducedItems": [
         {
           "RequiredPopulation": 0,

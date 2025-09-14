@@ -1,5 +1,11 @@
 ﻿# CORE Changelog
 
+## Fixed
+
+* Fixed a possible issue with Chroma Balls in multiplayer.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.2.2
 
 ### Added
