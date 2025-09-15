@@ -1,5 +1,15 @@
 ﻿# PONDS Changelog
 
+## 2.2.3
+
+### Fixed
+
+* Hotfix for not being able to place any fish in ponds.
+
+**Note:** I've just realized that More New Fish have "fish_pond_ignore" tag on every legendary fish. This will prevent them from being placed in ponds, regardless of this mod. If using More New Fish, I recommend opening its `Data/Objects.json` file, do a search and replace for `,"fish_pond_ignore"`(yes, with the comma), and replace all occurrences with empty strings. 
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.2.2
 
 ### Fixed

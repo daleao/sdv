@@ -141,7 +141,9 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(FishPondDoActionPatcher).RequireMethod(nameof(IsSameFishOrExtendedFamily))))
-                .Insert([new CodeInstruction(OpCodes.Ldarg_0)]);
+                .Insert([new CodeInstruction(OpCodes.Ldarg_0)])
+                .Move()
+                .SetOpCode(OpCodes.Brtrue);
         }
         catch (Exception ex)
         {
@@ -202,15 +204,20 @@ internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 
     private static bool IsSameFishOrExtendedFamily(string heldId, string otherId, FishPond pond)
     {
-        if (heldId == otherId || !Lookups.FamilyPairs.TryGetValue($"(O){otherId}", out var pairId))
+        if (heldId == otherId)
         {
             return true;
         }
 
-        var result = pairId != $"(O){heldId}";
+        if (!Lookups.FamilyPairs.TryGetValue($"(O){otherId}", out var pairId))
+        {
+            return false;
+        }
+
+        var result = pairId == $"(O){heldId}";
         if (result && pond.maxOccupants.Value == 1 &&
-            ((heldId == "MNF.MoreNewFish_tui" && otherId == "(O)MNF.MoreNewFish_la") ||
-             (heldId == "MNF.MoreNewFish_la" && otherId == "(O)MNF.MoreNewFish_tui")))
+            ((heldId == "MNF.MoreNewFish_tui" && otherId == "MNF.MoreNewFish_la") ||
+             (heldId == "MNF.MoreNewFish_la" && otherId == "MNF.MoreNewFish_tui")))
         {
             pond.maxOccupants.Set(2);
         }
