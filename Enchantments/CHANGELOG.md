@@ -1,5 +1,13 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.2.3
+
+### Fixed
+
+* Fixed issue with Master enchantment not working correctly.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.2.2
 
 ### Changed

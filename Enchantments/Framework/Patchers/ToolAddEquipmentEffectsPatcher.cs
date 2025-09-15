@@ -36,18 +36,17 @@ internal sealed class ToolAddEquipmentEffectsPatcher : HarmonyPatcher
         switch (__instance)
         {
             case Axe:
-                effects.ForagingLevel.Value += (int)Math.Floor(effects.ForagingLevel.Value * 0.2f);
+                effects.ForagingLevel.Value += (int)Math.Floor(Game1.player.foragingLevel.Value * 0.2f);
                 break;
             case Pickaxe:
-                effects.MiningLevel.Value += (int)Math.Floor(effects.MiningLevel.Value * 0.2f);
+                effects.MiningLevel.Value += (int)Math.Floor(Game1.player.miningLevel.Value * 0.2f);
                 break;
             case Hoe:
             case WateringCan:
-            case MeleeWeapon weapon when weapon.isScythe():
-                effects.FarmingLevel.Value += (int)Math.Floor(effects.FarmingLevel.Value * 0.2f);
+                effects.FarmingLevel.Value += (int)Math.Floor(Game1.player.farmingLevel.Value * 0.2f);
                 break;
             case FishingRod:
-                effects.FishingLevel.Value += (int)Math.Floor(effects.FishingLevel.Value * 0.2f);
+                effects.FishingLevel.Value += (int)Math.Floor(Game1.player.fishingLevel.Value * 0.2f);
                 break;
         }
 
