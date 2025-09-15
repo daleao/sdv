@@ -1,0 +1,17 @@
+{
+	"Machines":
+	[
+	    "(BC)Cornucopia_Alembic",
+        "(BC)Cornucopia_ButterChurn",
+        "(BC)Cornucopia_CompactMill",
+        "(BC)Cornucopia_DeluxeSmoker",
+        "(BC)Cornucopia_DryingRack",
+        "(BC)Cornucopia_Extruder",
+        "(BC)Cornucopia_Juicer",
+        "(BC)Cornucopia_VinegarKeg",
+        "(BC)Cornucopia_WaxBarrel",
+        "(BC)Cornucopia_YogurtJar",
+		"(BC)FlashShifter.StardewValleyExpandedCP_Butter_Churner",
+        "(BC)FlashShifter.StardewValleyExpandedCP_Yarn_Spooler",
+	]
+}

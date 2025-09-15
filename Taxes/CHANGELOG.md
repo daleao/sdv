@@ -1,5 +1,17 @@
 ﻿# TAXES Changelog
 
+## 2.2.2
+
+### Added
+
+* Added SVE Artisan Machine compatibility.
+
+### Fixed
+
+* Re-added missing ArtisanMachines.json file.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.2.1
 
 ### Fixed
