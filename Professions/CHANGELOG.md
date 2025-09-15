@@ -1,5 +1,14 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.4.1
+
+### Fixed
+
+* Master Fighter bonus damage set to 20%. Marking this as a fix because clearly that was my intention, despite it actually being 15% in previous versions.
+* Fixed Brute damage bonus not applying. Likely something I removed when planning an overhaul of the Brute profession, and forgot to re-add it.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.4.0
 
 ### TL;DR
