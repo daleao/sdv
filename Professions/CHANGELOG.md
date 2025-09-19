@@ -1,5 +1,19 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.4.2
+
+### Removed
+
+* CP mods can no longer edit Tapper recipe since that was also preventing the Tapper profession from working properly. Added a new hard-coded Tapper recipe for SVE balanced crafting to make up for it.
+
+### Fixed
+
+* Removed paint brushes from Shipping Collection.
+* `prfs remove mastery` command now also deducts a point from the player's "masteryLevelsSpent" data. This should solve an issue that people had been having with this command where they couldn't re-spend their mastery points afterward. If you did face this issue, simply run the command again to resolve it.
+* Possibly fixed a crash when editing Machine data.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.4.1
 
 ### Fixed

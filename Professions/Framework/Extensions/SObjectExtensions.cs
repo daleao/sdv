@@ -92,12 +92,4 @@ internal static class SObjectExtensions
     {
         return @object.IsOwnedBy(farmer) || Config.LaxOwnershipRequirements;
     }
-
-    /// <summary>Checks whether the <paramref name="object"/> is a Slime Paintbrush.</summary>
-    /// <param name="object">The <see cref="SObject"/>.</param>
-    /// <returns><see langword="true"/> if the <paramref name="object"/>'s qualified ID corresponds to one of the Slime Paintbrushes, otherwise <see langword="false"/>.</returns>
-    internal static bool IsPaintBrush(this SObject @object)
-    {
-        return @object.ItemId.IsAnyOf(GreenBrushId, BlueBrushId, RedBrushId, PurpleBrushId, PrismaticBrushId);
-    }
 }

@@ -9,6 +9,7 @@ using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.SMAPI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
@@ -182,10 +183,21 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             return;
         }
 
-        var fields = data["Tapper"].Split('/');
+        string[] fields;
+        if (ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP") &&
+            (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("BalancedCrafting") ?? false))
+        {
+            fields = data["Tapper"].Split('/');
+            fields[0] = $"{QIDs.Hardwood} 2 {QIDs.CopperBar} 1";
+            data["Tapper"] = string.Join('/', fields);
+            goto heavyTapper;
+        }
+
+        fields = data["Tapper"].Split('/');
         fields[0] = $"{QIDs.Wood} 20 {QIDs.CopperBar} 1";
         data["Tapper"] = string.Join('/', fields);
 
+    heavyTapper:
         fields = data["Heavy Tapper"].Split('/');
         fields[0] = $"{QIDs.Hardwood} 15 {QIDs.RadioactiveBar} 1";
         data["Heavy Tapper"] = string.Join('/', fields);
@@ -415,15 +427,15 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
 
                 Func<MachineOutputRule, bool> appliesToLargeDairyItem = r =>
                     (r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")) ||
-                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
                      first.RequiredTags.ContainsAny("large_milk_item", "large_egg_item"));
                 Func<MachineOutputRule, bool> appliesToEggItem = r =>
                     (r.Id is not null && r.Id.ContainsAnyOf("Egg")) ||
-                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
                      first.RequiredTags.ContainsAny("egg_item"));
                 Func<MachineOutputRule, bool> appliesToMilkItem = r =>
                     (r.Id is not null && r.Id.ContainsAnyOf("Milk")) ||
-                    (r.Triggers.FirstOrDefault() is { RequiredTags: not null } first &&
+                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
                      first.RequiredTags.ContainsAny("milk_item"));
                 foreach (var rule in machine.OutputRules)
                 {
@@ -646,8 +658,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             ContextTags =
             [
                 "color_red",
-                "slime_paint_item",
+                "slime_painter_item",
             ],
+            ExcludeFromShippingCollection = true,
         };
 
         data[$"{GreenBrushId}"] = new ObjectData
@@ -664,8 +677,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             ContextTags =
             [
                 "color_green",
-                "slime_paint_item",
+                "slime_painter_item",
             ],
+            ExcludeFromShippingCollection = true,
         };
 
         data[$"{BlueBrushId}"] = new ObjectData
@@ -682,8 +696,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             ContextTags =
             [
                 "color_blue",
-                "slime_paint_item",
+                "slime_painter_item",
             ],
+            ExcludeFromShippingCollection = true,
         };
 
         data[$"{PurpleBrushId}"] = new ObjectData
@@ -700,8 +715,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             ContextTags =
             [
                 "color_purple",
-                "slime_paint_item",
+                "slime_painter_item",
             ],
+            ExcludeFromShippingCollection = true,
         };
 
         data[$"{PrismaticBrushId}"] = new ObjectData
@@ -719,8 +735,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             [
                 "color_white",
                 "color_prismatic",
-                "slime_paint_item",
+                "slime_painter_item",
             ],
+            ExcludeFromShippingCollection = true,
         };
 
         // data["898"].ContextTags.Add("item_crimsonfish");

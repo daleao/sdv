@@ -36,8 +36,15 @@ internal sealed class DemolitionistButtonDoublePressedEvent : ButtonDoublePresse
 
         State.IsManualDetonationModeEnabled = !State.IsManualDetonationModeEnabled;
         Game1.playSound("button1");
-        Log.D(State.IsManualDetonationModeEnabled
-            ? "Manual detonation mode engaged."
-            : "Manual detonation mode disengaged.");
+        if (State.IsManualDetonationModeEnabled)
+        {
+            Game1.addHUDMessage(new HUDMessage(I18n.Demolitionist_Manual()));
+            Log.D("Manual detonation mode engaged.");
+        }
+        else
+        {
+            Game1.addHUDMessage(new HUDMessage(I18n.Demolitionist_Timed()));
+            Log.D("Manual detonation mode disengaged.");
+        }
     }
 }

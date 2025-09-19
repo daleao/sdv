@@ -93,7 +93,7 @@ internal sealed class AddCommand(CommandHandler handler)
                 return false;
             }
 
-            player = Game1.getFarmer(multiplayerId.Value);
+            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
             if (player is null)
             {
                 Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
@@ -120,6 +120,7 @@ internal sealed class AddCommand(CommandHandler handler)
                     }
 
                     player.stats.Set(StatKeys.MasteryExp, MasteryTrackerMenu.getMasteryExpNeededForLevel(5));
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, 5);
                     return true;
                 }
 
@@ -135,6 +136,7 @@ internal sealed class AddCommand(CommandHandler handler)
                     player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, player.stats.Get(StatKeys.MasteryLevelsSpent) + 1);
                     Log.I($"Mastered the {skill2} skill.");
                 }
                 else

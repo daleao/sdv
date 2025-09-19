@@ -100,7 +100,7 @@ internal sealed class SetCommand(CommandHandler handler)
                 return false;
             }
 
-            player = Game1.getFarmer(multiplayerId.Value);
+            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
             if (player is null)
             {
                 Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
@@ -168,6 +168,7 @@ internal sealed class SetCommand(CommandHandler handler)
                     player.stats.Set(
                         StatKeys.MasteryExp,
                         MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() + 1));
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, Game1.player.stats.Get(StatKeys.MasteryLevelsSpent) + 1);
                     Log.I($"Mastered the {vanillaSkill} skill.");
                     return true;
                 case "unmaster":
@@ -182,7 +183,8 @@ internal sealed class SetCommand(CommandHandler handler)
                     player.stats.Set(StatKeys.Mastery(vanillaSkill), 0);
                     player.stats.Set(
                         StatKeys.MasteryExp,
-                        MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
+                        Math.Max(MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1), 0));
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, Math.Max(Game1.player.stats.Get(StatKeys.MasteryLevelsSpent) - 1, 0));
                     Log.I($"Unmastered the {vanillaSkill} skill.");
                     return true;
             }

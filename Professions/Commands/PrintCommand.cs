@@ -8,6 +8,7 @@ using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley.Menus;
 using static System.FormattableString;
 using static System.String;
 
@@ -72,7 +73,7 @@ internal sealed class PrintCommand(CommandHandler handler)
                 return false;
             }
 
-            player = Game1.getFarmer(multiplayerId.Value);
+            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
             if (player is null)
             {
                 Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
@@ -100,6 +101,10 @@ internal sealed class PrintCommand(CommandHandler handler)
             case "fishdex":
             case "fish":
                 this.PrintFishPokedex(player);
+                break;
+
+            case "mastery":
+                this.PrintMasteryPoints();
                 break;
 
             default:
@@ -450,5 +455,11 @@ internal sealed class PrintCommand(CommandHandler handler)
             .Aggregate(sb, (current, fish) => current.Append($"\n\t- {fish}"));
 
         Log.I(sb.ToString());
+    }
+
+    private void PrintMasteryPoints()
+    {
+        Log.I($"Mastery level: {MasteryTrackerMenu.getCurrentMasteryLevel()}");
+        Log.I($"Mastery spent: {Game1.stats.Get("masteryLevelsSpent")}");
     }
 }

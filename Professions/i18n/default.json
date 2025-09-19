@@ -110,6 +110,8 @@
   "demolitionist.desc": "Explosion radius +1. 50% chance to yield additional resources from exploded rocks.",
   "demolitionist.desc.prestiged": "Explosions cause chain reactions. Double lasting power of coal used for fueling machines.",
   "demolitionist.buff.desc": "Adrenaline Rush",
+  "demolitionist.manual": "Manual detonation engaged.",
+  "demolitionist.timed": "Timed detonation engaged.",
   "gemologist.title.male": "Gemologist",
   "gemologist.title.female": "Gemologist",
   "gemologist.title.prestiged.male": "Crystallographer",

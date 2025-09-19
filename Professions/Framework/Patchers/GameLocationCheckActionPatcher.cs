@@ -49,7 +49,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
             Game1.tileSize);
 
         if (__instance is Farm or SlimeHutch && who.HasProfession(Profession.Piper, true) &&
-            who.Items.Count > who.CurrentToolIndex && who.Items[who.CurrentToolIndex] is SObject @object && @object.IsPaintBrush())
+            who.Items.Count > who.CurrentToolIndex && who.Items[who.CurrentToolIndex] is SObject @object && @object.HasContextTag("slime_painter_item"))
         {
             foreach (var slime in __instance.characters.OfType<GreenSlime>())
             {

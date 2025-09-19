@@ -49,6 +49,58 @@ internal sealed class RemoveCommand(CommandHandler handler)
             return false;
         }
 
+        var tokens = args.ToList();
+        var farmerIndex = 1;
+        var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();
+        if (farmerArgs.Any())
+        {
+            var fIndex = tokens.IndexOf(farmerArgs.First());
+            if (fIndex != -1 && tokens.Count > fIndex + 1 && int.TryParse(tokens[fIndex + 1], out var parsed))
+            {
+                farmerIndex = parsed;
+            }
+            else
+            {
+                Log.W("The `--farmer` flag is missing an accompanying farmer index. Please specify \"1\" for player 1 or \"2\" for player 2.");
+                return false;
+            }
+
+            tokens.RemoveAt(fIndex + 1);
+            tokens.RemoveAt(fIndex);
+        }
+
+        var player = Game1.player;
+        if (farmerIndex > 1)
+        {
+            if (!Context.IsSplitScreen)
+            {
+                Log.W("Can't assign professions to co-op players in a non-splitscreen session.");
+                return false;
+            }
+
+            var screenId = farmerIndex - 1;
+            var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
+            if (screenId > onlinePlayers.Count)
+            {
+                Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
+                return false;
+            }
+
+            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
+            if (multiplayerId is null)
+            {
+                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
+                return false;
+            }
+
+            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
+            if (player is null)
+            {
+                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                return false;
+            }
+        }
+
         if (args[0].ToLower() is "mastery" or "masteries")
         {
             args = args.Skip(1).ToArray();
@@ -63,11 +115,12 @@ internal sealed class RemoveCommand(CommandHandler handler)
                             continue;
                         }
 
-                        Game1.player.stats.Set(StatKeys.Mastery(skill1), 0);
+                        player.stats.Set(StatKeys.Mastery(skill1), 0);
                         Log.I($"Unmastered the {skill1} skill.");
                     }
 
-                    Game1.player.stats.Set(StatKeys.MasteryExp, 0);
+                    player.stats.Set(StatKeys.MasteryExp, 0);
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, 0);
                     return true;
                 }
 
@@ -79,10 +132,11 @@ internal sealed class RemoveCommand(CommandHandler handler)
                         return true;
                     }
 
-                    Game1.player.stats.Set(StatKeys.Mastery(skill2), 0);
-                    Game1.player.stats.Set(
+                    player.stats.Set(StatKeys.Mastery(skill2), 0);
+                    player.stats.Set(
                         StatKeys.MasteryExp,
-                        MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1));
+                        Math.Max(MasteryTrackerMenu.getMasteryExpNeededForLevel(MasteryTrackerMenu.getCurrentMasteryLevel() - 1), 0));
+                    player.stats.Set(StatKeys.MasteryLevelsSpent, Math.Max(Game1.player.stats.Get(StatKeys.MasteryLevelsSpent) - 1, 0));
                     Log.I($"Unmastered the {skill2} skill.");
                 }
                 else
@@ -97,29 +151,29 @@ internal sealed class RemoveCommand(CommandHandler handler)
         {
             if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
             {
-                var shouldInvalidate = Game1.player.professions.Intersect(Profession.GetRange(true)).Any();
-                Game1.player.professions.Clear();
-                LevelUpMenu.RevalidateHealth(Game1.player);
+                var shouldInvalidate = player.professions.Intersect(Profession.GetRange(true)).Any();
+                player.professions.Clear();
+                LevelUpMenu.RevalidateHealth(player);
                 if (shouldInvalidate)
                 {
                     ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
                 }
 
-                Log.I($"Removed all professions from {Game1.player.Name}.");
+                Log.I($"Removed all professions from {player.Name}.");
                 break;
             }
 
             if (string.Equals(arg, "rogue", StringComparison.InvariantCultureIgnoreCase) ||
                 string.Equals(arg, "unknown", StringComparison.InvariantCultureIgnoreCase))
             {
-                var range = Game1.player.professions
+                var range = player.professions
                     .Where(pid =>
                         !Profession.TryFromValue(pid, out _) && !Profession.TryFromValue(pid + 100, out _) &&
                         CustomProfession.List.All(p => pid != p.Id && pid != p.Id + 100))
                     .ToArray();
 
                 professionsToRemove.AddRange(range);
-                Log.I($"Removed unknown professions from {Game1.player.Name}.");
+                Log.I($"Removed unknown professions from {player.Name}.");
             }
             else if (Profession.TryFromName(arg, true, out var profession) ||
                      Profession.TryFromLocalizedName(arg, true, out profession) ||
@@ -127,7 +181,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
             {
                 professionsToRemove.Add(profession.Id);
                 professionsToRemove.Add(profession.Id + 100);
-                Log.I($"Removed {profession.StringId} profession from {Game1.player.Name}.");
+                Log.I($"Removed {profession.StringId} profession from {player.Name}.");
             }
             else
             {
