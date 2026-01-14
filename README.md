@@ -29,3 +29,9 @@ For detailed information, configuration options, and usage notes, see the README
 7. Open the solution in **Visual Studio**, **Rider** or another compatible C# IDE.
 8. Restore NuGet packages if required.
 9. Build the solution (or individual mod projects). The build output should automatically be copied into your mods path, as specified in step 5.
+
+---
+
+## Keywords
+
+MARGO, Walk of Life, WoL
