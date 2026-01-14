@@ -1,5 +1,33 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.4.3
+
+### Changed
+
+* Piper Slimes no longer need to satisfy conditions to apply the Slimed debuff onto other enemies. Summoned Slimes can now inflict this debuff even without the Prestige, and even if they are not exactly "green". This is now the default Slime ability. It will get overwritten by color-specific abilities when the Piper is prestiged. 
+* Changes to `set fishdex` command.
+
+### Checked
+
+* *"Tapper recipe bonus lost upon skill reset."*
+  * Could not reproduce.
+
+### Fixed
+
+* Forgot to set priority of Tapper recipe.
+* Fixed max icon for trap fish expecting max size + 1 (vanilla game is inconsistent with this).
+* Fixed a possible out-of-range exception if Slime Hutch is cleared.
+* Fixed some bad logic in colored Slime debuffs that caused Prismatic Slimes to only apply Slimed and not the other debuffs.
+* Fixed Prismarch paint brushes appearing in Collections screen.
+* Fixed stone glowing above characters in Prospector Hunt.
+* 
+
+### Removed
+
+* Removed manual detonation mode from Demolitionist perks.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.4.2
 
 ### Removed

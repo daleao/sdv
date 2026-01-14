@@ -36,6 +36,7 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
         if (!toDangerZone)
         {
             this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
+            State.PipedMinionMenu?.Dispose();
             State.PipedMinionMenu = null;
             if (!newLocation.IsOutdoors && newLocation is not SlimeHutch)
             {

@@ -222,13 +222,15 @@ internal sealed class SetCommand(CommandHandler handler)
 
             case "fishingdex":
             case "fishdex":
-                if (tokens.Count > 2 && tokens.Any(arg => arg is "--trap" or "-t"))
+                var trap = tokens.Any(arg => arg is "--trap" or "-t");
+                var all = tokens.Any(arg => arg is "--all" or "-a");
+                if (trap)
                 {
-                    this.SetFishPokedex(value, player, true);
+                    this.SetFishPokedex(player, !all, trap);
                 }
                 else
                 {
-                    this.SetFishPokedex(value, player);
+                    this.SetFishPokedex(player, !all);
                 }
 
                 break;
@@ -399,9 +401,8 @@ internal sealed class SetCommand(CommandHandler handler)
         }
     }
 
-    private void SetFishPokedex(string value, Farmer who, bool trap = false)
+    private void SetFishPokedex(Farmer who, bool caughtOnly, bool trap = false)
     {
-        var caughtOnly = string.Equals(value, "caught", StringComparison.InvariantCultureIgnoreCase);
         var fishCaught = who.fishCaught;
         foreach (var (key, values) in DataLoader.Fish(Game1.content))
         {
@@ -416,10 +417,10 @@ internal sealed class SetCommand(CommandHandler handler)
             if (values.Contains("trap") && !fishCaught.TryAdd(qid, [1, int.Parse(split[6]) + 1, 1]))
             {
                 var caught = fishCaught[qid];
-                caught[1] = int.Parse(split[6]) + 1;
+                caught[1] = int.Parse(split[6]);
                 fishCaught[qid] = caught;
             }
-            else if (!fishCaught.TryAdd(qid, [1, int.Parse(split[4]) + 1, 1]))
+            else if (!values.Contains("trap") && !fishCaught.TryAdd(qid, [1, int.Parse(split[4]) + 1, 1]))
             {
                 var caught = fishCaught[qid];
                 caught[1] = int.Parse(split[4]) + 1;

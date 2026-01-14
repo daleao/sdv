@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -10,6 +11,7 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="ManualDetonationUpdateTickedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
+[ImplicitIgnore]
 internal sealed class ManualDetonationUpdateTickedEvent(EventManager? manager = null)
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {

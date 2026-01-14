@@ -99,4 +99,10 @@ public sealed class CoreMod : Mod
             "dalion");
         this.ValidateMultiplayer();
     }
+
+    /// <inheritdoc />
+    public override object GetApi()
+    {
+        return new CoreApi();
+    }
 }

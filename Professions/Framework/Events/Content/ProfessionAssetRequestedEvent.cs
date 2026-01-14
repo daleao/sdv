@@ -39,7 +39,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/BigCraftables", new AssetEditor(EditBigCraftablesData));
         this.Edit("Data/Buildings", new AssetEditor(EditBuildingsData));
-        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Early));
+        this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Late));
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData, AssetEditPriority.Late));
         this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));

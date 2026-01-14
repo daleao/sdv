@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -10,6 +11,7 @@ using Microsoft.Xna.Framework;
 #endregion using directives
 
 [UsedImplicitly]
+[ImplicitIgnore]
 internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TemporaryAnimatedSpriteCtorPatcher"/> class.</summary>

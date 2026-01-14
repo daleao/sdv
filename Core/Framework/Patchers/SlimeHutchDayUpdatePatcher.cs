@@ -32,6 +32,11 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
     {
         var r = new Random(Guid.NewGuid().GetHashCode());
         var slimes = __instance.characters.OfType<GreenSlime>().ToArray();
+        if (!slimes.Any())
+        {
+            return;
+        }
+
         foreach (var @object in __instance.Objects.Values)
         {
             if (@object.QualifiedItemId == QIDs.SlimeBall)

@@ -35,6 +35,8 @@ internal sealed class ProspectorHunt : TreasureHunt
     private readonly ICue _cue = Game1.soundBank.GetCue("SinWave");
     private int _targetsFound;
     private int _fadeStepIndex;
+    private LightSource? _lightSource;
+    private string _lightSourceId = string.Empty;
 
     /// <summary>Initializes a new instance of the <see cref="ProspectorHunt"/> class.</summary>
     internal ProspectorHunt()
@@ -189,6 +191,8 @@ internal sealed class ProspectorHunt : TreasureHunt
 
             Log.D($"[Prospector Hunt]: Nearest new target was found at {nearest.Tile}.");
             this.TargetTile = nearest.Tile;
+            this.RemoveLightSource(location);
+            this.GenerateLightSource(location);
             return true;
         }
 
@@ -246,6 +250,8 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         Log.D($"[Prospector Hunt]: New chosen target is at {this.TargetTile.Value}.");
+        this.RemoveLightSource(location);
+        this.GenerateLightSource(location);
         return true;
 
         bool boundary(GameLocation loc, Vector2 tile)
@@ -271,6 +277,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             Broadcaster.MessageHost("false", "HuntingForTreasure/Prospector");
         }
 
+        this.RemoveLightSource();
         base.End(success);
         Game1.player.buffs.Remove(ProspectorHuntBuff.ID);
     }
@@ -599,5 +606,39 @@ internal sealed class ProspectorHunt : TreasureHunt
         {
             this._cue.Stop(AudioStopOptions.Immediate);
         }
+    }
+
+    /// <summary>Generates the <see cref="_lightSource"/>.</summary>
+    private void GenerateLightSource(GameLocation? location = null)
+    {
+        location ??= this.Location;
+        if (location is null || this.TargetTile is null ||
+            !location.Objects.TryGetValue(this.TargetTile.Value, out var stone))
+        {
+            return;
+        }
+
+        var (tileX, tileY) = this.TargetTile.Value;
+        var position = new Vector2(
+            (tileX * Game1.tileSize) + 16f,
+            (tileY * Game1.tileSize) + 16f);
+        this._lightSourceId = stone.GenerateLightSourceId(position);
+        this._lightSourceId += "ProspectorHunt";
+        stone.lightSource = new LightSource(
+            this._lightSourceId,
+            LightSource.sconceLight,
+            position,
+            1f,
+            new Color(0, 20, 40),
+            LightSource.LightContext.None,
+            0L,
+            location.NameOrUniqueName);
+    }
+
+    /// <summary>Removes the <see cref="_lightSource"/>.</summary>
+    private void RemoveLightSource(GameLocation? location = null)
+    {
+        location ??= this.Location;
+        location?.removeLightSource(this._lightSource?.Id);
     }
 }

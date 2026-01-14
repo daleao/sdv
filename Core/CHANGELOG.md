@@ -1,8 +1,11 @@
 ﻿# CORE Changelog
 
-## Fixed
+## 2.2.2
+
+### Fixed
 
 * Fixed a possible issue with Chroma Balls in multiplayer.
+* Added missing `GetApi` method.
 
 <sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 

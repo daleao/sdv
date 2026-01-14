@@ -49,8 +49,8 @@
   <!-- paths -->
   <PropertyGroup>
     <GamePath>G:\Steam\Library\Stardew Valley</GamePath>
-    <GameModsPath>G:\Modding\SMAPI\Build\$(Configuration)</GameModsPath>
-    <ModZipPath>G:\Modding\SMAPI\Build\Archive</ModZipPath>
+    <GameModsPath>G:\Modding\Stardew Valley\Build\$(Configuration)</GameModsPath>
+    <ModZipPath>G:\Modding\Stardew Valley\Build\Archive</ModZipPath>
   </PropertyGroup>
 
   <!-- debug settings -->

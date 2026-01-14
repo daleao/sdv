@@ -201,6 +201,11 @@ public static class ArrayExtensions
     /// <exception cref="IndexOutOfRangeException">If <paramref name="array"/> is empty.</exception>
     public static T Choose<T>(this T[] array, Random? r = null)
     {
+        if (array.Length == 0)
+        {
+            ThrowHelper.ThrowInvalidOperationException("Array is empty.");
+        }
+
         r ??= new Random(Guid.NewGuid().GetHashCode());
         return array[r.Next(array.Length)];
     }

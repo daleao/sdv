@@ -229,7 +229,7 @@ internal static class FarmerExtensions
 
         var rawSplit = specificFishData.SplitWithoutAllocation('/');
         return specificFishData.Contains("trap")
-            ? farmer.fishCaught[qid][1] > int.Parse(rawSplit[6])
+            ? farmer.fishCaught[qid][1] >= int.Parse(rawSplit[6])
             : farmer.fishCaught[qid][1] > int.Parse(rawSplit[4]);
     }
 

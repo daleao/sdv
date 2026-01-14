@@ -131,10 +131,9 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                     new Color(255, 130, 0),
                     1f,
                     monster));
-                if (!monster.IsSlime() && piped.Piper.HasProfession(Profession.Piper, true) &&
-                    Game1.random.NextBool(0.3))
+                if (!monster.IsSlime() && Game1.random.NextBool(0.3))
                 {
-                    ApplyColoredDebuff(__instance, monster, piped);
+                    ApplyColoredDebuff(__instance, monster, piped, piped.Piper.HasProfession(Profession.Piper, true));
                 }
 
                 // aggro monsters
@@ -231,25 +230,47 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    private static void ApplyColoredDebuff(GreenSlime slime, Monster monster, PipedSlime piped)
+    private static void ApplyColoredDebuff(GreenSlime slime, Monster monster, PipedSlime piped, bool prestiged)
     {
-        if (slime.Name == "Gold Slime")
+        if (!prestiged)
+        {
+            // var greenRange = new ColorRange(
+            //     [22, 127],
+            //     [200, 255],
+            //     [0, 55]);
+            // if (greenRange.Contains(slime.color.Value) || slime.prismatic.Value)
+            // {
+                // simulated Slimed debuff
+                monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
+                monster.startGlowing(Color.LimeGreen, false, 0.05f);
+                return;
+
+            // }
+        }
+
+        var whiteRange = new ColorRange(
+            [230, 255],
+            [230, 255],
+            [230, 255]);
+        if (whiteRange.Contains(slime.color.Value) || slime.Name == "Gold Slime")
         {
             return;
         }
 
-        var greenRange = new ColorRange(
-            [22, 127],
-            [200, 255],
-            [0, 55]);
-        if (greenRange.Contains(slime.color.Value) || slime.prismatic.Value)
+        if (slime.prismatic.Value)
         {
-            // simulated Slimed debuff
-            monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
-            monster.startGlowing(Color.LimeGreen, false, 0.05f);
-            return;
+            switch (Game1.random.Next(4))
+            {
+                case 0:
+                    goto blue;
+                case 1:
+                    goto red;
+                case 2:
+                    goto green;
+            }
         }
 
+        blue:
         var blueRange = new ColorRange(
             [22, 180],
             [170, 255],
@@ -260,6 +281,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             return;
         }
 
+        red:
         var redRange = new ColorRange(
             [200, 255],
             [0, 55],
@@ -278,18 +300,27 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
             [0, 50],
             [0, 55],
             [0, 50]);
-        if (blackRange.Contains(slime.color.Value) && Game1.random.NextBool(0.05))
+        if (blackRange.Contains(slime.color.Value))
         {
-            monster.Blind(5123 + (Game1.random.Next(-2, 3) * 456));
+            if (Game1.random.NextBool(0.05))
+            {
+                monster.Blind(5123 + (Game1.random.Next(-2, 3) * 456));
+            }
+            else if (Game1.random.NextBool(0.01))
+            {
+                slime.currentLocation.characters.Remove(monster);
+                slime.currentLocation.debris.Add(
+                    new Debris(
+                        QIDs.VoidEssence,
+                        new Vector2((int)monster.Position.X, (int)monster.Position.Y),
+                        slime.getStandingPosition()));
+            }
+
+            return;
         }
-        else if (Game1.random.NextBool(0.01))
-        {
-            slime.currentLocation.characters.Remove(monster);
-            slime.currentLocation.debris.Add(
-                new Debris(
-                    QIDs.VoidEssence,
-                    new Vector2((int)monster.Position.X, (int)monster.Position.Y),
-                    slime.getStandingPosition()));
-        }
+
+        green:
+        monster.Slow(5123 + (Game1.random.Next(-2, 3) * 456), 1f / 3f);
+        monster.startGlowing(Color.LimeGreen, false, 0.05f);
     }
 }
