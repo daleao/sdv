@@ -7,12 +7,15 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Monsters;
 
-#endregion
+#endregion using directives
 
 [UsedImplicitly]
-internal sealed class FindClosestMonsterPatcher : HarmonyPatcher
+internal sealed class UtilityFindClosestMonsterPatcher : HarmonyPatcher
 {
-    internal FindClosestMonsterPatcher(Harmonizer harmonizer, Logger logger)
+    /// <summary>Initializes a new instance of the <see cref="UtilityFindClosestMonsterPatcher"/> class.</summary>
+    /// <param name="harmonizer">The <see cref="Harmonizer"/> instance that manages this patcher.</param>
+    /// <param name="logger">A <see cref="Logger"/> instance.</param>
+    internal UtilityFindClosestMonsterPatcher(Harmonizer harmonizer, Logger logger)
         : base(harmonizer, logger)
     {
         this.Target = this.RequireMethod<Utility>(nameof(Utility.findClosestMonsterWithinRange));
@@ -20,6 +23,7 @@ internal sealed class FindClosestMonsterPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    /// <summary>Modify filtering function.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
     private static bool FindClosestMonsterPrefix(ref Func<Monster, bool> match)
