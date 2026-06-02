@@ -55,6 +55,28 @@ internal sealed class LevelUpMenuRevalidateHealthPatcher : HarmonyPatcher
             expectedMaxHealth += 25;
         }
 
+        if (CustomSkill.Loaded.TryGetValue("DestyNova.SwordAndSorcery.Rogue", out var artificer))
+        {
+            for (var i = 1; i <= artificer.CurrentLevel; i++)
+            {
+                if (!artificer.NewLevels.Contains(i))
+                {
+                    expectedMaxHealth += 3;
+                }
+            }
+        }
+
+        if (CustomSkill.Loaded.TryGetValue("DestyNova.SwordAndSorcery.Paladin", out var paladin))
+        {
+            for (var i = 1; i <= paladin.CurrentLevel; i++)
+            {
+                if (!paladin.NewLevels.Contains(i))
+                {
+                    expectedMaxHealth += 5;
+                }
+            }
+        }
+
         if (farmer.maxHealth == expectedMaxHealth)
         {
             return false; // don't run original logic
