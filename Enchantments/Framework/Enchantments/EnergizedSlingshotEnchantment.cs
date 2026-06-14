@@ -23,7 +23,6 @@ public sealed class EnergizedSlingshotEnchantment : BaseSlingshotEnchantment
     public const int MaxEnergy = 100;
 
     private uint _previousStepsTaken;
-    private int _energy = -1;
 
     /// <summary>Finalizes an instance of the <see cref="EnergizedSlingshotEnchantment"/> class.</summary>
     ~EnergizedSlingshotEnchantment()
@@ -34,12 +33,12 @@ public sealed class EnergizedSlingshotEnchantment : BaseSlingshotEnchantment
     /// <summary>Gets or sets the current number of energy stacks.</summary>
     public int Energy
     {
-        get => this._energy;
+        get;
         set
         {
-            this._energy = Math.Min(value, MaxEnergy);
+            field = Math.Min(value, MaxEnergy);
         }
-    }
+    } = -1;
 
     /// <inheritdoc />
     public override string GetName()

@@ -75,7 +75,7 @@ public static class EnumerableExtensions
     /// <returns>A random <typeparamref name="T"/> element from within <paramref name="enumerable"/>.</returns>
     public static T? Choose<T>(this IEnumerable<T> enumerable, Random? r = null)
     {
-        r ??= new Random(Guid.NewGuid().GetHashCode());
+        r ??= Random.Shared;
         if (enumerable is ICollection<T> { Count: > 0 } collection)
         {
             return collection.ElementAt(r.Next(collection.Count));
@@ -101,7 +101,7 @@ public static class EnumerableExtensions
     /// <returns>The <paramref name="enumerable"/> with shuffled elements.</returns>
     public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> enumerable, Random? r = null)
     {
-        r ??= new Random(Guid.NewGuid().GetHashCode());
+        r ??= Random.Shared;
         return enumerable.OrderBy(_ => r.Next());
     }
 

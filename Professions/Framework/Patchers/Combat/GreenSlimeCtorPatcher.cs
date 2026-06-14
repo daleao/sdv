@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Patchers;
+﻿namespace DaLion.Professions.Framework.Patchers.Combat;
 
 #region using directives
 
@@ -28,7 +28,7 @@ internal sealed class GreenSlimeCtorPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GreenSlimeCtorPostfix(GreenSlime __instance)
     {
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
 
         // Record base Health
         var baseHealth = __instance.Health;

@@ -2,13 +2,12 @@
 
 #region using directives
 
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
-using DaLion.Professions.Framework.UI;
+using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
+using DaLion.Professions.Framework.Events.Input.CursorMoved;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Input.CursorMoved;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -32,46 +31,18 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
 
         var piper = e.Player;
         var newLocation = e.NewLocation;
-        var toDangerZone = newLocation.IsEnemyArea() || newLocation.Name.ContainsAnyOf("Mine", "SkullCave");
+        var toDangerZone = newLocation.IsEnemyArea();
         if (!toDangerZone)
         {
-            this.Manager.Enable<PipedSelfDestructOneSecondUpdateTickedEvent>();
-            State.PipedMinionMenu?.Dispose();
-            State.PipedMinionMenu = null;
-            if (!newLocation.IsOutdoors && newLocation is not SlimeHutch)
+            this.Manager.Enable<PipedDismissOneSecondUpdateTickedEvent>();
+            if ((!newLocation.IsOutdoors && newLocation is not SlimeHutch) || !PipedSlime.TheHatSlimeIsUponUs)
             {
                 return;
             }
 
-            foreach (var (_, piped) in GreenSlime_Piped.Values)
-            {
-                if (!piped.IsDismissed)
-                {
-                    piped.WarpToPiper();
-                }
-            }
-
+            PipedSlime.HatSlime.WarpToPiper();
             this.Manager.Enable<PiperVisionCursorMovedEvent>();
             return;
-        }
-
-        var oldLocation = e.OldLocation;
-        var fromDangerZone = oldLocation.IsEnemyArea() || oldLocation.Name.ContainsAnyOf("Mine", "SkullCave");
-        if (!fromDangerZone)
-        {
-            var numberRaised = piper.CountRaisedSlimes();
-            if (numberRaised == 0)
-            {
-                return;
-            }
-
-            var numberToSpawn = ((numberRaised - 1) / 10) + 1;
-            if (numberToSpawn == 0)
-            {
-                return;
-            }
-
-            piper.SpawnMinions(numberToSpawn);
         }
 
         if (!GreenSlime_Piped.Values.Any())
@@ -81,12 +52,10 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
 
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation) && !piped.IsDismissed)
+            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
             {
                 piped.WarpToPiper();
             }
         }
-
-        State.PipedMinionMenu = new PipedMinionHud();
     }
 }

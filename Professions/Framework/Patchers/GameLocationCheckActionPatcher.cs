@@ -179,26 +179,26 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
             return;
         }
 
-        var paintBrush = (who.Items[who.CurrentToolIndex] as SObject)!;
+        var brush = (who.Items[who.CurrentToolIndex] as SObject)!;
         var color = Color.White;
-        if (paintBrush.ItemId == RedBrushId)
+        if (brush.ItemId == RedBrushId)
         {
             color = new Color(0.627f, 0.075f, 0.075f);
         }
-        else if (paintBrush.ItemId == GreenBrushId)
+        else if (brush.ItemId == GreenBrushId)
         {
             color = new Color(0f, 0.706f, 0f);
         }
-        else if (paintBrush.ItemId == BlueBrushId)
+        else if (brush.ItemId == BlueBrushId)
         {
             color = new Color(0.22f, 0.561f, 0.765f);
         }
-        else if (paintBrush.ItemId == PurpleBrushId)
+        else if (brush.ItemId == PurpleBrushId)
         {
             color = new Color(0.494f, 0.196f, 0.502f);
         }
 
-        if (_paintBrushTarget.TryUsePaintbrush(paintBrush))
+        if (_paintBrushTarget.TryUsePaintbrush(brush))
         {
             var multiplayer = Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke();
             multiplayer.broadcastSprites(
@@ -230,7 +230,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                     alphaFade = 0.01f,
                 });
             Game1.playSound("slimeHit");
-            who.Items[who.CurrentToolIndex] = paintBrush.ConsumeStack(1);
+            who.Items[who.CurrentToolIndex] = brush.ConsumeStack(1);
         }
         else
         {

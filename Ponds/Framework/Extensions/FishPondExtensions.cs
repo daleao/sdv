@@ -46,7 +46,7 @@ internal static class FishPondExtensions
     /// <returns>The most valuable produce <see cref="Item"/>, if any.</returns>
     internal static Item? GetProduce(this FishPond pond, Random? r = null)
     {
-        r ??= new Random(Guid.NewGuid().GetHashCode());
+        r ??= Random.Shared;
         Item? result = null;
         var fish = pond.GetFishObject();
         var held = pond.DeserializeHeldItems();

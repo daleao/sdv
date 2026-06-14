@@ -14,7 +14,7 @@ internal static class MonsterExtensions
     /// <param name="monster">The <see cref="Monster"/>.</param>
     internal static void RandomizeStats(this Monster monster)
     {
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         var g = r.NextGaussian(1d - (Game1.player.DailyLuck * 2d), 0.1);
         monster.MaxHealth = Math.Max((int)Math.Round(monster.MaxHealth * g), 1);
         monster.DamageToFarmer = Math.Max((int)Math.Round(monster.DamageToFarmer * g), 1);

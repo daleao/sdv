@@ -59,7 +59,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
         var isPrestigedBlaster = who.HasProfession(Profession.Blaster, true);
         var isPrestigedDemolitionist = who.HasProfession(Profession.Demolitionist, true);
         var chanceModifier = (who.DailyLuck / 2.0) + (who.LuckLevel * 0.001) + (who.MiningLevel * 0.005);
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         var circle = new CircleTileGrid(tileLocation, radius);
         CreateExtraDebris(
             __instance,

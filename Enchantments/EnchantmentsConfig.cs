@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 /// <summary>Config schema for the Ponds mod.</summary>
 public sealed class EnchantmentsConfig
 {
-    private SocketStyle _gemstoneSocketStyle = SocketStyle.Diamond;
-
     #region dropdown enums
 
     /// <summary>The style used to draw forged gemstones.</summary>
@@ -47,18 +45,18 @@ public sealed class EnchantmentsConfig
     [GMCMPriority(0)]
     public SocketStyle GemstoneSocketStyle
     {
-        get => this._gemstoneSocketStyle;
+        get;
         internal set
         {
-            if (value == this._gemstoneSocketStyle)
+            if (value == field)
             {
                 return;
             }
 
-            this._gemstoneSocketStyle = value;
+            field = value;
             ModHelper.GameContent.InvalidateCache($"{Manifest.UniqueID}_GemstoneSockets");
         }
-    }
+    } = SocketStyle.Diamond;
 
     /// <summary>Gets the relative position where forge gemstone sockets should be drawn.</summary>
     [JsonProperty]

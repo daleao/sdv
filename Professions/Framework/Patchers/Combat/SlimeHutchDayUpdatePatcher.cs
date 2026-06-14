@@ -35,7 +35,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
             return;
         }
 
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         var slimes = __instance.characters.OfType<GreenSlime>().ToArray();
         foreach (var @object in __instance.Objects.Values)
         {

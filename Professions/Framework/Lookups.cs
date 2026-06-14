@@ -72,4 +72,7 @@ internal static class Lookups
 
     /// <summary>Gets the seed object ID from the corresponding crop ID.</summary>
     internal static Dictionary<string, string> SeedByCrop { get; } = [];
+
+    /// <summary>Gets the respective <see cref="MachineTreatmentRules"/> for each artisan machine.</summary>
+    internal static Dictionary<string, MachineTreatmentRules> MachineTreatments { get; } = [];
 }

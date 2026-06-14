@@ -12,7 +12,6 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using StardewValley.Locations;
 using StardewValley.Tools;
 
@@ -32,11 +31,11 @@ internal sealed class ProspectorHunt : TreasureHunt
     private static List<double> _linSpace = MathUtils.LinSpace(0d, 1d, 10).ToList();
     private static int[] _pitches = [0, 200, 400, 500, 700, 900, 1100, 1200];
 
-    private readonly ICue _cue = Game1.soundBank.GetCue("SinWave");
+    //private readonly ICue _cue = Game1.soundBank.GetCue("SinWave");
+    private int _numTargets;
     private int _targetsFound;
     private int _fadeStepIndex;
     private LightSource? _lightSource;
-    private string _lightSourceId = string.Empty;
 
     /// <summary>Initializes a new instance of the <see cref="ProspectorHunt"/> class.</summary>
     internal ProspectorHunt()
@@ -58,13 +57,15 @@ internal sealed class ProspectorHunt : TreasureHunt
     /// <summary>Gets the stone instance that is currently targeted.</summary>
     public SObject? TreasureStone => (this.Location?.Objects.TryGetValue(this.TargetTile ?? default, out var stone) ?? false) ? stone : null;
 
+    public string LightSourceId { get; set; } = string.Empty;
+
     /// <inheritdoc />
     protected override int TriggerThreshold => (int)(BASE_TRIGGER_POOL_THRESHOLD * Config.TreasureHuntTriggerModifier);
 
     /// <summary>Ends the current iteration of the active hunt successfully.</summary>
     public override void Complete()
     {
-        this.Complete(false);
+        this.Complete();
     }
 
     /// <inheritdoc />
@@ -182,7 +183,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 if (this.IsActive)
                 {
                     Log.D("[Prospector Hunt]: The hunt will conclude immediately.");
-                    this.Complete(force: true);
+                    this.Complete(earlyTermination: true);
                 }
 
                 Log.D("[Prospector Hunt]: A new target could not be chosen.");
@@ -244,7 +245,7 @@ internal sealed class ProspectorHunt : TreasureHunt
             roll -= stone.weight;
         }
 
-        if (this.Location is not null)
+        if (this.Location is not null && Config.TougherProspectorHunt)
         {
             this.Location.Objects[this.TargetTile.Value].MinutesUntilReady += this._targetsFound;
         }
@@ -285,8 +286,9 @@ internal sealed class ProspectorHunt : TreasureHunt
     /// <inheritdoc />
     protected override void StartImpl(GameLocation location, Vector2 treasureTile)
     {
+        var player = Game1.player;
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
-        if (Game1.player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
+        if (player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
@@ -300,14 +302,15 @@ internal sealed class ProspectorHunt : TreasureHunt
                 "HuntingForTreasure/Prospector");
         }
 
+        this._numTargets = Math.Min((int)Game1.random.NextSplitGaussian(mu: 6, sigmaLeft: 1, sigmaRight: 4), 10) - (int)(player.DailyLuck * 11d);
         this._targetsFound = 0;
         base.StartImpl(location, treasureTile);
-        Game1.player.applyBuff(new ProspectorHuntBuff());
+        player.applyBuff(new ProspectorHuntBuff());
     }
 
     /// <summary>Ends the active hunt successfully.</summary>
-    /// <param name="force">If <see langword="true"/>, skips all pending iterations.</param>
-    private void Complete(bool force)
+    /// <param name="earlyTermination">If <see langword="true"/>, skips all pending iterations.</param>
+    private void Complete(bool earlyTermination = false)
     {
         if (this.TargetTile is null || this.Location is null)
         {
@@ -315,10 +318,18 @@ internal sealed class ProspectorHunt : TreasureHunt
             return;
         }
 
-        this.PlayCue();
-
-        if (++this._targetsFound < 8 && !force)
+        //this.PlayCue();
+        Game1.playSound("reward", 1200 + (this._targetsFound * 100));
+        if (++this._targetsFound < this._numTargets && !earlyTermination)
         {
+            this.Location.debris.Add(new Debris(
+                this._numTargets - this._targetsFound,
+                this.TargetTile.Value * 64f,
+                Color.White,
+                1f,
+                null));
+            Game1.playSound("healSound");
+
             this.ChooseTreasureTile(this.Location);
             return;
         }
@@ -572,41 +583,41 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
     }
 
-    /// <summary>Plays the sound cue.</summary>
-    private void PlayCue()
-    {
-        this._cue.SetVariable("Pitch", _pitches[this._targetsFound]);
-        this._cue.Play();
-        var fadeSteps = 10;
-        foreach (var step in Enumerable.Range(0, fadeSteps))
-        {
-            DelayedAction.functionAfterDelay(
-                this.FadeCue,
-                500 + (step * 100));
-        }
-    }
+    ///// <summary>Plays the sound cue.</summary>
+    //private void PlayCue()
+    //{
+    //    this._cue.SetVariable("Pitch", _pitches[this._targetsFound]);
+    //    this._cue.Play();
+    //    var fadeSteps = 10;
+    //    foreach (var step in Enumerable.Range(0, fadeSteps))
+    //    {
+    //        DelayedAction.functionAfterDelay(
+    //            this.FadeCue,
+    //            500 + (step * 100));
+    //    }
+    //}
 
-    /// <summary>Fades out the sound cue volume.</summary>
-    private void FadeCue()
-    {
-        if (++this._fadeStepIndex >= _linSpace.Count)
-        {
-            this._cue.Stop(AudioStopOptions.Immediate);
-            this._cue.Volume = 1f;
-            this._fadeStepIndex = 0;
-            return;
-        }
+    ///// <summary>Fades out the sound cue volume.</summary>
+    //private void FadeCue()
+    //{
+    //    if (++this._fadeStepIndex >= _linSpace.Count)
+    //    {
+    //        this._cue.Stop(AudioStopOptions.Immediate);
+    //        this._cue.Volume = 1f;
+    //        this._fadeStepIndex = 0;
+    //        return;
+    //    }
 
-        if ((float)MathUtils.BoundedSCurve(_linSpace[this._fadeStepIndex], 3d) is var newVolume && newVolume < this._cue.Volume)
-        {
-            this._cue.Volume = newVolume;
-        }
+    //    if ((float)MathUtils.BoundedSCurve(_linSpace[this._fadeStepIndex], 3d) is var newVolume && newVolume < this._cue.Volume)
+    //    {
+    //        this._cue.Volume = newVolume;
+    //    }
 
-        if (this._cue.Volume is > 0f and <= 0.01f)
-        {
-            this._cue.Stop(AudioStopOptions.Immediate);
-        }
-    }
+    //    if (this._cue.Volume is > 0f and <= 0.01f)
+    //    {
+    //        this._cue.Stop(AudioStopOptions.Immediate);
+    //    }
+    //}
 
     /// <summary>Generates the <see cref="_lightSource"/>.</summary>
     private void GenerateLightSource(GameLocation? location = null)
@@ -620,15 +631,15 @@ internal sealed class ProspectorHunt : TreasureHunt
 
         var (tileX, tileY) = this.TargetTile.Value;
         var position = new Vector2(
-            (tileX * Game1.tileSize) + 16f,
-            (tileY * Game1.tileSize) + 16f);
-        this._lightSourceId = stone.GenerateLightSourceId(position);
-        this._lightSourceId += "ProspectorHunt";
+            (tileX * Game1.tileSize) + 32f,
+            (tileY * Game1.tileSize) + 32f);
+        this.LightSourceId = stone.GenerateLightSourceId(position);
+        this.LightSourceId += "_ProspectorHunt";
         stone.lightSource = new LightSource(
-            this._lightSourceId,
+            this.LightSourceId,
             LightSource.sconceLight,
             position,
-            1f,
+            0.5f,
             new Color(0, 20, 40),
             LightSource.LightContext.None,
             0L,

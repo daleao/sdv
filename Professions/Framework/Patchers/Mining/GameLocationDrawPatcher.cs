@@ -62,10 +62,6 @@ internal sealed class GameLocationDrawPatcher : HarmonyPatcher
             4f,
             stone.Flipped ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
             baseSort + 2E-05f);
-        if (stone.lightSource is not null)
-        {
-            stone.lightSource.radius.Value = alpha * 2;
-        }
     }
 
     #endregion harmony patches

@@ -20,8 +20,6 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
 {
     private static readonly Lazy<string[]> AnimalNames = new(() => [.. DataLoader.FarmAnimals(Game1.content).Keys]);
 
-    private readonly Random _random = new(Guid.NewGuid().GetHashCode());
-
     /// <inheritdoc />
     public override string GetName()
     {
@@ -33,9 +31,10 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
     {
         base.OnDealtDamage(monster, location, who, fromBomb, amount);
         var chance = ((MathConstants.PHI - 1d) / (4d * MathConstants.PHI)) - who.DailyLuck;
-        if (this._random.NextBool(chance))
+        var r = Random.Shared;
+        if (r.NextBool(chance))
         {
-            DoWabbajack(monster, location, who, ref amount, chance, this._random);
+            DoWabbajack(monster, location, who, ref amount, chance, r);
         }
     }
 

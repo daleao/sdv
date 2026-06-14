@@ -28,7 +28,7 @@ internal sealed class MonsterResetAnimationSpeedPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static bool MonsterOverlapsFarmerForDamagePrefix(Monster __instance)
     {
-        return __instance is not GreenSlime slime || slime.Get_Piped() is null;
+        return __instance is not GreenSlime slime || !slime.IsPiped();
     }
 
     #endregion harmony patches

@@ -68,7 +68,7 @@ internal sealed class HoeDirtApplySpeedIncreasesPatcher : HarmonyPatcher
 
     private static float GetAgriculturistMultiplier(HoeDirt dirt)
     {
-        return 0.1f + (Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>().ToHashSet().Count * 0.05f);
+        return 0.1f + Math.Min(Data.Read(dirt, DataKeys.SoilMemory).ParseList<string>().ToHashSet().Count * 0.05f, 0.2f);
     }
 
     #endregion injected

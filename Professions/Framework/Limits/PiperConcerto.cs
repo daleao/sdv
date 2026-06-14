@@ -26,6 +26,17 @@ public sealed class PiperConcerto()
     {
         base.Activate();
         Game1.player.applyBuff(new PiperConcertoBuff());
+        Game1.player.FarmerSprite.animateOnce(
+        [
+            new FarmerSprite.AnimationFrame(98, 400, secondaryArm: true, flip: false),
+            new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false),
+            new FarmerSprite.AnimationFrame(100, 200, secondaryArm: true, flip: false),
+            new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false),
+            new FarmerSprite.AnimationFrame(98, 400, secondaryArm: true, flip: false),
+            new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false)
+        ]);
+
+        Game1.player.freezePause = 1500;
     }
 
     /// <inheritdoc />

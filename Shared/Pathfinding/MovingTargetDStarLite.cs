@@ -532,8 +532,6 @@ public sealed class MovingTargetDStarLite
     [DebuggerDisplay("POS = {Position} | G = {G} | RHS = {RHS} | H = {H} | C = {IsWalkable}")]
     public sealed class State(Point position) : GenericPriorityQueueNode<Key>, IEquatable<State>
     {
-        private State? _parent;
-
         /// <summary>Initializes a new instance of the <see cref="State"/> class.</summary>
         /// <param name="x">The state's X coordinate.</param>
         /// <param name="y">The state's Y coordinate.</param>
@@ -566,12 +564,12 @@ public sealed class MovingTargetDStarLite
         /// <summary>Gets or sets the parent <see cref="State"/> of this instance; i.e., the previous state in the optimal path which passes through this instance.</summary>
         public State? Parent
         {
-            get => this._parent;
+            get;
             set
             {
-                this._parent?.Children.Remove(this);
+                field?.Children.Remove(this);
                 value?.Children.Add(this);
-                this._parent = value;
+                field = value;
             }
         }
 

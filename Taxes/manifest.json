@@ -3,7 +3,7 @@
   "UniqueID": "DaLion.Taxes",
   "Name": "Serfdom",
   "Author": "DaLion",
-  "Version": "2.2.2",
+  "Version": "2.2.2-Debug",
   "Description": "Provides realistic income and property taxation mechanics.",
   "MinimumApiVersion": "4.3.2",
   "MinimumGameVersion": "1.6",

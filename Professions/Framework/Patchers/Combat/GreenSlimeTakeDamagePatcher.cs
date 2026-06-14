@@ -31,7 +31,7 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static bool GreenSlimeTakeDamagePrefix(GreenSlime __instance, bool isBomb)
     {
-        return __instance.Get_Piped() is null || !isBomb;
+        return !__instance.IsPiped() || !isBomb;
     }
 
     /// <summary>Patch to reset monster aggro when a piped slime is defeated.</summary>
@@ -39,8 +39,14 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GreenSlimeTakeDamagePostfix(GreenSlime __instance, Farmer who)
     {
-        if (__instance.Health > 0 || __instance.Get_Piped() is not { } piped)
+        if (__instance.Get_Piped() is not { } piped)
         {
+            return;
+        }
+
+        if (__instance.Health > 0)
+        {
+            __instance.setInvincibleCountdown(450);
             return;
         }
 
@@ -53,7 +59,7 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
             }
         }
 
-        piped.Burst();
+        __instance.Set_Piped(null);
     }
 
     #endregion harmony patches

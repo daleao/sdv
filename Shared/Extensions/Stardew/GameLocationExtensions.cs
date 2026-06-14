@@ -19,6 +19,8 @@ public static class GameLocationExtensions
     {
         return location is MineShaft or BugLand or VolcanoDungeon ||
                location.NameOrUniqueName.ContainsAnyOf(
+                   "Mine",
+                   "SkullCave",
                    "CrimsonBadlands",
                    "DeepWoods",
                    "Highlands",

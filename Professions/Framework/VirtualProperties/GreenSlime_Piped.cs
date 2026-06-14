@@ -16,19 +16,19 @@ internal static class GreenSlime_Piped
 
     internal static HashSet<GreenSlime> PipedSlimes { get; } = [];
 
+    internal static bool IsPiped(this GreenSlime slime)
+    {
+        return slime.Get_Piped() is not null;
+    }
+
     internal static PipedSlime? Get_Piped(this GreenSlime slime)
     {
         return Values.TryGetValue(slime, out var piped) ? piped : null;
     }
 
     [return: NotNullIfNotNull(nameof(piper))]
-    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer? piper, PipedSlime.PipingSource source = PipedSlime.PipingSource.Summoned)
+    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer? piper, PipedSlime.PipingSource source)
     {
-        if (source == PipedSlime.PipingSource.Hat)
-        {
-            return null;
-        }
-
         if (piper is not null)
         {
             var piped = new PipedSlime(slime, piper, source);

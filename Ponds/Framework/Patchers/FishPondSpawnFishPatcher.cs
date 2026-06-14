@@ -36,7 +36,7 @@ internal sealed class FishPondSpawnFishPatcher : HarmonyPatcher
             return;
         }
 
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         if (__instance.HasAlgae())
         {
             SpawnAlgae(__instance, r);

@@ -30,7 +30,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void SlimeHutchDayUpdatePostfix(SlimeHutch __instance)
     {
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         var slimes = __instance.characters.OfType<GreenSlime>().ToArray();
         if (!slimes.Any())
         {

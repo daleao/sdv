@@ -23,25 +23,9 @@ using StardewValley.Objects;
 /// <summary>A <see cref="GreenSlime"/> under influence of <see cref="PiperConcerto"/>.</summary>
 internal sealed class PipedSlime : IDisposable
 {
-    /// <summary>Describes how the slime was piped.</summary>
-    internal enum PipingSource
-    {
-        /// <summary>This Slime is a summoned minion in a combat area. The piping lasts indefinitely, or until the Piper leaves the combat area.</summary>
-        Summoned,
-
-        /// <summary>This Slime was temporarily piped by a Piper's Limit Break. The piping ends when the Limit Break ends, causing these Slimes to burst.</summary>
-        Concerto,
-
-        /// <summary>This Slime was given a hat to wear. The piping lasts indefinitely, or until the Piper removes the Slime's hat.</summary>
-        Hat,
-
-        /// <summary>This Slime is being manually herded by a Piper. The piping lasts as long as the Piper holds the Mod Key.</summary>
-        Herded,
-    }
-
     internal const CollisionMask COLLISION_MASK = CollisionMask.Buildings | CollisionMask.Furniture |
-                                                 CollisionMask.Objects | CollisionMask.TerrainFeatures |
-                                                 CollisionMask.LocationSpecific;
+                                                  CollisionMask.Objects | CollisionMask.TerrainFeatures |
+                                                  CollisionMask.LocationSpecific;
 
     private const int FADE_DURATION = 60;
 #if RELEASE
@@ -51,16 +35,14 @@ internal sealed class PipedSlime : IDisposable
 #endif
 
     private readonly NetRef<Hat?> _hat = [];
-    private int _respawnTimer = -1;
     private int _fadeCounter = -1;
     private int _fadeDelta = 0;
-    private bool _dismissed;
 
     /// <summary>Initializes a new instance of the <see cref="PipedSlime"/> class.</summary>
     /// <param name="slime">The <see cref="GreenSlime"/> instance.</param>
     /// <param name="piper">The <see cref="Farmer"/> who cast <see cref="PiperConcerto"/>.</param>
     /// <param name="source">The <see cref="PipingSource"/> of the piping.</param>
-    internal PipedSlime(GreenSlime slime, Farmer piper, PipingSource source = PipingSource.Summoned)
+    internal PipedSlime(GreenSlime slime, Farmer piper, PipingSource source)
     {
         this.Slime = slime;
         this.Piper = piper;
@@ -107,8 +89,31 @@ internal sealed class PipedSlime : IDisposable
         this.Hat = hat;
     }
 
+    /// <summary>Describes how the slime was piped.</summary>
+    internal enum PipingSource
+    {
+        /// <summary>This Slime was summoned by a Piper.</summary>
+        Summoned,
+
+        /// <summary>This Slime was charmed by a Piper.</summary>
+        Charmed,
+
+        /// <summary>This Slime was given a hat to wear. The piping lasts indefinitely, or until the Piper removes the Slime's hat.</summary>
+        Hat,
+
+        /// <summary>This Slime is being manually herded by a Piper. The piping lasts as long as the Piper holds the Mod Key.</summary>
+        Herded,
+
+        /// <summary>This Slime is not Piped.</summary>
+        None = -1,
+    }
+
+    /// <summary>Gets a the Hat Slime instance.</summary>
+    internal static PipedSlime? HatSlime { get; private set; }
+
     /// <summary>Gets a value indicating whether a Hat Slime already exists in the world.</summary>
-    internal static bool TheHatSlimeIsUponUs { get; private set; }
+    [MemberNotNullWhen(true, "HatSlime")]
+    internal static bool TheHatSlimeIsUponUs => HatSlime is not null;
 
     /// <summary>Gets the <see cref="GreenSlime"/> instance.</summary>
     internal GreenSlime Slime { get; }
@@ -148,65 +153,18 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Gets a value indicating the source of the piping.</summary>
     internal PipingSource Source { get; private set; }
 
-    /// <summary>Gets or sets a value indicating whether the instance has been dismissed.</summary>
-    internal bool IsDismissed
-    {
-        get => this._dismissed;
-        set
-        {
-            if (value == this._dismissed)
-            {
-                return;
-            }
-
-            if (value)
-            {
-                this.FadeOut();
-            }
-            else
-            {
-                this.FadeIn();
-            }
-
-            this._dismissed = value;
-        }
-    }
-
-    /// <summary>Gets the time until the next respawn, in seconds.</summary>
-    internal int RespawnTimer => (this._respawnTimer / 1000) + 1;
-
     /// <summary>Gets the <see cref="Color"/> value of the underlying <see cref="GreenSlime"/> instance.</summary>
     internal Color Color => this.Slime.color.Value;
 
-    /// <summary>Gets or sets the currently worn hat.</summary>
-    internal Hat? Hat
-    {
-        get => this._hat.Value;
-        set
-        {
-            if (this.Inventory.Count == 0)
-            {
-                for (var i = 0; i < 12; i++)
-                {
-                    this.Inventory.Add(null);
-                }
-            }
-
-            this._hat.Value = value;
-            TheHatSlimeIsUponUs = value != null;
-            State.PipedMinionMenu?.populateClickableComponentList();
-        }
-    }
-
     /// <summary>Gets a value indicating whether the Piped Slime's <seealso cref="Inventory"/> contains any items.</summary>
-    internal bool IsCarryingItems => this.Hat is not null && this.Inventory.WhereNotNull().Any();
+    internal bool IsCarryingItems => this.HasHat && this.Inventory.WhereNotNull().Any();
 
     /// <summary>Gets a value indicating whether the Piped Slime's <seealso cref="Inventory"/> has any empty slots.</summary>
     internal bool HasEmptyInventorySlots
     {
         get
         {
-            if (this.Hat is null)
+            if (!this.HasHat)
             {
                 return false;
             }
@@ -221,13 +179,43 @@ internal sealed class PipedSlime : IDisposable
         }
     }
 
-    /// <summary>Gets a value indicating whether the <seealso cref="Slime"/> is currently dead and waiting to respawn.</summary>
-    internal bool IsRespawning => this.Slime.Health <= 0 && this._respawnTimer >= 0;
+    /// <summary>Gets a value indicating whether the <seealso cref="Slime"/> is wearing a <seealso cref="Hat"/>.</summary>
+    [MemberNotNullWhen(true, nameof(Hat))]
+    internal bool HasHat => this.Hat is not null;
+
+    /// <summary>Gets or sets the currently worn <seealso cref="Hat"/>>.</summary>
+    private Hat? Hat
+    {
+        get => this._hat.Value;
+        set
+        {
+            if (this.Inventory.Count == 0)
+            {
+                for (var i = 0; i < 12; i++)
+                {
+                    this.Inventory.Add(null);
+                }
+            }
+
+            this._hat.Value = value;
+            if (value is not null)
+            {
+                HatSlime = this;
+            }
+        }
+    }
+
+    /// <summary>Unregisters from Pathfinders.</summary>
+    public void Dispose()
+    {
+        Pathfinder?.Unregister(this.Slime);
+        PathfinderAsync?.Unregister(this.Slime);
+    }
 
     /// <summary>Checks for actions on the instance.</summary>
     /// <param name="who">The <see cref="Farmer"/> who is checking.</param>
     /// <param name="hat">A <see cref="Hat"/>.</param>
-    public void CheckAction(Farmer who, Hat? hat = null)
+    internal void CheckAction(Farmer who, Hat? hat = null)
     {
         if (!ReferenceEquals(who, this.Piper))
         {
@@ -236,7 +224,7 @@ internal sealed class PipedSlime : IDisposable
 
         if (hat is not null)
         {
-            if (this.Hat is not null && who.addItemToInventoryBool(this.Hat))
+            if (this.HasHat && who.addItemToInventoryBool(this.Hat))
             {
                 var slime = this.Slime;
                 this.Hat = null;
@@ -255,7 +243,7 @@ internal sealed class PipedSlime : IDisposable
                                      currentLocation.Name.ContainsAnyOf("Mine", "SkullCave");
                 if (!inDangerZone && currentLocation.IsOutdoors)
                 {
-                    slime.Set_Piped(null);
+                    slime.Set_Piped(null, PipingSource.None);
                 }
             }
             else if (!TheHatSlimeIsUponUs)
@@ -269,7 +257,7 @@ internal sealed class PipedSlime : IDisposable
             return;
         }
 
-        if (this.Hat is null)
+        if (!this.HasHat)
         {
             return;
         }
@@ -280,52 +268,177 @@ internal sealed class PipedSlime : IDisposable
         }
     }
 
-    /// <summary>Draws the <seealso cref="Hat"/>.</summary>
-    /// <param name="b">The <see cref="SpriteBatch"/>.</param>
-    public void DrawHat(SpriteBatch b)
+    internal void Draw(SpriteBatch b, bool avoidingMate, bool pursuingMate, Vector2 facePosition)
     {
-        if (this.Hat is null)
+        var slime = this.Slime;
+        if (slime.IsInvisible || !Utility.isOnScreen(slime.Position, 128))
         {
             return;
         }
 
-        var slime = this.Slime;
-        var bounceOffset = slime.Sprite.CurrentFrame switch
+        var boundsHeight = slime.GetBoundingBox().Height;
+        var standingY = slime.StandingPixel.Y;
+        for (var i = 0; i <= slime.stackedSlimes.Value; i++)
         {
-            0 => -2,
-            2 => 1,
-            _ => 0,
-        };
-        var yOffset = slime.GetBoundingBox().Height + slime.yOffset + bounceOffset +
-                      slime.FacingDirection switch
-                      {
-                          Game1.up => 4,
-                          Game1.left or Game1.right => -4,
-                          Game1.down => -2,
-                      };
-        this.Hat.draw(
-            b,
-            Utility.snapDrawPosition(slime.getLocalPosition(Game1.viewport) - new Vector2(4f, yOffset)),
-            1.3333334f,
-            1f,
-            (slime.StandingPixel.Y / 10000f) + 1E-07f,
-            slime.FacingDirection);
+            var topSlime = i == slime.stackedSlimes.Value;
+            var stackAdjustment = Vector2.Zero;
+            if (slime.stackedSlimes.Value > 0)
+            {
+                stackAdjustment =
+                    new Vector2(
+                        (float)Math.Sin(slime.randomStackOffset +
+                                        (Game1.currentGameTime.TotalGameTime.TotalSeconds * Math.PI * 2.0) + (i * 30)) *
+                        8f,
+                        -30 * i);
+            }
+
+            b.Draw(
+                slime.Sprite.Texture,
+                slime.getLocalPosition(Game1.viewport) +
+                new Vector2(32f, (boundsHeight / 2) + slime.yOffset) + stackAdjustment,
+                slime.Sprite.SourceRect,
+                (slime.prismatic.Value
+                    ? Utility.GetPrismaticColor(348 + slime.specialNumber.Value, 5f)
+                    : slime.color.Value) * this.Alpha,
+                0f,
+                new Vector2(8f, 16f),
+                4f * Math.Max(0.2f, slime.Scale - (0.4f * (slime.ageUntilFullGrown.Value / 120000f))),
+                SpriteEffects.None,
+                Math.Max(0f, slime.drawOnTop ? 0.991f : (standingY + (i * 2)) / 10000f));
+            b.Draw(
+                Game1.shadowTexture,
+                slime.getLocalPosition(Game1.viewport) + new Vector2(
+                    32f,
+                    (boundsHeight / 2 * 7 / 4f) + slime.yOffset + (8f * slime.Scale) -
+                    (slime.ageUntilFullGrown.Value > 0 ? 8 : 0)) + stackAdjustment,
+                Game1.shadowTexture.Bounds,
+                Color.White * this.Alpha,
+                0f,
+                new Vector2(Game1.shadowTexture.Bounds.Center.X, Game1.shadowTexture.Bounds.Center.Y),
+                3f + slime.Scale - (slime.ageUntilFullGrown.Value / 120000f) -
+                ((slime.Sprite.currentFrame % 4) % 3 != 0 || i != 0 ? 1f : 0f) + (slime.yOffset / 30f),
+                SpriteEffects.None,
+                (standingY - 1 + (i * 2)) / 10000f);
+            if (slime.ageUntilFullGrown.Value <= 0)
+            {
+                if (topSlime && (slime.cute.Value || slime.hasSpecialItem.Value) && !this.HasHat)
+                {
+                    var xDongleSource = slime.isMoving() || slime.wagTimer > 0
+                        ? (16 * Math.Min(
+                            7,
+                            Math.Abs((slime.wagTimer > 0
+                                ? 992 - slime.wagTimer
+                                : Game1.currentGameTime.TotalGameTime.Milliseconds % 992) - 496) / 62)) % 64
+                        : 48;
+                    var yDongleSource = slime.isMoving() || slime.wagTimer > 0
+                        ? 24 * Math.Min(
+                            1,
+                            Math.Max(
+                                1,
+                                Math.Abs((slime.wagTimer > 0
+                                    ? 992 - slime.wagTimer
+                                    : Game1.currentGameTime.TotalGameTime.Milliseconds % 992) - 496) / 62) / 4)
+                        : 24;
+                    if (slime.hasSpecialItem.Value)
+                    {
+                        yDongleSource += 48;
+                    }
+
+                    b.Draw(
+                        slime.Sprite.Texture,
+                        slime.getLocalPosition(Game1.viewport) + stackAdjustment + (new Vector2(
+                                32f,
+                                boundsHeight - 16 + (slime.readyToJump <= 0
+                                    ? 4 * (-2 + Math.Abs((slime.Sprite.currentFrame % 4) - 2))
+                                    : 4 + (4 * ((slime.Sprite.currentFrame % 4) % 3))) + slime.yOffset) *
+                            slime.Scale),
+                        new Rectangle(xDongleSource, 168 + yDongleSource, 16, 24),
+                        (slime.hasSpecialItem.Value ? Color.White : slime.color.Value) * this.Alpha,
+                        0f,
+                        new Vector2(8f, 16f),
+                        4f * Math.Max(0.2f, slime.Scale - (0.4f * (slime.ageUntilFullGrown.Value / 120000f))),
+                        slime.flip ? SpriteEffects.FlipHorizontally : SpriteEffects.None,
+                        Math.Max(0f, slime.drawOnTop ? 0.991f : (standingY / 10000f) + 0.0001f));
+                }
+
+                b.Draw(
+                    slime.Sprite.Texture,
+                    slime.getLocalPosition(Game1.viewport) + stackAdjustment + ((new Vector2(
+                                32f,
+                                (boundsHeight / 2) + (slime.readyToJump <= 0
+                                    ? 4 * (-2 + Math.Abs((slime.Sprite.currentFrame % 4) - 2))
+                                    : 4 - (4 * ((slime.Sprite.currentFrame % 4) % 3))) + slime.yOffset) +
+                            facePosition) *
+                        Math.Max(0.2f, slime.Scale - (0.4f * (slime.ageUntilFullGrown.Value / 120000f)))),
+                    new Rectangle(
+                        32 + (slime.readyToJump > 0 || slime.focusedOnFarmers ? 16 : 0),
+                        120 + (slime.readyToJump < 0 &&
+                               (slime.focusedOnFarmers || slime.invincibleCountdown > 0)
+                            ? 24
+                            : 0),
+                        16,
+                        24),
+                    (Color.White * (slime.FacingDirection == 0 ? 0.5f : 1f)) * this.Alpha,
+                    0f,
+                    new Vector2(8f, 16f),
+                    4f * Math.Max(0.2f, slime.Scale - (0.4f * (slime.ageUntilFullGrown.Value / 120000f))),
+                    SpriteEffects.None,
+                    Math.Max(0f, slime.drawOnTop ? 0.991f : ((standingY + (i * 2)) / 10000f) + 0.0001f));
+            }
+
+            if (slime.isGlowing)
+            {
+                b.Draw(
+                    slime.Sprite.Texture,
+                    slime.getLocalPosition(Game1.viewport) + stackAdjustment +
+                    new Vector2(32f, (boundsHeight / 2) + slime.yOffset),
+                    slime.Sprite.SourceRect,
+                    (slime.glowingColor * slime.glowingTransparency) * this.Alpha,
+                    0f,
+                    new Vector2(8f, 16f),
+                    4f * Math.Max(0.2f, slime.Scale),
+                    SpriteEffects.None,
+                    Math.Max(0f, slime.drawOnTop ? 0.99f : (standingY / 10000f) + 0.001f));
+            }
+        }
+
+        if (pursuingMate)
+        {
+            b.Draw(
+                slime.Sprite.Texture,
+                slime.getLocalPosition(Game1.viewport) + new Vector2(32f, -32 + slime.yOffset),
+                new Rectangle(16, 120, 8, 8),
+                Color.White * this.Alpha,
+                0f,
+                new Vector2(3f, 3f),
+                4f,
+                SpriteEffects.None,
+                Math.Max(0f, slime.drawOnTop ? 0.991f : slime.StandingPixel.Y / 10000f));
+        }
+        else if (avoidingMate)
+        {
+            b.Draw(
+                slime.Sprite.Texture,
+                slime.getLocalPosition(Game1.viewport) + new Vector2(32f, -32 + slime.yOffset),
+                new Rectangle(24, 120, 8, 8),
+                Color.White * this.Alpha,
+                0f,
+                new Vector2(4f, 4f),
+                4f,
+                SpriteEffects.None,
+                Math.Max(0f, slime.drawOnTop ? 0.991f : slime.StandingPixel.Y / 10000f));
+        }
+
+        if (this.HasHat)
+        {
+            this.DrawHat(this.Hat, b);
+        }
     }
 
     /// <summary>Updates the instance state and counts down necessary timers.</summary>
     /// <param name="time">The current <see cref="GameTime"/>.</param>
-    public void Update(GameTime time)
+    internal void Update(GameTime time)
     {
-        if (this._respawnTimer > 0)
-        {
-            this._respawnTimer -= time.ElapsedGameTime.Milliseconds;
-            if (this._respawnTimer <= 0)
-            {
-                this.Piper.SpawnMinions(1);
-                this.Slime.Set_Piped(null);
-            }
-        }
-
         if (this._fadeCounter < 0)
         {
             return;
@@ -339,17 +452,6 @@ internal sealed class PipedSlime : IDisposable
 
         this._fadeCounter = -1;
         this._fadeDelta = 0;
-        if (this.IsDismissed)
-        {
-            this.Slime.currentLocation.characters.Remove(this.Slime);
-        }
-    }
-
-    /// <summary>Unregisters from Pathfinders.</summary>
-    public void Dispose()
-    {
-        Pathfinder?.Unregister(this.Slime);
-        PathfinderAsync?.Unregister(this.Slime);
     }
 
     /// <summary>Grows the <see cref="PipedSlime"/> one stage.</summary>
@@ -462,12 +564,6 @@ internal sealed class PipedSlime : IDisposable
         return false;
     }
 
-    /// <summary>Initiates the respawn countdown.</summary>
-    internal void BeginRespawn()
-    {
-        this._respawnTimer = RESPAWN_TIME;
-    }
-
     /// <summary>Initiates fade in.</summary>
     internal void FadeIn()
     {
@@ -521,13 +617,6 @@ internal sealed class PipedSlime : IDisposable
     internal void Burst()
     {
         var slime = this.Slime;
-        if (this._respawnTimer >= 0)
-        {
-            this._respawnTimer = -1;
-            slime.Set_Piped(null);
-            return;
-        }
-
         if (this.IsCarryingItems)
         {
             this.DropItems();
@@ -535,7 +624,7 @@ internal sealed class PipedSlime : IDisposable
 
         slime.Health = 0;
         slime.deathAnimation();
-        slime.Set_Piped(null);
+        slime.Set_Piped(null, PipingSource.None);
     }
 
     /// <summary>Reset to original stats.</summary>
@@ -577,5 +666,33 @@ internal sealed class PipedSlime : IDisposable
                     this.Slime.currentLocation);
             }
         }
+    }
+
+    /// <summary>Draws the <seealso cref="Hat"/>.</summary>
+    /// <param name="hat">The <see cref="Hat"/>.</param>
+    /// <param name="b">The <see cref="SpriteBatch"/>.</param>
+    private void DrawHat(Hat hat, SpriteBatch b)
+    {
+        var slime = this.Slime;
+        var bounceOffset = slime.Sprite.CurrentFrame switch
+        {
+            0 => -2,
+            2 => 1,
+            _ => 0,
+        };
+        var yOffset = slime.GetBoundingBox().Height + slime.yOffset + bounceOffset +
+                      slime.FacingDirection switch
+                      {
+                          Game1.up => 4,
+                          Game1.left or Game1.right => -4,
+                          Game1.down => -2,
+                      };
+        hat.draw(
+            b,
+            Utility.snapDrawPosition(slime.getLocalPosition(Game1.viewport) - new Vector2(4f, yOffset)),
+            1.3333334f,
+            1f,
+            (slime.StandingPixel.Y / 10000f) + 1E-07f,
+            slime.FacingDirection);
     }
 }

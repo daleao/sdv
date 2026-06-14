@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 2.2.4
+
+### Fixed
+
+* Fixed ponds not rewarding experience (`checkedToday` flag not being reset).
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.2.3
 
 ### Fixed

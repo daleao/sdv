@@ -103,6 +103,7 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 
 Crop rotation works as follows:
 - Every tilled tile keeps a memory of the previous crops grown on that tile in the current season.
+    - Memory resets on the first of the month, so it works as normal in Ginger Island. If you skip day 1 using mods, the reset will also be skipped.
 - For each unique crop in that memory, the next crop gains 5% bonus to growth speed.
 - If prestiged, each crop in memory has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5% / etc.).
 - Crop memory resets on the 1st of every season.

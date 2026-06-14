@@ -14,11 +14,11 @@ internal sealed class FixSlingshotsCommand(CommandHandler handler)
     : ConsoleCommand(handler)
 {
     /// <inheritdoc />
-    public override string[] Triggers { get; } = ["fix_slingshots"];
+    public override string[] Triggers { get; } = ["slingfix"];
 
     /// <inheritdoc />
     public override string Documentation =>
-        "Sets the ammo count for every slingshot in the player's inventory according to whether or not they have the Rascal profession.";
+        "Sets the ammo slot count for every slingshot in the player's inventory according to whether or not they have the Rascal profession.";
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)

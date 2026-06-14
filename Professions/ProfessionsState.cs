@@ -19,23 +19,16 @@ using StardewValley.Monsters;
 
 internal sealed class ProfessionsState
 {
-    private int _rageCounter;
-    private List<int>? _orderedProfessions;
-    private Monster? _lastDesperadoTarget;
-    private LimitBreak? _limitBreak;
     private ProspectorHunt? _prospectorHunt;
     private ScavengerHunt? _scavengerHunt;
-    private Dictionary<string, int>? _prestigedEcologistBuffsLookup;
-    private int _fishingChain;
-    private PipedMinionHud? _pipedMinionMenu;
 
     internal List<int> OrderedProfessions
     {
         get
         {
-            if (this._orderedProfessions is not null)
+            if (field is not null)
             {
-                return this._orderedProfessions;
+                return field;
             }
 
             var player = Game1.player;
@@ -43,7 +36,7 @@ internal sealed class ProfessionsState
             if (string.IsNullOrEmpty(storedProfessions))
             {
                 Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
-                this._orderedProfessions = [.. player.professions];
+                field = [.. player.professions];
             }
             else
             {
@@ -53,33 +46,33 @@ internal sealed class ProfessionsState
                     Log.W(
                         $"Player {player.Name}'s professions does not match the stored list of professions. The stored professions will be reset.");
                     Data.Write(player, DataKeys.OrderedProfessions, string.Join(',', player.professions));
-                    this._orderedProfessions = [.. player.professions];
+                    field = [.. player.professions];
                 }
                 else
                 {
-                    this._orderedProfessions = professionsList;
+                    field = professionsList;
                 }
             }
 
-            return this._orderedProfessions;
+            return field;
         }
     }
 
     internal LimitBreak? LimitBreak
     {
-        get => this._limitBreak;
+        get;
         set
         {
             if (value is null)
             {
-                this._limitBreak = null;
+                field = null;
                 Data.Write(Game1.player, DataKeys.LimitBreakId, null);
                 EventManager.DisableWithAttribute<LimitEventAttribute>();
                 Log.I($"{Game1.player.Name}'s Limit Break was removed.");
                 return;
             }
 
-            this._limitBreak = value;
+            field = value;
             Data.Write(Game1.player, DataKeys.LimitBreakId, value.Id.ToString());
             if (Config.Masteries.EnableLimitBreaks)
             {
@@ -128,6 +121,10 @@ internal sealed class ProfessionsState
 
     internal int SpelunkerLadderStreak { get; set; }
 
+    internal int SpelunkerClusterStreak { get; set; }
+
+    internal Vector2? SpelunkerLastStoneDestroyedAt { get; set; }
+
     internal List<(string ItemId, double ChanceToRecover)> SpelunkerUncollectedItems { get; } = [];
 
     internal MineShaft? SpelunkerCheckpoint { get; set; }
@@ -148,10 +145,10 @@ internal sealed class ProfessionsState
 
     internal int FishingChain
     {
-        get => this._fishingChain;
+        get;
         set
         {
-            this._fishingChain = value;
+            field = value;
             if (value > 0)
             {
                 EventManager.Enable<AnglerWarpedEvent>();
@@ -165,10 +162,10 @@ internal sealed class ProfessionsState
 
     internal int BruteRageCounter
     {
-        get => this._rageCounter;
+        get;
         set
         {
-            this._rageCounter = value switch
+            field = value switch
             {
                 >= 100 => 100,
                 <= 0 => 0,
@@ -179,10 +176,10 @@ internal sealed class ProfessionsState
 
     internal Monster? LastDesperadoTarget
     {
-        get => this._lastDesperadoTarget;
+        get;
         set
         {
-            this._lastDesperadoTarget = value;
+            field = value;
             if (value is not null)
             {
                 EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
@@ -194,28 +191,18 @@ internal sealed class ProfessionsState
     {
         get
         {
-            this._prestigedEcologistBuffsLookup ??= Data
+            field ??= Data
                     .Read(Game1.player, DataKeys.PrestigedEcologistBuffLookup)
                     .ParseDictionary<string, int>();
-            return this._prestigedEcologistBuffsLookup;
+            return field;
         }
     }
+
+    internal int SlimeFluteCooldown { get; set; }
+
+    internal float SlimeFluteAddedScale { get; set; }
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
-
-    internal PipedMinionHud? PipedMinionMenu
-    {
-        get => this._pipedMinionMenu;
-        set
-        {
-            if (this._pipedMinionMenu is not null && value is null)
-            {
-                this._pipedMinionMenu.Dispose();
-            }
-
-            this._pipedMinionMenu = value;
-        }
-    }
 
     internal MasteryWarningBox? WarningBox { get; set; }
 }

@@ -108,9 +108,18 @@ public static class CollectionExtensions
     /// </returns>
     public static bool AddOrReplace<T>(this ICollection<T> collection, T item)
     {
-        var removed = collection.Remove(item);
-        collection.Add(item);
-        return !removed;
+        if (typeof(T).IsValueType)
+        {
+            var removed = collection.Remove(item);
+            collection.Add(item);
+            return !removed;
+        }
+        else
+        {
+            var removed = collection.TryRemoveType(typeof(T), out _);
+            collection.Add(item);
+            return !removed;
+        }
     }
 
     /// <summary>Determines whether all elements in the <paramref name="collection"/> are equal.</summary>

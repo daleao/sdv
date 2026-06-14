@@ -13,7 +13,7 @@ internal sealed class ChromaBall(SObject slimeBall, Vector2? tile = null) : Slim
     public override Dictionary<string, int> GetDrops()
     {
         var drops = base.GetDrops();
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         var closest = ChromaMapper.ItemsByColor.Keys.ArgMin(color => color.L1Distance(this.SlimeColor));
         var range = new ColorRange(
             [(byte)(closest.R - 10), (byte)(closest.R + 10)],

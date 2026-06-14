@@ -188,7 +188,7 @@ public sealed class PondsMod : Mod
             if (building is FishPond pond && pond.IsOwnedBy(Game1.player) &&
                 !pond.isUnderConstruction())
             {
-                Data.Write(pond, DataKeys.CheckedToday, true.ToString());
+                Data.Write(pond, DataKeys.CheckedToday, false.ToString());
             }
 
             return true; // continue enumeration

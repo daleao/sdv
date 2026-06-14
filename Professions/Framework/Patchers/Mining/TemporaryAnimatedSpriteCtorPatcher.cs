@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 
 [UsedImplicitly]
 [ImplicitIgnore]
+// Deprecated
 internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="TemporaryAnimatedSpriteCtorPatcher"/> class.</summary>

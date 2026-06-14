@@ -225,11 +225,15 @@ internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
             [
                 new MineSpawn
                 {
-                    Floors = "80/77376", SpawnFrequency = 0.0010, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
+#if DEBUG
+                    Floors = "80/77376", SpawnFrequency = 0.9, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
+#elif RELEASE
+                    Floors = "80/77376", SpawnFrequency = 0.0009, AdditionalChancePerLevel = 0.00001, Type = MineType.All,
+#endif
                 },
             ],
         };
     }
 
-    #endregion editor callbacks
+#endregion editor callbacks
 }

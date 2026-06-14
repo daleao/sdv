@@ -3,11 +3,11 @@
 #region using directives
 
 using System.Diagnostics.CodeAnalysis;
+using DaLion.Professions.Framework.Hunting.Events;
 using DaLion.Professions.Framework.UI;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Events;
 using Microsoft.Xna.Framework;
-using Shared.Extensions;
 
 #endregion using directives
 
@@ -73,7 +73,7 @@ internal abstract class TreasureHunt : ITreasureHunt
 
     /// <inheritdoc />
     [MemberNotNullWhen(true, nameof(Location), nameof(TargetTile))]
-    public virtual bool TryStart(GameLocation location)
+    public bool TryStart(GameLocation location)
     {
         if (this.IsActive || ReferenceEquals(this.Location, location) || location.currentEvent is not null ||
             !this.IsLocationSuitable(location) || !this.ChooseTreasureTile(location))
@@ -148,21 +148,6 @@ internal abstract class TreasureHunt : ITreasureHunt
         this.OnStarted(treasureTile, this.TimeLimit);
     }
 
-    /// <summary>Raised when a Treasure Hunt starts.</summary>
-    /// <param name="treasureTile">Reference to the chosen <see cref="TargetTile"/>.</param>
-    /// <param name="timeLimit">Reference to the <see cref="TimeLimit"/>.</param>
-    private void OnStarted(Vector2 treasureTile, int timeLimit)
-    {
-        Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, this.Profession, treasureTile, timeLimit));
-    }
-
-    /// <summary>Raised when a Treasure Hunt ends.</summary>
-    /// <param name="found">Whether the player successfully discovered the treasure.</param>
-    private void OnEnded(bool found)
-    {
-        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, this.Profession, found));
-    }
-
     /// <summary>Rolls a big fat stack of ores or metal bars.</summary>
     /// <param name="baseMin">The minimum value of the base roll.</param>
     /// <param name="baseMax">The maximum value of the base roll.</param>
@@ -179,5 +164,20 @@ internal abstract class TreasureHunt : ITreasureHunt
         }
 
         return stack;
+    }
+
+    /// <summary>Raised when a Treasure Hunt starts.</summary>
+    /// <param name="treasureTile">Reference to the chosen <see cref="TargetTile"/>.</param>
+    /// <param name="timeLimit">Reference to the <see cref="TimeLimit"/>.</param>
+    private void OnStarted(Vector2 treasureTile, int timeLimit)
+    {
+        Started?.Invoke(this, new TreasureHuntStartedEventArgs(Game1.player, this.Profession, treasureTile, timeLimit));
+    }
+
+    /// <summary>Raised when a Treasure Hunt ends.</summary>
+    /// <param name="found">Whether the player successfully discovered the treasure.</param>
+    private void OnEnded(bool found)
+    {
+        Ended?.Invoke(this, new TreasureHuntEndedEventArgs(Game1.player, this.Profession, found));
     }
 }

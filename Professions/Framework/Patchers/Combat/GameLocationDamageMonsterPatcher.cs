@@ -216,7 +216,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
             return;
         }
 
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
         if (who.HasProfession(Profession.Brute))
         {
             HandleBrute(monster, who);

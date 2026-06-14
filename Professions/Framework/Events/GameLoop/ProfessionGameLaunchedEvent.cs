@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -23,5 +24,7 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
             Lookups.AnimalDerivedGoods.Add(QIDs.Honey);
             Lookups.AnimalDerivedGoods.Add(QIDs.Mead);
         }
+
+        Lookups.MachineTreatments.AddRange(ModHelper.GameContent.Load<Dictionary<string, MachineTreatmentRules>>($"{UniqueId}_MachineTreatments"));
     }
 }

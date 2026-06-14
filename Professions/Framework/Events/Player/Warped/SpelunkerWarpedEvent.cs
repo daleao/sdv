@@ -33,20 +33,20 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
             return;
         }
 
+        State.SpelunkerClusterStreak = 0;
+        State.SpelunkerLastStoneDestroyedAt = null;
+
         var player = e.Player;
         var oldLocation = e.OldLocation;
         var newLocation = e.NewLocation;
-        if (oldLocation is MineShaft && player.HasProfession(Profession.Spelunker, true))
+        if (oldLocation is MineShaft oldShaft && player.HasProfession(Profession.Spelunker, true))
         {
-            if (oldLocation is MineShaft oldShaft)
+            foreach (var debris in oldLocation.debris)
             {
-                foreach (var debris in oldLocation.debris)
+                if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
+                    Game1.random.NextBool())
                 {
-                    if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
-                        Game1.random.NextBool())
-                    {
-                        State.SpelunkerUncollectedItems.Add((id, ItemRecoveryChance(oldShaft.mineLevel)));
-                    }
+                    State.SpelunkerUncollectedItems.Add((id, ItemRecoveryChance(oldShaft.mineLevel)));
                 }
             }
 
@@ -68,6 +68,10 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
                 }
 
                 State.SpelunkerUncollectedItems.Clear();
+                State.SpelunkerLadderStreak = 0;
+                State.SpelunkerCheckpoint = null;
+                _previousMineLevel = 0;
+                return;
             }
         }
 
@@ -84,22 +88,22 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
             return;
         }
 
-        State.SpelunkerLadderStreak++;
+        State.SpelunkerLadderStreak = Math.Min(State.SpelunkerLadderStreak + 1, 50);
         _previousMineLevel = newShaft.mineLevel;
         if (!newShaft.IsTreasureOrSafeRoom())
         {
             return;
         }
 
-        var healed = (int)(player.maxHealth * 0.05f);
-        player.health = Math.Min(player.health + healed, player.maxHealth);
-        player.Stamina = Math.Min(player.Stamina + (player.MaxStamina * 0.05f), player.MaxStamina);
-        newLocation.debris.Add(new Debris(
-            healed,
-            new Vector2(player.StandingPixel.X, player.StandingPixel.Y),
-            Color.Lime,
-            1f,
-            player));
-        Game1.playSound("healSound");
+        //var healed = (int)(player.maxHealth * 0.05f);
+        //player.health = Math.Min(player.health + healed, player.maxHealth);
+        //player.Stamina = Math.Min(player.Stamina + (player.MaxStamina * 0.05f), player.MaxStamina);
+        //newLocation.debris.Add(new Debris(
+        //    healed,
+        //    new Vector2(player.StandingPixel.X, player.StandingPixel.Y),
+        //    Color.Lime,
+        //    1f,
+        //    player));
+        //Game1.playSound("healSound");
     }
 }

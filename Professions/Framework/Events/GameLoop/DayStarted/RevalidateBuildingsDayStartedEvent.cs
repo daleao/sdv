@@ -2,9 +2,9 @@
 
 #region using directives
 
+using DaLion.Shared.Enums;
 using DaLion.Shared.Events;
 using Microsoft.Xna.Framework;
-using Shared.Enums;
 using StardewModdingAPI.Events;
 using StardewValley.Buildings;
 using StardewValley.Monsters;

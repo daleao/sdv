@@ -5,9 +5,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Xna;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -25,12 +27,33 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to trigger and manage Prospector hunt.</summary>
+    /// <summary>Patch to trigger and manage Prospector hunt + track Spelunker momentum.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void OnStoneDestroyedPostfix(GameLocation __instance, int x, int y)
+    private static void OnStoneDestroyedPostfix(GameLocation __instance, int x, int y, Farmer who)
     {
         State.ProspectorHunt?.OnStoneDestroyed(__instance, new Vector2(x, y));
+
+        if (who is null || !who.IsLocalPlayer || !who.HasProfession(Profession.Spelunker)
+            || who.CurrentTool is not Pickaxe)
+        {
+            return;
+        }
+
+        var tile = new Vector2(x, y);
+        if (State.SpelunkerLastStoneDestroyedAt is not null)
+        {
+            if (tile.IsAdjacentTo(State.SpelunkerLastStoneDestroyedAt.Value))
+            {
+                State.SpelunkerClusterStreak += 1;
+            }
+            else
+            {
+                State.SpelunkerClusterStreak = 0;
+            }
+        }
+
+        State.SpelunkerLastStoneDestroyedAt = new Vector2(x, y);
     }
 
     /// <summary>Patch to remove Prospector double coal chance.</summary>

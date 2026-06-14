@@ -23,12 +23,12 @@ internal sealed class PiperButtonsChangedEvent(EventManager? manager = null)
     {
         if (Config.ModKey.JustPressed() && _temporarilyPiped is null)
         {
-            _temporarilyPiped = Game1.player.GetClosestCharacter<GreenSlime>(predicate: s => s.Get_Piped() is null);
+            _temporarilyPiped = Game1.player.GetClosestCharacter<GreenSlime>(predicate: s => !s.IsPiped());
             _temporarilyPiped?.Set_Piped(Game1.player, PipedSlime.PipingSource.Herded);
         }
         else if (Config.ModKey.GetState() == SButtonState.Released && _temporarilyPiped is not null)
         {
-            _temporarilyPiped.Set_Piped(null);
+            _temporarilyPiped.Set_Piped(null, PipedSlime.PipingSource.None);
             _temporarilyPiped = null;
         }
     }

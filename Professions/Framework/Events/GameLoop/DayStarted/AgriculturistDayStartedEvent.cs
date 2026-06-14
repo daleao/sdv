@@ -23,7 +23,7 @@ internal sealed class AgriculturistDayStartedEvent(EventManager? manager = null)
     {
         if (Game1.dayOfMonth == 1)
         {
-            Game1.game1.EnumerateAllHoeDirt().ForEach(dirt => Data.Write(dirt, DataKeys.SoilMemory, null));
+            Game1.game1.EnumerateAllHoeDirt(includePots: true).ForEach(dirt => Data.Write(dirt, DataKeys.SoilMemory, null));
         }
     }
 }

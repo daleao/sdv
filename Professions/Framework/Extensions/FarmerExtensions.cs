@@ -279,13 +279,19 @@ internal static class FarmerExtensions
                 continue;
             }
 
+            var singleBonus = Config.AnglerPriceBonusRate;
+            if (singleBonus <= 0f)
+            {
+                singleBonus = Config.AnglerPriceBonusCeiling / fishData.Count;
+            }
+
             if (id.IsBossFishId())
             {
-                bonus += 0.05f;
+                bonus += singleBonus * 5f;
             }
             else if (value[1] > maxSize)
             {
-                bonus += 0.01f;
+                bonus += singleBonus;
             }
         }
 
@@ -381,6 +387,17 @@ internal static class FarmerExtensions
             : SObject.bestQuality;
     }
 
+    /// <summary>
+    ///     Determines whether the <paramref name="farmer"/> is currently using the <see cref="Profession.Poacher"/>
+    ///     <see cref="LimitBreak"/>.
+    /// </summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if <see cref="PoacherAmbush"/> is active.</returns>
+    internal static bool IsAmbushing(this Farmer farmer)
+    {
+        return farmer.Get_LimitBreak() is PoacherAmbush { IsActive: true };
+    }
+
     /// <summary>Gets a list with all <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     /// <returns>A <see cref="List{T}"/> of <see cref="GreenSlime"/>s currently inhabiting the farm and owned <see cref="SlimeHutch"/>es.</returns>
@@ -420,9 +437,9 @@ internal static class FarmerExtensions
         return count;
     }
 
-    /// <summary>Enumerates all <see cref="PipedSlimes"/>s currently under the <paramref name="farmer"/>'s influence.</summary>
+    /// <summary>Enumerates all <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="PipedSlimes"/>s currently under the <paramref name="farmer"/>'s influence.</returns>
+    /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</returns>
     internal static IEnumerable<PipedSlime> GetPipedSlimes(this Farmer farmer)
     {
         return GreenSlime_Piped.Values
@@ -439,24 +456,125 @@ internal static class FarmerExtensions
         return GreenSlime_Piped.Values.Count(pair => ReferenceEquals(pair.Value.Piper, farmer));
     }
 
-    /// <summary>
-    ///     Determines whether the <paramref name="farmer"/> is currently using the <see cref="Profession.Poacher"/>
-    ///     <see cref="LimitBreak"/>.
-    /// </summary>
+    /// <summary>Implements the Slime Flute logic for summoning minions.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
-    /// <returns><see langword="true"/> if <see cref="PoacherAmbush"/> is active.</returns>
-    internal static bool IsAmbushing(this Farmer farmer)
+    internal static void PlaySlimeFlute(this Farmer farmer)
     {
-        return farmer.Get_LimitBreak() is PoacherAmbush { IsActive: true };
+        if (!farmer.HasProfession(Profession.Piper))
+        {
+            Game1.showRedMessage(I18n.Piper_Useflute_CantPlay());
+            return;
+        }
+
+        var inDangerZone = farmer.currentLocation.IsEnemyArea();
+        if (!inDangerZone)
+        {
+            Game1.showRedMessage(I18n.Piper_Useflute_NotHere());
+            return;
+        }
+
+        if (State.SlimeFluteCooldown > 0 && !Config.ModKey.IsDown())
+        {
+            Game1.playSound("cancel");
+            return;
+        }
+
+        farmer.faceDirection(Game1.down);
+        Game1.MusicDuckTimer = 2000f;
+        Game1.playSound("horse_flute");
+        Game1.player.FarmerSprite.animateOnce(
+        [
+                new FarmerSprite.AnimationFrame(98, 400, secondaryArm: true, flip: false),
+                new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false),
+                new FarmerSprite.AnimationFrame(100, 200, secondaryArm: true, flip: false),
+                new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false),
+                new FarmerSprite.AnimationFrame(98, 400, secondaryArm: true, flip: false),
+                new FarmerSprite.AnimationFrame(99, 200, secondaryArm: true, flip: false)
+        ]);
+
+        Game1.player.freezePause = 1500;
+
+        DelayedAction.functionAfterDelay(
+            () =>
+            {
+                var action = Config.ModKey.IsDown() ? "dismiss" : "spawn";
+
+                var numberRaised = farmer.CountRaisedSlimes();
+                if (numberRaised == 0)
+                {
+                    Game1.showRedMessage(I18n.Piper_Useflute_NothingHappened());
+                    return;
+                }
+
+                var luck = Game1.player.DailyLuck;
+                var baseNumberToSpawn = 1 + (numberRaised / 5);
+
+                int[] offsets = [-2, -1, 0, 1, 2];
+                float[] weights = [1f, 3f, 8f, 8f, 3f, 1f], skewedWeights = new float[weights.Length];
+                const float luckFactor = 6f;
+                for (var i = 0; i < weights.Length; i++)
+                {
+                    skewedWeights[i] = (float)(weights[i] * Math.Exp(luck * luckFactor * offsets[i]));
+                }
+
+                var totalWeight = skewedWeights.Sum();
+                var roll = (float)Game1.random.NextDouble() * totalWeight;
+                var rolledOffset = 0;
+                for (var i = 0; i < weights.Length; i++)
+                {
+                    roll -= weights[i];
+                    if (roll <= 0f)
+                    {
+                        rolledOffset = offsets[i];
+                        break;
+                    }
+                }
+
+                var numberToSpawn = baseNumberToSpawn + rolledOffset;
+
+                if (!Game1.IsMasterGame)
+                {
+                    Broadcaster.MessageHost(numberToSpawn.ToString(), $"PiperMinions_{action}");
+                }
+                else
+                {
+                    farmer.SpawnMinions(numberToSpawn);
+                }
+
+                farmer.CharmMinions();
+            },
+            1500);
+
+        State.SlimeFluteCooldown = 60;
+    }
+
+    /// <summary>Charms nearby <see cref="GreenSlime"/>s.</summary>
+    /// <param name="piper">The <see cref="Farmer"/>.</param>
+    internal static void CharmMinions(this Farmer piper)
+    {
+        foreach (var slime in piper.currentLocation.characters.OfType<GreenSlime>())
+        {
+            if (slime.IsCharacterWithinThreshold(piper) && !slime.IsPiped())
+            {
+                slime.Set_Piped(piper, PipedSlime.PipingSource.Charmed);
+            }
+        }
     }
 
     /// <summary>Spawns a <see cref="GreenSlime"/> minion next to the <paramref name="piper"/>.</summary>
     /// <param name="piper">The <see cref="Farmer"/>.</param>
     /// <param name="numberToSpawn">The number of minions to spawn.</param>
-    internal static void SpawnMinions(this Farmer piper, int numberToSpawn)
+    /// <returns>The <see cref="Vector2"/> tiles where minions were spawned.</returns>
+    internal static IEnumerable<Vector2> SpawnMinions(this Farmer piper, int numberToSpawn)
     {
+        if (piper.GetPipedSlimes().Count() >= numberToSpawn)
+        {
+            yield break;
+        }
+
         var location = piper.currentLocation;
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
+        var raisedSlimes = piper.GetRaisedSlimes();
         for (var i = 0; i < numberToSpawn; i++)
         {
             var condition = location switch
@@ -467,17 +585,62 @@ internal static class FarmerExtensions
             };
 
             var spawnTile = piper.ChooseFromFourtyEightNeighboringTiles(condition, location);
-            var toBeCloned = piper.GetRaisedSlimes().Choose(r);
-            var spawn = new GreenSlime(spawnTile * Game1.tileSize, toBeCloned!.color.Value)
+            GreenSlime spawn;
+            if (!raisedSlimes.TryChoose(out var chosen, r))
+            {
+                spawn = new GreenSlime(spawnTile * Game1.tileSize, 20)
+                {
+                    currentLocation = location,
+                };
+
+                goto setPiped;
+            }
+
+            int minAttack = int.MinValue, minDefense = int.MinValue, minHealth = int.MinValue;
+            int maxAttack = int.MaxValue, maxDefense = int.MaxValue, maxHealth = int.MaxValue;
+            foreach (var slime in raisedSlimes)
+            {
+                if (slime.DamageToFarmer < minAttack)
+                {
+                    minAttack = slime.DamageToFarmer;
+                }
+
+                if (slime.DamageToFarmer > maxAttack)
+                {
+                    maxAttack = slime.DamageToFarmer;
+                }
+
+                if (slime.resilience.Value < minDefense)
+                {
+                    minDefense = slime.resilience.Value;
+                }
+
+                if (slime.resilience.Value > maxDefense)
+                {
+                    maxDefense = slime.resilience.Value;
+                }
+
+                if (slime.MaxHealth < minHealth)
+                {
+                    minHealth = slime.MaxHealth;
+                }
+
+                if (slime.MaxHealth > maxHealth)
+                {
+                    maxHealth = slime.MaxHealth;
+                }
+            }
+
+            spawn = new GreenSlime(spawnTile * Game1.tileSize, chosen.color.Value)
             {
                 currentLocation = location,
-                Health = toBeCloned.Health,
-                DamageToFarmer = toBeCloned.DamageToFarmer,
-                resilience = { Value = toBeCloned.resilience.Value },
+                MaxHealth = r.Next(minHealth, maxHealth + 1),
+                DamageToFarmer = r.Next(minAttack, maxAttack + 1),
+                resilience = { Value = r.Next(minDefense, maxDefense + 1) },
             };
 
-            spawn.MaxHealth = spawn.Health;
-            switch (toBeCloned.Name)
+            spawn.Health = spawn.MaxHealth;
+            switch (chosen.Name)
             {
                 case "Tiger Slime":
                     spawn.makeTigerSlime();
@@ -487,19 +650,96 @@ internal static class FarmerExtensions
                     break;
                 default:
                 {
-                    if (toBeCloned.prismatic.Value)
+                    if (chosen.prismatic.Value)
                     {
                         spawn.prismatic.Value = true;
                         spawn.Name = "Prismatic Slime";
+                        spawn.MaxHealth *= 2;
+                        spawn.DamageToFarmer *= 2;
+                        spawn.resilience.Value *= 2;
                     }
 
                     break;
                 }
             }
 
-            location.characters.Add(spawn);
-            var piped = spawn.Set_Piped(piper);
-            State.PipedMinionMenu?.populateClickableComponentList();
+        setPiped:
+            var piped = spawn.Set_Piped(piper, PipedSlime.PipingSource.Summoned);
+
+            DelayedAction.functionAfterDelay(
+                () =>
+                {
+                    location.characters.Add(spawn);
+                    for (var j = 0; j < 8; j++)
+                    {
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
+                        .broadcastSprites(
+                            piper.currentLocation,
+                            new TemporaryAnimatedSprite(
+                                10,
+                                new Vector2(
+                                    spawnTile.X + Utility.RandomFloat(-1f, 1f),
+                                    spawnTile.Y + Utility.RandomFloat(-1f, 0f)) * 64f,
+                                Color.LimeGreen,
+                                8,
+                                flipped: false,
+                                50f)
+                            {
+                                layerDepth = 1f,
+                                motion = new Vector2(Utility.RandomFloat(-0.5f, 0.5f), Utility.RandomFloat(-0.5f, 0.5f)),
+                            });
+                    }
+                },
+                500 + Game1.random.Next(-200, 200));
+
+            yield return spawnTile;
+        }
+    }
+
+    /// <summary>Dismisses active <see cref="GreenSlime"/> minions assigned to the <paramref name="piper"/>.</summary>
+    /// <param name="piper">The <see cref="Farmer"/>.</param>
+    internal static void DismissMinions(this Farmer piper)
+    {
+        var pipedSlimes = GreenSlime_Piped.PipedSlimes.ToList();
+        for (var i = pipedSlimes.Count - 1; i > 0; i--)
+        {
+            var slime = pipedSlimes[i];
+            var piped = slime.Get_Piped();
+            if (piped?.HasHat ?? false)
+            {
+                continue;
+            }
+
+            var (tileX, tileY) = slime.Tile;
+            DelayedAction.functionAfterDelay(
+                () =>
+                {
+                    for (var j = 0; j < 8; j++)
+                    {
+                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
+                        .broadcastSprites(
+                            piper.currentLocation,
+                            new TemporaryAnimatedSprite(
+                                10,
+                                new Vector2(
+                                    tileX + Utility.RandomFloat(-1f, 1f),
+                                    tileY + Utility.RandomFloat(-1f, 0f)) * 64f,
+                                Color.LimeGreen,
+                                8,
+                                flipped: false,
+                                50f)
+                            {
+                                layerDepth = 1f,
+                                motion = new Vector2(Utility.RandomFloat(-0.5f, 0.5f), Utility.RandomFloat(-0.5f, 0.5f)),
+                            });
+                    }
+
+                    piper.currentLocation.characters.Remove(slime);
+                },
+                500 + Game1.random.Next(-200, 200));
+
+            slime.Set_Piped(null, PipedSlime.PipingSource.None);
+            pipedSlimes.RemoveAt(i);
         }
     }
 }

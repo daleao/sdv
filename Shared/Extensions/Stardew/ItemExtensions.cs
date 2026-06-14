@@ -132,4 +132,13 @@ public static class ItemExtensions
     {
         return item is not Chest && item.Name == "Weeds";
     }
+
+    /// <summary>Determines whether the <paramref name="item"/> has any of the specified context <paramref name="tags"/>.</summary>
+    /// <param name="item">The <see cref="Item"/>.</param>
+    /// <param name="tags">A collection of <see cref="string"/> context tags.</param>
+    /// <returns><see langword="true"/> if the <paramref name="item"/> has any of the specified context <paramref name="tags"/>, otherwise <see langword="false"/>.</returns>
+    public static bool HasAnyContextTag(this Item item, IEnumerable<string> tags)
+    {
+        return tags.Any(item.HasContextTag);
+    }
 }

@@ -7,7 +7,6 @@ using DaLion.Professions.Framework.UI;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using DaLion.Shared.Pathfinding;
-using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
 
@@ -16,19 +15,6 @@ using StardewModdingAPI.Utilities;
 /// <summary>Config schema for the Professions mod.</summary>
 public sealed class ProfessionsConfig
 {
-    private bool _enableGoldenOstrichMayo = true;
-    private bool _enableSlimeGoods = true;
-    private bool _immersiveDairyYield = true;
-    private int _scavengerHuntTimeLimit = 40;
-    private int _prospectorHuntTimeLimit = 80;
-    private float _anglerPriceBonusCeiling = 1f;
-    private float _conservationistTaxDeductionCeiling = 1f;
-    private float _trackingPointerScale = 1f;
-    private float _trackingPointerBobRate = 1f;
-    private bool _immersiveHeavyTapperYield = true;
-    private bool _useAsyncMinionPathfinder = true;
-    private ScreenAnchorPosition _minionHudAnchorPosition = ScreenAnchorPosition.Left;
-
     #region dropdown enums
 
     /// <summary>An anchor position relative to the player's screen.</summary>
@@ -42,22 +28,6 @@ public sealed class ProfessionsConfig
 
         /// <summary>The right edge of the screen.</summary>
         Right,
-    }
-
-    /// <summary>Where to draw a minion's health bar.</summary>
-    public enum HealthBarPosition
-    {
-        /// <summary>The health bar should appear only on the HUD.</summary>
-        Hud,
-
-        /// <summary>The health bar should appear only underneath the minion's sprite.</summary>
-        Sprite,
-
-        /// <summary>The health bar should appear both on the HUD and underneath the sprite.</summary>
-        Both,
-
-        /// <summary>The heath bar should not appear at all.</summary>
-        None,
     }
 
     #endregion dropdown enums
@@ -99,14 +69,14 @@ public sealed class ProfessionsConfig
     [GMCMPriority(100)]
     public bool EnableGoldenOstrichMayo
     {
-        get => this._enableGoldenOstrichMayo;
+        get;
         internal set
         {
-            this._enableGoldenOstrichMayo = value;
+            field = value;
             ModHelper.GameContent.InvalidateCache("Data/Machines");
             ModHelper.GameContent.InvalidateCache("Data/Objects");
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating whether large eggs and milk should yield twice the output stack instead of higher quality.</summary>
     [JsonProperty]
@@ -114,13 +84,13 @@ public sealed class ProfessionsConfig
     [GMCMPriority(101)]
     public bool ImmersiveDairyYield
     {
-        get => this._immersiveDairyYield;
+        get;
         internal set
         {
-            this._immersiveDairyYield = value;
+            field = value;
             ModHelper.GameContent.InvalidateCache("Data/Machines");
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating whether Bee House products should be affected by Producer bonuses.</summary>
     [JsonProperty]
@@ -162,26 +132,32 @@ public sealed class ProfessionsConfig
     [GMCMPriority(301)]
     public bool AllowScavengerHuntsOnFarm { get; internal set; } = false;
 
-    /// <summary>Gets the distance to the treasure tile at which the scavenger tracker disappears.</summary>
+    /// <summary>Gets a value indicating whether determines whether a Prospector Hunt target becomes progressively tougher to break.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(302)]
+    public bool TougherProspectorHunt { get; internal set; } = true;
+
+    /// <summary>Gets the distance to the treasure tile at which the scavenger tracker disappears.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.scavenger_prospector")]
+    [GMCMPriority(303)]
     [GMCMRange(1, 12)]
     public int ScavengerHuntRange { get; internal set; } = 3;
 
     /// <summary>Gets the time limit of the scavenger hunt.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(303)]
+    [GMCMPriority(304)]
     [GMCMRange(10, 60)]
     public int ScavengerHuntTimeLimit
     {
-        get => this._scavengerHuntTimeLimit;
+        get;
         internal set
         {
-            this._scavengerHuntTimeLimit = Math.Max(value, 10);
+            field = Math.Max(value, 10);
         }
-    }
+    } = 40;
 
     /// <summary>Gets the time limit of the prospector hunt.</summary>
     [JsonProperty]
@@ -190,12 +166,12 @@ public sealed class ProfessionsConfig
     [GMCMRange(10, 60)]
     public int ProspectorHuntTimeLimit
     {
-        get => this._prospectorHuntTimeLimit;
+        get;
         internal set
         {
-            this._prospectorHuntTimeLimit = Math.Max(value, 10);
+            field = Math.Max(value, 10);
         }
-    }
+    } = 80;
 
     /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
     [JsonProperty]
@@ -204,16 +180,16 @@ public sealed class ProfessionsConfig
     [GMCMRange(0.2f, 5f, 0.2f)]
     public float TrackingPointerScale
     {
-        get => this._trackingPointerScale;
+        get;
         internal set
         {
-            this._trackingPointerScale = value;
+            field = value;
             if (HudPointer.IsCreated)
             {
                 HudPointer.Instance.Scale = value;
             }
         }
-    }
+    } = 1f;
 
     /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
     [JsonProperty]
@@ -222,16 +198,16 @@ public sealed class ProfessionsConfig
     [GMCMRange(0.5f, 2f, 0.05f)]
     public float TrackingPointerBobRate
     {
-        get => this._trackingPointerBobRate;
+        get;
         internal set
         {
-            this._trackingPointerBobRate = value;
+            field = value;
             if (HudPointer.IsCreated)
             {
                 HudPointer.Instance.BobRate = value;
             }
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a value indicating whether Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
     [JsonProperty]
@@ -249,12 +225,26 @@ public sealed class ProfessionsConfig
     [GMCMRange(0.25f, 4f, 0.25f)]
     public float AnglerPriceBonusCeiling
     {
-        get => this._anglerPriceBonusCeiling;
+        get;
         internal set
         {
-            this._anglerPriceBonusCeiling = Math.Abs(value);
+            field = Math.Abs(value);
         }
-    }
+    } = 0.5f;
+
+    /// <summary>Gets the rate at which fish sold by Angler increase for every fish caught at the maximum size.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.angler_aquarist")]
+    [GMCMPriority(501)]
+    [GMCMRange(0.25f, 4f, 0.25f)]
+    public float AnglerPriceBonusRate
+    {
+        get;
+        internal set
+        {
+            field = Math.Abs(value);
+        }
+    } = -1f;
 
     /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the
@@ -262,7 +252,7 @@ public sealed class ProfessionsConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
-    [GMCMPriority(501)]
+    [GMCMPriority(502)]
     public bool ShowFishCollectionMaxIcon { get; internal set; } = true;
 
     /// <summary>
@@ -270,7 +260,7 @@ public sealed class ProfessionsConfig
     /// </summary>
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
-    [GMCMPriority(502)]
+    [GMCMPriority(503)]
     [GMCMRange(0, 24f)]
     public int AquaristFishPondCeiling { get; internal set; } = 12;
 
@@ -295,12 +285,12 @@ public sealed class ProfessionsConfig
     [GMCMRange(0.1f, 1f, 0.05f)]
     public float ConservationistTaxDeductionCeiling
     {
-        get => this._conservationistTaxDeductionCeiling;
+        get;
         internal set
         {
-            this._conservationistTaxDeductionCeiling = Math.Abs(value);
+            field = Math.Abs(value);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a value indicating whether to replace the tame Pyrotechnician with the wild Pyromaniac.</summary>
     [JsonProperty]
@@ -314,17 +304,17 @@ public sealed class ProfessionsConfig
     [GMCMPriority(700)]
     public bool ImmersiveHeavyTapperYield
     {
-        get => this._immersiveHeavyTapperYield;
+        get;
         internal set
         {
-            if (value != this._immersiveHeavyTapperYield)
+            if (value != field)
             {
                 ModHelper.GameContent.InvalidateCache("Data/BigCraftables");
             }
 
-            this._immersiveHeavyTapperYield = value;
+            field = value;
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating whether regular trees should age like fruit trees, producing higher-quality syrups when tapped.</summary>
     [JsonProperty]
@@ -338,42 +328,13 @@ public sealed class ProfessionsConfig
     [GMCMPriority(800)]
     public bool ShowEquippedAmmo { get; internal set; } = true;
 
-    /// <summary>Gets a value indicating the screen position to which the minion HUD should be anchored.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.rascal")]
-    [GMCMPriority(801)]
-    public ScreenAnchorPosition MinionHudAnchorPosition
-    {
-        get => this._minionHudAnchorPosition;
-        internal set
-        {
-            this._minionHudAnchorPosition = value;
-            if (Context.IsWorldReady)
-            {
-                State.PipedMinionMenu?.populateClickableComponentList();
-            }
-        }
-    }
-
-    /// <summary>Gets a value indicating where a minion's health bar should be drawn.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.rascal")]
-    [GMCMPriority(802)]
-    public HealthBarPosition MinionHealthBarPosition { get; internal set; }
-
-    /// <summary>Gets the x and y offsets applied to the default position of minion HUD.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.rascal")]
-    [GMCMPriority(803)]
-    public Vector2 MinionHudOffset { get; internal set; }
-
     /// <summary>Gets a value indicating whether to use the async version of the Slime Pathfinder.</summary>
     [JsonProperty]
     [GMCMSection("prfs.rascal")]
-    [GMCMPriority(804)]
+    [GMCMPriority(801)]
     public bool UseAsyncMinionPathfinder
     {
-        get => this._useAsyncMinionPathfinder;
+        get;
         internal set
         {
             if (Context.IsWorldReady)
@@ -404,22 +365,22 @@ public sealed class ProfessionsConfig
                 }
             }
 
-            this._useAsyncMinionPathfinder = value;
+            field = value;
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating whether to add slime cheese and mayo items to the game.</summary>
     [JsonProperty]
     [GMCMSection("prfs.rascal")]
-    [GMCMPriority(805)]
+    [GMCMPriority(802)]
     public bool EnableSlimeGoods
     {
-        get => this._enableSlimeGoods;
+        get;
         internal set
         {
-            this._enableSlimeGoods = value;
+            field = value;
             ModHelper.GameContent.InvalidateCache("Data/Machines");
             ModHelper.GameContent.InvalidateCache("Data/Objects");
         }
-    }
+    } = true;
 }

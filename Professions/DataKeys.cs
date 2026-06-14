@@ -26,12 +26,14 @@ internal sealed class DataKeys
     internal const string SecondMemorizedTackleUses = "SecondMemorizedTackleUses";
     internal const string MuskUses = "MuskTimesUsed";
     internal const string PersistedCoals = "PersistedCoals";
+    internal const string LastIngredientProcessed = "LastIngredientProcessed";
+    internal const string MachinePowerups = "MachinePowerups";
 
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";
     internal const string TreeDatePlanted = "DatePlanted";
     internal const string DaysLeftOutOfSeason = "DaysLeftOutOfSeason";
-    internal const string SoilMemory = "CropMemory";
+    internal const string SoilMemory = "SoilMemory";
 
     // monster keys
     internal const string BaseAttack = "BaseAttack";

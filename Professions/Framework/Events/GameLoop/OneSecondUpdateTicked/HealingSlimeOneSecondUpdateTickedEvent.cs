@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
+﻿namespace DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 
 #region using directives
 

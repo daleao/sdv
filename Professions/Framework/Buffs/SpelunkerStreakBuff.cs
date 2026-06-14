@@ -14,14 +14,14 @@ internal sealed class SpelunkerStreakBuff : StackableBuff
     internal SpelunkerStreakBuff()
         : base(
             id: ID,
-            getStacks: () => State.SpelunkerLadderStreak,
+            getStacks: () => State.SpelunkerLadderStreak / 5,
             maxStacks: int.MaxValue,
             source: "Spelunker",
             displaySource: _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")),
             duration: 17,
             iconTexture: Game1.buffsIcons,
             iconSheetIndex: SHEET_INDEX,
-            getDescription: stacks => I18n.Spelunker_Buff_Desc((stacks * 0.005f).ToString("P1")))
+            getDescription: stacks => I18n.Spelunker_Buff_Desc(stacks.ToString()))
     {
     }
 }

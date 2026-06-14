@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Shared.Extensions;
 
+using Microsoft.Xna.Framework.Graphics.PackedVector;
+
 /// <summary>Extensions for the <see cref="Random"/> class.</summary>
 public static class RandomExtensions
 {
@@ -49,18 +51,50 @@ public static class RandomExtensions
         return r.NextDouble() < p;
     }
 
-    /// <summary>Samples a random decimal value from a Gaussian distribution with specified <paramref name="mean"/> and <paramref name="stddev"/> using the Box-Muller Transform.</summary>
+    /// <summary>Samples a random decimal value from a Gaussian distribution with specified <paramref name="mu"/> and <paramref name="sigma"/> using the Box-Muller Transform.</summary>
     /// <param name="r">The <see cref="Random"/> number generator.</param>
-    /// <param name="mean">The mean of the Gaussian distribution.</param>
-    /// <param name="stddev">The standard deviation of the Gaussian distribution.</param>
+    /// <param name="mu">The mean of the Gaussian distribution.</param>
+    /// <param name="sigma">The standard deviation of the Gaussian distribution.</param>
     /// <returns>A sample from the resulting Gaussian distribution.</returns>
-    public static double NextGaussian(this Random r, double mean = 0d, double stddev = 1d)
+    public static double NextGaussian(this Random r, double mu = 0d, double sigma = 1d)
     {
         // The method requires sampling from a uniform random of (0,1]
         // but Random.NextDouble() returns a sample of [0,1).
         var u1 = 1.0 - r.NextDouble();
         var u2 = 1.0 - r.NextDouble();
-        return mean + (stddev * Math.Sqrt(-2d * Math.Log(u1)) * Math.Cos(2d * Math.PI * u2));
+        var z = Math.Sqrt(-2d * Math.Log(u1)) * Math.Cos(2d * Math.PI * u2);
+        return mu + (sigma * z);
+    }
+
+    /// <summary>Samples a random decimal value from a Skew Gaussian distribution with specified <paramref name="mu"/>, <paramref name="sigma"/> and <paramref name="alpha"/> values.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="mu">The mean of the Gaussian distribution.</param>
+    /// <param name="sigma">The standard deviation of the Gaussian distribution.</param>
+    /// <param name="alpha">The skewness of the distribution.</param>
+    /// <returns>A sample from the resulting Gaussian distribution.</returns>
+    public static double NextSkewGaussian(this Random r, double mu = 0d, double sigma = 1d, double alpha = 0d)
+    {
+        var delta = alpha / Math.Sqrt(1.0 + (alpha * alpha));
+        var u0 = r.NextGaussian();
+        var v = r.NextGaussian();
+        var u1 = (delta * u0) + (Math.Sqrt(1.0 - (delta * delta)) * v);
+        var z = u0 >= 0 ? u1 : -u1;
+        return mu + (sigma * z);
+    }
+
+    /// <summary>Samples a random decimal value from a Split Gaussian distribution, allowing for different standard deviation on either side of the mean.</summary>
+    /// <param name="r">The <see cref="Random"/> number generator.</param>
+    /// <param name="mu">The mean of the Gaussian distribution.</param>
+    /// <param name="sigmaLeft">The standard deviation to the left of mean.</param>
+    /// <param name="sigmaRight">The standard deviation to the right of the mean.</param>
+    /// <returns>A sample from the resulting Gaussian distribution.</returns>
+    public static double NextSplitGaussian(this Random r, double mu = 0.0, double sigmaLeft = 1.0, double sigmaRight = 1.0)
+    {
+        var u1 = 1.0 - r.NextDouble();
+        var u2 = 1.0 - r.NextDouble();
+        var z = Math.Sqrt(-2.0 * Math.Log(u1)) * Math.Cos(2.0 * Math.PI * u2);
+        var sigma = z < 0 ? sigmaLeft : sigmaRight;
+        return mu + (z * sigma);
     }
 
     /// <summary>Checks if at least one success occurs across multiple independent attempts with a given probability.</summary>

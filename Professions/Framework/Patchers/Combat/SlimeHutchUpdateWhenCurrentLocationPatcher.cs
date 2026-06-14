@@ -29,7 +29,7 @@ internal sealed class SlimeHutchUpdateWhenCurrentLocationPatcher : HarmonyPatche
     [UsedImplicitly]
     private static bool SlimeHutchUpdateWhenCurrentLocationPrefix(SlimeHutch __instance, GameTime time)
     {
-        if (!__instance.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper))
+        if (!__instance.ParentBuilding.GetOwner().HasProfessionOrLax(Profession.Piper) || __instance.waterSpots.Length <= 4)
         {
             return true; // run original logic
         }

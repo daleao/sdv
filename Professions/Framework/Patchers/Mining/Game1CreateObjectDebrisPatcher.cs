@@ -46,11 +46,12 @@ internal sealed class Game1CreateObjectDebrisPatcher : HarmonyPatcher
 
         try
         {
+            var quality = who.GetGemologistMineralQuality();
             Data.AppendToGemologistMineralsCollected(debris.ItemId, who);
             location.debris.Add(new Debris(
                 id,
                 new Vector2((xTile * 64) + 32, (yTile * 64) + 32),
-                who.getStandingPosition()) { itemQuality = who.GetGemologistMineralQuality() });
+                who.getStandingPosition()) { itemQuality = quality });
             return false; // don't run original logic
         }
         catch (Exception ex)

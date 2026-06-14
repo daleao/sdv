@@ -61,7 +61,7 @@ internal sealed class SetCommand(CommandHandler handler)
         var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();
         if (farmerArgs.Any())
         {
-            var fIndex = tokens.IndexOf(farmerArgs.First());
+            var fIndex = tokens.IndexOf(farmerArgs.First());    
             if (fIndex != -1 && tokens.Count > fIndex + 1 && int.TryParse(tokens[fIndex + 1], out var parsed))
             {
                 farmerIndex = parsed;

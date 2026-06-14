@@ -89,6 +89,8 @@ public sealed class ProfessionsMod : Mod
 
     internal static string SlimeCheeseId { get; private set; } = null!; // set in Entry;
 
+    internal static string SlimeFluteId { get; private set; } = null!; // set in Entry;
+
     internal static string RedBrushId { get; private set; } = null!; // set in Entry;
 
     internal static string GreenBrushId { get; private set; } = null!; // set in Entry;
@@ -143,6 +145,7 @@ public sealed class ProfessionsMod : Mod
         OstrichMayoId = $"{UniqueId}_OstrichMayo";
         SlimeMayoId = $"{UniqueId}_SlimeMayo";
         SlimeCheeseId = $"{UniqueId}_SlimeCheese";
+        SlimeFluteId = $"{UniqueId}_SlimeFlute";
         RedBrushId = $"{UniqueId}_RedPaintBrush";
         GreenBrushId = $"{UniqueId}_GreenPaintBrush";
         BlueBrushId = $"{UniqueId}_BluePaintBrush";

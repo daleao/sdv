@@ -21,7 +21,7 @@ using StardewModdingAPI.Utilities;
 
 /// <summary>Handles the logic for integrating with the Generic Mod Configuration Menu mod.</summary>
 /// <typeparam name="TGenericModConfigMenu">The type that is inheriting from this class.</typeparam>
-/// <remarks>Original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
+/// <remarks>Based on original code by <see href="https://github.com/Pathoschild">Pathoschild</see>.</remarks>
 [ModRequirement("spacechase0.GenericModConfigMenu", "GenericModConfigMenu", "1.6.0")]
 public abstract class GMCMBuilder<TGenericModConfigMenu> :
     ModIntegration<TGenericModConfigMenu, IGenericModConfigMenuApi>

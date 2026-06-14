@@ -386,7 +386,9 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.TryAdd("Red Paintbrush", 0);
                     who.craftingRecipes.TryAdd("Purple Paintbrush", 0);
                     who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
-                });
+                })
+                .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>());
 
             return;
         }
@@ -451,7 +453,9 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.Remove("Red Paintbrush");
                     who.craftingRecipes.Remove("Purple Paintbrush");
                     who.craftingRecipes.Remove("Prismatic Paintbrush");
-                });
+                })
+                .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>());
 
             return;
         }

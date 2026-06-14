@@ -2,10 +2,14 @@
 
 #region using directives
 
+using System.Reflection;
+using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using StardewValley.Menus;
 
 #endregion using directives
 
@@ -28,7 +32,7 @@ internal sealed class ObjectDrawInMenuPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Draw Piped Slime health.</summary>
+    /// <summary>Draw Prismatic Brush + Slime Flute cooldown.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void ObjectDrawInMenuPostfix(
@@ -37,27 +41,68 @@ internal sealed class ObjectDrawInMenuPatcher : HarmonyPatcher
         Vector2 location,
         float scaleSize,
         float transparency,
-        float layerDepth)
+        float layerDepth,
+        StackDrawType drawStackNumber,
+        bool drawShadow)
     {
-        if (__instance.ItemId != PrismaticBrushId)
+        if (__instance.ItemId == PrismaticBrushId)
         {
-            return;
+            var itemData = ItemRegistry.GetDataOrErrorItem(__instance.QualifiedItemId);
+            var offset = 1;
+            var sourceRect = itemData.GetSourceRect(offset, __instance.ParentSheetIndex);
+            var color = Utility.GetPrismaticColor(speedMultiplier: 2f);
+            spriteBatch.Draw(
+                itemData.GetTexture(),
+                location + new Vector2(32f, 32f),
+                sourceRect,
+                color * transparency,
+                0f,
+                new Vector2(sourceRect.Width / 2, sourceRect.Height / 2),
+                4f * scaleSize,
+                SpriteEffects.None,
+                layerDepth);
+        }
+        else if (__instance.ItemId == SlimeFluteId && State.SlimeFluteCooldown > 0)
+        {
+            var drawingAsDebris = drawShadow && drawStackNumber == StackDrawType.Hide;
+            if (drawShadow && !drawingAsDebris && (Game1.activeClickableMenu is not ShopMenu || scaleSize != 1f))
+            {
+                var coolDownLevel = State.SlimeFluteCooldown / 60f;
+                spriteBatch.Draw(Game1.staminaRect, new Rectangle((int)location.X, (int)location.Y + (64 - (int)(coolDownLevel * 64f)), 64, (int)(coolDownLevel * 64f)), Color.Red * 0.66f);
+            }
+        }
+    }
+
+    [HarmonyTranspiler]
+    [UsedImplicitly]
+    private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+    {
+        var helper = new ILHelper(original, instructions);
+
+        // Injected: + State.SlimeFluteAddedScale;
+        // After: float drawnScale = scaleSize;
+        try
+        {
+            helper
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_3)])
+                .Insert(
+                [
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(ProfessionsMod).RequirePropertyGetter(nameof(State))),
+                    new CodeInstruction(
+                        OpCodes.Callvirt,
+                        typeof(ProfessionsState).RequirePropertyGetter(nameof(State.SlimeFluteAddedScale))),
+                    new CodeInstruction(OpCodes.Add),
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed adding Slime Flute scale.\nHelper returned {ex}");
+            return null;
         }
 
-        var itemData = ItemRegistry.GetDataOrErrorItem(__instance.QualifiedItemId);
-        var offset = 1;
-        var sourceRect = itemData.GetSourceRect(offset, __instance.ParentSheetIndex);
-        var color = Utility.GetPrismaticColor(speedMultiplier: 2f);
-        spriteBatch.Draw(
-            itemData.GetTexture(),
-            location + new Vector2(32f, 32f),
-            sourceRect,
-            color * transparency,
-            0f,
-            new Vector2(sourceRect.Width / 2, sourceRect.Height / 2),
-            4f * scaleSize,
-            SpriteEffects.None,
-            layerDepth);
+        return helper.Flush();
     }
 
     #endregion harmony patches

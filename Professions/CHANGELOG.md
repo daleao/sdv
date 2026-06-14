@@ -1,16 +1,52 @@
 ﻿# PROFESSIONS Changelog
 
-## 1.4.3
+## 1.5.0
+
+### Added
+
+* Added Slimecaller Flute as a crafting recipe available to Slimed Pipers.
+    * Slimes minions are no longer summoned automatically when entering a dungeon.
+    * Players must now craft and use the Slimecaller Flute.
+    * Playing the flute will summon at least 1 Slime minion. More will be summoned depending on number of Slimes raised inside Slime Hutches (Slimes outside on the Farm will not be counted). Number of summoned Slimes is affected by Daily Luck.
+    * New: All nearby Slimes at the moment the flute is used will also be turned into minions.
+    * Playing the flute again will not summon new Slimes until the previous ones have been defeated or dismissed, but nearby enemy Slimes can always be charmed without limit.
+    * Playing the flute puts it on a 1-minute cooldown.
+    * Playing the flute while holding the Mod Key will dismiss all Slime minions. Summoned Slimes will disappear, but charmed Slimes will be released and become hostile.
+    * When Prestiged, summoned Slimes will now take on the appearance of Slimes in the hard-mode Mines.
+* Added a glow to the target stone during a Prospector Hunt to make it more noticeable.
+* Added `AnglerFishPriceBonusRate` config setting.
+* Prospector Hunt now displays leftover stones when a target is broken.
 
 ### Changed
 
-* Piper Slimes no longer need to satisfy conditions to apply the Slimed debuff onto other enemies. Summoned Slimes can now inflict this debuff even without the Prestige, and even if they are not exactly "green". This is now the default Slime ability. It will get overwritten by color-specific abilities when the Piper is prestiged. 
+* Piper Slimes no longer need to satisfy conditions to apply the Slimed debuff onto other enemies. Summoned Slimes can now inflict this debuff even without the Prestige, and even if they are not exactly "green". This is now the default Slime ability. It will get overwritten by color-specific abilities when the Piper is prestiged.
+* Piper minions no longer take the stats of a randomly selected raised Slime. Instead, they received random stats between lowest and highest of raised Slimes.
+* Increased base Slime summon scaling to 1 per 5 raised Slimes, up from 1 per 10 raised Slimes.
 * Changes to `set fishdex` command.
+* Agriculturist no longer consumes Retention Soil when a crop is planted.
+* Reduced Agriculturist growth speed bonus from 5% per memorized crop to 2.5%.
+* Skill Reset stars now begin at silver and finish at iridium, instead of starting at bronze and finishing at gold. This should avoid the confusion of the implicit assumption that there must be a fourth (iridium) level.
+* Spelunker ladder chance bonus no longer scales infinitely.
+    * Reduced to 0.25% per Mine level, down from 0.5% per Mine level.
+    * Now hard caps after 10 Mine levels (max 2.5%).
+    * New: Mining adjacent stones will also offer a non-persistent increased ladder chance. As a Spelunker, it becomes advantageous to find and focus on breaking large stone clusters, instead of every individual stone you see. Should add some strategy to mining without totally breaking it.
+    * Spelunker perks no longer affect stones destroyed by bombs.
+* Spelunker no longer automatically recovers HP and Energy by entering a safe room. Instead, players can now spend their accumulated Momentum buff to regain a proportional amount of Energy.
+* Pyrotechnician explosions no longer chain onto enemies. This is to prevent issues with out-of-bounds or invulnerable enemies.
+* Chained Reactions are now limited by the original bomb size, rather than chaining indefinitely.
 
 ### Checked
 
-* *"Tapper recipe bonus lost upon skill reset."*
-  * Could not reproduce.
+* *Tapper recipe bonus lost upon skill reset.*
+    * Could not reproduce. Probably caused by wrong patch priority (fixed below).
+* *Prospector Hunt soft locks when using bombs.*
+    * Could not reproduce. There must be a more specific condition to the soft lock than simply "use bombs".
+* *Crashes from chained explosions in Skull Caverns.*
+    * Could not reproduce. Probably caused by edge interactions with certain characters. Should be resolved by no longer chaining to characters at all.
+* *Cannot dismiss Slimes by clicking the portrait.*
+    * Could not reproduce, on a PC at least. No longer relevant since Minion HUD system is being scrapped entirely.
+* *Starfruits do not receive Agriculturist perk.*
+    * Could not reproduce. Probably a mod conflict.
 
 ### Fixed
 
@@ -20,11 +56,22 @@
 * Fixed some bad logic in colored Slime debuffs that caused Prismatic Slimes to only apply Slimed and not the other debuffs.
 * Fixed Prismarch paint brushes appearing in Collections screen.
 * Fixed stone glowing above characters in Prospector Hunt.
-* 
+* Fixed ally Slimes preventing progression in infested mine floors.
+* Fixed dismissed Slimes not fading as intended.
+* Fixed Gemologist perks not applying correctly to Item Extension resources.
+* Fixed a possible issue where Slime Minion HUD did not disappear as intended.199871
+* Fixed an issue where defeated Slime minions where not properly removed from the Slime Minion HUD.
+* Slime minions are now immune to trinkets (fixes Slimes being eaten by frog trinket, or targeted by snow trinket, etc.).
+* Fixed an issue where Barn and Coop animal capacities did not update correctly upon obtaining Progenitor / Yieldmeister professions.
 
 ### Removed
 
 * Removed manual detonation mode from Demolitionist perks.
+* Removed pond restriction on extended family fish.
+
+### Known Issues
+
+* If a Scavenger Hunt is initiated on a rainy location, the rain will overwrite the arrow indicators on the soil.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

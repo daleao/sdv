@@ -11,6 +11,20 @@ using System.Linq;
 /// <summary>Extensions for the <see cref="Dictionary{TKey,TValue}"/> class.</summary>
 public static class DictionaryExtensions
 {
+    /// <summary>Adds a range of key-value pairs to the <paramref name="dictionary"/>.</summary>
+    /// <typeparam name="TKey">The type of keys in the <paramref name="dictionary"/>.</typeparam>
+    /// <typeparam name="TValue">The type of values in the <paramref name="dictionary"/>.</typeparam>
+    /// <param name="dictionary">The <see cref="Dictionary{TKey,TValue}"/>.</param>
+    /// <param name="source">A range of <see cref="KeyValuePair{TKey, TValue}"/> to be added.</param>
+    /// <remarks>Will replace exiting key values.</remarks>
+    public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, IEnumerable<KeyValuePair<TKey, TValue>> source)
+    {
+        foreach (var kv in source)
+        {
+            dictionary[kv.Key] = kv.Value;
+        }
+    }
+
     /// <inheritdoc cref="Dictionary{TKey,TValue}.TryGetValue"/>
     public static bool TryGetValueAs<TKey, TValue, TValueAs>(
         this IDictionary<TKey, TValue> dictionary,

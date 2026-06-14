@@ -37,7 +37,7 @@ internal sealed class MonsterWithinPlayerThresholdPatcher : HarmonyPatcher
 
         try
         {
-            if (((__instance is GreenSlime slime && slime.Get_Piped() is null) || __instance is BigSlime) &&
+            if (((__instance is GreenSlime slime && !slime.IsPiped()) || __instance is BigSlime) &&
                 __instance.currentLocation.DoesAnyPlayerHereHaveProfession(Profession.Piper))
             {
                 __result = false;

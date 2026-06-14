@@ -3,7 +3,7 @@
 #region using directives
 
 using DaLion.Core.Framework.Extensions;
-using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
+using DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Classes;
@@ -64,7 +64,7 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
         }
 
         // do looting behavior
-        if (piped.Hat is not null)
+        if (piped.HasHat)
         {
             var approximatePosition =
                 Reflector.GetUnboundMethodDelegate<Func<Debris, Vector2>>(
@@ -167,13 +167,6 @@ internal sealed class GreenSlimeUpdatePatcher : HarmonyPatcher
                     monster.takeDamage(damageToSlime / 2, 0, 0, false, 1d, "hitEnemy");
                 }
 
-                if (__instance.Health > 0)
-                {
-                    __instance.setInvincibleCountdown(450);
-                    continue;
-                }
-
-                piped.BeginRespawn();
                 break;
             }
         }

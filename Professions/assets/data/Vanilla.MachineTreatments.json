@@ -1,0 +1,24 @@
+{
+    "MachineTreatments": {
+        "(BC)12": {// Keg
+            "default": "fermentation",
+            "juice_item": "glazing"
+        },
+        "(BC)15": { // Preserves Jar
+            "default": "glazing",
+            "pickle_item": "fermentation"
+        },
+        "(BC)24": { // Mayo Machine
+            "default": "sealing"
+        },
+        "(BC)16": { // Cheese Press
+            "default": "fermentation"
+        },
+        "(BC)19": { // Oil Maker
+            "default": "sealing"
+        },
+        "(BC)Dehydrator": {
+            "default": "sealing"
+        }
+    }
+}

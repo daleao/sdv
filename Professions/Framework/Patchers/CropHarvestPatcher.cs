@@ -228,7 +228,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         HoeDirt soil,
         JunimoHarvester? junimoHarvester = null)
     {
-        if (!Game1.player.HasProfessionOrLax(Profession.Agriculturist))
+        if (!Game1.player.HasProfessionOrLax(Profession.Agriculturist) || soil.Pot is not null)
         {
             return;
         }

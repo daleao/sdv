@@ -206,7 +206,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Array is empty.");
         }
 
-        r ??= new Random(Guid.NewGuid().GetHashCode());
+        r ??= Random.Shared;
         return array[r.Next(array.Length)];
     }
 }

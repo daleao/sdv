@@ -13,7 +13,6 @@ using StardewModdingAPI.Utilities;
 public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, IEquatable<ManagedEvent>
 {
     private readonly PerScreen<bool> _enabled = new(() => false);
-    private readonly bool _alwaysEnabled;
 
     /// <summary>Initializes a new instance of the <see cref="ManagedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
@@ -22,13 +21,13 @@ public abstract class ManagedEvent : IManagedEvent, IComparable<ManagedEvent>, I
         this.Manager = manager;
         if (this.GetType().HasAttribute<AlwaysEnabledEventAttribute>())
         {
-            this._alwaysEnabled = true;
+            this.IsEnabled = true;
         }
     }
 
     /// <inheritdoc />
     /// <remarks>Overriding this property may prevent <see cref="Enable"/> and <see cref="Disable"/> from doing anything.</remarks>
-    public virtual bool IsEnabled => this._enabled.Value || this._alwaysEnabled;
+    public virtual bool IsEnabled => this._enabled.Value || field;
 
     /// <summary>Gets the <see cref="EventManager"/> instance that manages this event.</summary>
     protected EventManager Manager { get; }

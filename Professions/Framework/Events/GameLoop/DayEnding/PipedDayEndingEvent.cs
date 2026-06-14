@@ -24,8 +24,11 @@ internal sealed class PipedDayEndingEvent(EventManager? manager = null)
         {
             if (pair.Value.Source != PipedSlime.PipingSource.Hat)
             {
-                pair.Key.Set_Piped(null);
+                pair.Key.Set_Piped(null, PipedSlime.PipingSource.None);
             }
         });
+
+        GreenSlime_Piped.PipedSlimes.Clear();
+        GreenSlime_Piped.Values.Clear();
     }
 }

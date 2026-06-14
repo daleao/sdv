@@ -1,8 +1,9 @@
-﻿namespace DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicket;
+﻿namespace DaLion.Professions.Framework.Events.GameLoop.OneSecondUpdateTicked;
 
 #region using directives
 
 using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
 
@@ -11,6 +12,8 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="PipedSelfDestructOneSecondUpdateTickedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
+[ImplicitIgnore]
+// Deprecated
 internal sealed class PipedSelfDestructOneSecondUpdateTickedEvent(EventManager? manager = null)
     : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
@@ -32,7 +35,7 @@ internal sealed class PipedSelfDestructOneSecondUpdateTickedEvent(EventManager? 
 
         foreach (var (_, piped) in GreenSlime_Piped.Values)
         {
-            if (piped.Source is PipedSlime.PipingSource.Summoned)
+            if (piped.Source is PipedSlime.PipingSource.Summoned or PipedSlime.PipingSource.Charmed)
             {
                 piped.Burst();
             }

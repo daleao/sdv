@@ -10,29 +10,25 @@ using Microsoft.Xna.Framework;
 /// <summary>The ephemeral runtime state for Tools.</summary>
 internal sealed class CombatState
 {
-    private ComboHitStep _queuedStep;
-    private ComboHitStep _currentStep;
-    private bool _animating;
-
     internal bool HoldingWeaponSwing { get; set; }
 
     internal ComboHitStep QueuedHitStep
     {
-        get => this._queuedStep;
+        get;
         set
         {
             Log.D($"[Combo]: Queued {value}");
-            this._queuedStep = value;
+            field = value;
         }
     }
 
     internal ComboHitStep CurrentHitStep
     {
-        get => this._currentStep;
+        get;
         set
         {
             Log.D($"[Combo]: Doing {value}");
-            this._currentStep = value;
+            field = value;
         }
     }
 
@@ -40,7 +36,7 @@ internal sealed class CombatState
 
     internal bool FarmerAnimating
     {
-        get => this._animating;
+        get;
         set
         {
             if (value)
@@ -52,7 +48,7 @@ internal sealed class CombatState
                 EventManager.Enable<ComboResetUpdateTickedEvent>();
             }
 
-            this._animating = value;
+            field = value;
         }
     }
 

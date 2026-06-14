@@ -84,7 +84,7 @@ public sealed class VanillaSkill : SmartEnum<Skill>, ISkill
     public int Id => this.Value;
 
     /// <inheritdoc />
-    public string DisplayName { get; protected set; }
+    public string DisplayName { get; private set; }
 
     /// <inheritdoc />
     public int CurrentExp => Game1.player.experiencePoints[this.Value];

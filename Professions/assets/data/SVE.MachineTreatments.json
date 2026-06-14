@@ -1,0 +1,10 @@
+{
+    "MachineTreatments": {
+        "(BC)FlashShifter.StardewValleyExpandedCP_Butter_Churner": {
+            "default": "glazing"
+        },
+        "(BC)FlashShifter.StardewValleyExpandedCP_Yarn_Spooler": {
+            "default": "none"
+        }
+    }
+}

@@ -10,18 +10,6 @@ using Newtonsoft.Json;
 /// <summary>The Skill-related settings for PRFS.</summary>
 public sealed class SkillsConfig
 {
-    private readonly Dictionary<string, float> _baseSkillExpMultipliers = new()
-    {
-        { "Farming", 1f },
-        { "Fishing", 1f },
-        { "Foraging", 1f },
-        { "Mining", 1f },
-        { "Combat", 1f },
-    };
-
-    private float _skillResetCostMultiplier = 1f;
-    private float _skillExpMultiplierPerReset = 1.1f;
-
     /// <summary>Gets a value indicating whether the player can reset their skills to gain a new profession.</summary>
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
@@ -35,12 +23,12 @@ public sealed class SkillsConfig
     [GMCMRange(0f, 3f)]
     public float SkillResetCostMultiplier
     {
-        get => this._skillResetCostMultiplier;
+        get;
         internal set
         {
-            this._skillResetCostMultiplier = Math.Abs(value);
+            field = Math.Abs(value);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
@@ -61,12 +49,12 @@ public sealed class SkillsConfig
     [GMCMRange(0.5f, 2f, 0.05f)]
     public float SkillExpMultiplierPerReset
     {
-        get => this._skillExpMultiplierPerReset;
+        get;
         internal set
         {
-            this._skillExpMultiplierPerReset = Math.Max(value, 0.5f);
+            field = Math.Max(value, 0.5f);
         }
-    }
+    } = 1.1f;
 
     /// <summary>Gets a multiplier that will be applied to all skill experience gained from the start of the game.</summary>
     [JsonProperty]
@@ -76,18 +64,25 @@ public sealed class SkillsConfig
     [GMCMOverride(typeof(ProfessionsConfigMenu), "SkillExpMultipliersOverride")]
     public Dictionary<string, float> BaseMultipliers
     {
-        get => this._baseSkillExpMultipliers;
+        get;
         internal set
         {
-            if (value == this._baseSkillExpMultipliers)
+            if (value == field)
             {
                 return;
             }
 
             foreach (var pair in value)
             {
-                this._baseSkillExpMultipliers[pair.Key] = Math.Abs(pair.Value);
+                field[pair.Key] = Math.Abs(pair.Value);
             }
         }
-    }
+    } = new()
+    {
+        { "Farming", 1f },
+        { "Fishing", 1f },
+        { "Foraging", 1f },
+        { "Mining", 1f },
+        { "Combat", 1f },
+    };
 }

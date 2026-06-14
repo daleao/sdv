@@ -14,6 +14,7 @@ internal sealed class ChainedExplosion
     private readonly GameLocation _location;
     private readonly int _damage;
     private readonly Farmer _pyro;
+    private int _iterations;
 
     internal ChainedExplosion(GameLocation location, Vector2 origin, int radius, int damage, Farmer pyro)
     {
@@ -23,18 +24,19 @@ internal sealed class ChainedExplosion
         HashSet<Vector2> chained = [];
         foreach (var candidate in new CircleTileGrid(origin, radius + 2) - new CircleTileGrid(origin, radius))
         {
-            if (this._location.Objects.ContainsKey(candidate) || this._location.characters.Any(c => c.Tile == candidate))
+            if (this._location.Objects.ContainsKey(candidate))
             {
                 chained.Add(candidate);
             }
         }
 
         this._tilesToExplode.Enqueue(chained);
+        this._iterations = radius - 1;
     }
 
     internal bool Update()
     {
-        if (!this._tilesToExplode.TryDequeue(out var toExplode))
+        if (!this._tilesToExplode.TryDequeue(out var toExplode) || this._iterations-- <= 0)
         {
             return true;
         }
@@ -50,7 +52,7 @@ internal sealed class ChainedExplosion
             this._location.explode(tile, 0, this._pyro, true, this._damage);
             foreach (var candidate in new CircleTileGrid(tile, 2).Tiles)
             {
-                if (this._location.Objects.ContainsKey(candidate) || this._location.characters.Any(c => c.Tile == candidate))
+                if (this._location.Objects.ContainsKey(candidate))
                 {
                     chained.Add(candidate);
                 }

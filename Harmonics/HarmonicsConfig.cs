@@ -13,12 +13,6 @@ using Newtonsoft.Json;
 /// <summary>Config schema for the Ponds mod.</summary>
 public sealed class HarmonicsConfig
 {
-    private bool _craftableGemstoneRings = true;
-    private bool _audibleGemstones = true;
-    private uint _chordSoundDuration = 1000;
-    private bool _colorfulResonances = true;
-    private LightsourceTexture _resonanceLightsourceTexture = LightsourceTexture.Patterned;
-
     #region dropdown enums
 
     /// <summary>The texture that should be used as the resonance light source.</summary>
@@ -41,28 +35,28 @@ public sealed class HarmonicsConfig
     [GMCMPriority(0)]
     public bool CraftableGemstoneRings
     {
-        get => this._craftableGemstoneRings;
+        get;
         internal set
         {
-            if (value == this._craftableGemstoneRings)
+            if (value == field)
             {
                 return;
             }
 
-            this._craftableGemstoneRings = value;
+            field = value;
             ModHelper.GameContent.InvalidateCacheAndLocalized("Data/CraftingRecipes");
             ModHelper.GameContent.InvalidateCacheAndLocalized("Maps/springobjects");
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating whether gemstone frequencies can be heard.</summary>
     [JsonProperty]
     [GMCMPriority(1)]
     public bool AudibleGemstones
     {
-        get => this._audibleGemstones && Game1.options.soundVolumeLevel > 0f;
-        internal set => this._audibleGemstones = value;
-    }
+        get => field && Game1.options.soundVolumeLevel > 0f;
+        internal set;
+    } = true;
 
     /// <summary>Gets the duration of the chord sound cue, in milliseconds.</summary>
     [JsonProperty]
@@ -70,56 +64,56 @@ public sealed class HarmonicsConfig
     [GMCMRange(500, 2500, 100)]
     public uint ChordSoundDuration
     {
-        get => this._chordSoundDuration;
+        get;
         internal set
         {
-            this._chordSoundDuration = value;
+            field = value;
             if (Context.IsWorldReady)
             {
                 Chord.RecalculateLinSpace();
             }
         }
-    }
+    } = 1000;
 
     /// <summary>Gets a value indicating whether the resonance glow should inherit the root note's color.</summary>
     [JsonProperty]
     [GMCMPriority(3)]
     public bool ColorfulResonances
     {
-        get => this._colorfulResonances;
+        get;
         internal set
         {
-            if (value == this._colorfulResonances)
+            if (value == field)
             {
                 return;
             }
 
-            this._colorfulResonances = value;
+            field = value;
             if (Context.IsWorldReady)
             {
                 State.ResonantChords.Values.ForEach(chord => chord.ResetLightSource());
             }
         }
-    }
+    } = true;
 
     /// <summary>Gets a value indicating the texture that should be used as the resonance light source.</summary>
     [JsonProperty]
     [GMCMPriority(4)]
     public LightsourceTexture ResonanceLightsourceTexture
     {
-        get => this._resonanceLightsourceTexture;
+        get;
         internal set
         {
-            if (value == this._resonanceLightsourceTexture)
+            if (value == field)
             {
                 return;
             }
 
-            this._resonanceLightsourceTexture = value;
+            field = value;
             if (Context.IsWorldReady)
             {
                 State.ResonantChords.Values.ForEach(chord => chord.ResetLightSource());
             }
         }
-    }
+    } = LightsourceTexture.Patterned;
 }

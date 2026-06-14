@@ -12,35 +12,6 @@ using Newtonsoft.Json;
 /// <summary>Config schema for the Taxes mod.</summary>
 public sealed class TaxesConfig
 {
-    private readonly Dictionary<string, float> _deductibleExtras = new()
-    {
-        { "Example Object and Percentage", 1f },
-    };
-
-    private float _incomeLatenessFine = 0.05f;
-    private float _deductibleAnimalExpenses = 1f;
-    private float _deductibleBuildingExpenses = 1f;
-    private float _deductibleSeedExpenses = 1f;
-    private float _deductibleToolExpenses = 1f;
-    private float _propertyLatenessFine = 0.15f;
-    private float _unusedTileTaxRate = 0.05f;
-    private float _usedTileTaxRate = 0.02f;
-    private float _buildingTaxRate = 0.1f;
-    private float _annualInterest = 0.72f;
-    private float _defaultArtisanValueCropMultiplier = 2f;
-    private float _defaultArtisanValueProduceMultiplier = 1.5f;
-    private int _baselineUnusedTileCost = 15;
-    private Dictionary<int, float> _taxRatePerIncomeBracket = new()
-    {
-        { 9950, 0.1f },
-        { 40525, 0.12f },
-        { 86375, 0.22f },
-        { 164925, 0.24f },
-        { 209425, 0.32f },
-        { 523600, 0.35f },
-        { int.MaxValue, 0.37f },
-    };
-
     #region income
 
     /// <summary>Gets the taxable income percentage at each income threshold.</summary>
@@ -50,10 +21,10 @@ public sealed class TaxesConfig
     [GMCMOverride(typeof(TaxesConfigMenu), "TaxByIncomeBracketOverride")]
     public Dictionary<int, float> TaxRatePerIncomeBracket
     {
-        get => this._taxRatePerIncomeBracket;
+        get;
         internal set
         {
-            if (value == this._taxRatePerIncomeBracket)
+            if (value == field)
             {
                 return;
             }
@@ -70,13 +41,22 @@ public sealed class TaxesConfig
                 previous = (pair.Key, pair.Value);
             }
 
-            this._taxRatePerIncomeBracket = value;
+            field = value;
             if (Context.IsWorldReady)
             {
                 RevenueService.TaxByIncomeBracket = value.ToImmutableDictionary();
             }
         }
-    }
+    } = new()
+    {
+        { 9950, 0.1f },
+        { 40525, 0.12f },
+        { 86375, 0.22f },
+        { 164925, 0.24f },
+        { 209425, 0.32f },
+        { 523600, 0.35f },
+        { int.MaxValue, 0.37f },
+    };
 
     /// <summary>Gets the percentage of gold spent on animal purchases and supplies that should be tax-deductible.</summary>
     [JsonProperty]
@@ -85,12 +65,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleAnimalExpenses
     {
-        get => this._deductibleAnimalExpenses;
+        get;
         internal set
         {
-            this._deductibleAnimalExpenses = Math.Clamp(value, 0f, 1f);
+            field = Math.Clamp(value, 0f, 1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets the percentage of gold spent constructing farm buildings that should be tax-deductible.</summary>
     [JsonProperty]
@@ -99,12 +79,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleBuildingExpenses
     {
-        get => this._deductibleBuildingExpenses;
+        get;
         internal set
         {
-            this._deductibleBuildingExpenses = Math.Clamp(value, 0f, 1f);
+            field = Math.Clamp(value, 0f, 1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets the percentage of gold spent on seed purchases that should be tax-deductible.</summary>
     [JsonProperty]
@@ -113,12 +93,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleSeedExpenses
     {
-        get => this._deductibleSeedExpenses;
+        get;
         internal set
         {
-            this._deductibleSeedExpenses = Math.Clamp(value, 0f, 1f);
+            field = Math.Clamp(value, 0f, 1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets the percentage of gold spent on tool purchases and upgrades that should be tax-deductible.</summary>
     [JsonProperty]
@@ -127,12 +107,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float DeductibleToolExpenses
     {
-        get => this._deductibleToolExpenses;
+        get;
         internal set
         {
-            this._deductibleToolExpenses = Math.Clamp(value, 0f, 1f);
+            field = Math.Clamp(value, 0f, 1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a dictionary of extra objects that should be tax-deductible.</summary>
     [JsonProperty]
@@ -143,15 +123,15 @@ public sealed class TaxesConfig
     [GMCMIgnore]
     public Dictionary<string, float> DeductibleExtras
     {
-        get => this._deductibleExtras;
+        get;
         internal set
         {
             foreach (var pair in value)
             {
-                this._deductibleExtras[pair.Key] = Math.Clamp(pair.Value, 0f, 1f);
+                field[pair.Key] = Math.Clamp(pair.Value, 0f, 1f);
             }
         }
-    }
+    } = new() { { "Example Object and Percentage", 1f }, };
 
     /// <summary>Gets or sets the day of the season when income taxes are charged.</summary>
     [JsonProperty]
@@ -167,12 +147,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float IncomeTaxLatenessFine
     {
-        get => this._incomeLatenessFine;
+        get;
         internal set
         {
-            this._incomeLatenessFine = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.05f;
 
     #endregion income
 
@@ -185,12 +165,12 @@ public sealed class TaxesConfig
     [GMCMRange(0, 100, 5)]
     public int BaselineUnusedTileCost
     {
-        get => this._baselineUnusedTileCost;
+        get;
         internal set
         {
-            this._baselineUnusedTileCost = Math.Max(value, 0);
+            field = Math.Max(value, 0);
         }
-    }
+    } = 15;
 
     /// <summary>Gets the property tax rate of an unused tile.</summary>
     [JsonProperty]
@@ -199,12 +179,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float UnusedTileTaxRate
     {
-        get => this._unusedTileTaxRate;
+        get;
         internal set
         {
-            this._unusedTileTaxRate = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.05f;
 
     /// <summary>Gets the property tax rate of a tile used for agriculture or livestock.</summary>
     [JsonProperty]
@@ -213,12 +193,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float UsedTileTaxRate
     {
-        get => this._usedTileTaxRate;
+        get;
         internal set
         {
-            this._usedTileTaxRate = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.02f;
 
     /// <summary>Gets the property tax rate of a tile used for real-estate.</summary>
     [JsonProperty]
@@ -227,12 +207,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float BuildingTaxRate
     {
-        get => this._buildingTaxRate;
+        get;
         internal set
         {
-            this._buildingTaxRate = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.1f;
 
     /// <summary>Gets a value indicating whether magical buildings are exempted from property taxes.</summary>
     [JsonProperty]
@@ -254,12 +234,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 1f, 0.01f)]
     public float PropertyTaxLatenessFine
     {
-        get => this._propertyLatenessFine;
+        get;
         internal set
         {
-            this._propertyLatenessFine = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.15f;
 
     #endregion property
 
@@ -275,12 +255,12 @@ public sealed class TaxesConfig
     [GMCMRange(0f, 2f, 0.01f)]
     public float AnnualInterest
     {
-        get => this._annualInterest;
+        get;
         internal set
         {
-            this._annualInterest = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 0.72f;
 
     /// <summary>Gets a multiplier which is used to estimate the value of artisan products derived from crops.</summary>
     [JsonProperty]
@@ -289,12 +269,12 @@ public sealed class TaxesConfig
     [GMCMRange(1f, 3f, 0.01f)]
     public float DefaultArtisanValueCropMultiplier
     {
-        get => this._defaultArtisanValueCropMultiplier;
+        get;
         internal set
         {
-            this._defaultArtisanValueCropMultiplier = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 2f;
 
     /// <summary>Gets a multiplier which is used to estimate the value of artisan products derived from animal produce.</summary>
     [JsonProperty]
@@ -303,12 +283,12 @@ public sealed class TaxesConfig
     [GMCMRange(1f, 3f, 0.01f)]
     public float DefaultArtisanValueProduceMultiplier
     {
-        get => this._defaultArtisanValueProduceMultiplier;
+        get;
         internal set
         {
-            this._defaultArtisanValueProduceMultiplier = Math.Max(value, 0f);
+            field = Math.Max(value, 0f);
         }
-    }
+    } = 1.5f;
 
     #endregion other
 }

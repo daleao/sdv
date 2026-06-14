@@ -33,7 +33,7 @@ internal sealed class GreenSlimeCollisionWithFarmerBehaviorPatcher : HarmonyPatc
     [UsedImplicitly]
     private static void GreenSlimeCollisionWithFarmerBehaviorPostfix(GreenSlime __instance)
     {
-        __instance.farmerPassesThrough = __instance.farmerPassesThrough || __instance.Get_Piped() != null;
+        __instance.farmerPassesThrough = __instance.farmerPassesThrough || __instance.IsPiped();
         if (!__instance.currentLocation.IsEnemyArea())
         {
             return;

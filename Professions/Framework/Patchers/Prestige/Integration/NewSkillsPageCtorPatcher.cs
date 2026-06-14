@@ -53,6 +53,12 @@ internal sealed class NewSkillsPageCtorPatcher : HarmonyPatcher
                         .Max(skill => skill.CurrentLevel);
                     var addedWidth = (maxResets + (highestLevel >= 10 ? 2 : 1)) * (int)Textures.STARS_SCALE * 4;
                     __instance.width += addedWidth;
+                    if (LocalizedContentManager.CurrentLanguageCode == LocalizedContentManager.LanguageCode.ru)
+                    {
+                        // unknown compensation...
+                        // doesn't apply to no reset case anyway... don't know where the offset is coming from
+                    }
+
                     ___upButton.bounds.X += addedWidth;
                     ___downButton.bounds.X += addedWidth;
                     ___scrollBar.bounds.X += addedWidth;

@@ -3,6 +3,7 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -24,5 +25,20 @@ internal sealed class ProspectorHuntUpdateTickedEvent(EventManager? manager = nu
         {
             Game1.gameTimeInterval = 0;
         }
+
+        if (State.ProspectorHunt.TreasureStone is not { } stone)
+        {
+            return;
+        }
+
+        var lightSource = Utility.getLightSource(stone.lightSource.Id);
+        if (lightSource is null)
+        {
+            return;
+        }
+
+        var t = (float)Math.Sin(Game1.currentGameTime.TotalGameTime.TotalSeconds * 2d * Math.PI);
+        var radius = MathHelper.Lerp(0.5f, 0.55f, t);
+        lightSource.radius.Value = radius;
     }
 }

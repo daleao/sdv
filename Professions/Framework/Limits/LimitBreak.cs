@@ -8,6 +8,7 @@ using DaLion.Professions.Framework.Limits.Events;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -18,7 +19,6 @@ public abstract class LimitBreak : ILimitBreak
     public const double BASE_MAX_CHARGE = 100d;
 
     private int _activationTimer = ActivationTimerMax;
-    private double _chargeValue;
 
     /// <summary>Initializes a new instance of the <see cref="LimitBreak"/> class.</summary>
     /// <param name="id">The <see cref="LimitBreak"/> ID, which equals the corresponding combat profession index.</param>
@@ -81,7 +81,7 @@ public abstract class LimitBreak : ILimitBreak
     /// <inheritdoc />
     public double ChargeValue
     {
-        get => this._chargeValue;
+        get;
         set
         {
             if (!Config.Masteries.EnableLimitBreaks)
@@ -104,10 +104,10 @@ public abstract class LimitBreak : ILimitBreak
                 }
 
                 this.OnEmptied();
-                this._chargeValue = 0;
+                field = 0;
             }
 
-            var delta = value - this._chargeValue;
+            var delta = value - field;
             if (Math.Abs(delta) < 0.01)
             {
                 return;
@@ -116,8 +116,8 @@ public abstract class LimitBreak : ILimitBreak
             if (delta > 0)
             {
                 delta *= MaxCharge / BASE_MAX_CHARGE * Config.Masteries.LimitGainFactor;
-                value = Math.Min(this._chargeValue + delta, MaxCharge);
-                if (this._chargeValue == 0d)
+                value = Math.Min(field + delta, MaxCharge);
+                if (field == 0d)
                 {
                     this.OnChargeInitiated(value);
                 }
@@ -128,9 +128,9 @@ public abstract class LimitBreak : ILimitBreak
                 }
             }
 
-            if (!value.Approx(this._chargeValue))
+            if (!value.Approx(field))
             {
-                this.OnChargeChanged(this._chargeValue, value);
+                this.OnChargeChanged(field, value);
             }
 
             if (value > 0)
@@ -138,7 +138,7 @@ public abstract class LimitBreak : ILimitBreak
                 EventManager.Enable<LimitGaugeRenderingHudEvent>();
             }
 
-            this._chargeValue = value;
+            field = value;
         }
     }
 
@@ -146,7 +146,7 @@ public abstract class LimitBreak : ILimitBreak
     public bool IsActive { get; protected set; }
 
     /// <inheritdoc />
-    public virtual bool CanActivate => !this.IsActive && this.ChargeValue >= MaxCharge;
+    public virtual bool CanActivate => !this.IsActive && this.ChargeValue >= MaxCharge && this.ActivationCondition();
 
     /// <inheritdoc />
     public bool IsGaugeVisible => LimitGauge.IsVisible;
@@ -347,5 +347,12 @@ public abstract class LimitBreak : ILimitBreak
     protected void OnEmptied()
     {
         Emptied?.Invoke(this, new LimitEmptiedEventArgs(Game1.player));
+    }
+
+    /// <summary>Reserved from implementation-specific conditions.</summary>
+    /// <returns><see langword="true"/> or <see langword="false"/>.</returns>
+    protected virtual bool ActivationCondition()
+    {
+        return Game1.player.CurrentTool is MeleeWeapon or Slingshot;
     }
 }

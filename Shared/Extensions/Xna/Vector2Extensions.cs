@@ -217,6 +217,15 @@ public static class Vector2Extensions
         }
     }
 
+    /// <summary>Checks whether two vectors are adjacent in an 8-connected space.</summary>
+    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="other">Some other <see cref="Vector2"/>.</param>
+    /// <returns><see langword="true"/> if <paramref name="vector"/> and <paramref name="other"/> are adjacent in an 8-connected space, otherwise <see langword="false"/>.</returns>
+    public static bool IsAdjacentTo(this Vector2 vector, Vector2 other)
+    {
+        return Math.Abs(vector.X - other.X) <= 1 && Math.Abs(vector.Y - other.Y) <= 1 && vector != other;
+    }
+
     /// <summary>Gets the horizontal and vertical unit vector projections of this <paramref name="vector"></paramref>.</summary>
     /// <param name="vector">The <see cref="Vector2"/>.</param>
     /// <returns>Two unit vectors which point in the same direction as the components of <paramref name="vector"/>.</returns>

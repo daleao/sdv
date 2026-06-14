@@ -10,18 +10,15 @@ using Newtonsoft.Json;
 /// <summary>Config schema for the Ponds mod.</summary>
 public sealed class PondsConfig
 {
-    private int _daysUntilAlgaeSpawn = 3;
-    private float _roeProductionChanceMultiplier = 1f;
-
     /// <summary>Gets the number of days until an empty pond will begin spawning algae.</summary>
     [JsonProperty]
     [GMCMPriority(0)]
     [GMCMRange(1, 14)]
     public int DaysUntilAlgaeSpawn
     {
-        get => this._daysUntilAlgaeSpawn;
-        internal set => this._daysUntilAlgaeSpawn = Math.Max(value, 1);
-    }
+        get;
+        internal set => field = Math.Max(value, 1);
+    } = 3;
 
     /// <summary>Gets the multiplier to a fish's base chance to produce roe each day.</summary>
     [JsonProperty]
@@ -29,9 +26,9 @@ public sealed class PondsConfig
     [GMCMRange(0.2f, 5f, 0.2f)]
     public float RoeProductionChanceMultiplier
     {
-        get => this._roeProductionChanceMultiplier;
-        internal set => this._roeProductionChanceMultiplier = Math.Max(value, 0.1f);
-    }
+        get;
+        internal set => field = Math.Max(value, 0.1f);
+    } = 1f;
 
     /// <summary>Gets a value indicating whether to add Fish Pond data for legendary fish.</summary>
     [JsonProperty]

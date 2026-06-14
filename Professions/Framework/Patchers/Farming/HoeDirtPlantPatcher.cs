@@ -30,7 +30,7 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void HoeDirtPlantPostfix(HoeDirt __instance, ref bool __result, string itemId, Farmer who, bool isFertilizer)
     {
-        if (!__result || !who.HasProfessionOrLax(Profession.Agriculturist, true) || __instance.crop is not { } crop)
+        if (!__result || !who.HasProfessionOrLax(Profession.Agriculturist, true) || __instance.crop is not { } crop || __instance.Pot is not null)
         {
             return;
         }
@@ -47,7 +47,7 @@ internal sealed class HoeDirtPlantPatcher : HarmonyPatcher
         if (daysLeftOutOfSeason > 0)
         {
             Data.Write(crop, DataKeys.DaysLeftOutOfSeason, daysLeftOutOfSeason.ToString());
-            __instance.fertilizer.Value = null;
+            //__instance.fertilizer.Value = null;
         }
 
         __result = true;

@@ -73,8 +73,9 @@ internal static class Game1Extensions
 
     /// <summary>Enumerates all <see cref="HoeDirt"/> instances currently in any location.</summary>
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="includePots">Whether to include Garden Pots.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="HoeDirt"/> instances in the game world.</returns>
-    internal static IEnumerable<HoeDirt> EnumerateAllHoeDirt(this Game1 game1)
+    internal static IEnumerable<HoeDirt> EnumerateAllHoeDirt(this Game1 game1, bool includePots = false)
     {
         foreach (var location in Game1.locations)
         {
@@ -83,6 +84,14 @@ internal static class Game1Extensions
                 if (feature is HoeDirt dirt)
                 {
                     yield return dirt;
+                }
+            }
+
+            foreach (var @object in location.Objects.Values)
+            {
+                if (@object is IndoorPot pot)
+                {
+                    yield return pot.hoeDirt.Value;
                 }
             }
         }

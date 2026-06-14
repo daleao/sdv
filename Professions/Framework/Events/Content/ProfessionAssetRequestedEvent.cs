@@ -13,6 +13,7 @@ using DaLion.Shared.Extensions.SMAPI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StardewModdingAPI.Events;
 using StardewValley.GameData;
 using StardewValley.GameData.BigCraftables;
@@ -61,6 +62,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_LegendaryFishPondData", new DictionaryProvider<string, List<FishPondData>>(ProvideLegendaryFishPondData));
         this.Provide(
+            $"{UniqueId}_MachineTreatments", new DictionaryProvider<string, MachineTreatmentRules>(ProvideMachineTreatmentRules));
+        this.Provide(
             $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
         this.Provide(
@@ -68,7 +71,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             new ModTextureProvider(() => "assets/sprites/max.png"));
         this.Provide(
             $"{UniqueId}_PrestigeRibbons",
-            new ModTextureProvider(() => "assets/sprites/StackedStars.png"));
+            new ModTextureProvider(() => "assets/sprites/StackedStars_v2.png"));
         this.Provide(
             $"{UniqueId}_ProfessionIcons",
             new ModTextureProvider(() => $"assets/sprites/professions_{Config.Masteries.GoldSpritePalette}.png"));
@@ -99,6 +102,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_Minion",
             new ModTextureProvider(() => "assets/sprites/minion.png"));
+        this.Provide(
+            $"{UniqueId}_Flute",
+            new ModTextureProvider(() => "assets/sprites/SlimeFlute.png"));
         this.Provide(
             $"{UniqueId}_Brushes",
             new ModTextureProvider(() => "assets/sprites/PaintBrush.png"));
@@ -162,6 +168,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     {
         var data = asset.AsDictionary<string, string>().Data;
 
+        var slimeFluteRecipe =
+            $"{QIDs.Slime} 50 {QIDs.BoneFlute} 1 {QIDs.RefineQuartz} 2/Field/{RedBrushId}/false/none/";
         var redBrushRecipe =
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.RedSlimeEgg} 1/Field/{RedBrushId}/false/none/";
         var greenBrushRecipe =
@@ -173,6 +181,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         var prismaticBrushRecipe =
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PrismaticJelly} 1/Field/{PrismaticBrushId}/false/none/";
 
+        data["Slime Flute"] = slimeFluteRecipe;
         data["Red Paintbrush"] = redBrushRecipe;
         data["Green Paintbrush"] = greenBrushRecipe;
         data["Blue Paintbrush"] = blueBrushRecipe;
@@ -644,13 +653,31 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             };
         }
 
+        data[$"{SlimeFluteId}"] = new ObjectData
+        {
+            Name = "Slime Flute",
+            DisplayName = I18n.Objects_Slimeflute_Name(),
+            Description = I18n.Objects_Slimeflute_Desc(),
+            Type = "Basic",
+            Category = (int)ObjectCategory.None,
+            Price = 100,
+            Texture = $"{UniqueId}_Flute",
+            SpriteIndex = 0,
+            Edibility = -300,
+            ContextTags =
+            [
+                "color_green",
+            ],
+            ExcludeFromShippingCollection = true,
+        };
+
         data[$"{RedBrushId}"] = new ObjectData
         {
             Name = "Red Paintbrush",
             DisplayName = I18n.Objects_Redbrush_Name(),
             Description = I18n.Objects_Redbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
+            Category = (int)ObjectCategory.None,
             Price = 250,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 0,
@@ -669,7 +696,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             DisplayName = I18n.Objects_Greenbrush_Name(),
             Description = I18n.Objects_Greenbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
+            Category = (int)ObjectCategory.None,
             Price = 100,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 1,
@@ -688,7 +715,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             DisplayName = I18n.Objects_Bluebrush_Name(),
             Description = I18n.Objects_Bluebrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
+            Category = (int)ObjectCategory.None,
             Price = 175,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 2,
@@ -707,7 +734,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             DisplayName = I18n.Objects_Purplebrush_Name(),
             Description = I18n.Objects_Purplebrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
+            Category = (int)ObjectCategory.None,
             Price = 500,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 3,
@@ -726,7 +753,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             DisplayName = I18n.Objects_Prismaticbrush_Name(),
             Description = I18n.Objects_Prismaticbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.ArtisanGoods,
+            Category = (int)ObjectCategory.None,
             Price = 1000,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 4,
@@ -861,6 +888,85 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             Log.E($"Failed loading Legendary Fish Pond data.\n{ex}");
             return [];
         }
+    }
+
+    private static Dictionary<string, MachineTreatmentRules> ProvideMachineTreatmentRules()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, MachineTreatmentRules> machineTreatmentRules = [];
+
+        try
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Converters =
+                [
+                    new MachineTreatmentRulesConverter(),
+                ],
+            };
+
+            var files = Directory
+                .GetFiles(path, "*.MachineTreatments.json")
+                .OrderBy(file =>
+                {
+                    var name = Path.GetFileNameWithoutExtension(file);
+                    return name.StartsWith("Vanilla.", StringComparison.OrdinalIgnoreCase)
+                        ? 0
+                        : 1;
+                }).
+                ThenBy(Path.GetFileName);
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var root = JObject.Parse(json);
+                var data = (JObject?)root["MachineTreatments"];
+                if (data is null)
+                {
+                    Log.W($"Failed to read machine treatments data from '{Path.GetFileName(file)}'.");
+                    continue;
+                }
+
+                var parsed = data.ToObject<Dictionary<string, MachineTreatmentRules>>(JsonSerializer.Create(settings));
+                if (parsed is null)
+                {
+                    Log.W($"Failed to parse machine treatments data from '{Path.GetFileName(file)}'.");
+                    continue;
+                }
+
+                foreach (var (key, value) in parsed)
+                {
+                    if (machineTreatmentRules.TryAdd(key, value))
+                    {
+                        continue;
+                    }
+
+                    Log.D($"A machine treatment entry for '{key}' already exists. Entries from '{Path.GetFileName(file)}' will be merged.");
+                    var existing = machineTreatmentRules[key];
+                    if (existing.Default != value.Default)
+                    {
+                        Log.D($"The new default value '{value.Default}' will be ignored." +
+                            $" Already set to '{existing.Default}'.");
+                    }
+
+                    foreach (var @override in value.Overrides)
+                    {
+                        if (existing.Overrides.TryAdd(@override.Key, @override.Value))
+                        {
+                            continue;
+                        }
+
+                        Log.D($"The override key '{@override.Key}' will be ignored." +
+                        $" Already set to '{existing.Overrides[@override.Key]}'.");
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Machine Treatments data.\n{ex}");
+        }
+
+        return machineTreatmentRules;
     }
 
     #endregion provider callbacks

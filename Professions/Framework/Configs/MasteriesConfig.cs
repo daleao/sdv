@@ -15,12 +15,6 @@ using StardewModdingAPI.Utilities;
 /// <summary>The Mastery-related settings for PRFS.</summary>
 public sealed class MasteriesConfig
 {
-    private bool _enableLimitBreaks = true;
-    private double _limitGainFactor = 1d;
-    private double _limitDrainFactor = 1d;
-    private uint _expPerPrestigeLevel = 5000;
-    private GoldPalette _goldSpritePalette = GoldPalette.SiliconGold;
-
     #region dropdown enums
 
     /// <summary>A palette used for golden icons and sprites.</summary>
@@ -46,15 +40,15 @@ public sealed class MasteriesConfig
     [GMCMPriority(100)]
     public bool EnableLimitBreaks
     {
-        get => this._enableLimitBreaks;
+        get;
         internal set
         {
-            if (value == this._enableLimitBreaks)
+            if (value == field)
             {
                 return;
             }
 
-            this._enableLimitBreaks = value;
+            field = value;
             if (!Context.IsWorldReady || State.LimitBreak is null)
             {
                 return;
@@ -77,7 +71,7 @@ public sealed class MasteriesConfig
                 }
             }
         }
-    }
+    } = true;
 
     /// <summary>Gets the mod key used to activate the Limit Break.</summary>
     [JsonProperty]
@@ -108,12 +102,12 @@ public sealed class MasteriesConfig
     [GMCMRange(0.25f, 4f)]
     public double LimitGainFactor
     {
-        get => this._limitGainFactor;
+        get;
         internal set
         {
-            this._limitGainFactor = Math.Abs(value);
+            field = Math.Abs(value);
         }
-    }
+    } = 1d;
 
     /// <summary>
     ///     Gets the rate at which the Limit gauge depletes during LimitBreak. Decrease this to make the Limit Break last
@@ -125,12 +119,12 @@ public sealed class MasteriesConfig
     [GMCMRange(0.25f, 4f)]
     public double LimitDrainFactor
     {
-        get => this._limitDrainFactor;
+        get;
         internal set
         {
-            this._limitDrainFactor = Math.Abs(value);
+            field = Math.Abs(value);
         }
-    }
+    } = 1d;
 
     /// <summary>Gets monetary cost of changing the chosen Limit Break. Set to 0 to change for free.</summary>
     [JsonProperty]
@@ -159,11 +153,11 @@ public sealed class MasteriesConfig
     [GMCMRange(1000, 10000, 500)]
     public uint ExpPerPrestigeLevel
     {
-        get => this._expPerPrestigeLevel;
+        get;
         internal set
         {
-            var oldValue = this._expPerPrestigeLevel;
-            this._expPerPrestigeLevel = value;
+            var oldValue = field;
+            field = value;
             if (!Context.IsWorldReady)
             {
                 return;
@@ -172,7 +166,7 @@ public sealed class MasteriesConfig
             if (VanillaSkill.List.Any(skill => skill.CurrentLevel > 10) ||
                 CustomSkill.Loaded.Values.Any(skill => skill.CurrentLevel > 10))
             {
-                this._expPerPrestigeLevel = oldValue;
+                field = oldValue;
                 Log.W(
                     "You cannot change the experience points required for a prestige level after having gained prestige levels. Please make sure all skills have been reset to level 10 before attempting to change this setting.");
                 return;
@@ -183,7 +177,7 @@ public sealed class MasteriesConfig
                 ISkill.ExperienceCurve[i + 10] = ISkill.LEVEL_10_EXP + (int)(value * i);
             }
         }
-    }
+    } = 5000;
 
     /// <summary>Gets the monetary cost of respecing prestige profession choices for a skill. Set to 0 to respec for free.</summary>
     [JsonProperty]
@@ -200,19 +194,19 @@ public sealed class MasteriesConfig
     [GMCMPriority(204)]
     public GoldPalette GoldSpritePalette
     {
-        get => this._goldSpritePalette;
+        get;
         internal set
         {
-            if (value == this._goldSpritePalette)
+            if (value == field)
             {
                 return;
             }
 
-            this._goldSpritePalette = value;
+            field = value;
             ModHelper.GameContent.InvalidateCache($"{UniqueId}_MasteredSkillIcons");
             ModHelper.GameContent.InvalidateCache($"{UniqueId}_ProfessionIcons");
             ModHelper.GameContent.InvalidateCache($"{UniqueId}_GoldSlime");
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
         }
-    }
+    } = GoldPalette.SiliconGold;
 }

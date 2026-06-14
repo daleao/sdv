@@ -4,8 +4,6 @@
 
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Limits;
-using DaLion.Professions.Framework.VirtualProperties;
-using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -67,29 +65,12 @@ internal sealed class PiperConcertoBuff : Buff
             }
         }
 
-        foreach (var character in Game1.player.currentLocation.characters)
-        {
-            if (character is GreenSlime slime && slime.IsCharacterWithinThreshold() && slime.Get_Piped() is null)
-            {
-                slime.Set_Piped(Game1.player, PipedSlime.PipingSource.Concerto);
-            }
-        }
-
-        EventManager.Enable(
-            typeof(SlimeInflationUpdateTickedEvent),
-            typeof(ConcertoBuffCountdownUpdateTickedEvent));
+        EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
     }
 
     /// <inheritdoc />
     public override void OnRemoved()
     {
         EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
-        foreach (var (_, piped) in GreenSlime_Piped.Values)
-        {
-            if (piped.Source == PipedSlime.PipingSource.Concerto)
-            {
-                piped.Burst();
-            }
-        }
     }
 }

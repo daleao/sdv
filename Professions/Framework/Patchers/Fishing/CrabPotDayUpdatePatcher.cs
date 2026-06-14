@@ -46,7 +46,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
 
         try
         {
-            var r = new Random(Guid.NewGuid().GetHashCode());
+            var r = Random.Shared;
             var isLuremaster = false;
             var caught = string.Empty;
             if (__instance.bait.Value is { } bait)

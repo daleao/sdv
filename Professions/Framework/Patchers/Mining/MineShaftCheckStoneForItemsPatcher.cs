@@ -166,9 +166,9 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
 
     private static double GetSpelunkerBonusLadderChance(Farmer? who)
     {
-        return who is not null && who.IsLocalPlayer && who.HasProfession(Profession.Spelunker)
-            ? State.SpelunkerLadderStreak * 0.005
-            : 0d;
+        return who is null || !who.IsLocalPlayer || !who.HasProfession(Profession.Spelunker)
+            ? 0d
+            : ((State.SpelunkerLadderStreak / 5) * 0.0025) + (State.SpelunkerClusterStreak * 0.001);
     }
 
     #endregion injected

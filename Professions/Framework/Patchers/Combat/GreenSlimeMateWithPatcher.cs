@@ -64,7 +64,7 @@ internal sealed class GreenSlimeMateWithPatcher : HarmonyPatcher
 
     private static void DoSlimeGenetics(GreenSlime daddy, GreenSlime mommy, GreenSlime baby)
     {
-        var r = new Random(Guid.NewGuid().GetHashCode());
+        var r = Random.Shared;
 
         var inheritHealthFrom = daddy.Collect(mommy).MaxBy(parent => parent.MaxHealth)!;
         var parentBaseHealth = Data.ReadAs<int>(inheritHealthFrom, DataKeys.BaseHealth);

@@ -1,8 +1,11 @@
 ﻿namespace DaLion.Shared.Extensions.Collections;
 
+using System.Collections;
+
 #region using directives
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 #endregion using directives
@@ -276,23 +279,40 @@ public static class ListExtensions
                l1.All(group => l2.Contains(group.Key) && l2[group.Key].Count() == group.Count());
     }
 
+    /// <summary>Attempts to choose a random element from the <paramref name="list"/>.</summary>
+    /// <typeparam name="T">The type of elements in the list.</typeparam>
+    /// <param name="list">The <see cref="IList{T}"/>.</param>
+    /// <param name="chosen">The chosen <typeparamref name="T"/> value, if any.</param>
+    /// <param name="r">A <see cref="Random"/> number generator.</param>
+    /// <returns><see langword="true"/> if a non-null element was chosen, otherwise <see langword="false"/>.</returns>
+    public static bool TryChoose<T>(this IList<T> list, [NotNullWhen(true)] out T? chosen, Random? r = null)
+        where T : notnull
+    {
+        switch (list.Count)
+        {
+            case 0:
+                chosen = default;
+                return false;
+            case 1:
+                chosen = list[0];
+                return true;
+            default:
+                r ??= Random.Shared;
+                chosen = list[r.Next(list.Count)];
+                return true;
+        }
+    }
+
     /// <summary>Chooses a random element from the <paramref name="list"/>.</summary>
     /// <typeparam name="T">The type of elements in the list.</typeparam>
     /// <param name="list">The <see cref="IList{T}"/>.</param>
     /// <param name="r">A <see cref="Random"/> number generator.</param>
     /// <returns>A random element from the <paramref name="list"/>.</returns>
     public static T? Choose<T>(this IList<T> list, Random? r = null)
+        where T : notnull
     {
-        switch (list.Count)
-        {
-            case 0:
-                return default;
-            case 1:
-                return list[0];
-            default:
-                r ??= new Random(Guid.NewGuid().GetHashCode());
-                return list[r.Next(list.Count)];
-        }
+        list.TryChoose(out var value, r);
+        return value;
     }
 
     /// <summary>Shuffles the elements in the <paramref name="list"/>.</summary>
@@ -302,7 +322,7 @@ public static class ListExtensions
     /// <returns>The same <paramref name="list"/>, with shuffled elements.</returns>
     public static IList<T> Shuffle<T>(this IList<T> list, Random? r = null)
     {
-        r ??= new Random(Guid.NewGuid().GetHashCode());
+        r ??= Random.Shared;
         for (var i = list.Count - 1; i > 0; i--)
         {
             var j = r.Next(i + 1);

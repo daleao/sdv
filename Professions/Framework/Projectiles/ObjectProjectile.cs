@@ -144,7 +144,7 @@ internal sealed class ObjectProjectile : BasicProjectile
         {
             if (monster is GreenSlime slime)
             {
-                if (slime.Get_Piped() is null)
+                if (!slime.IsPiped())
                 {
                     this._explosionAnimation(this, location);
                     return;

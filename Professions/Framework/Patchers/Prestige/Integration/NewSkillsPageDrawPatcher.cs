@@ -361,6 +361,11 @@ internal sealed class NewSkillsPageDrawPatcher : HarmonyPatcher
                 page.xPositionOnScreen + page.width + Textures.PROGRESSION_HORIZONTAL_OFFSET + RibbonXOffset,
                 page.yPositionOnScreen + IClickableMenu.spaceToClearTopBorder + IClickableMenu.borderWidth +
                 Textures.PROGRESSION_VERTICAL_OFFSET + 12);
+        if (CurrentLanguageCode == LanguageCode.ru)
+        {
+            // unknown compensation...
+        }
+
         var lastVisibleSkillIndex =
             Reflector.GetUnboundPropertyGetter<NewSkillsPage, int>("LastVisibleSkillIndex").Invoke(page);
         var resetData = Data.Read(Game1.player, DataKeys.ResetCountBySkill).ParseDictionary<string, int>();

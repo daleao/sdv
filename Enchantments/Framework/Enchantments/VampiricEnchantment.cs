@@ -17,8 +17,6 @@ using StardewValley.Monsters;
 [XmlType("Mods_DaLion_VampiricEnchantment")]
 public sealed class VampiricEnchantment : BaseWeaponEnchantment
 {
-    private Random _random = new(Guid.NewGuid().GetHashCode());
-
     /// <inheritdoc />
     public override string GetName()
     {
@@ -29,7 +27,7 @@ public sealed class VampiricEnchantment : BaseWeaponEnchantment
     public override void OnMonsterSlay(Monster m, GameLocation location, Farmer who, bool slainByBomb)
     {
         base.OnMonsterSlay(m, location, who, slainByBomb);
-        var lifeSteal = Math.Max((int)(m.MaxHealth * this._random.NextFloat(0.01f, 0.05f)), 1);
+        var lifeSteal = Math.Max((int)(m.MaxHealth * Random.Shared.NextFloat(0.01f, 0.05f)), 1);
         who.health = Math.Min(who.health + lifeSteal, (int)(who.maxHealth * 1.2f));
         location.debris.Add(new Debris(
             lifeSteal,

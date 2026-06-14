@@ -12,6 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 [ImplicitIgnore]
+// Deprecated
 internal sealed class ManualDetonationUpdateTickedEvent(EventManager? manager = null)
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {

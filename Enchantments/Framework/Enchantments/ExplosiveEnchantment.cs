@@ -23,8 +23,6 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     /// <summary>The amount of damage accumulation required to increase the explosion radius by 1 tile.</summary>
     public const int AccumulationStep = 50;
 
-    private int _accumulation;
-
     /// <summary>Finalizes an instance of the <see cref="ExplosiveEnchantment"/> class.</summary>
     ~ExplosiveEnchantment()
     {
@@ -37,10 +35,10 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     /// <summary>Gets or sets the total accumulated damage.</summary>
     public int Accumulated
     {
-        get => this._accumulation;
+        get;
         set
         {
-            this._accumulation = Math.Min(value, MaxAccumulation);
+            field = Math.Min(value, MaxAccumulation);
         }
     }
 

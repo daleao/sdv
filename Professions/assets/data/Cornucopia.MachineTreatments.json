@@ -1,0 +1,32 @@
+{
+    "MachineTreatments": {
+        "(BC)Cornucopia_Alembic": {
+            "default": "sealing"
+        },
+        "(BC)Cornucopia_ButterChurn": {
+            "default": "glazing"
+        },
+        "(BC)Cornucopia_CompactMill": {
+            "default": "none"
+        },
+        "(BC)Cornucopia_DeluxeSmoker": {
+            "default": "sealing"
+        },
+        "(BC)Cornucopia_Extruder": {
+            "default": "sealing",
+            "noodle_item": "glazing"
+        },
+        "(BC)Cornucopia_Juicer": {
+            "default": "glazing"
+        },
+        "(BC)Cornucopia_WaxBarrel": {
+            "default": "sealing"
+        },
+        "(BC)Cornucopia_YogurtJar": {
+            "default": "glazing"
+        },
+        "(BC)12": { // Keg
+            "milk_item": "glazing"
+        }
+    }
+}

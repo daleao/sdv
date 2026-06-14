@@ -21,7 +21,7 @@ internal sealed class CropNewDayPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to record crop planted by Prestiged Agriculturist.</summary>
+    /// <summary>Patch to deduct out-of-season days from Agriculturist crops.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void CropNewDayPostfix(Crop __instance)

@@ -4,6 +4,7 @@
 
 using DaLion.Professions.Framework.Buffs;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -30,5 +31,11 @@ public sealed class DesperadoBlossom()
     {
         // base duration 15 s * 60 fps = 900 frames
         this.ChargeValue -= BASE_MAX_CHARGE / 900d;
+    }
+
+    /// <inheritdoc />
+    protected override bool ActivationCondition()
+    {
+        return Game1.player.CurrentTool is Slingshot;
     }
 }

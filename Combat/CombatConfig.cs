@@ -12,14 +12,6 @@ using StardewValley.Tools;
 /// <summary>Config schema for the Combat mod.</summary>
 public sealed class CombatConfig
 {
-    private float _monsterSpawnChanceMultiplier = 1f;
-    private float _monsterHealthMultiplier = 1f;
-    private float _monsterDamageMultiplier = 1f;
-    private float _monsterDefenseMultiplier = 1f;
-    private int _monsterHealthSummand = 0;
-    private int _monsterDamageSummand = 0;
-    private int _monsterDefenseSummand = 1;
-
     #region dropdown enums
 
     /// <summary>The texture that should be used as the resonance light source.</summary>
@@ -121,12 +113,12 @@ public sealed class CombatConfig
     [GMCMRange(0.1f, 10f)]
     public float MonsterSpawnChanceMultiplier
     {
-        get => this._monsterSpawnChanceMultiplier;
+        get;
         internal set
         {
-            this._monsterSpawnChanceMultiplier = Math.Max(value, 0.1f);
+            field = Math.Max(value, 0.1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a multiplier which allows scaling the health of all monsters.</summary>
     [JsonProperty]
@@ -135,12 +127,12 @@ public sealed class CombatConfig
     [GMCMRange(0.1f, 10f)]
     public float MonsterHealthMultiplier
     {
-        get => this._monsterHealthMultiplier;
+        get;
         internal set
         {
-            this._monsterHealthMultiplier = Math.Max(value, 0.1f);
+            field = Math.Max(value, 0.1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a multiplier which allows scaling the damage dealt by all monsters.</summary>
     [JsonProperty]
@@ -149,12 +141,12 @@ public sealed class CombatConfig
     [GMCMRange(0.1f, 10f)]
     public float MonsterDamageMultiplier
     {
-        get => this._monsterDamageMultiplier;
+        get;
         internal set
         {
-            this._monsterDamageMultiplier = Math.Max(value, 0.1f);
+            field = Math.Max(value, 0.1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a multiplier which allows scaling the resistance of all monsters.</summary>
     [JsonProperty]
@@ -163,12 +155,12 @@ public sealed class CombatConfig
     [GMCMRange(0.1f, 10f)]
     public float MonsterDefenseMultiplier
     {
-        get => this._monsterDefenseMultiplier;
+        get;
         internal set
         {
-            this._monsterDefenseMultiplier = Math.Max(value, 0.1f);
+            field = Math.Max(value, 0.1f);
         }
-    }
+    } = 1f;
 
     /// <summary>Gets a summand which is added to the resistance of all monsters (before the multiplier).</summary>
     [JsonProperty]
@@ -177,12 +169,12 @@ public sealed class CombatConfig
     [GMCMRange(-100, 100, 10)]
     public int MonsterHealthSummand
     {
-        get => this._monsterHealthSummand;
+        get;
         internal set
         {
-            this._monsterHealthSummand = Math.Max(value, -100);
+            field = Math.Max(value, -100);
         }
-    }
+    } = 0;
 
     /// <summary>Gets a summand which is added to the resistance of all monsters (before the multiplier).</summary>
     [JsonProperty]
@@ -191,12 +183,12 @@ public sealed class CombatConfig
     [GMCMRange(-50, 50)]
     public int MonsterDamageSummand
     {
-        get => this._monsterDamageSummand;
+        get;
         internal set
         {
-            this._monsterDamageSummand = Math.Max(value, -50);
+            field = Math.Max(value, -50);
         }
-    }
+    } = 0;
 
     /// <summary>Gets a summand which is added to the resistance of all monsters (before the multiplier).</summary>
     [JsonProperty]
@@ -205,10 +197,10 @@ public sealed class CombatConfig
     [GMCMRange(-10, 10)]
     public int MonsterDefenseSummand
     {
-        get => this._monsterDefenseSummand;
+        get;
         internal set
         {
-            this._monsterDefenseSummand = Math.Max(value, -10);
+            field = Math.Max(value, -10);
         }
-    }
+    } = 1;
 }
