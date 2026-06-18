@@ -1,0 +1,60 @@
+DaLion Mod Series – Official Binary Distribution License
+Version 1.0
+Date: January 2025
+
+This license governs the official prebuilt binary releases of the
+DaLion Mod Series ("the Mods") distributed by the original author.
+
+This license does NOT apply to the source code, which is licensed
+separately under the GNU General Public License v3 or later (GPL-3.0+).
+
+1. Scope
+
+This license applies exclusively to:
+- Precompiled binaries of the Mods
+- Packages, archives, or installers containing such binaries
+- Files distributed as "official builds"
+
+2. Permitted Use
+
+You may:
+- Download and use the official binaries for personal, non-commercial use
+- Share links to the official download pages
+- Install and use the binaries within Stardew Valley
+
+3. Prohibited Use
+
+You may NOT:
+- Sell, rent, sublicense, or otherwise commercialize the official binaries
+- Include the official binaries in paid products or bundles
+- Redistribute the official binaries, modified or unmodified, outside of
+  the authorized distribution platforms listed below
+- Mirror or rehost the official binaries on any other website or service
+
+4. Authorized Distribution Platforms
+
+Official binaries may be distributed only via:
+- Nexus Mods (https://nexusmods.com)
+- The official Stardew Valley Discord (https://discord.com/invite/stardewvalley)
+
+Any distribution elsewhere is unauthorized.
+
+5. No Modification Rights
+
+You may not modify, patch, or reverse engineer the official binaries.
+Users wishing to modify the Mods must do so by compiling from source
+under the GPL-3.0+ license.
+
+6. No Trademark Rights
+
+This license does not grant any rights to the DaLion name, branding,
+logos, or identifiers. Use of such marks is governed by the Trademark
+Policy.
+
+7. Disclaimer
+
+The official binaries are provided "as is", without warranty of any
+kind. The author shall not be liable for any damages arising from their
+use.
+
+By downloading or using the official binaries, you agree to this license.
