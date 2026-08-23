@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Linq;
+using System.Text;
 using DaLion.Shared.Exceptions;
 
 #endregion using directives
@@ -22,7 +23,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
         }
 
-        return a.Zip(b, (x, y) => x + y).ToArray();
+        return [.. a.Zip(b, (x, y) => x + y)];
     }
 
     /// <summary>Performs element-wise addition.</summary>
@@ -37,7 +38,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
         }
 
-        return a.Zip(b, (x, y) => x + y).ToArray();
+        return [.. a.Zip(b, (x, y) => x + y)];
     }
 
     /// <summary>Performs element-wise addition.</summary>
@@ -52,7 +53,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise addition.");
         }
 
-        return a.Zip(b, (x, y) => x + y).ToArray();
+        return [.. a.Zip(b, (x, y) => x + y)];
     }
 
     /// <summary>Performs element-wise multiplication.</summary>
@@ -67,7 +68,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
         }
 
-        return a.Zip(b, (x, y) => x * y).ToArray();
+        return [.. a.Zip(b, (x, y) => x * y)];
     }
 
     /// <summary>Performs element-wise multiplication.</summary>
@@ -82,7 +83,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
         }
 
-        return a.Zip(b, (x, y) => x * y).ToArray();
+        return [.. a.Zip(b, (x, y) => x * y)];
     }
 
     /// <summary>Performs element-wise multiplication.</summary>
@@ -97,7 +98,7 @@ public static class ArrayExtensions
             ThrowHelper.ThrowInvalidOperationException("Arrays must have the same length for element-wise multiplication.");
         }
 
-        return a.Zip(b, (x, y) => x * y).ToArray();
+        return [.. a.Zip(b, (x, y) => x * y)];
     }
 
     /// <summary>Sorts the <paramref name="array"/> in reverse order.</summary>
@@ -133,7 +134,7 @@ public static class ArrayExtensions
             ThrowHelperExtensions.ThrowIndexOutOfRangeException();
         }
 
-        return array.Skip(offset).Take(length).ToArray();
+        return [.. array.Skip(offset).Take(length)];
     }
 
     /// <summary>Shifts all elements of the <paramref name="array"/> one unit to the right.</summary>
@@ -208,5 +209,48 @@ public static class ArrayExtensions
 
         r ??= Random.Shared;
         return array[r.Next(array.Length)];
+    }
+
+    /// <summary>Returns a string representation of a boolean array mask.</summary>
+    /// <param name="mask">A boolean array mask.</param>
+    /// <returns>A string representation of the boolean array mask, using '#' for <see langword="true"/> and '.' for <see langword="false"/>.</returns>
+    public static string ToMaskString(this bool[,] mask)
+    {
+        var result = new StringBuilder();
+        for (var y = 0; y < mask.GetLength(1); y++)
+        {
+            for (var x = 0; x < mask.GetLength(0); x++)
+            {
+                result.Append(mask[x, y] ? '#' : '.');
+            }
+
+            if (y < mask.GetLength(1) - 1)
+            {
+                result.AppendLine();
+            }
+        }
+
+        return result.ToString();
+    }
+
+    /// <summary>Returns a binary representation of a boolean array mask.</summary>
+    /// <param name="mask">A boolean array mask.</param>
+    /// <returns>A binary representation of the boolean array mask, using '1' for <see langword="true"/> and '0' for <see langword="false"/>.</returns>
+    public static ulong ToBinary(this bool[,] mask)
+    {
+        ulong key = 0;
+        for (var y = 0; y < mask.GetLength(1); y++)
+        {
+            for (var x = 0; x < mask.GetLength(0); x++)
+            {
+                key <<= 1;
+                if (mask[x, y])
+                {
+                    key |= 1;
+                }
+            }
+        }
+
+        return key;
     }
 }

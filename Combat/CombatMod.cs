@@ -66,11 +66,6 @@ public sealed class CombatMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<CombatConfig>();
-        PerScreenState = new PerScreen<CombatState>(() => new CombatState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
-            .ManageInitial(assembly, "DaLion.Combat.Framework.Events");
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Combat.Framework.Patchers",
@@ -84,6 +79,11 @@ public sealed class CombatMod : Mod
             Log,
             UniqueId,
             "cmbt");
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<CombatConfig>();
+        PerScreenState = new PerScreen<CombatState>(() => new CombatState());
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+            .ManageInitial(assembly, "DaLion.Combat.Framework.Events");
         this.ValidateMultiplayer();
     }
 

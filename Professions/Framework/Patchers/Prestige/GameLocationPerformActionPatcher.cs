@@ -7,6 +7,7 @@ using System.Reflection;
 using DaLion.Professions.Framework.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Locations;
 using xTile.Dimensions;
 
 #endregion using directives
@@ -31,11 +32,52 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [HarmonyPriority(Priority.VeryHigh)]
     [UsedImplicitly]
-    private static bool GameLocationPerformActionPrefix(GameLocation __instance, string[] action, Farmer who, Location tileLocation)
+    private static bool GameLocationPerformActionPrefix(GameLocation __instance, ref bool __result, string[] action, Farmer who, Location tileLocation)
     {
-        if ((!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks) ||
-            __instance.ShouldIgnoreAction(action, who, tileLocation) ||
-            !ArgUtility.TryGet(action, 0, out var actionType, out _) || !who.IsLocalPlayer)
+        if (__instance.ShouldIgnoreAction(action, who, tileLocation) || !ArgUtility.TryGet(action, 0, out var actionType, out _, allowBlank: true, "string actionType") || !who.IsLocalPlayer)
+        {
+            return true; // run original logic
+        }
+
+        if (actionType is "Mine" or "SkullDoor" && who.HasProfession(Profession.Spelunker, true) && State.SpelunkerFlag is not null)
+        {
+            switch (actionType)
+            {
+                case "Mine":
+                    if (!ArgUtility.TryGetOptionalInt(action, 1, out var mineLevel, out _, 1, "int mineLevel"))
+                    {
+                        return true; // run original logic
+                    }
+
+                    __instance.playSound("stairsdown");
+                    Game1.enterMine(State.SpelunkerFlagLevel);
+                    break;
+                case "SkullDoor":
+                    if (!who.hasSkullKey || !who.hasUnlockedSkullDoor || Utility.IsPassiveFestivalDay("DesertFestival"))
+                    {
+                        return true; // run original logic
+                    }
+                    else if (who.secretNotesSeen.Contains(10) && !who.mailReceived.Contains("qiCave"))
+                    {
+                        return true; // run original logic
+                    }
+                    else
+                    {
+                        who.completelyStopAnimatingOrDoingAction();
+                        __instance.playSound("doorClose");
+                        DelayedAction.playSoundAfterDelay("stairsdown", 500, __instance);
+                        Game1.enterMine(State.SpelunkerFlagLevel);
+                        MineShaft.numberOfCraftedStairsUsedThisRun = 0;
+                    }
+
+                    break;
+            }
+
+            __result = true;
+            return false; // don't run original logic
+        }
+
+        if (!ShouldEnableSkillReset && !ShouldEnablePrestigeLevels && !ShouldEnableLimitBreaks)
         {
             return true; // run original logic
         }
@@ -54,6 +96,9 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 {
                     Game1.drawObjectDialogue(Game1.content.LoadString("Strings\\1_6_Strings:MasteryCave", count));
                 }
+
+                __result = true;
+                return false; // don't run original logic
             }
 
             if (!actionType.Contains("DogStatue"))
@@ -68,17 +113,20 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
                 {
                     message = I18n.Prestige_DogStatue_Dismiss();
                     Game1.drawObjectDialogue(message);
+                    __result = true;
                     return false; // don't run original logic
                 }
 
                 if (TryOfferSkillReset(__instance))
                 {
+                    __result = true;
                     return false; // don't run original logic
                 }
             }
 
             if ((ShouldEnablePrestigeLevels || ShouldEnableLimitBreaks) && TryOfferRespecOptions(__instance))
             {
+                __result = true;
                 return false; // don't run original logic
             }
 
@@ -89,6 +137,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
             message = I18n.Prestige_DogStatue_First();
             Game1.drawObjectDialogue(message);
+            __result = true;
             return false; // don't run original logic
         }
         catch (Exception ex)

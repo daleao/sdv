@@ -1,20 +1,32 @@
 {
-  "$schema": "https://smapi.io/schemas/i18n.json",
+    "$schema": "https://smapi.io/schemas/i18n.json",
 
-  "ui.buffs.burnt.damage": "-50% Damage",
-  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
-  "ui.buffs.frozen.stuck": "Can't move",
-  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
-  "ui.buffs.jinxed.defense": "-50% Defense",
-  "ui.buffs.jinxed.special": "Can't use special moves",
-  "ui.buffs.confused.name": "Disoriented",
-  "ui.buffs.confused.desc": "Movement is inverted.",
-  "ui.buffs.warrior.attack": "+{{value}} Attack",
+    "hay.name": "Fourrage",
+    "hay.desc": "Un mélange d'herbe séchée, de plantes fourragères et de cultures utilisé pour nourrir les animaux de la ferme.",
+    "buildings.added_hay": "{0} portion(s) de fourrage ont été ajoutées au silo.",
 
-  /************
-  *** GMCM ***
-  ************/
+    "ui.buffs.burnt.damage": "-50% Dégâts",
+    "ui.buffs.burnt.dot": "-{{amount}} points de vie toutes les 3 secondes",
+    "ui.buffs.frozen.stuck": "Impossible de se déplacer",
+    "ui.buffs.frozen.vulnerable": "Vulnérable à la prochaine attaque",
+    "ui.buffs.jinxed.defense": "-50% Défense",
+    "ui.buffs.jinxed.special": "Impossible d'utiliser les mouvements spéciaux",
+    "ui.buffs.confused.name": "Désorienté",
+    "ui.buffs.confused.desc": "Les déplacements sont inversés.",
+    "ui.buffs.warrior.attack": "+{{value}} Attaque",
 
-  "gmcm.crop_wither_chance.title": "Chance de dépérissement des cultures",
-  "gmcm.crop_wither_chance.desc": "Le pourcentage de probabilité qu'une culture donnée dépérisse chaque jour si elle n'est pas laissée-arrosé."
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Chance de dépérissement des cultures",
+    "gmcm.crop_wither_chance.desc": "Le pourcentage de probabilité qu'une culture donnée dépérisse chaque jour si elle n'est pas arrosée.",
+    "gmcm.two_way_hoppers.title": "Trémies bidirectionnelles",
+    "gmcm.two_way_hoppers.desc": "Permet aux trémies de récupérer les produits finis des machines.",
+    "gmcm.winter_wheat.title": "Blé d'hiver",
+    "gmcm.winter_wheat.desc": "Permet au blé de rester en dormance pendant l'hiver.",
+    "gmcm.immersive_hay.title": "Fourrage immersif",
+    "gmcm.immersive_hay.desc": "Supprime le foin récolté à partir du blé mature, mais permet de récolter du foin à partir du blé immature avec 100% de chance.",
+    "gmcm.consistent_farmer_debuffs.title": "Malus cohérents du fermier",
+    "gmcm.consistent_farmer_debuffs.desc": "Regroupe les malus du fermier avec les états de statut fournis par ce mod."
 }

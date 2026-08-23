@@ -37,7 +37,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void GameLocationDamageMonsterPrefix(ref float critChance, Farmer who)
     {
-        if (Config.LuckImprovesCritAndDodge)
+        if (Config.LuckImprovesCritDodge)
         {
             critChance += 0.01f * who.LuckLevel;
         }
@@ -118,6 +118,7 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
                 [
                     new CodeInstruction(OpCodes.Ldloc_2),
                     new CodeInstruction(OpCodes.Ldarg_S, (byte)10),
+                    new CodeInstruction(OpCodes.Ldarg_S, (byte)8),
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(Monster_GotCrit).RequireMethod(nameof(Monster_GotCrit.Set_GotCrit))),

@@ -70,6 +70,6 @@ internal static class IlHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.Insert([.. toInsert]);
     }
 }

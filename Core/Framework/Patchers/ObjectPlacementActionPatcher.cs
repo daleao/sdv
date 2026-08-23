@@ -36,6 +36,11 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ObjectPlacementActionPostfix(SObject __instance)
     {
+        if (!Config.TwoWayHoppers)
+        {
+            return;
+        }
+
         var location = __instance.Location;
         if (location is null)
         {

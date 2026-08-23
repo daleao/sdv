@@ -9,12 +9,14 @@ using Microsoft.Xna.Framework;
 
 internal sealed class ChainedExplosion
 {
+    private static readonly Func<int, int> F = (x) => (2 * x * x) + (14 * x) - 24;
+
     private readonly Queue<HashSet<Vector2>> _tilesToExplode = [];
     private readonly HashSet<Vector2> _tilesExploded = [];
     private readonly GameLocation _location;
     private readonly int _damage;
     private readonly Farmer _pyro;
-    private int _iterations;
+    private int _chainBudget;
 
     internal ChainedExplosion(GameLocation location, Vector2 origin, int radius, int damage, Farmer pyro)
     {
@@ -31,12 +33,12 @@ internal sealed class ChainedExplosion
         }
 
         this._tilesToExplode.Enqueue(chained);
-        this._iterations = radius - 1;
+        this._chainBudget = Math.Max(F(radius - 1) / 2, 1);
     }
 
     internal bool Update()
     {
-        if (!this._tilesToExplode.TryDequeue(out var toExplode) || this._iterations-- <= 0)
+        if (!this._tilesToExplode.TryDequeue(out var toExplode) || this._chainBudget-- <= 0)
         {
             return true;
         }

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "Pénzügyminisztérium^Ferngill Adóhivatal^^^Tisztelt {{honorific}} Adózó,^^Tájékoztatjuk, hogy Pelican Town, Stardew Valley-ba bejelentett új lakcímét nyilvántartásba vettük. A továbbiakban minden levelezésünket a {{farm}} farmra küldjük.^^Emlékeztetjük, hogy a szövetségi személyi jövedelemadó befizetési határideje minden évszak 1. napjának vége. Az esedékes összeget kényelme érdekében automatikusan levonjuk egyenlegéből. Amennyiben egyenlege nem elegendő, a Ferngill Adótörvény 501(c)(1) szakasza alapján {{fine}} bírságot szabunk ki, és a Stardew Bank az Ön nevén {{interest}} éves kamattal hitelt folyósít.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]Lakcímváltozás visszaigazolása",
+  "mail.frs.notice": "Pénzügyminisztérium^Ferngill Adóhivatal^^^Tisztelt {{honorific}} Adózó,^^Tájékoztatjuk, hogy a záruló évszakra felhalmozott összes személyi jövedelemadója {{due}}g összegben {{when}} automatikusan levonásra kerül egyenlegéből.^^Kérjük, őrizze meg ezt a levelet iratai között, ha esetleges adójogi kérdéseivel kapcsolatban kell majd eljárnia.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]Adóhivatal havi értesítő",
+  "mail.frs.deduction": "Pénzügyminisztérium^Ferngill Adóhivatal^^^Tisztelt {{honorific}} Adózó,^^Tájékoztatjuk, hogy a záruló évszakra felhalmozott összes személyi jövedelemadója {{accrued}}g. Közelmúltbeli környezetvédelmi tevékenységei alapján a Ferngill Adótörvény 501(c)(3) szakasza értelmében {{deductible}} összegű adókedvezményre jogosult.^^Ennek megfelelően a {{final}}g összegű végső adótartozását {{when}} automatikusan levonjuk egyenlegéből.^^Kérjük, őrizze meg ezt a levelet iratai között, ha esetleges adójogi kérdéseivel kapcsolatban kell majd eljárnia.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]Adóhivatal levonási értesítő",
+  "mail.frs.deduction.max": "Pénzügyminisztérium^Ferngill Adóhivatal^^^Tisztelt {{honorific}} Adózó,^^Tájékoztatjuk, hogy a záruló évszakra felhalmozott összes személyi jövedelemadója {{accrued}}g. Közelmúltbeli környezetvédelmi tevékenységei alapján a Ferngill Adótörvény 501(c)(3) szakasza értelmében szövetségi jövedelemadójának teljes elengedésére jogosult. Ennek megfelelően a jelenlegi évszakban semmilyen összeget nem vonunk le egyenlegéből.^^Kérjük, őrizze meg ezt a levelet iratai között, ha esetleges adójogi kérdéseivel kapcsolatban kell majd eljárnia.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]Adóhivatal levonási értesítő",
+  "mail.frs.outstanding": "Pénzügyminisztérium^Ferngill Adóhivatal^^^Tisztelt {{honorific}} Adózó,^^Tájékoztatjuk, hogy az előző évszakra esedékes {{due}}g összegű jövedelemadóját nem sikerült teljes egészében levonni egyenlegéből. A Ferngill Adótörvény 501(c)(1) szakasza alapján {{fine}} összegű pótbírságot szabunk ki, és a {{farm}} farm összes jövőbeli bevételét mindaddig zároljuk, amíg a {{outstanding}}g összegű fennálló tartozást teljes egészében ki nem egyenlíti. Javasoljuk, hogy mielőbb rendezze fennálló tartozásait, hogy elkerülje a {{interest}} éves kamat felhalmozódását.^^Kérjük, őrizze meg ezt a levelet iratai között, ha esetleges adójogi kérdéseivel kapcsolatban kell majd eljárnia.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]Adóhivatal havi értesítő",
+  "mail.lewis.intro": "@,^^^Üdvözlöm Pelican Townban! Remélem, jól érzi magát új otthonában.^^Egy barátságos emlékeztető: a {{farm}} farm új tulajdonosaként Ön felel a farm telekadójáért. Minden évben a megye felmérést végez a farmföldek értékéről, és ennek egy százalékát adóként veti ki. Az ő „hasznosítási érték" szabályuk szerint a parlagon hagyott területek általában *magasabb* adóval terheltek, mint az aktívan művelt földek, szóval érdemes mielőbb nekiállni a gyomok és tuskók irtásának!^^Boldogult nagyapja az összes adót rendezte egészen a tavalyi évig bezárólag, szóval a jövő évig nincs miért aggódnia. Ne kérdezze tőlem, honnan tudta, hogy pontosan melyik évben fog beköltözni!^^Küldtem egy kezdőcsomagot is, hogy megkönnyítsem az indulást. Alig várom, mit fog majd elérni!^^^  Üdvözlettel, Lewis polgármester úr[#]Önkormányzati telekadó értesítő",
+  "mail.lewis.notice": "@,^^^Mint tudja, polgármesterként egyik kötelességem Pelican Town összes ingatlanára adót kivetni. Az előző adóévben a megye {{farm}} farmját {{valuation}}g értékűre becsülte. Ennek eredményeként az alkalmazandó adózási időszakra összesen {{due}}g telekadót kell fizetnie. Ezt az összeget a Tavasz {{day}}. napján terheljük meg fiókját.^^Pelican Town nevében mélységesen hálás vagyok közösségünkhöz való folyamatos hozzájárulásáért.^^^  Üdvözlettel, Lewis polgármester úr[#]Önkormányzati telekadó értesítő",
+  "mail.lewis.outstanding": "@,^^^Úgy tűnik, fiókján nem volt elegendő fedezet a jelenlegi időszak telekadójának teljes kiegyenlítéséhez. A megyei szabályok szerint sajnálattal értesítom, hogy {{fine}} késedelmi pótlékot szabunk ki. A fennálló {{outstanding}}g összegű tartozást a Stardew Banknak adjuk át, amely jogosult az összes szállítási bevételt visszatartani a teljes visszafizetésig, évi {{interest}} kamattal terhelve.^^Tudja, hogy Pelican Town lakói mindig mellette állnak, ha nehéz időket él át.^^  Üdvözlettel, Lewis polgármester úr[#]Önkormányzati telekadó értesítő",
+
+  // other
+  "hud.tax.debit": "{{amount}}g levonásra került fiókjából adófizetés céljából.",
+  "hud.debt.debit": "A tegnapi szállítmányból {{amount}}g visszatartásra került fennálló tartozások törlesztésére.",
+  "honorific.male": "Kedves",
+  "honorific.female": "Kedves",
+  "when.tonight": "ma éjjel",
+  "when.day": "az aktuális évszak {{day}}. napján",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "Személyi jövedelemadó",
+  "gmcm.tax_rate_per_income_bracket.title": "Adókulcsok jövedelemszavaszonként",
+  "gmcm.tax_rate_per_income_bracket.desc": "Az egyes jövedelemadó-sávokra alkalmazott adókulcsok. Minden párban az első szám az adott sáv jövedelemhatárát jelöli, a második szám pedig a sávban lévő jövedelem adóköteles százalékát.",
+  "gmcm.income_bracket.title": "Adósáv",
+  "gmcm.income_bracket.desc": "Ennek az adósávnak a jövedelemhatára. Az előző sáv és e szám közötti összes jövedelmet a megfelelő adókulccsal adóztatják.",
+  "gmcm.tax_rate.title": "Adókulcs",
+  "gmcm.tax_rate.desc": "A jövedelem adóköteles százaléka ezen az adósávon belül.",
+  "gmcm.deductible_animal_expenses.title": "Levonható állatköltségek",
+  "gmcm.deductible_animal_expenses.desc": "Az állatvásárlásra és -felszerelésre fordított arany hány százaléka vonható le az adóból.",
+  "gmcm.deductible_building_expenses.title": "Levonható épületköltségek",
+  "gmcm.deductible_building_expenses.desc": "A farmpületek építésére fordított arany hány százaléka vonható le az adóból.",
+  "gmcm.deductible_seed_expenses.title": "Levonható magköltségek",
+  "gmcm.deductible_seed_expenses.desc": "A magvásárlásra fordított arany hány százaléka vonható le az adóból.",
+  "gmcm.deductible_tool_expenses.title": "Levonható szerszámköltségek",
+  "gmcm.deductible_tool_expenses.desc": "A szerszámok vásárlására és fejlesztésére fordított arany hány százaléka vonható le az adóból.",
+  "gmcm.deductible_extras.title": "Egyéb levonások",
+  "gmcm.deductible_extras.desc": "Az adott tárgyra fordított arany hány százaléka vonható le az adóból. A tárgyakat manuálisan kell hozzáadni ehhez a listához.",
+  "gmcm.deductible_extras.label.key": "Tárgy neve",
+  "gmcm.deductible_extras.label.value": "Levonható %",
+  "gmcm.income_tax_day.title": "Esedékesség napja",
+  "gmcm.income_tax_day.desc": "Az évszak azon napja, amikor a jövedelemadót felszámítják.",
+  "gmcm.income_tax_lateness_fine.title": "Késedelmi pótlék",
+  "gmcm.income_tax_lateness_fine.desc": "Egyszeri büntetőkamat a meg nem fizetett összegre, ha a jövedelemadót nem fizetik be időben.",
+
+  // property
+  "gmcm.sections.txs.property": "Telekadó",
+  "gmcm.baseline_unused_tile_cost.title": "Hasznosítatlan mezők alapköltsége",
+  "gmcm.baseline_unused_tile_cost.desc": "A hasznosítatlan mezők alapköltsége aranyban.",
+  "gmcm.unused_tile_tax_rate.title": "Hasznosítatlan mezők adókulcsa",
+  "gmcm.unused_tile_tax_rate.desc": "A termelési célra nem hasznosított mezőkre kivetett adókulcs.",
+  "gmcm.used_tile_tax_rate.title": "Hasznosított mezők adókulcsa",
+  "gmcm.used_tile_tax_rate.desc": "A mezőgazdasági, állattenyésztési vagy erdészeti célra aktívan használt mezőkre kivetett adókulcs.",
+  "gmcm.building_tax_rate.title": "Beépített mezők adókulcsa",
+  "gmcm.building_tax_rate.desc": "Az épület által elfoglalt mezőkre kivetett adókulcs (a varázslatos épületek mentesülnek, ha az alábbi opció engedélyezve van).",
+  "gmcm.exempt_magical_buildings.title": "Varázslatos épületek mentesítése",
+  "gmcm.exempt_magical_buildings.desc": "A varázslatos épületek (azaz a Varázsló Tornyánál megidézett épületek) mentesülnek-e a telekadó alól.",
+  "gmcm.property_tax_day.title": "Esedékesség napja",
+  "gmcm.property_tax_day.desc": "Az évszak azon napja, amikor a telekadót felszámítják.",
+  "gmcm.property_tax_lateness_fine.title": "Késedelmi pótlék",
+  "gmcm.property_tax_lateness_fine.desc": "Egyszeri büntetőkamat a meg nem fizetett összegre, ha a telekadót nem fizetik be időben.",
+
+  // other
+  "gmcm.annual_interest.title": "Éves kamat",
+  "gmcm.annual_interest.desc": "A fennálló tartozásokra évente felszámított kamatláb. A kamat napi szinten az éves kamatláb 1/112-ével halmozódik.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Növényi feldolgozási termékek alapértékszorozója",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "A növényekből készített kézműves termékek értékének becsléséhez használt szorzó.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Állati feldolgozási termékek alapértékszorozója",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "Az állati termékekből készített kézműves termékek értékének becsléséhez használt szorzó."
+}

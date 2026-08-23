@@ -1,0 +1,12 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "algae": "Alghe",
+
+  "gmcm.days_until_algae_spawn.title": "Giorni alla comparsa delle alghe",
+  "gmcm.days_until_algae_spawn.desc": "Il numero di giorni prima che uno stagno vuoto inizi a produrre alghe.",
+  "gmcm.roe_production_chance_multiplier.title": "Moltiplicatore della probabilità di produzione di uova",
+  "gmcm.roe_production_chance_multiplier.desc": "Un moltiplicatore alla probabilità base di un pesce di produrre uova ogni giorno.",
+  "gmcm.add_legendary_pond_data.title": "Aggiungi dati per gli stagni di pesci leggendari",
+  "gmcm.add_legendary_pond_data.desc": "Aggiunge drop immersivi agli stagni di pesci leggendari. Non ha effetto se Walk of Life è installato."
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "Ministero dell'Economia e delle Finanze^Agenzia delle Entrate di Ferngill^^^{{honorific}} Contribuente,^^La informiamo che la Sua recente variazione di domicilio a Pelican Town, Stardew Valley, è stata registrata. Tutta la corrispondenza futura sarà indirizzata alla fattoria {{farm}}.^^La ricordiamo che i contributi dell'imposta federale sul reddito sono dovuti entro la fine del primo giorno di ogni stagione. Per sua comodità, le somme dovute saranno automaticamente detratte dal suo saldo. In caso di saldo insufficiente, sarà sanzionato ai sensi della sezione 501(c)(1) del Codice Tributario di Ferngill con una penale di {{fine}}, e sarà emesso a suo nome un prestito presso la Banca di Stardew, soggetto al tasso di interesse nominale di {{interest}} annuo.^^^Cordiali saluti,^^Laura D. Pretto^Direttrice Esecutiva, Agenzia delle Entrate di Ferngill[#]Conferma di variazione di domicilio",
+  "mail.frs.notice": "Ministero dell'Economia e delle Finanze^Agenzia delle Entrate di Ferngill^^^{{honorific}} Contribuente,^^La informiamo che la sua imposta sul reddito totale maturata per la stagione in chiusura, pari a {{due}}g, sarà automaticamente detratta dal suo saldo {{when}}.^^Si prega di conservare questa lettera negli archivi permanenti qualora fosse necessario risolvere qualsiasi questione relativa alla sua situazione fiscale.^^^Cordiali saluti,^^Laura D. Pretto^Direttrice Esecutiva, Agenzia delle Entrate di Ferngill[#]Avviso mensile dell'Agenzia delle Entrate",
+  "mail.frs.deduction": "Ministero dell'Economia e delle Finanze^Agenzia delle Entrate di Ferngill^^^{{honorific}} Contribuente,^^La informiamo che la sua imposta sul reddito totale maturata per la stagione in chiusura ammonta a {{accrued}}g. In considerazione delle sue recenti attività ambientaliste, ha diritto a una detrazione di {{deductible}} ai sensi della sezione 501(c)(3) del Codice Tributario di Ferngill.^^Pertanto, la sua imposta sul reddito finale dovuta, pari a {{final}}g, sarà automaticamente detratta dal suo saldo {{when}}.^^Si prega di conservare questa lettera negli archivi permanenti qualora fosse necessario risolvere qualsiasi questione relativa alla sua situazione fiscale.^^^Cordiali saluti,^^Laura D. Pretto^Direttrice Esecutiva, Agenzia delle Entrate di Ferngill[#]Avviso di detrazione dell'Agenzia delle Entrate",
+  "mail.frs.deduction.max": "Ministero dell'Economia e delle Finanze^Agenzia delle Entrate di Ferngill^^^{{honorific}} Contribuente,^^La informiamo che la sua imposta sul reddito totale maturata per la stagione in chiusura ammonta a {{accrued}}g. In considerazione delle sue recenti attività ambientaliste, ha diritto a una detrazione completa della sua imposta federale sul reddito ai sensi della sezione 501(c)(3) del Codice Tributario di Ferngill. Pertanto, non verrà addebitata alcuna somma sul suo saldo durante la stagione corrente.^^Si prega di conservare questa lettera negli archivi permanenti qualora fosse necessario risolvere qualsiasi questione relativa alla sua situazione fiscale.^^^Cordiali saluti,^^Laura D. Pretto^Direttrice Esecutiva, Agenzia delle Entrate di Ferngill[#]Avviso di detrazione dell'Agenzia delle Entrate",
+  "mail.frs.outstanding": "Ministero dell'Economia e delle Finanze^Agenzia delle Entrate di Ferngill^^^{{honorific}} Contribuente,^^La informiamo che la sua imposta sul reddito totale dovuta per la stagione precedente, pari a {{due}}g, non ha potuto essere interamente detratta dal suo saldo. Ai sensi della sezione 501(c)(1) del Codice Tributario di Ferngill, Le sarà comminata un'ulteriore sanzione di {{fine}} e tutti i futuri introiti della fattoria {{farm}} saranno trattenuti fino all'estinzione del debito residuo, pari a {{outstanding}}g. La invitiamo a saldare qualsiasi debito pendente il prima possibile per evitare l'accumulo di interessi al tasso di {{interest}} annuo.^^Si prega di conservare questa lettera negli archivi permanenti qualora fosse necessario risolvere qualsiasi questione relativa alla sua situazione fiscale.^^^Cordiali saluti,^^Laura D. Pretto^Direttrice Esecutiva, Agenzia delle Entrate di Ferngill[#]Avviso mensile dell'Agenzia delle Entrate",
+  "mail.lewis.intro": "@,^^^Benvenuto a Pelican Town! Spero che ti stia sistemando bene nella tua nuova casa.^^Solo un promemoria amichevole: come nuovo proprietario di {{farm}}, sei ora responsabile delle imposte fondiarie della fattoria. Ogni anno, il distretto valuterà il valore del tuo terreno e tasserà una percentuale di esso. In base alla loro regola del "valore d'uso", i terreni inutilizzati vengono generalmente tassati *di più* rispetto a quelli attivamente coltivati, quindi è meglio iniziare a rimuovere quelle erbacce e quei ceppi!^^Il tuo defunto nonno ha già provveduto a tutte le tasse fino all'anno scorso, quindi non hai nulla di cui preoccuparti fino al prossimo anno. Non chiedermi come facesse a sapere esattamente l'anno in cui ti saresti trasferito!^^Ho anche inviato un pacchetto iniziale per aiutarti a iniziare. Non vedo l'ora di vedere cosa riuscirai a realizzare!^^^  Cordialmente, Sindaco Lewis[#]Avviso di imposta fondiaria comunale",
+  "mail.lewis.notice": "@,^^^Come sai, uno dei miei doveri come sindaco di Pelican Town è riscuotere le tasse su tutte le proprietà della città. Nel corso dell'anno fiscale precedente, la valutazione catastale del distretto per la fattoria {{farm}} ha determinato un valore di {{valuation}}g. Di conseguenza, sei tenuto a versare {{due}}g di imposta fondiaria per il periodo fiscale applicabile. Tale importo sarà addebitato sul tuo conto il giorno {{day}} di Primavera.^^A nome di Pelican Town, ti sono profondamente grato per i tuoi continui contributi alla nostra comunità.^^^  Cordialmente, Sindaco Lewis[#]Avviso di imposta fondiaria comunale",
+  "mail.lewis.outstanding": "@,^^^Sembra che il tuo conto non avesse fondi sufficienti per coprire l'intera imposta fondiaria del periodo corrente. In conformità con la politica del distretto, mi dispiace informarti che ti sarà comminata un'ulteriore mora di {{fine}}. L'importo residuo di {{outstanding}}g sarà ceduto alla Banca di Stardew, che è autorizzata a trattenere tutti i proventi delle spedizioni fino al completo rimborso, al tasso d'interesse annuo di {{interest}}.^^Sappi che gli abitanti di Pelican Town sono qui per supportarti se stai attraversando un momento difficile.^^  Cordialmente, Sindaco Lewis[#]Avviso di imposta fondiaria comunale",
+
+  // other
+  "hud.tax.debit": "{{amount}}g sono stati addebitati sul tuo conto per il pagamento delle tasse.",
+  "hud.debt.debit": "{{amount}}g sono stati trattenuti dalla spedizione di ieri per saldare i debiti in sospeso.",
+  "honorific.male": "Egregio",
+  "honorific.female": "Gentile",
+  "when.tonight": "stanotte",
+  "when.day": "il giorno {{day}} della stagione corrente",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "IRPEF",
+  "gmcm.tax_rate_per_income_bracket.title": "Aliquote per scaglione di reddito",
+  "gmcm.tax_rate_per_income_bracket.desc": "Le aliquote applicate a ciascuno scaglione di reddito. In ogni coppia, il primo numero rappresenta il limite di reddito per quello scaglione e il secondo rappresenta la percentuale imponibile del reddito all'interno di quello scaglione.",
+  "gmcm.income_bracket.title": "Scaglione",
+  "gmcm.income_bracket.desc": "Il limite di reddito per questo scaglione. Tutti i redditi compresi tra lo scaglione precedente e questo valore saranno tassati all'aliquota corrispondente.",
+  "gmcm.tax_rate.title": "Aliquota",
+  "gmcm.tax_rate.desc": "La percentuale imponibile del reddito all'interno di questo scaglione.",
+  "gmcm.deductible_animal_expenses.title": "Spese detraibili per animali",
+  "gmcm.deductible_animal_expenses.desc": "La percentuale dell'oro speso per l'acquisto di animali e forniture che può essere detratta dalle tasse.",
+  "gmcm.deductible_building_expenses.title": "Spese detraibili per edifici",
+  "gmcm.deductible_building_expenses.desc": "La percentuale dell'oro speso per la costruzione di edifici nella fattoria che può essere detratta dalle tasse.",
+  "gmcm.deductible_seed_expenses.title": "Spese detraibili per semi",
+  "gmcm.deductible_seed_expenses.desc": "La percentuale dell'oro speso per l'acquisto di semi che può essere detratta dalle tasse.",
+  "gmcm.deductible_tool_expenses.title": "Spese detraibili per attrezzi",
+  "gmcm.deductible_tool_expenses.desc": "La percentuale dell'oro speso per l'acquisto e il potenziamento degli attrezzi che può essere detratta dalle tasse.",
+  "gmcm.deductible_extras.title": "Altre detrazioni",
+  "gmcm.deductible_extras.desc": "La percentuale dell'oro speso per l'oggetto specifico che può essere detratta dalle tasse. Gli oggetti devono essere aggiunti manualmente a questo elenco.",
+  "gmcm.deductible_extras.label.key": "Nome oggetto",
+  "gmcm.deductible_extras.label.value": "% detraibile",
+  "gmcm.income_tax_day.title": "Scadenza",
+  "gmcm.income_tax_day.desc": "Il giorno della stagione in cui vengono addebitate le imposte sul reddito.",
+  "gmcm.income_tax_lateness_fine.title": "Mora per ritardo",
+  "gmcm.income_tax_lateness_fine.desc": "Un tasso sanzionatorio una tantum applicato sull'importo non pagato quando le imposte sul reddito non vengono pagate in tempo.",
+
+  // property
+  "gmcm.sections.txs.property": "IMU",
+  "gmcm.baseline_unused_tile_cost.title": "Costo base per tessere inutilizzate",
+  "gmcm.baseline_unused_tile_cost.desc": "Il costo base in oro delle tessere inutilizzate.",
+  "gmcm.unused_tile_tax_rate.title": "Aliquota sulle tessere inutilizzate",
+  "gmcm.unused_tile_tax_rate.desc": "L'aliquota applicata a una tessera non attivamente utilizzata per fini produttivi.",
+  "gmcm.used_tile_tax_rate.title": "Aliquota sulle tessere utilizzate",
+  "gmcm.used_tile_tax_rate.desc": "L'aliquota applicata a una tessera attivamente utilizzata per agricoltura, allevamento o silvicoltura.",
+  "gmcm.building_tax_rate.title": "Aliquota sulle tessere con edifici",
+  "gmcm.building_tax_rate.desc": "L'aliquota applicata a una tessera occupata da un edificio costruito (gli edifici magici sono esenti se l'opzione sottostante è attivata).",
+  "gmcm.exempt_magical_buildings.title": "Esenzione edifici magici",
+  "gmcm.exempt_magical_buildings.desc": "Se gli edifici magici (cioè quelli evocati alla Torre del Mago) sono esenti dall'imposta fondiaria.",
+  "gmcm.property_tax_day.title": "Scadenza",
+  "gmcm.property_tax_day.desc": "Il giorno della stagione in cui viene addebitata l'imposta fondiaria.",
+  "gmcm.property_tax_lateness_fine.title": "Mora per ritardo",
+  "gmcm.property_tax_lateness_fine.desc": "Un tasso sanzionatorio una tantum applicato sull'importo non pagato quando l'imposta fondiaria non viene pagata in tempo.",
+
+  // other
+  "gmcm.annual_interest.title": "Interesse annuale",
+  "gmcm.annual_interest.desc": "Il tasso d'interesse applicato annualmente su qualsiasi debito in sospeso. Gli interessi maturano giornalmente a un tasso pari a 1/112 del tasso annuale.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Moltiplicatore di valore artigianale per le colture",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "Il moltiplicatore utilizzato per stimare il valore dei prodotti artigianali derivati dalle colture.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Moltiplicatore di valore artigianale per i prodotti animali",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "Il moltiplicatore utilizzato per stimare il valore dei prodotti artigianali derivati dai prodotti animali."
+}

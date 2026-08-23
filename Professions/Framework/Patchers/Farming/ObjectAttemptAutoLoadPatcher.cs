@@ -2,10 +2,10 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Inventories;
-using StardewValley.Objects;
 
 #endregion using directives
 
@@ -24,24 +24,85 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch for Industrialist production speed bonus.</summary>
-    [HarmonyPostfix]
+    /// <summary>Patch for Machinist auto treatment.</summary>
+    [HarmonyPrefix]
     [UsedImplicitly]
-    private static void ObjectAttemptAutoLoadPostfix(SObject __instance, bool __result, Farmer who)
+    private static bool ObjectAttemptAutoLoadPrefix(SObject __instance, ref bool __result, IInventory inventory, Farmer who)
     {
-        if (!__instance.IsArtisanMachine() || !__result || !who.HasProfession(Profession.Artisan, true))
+        if (!__instance.IsArtisanMachine() || !who.HasProfession(Profession.Artisan, true) ||
+            !Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
         {
-            return;
+            return true; // run original logic
         }
 
-        if (__instance is Cask cask)
+        if (__instance.heldObject.Value is not null)
         {
-            cask.daysToMature.Value -= cask.daysToMature.Value / 4;
+            __result = false;
+            return false; // don't run original logic
         }
-        else
+
+        if (!inventory.Any(item => (item as SObject)?.IsPossibleMachineTreatment() ?? false))
         {
-            __instance.MinutesUntilReady -= __instance.MinutesUntilReady / 4;
+            return true; // run original logic
         }
+
+        SObject.autoLoadFrom = inventory;
+        Item? itemThatWillBeLoaded = null;
+        foreach (var item in inventory)
+        {
+            if (__instance.performObjectDropInAction(item, probe: true, who))
+            {
+                itemThatWillBeLoaded = item;
+                break;
+            }
+        }
+
+        if (itemThatWillBeLoaded is null)
+        {
+            SObject.autoLoadFrom = null;
+            __result = false;
+            return false; // run original logic
+        }
+
+        var inputTreatmentCategory = treatmentRules.Default;
+        var contextTags = itemThatWillBeLoaded.GetContextTags();
+        var matchingTag = treatmentRules
+            .Overrides
+            .Keys
+            .LastOrDefault(contextTags.Contains);
+        if (!string.IsNullOrEmpty(matchingTag))
+        {
+            inputTreatmentCategory = treatmentRules.Overrides[matchingTag];
+        }
+
+        if (treatmentRules.Overrides.TryGetValue(itemThatWillBeLoaded.QualifiedItemId, out var overrideCategory))
+        {
+            inputTreatmentCategory = overrideCategory;
+        }
+
+        if (inputTreatmentCategory == MachineTreatmentCategory.None)
+        {
+            return true; // don't run original logic
+        }
+
+        // get applied treatments to this machine
+        var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
+        if ((appliedTreatments.CoatingCategory != inputTreatmentCategory || appliedTreatments.CoatingCycles == 0) &&
+            inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[inputTreatmentCategory])) is { } treatmentItem)
+        {
+            treatmentItem.ConsumeStack(1);
+            appliedTreatments.CoatingCategory = inputTreatmentCategory;
+            appliedTreatments.CoatingCycles = 20;
+        }
+
+        if (appliedTreatments.OverclockCycles == 0 && inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[MachineTreatmentCategory.Overclock])) is { } battery)
+        {
+            battery.ConsumeStack(1);
+            appliedTreatments.OverclockCycles = 30;
+        }
+
+        Data.WriteAppliedMachineTreatments(__instance, appliedTreatments);
+        return true; // run original logic
     }
 
     #endregion harmony patches

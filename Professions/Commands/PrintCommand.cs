@@ -279,7 +279,7 @@ internal sealed class PrintCommand(CommandHandler handler)
             var which = parsed.Select(p => ItemRegistry.Create(p).Name);
             sb.AppendLine("=== Gemologist Progress ===");
             sb.AppendLine($"Mineral varieties studied:          {parsed.Count}");
-            sb.AppendLine($"Current expected quality:           {(ObjectQuality)who.GetEcologistForageQuality()}");
+            sb.AppendLine($"Current expected quality:           {(ObjectQuality)who.GetGemologistMineralQuality()}");
             sb.AppendLine($"Varieties left for best quality:    {Config.ForagesNeededForBestQuality - parsed.Count}");
             sb.AppendLine();
             sb.AppendLine("Studied varieties:");

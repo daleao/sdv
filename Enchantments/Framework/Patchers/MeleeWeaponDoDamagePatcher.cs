@@ -125,7 +125,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
 
         if (!weapon.hasEnchantmentOfType<ReachingToolEnchantment>())
         {
-            return tiles.ToList();
+            return [.. tiles];
         }
 
         switch (weapon.lastUser.FacingDirection)
@@ -160,7 +160,7 @@ internal sealed class MeleeWeaponDoDamagePatcher : HarmonyPatcher
                 break;
         }
 
-        return tiles.ToList();
+        return [.. tiles];
     }
 
     #endregion injected

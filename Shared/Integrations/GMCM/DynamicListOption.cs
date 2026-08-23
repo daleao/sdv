@@ -80,7 +80,7 @@ public class DynamicListOption
             api.AddTextOption(
                 mod: mod,
                 getValue: () => string.Join(';', this.GetValues()),
-                setValue: value => this.SetValues(value.Split(';').ToList()),
+                setValue: value => this.SetValues([.. value.Split(';')]),
                 name: this.GetOptionName,
                 tooltip: this.GetOptionTooltip,
                 fieldId: this.Id);
@@ -124,7 +124,7 @@ public class DynamicListOption
     {
         if (this._isOpen)
         {
-            this.SetValues(this.cachedValues.Where(value => !string.IsNullOrEmpty(value)).ToList());
+            this.SetValues([.. this.cachedValues.Where(value => !string.IsNullOrEmpty(value))]);
         }
     }
 

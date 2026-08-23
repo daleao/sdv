@@ -5,8 +5,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Locations;
 
 #endregion using directives
 
@@ -23,6 +25,103 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
     }
 
     #region harmony patches
+
+    [HarmonyPostfix]
+    [UsedImplicitly]
+    private static void GameLocationBreakStonePostfix(GameLocation __instance, string stoneId, int x, int y, Farmer? who, Random r)
+    {
+        if (who is null || __instance is not MineShaft shaft ||
+            !who.HasProfession(Profession.Spelunker) || !shaft.ladderHasSpawned)
+        {
+            return;
+        }
+
+        if (!stoneId.IsAnyOf("343", "449", "450", "668", "670", "760", "762", "845", "846", "847"))
+        {
+            return;
+        }
+
+        var addedOres = 0;
+        if (who.HasProfession(Profession.Miner))
+        {
+            addedOres += who.HasProfession(Profession.Miner, true) ? 2 : 1;
+        }
+
+        if (who.hasBuff("dwarfStatue_0"))
+        {
+            addedOres++;
+        }
+
+        var chance = 0.2 + (State.SpelunkerClusterStreak * 0.01);
+        if (who.HasProfession(Profession.Spelunker, true))
+        {
+            chance *= 2;
+        }
+
+        if (!r.NextBool(chance))
+        {
+            return;
+        }
+
+        var farmerId = who.UniqueMultiplayerID;
+        var farmerLuckLevel = who.LuckLevel;
+        var farmerMiningLevel = who.MiningLevel;
+        if (shaft.GetAdditionalDifficulty() > 0 && r.NextBool(0.2))
+        {
+            Game1.createMultipleObjectDebris(
+                QIDs.RadioactiveOre,
+                x,
+                y,
+                addedOres + r.Next(1, 4) + ((r.NextDouble() < (double)(farmerLuckLevel / 100f)) ? 1 : 0) + ((r.NextDouble() < (double)(farmerMiningLevel / 100f)) ? 1 : 0),
+                farmerId,
+                __instance);
+            return;
+        }
+
+        if (shaft.mineLevel >= 120 && r.NextBool(0.2))
+        {
+            Game1.createMultipleObjectDebris(
+                QIDs.IridiumOre,
+                x,
+                y,
+                addedOres + r.Next(1, 4) + ((r.NextDouble() < (double)(farmerLuckLevel / 100f)) ? 1 : 0) + ((r.NextDouble() < (double)(farmerMiningLevel / 100f)) ? 1 : 0),
+                farmerId,
+                __instance);
+            return;
+        }
+
+        if (shaft.mineLevel >= 80 && r.NextBool(0.2))
+        {
+            Game1.createMultipleObjectDebris(
+                QIDs.GoldOre,
+                x,
+                y,
+                addedOres + r.Next(1, 4) + ((r.NextDouble() < (double)(farmerLuckLevel / 100f)) ? 1 : 0) + ((r.NextDouble() < (double)(farmerMiningLevel / 100f)) ? 1 : 0),
+                farmerId,
+                __instance);
+            return;
+        }
+
+        if (shaft.mineLevel >= 40 && r.NextBool(0.2))
+        {
+            Game1.createMultipleObjectDebris(
+                QIDs.IronOre,
+                x,
+                y,
+                addedOres + r.Next(1, 4) + ((r.NextDouble() < (double)(farmerLuckLevel / 100f)) ? 1 : 0) + ((r.NextDouble() < (double)(farmerMiningLevel / 100f)) ? 1 : 0),
+                farmerId,
+                __instance);
+            return;
+        }
+
+        Game1.createMultipleObjectDebris(
+            QIDs.CopperOre,
+            x,
+            y,
+            addedOres + r.Next(1, 4) + ((r.NextDouble() < (double)(farmerLuckLevel / 100f)) ? 1 : 0) + ((r.NextDouble() < (double)(farmerMiningLevel / 100f)) ? 1 : 0),
+            farmerId,
+            __instance);
+    }
 
     /// <summary>Patch to remove Geologist extra gem chance + remove Prospector double coal chance.</summary>
     [HarmonyTranspiler]

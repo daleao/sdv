@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -13,6 +14,7 @@ using StardewValley.Locations;
 #endregion using directives
 
 [UsedImplicitly]
+[Deprecated]
 internal sealed class MineShaftLoadLevelPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="MineShaftLoadLevelPatcher"/> class.</summary>

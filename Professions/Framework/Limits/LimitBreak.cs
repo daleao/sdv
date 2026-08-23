@@ -105,6 +105,7 @@ public abstract class LimitBreak : ILimitBreak
 
                 this.OnEmptied();
                 field = 0;
+                return;
             }
 
             var delta = value - field;

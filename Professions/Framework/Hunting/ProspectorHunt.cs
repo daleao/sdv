@@ -49,7 +49,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    public override int TimeLimit => Config.ProspectorHuntTimeLimit;
+    public override int TimeLimit => Config.ProspectorHuntDifficulty == 0 ? int.MaxValue : 70 - (10 * Config.ProspectorHuntDifficulty);
 
     /// <inheritdoc />
     public override int TriggerPool { get; protected set; }
@@ -65,7 +65,7 @@ internal sealed class ProspectorHunt : TreasureHunt
     /// <summary>Ends the current iteration of the active hunt successfully.</summary>
     public override void Complete()
     {
-        this.Complete();
+        this.Complete(false);
     }
 
     /// <inheritdoc />
@@ -245,11 +245,6 @@ internal sealed class ProspectorHunt : TreasureHunt
             roll -= stone.weight;
         }
 
-        if (this.Location is not null && Config.TougherProspectorHunt)
-        {
-            this.Location.Objects[this.TargetTile.Value].MinutesUntilReady += this._targetsFound;
-        }
-
         Log.D($"[Prospector Hunt]: New chosen target is at {this.TargetTile.Value}.");
         this.RemoveLightSource(location);
         this.GenerateLightSource(location);
@@ -298,11 +293,11 @@ internal sealed class ProspectorHunt : TreasureHunt
                 $"true/" +
                 $"{this.Location!.NameOrUniqueName}/" +
                 $"{this.TargetTile!.Value.X.ToString(CultureInfo.InvariantCulture)}/" +
-                $"{this.TargetTile!.Value.X.ToString(CultureInfo.InvariantCulture)}",
+                $"{this.TargetTile!.Value.Y.ToString(CultureInfo.InvariantCulture)}",
                 "HuntingForTreasure/Prospector");
         }
 
-        this._numTargets = Math.Min((int)Game1.random.NextSplitGaussian(mu: 6, sigmaLeft: 1, sigmaRight: 4), 10) - (int)(player.DailyLuck * 11d);
+        this._numTargets = Math.Min((int)this.Random.NextSplitGaussian(mu: 6, sigmaLeft: 1, sigmaRight: 4), 10) - (int)(player.DailyLuck * 11d);
         this._targetsFound = 0;
         base.StartImpl(location, treasureTile);
         player.applyBuff(new ProspectorHuntBuff());
@@ -310,7 +305,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
     /// <summary>Ends the active hunt successfully.</summary>
     /// <param name="earlyTermination">If <see langword="true"/>, skips all pending iterations.</param>
-    private void Complete(bool earlyTermination = false)
+    private void Complete(bool earlyTermination)
     {
         if (this.TargetTile is null || this.Location is null)
         {
@@ -319,7 +314,8 @@ internal sealed class ProspectorHunt : TreasureHunt
         }
 
         //this.PlayCue();
-        Game1.playSound("reward", 1200 + (this._targetsFound * 100));
+        var pitch = 600 + (this._targetsFound * 100);
+        Game1.playSound("reward", pitch); // pitch is ignored for unknown reason
         if (++this._targetsFound < this._numTargets && !earlyTermination)
         {
             this.Location.debris.Add(new Debris(
@@ -328,8 +324,6 @@ internal sealed class ProspectorHunt : TreasureHunt
                 Color.White,
                 1f,
                 null));
-            Game1.playSound("healSound");
-
             this.ChooseTreasureTile(this.Location);
             return;
         }
@@ -455,26 +449,44 @@ internal sealed class ProspectorHunt : TreasureHunt
     {
         if (mineLevel > 120 && this.Random.NextBool(0.45 + luck))
         {
-            treasuresAndQuantities.AddOrUpdate(QIDs.IridiumOre, this.RollStack(2, 5, 0.3, 0.9), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(
+                QIDs.IridiumOre,
+                this.Random.Next(2, 7 * (this.Random.NextBool(0.12) ? this.Random.Next(2, 4) : 1)),
+                (a, b) => a + b);
         }
 
         if ((mineLevel < 0 || Game1.mine.GetAdditionalDifficulty() > 0) && this.Random.NextBool(0.45 + luck))
         {
-            treasuresAndQuantities.AddOrUpdate(QIDs.RadioactiveOre, this.RollStack(2, 5, 0.3, 0.9), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(
+                QIDs.RadioactiveOre,
+                this.Random.Next(2, 7 * (this.Random.NextBool(0.12) ? this.Random.Next(2, 4) : 1)),
+                (a, b) => a + b);
         }
 
         if (mineLevel is < 0 or > 80 && this.Random.NextBool(0.65 + luck))
         {
-            treasuresAndQuantities.AddOrUpdate(QIDs.GoldOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(
+                QIDs.GoldOre,
+                this.Random.Next(2, 7 * (this.Random.NextBool(0.15) ? this.Random.Next(2, 4) : 1)),
+                (a, b) => a + b);
         }
 
         if (mineLevel is < 0 or > 40 && this.Random.NextBool(0.85 + luck))
         {
-            treasuresAndQuantities.AddOrUpdate(QIDs.IronOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
+            treasuresAndQuantities.AddOrUpdate(
+                QIDs.IronOre,
+                this.Random.Next(2, 7 * (this.Random.NextBool(0.18) ? this.Random.Next(2, 5) : 1)),
+                (a, b) => a + b);
         }
 
-        treasuresAndQuantities.AddOrUpdate(QIDs.CopperOre, this.RollStack(2, 5, 0.35, 0.9), (a, b) => a + b);
-        treasuresAndQuantities.AddOrUpdate(QIDs.Coal, this.RollStack(3, 10, 0.4, 0.9), (a, b) => a + b);
+        treasuresAndQuantities.AddOrUpdate(
+            QIDs.CopperOre,
+            this.Random.Next(2, 7 * (this.Random.NextBool(0.2) ? this.Random.Next(2, 5) : 1)),
+            (a, b) => a + b);
+        treasuresAndQuantities.AddOrUpdate(
+            QIDs.Coal,
+            this.Random.Next(3, 11 * (this.Random.NextBool(0.2) ? this.Random.Next(2, 4) : 1)),
+            (a, b) => a + b);
     }
 
     private void AddArtifacts(Dictionary<string, int> treasuresAndQuantities, double luck)
@@ -512,7 +524,7 @@ internal sealed class ProspectorHunt : TreasureHunt
                 (a, b) => a + b);
         }
 
-        if (mineLevel > 80 && this.Random.NextBool(0.45 + luck))
+        if ((mineLevel > 80 || mineLevel < 0) && this.Random.NextBool(0.45 + luck))
         {
             var stack = 1;
             while (this.Random.NextBool(0.4))
@@ -560,7 +572,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
     private void AddSpecialTreasureItems(Dictionary<string, int> treasuresAndQuantities, double luck, int mineLevel = -1)
     {
-        var luckModifier = Math.Max(0, 1d + (luck * Math.Max(mineLevel / 4, 1)));
+        var luckModifier = Math.Clamp(1d + (luck * Math.Max(mineLevel / 4, 1)), 0d, 3d);
         if (mineLevel > 0 && this.Random.NextBool(0.15 * luckModifier))
         {
             treasuresAndQuantities.TryAdd(this.Random.NextBool() ? QIDs.Femur : QIDs.OssifiedBlade, 1);
@@ -573,11 +585,11 @@ internal sealed class ProspectorHunt : TreasureHunt
                 (a, b) => a + b);
         }
 
-        if (this.Random.NextBool(0.35 * luckModifier))
+        if (this.Random.NextBool(0.15))
         {
             treasuresAndQuantities.AddOrUpdate(QIDs.PrismaticShard, 1, (a, b) => a + b);
         }
-        else if (this.Random.NextBool(0.5 * luckModifier))
+        else if (this.Random.NextBool(0.55))
         {
             treasuresAndQuantities.AddOrUpdate(QIDs.Diamond, 1, (a, b) => a + b);
         }

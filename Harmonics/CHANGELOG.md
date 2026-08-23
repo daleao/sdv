@@ -1,5 +1,13 @@
 ﻿# HARMONICS Changelog
 
+## 1.2.1
+
+### Added
+
+* Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+<sup><sup>[🔼 Back to top]( #harmonics-changelog)</sup></sup>
+
 ## 1.2.0
 
 ### Changed

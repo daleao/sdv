@@ -59,7 +59,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
                 }
 
                 _paintBrushTarget = slime;
-                __instance.createQuestionDialogue(I18n.Piper_Usebrush(), __instance.createYesNoResponses(), HandlePaintBursh);
+                __instance.createQuestionDialogue(I18n.Objects_Brush_Prompt(), __instance.createYesNoResponses(), HandlePaintBursh);
                 __result = true;
                 return false; // don't run original logic
             }
@@ -200,29 +200,28 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
 
         if (_paintBrushTarget.TryUsePaintbrush(brush))
         {
-            var multiplayer = Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke();
-            multiplayer.broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                 _paintBrushTarget.currentLocation,
                 new TemporaryAnimatedSprite(44, _paintBrushTarget.Position, color * 0.66f, 10)
                 {
                     interval = 70f, holdLastFrame = true,
                     alphaFade = 0.01f,
                 });
-            multiplayer.broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                 _paintBrushTarget.currentLocation,
                 new TemporaryAnimatedSprite(44, _paintBrushTarget.Position + new Vector2(-16f, 0f), color * 0.66f, 10)
                 {
                     interval = 70f, delayBeforeAnimationStart = 0, holdLastFrame = true,
                     alphaFade = 0.01f,
                 });
-            multiplayer.broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                 _paintBrushTarget.currentLocation,
                 new TemporaryAnimatedSprite(44, _paintBrushTarget.Position + new Vector2(0f, 16f), color * 0.66f, 10)
                 {
                     interval = 70f, delayBeforeAnimationStart = 100, holdLastFrame = true,
                     alphaFade = 0.01f,
                 });
-            multiplayer.broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                 _paintBrushTarget.currentLocation,
                 new TemporaryAnimatedSprite(44, _paintBrushTarget.Position + new Vector2(16f, 0f), color * 0.66f, 10)
                 {
@@ -235,7 +234,7 @@ internal sealed class GameLocationCheckActionPatcher : HarmonyPatcher
         else
         {
             Game1.playSound("cancel");
-            Game1.addHUDMessage(new HUDMessage(I18n.Piper_Usebrush_Cant(), HUDMessage.error_type));
+            Game1.addHUDMessage(new HUDMessage(I18n.Objects_Brush_Cant_Target(), HUDMessage.error_type));
         }
 
         _paintBrushTarget = null;

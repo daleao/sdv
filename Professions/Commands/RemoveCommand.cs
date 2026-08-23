@@ -103,7 +103,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
 
         if (args[0].ToLower() is "mastery" or "masteries")
         {
-            args = args.Skip(1).ToArray();
+            args = [.. args.Skip(1)];
             foreach (var arg in args)
             {
                 if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
@@ -205,7 +205,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
             GameLocation.RemoveProfession(pid);
         }
 
-        LevelUpMenu.RevalidateHealth(Game1.player);
+        LevelUpMenu.RevalidateHealth(player);
         if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
         {
             ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");

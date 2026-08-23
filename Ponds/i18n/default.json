@@ -4,11 +4,13 @@
   "algae": "Algae",
 
   /************
-  *** GMCM ***
-  ************/
+   *** GMCM ***
+   ************/
 
   "gmcm.days_until_algae_spawn.title": "Days Until Algae Spawn",
   "gmcm.days_until_algae_spawn.desc": "The number of days until an empty pond will begin spawning algae.",
   "gmcm.roe_production_chance_multiplier.title": "Roe Production Chance Multiplier",
-  "gmcm.roe_production_chance_multiplier.desc": "A multiplier to a fish's base chance to produce roe each day."
+  "gmcm.roe_production_chance_multiplier.desc": "A multiplier to a fish's base chance to produce roe each day.",
+  "gmcm.add_legendary_pond_data.title": "Add Legendary Fish Pond Data",
+  "gmcm.add_legendary_pond_data.desc": "Adds immersive drops to Legendary Fish Ponds. This does nothing if Walk of Life is installed."
 }

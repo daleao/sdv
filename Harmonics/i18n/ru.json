@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Гранат",
+  "objects.garnet.desc": "Назван в честь прекрасной принцессы из далёкой земли.",
+  "rings.garnet.name": "Гранатовое кольцо",
+  "rings.garnet.desc": "Золотое кольцо, украшенное гранатом. Сокращает время перезарядки специального удара на 10%.",
+  "rings.infinity.name": "Кольцо Бесконечности",
+  "rings.infinity.desc": "Сосуд для великой силы.",
+
+  "rings.amethyst.prefix": "Медное кольцо, украшенное аметистом.",
+  "rings.topaz.prefix": "Медное кольцо, украшенное топазом.",
+  "rings.aquamarine.prefix": "Серебряное кольцо, украшенное аквамарином.",
+  "rings.jade.prefix": "Серебряное кольцо, украшенное нефритом.",
+  "rings.emerald.prefix": "Золотое кольцо, украшенное изумрудом.",
+  "rings.ruby.prefix": "Золотое кольцо, украшенное рубином.",
+  "rings.iridium.desc": "Обычная иридиевая лента.",
+
+  "node.garnet.name": "Гранатовая жила",
+  "node.garnet.desc": "Скопление гранатов, заключённых в камне.",
+
+  "ui.resonance": "Резонанс",
+  "ui.ruby": "Рубин",
+  "ui.aquamarine": "Аквамарин",
+  "ui.jade": "Нефрит",
+  "ui.emerald": "Изумруд",
+  "ui.amethyst": "Аметист",
+  "ui.topaz": "Топаз",
+  "ui.garnet": "Гранат",
+  "ui.item_hover.damage": "{{amount}} Урон",
+  "ui.item_hover.c_rate": "{{amount}} Шанс крита",
+  "ui.item_hover.c_pow": "{{amount}} Сила крита",
+  "ui.item_hover.knockback": "{{amount}} Отброс",
+  "ui.item_hover.attack_speed": "{{amount}} Скорость атаки",
+  "ui.item_hover.cdr": "{{amount}} Перезарядка",
+  "ui.item_hover.resist": "{{amount}} Защита",
+  "ui.item_hover.light": "Излучает свет",
+  "ui.item_hover.magnetic": "Магнитный",
+
+  "dialogue.emily.gemstones.first": "Вы когда-нибудь по-настоящему ощущали самоцвет? Как топаз растворяется в душе или как рубин поджигает сердце?#$b#Самоцветы обладают удивительной способностью резонировать с нашей энергией. Это как палитра эмоций от природы.",
+  "dialogue.emily.gemstones.second": "Однажды я попробовала набить кольцо кучей самоцветов, чтобы резонировать со всеми сразу.#$b#Но оно всё время разваливалось! Клинт сказал, что обычные металлы недостаточно прочны, чтобы выдержать перекрывающиеся вибрации. Поэтому теперь я ношу разные каждый день!",
+
+  "global.infinitycraft": "{{someone}} выковал Кольцо Бесконечности.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Изготовляемые кольца с самоцветами",
+  "gmcm.craftable_gemstone_rings.desc": "Добавляет новые боевые рецепты для изготовления колец с самоцветами.",
+  "gmcm.audible_gemstones.title": "Слышимые самоцветы",
+  "gmcm.audible_gemstones.desc": "Можно ли слышать частоты самоцветов.",
+  "gmcm.chord_sound_duration.title": "Длительность звука аккорда",
+  "gmcm.chord_sound_duration.desc": "Длительность звукового сигнала аккорда в миллисекундах.",
+  "gmcm.colorful_resonances.title": "Цветные резонансы",
+  "gmcm.colorful_resonances.desc": "Должно ли резонансное свечение наследовать цвет основного тона.",
+  "gmcm.resonance_lightsource_texture.title": "Текстура источника резонансного света",
+  "gmcm.resonance_lightsource_texture.desc": "Текстура, используемая для источника резонансного света.",
+  "gmcm.lightsource_texture.sconce": "Бра",
+  "gmcm.lightsource_texture.stronger": "Ярче",
+  "gmcm.lightsource_texture.patterned": "С узором"
+}

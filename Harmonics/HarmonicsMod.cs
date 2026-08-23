@@ -103,13 +103,6 @@ public sealed class HarmonicsMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<HarmonicsConfig>();
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Data = new ModDataManager(UniqueId, Log);
-        PerScreenState = new PerScreen<HarmonicsState>(() => new HarmonicsState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
-            .ManageInitial(assembly, "DaLion.Harmonics.Framework.Events");
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Harmonics.Framework.Patchers",
@@ -123,6 +116,13 @@ public sealed class HarmonicsMod : Mod
             Log,
             UniqueId,
             "hrmn");
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<HarmonicsConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<HarmonicsState>(() => new HarmonicsState());
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+            .ManageInitial(assembly, "DaLion.Harmonics.Framework.Events");
         this.ValidateMultiplayer();
 
         GarnetStoneId = $"{UniqueId}_GarnetGemstone";

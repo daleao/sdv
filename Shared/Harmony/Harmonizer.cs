@@ -142,7 +142,9 @@ public sealed class Harmonizer
 #endif
 
             var ignoreAttribute = patchType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-            if (ignoreAttribute is not null)
+            var deprecatedAttribute = patchType.GetCustomAttribute<DeprecatedAttribute>();
+            var unusedAttribute = patchType.GetCustomAttribute<UnusedAttributed>();
+            if (ignoreAttribute is not null || deprecatedAttribute is not null || unusedAttribute is not null)
             {
                 this._log.D($"[Harmonizer]: {patchType.Name} is marked to be ignored.");
                 continue;

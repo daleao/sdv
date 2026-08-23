@@ -9,7 +9,7 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewModdingAPI.Utilities;
+using StardewValley.Locations;
 using StardewValley.TerrainFeatures;
 
 #endregion using directives
@@ -28,6 +28,39 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static bool ObjectPlacementActionPrefix(SObject __instance, int x, int y, Farmer? who)
+    {
+        if (__instance.ItemId != SurveyFlagId)
+        {
+            return true; // run original logic
+        }
+
+        if (State.SpelunkerFlag is not null)
+        {
+            Game1.showRedMessage(I18n.Objects_Surveyflag_Cant_Double());
+
+            return false; // don't run original logic
+        }
+
+        if (!(who?.HasProfession(Profession.Spelunker, true) ?? false))
+        {
+            Game1.showRedMessage(I18n.Objects_Surveyflag_Cant_Player());
+            return false; // don't run original logic
+        }
+
+        if (who.currentLocation is not MineShaft shaft)
+        {
+            Game1.showRedMessage(I18n.Objects_Surveyflag_Cant_Here());
+            return false; // don't run original logic
+        }
+
+        State.SpelunkerFlag = __instance;
+        State.SpelunkerFlagLevel = shaft.mineLevel;
+        return true; // don't run original logic
+    }
+
     /// <summary>Patch to prevent quantum bombs when detonating manually + record Arborist-planted trees.</summary>
     [HarmonyTranspiler]
     [UsedImplicitly]
@@ -38,64 +71,64 @@ internal sealed class ObjectPlacementActionPatcher : HarmonyPatcher
 
         // Injected: if (who is not null && who.professions.Contains(<demolitionist_id>) && Config.ModKey.IsDown()) skipIntensity ...
         // After: new TemporaryAnimatedSprite( ... )
-        try
-        {
-            helper
-                .Repeat(
-                    3,
-                    _ =>
-                    {
-                        var skipIntensity = generator.DefineLabel();
-                        var resumeExecution = generator.DefineLabel();
-                        helper
-                            .PatternMatch(
-                                [
-                                    new CodeInstruction(OpCodes.Dup),
-                                    new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
-                                            .shakeIntensity))),
-                                ])
-                            .AddLabels(resumeExecution)
-                            .Insert(
-                                [
-                                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
-                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                                    new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
-                                ])
-                            .InsertProfessionCheck(Farmer.excavator, forLocalPlayer: false)
-                            .Insert(
-                                [
-                                    new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
-                                    new CodeInstruction(
-                                        OpCodes.Call,
-                                        typeof(ProfessionsMod).RequirePropertyGetter(nameof(Config))),
-                                    new CodeInstruction(
-                                        OpCodes.Call,
-                                        typeof(ProfessionsConfig).RequirePropertyGetter(nameof(ProfessionsConfig.ModKey))),
-                                    new CodeInstruction(
-                                        OpCodes.Call,
-                                        typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
-                                    new CodeInstruction(OpCodes.Brtrue_S, skipIntensity),
-                                ])
-                            .PatternMatch(
-                                [
-                                    new CodeInstruction(OpCodes.Dup),
-                                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]), // local 11 = int idNum
-                                    new CodeInstruction(
-                                        OpCodes.Stfld,
-                                        typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
-                                            .extraInfoForEndBehavior))),
-                                ])
-                            .AddLabels(skipIntensity);
-                    });
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed injecting intensity skip for manually-detonated bombs.\nHelper returned {ex}");
-            return null;
-        }
+        //try
+        //{
+        //    helper
+        //        .Repeat(
+        //            3,
+        //            _ =>
+        //            {
+        //                var skipIntensity = generator.DefineLabel();
+        //                var resumeExecution = generator.DefineLabel();
+        //                helper
+        //                    .PatternMatch(
+        //                        [
+        //                            new CodeInstruction(OpCodes.Dup),
+        //                            new CodeInstruction(OpCodes.Ldc_R4, 0.5f),
+        //                            new CodeInstruction(
+        //                                OpCodes.Stfld,
+        //                                typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
+        //                                    .shakeIntensity))),
+        //                        ])
+        //                    .AddLabels(resumeExecution)
+        //                    .Insert(
+        //                        [
+        //                            new CodeInstruction(OpCodes.Ldarg_S, (byte)4), // arg 4 = Farmer who
+        //                            new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+        //                            new CodeInstruction(OpCodes.Ldarg_S, (byte)4),
+        //                        ])
+        //                    .InsertProfessionCheck(Farmer.excavator, forLocalPlayer: false)
+        //                    .Insert(
+        //                        [
+        //                            new CodeInstruction(OpCodes.Brfalse_S, resumeExecution),
+        //                            new CodeInstruction(
+        //                                OpCodes.Call,
+        //                                typeof(ProfessionsMod).RequirePropertyGetter(nameof(Config))),
+        //                            new CodeInstruction(
+        //                                OpCodes.Call,
+        //                                typeof(ProfessionsConfig).RequirePropertyGetter(nameof(ProfessionsConfig.ModKey))),
+        //                            new CodeInstruction(
+        //                                OpCodes.Call,
+        //                                typeof(KeybindList).RequireMethod(nameof(KeybindList.IsDown))),
+        //                            new CodeInstruction(OpCodes.Brtrue_S, skipIntensity),
+        //                        ])
+        //                    .PatternMatch(
+        //                        [
+        //                            new CodeInstruction(OpCodes.Dup),
+        //                            new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]), // local 11 = int idNum
+        //                            new CodeInstruction(
+        //                                OpCodes.Stfld,
+        //                                typeof(TemporaryAnimatedSprite).RequireField(nameof(TemporaryAnimatedSprite
+        //                                    .extraInfoForEndBehavior))),
+        //                        ])
+        //                    .AddLabels(skipIntensity);
+        //            });
+        //}
+        //catch (Exception ex)
+        //{
+        //    Log.E($"Failed injecting intensity skip for manually-detonated bombs.\nHelper returned {ex}");
+        //    return null;
+        //}
 
         try
         {

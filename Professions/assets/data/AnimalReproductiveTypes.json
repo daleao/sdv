@@ -1,0 +1,4 @@
+{
+    "Mammals": [ "Cow", "Goat", "Sheep", "Pig", "Rabbit", "Bear", "Camel" ],
+    "EggLayers": [ "Chicken", "Duck", "Ostrich", "Dinosaur" ]
+}

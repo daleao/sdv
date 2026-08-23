@@ -145,4 +145,19 @@ public static partial class DirectionExtensions
             _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Direction, Vector2>(direction),
         };
     }
+
+    /// <summary>Gets a point which describes the specified direction.</summary>
+    /// <param name="direction">A <see cref="Direction"/>.</param>
+    /// <returns>A <see cref="Point"/> one tile ahead in the <paramref name="direction"/>.</returns>
+    public static Point ToPoint(this Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Up => new Point(0, -1),
+            Direction.Right => new Point(1, 0),
+            Direction.Down => new Point(0, 1),
+            Direction.Left => new Point(-1, 0),
+            _ => ThrowHelperExtensions.ThrowUnexpectedEnumValueException<Direction, Point>(direction),
+        };
+    }
 }

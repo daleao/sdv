@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Tierfutter",
+    "hay.desc": "Eine Mischung aus getrocknetem Gras, Futterpflanzen und Feldfrüchten zur Fütterung von Nutztieren.",
+    "buildings.added_hay": "{0} Portion(en) Tierfutter wurden dem Silo hinzugefügt.",
+
+    "ui.buffs.burnt.damage": "-50% Schaden",
+    "ui.buffs.burnt.dot": "-{{amount}} Leben alle 3 Sekunden",
+    "ui.buffs.frozen.stuck": "Kann sich nicht bewegen",
+    "ui.buffs.frozen.vulnerable": "Anfällig für den nächsten Angriff",
+    "ui.buffs.jinxed.defense": "-50% Verteidigung",
+    "ui.buffs.jinxed.special": "Kann keine Spezialattacken verwenden",
+    "ui.buffs.confused.name": "Desorientiert",
+    "ui.buffs.confused.desc": "Bewegungsrichtung ist umgekehrt.",
+    "ui.buffs.warrior.attack": "+{{value}} Angriff",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Pflanzen-Welkchance",
+    "gmcm.crop_wither_chance.desc": "Die prozentuale Wahrscheinlichkeit, dass eine beliebige Pflanze jeden Tag verwelkt, wenn sie nicht bewässert wird.",
+    "gmcm.two_way_hoppers.title": "Bidirektionale Trichter",
+    "gmcm.two_way_hoppers.desc": "Ermöglicht Trichtern, fertige Produkte aus Maschinen zu entnehmen.",
+    "gmcm.winter_wheat.title": "Winterweizen",
+    "gmcm.winter_wheat.desc": "Ermöglicht Weizen, den Winter im Ruhezustand zu überstehen.",
+    "gmcm.immersive_hay.title": "Immersives Heu",
+    "gmcm.immersive_hay.desc": "Entfernt Heu, das von reifem Weizen geerntet wird, ermöglicht aber die Heuernte von unreifem Weizen mit 100% Chance.",
+    "gmcm.consistent_farmer_debuffs.title": "Einheitliche Bauern-Debuffs",
+    "gmcm.consistent_farmer_debuffs.desc": "Fasst Bauern-Debuffs mit den von diesem Mod bereitgestellten Statuszuständen zusammen."
+}

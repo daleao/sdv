@@ -89,7 +89,7 @@ Equivalent in value to vanilla's 10% price bonus on average, while also providin
 <!--- Agriculturist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Rotate crops to enrich the soil, boosting growth speed and quality. Best-quality crops can be harvested organically, without fertilizers.
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Crops grow 10% faster, plus 5% for each new crop type grown in the same tile and season. Organically harvest highest-quality crops.
 </summary>
 
 <ul>
@@ -131,23 +131,46 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <!--- Artisan --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/artisan.png"/> <b>Artisan (Lv10)</b> - Artisan machines work 10% faster. Machine output quality can be as good as input ingredient quality.
+<summary><img src="./resources/assets/sprites/loose/artisan.png"/> <b>Artisan (Lv10)</b> - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Hopper-automated machines work 25% faster. Machine output quality is always as good as input ingredient quality.
+<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Calibrated machines also increase yield. Apply batteries or curing agents to further boost machine processing speed or output quality.
 </font>
 
 <font size="2">
 <details>
 
-The quality of the output is based on your Farming level. The lowest possible quality is 2 stages below the input quality, and the highest is 1 stage above at a flat 5% chance. For reference, the chance to *match* input quality at Farming level 10 is 30%. Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; i.e., only Artisans themselves can preserve the ingredient quality, and they can do so on any machine, but non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
+Calibration is very straightforward:
+- Each time the same ingredient is processed consecutively, the following production cycle requires 2.5% less time.
+- This caps after 10 cycles, after which the machine becomes "fully-calibrated", and production time is reduced by 25%.
+- If at any moment the machine receives a different item, the calibration drops down to zero and starts over.
+- Only the item ID is checked. Quality is ignored.
+- This is tied to the individual machine, and not the user; as long as the machine was crafted by an Artisan, this will work regardless of who uses the machine (ownership requirements can be disabled in config settings).
+- When Prestiged, a fully-calibrated machine will immediately yield an additional low-quality output after every 5 repeated cycles (works with [Two-Way Hopper](../Core/README.md)).
 
-In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
+Quality preservation:
+- ...is based on your Farming level. There is a `FarmingLevel / 60`% chance to fully preserve the ingredient's quality. If this fails, quality drops by 1 stage, and the game makes another check at `FarmingLevel / 30`. If this also fails, quality drops again by 1 stage. If starting with Iridium ingredients, then the output is guaranteed to be at least Silver quality.
+- ...is tied to the Artisan player, and not the machine. This means that only Artisan players can preserve ingredient quality, and they can do so on any machine, even those crafted by non-Artisan players.
 
-**Please be aware that Hopper behavior is improved by the core mod [Lionheart](../Core).**
+Machine treatments:
+- Machines can receive four types of treatments:
+    - **Fermentation treatment** is performed by coating the inside of a machine with Oak Resin. Just as wines and spirits are traditionally aged in oak barrels, a resin-treated vessel gradually imparts subtle woody notes while creating a more favorable environment for fermentation. This treatment improves the quality of fermented products such as wine, beer, mead, cheese, pickles, and other cultured foods.
+    - **Glazing treatment** is performed by coating the inside of a machine with a sweet, viscous syrup such as Maple Syrup. The seasoned surfaces enhance the natural sweetness and aroma of fruits and other ingredients while making juices, jams and other confectures. *If SVE is installed, Birch Water may also be used.*
+    - **Sealing treatment** is performed by applying a thick greese like Pine Tar to seal tiny gaps and condition working surfaces. Like well-seasoned pan or smoker, this improves heat retention and reduces product loss, which supports the manufacturing of oils, waxes and dried goods, while also enhancing the flavor of certain smoked meats. *If SVE is installed, Fir Wax may also be used.*
+    - **Overclocking treatment** is performed by fitting a machine with an electronic controller powered by a Battery Pack. The controller safely pushes the machine beyond its normal operating limits, dramatically increasing processing speed until the battery is exhausted. Unlike other treatments, overclocking works with any artisan machine.
+- Any machine can be treated with overclocking plus one respectve coating treatment at the same time. A coating treatment lasts for 20 cycles, and is guaranteed to promote the quality of the output by one stage. An overclock treatment lasts for 30 cycles and will double production speed.
+- Treatments are applied by interacting with a machine while holding the treatment item. If a different coating is applied, it overwrites the previous one.
+- Treatments are automatically applied by Hoppers.
+
+Other:
+- In order to maintain the consistency of this profession, this mod also adds two additional optional changes:
+    1. Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality.
+    2. Adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included.
+- Both options above are enabled by default.
+
 </details>
 </font>
 
@@ -408,13 +431,13 @@ This profession is completely unchanged from vanilla.
 <!--- Spelunker --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.
+<summary><img src="./resources/assets/sprites/loose/spelunker.png"/> <b>Spelunker (Lv10)</b> - Mining without resurfacing builds Momentum; increases ladder chance and can be spent to recover energy. After finding a ladder, Momentum decays, but stones can drop ore.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the last safe room when you pass out in the Mines.
+<img src="./resources/assets/sprites/loose/spelunker_p.png"/> <b>Cavewarden (Lv20)</b> - Craft and place a Survey Flag to establish a checkpoint with several benefits. While Momentum decays, stones can drop even more ore.
 </font>
 
 <font size="2">
@@ -502,7 +525,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <font size="2">
 <details>
 
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession. Manual detonation mode is engaged by double-pressing the Mod key (default LeftShift / LeftShoulder). In this mode, bombs will not detonate until manual mode is disengaged. Though it isn't mentioned, you also gain a short burst of movement speed whenever hit by an explosion (optional, can be disabled).
+Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession.
 
 For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 

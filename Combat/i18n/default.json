@@ -26,6 +26,9 @@
   "gmcm.critical_back_attacks.desc": "Hits to an enemy's backside have double critical strike chance.",
   "gmcm.knockback_hurts.title": "Knockbacks Hurt",
   "gmcm.knockback_hurts.desc": "Adds collision damage when knocked-back enemies collide with a wall or obstacle.",
+  "gmcm.luck_improves_crit_dodge.title": "Luck Improves Crit Chance and Dodge",
+  "gmcm.luck_improves_crit_dodge.desc": "Adds luck stat to crit chance and dodge chance.",
+
 
   "gmcm.sections.cmbt.controls": "Controls",
   "gmcm.slick_moves.title": "Slick Moves",

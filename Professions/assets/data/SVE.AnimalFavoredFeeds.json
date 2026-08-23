@@ -1,0 +1,6 @@
+{
+    "AnimalFavoredFeeds": {
+        "Bear": [ "Fruits", "Roots", "Tubers", "Gourds" ],
+        "Camel": [ "Grains", "Legumes", "LeafyGreens" ],
+    }
+}

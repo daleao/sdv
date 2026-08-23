@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Incisivo",
+  "enchantments.cleaving.name": "Falciante",
+  "enchantments.energized.name": "Caricato",
+  "enchantments.energized.desc": "Energia accumulata: {{counter}}",
+  "enchantments.explosive.name": "Esplosivo",
+  "enchantments.explosive.desc": "Raggio di esplosione: {{counter}}",
+  "enchantments.mammonite.name": "Mammona",
+  "enchantments.stabbing.name": "Spericolato",
+  "enchantments.sunburst.name": "Raggiante",
+  "enchantments.vampiric.name": "Sanguigno",
+  "enchantments.wabbajack.name": "Wabbajack",
+
+  "enchantments.chilling.name": "Glaciale",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.echo.name": "Risonante",
+
+  "enchantments.sharp.name": "Affilato",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Stile dell'alloggiamento gemme",
+  "gmcm.gemstone_socket_style.desc": "Sostituisce il generico testo \"Forgiato\" nei tooltip delle armi con icone di alloggiamento gemme in vari stili.",
+  "gmcm.socket_style.diamond": "Diamante",
+  "gmcm.socket_style.round": "Rotondo",
+  "gmcm.socket_style.iridium": "Iridio",
+  "gmcm.gemstone_socket_position.title": "Posizione dell'alloggiamento gemme",
+  "gmcm.gemstone_socket_position.desc": "Determina la posizione relativa dove gli alloggiamenti gemme devono essere disegnati, se abilitato.",
+  "gmcm.socket_position.standard": "Standard",
+  "gmcm.socket_position.above_separator": "Sopra il separatore"
+}

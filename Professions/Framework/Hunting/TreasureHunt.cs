@@ -148,24 +148,6 @@ internal abstract class TreasureHunt : ITreasureHunt
         this.OnStarted(treasureTile, this.TimeLimit);
     }
 
-    /// <summary>Rolls a big fat stack of ores or metal bars.</summary>
-    /// <param name="baseMin">The minimum value of the base roll.</param>
-    /// <param name="baseMax">The maximum value of the base roll.</param>
-    /// <param name="chanceToDouble">The base chance to double the stack.</param>
-    /// <param name="chanceDecay">The decay to the <paramref name="chanceToDouble"/> after a successful doubling.</param>
-    /// <returns>A big fat stack.</returns>
-    protected int RollStack(int baseMin, int baseMax, double chanceToDouble, double chanceDecay)
-    {
-        var stack = this.Random.Next(baseMin, baseMax + 1);
-        while (this.Random.NextBool(chanceToDouble))
-        {
-            stack *= 2;
-            chanceToDouble *= chanceDecay;
-        }
-
-        return stack;
-    }
-
     /// <summary>Raised when a Treasure Hunt starts.</summary>
     /// <param name="treasureTile">Reference to the chosen <see cref="TargetTile"/>.</param>
     /// <param name="timeLimit">Reference to the <see cref="TimeLimit"/>.</param>

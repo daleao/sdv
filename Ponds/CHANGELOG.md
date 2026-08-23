@@ -2,9 +2,21 @@
 
 ## 2.2.4
 
+### Added
+
+* Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+### Changed
+
+* Updated LegendaryFishPondData with latest changes from [Professions](../Professions).
+
 ### Fixed
 
+* Fixed a glaring issue where if a single roe should have been produced, no roe would be produced.
+    * This caused starting Legendary ponds to never produce anything.
 * Fixed ponds not rewarding experience (`checkedToday` flag not being reset).
+* Fixed pond reward attempts being zero at the required population.
+* Fixed missing translation keys.
 
 <sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 

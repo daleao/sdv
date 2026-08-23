@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Locations;
 using StardewValley.Monsters;
+using xTile.Tiles;
 
 #endregion using directives
 
@@ -83,6 +84,8 @@ internal sealed class ProfessionsState
         }
     }
 
+    internal HashSet<FarmAnimal> WasFedCropToday { get; } = [];
+
     internal ProspectorHunt? ProspectorHunt
     {
         get => this._prospectorHunt;
@@ -119,21 +122,30 @@ internal sealed class ProfessionsState
         }
     }
 
+    internal Dictionary<string, int> EcologistBuffsLookup
+    {
+        get
+        {
+            field ??= Data
+                    .Read(Game1.player, DataKeys.PrestigedEcologistBuffLookup)
+                    .ParseDictionary<string, int>();
+            return field;
+        }
+    }
+
     internal int SpelunkerLadderStreak { get; set; }
 
     internal int SpelunkerClusterStreak { get; set; }
 
-    internal Vector2? SpelunkerLastStoneDestroyedAt { get; set; }
+    internal Point? SpelunkerLastStoneDestroyedAt { get; set; }
 
     internal List<(string ItemId, double ChanceToRecover)> SpelunkerUncollectedItems { get; } = [];
 
-    internal MineShaft? SpelunkerCheckpoint { get; set; }
+    internal SObject? SpelunkerFlag { get; set; }
 
-    internal Vector2? SpelunkerCheckpointTile { get; set; }
+    internal int SpelunkerFlagLevel { get; set; }
 
-    internal int SpelunkerCheckpointDirection { get; set; }
-
-    internal bool HasSpelunkerUsedCheckpointToday { get; set; }
+    internal bool HasSpelunkerRevivedAtCheckpointToday { get; set; }
 
     internal bool UsingSpelunkerCheckpoint { get; set; }
 
@@ -184,17 +196,6 @@ internal sealed class ProfessionsState
             {
                 EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
             }
-        }
-    }
-
-    internal Dictionary<string, int> EcologistBuffsLookup
-    {
-        get
-        {
-            field ??= Data
-                    .Read(Game1.player, DataKeys.PrestigedEcologistBuffLookup)
-                    .ParseDictionary<string, int>();
-            return field;
         }
     }
 

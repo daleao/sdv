@@ -66,7 +66,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    public override int TimeLimit => Config.ScavengerHuntTimeLimit;
+    public override int TimeLimit => Config.ScavengerHuntDifficulty == 0 ? int.MaxValue : 70 - (10 * Config.ScavengerHuntDifficulty);
 
     /// <inheritdoc />
     public override int TriggerPool { get; protected set; }
@@ -108,7 +108,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     public override void Fail()
     {
         Game1.addHUDMessage(new HuntNotification(this.HuntFailedMessage));
-        Data.Write(Game1.player, DataKeys.LongestScavengerHuntStreak, "0");
+        Data.Write(Game1.player, DataKeys.CurrentScavengerHuntStreak, "0");
         this.End(false);
     }
 
@@ -192,16 +192,16 @@ internal sealed class ScavengerHunt : TreasureHunt
                 continue;
             }
 
-            foreach (var tuple in map.Value)
+            foreach (var (tile, diggable) in map.Value)
             {
-                var (x, y) = tuple.Tile;
+                var (x, y) = tile;
                 if (location.doesTileHaveProperty((int)x, (int)y, "Diggable", "Back") is null)
                 {
                     continue;
                 }
 
                 var digSpot = new Location((int)x * Game1.tileSize, (int)y * Game1.tileSize);
-                location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = tuple.Diggable;
+                location.Map.GetLayer("Back").PickTile(digSpot, Game1.viewport.Size).Properties["Diggable"] = diggable;
             }
         }
 
@@ -282,9 +282,9 @@ internal sealed class ScavengerHunt : TreasureHunt
     protected override void StartImpl(GameLocation location, Vector2 treasureTile)
     {
         location.EnforceTileDiggable(treasureTile);
-        foreach (var tuple in this._eligibleTreasureHuntTilesByMap[location.NameOrUniqueName])
+        foreach (var (tile, diggable) in this._eligibleTreasureHuntTilesByMap[location.NameOrUniqueName])
         {
-            location.EnforceTileDiggable(tuple.Tile);
+            location.EnforceTileDiggable(tile);
         }
 
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
@@ -299,7 +299,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                 $"true/" +
                 $"{this.Location!.NameOrUniqueName}/" +
                 $"{this.TargetTile!.Value.X.ToString(CultureInfo.InvariantCulture)}/" +
-                $"{this.TargetTile!.Value.X.ToString(CultureInfo.InvariantCulture)}",
+                $"{this.TargetTile!.Value.Y.ToString(CultureInfo.InvariantCulture)}",
                 "HuntingForTreasure/Scavenger");
         }
 
@@ -409,16 +409,18 @@ internal sealed class ScavengerHunt : TreasureHunt
         var effectiveLuck = (Game1.player.LuckLevel * 0.1) + Game1.player.DailyLuck;
         List<Item> treasures = [];
         this.AddInitialTreasure(treasures, effectiveLuck);
-        this.AddMetals(treasures, effectiveLuck);
-        switch (this.Random.Next(3))
+        switch (this.Random.Next(4))
         {
             case 0:
-                this.AddMinerals(treasures, effectiveLuck);
+                this.AddMetals(treasures, effectiveLuck);
                 break;
             case 1:
-                this.AddSeeds(treasures, effectiveLuck);
+                this.AddMinerals(treasures, effectiveLuck);
                 break;
             case 2:
+                this.AddSeeds(treasures, effectiveLuck);
+                break;
+            case 3:
                 this.AddSyrups(treasures, effectiveLuck);
                 break;
         }
@@ -427,7 +429,12 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             this.AddArtifacts(treasures, effectiveLuck);
         }
-        else
+
+        if (this.Random.NextBool(0.35))
+        {
+            this.AddEquipment(treasures, effectiveLuck);
+        }
+        else if (this.Random.NextBool(0.15))
         {
             this.AddSpecialTreasure(treasures, effectiveLuck);
         }
@@ -437,7 +444,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             this.AddFiller(treasures, effectiveLuck);
         }
 
-        return treasures.Shuffle().Take(6).ToList();
+        return [.. treasures.Shuffle().Take(6)];
     }
 
     private void AddInitialTreasure(List<Item> treasures, double luck)
@@ -448,7 +455,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             treasures.Add(ItemRegistry.Create(QIDs.RiceShoot, stack));
         }
 
-        if (this.Random.NextBool(0.45 + luck) && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
+        if (this.Random.NextBool(0.3 + luck) && Game1.player.team.SpecialOrderRuleActive("DROP_QI_BEANS"))
         {
             var stack = this.Random.Next(1, 3) + (this.Random.NextBool(0.25) ? 2 : 0);
             treasures.Add(ItemRegistry.Create(QIDs.QiBean, stack));
@@ -457,24 +464,28 @@ internal sealed class ScavengerHunt : TreasureHunt
 
     private void AddMetals(List<Item> treasures, double luck)
     {
-        if (Game1.player.deepestMineLevel > 120 && this.Random.NextBool(0.35 + luck))
+        if (Game1.player.deepestMineLevel > 120 && this.Random.NextBool(0.3 + luck))
         {
-            treasures.Add(ItemRegistry.Create(QIDs.IridiumBar, this.RollStack(1, 3, 0.3, 0.9)));
+            treasures.Add(ItemRegistry.Create(QIDs.IridiumBar, this.Random.Next(1, 4 *
+                (this.Random.NextBool(0.12) ? this.Random.Next(2, 4) : 1))));
         }
 
         if (Game1.player.deepestMineLevel > 80 && this.Random.NextBool(0.55 + luck))
         {
-            treasures.Add(ItemRegistry.Create(QIDs.GoldBar, this.RollStack(1, 3, 0.35, 0.9)));
+            treasures.Add(ItemRegistry.Create(QIDs.GoldBar, this.Random.Next(1, 4 *
+                (this.Random.NextBool(0.15) ? this.Random.Next(2, 4) : 1))));
         }
 
-        if (Game1.player.deepestMineLevel > 40 && this.Random.NextBool(0.75 + luck))
+        if (Game1.player.deepestMineLevel > 40 && this.Random.NextBool(0.70 + luck))
         {
-            treasures.Add(ItemRegistry.Create(QIDs.IronBar, this.RollStack(1, 3, 0.35, 0.9)));
+            treasures.Add(ItemRegistry.Create(QIDs.IronBar, this.Random.Next(1, 4 *
+                (this.Random.NextBool(0.18) ? this.Random.Next(2, 5) : 1))));
         }
 
-        if (this.Random.NextBool(0.9 + luck))
+        if (this.Random.NextBool(0.85 + luck))
         {
-            treasures.Add(ItemRegistry.Create(QIDs.CopperBar, this.RollStack(1, 3, 0.35, 0.9)));
+            treasures.Add(ItemRegistry.Create(QIDs.CopperBar, this.Random.Next(1, 4 *
+                (this.Random.NextBool(0.20) ? this.Random.Next(2, 4) : 1))));
         }
     }
 
@@ -489,9 +500,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             var id = this.Random.NextBool()
                 ? this._artifactsThatCanBeFound[this.Random.Next(this._artifactsThatCanBeFound.Length)]
-                : this.Random.NextBool()
-                    ? QIDs.AncientSeed
-                    : QIDs.Geode;
+                : QIDs.Geode;
             treasures.Add(ItemRegistry.Create(id));
         }
     }
@@ -558,7 +567,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             treasures.Add(this.Random.NextBool()
                 ? ItemRegistry.Create(QIDs.RareSeed)
-                : ItemRegistry.Create(QIDs.AncientSeeds));
+                : ItemRegistry.Create(this.Random.NextBool() ? QIDs.AncientSeed : QIDs.AncientSeeds));
         }
         else if (this.Random.NextBool(0.35 + luck))
         {
@@ -593,7 +602,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     {
         if (this.Random.NextBool(0.55 + luck))
         {
-            var id = Game1.random.Next(3) switch
+            var id = this.Random.Next(3) switch
             {
                 0 => QIDs.MapleSyrup,
                 1 => QIDs.OakResin,
@@ -604,70 +613,51 @@ internal sealed class ScavengerHunt : TreasureHunt
         }
         else
         {
-            var stack = 2.5f;
-            while (this.Random.NextBool())
-            {
-                stack *= this.Random.Next(4);
-            }
-
-            var id = Game1.random.Next(3) switch
+            var id = this.Random.Next(3) switch
             {
                 0 => QIDs.MapleSeed,
                 1 => QIDs.Acorn,
                 2 => QIDs.PineCone,
             };
 
+            var stack = 2.5f * this.Random.Next(2, 11);
             treasures.Add(ItemRegistry.Create(id, (int)stack));
         }
     }
 
-    private void AddSpecialTreasure(List<Item> treasures, double luck)
+    private void AddEquipment(List<Item> treasures, double luck)
     {
         var luckModifier = 1d + luck;
-        if (this.Random.NextBool(0.15 * luckModifier))
+        if (this.Random.NextBool(0.15 * luckModifier)) // swords
         {
             treasures.Add(this.Random.NextBool() ? new MeleeWeapon(QIDs.ForestSword) : new MeleeWeapon(QIDs.ElfBlade));
         }
-        else if (this.Random.NextBool(0.15 * luckModifier))
+        else if (this.Random.NextBool(0.85)) // rings
         {
-            if (this.Random.NextBool(0.25 * luckModifier))
+            switch (this.Random.Next(2))
             {
-                treasures.Add(ItemRegistry.Create(QIDs.IridiumBand));
-            }
-            else
-            {
-                switch (this.Random.Next(3))
-                {
-                    case 0:
+                case 0:
                     {
-                        var id = QIDs.SmallGlowRing + (this.Random.NextBool(Game1.player.LuckLevel / 11f)
-                            ? 1
-                            : 0);
+                        var id = this.Random.NextBool(Game1.player.LuckLevel * 1.5f / 11f)
+                            ? QIDs.GlowstoneRing
+                            : this.Random.NextBool(0.35 * luckModifier)
+                                ? this.Random.NextBool() ? QIDs.GlowRing : QIDs.MagnetRing
+                                : this.Random.NextBool() ? QIDs.SmallGlowRing : QIDs.SmallMagnetRing;
                         treasures.Add(ItemRegistry.Create(id));
                         break;
                     }
 
-                    case 1:
+                case 1:
                     {
-                        var id = QIDs.SmallMagnetRing +
-                                 (this.Random.NextBool(Game1.player.LuckLevel / 11f)
-                                     ? 1
-                                     : 0);
-                        treasures.Add(ItemRegistry.Create(id));
-                        break;
-                    }
-
-                    // gemstone ring
-                    case 2:
-                    {
-                        var id = this.Random.Next(529, 535);
+                        var id = this.Random.NextBool(Game1.player.LuckLevel / 11f)
+                            ? 527 // iridium band
+                            : this.Random.Next(529, 535); // gemstone rings
                         treasures.Add(ItemRegistry.Create($"(O){id}"));
                         break;
                     }
-                }
             }
         }
-        else if (this.Random.NextBool(0.15 * luckModifier))
+        else // boots
         {
             var id = $"(B){this.Random.Next(504, 511)}";
             if (id is QIDs.ThermalBoots or QIDs.TundraBoots && Game1.currentSeason != "winter")
@@ -677,18 +667,22 @@ internal sealed class ScavengerHunt : TreasureHunt
 
             treasures.Add(ItemRegistry.Create(id));
         }
-        else if (this.Random.NextBool(0.15 * luckModifier))
+    }
+
+    private void AddSpecialTreasure(List<Item> treasures, double luck)
+    {
+        var luckModifier = 1d + luck;
+        if (this.Random.NextBool(0.15 * luckModifier))
         {
             treasures.Add(ItemRegistry.Create(QIDs.PrismaticShard));
         }
-        else if (Game1.MasterPlayer.mailReceived.Contains("Farm_Eternal") &&
-            this.Random.NextBool(0.35 * luckModifier))
+        else if (this.Random.NextBool(0.55 * luckModifier))
         {
-            treasures.Add(ItemRegistry.Create(QIDs.GoldenEgg));
+            treasures.Add(ItemRegistry.Create(QIDs.FairyDust, this.Random.Next(1, 4)));
         }
-        else if (this.Random.NextBool(0.5 * luckModifier))
+        else
         {
-            treasures.Add(ItemRegistry.Create(QIDs.Diamond));
+            treasures.Add(ItemRegistry.Create(QIDs.Diamond, this.Random.Next(1, 5)));
         }
 
         if (this.Random.NextBool(0.05))
@@ -703,32 +697,57 @@ internal sealed class ScavengerHunt : TreasureHunt
 
     private void AddFiller(List<Item> treasures, double luck)
     {
-        if (this.Random.NextBool(0.65 + luck))
+        switch (this.Random.Next(3))
         {
-            var id = this.Random.Next(5) switch
-            {
-                0 => QIDs.WarpTotem_Farm,
-                1 => QIDs.WarpTotem_Beach,
-                2 => QIDs.WarpTotem_Mountains,
-                3 when Game1.MasterPlayer.mailReceived.Contains("ccVault") => QIDs.WarpTotem_Desert,
-                4 when Game1.MasterPlayer.mailReceived.Contains("willyBoatFixed") => QIDs.WarpTotem_Island,
-                _ => QIDs.FieldSnack,
-            };
+            case 0:
+                {
+                    var id = this.Random.Next(5) switch
+                    {
+                        0 => QIDs.WarpTotem_Farm,
+                        1 => QIDs.WarpTotem_Beach,
+                        2 => QIDs.WarpTotem_Mountains,
+                        3 when Game1.MasterPlayer.mailReceived.Contains("ccVault") => QIDs.WarpTotem_Desert,
+                        4 when Game1.MasterPlayer.mailReceived.Contains("willyBoatFixed") => QIDs.WarpTotem_Island,
+                        _ => QIDs.FieldSnack,
+                    };
 
-            treasures.Add(ItemRegistry.Create(id));
-        }
-        else
-        {
-            if (this.Random.NextBool(0.55 + luck))
-            {
-                var stack = 5 + (this.Random.NextBool(0.25 + luck) ? 5 : 0);
-                treasures.Add(ItemRegistry.Create(QIDs.WildBait, stack));
-            }
-            else if (this.Random.NextBool())
-            {
-                var stack = 5 + (this.Random.NextBool(0.5 + luck) ? 5 : 0);
-                treasures.Add(ItemRegistry.Create(QIDs.Bait, stack));
-            }
+                    treasures.Add(ItemRegistry.Create(id));
+                }
+
+                break;
+
+            case 1:
+                {
+                    var id = this.Random.Next(3) switch
+                    {
+                        0 => QIDs.MapleSeed,
+                        1 => QIDs.Acorn,
+                        2 => QIDs.PineCone,
+                    };
+
+                    var stack = 2.5f * this.Random.Next(2, 11);
+                    treasures.Add(ItemRegistry.Create(id, (int)stack));
+                }
+
+                break;
+
+            case 2:
+                if (this.Random.NextBool(0.55 + luck))
+                {
+                    var stack = 5 + (this.Random.NextBool(0.25 + luck) ? 5 : 0);
+                    treasures.Add(ItemRegistry.Create(QIDs.WildBait, stack));
+                }
+                else if (this.Random.NextBool())
+                {
+                    var stack = 5 + (this.Random.NextBool(0.5 + luck) ? 5 : 0);
+                    treasures.Add(ItemRegistry.Create(QIDs.Bait, stack));
+                }
+                else
+                {
+                    treasures.Add(ItemRegistry.Create(QIDs.MonsterMusk));
+                }
+
+                break;
         }
     }
 

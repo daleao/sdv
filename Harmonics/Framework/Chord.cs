@@ -20,10 +20,10 @@ using StardewValley.Tools;
 /// <inheritdoc cref="IChord"/>
 public sealed class Chord : IChord
 {
-    private static readonly double[] Range = Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d).ToArray();
+    private static readonly double[] Range = [.. Enumerable.Range(0, 360).Select(i => i * Math.PI / 180d)];
 
     private static List<double> _linSpace =
-        MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100).ToList();
+        [.. MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100)];
 
     private readonly ICue[] _cues;
     private readonly string _id;
@@ -42,7 +42,7 @@ public sealed class Chord : IChord
     /// <param name="second">The second <see cref="Gemstone"/> in the  Dyad.</param>
     internal Chord(Gemstone first, Gemstone second)
     {
-        this.Notes = first.Collect(second).ToArray();
+        this.Notes = [.. first.Collect(second)];
         this._cues = new ICue[2];
         for (var i = 0; i < 2; i++)
         {
@@ -62,7 +62,7 @@ public sealed class Chord : IChord
     /// <param name="third">The third <see cref="Gemstone"/> in the Triad.</param>
     internal Chord(Gemstone first, Gemstone second, Gemstone third)
     {
-        this.Notes = first.Collect(second, third).ToArray();
+        this.Notes = [.. first.Collect(second, third)];
         this._cues = new ICue[3];
         for (var i = 0; i < 3; i++)
         {
@@ -83,7 +83,7 @@ public sealed class Chord : IChord
     /// <param name="fourth">The fourth <see cref="Gemstone"/> in the Tetrad.</param>
     internal Chord(Gemstone first, Gemstone second, Gemstone third, Gemstone fourth)
     {
-        this.Notes = first.Collect(second, third, fourth).ToArray();
+        this.Notes = [.. first.Collect(second, third, fourth)];
         this._cues = new ICue[4];
         for (var i = 0; i < 4; i++)
         {
@@ -118,7 +118,7 @@ public sealed class Chord : IChord
 
     internal static void RecalculateLinSpace()
     {
-        _linSpace = MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100).ToList();
+        _linSpace = [.. MathUtils.LinSpace(0d, 1d, (int)Config.ChordSoundDuration / 100)];
     }
 
     /// <summary>Adds resonance stat bonuses to the farmer.</summary>

@@ -74,18 +74,6 @@ public sealed class CoreMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<CoreConfig>();
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Data = new ModDataManager(UniqueId, Log);
-        PerScreenState = new PerScreen<CoreState>(() => new CoreState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
-
-        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
-        {
-            Log.I("Automate is installed, therefore Hopper changes will not be applied.");
-        }
-
         Harmonizer.ApplyAll(
             assembly,
             helper.ModRegistry,
@@ -97,6 +85,17 @@ public sealed class CoreMod : Mod
             Log,
             UniqueId,
             "dalion");
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<CoreConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<CoreState>(() => new CoreState());
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
+        if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
+        {
+            Log.I("Automate is installed, therefore Hopper changes will not be applied.");
+        }
+
         this.ValidateMultiplayer();
     }
 

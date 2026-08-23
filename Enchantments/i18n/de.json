@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Zermürbend",
+  "enchantments.cleaving.name": "Spaltend",
+  "enchantments.energized.name": "Aufgeladen",
+  "enchantments.energized.desc": "Angesammelte Energie: {{counter}}",
+  "enchantments.explosive.name": "Explosiv",
+  "enchantments.explosive.desc": "Explosionsradius: {{counter}}",
+  "enchantments.mammonite.name": "Mammon",
+  "enchantments.stabbing.name": "Rasend",
+  "enchantments.sunburst.name": "Strahlend",
+  "enchantments.vampiric.name": "Blutrünstig",
+  "enchantments.wabbajack.name": "Wabbajack",
+
+  "enchantments.chilling.name": "Frostend",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.echo.name": "Hallend",
+
+  "enchantments.sharp.name": "Scharf",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Edelstein-Fassungsstil",
+  "gmcm.gemstone_socket_style.desc": "Ersetzt den generischen \"Geschmiedet\"-Text in Waffentooltips durch Edelsteinfassungs-Symbole in verschiedenen Stilen.",
+  "gmcm.socket_style.diamond": "Diamant",
+  "gmcm.socket_style.round": "Rund",
+  "gmcm.socket_style.iridium": "Iridium",
+  "gmcm.gemstone_socket_position.title": "Edelstein-Fassungsposition",
+  "gmcm.gemstone_socket_position.desc": "Bestimmt die relative Position, an der Edelsteinfassungen gezeichnet werden sollen, wenn aktiviert.",
+  "gmcm.socket_position.standard": "Standard",
+  "gmcm.socket_position.above_separator": "Über dem Trenner"
+}

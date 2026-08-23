@@ -76,7 +76,7 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed injecting anti-remote harvest with Prestiged Hopper.\nHelper returned {ex}");
+            Log.E($"Failed injecting anti-remote harvest with Hopper.\nHelper returned {ex}");
             return null;
         }
 
@@ -89,6 +89,11 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     private static bool AttemptPushToHopper(SObject machine, MachineData machineData, SObject objectThatWasHeld, Farmer who)
     {
+        if (!Config.TwoWayHoppers)
+        {
+            return false;
+        }
+
         var tileBelow = new Vector2(machine.TileLocation.X, machine.TileLocation.Y + 1f);
         if (machine.Location?.Objects.TryGetValue(tileBelow, out var objBelow) != true ||
             !objBelow.TryGetHopper(out var hopper))

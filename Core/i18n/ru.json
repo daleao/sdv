@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Корм для животных",
+    "hay.desc": "Смесь из сушёной травы, кормовых растений и культур для кормления домашних животных.",
+    "buildings.added_hay": "В силос добавлено {0} порция/порций корма.",
+
+    "ui.buffs.burnt.damage": "-50% Урон",
+    "ui.buffs.burnt.dot": "-{{amount}} здоровья каждые 3 секунды",
+    "ui.buffs.frozen.stuck": "Не может двигаться",
+    "ui.buffs.frozen.vulnerable": "Уязвим к следующей атаке",
+    "ui.buffs.jinxed.defense": "-50% Защита",
+    "ui.buffs.jinxed.special": "Не может использовать специальные удары",
+    "ui.buffs.confused.name": "Дезориентирован",
+    "ui.buffs.confused.desc": "Направление движения инвертировано.",
+    "ui.buffs.warrior.attack": "+{{value}} Атака",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Шанс увядания культуры",
+    "gmcm.crop_wither_chance.desc": "Процентная вероятность того, что любая культура завянет каждый день, если её не поливать.",
+    "gmcm.two_way_hoppers.title": "Двунаправленные воронки",
+    "gmcm.two_way_hoppers.desc": "Позволяет воронкам забирать готовую продукцию из машин.",
+    "gmcm.winter_wheat.title": "Озимая пшеница",
+    "gmcm.winter_wheat.desc": "Позволяет пшенице оставаться в состоянии покоя в течение зимы.",
+    "gmcm.immersive_hay.title": "Реалистичное сено",
+    "gmcm.immersive_hay.desc": "Убирает сено, собранное со зрелой пшеницы, но позволяет собирать сено с незрелой пшеницы со 100% шансом.",
+    "gmcm.consistent_farmer_debuffs.title": "Единые дебаффы фермера",
+    "gmcm.consistent_farmer_debuffs.desc": "Объединяет дебаффы фермера с состояниями, предоставляемыми этим модом."
+}

@@ -10,8 +10,7 @@ using StardewModdingAPI.Utilities;
 
 /// <summary>Initializes a new instance of the <see cref="DemolitionistButtonDoublePressedEvent"/> class.</summary>
 [UsedImplicitly]
-[ImplicitIgnore]
-// Deprecated
+[Deprecated]
 internal sealed class DemolitionistButtonDoublePressedEvent : ButtonDoublePressedEvent
 {
     /// <summary>Initializes a new instance of the <see cref="DemolitionistButtonDoublePressedEvent"/> class.</summary>

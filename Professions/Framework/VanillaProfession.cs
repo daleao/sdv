@@ -15,6 +15,7 @@ using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
 using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Hunting;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
@@ -25,6 +26,9 @@ using static System.String;
 /// <summary>Represents a vanilla profession.</summary>
 public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
 {
+    /// <summary>Offset between a profession and its prestige variant.</summary>
+    public const int PRESTIGE_OFFSET = 100;
+
     #region enum entries
 
     /// <summary>The Rancher profession, available at <see cref="VanillaSkill.Farming"/> level 5.</summary>
@@ -349,7 +353,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         return this.Level == 10
             ? _I18n.Get(this.Name.ToLower() + ".title." + (prestiged.Value ? "prestiged." : Empty) +
                         (Game1.player.IsMale ? "male" : "female"))
-            : (prestiged.Value ? I18n.Prestiged_Title() : Empty) +
+            : (prestiged.Value ? (Game1.player.IsMale ? I18n.Prestiged_Title_Male() : I18n.Prestiged_Title_Male()) : Empty) +
               _I18n.Get(this.Name.ToLower() + ".title." + (Game1.player.IsMale ? "male" : "female"));
     }
 
@@ -359,7 +363,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
     public string GetDescription(bool prestiged = false)
     {
         if ((this == Breeder || this == Producer) && prestiged &&
-            ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP"))
+            ModHelper.ModRegistry.IsLoaded(SveIntegration.MOD_ID))
         {
             return _I18n.Get(this.Name.ToLowerInvariant() + ".desc.prestiged.sve");
         }

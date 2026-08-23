@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Professions.Framework.Patchers;
 
+using System.Reflection.Emit;
+
 #region using directives
 
 using DaLion.Shared.Enums;
@@ -29,11 +31,78 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [HarmonyPriority(Priority.LowerThanNormal)]
     [UsedImplicitly]
-    private static bool ObjectPerformObjectDropInActionPrefix(SObject __instance, out bool __state, bool probe)
+    private static bool ObjectPerformObjectDropInActionPrefix(
+        SObject __instance, ref bool __result, out bool __state, Item dropInItem, bool probe, Farmer who)
     {
         __state = __instance.heldObject.Value !=
                   null && !probe; // remember whether this machine was already holding an object
-        return true; // run original logic
+
+        if (probe || !__instance.IsArtisanMachine() || !((dropInItem as SObject)?.IsPossibleMachineTreatment() ?? false) ||
+            !who.HasProfession(Profession.Artisan, true) ||
+            !Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
+        {
+            return true; // run original logic
+        }
+
+        if (__instance.isTemporarilyInvisible)
+        {
+            __result = false;
+            return false; // don't run original logic
+        }
+
+        // apply machine treatment
+        var treatmentCategory = Lookups.CategoryByTreatment.TryGetValue(dropInItem.QualifiedItemId, out var category)
+            ? category
+            : MachineTreatmentCategory.None;
+        if (treatmentCategory == MachineTreatmentCategory.None)
+        {
+            return true; // run original logic
+        }
+
+        var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
+        if (treatmentCategory == MachineTreatmentCategory.Overclock)
+        {
+            if (appliedTreatments.OverclockCycles > 0)
+            {
+                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_AlreadyApplied(dropInItem.DisplayName));
+                __result = false;
+                return false; // don't run original logic
+            }
+
+            appliedTreatments.OverclockCycles = 30;
+        }
+        else
+        {
+            if (!treatmentRules.Contains(treatmentCategory))
+            {
+                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_NotApplicable());
+                __result = false;
+                return false; // don't run original logic
+            }
+
+            if (appliedTreatments.CoatingCategory == treatmentCategory)
+            {
+                var which = treatmentCategory switch
+                {
+                    MachineTreatmentCategory.Fermentation => I18n.Objects_Machinetreatments_Fermentation(),
+                    MachineTreatmentCategory.Glazing => I18n.Objects_Machinetreatments_Glazing(),
+                    MachineTreatmentCategory.Sealing => I18n.Objects_Machinetreatments_Sealing(),
+                };
+
+                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_AlreadyApplied(which));
+                __result = false;
+                return false; // don't run original logic
+            }
+
+            appliedTreatments.CoatingCycles = 20;
+            appliedTreatments.CoatingCategory = treatmentCategory;
+        }
+
+        dropInItem.ConsumeStack(1);
+        Data.WriteAppliedMachineTreatments(__instance, appliedTreatments);
+        __instance.Location.playSound("Ship");
+        __result = true;
+        return false; // don't run original logic
     }
 
     /// <summary>Patch to increase Artisan production + integrate Quality Artisan Products + Immersive Diary Yield tweak.</summary>
@@ -70,106 +139,88 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
         output.Quality = Math.Max(output.Quality, (int)newQuality);
 
-        // artisan-owned machines calibrate to repeated ingredients
         if (!owner.HasProfessionOrLax(Profession.Artisan))
         {
             return;
         }
 
-        var lastProcessedData = Data.Read(__instance, DataKeys.LastIngredientProcessed);
-        var lastProcessed = lastProcessedData.Split(',');
-        if (lastProcessed.Length != 2)
+        // artisan-owned machines calibrate to repeated ingredients
+        if (input.QualifiedItemId == __instance.lastInputItem.Value?.QualifiedItemId)
         {
-            Log.W($"Badly formatted ingredient data in machine {__instance.Name}: {lastProcessedData}");
-            Data.Write(__instance, DataKeys.LastIngredientProcessed, null);
-            return;
-        }
+            var repeatedCycles = Data.ReadAs<int>(__instance, DataKeys.RepeatedInputCycles);
+            var calibrationLevel = Math.Min(repeatedCycles, 10);
+            var calibrationBonus = calibrationLevel * 0.025;
+            if (__instance is Cask cask)
+            {
+                cask.daysToMature.Value -= (int)Math.Floor(cask.daysToMature.Value * calibrationBonus);
+            }
+            else
+            {
+                __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady * calibrationBonus);
+            }
 
-        var lastProcessedId = lastProcessed[0];
-        var lastProcessedTimes = int.Parse(lastProcessed[1]);
-        if (lastProcessedId != input.ItemId)
-        {
-            Data.Write(__instance, DataKeys.LastIngredientProcessed, $"{input.ItemId},1");
-            return;
-        }
-
-        var bonus = Math.Min(0.025 * lastProcessedTimes, 0.25);
-        if (__instance is Cask cask)
-        {
-            cask.daysToMature.Value -= (int)Math.Floor(cask.daysToMature.Value * bonus);
+            Data.Increment(__instance, DataKeys.RepeatedInputCycles);
         }
         else
         {
-            __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady * bonus);
+            Data.Write(__instance, DataKeys.RepeatedInputCycles, null);
         }
 
-        Data.Write(__instance, DataKeys.LastIngredientProcessed, $"{input.ItemId},{lastProcessedTimes + 1}");
-
+        // apply machinist calibration bonus
         if (!owner.HasProfession(Profession.Artisan, true))
         {
             return;
         }
 
-        // machinist machine treatments
-        var before = Data.Read(__instance, DataKeys.MachinePowerups);
-        if (string.IsNullOrEmpty(before))
+        // apply machinist machine treatment bonus
+        if (!Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
         {
             return;
         }
 
-        var powerups = before.Split('/', StringSplitOptions.RemoveEmptyEntries);
-        var after = string.Empty;
-        foreach (var powerup in powerups)
+        // determine treatment category for this input
+        var inputTreatmentCategory = treatmentRules.Default;
+        var contextTags = input.GetContextTags();
+        var matchingTag = treatmentRules
+            .Overrides
+            .Keys
+            .LastOrDefault(contextTags.Contains);
+        if (!string.IsNullOrEmpty(matchingTag))
         {
-            var split = powerup.Split(',');
-            var itemId = split[0];
-            if (!int.TryParse(split[1], out var cycles))
+            inputTreatmentCategory = treatmentRules.Overrides[matchingTag];
+        }
+
+        if (treatmentRules.Overrides.TryGetValue(input.QualifiedItemId, out var overrideCategory))
+        {
+            inputTreatmentCategory = overrideCategory;
+        }
+
+        if (inputTreatmentCategory == MachineTreatmentCategory.None)
+        {
+            return;
+        }
+
+        // get applied treatments to this machine
+        var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
+        if (appliedTreatments.CoatingCategory == inputTreatmentCategory && appliedTreatments.CoatingCycles-- > 0)
+        {
+            if (output.Quality < SObject.bestQuality)
             {
-                Log.W($"Badly formatted data for cycles of {itemId}.");
-                continue;
+                output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
             }
 
-            MachineTreatmentCategory? category = MachineTreatmentCategory.None;
-            if (Lookups.MachineTreatments.TryGetValue(__instance.ItemId, out var treatmentRules))
+            if (appliedTreatments.CoatingCycles == 0)
             {
-                category = treatmentRules.Default;
-                var contextTags = input.GetContextTags();
-                var matchingKey = treatmentRules
-                    .Overrides
-                    .Keys
-                    .FirstOrDefault(contextTags.Contains);
-                if (!string.IsNullOrEmpty(matchingKey))
-                {
-                    category = treatmentRules.Overrides[matchingKey];
-                    break;
-                }
-            }
-
-            switch (itemId)
-            {
-                case QIDs.OakResin when category == MachineTreatmentCategory.Fermentation:
-                case QIDs.MapleSyrup when category == MachineTreatmentCategory.Glazing:
-                case QIDs.PineTar when category == MachineTreatmentCategory.Sealing:
-                case "(BC)FlashShifter.StardewValleyExpandedCP_Birch_Water" when category == MachineTreatmentCategory.Glazing:
-                case "(BC)FlashShifter.StardewValleyExpandedCP_Fir_Wax" when category == MachineTreatmentCategory.Sealing:
-                    if (output.Quality < SObject.bestQuality)
-                    {
-                        output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
-                    }
-
-                    break;
-                case QIDs.BatteryPack:
-                    __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady / 2d);
-                    break;
-            }
-
-            if (--cycles > 0)
-            {
-                after += $"/{itemId},{cycles}";
+                appliedTreatments.CoatingCategory = MachineTreatmentCategory.None;
             }
         }
 
-        Data.Write(__instance, DataKeys.MachinePowerups, after);
+        if (appliedTreatments.OverclockCycles-- > 0)
+        {
+            __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady / 2d);
+        }
+
+        Data.WriteAppliedMachineTreatments(__instance, appliedTreatments);
     }
 
     #endregion harmony patches

@@ -50,7 +50,7 @@ internal sealed class Game1DrawHudPatcher : HarmonyPatcher
                     out var count) // remove everything after the profession check up until the return instruction
                 .Remove(count - 1)
                 .AddLabels(
-                    labels.Take(2).Concat(leave).ToArray()); // exclude the labels defined after the profession check
+                    [.. labels.Take(2), .. leave]); // exclude the labels defined after the profession check
         }
         catch (Exception ex)
         {

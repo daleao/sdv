@@ -1,0 +1,12 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "algae": "Alga",
+
+  "gmcm.days_until_algae_spawn.title": "Napok az alga megjelenéséig",
+  "gmcm.days_until_algae_spawn.desc": "Ennyi nap telik el, mire egy üres tóban megjelennek az algák.",
+  "gmcm.roe_production_chance_multiplier.title": "Ikratermelés esélyének szorzója",
+  "gmcm.roe_production_chance_multiplier.desc": "Szorzó a hal napi ikratermelési alapvalószínűségéhez.",
+  "gmcm.add_legendary_pond_data.title": "Legendás haltó adatok hozzáadása",
+  "gmcm.add_legendary_pond_data.desc": "Magával ragadó zsákmányt ad a legendás haltavakhoz. Nincs hatása, ha a Walk of Life telepítve van."
+}

@@ -16,9 +16,21 @@ public sealed class CoreConfig
     [GMCMRange(0f, 1f, 0.05f)]
     public float CropWitherChance { get; internal set; } = 0f;
 
+    /// <summary>Gets a value indicating whether to allow Hoppers to retrieve outputs from machines.</summary>
+    [JsonProperty]
+    public bool TwoWayHoppers { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether to allow Wheat to survive in winter.</summary>
+    [JsonProperty]
+    public bool WinterWheat { get; internal set; } = false;
+
+    /// <summary>Gets a value indicating whether to harvest Hay from premature Wheat.</summary>
+    [JsonProperty]
+    public bool ImmersiveHay { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether to consolidate farmer debuffs with the status conditions provided by this mod.</summary>
     [JsonProperty]
-    public bool ConsistentFarmerDebuffs { get; internal set; } = true;
+    public bool ConsistentFarmerDebuffs { get; internal set; } = false;
 
     /// <summary>Gets the key used to engage Debug Mode.</summary>
     [JsonProperty]

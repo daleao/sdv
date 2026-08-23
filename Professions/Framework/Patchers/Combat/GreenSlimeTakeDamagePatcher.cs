@@ -59,7 +59,7 @@ internal sealed class GreenSlimeTakeDamagePatcher : HarmonyPatcher
             }
         }
 
-        __instance.Set_Piped(null);
+        __instance.Unpipe();
     }
 
     #endregion harmony patches

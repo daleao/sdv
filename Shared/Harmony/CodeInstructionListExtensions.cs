@@ -15,7 +15,7 @@ public static class CodeInstructionListExtensions
 {
     /// <summary>
     ///     Finds the index of the next occurrence of the <paramref name="pattern"/> in the
-    ///     <paramref name="instructions"/>s, beginning at <paramref name="start"/>.
+    ///     <paramref name="instructions"/>, beginning at <paramref name="start"/>.
     /// </summary>
     /// <param name="instructions">A <see cref="List{T}"/> of <see cref="CodeInstruction"/>s.</param>
     /// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
@@ -54,7 +54,7 @@ public static class CodeInstructionListExtensions
 
     /// <summary>
     ///     Finds the index of the next occurrence of the <paramref name="pattern"/> in the
-    ///     <paramref name="instructions"/>s, beginning at <paramref name="start"/>.
+    ///     <paramref name="instructions"/>, beginning at <paramref name="start"/>.
     /// </summary>
     /// <param name="instructions">A <see cref="List{T}"/> of <see cref="CodeInstruction"/>s.</param>
     /// <param name="pattern">The <see cref="CodeInstruction"/> pattern to search for.</param>
@@ -84,7 +84,7 @@ public static class CodeInstructionListExtensions
 
     /// <summary>
     ///     Finds the index of the next <see cref="CodeInstruction"/> containing the <paramref name="label"/> in the
-    ///     <paramref name="instructions"/>s, beginning at <paramref name="start"/>.
+    ///     <paramref name="instructions"/>, beginning at <paramref name="start"/>.
     /// </summary>
     /// <param name="instructions">A <see cref="List{T}"/> of <see cref="CodeInstruction"/>s.</param>
     /// <param name="label">The <see cref="Label"/> object to search for.</param>
@@ -109,8 +109,6 @@ public static class CodeInstructionListExtensions
     /// <returns>An exact copy of <paramref name="instructions"/> in a new <see cref="List{T}"/> instance.</returns>
     public static List<CodeInstruction> Clone(this List<CodeInstruction> instructions)
     {
-        return instructions
-            .Select(instruction => new CodeInstruction(instruction))
-            .ToList();
+        return [.. instructions.Select(instruction => new CodeInstruction(instruction))];
     }
 }

@@ -81,6 +81,10 @@ public sealed class ProfessionsMod : Mod
     /// <summary>Gets a value indicating whether the Skill Reset feature is enabled.</summary>
     internal static bool ShouldEnableLimitBreaks => Config.Masteries.EnableLimitBreaks;
 
+    internal static string BlueEggId { get; private set; } = null!; // set in Entry;
+
+    internal static string LargeBlueEggId { get; private set; } = null!; // set in Entry;
+
     internal static string GoldenMayoId { get; private set; } = null!; // set in Entry;
 
     internal static string OstrichMayoId { get; private set; } = null!; // set in Entry;
@@ -101,6 +105,8 @@ public sealed class ProfessionsMod : Mod
 
     internal static string PrismaticBrushId { get; private set; } = null!; // set in Entry;
 
+    internal static string SurveyFlagId { get; private set; } = null!; // set in Entry;
+
     /// <summary>The mod entry point, called after the mod is first loaded.</summary>
     /// <param name="helper">Provides simplified APIs for writing mods.</param>
     public override void Entry(IModHelper helper)
@@ -117,11 +123,6 @@ public sealed class ProfessionsMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Config = helper.ReadConfig<ProfessionsConfig>();
-        Data = new ModDataManager(UniqueId, Log);
-        PerScreenState = new PerScreen<ProfessionsState>(() => new ProfessionsState());
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Professions.Framework.Patchers",
@@ -139,8 +140,15 @@ public sealed class ProfessionsMod : Mod
         EventManager = new EventManager(helper.Events, helper.ModRegistry, Log, handler)
             .ManageInitial(assembly, "DaLion.Professions.Framework.Events");
 
+        I18n.Init(helper.Translation);
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Config = helper.ReadConfig<ProfessionsConfig>();
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<ProfessionsState>(() => new ProfessionsState());
         this.ValidateMultiplayer();
 
+        BlueEggId = $"{UniqueId}_BlueEgg";
+        LargeBlueEggId = $"{UniqueId}_LargeBlueEgg";
         GoldenMayoId = $"{UniqueId}_GoldenMayo";
         OstrichMayoId = $"{UniqueId}_OstrichMayo";
         SlimeMayoId = $"{UniqueId}_SlimeMayo";
@@ -151,6 +159,7 @@ public sealed class ProfessionsMod : Mod
         BlueBrushId = $"{UniqueId}_BluePaintBrush";
         PurpleBrushId = $"{UniqueId}_PurplePaintBrush";
         PrismaticBrushId = $"{UniqueId}_PrismaticPaintBrush";
+        SurveyFlagId = $"{UniqueId}_SurveyFlag";
     }
 
     /// <inheritdoc />

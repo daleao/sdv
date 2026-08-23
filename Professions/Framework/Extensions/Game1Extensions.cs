@@ -5,6 +5,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Shared.Extensions;
+using Microsoft.Xna.Framework;
+using StardewValley.Buildings;
+using StardewValley.Monsters;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
 
@@ -95,5 +98,36 @@ internal static class Game1Extensions
                 }
             }
         }
+    }
+
+    /// <summary>Revalidates all farm buildings, applying profession rules to Barns, Coops, Fish Ponds and Slime Hutches.</summary>
+    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    internal static void RevalidateAllBuildings(this Game1 game1)
+    {
+        bool areThereAnyPrestigedBreeders = false,
+            areThereAnyPrestigedProducers = false,
+            areThereAnyPipers = false;
+        foreach (var farmer in Game1.getAllFarmers())
+        {
+            if (farmer.HasProfession(Profession.Breeder, true))
+            {
+                areThereAnyPrestigedBreeders = true;
+            }
+            else if (farmer.HasProfession(Profession.Producer, true))
+            {
+                areThereAnyPrestigedProducers = true;
+            }
+
+            if (farmer.HasProfession(Profession.Piper))
+            {
+                areThereAnyPipers = true;
+            }
+        }
+
+        Utility.ForEachBuilding(b =>
+        {
+            b.ApplyProfessionRules(areThereAnyPrestigedBreeders, areThereAnyPrestigedProducers, areThereAnyPipers);
+            return true; // continue enumeration
+        });
     }
 }

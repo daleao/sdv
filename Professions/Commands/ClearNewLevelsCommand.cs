@@ -34,9 +34,7 @@ internal sealed class ClearNewLevelsCommand(CommandHandler handler)
         {
             if (Skill.TryFromName(arg, true, out var skill))
             {
-                Game1.player.newLevels.Set(Game1.player.newLevels
-                    .Where(p => p.X != skill)
-                    .ToList());
+                Game1.player.newLevels.Set([.. Game1.player.newLevels.Where(p => p.X != skill)]);
             }
             else
             {
@@ -53,7 +51,7 @@ internal sealed class ClearNewLevelsCommand(CommandHandler handler)
                     .Invoke();
                 Reflector
                     .GetStaticFieldSetter<List<KeyValuePair<string, int>>>(typeof(SCSkills), "NewLevels")
-                    .Invoke(newLevels.Where(pair => pair.Key != customSkill.StringId).ToList());
+                    .Invoke([.. newLevels.Where(pair => pair.Key != customSkill.StringId)]);
             }
         }
 

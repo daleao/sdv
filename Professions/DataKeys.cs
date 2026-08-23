@@ -26,14 +26,22 @@ internal sealed class DataKeys
     internal const string SecondMemorizedTackleUses = "SecondMemorizedTackleUses";
     internal const string MuskUses = "MuskTimesUsed";
     internal const string PersistedCoals = "PersistedCoals";
-    internal const string LastIngredientProcessed = "LastIngredientProcessed";
-    internal const string MachinePowerups = "MachinePowerups";
+    internal const string RepeatedInputCycles = "InputItemRepeatCount";
+    internal const string LastLeftoverCycle = "LastLeftoverCycle";
+    internal const string AppliedMachineTreatments = "AppliedMachineTreatments";
 
     // terrain feature and crop keys
     internal const string PlantedByArborist = "PlantedByArborist";
     internal const string TreeDatePlanted = "DatePlanted";
     internal const string DaysLeftOutOfSeason = "DaysLeftOutOfSeason";
     internal const string SoilMemory = "SoilMemory";
+
+    // animal keys
+    internal const string ShortTermNutrition = "ShortTermNutrition";
+    internal const string LongTermNutrition = "LongTermNutrition";
+    internal const string InheritedPotential = "InheritedPotential";
+    internal const string Pregnancies = "Pregnancies";
+    internal const string EggsLaid = "EggsLaid";
 
     // monster keys
     internal const string BaseAttack = "BaseAttack";
@@ -42,10 +50,6 @@ internal sealed class DataKeys
     internal const string AttackIV = "AttackIV";
     internal const string DefenseIV = "DefenseIV";
     internal const string HealthIV = "HealthIV";
-
-    // animal keys
-    internal const string BredByBreeder = "BredByBreeder";
-    internal const string BredByProgenitor = "BredByProgenitor";
 
     // projectile keys
     internal const string Overcharge = "Overcharge";

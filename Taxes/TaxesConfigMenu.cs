@@ -41,7 +41,7 @@ internal sealed class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
         Instance!.AddDynamicKeyValuePairListOption(
             I18n.Gmcm_TaxRatePerIncomeBracket_Title,
             I18n.Gmcm_TaxRatePerIncomeBracket_Desc,
-            () => Config.TaxRatePerIncomeBracket.Select(pair => new KeyValuePair<string, string>($"{pair.Key}", $"{pair.Value}")).ToList(),
+            () => [.. Config.TaxRatePerIncomeBracket.Select(pair => new KeyValuePair<string, string>($"{pair.Key}", $"{pair.Value}"))],
             pairs =>
             {
                 List<KeyValuePair<int, float>> parsedPairs = [];
@@ -78,7 +78,7 @@ internal sealed class TaxesConfigMenu : GMCMBuilder<TaxesConfigMenu>
         Instance!.AddDynamicKeyValuePairListOption(
             I18n.Gmcm_DeductibleExtras_Title,
             I18n.Gmcm_DeductibleExtras_Desc,
-            () => Config.DeductibleExtras.Select(pair => new KeyValuePair<string, string>(pair.Key.TrimAll(), $"{pair.Value}")).ToList(),
+            () => [.. Config.DeductibleExtras.Select(pair => new KeyValuePair<string, string>(pair.Key.TrimAll(), $"{pair.Value}"))],
             pairs =>
             {
                 List<KeyValuePair<string, float>> parsedPairs = [];

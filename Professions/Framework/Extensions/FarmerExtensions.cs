@@ -306,7 +306,7 @@ internal static class FarmerExtensions
         HashSet<string> fishTypes = [];
         Utility.ForEachBuilding(b =>
         {
-            if (b is FishPond pond && pond.IsOwnedByOrLax(Game1.player) && !string.IsNullOrEmpty(pond.fishType.Value))
+            if (b is FishPond pond && pond.IsOwnedByOrLax(farmer) && !string.IsNullOrEmpty(pond.fishType.Value))
             {
                 fishTypes.Add(pond.fishType.Value);
             }
@@ -439,11 +439,12 @@ internal static class FarmerExtensions
 
     /// <summary>Enumerates all <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</summary>
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="source">Optional <see cref="PipedSlime.PipingSource"/> filter.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="PipedSlime"/>s currently under the <paramref name="farmer"/>'s influence.</returns>
-    internal static IEnumerable<PipedSlime> GetPipedSlimes(this Farmer farmer)
+    internal static IEnumerable<PipedSlime> GetPipedSlimes(this Farmer farmer, PipedSlime.PipingSource? source = null)
     {
         return GreenSlime_Piped.Values
-            .Where(pair => ReferenceEquals(pair.Value.Piper, farmer))
+            .Where(pair => ReferenceEquals(pair.Value.Piper, farmer) && (source is null || pair.Value.Source == source))
             .Select(pair => pair.Value)
             .ToList();
     }
@@ -462,14 +463,14 @@ internal static class FarmerExtensions
     {
         if (!farmer.HasProfession(Profession.Piper))
         {
-            Game1.showRedMessage(I18n.Piper_Useflute_CantPlay());
+            Game1.showRedMessage(I18n.Objects_Slimeflute_Cant_Player());
             return;
         }
 
         var inDangerZone = farmer.currentLocation.IsEnemyArea();
         if (!inDangerZone)
         {
-            Game1.showRedMessage(I18n.Piper_Useflute_NotHere());
+            Game1.showRedMessage(I18n.Objects_Slimeflute_Cant_Here());
             return;
         }
 
@@ -498,54 +499,69 @@ internal static class FarmerExtensions
             () =>
             {
                 var action = Config.ModKey.IsDown() ? "dismiss" : "spawn";
-
-                var numberRaised = farmer.CountRaisedSlimes();
-                if (numberRaised == 0)
+                if (action == "spawn")
                 {
-                    Game1.showRedMessage(I18n.Piper_Useflute_NothingHappened());
-                    return;
-                }
-
-                var luck = Game1.player.DailyLuck;
-                var baseNumberToSpawn = 1 + (numberRaised / 5);
-
-                int[] offsets = [-2, -1, 0, 1, 2];
-                float[] weights = [1f, 3f, 8f, 8f, 3f, 1f], skewedWeights = new float[weights.Length];
-                const float luckFactor = 6f;
-                for (var i = 0; i < weights.Length; i++)
-                {
-                    skewedWeights[i] = (float)(weights[i] * Math.Exp(luck * luckFactor * offsets[i]));
-                }
-
-                var totalWeight = skewedWeights.Sum();
-                var roll = (float)Game1.random.NextDouble() * totalWeight;
-                var rolledOffset = 0;
-                for (var i = 0; i < weights.Length; i++)
-                {
-                    roll -= weights[i];
-                    if (roll <= 0f)
+                    var numberRaised = farmer.CountRaisedSlimes();
+                    if (numberRaised == 0)
                     {
-                        rolledOffset = offsets[i];
-                        break;
+                        var numberNearby = Game1.currentLocation.characters.OfType<GreenSlime>().Count(slime => !slime.IsPiped());
+                        if (numberNearby == 0)
+                        {
+                            Game1.showRedMessage(I18n.Objects_Slimeflute_NoEffect());
+                            return;
+                        }
+
+                        farmer.CharmMinions();
+                        return;
                     }
-                }
 
-                var numberToSpawn = baseNumberToSpawn + rolledOffset;
+                    var luck = Game1.player.DailyLuck;
+                    var baseNumberToSpawn = 1 + (numberRaised / 5);
 
-                if (!Game1.IsMasterGame)
-                {
-                    Broadcaster.MessageHost(numberToSpawn.ToString(), $"PiperMinions_{action}");
+                    int[] offsets = [-2, -1, 0, 1, 2];
+                    float[] weights = [1f, 3f, 8f, 3f, 1f], skewedWeights = new float[weights.Length];
+                    const float luckFactor = 6f;
+                    for (var i = 0; i < weights.Length; i++)
+                    {
+                        skewedWeights[i] = (float)(weights[i] * Math.Exp(luck * luckFactor * offsets[i]));
+                    }
+
+                    var totalWeight = skewedWeights.Sum();
+                    var roll = (float)Game1.random.NextDouble() * totalWeight;
+                    var rolledOffset = 0;
+                    for (var i = 0; i < skewedWeights.Length; i++)
+                    {
+                        roll -= skewedWeights[i];
+                        if (roll <= 0f)
+                        {
+                            rolledOffset = offsets[i];
+                            break;
+                        }
+                    }
+
+                    var numberToSpawn = Math.Max(baseNumberToSpawn + rolledOffset, 1);
+
+                    if (!Game1.IsMasterGame)
+                    {
+                        Broadcaster.MessageHost(numberToSpawn.ToString(), $"PiperMinions_{action}");
+                    }
+                    else
+                    {
+                        farmer.SpawnMinions(numberToSpawn);
+                    }
+
+                    farmer.CharmMinions();
                 }
                 else
                 {
-                    farmer.SpawnMinions(numberToSpawn);
+                    farmer.DismissMinions();
                 }
-
-                farmer.CharmMinions();
             },
             1500);
 
+#if RELEASE
         State.SlimeFluteCooldown = 60;
+#endif
     }
 
     /// <summary>Charms nearby <see cref="GreenSlime"/>s.</summary>
@@ -564,12 +580,11 @@ internal static class FarmerExtensions
     /// <summary>Spawns a <see cref="GreenSlime"/> minion next to the <paramref name="piper"/>.</summary>
     /// <param name="piper">The <see cref="Farmer"/>.</param>
     /// <param name="numberToSpawn">The number of minions to spawn.</param>
-    /// <returns>The <see cref="Vector2"/> tiles where minions were spawned.</returns>
-    internal static IEnumerable<Vector2> SpawnMinions(this Farmer piper, int numberToSpawn)
+    internal static void SpawnMinions(this Farmer piper, int numberToSpawn)
     {
-        if (piper.GetPipedSlimes().Count() >= numberToSpawn)
+        if (piper.GetPipedSlimes(PipedSlime.PipingSource.Summoned).Count() >= numberToSpawn)
         {
-            yield break;
+            return;
         }
 
         var location = piper.currentLocation;
@@ -586,84 +601,90 @@ internal static class FarmerExtensions
 
             var spawnTile = piper.ChooseFromFourtyEightNeighboringTiles(condition, location);
             GreenSlime spawn;
-            if (!raisedSlimes.TryChoose(out var chosen, r))
+            if (raisedSlimes.TryChoose(out var chosen, r))
             {
-                spawn = new GreenSlime(spawnTile * Game1.tileSize, 20)
+                int minAttack = int.MaxValue, minDefense = int.MaxValue, minHealth = int.MaxValue;
+                int maxAttack = int.MinValue, maxDefense = int.MinValue, maxHealth = int.MinValue;
+                foreach (var slime in raisedSlimes)
+                {
+                    if (slime.DamageToFarmer < minAttack)
+                    {
+                        minAttack = slime.DamageToFarmer;
+                    }
+
+                    if (slime.DamageToFarmer > maxAttack)
+                    {
+                        maxAttack = slime.DamageToFarmer;
+                    }
+
+                    if (slime.resilience.Value < minDefense)
+                    {
+                        minDefense = slime.resilience.Value;
+                    }
+
+                    if (slime.resilience.Value > maxDefense)
+                    {
+                        maxDefense = slime.resilience.Value;
+                    }
+
+                    if (slime.MaxHealth < minHealth)
+                    {
+                        minHealth = slime.MaxHealth;
+                    }
+
+                    if (slime.MaxHealth > maxHealth)
+                    {
+                        maxHealth = slime.MaxHealth;
+                    }
+                }
+
+                spawn = new GreenSlime(spawnTile * Game1.tileSize, chosen.color.Value)
+                {
+                    currentLocation = location,
+                    MaxHealth = r.Next(minHealth, maxHealth + 1),
+                    DamageToFarmer = r.Next(minAttack, maxAttack + 1),
+                    resilience = { Value = r.Next(minDefense, maxDefense + 1) },
+                };
+
+                switch (chosen.Name)
+                {
+                    case "Tiger Slime":
+                        spawn.makeTigerSlime();
+                        break;
+                    case "Gold Slime":
+                        spawn.MakeGoldSlime();
+                        break;
+                    default:
+                        {
+                            if (chosen.prismatic.Value)
+                            {
+                                spawn.prismatic.Value = true;
+                                spawn.Name = "Prismatic Slime";
+                                spawn.MaxHealth *= 2;
+                                spawn.DamageToFarmer *= 2;
+                                spawn.resilience.Value *= 2;
+                            }
+
+                            break;
+                        }
+                }
+            }
+            else
+            {
+                spawn = new GreenSlime(spawnTile * Game1.tileSize, 0)
                 {
                     currentLocation = location,
                 };
-
-                goto setPiped;
             }
-
-            int minAttack = int.MinValue, minDefense = int.MinValue, minHealth = int.MinValue;
-            int maxAttack = int.MaxValue, maxDefense = int.MaxValue, maxHealth = int.MaxValue;
-            foreach (var slime in raisedSlimes)
-            {
-                if (slime.DamageToFarmer < minAttack)
-                {
-                    minAttack = slime.DamageToFarmer;
-                }
-
-                if (slime.DamageToFarmer > maxAttack)
-                {
-                    maxAttack = slime.DamageToFarmer;
-                }
-
-                if (slime.resilience.Value < minDefense)
-                {
-                    minDefense = slime.resilience.Value;
-                }
-
-                if (slime.resilience.Value > maxDefense)
-                {
-                    maxDefense = slime.resilience.Value;
-                }
-
-                if (slime.MaxHealth < minHealth)
-                {
-                    minHealth = slime.MaxHealth;
-                }
-
-                if (slime.MaxHealth > maxHealth)
-                {
-                    maxHealth = slime.MaxHealth;
-                }
-            }
-
-            spawn = new GreenSlime(spawnTile * Game1.tileSize, chosen.color.Value)
-            {
-                currentLocation = location,
-                MaxHealth = r.Next(minHealth, maxHealth + 1),
-                DamageToFarmer = r.Next(minAttack, maxAttack + 1),
-                resilience = { Value = r.Next(minDefense, maxDefense + 1) },
-            };
 
             spawn.Health = spawn.MaxHealth;
-            switch (chosen.Name)
+            if (piper.HasProfession(Profession.Piper, true))
             {
-                case "Tiger Slime":
-                    spawn.makeTigerSlime();
-                    break;
-                case "Gold Slime":
-                    spawn.MakeGoldSlime();
-                    break;
-                default:
-                {
-                    if (chosen.prismatic.Value)
-                    {
-                        spawn.prismatic.Value = true;
-                        spawn.Name = "Prismatic Slime";
-                        spawn.MaxHealth *= 2;
-                        spawn.DamageToFarmer *= 2;
-                        spawn.resilience.Value *= 2;
-                    }
-
-                    break;
-                }
+                Reflector
+                    .GetUnboundMethodDelegate<Action<MineShaft, Monster>>(typeof(MineShaft), "setMonsterTextureToDangerousVersion")
+                    .Invoke(location as MineShaft ?? new MineShaft(), spawn);
             }
 
-        setPiped:
             var piped = spawn.Set_Piped(piper, PipedSlime.PipingSource.Summoned);
 
             DelayedAction.functionAfterDelay(
@@ -672,15 +693,14 @@ internal static class FarmerExtensions
                     location.characters.Add(spawn);
                     for (var j = 0; j < 8; j++)
                     {
-                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                        .broadcastSprites(
+                        Game1.Multiplayer.broadcastSprites(
                             piper.currentLocation,
                             new TemporaryAnimatedSprite(
                                 10,
                                 new Vector2(
                                     spawnTile.X + Utility.RandomFloat(-1f, 1f),
                                     spawnTile.Y + Utility.RandomFloat(-1f, 0f)) * 64f,
-                                Color.LimeGreen,
+                                spawn.color.Value,
                                 8,
                                 flipped: false,
                                 50f)
@@ -691,8 +711,6 @@ internal static class FarmerExtensions
                     }
                 },
                 500 + Game1.random.Next(-200, 200));
-
-            yield return spawnTile;
         }
     }
 
@@ -701,7 +719,7 @@ internal static class FarmerExtensions
     internal static void DismissMinions(this Farmer piper)
     {
         var pipedSlimes = GreenSlime_Piped.PipedSlimes.ToList();
-        for (var i = pipedSlimes.Count - 1; i > 0; i--)
+        for (var i = pipedSlimes.Count - 1; i >= 0; i--)
         {
             var slime = pipedSlimes[i];
             var piped = slime.Get_Piped();
@@ -716,15 +734,14 @@ internal static class FarmerExtensions
                 {
                     for (var j = 0; j < 8; j++)
                     {
-                        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                        .broadcastSprites(
+                        Game1.Multiplayer.broadcastSprites(
                             piper.currentLocation,
                             new TemporaryAnimatedSprite(
                                 10,
                                 new Vector2(
                                     tileX + Utility.RandomFloat(-1f, 1f),
                                     tileY + Utility.RandomFloat(-1f, 0f)) * 64f,
-                                Color.LimeGreen,
+                                slime.color.Value,
                                 8,
                                 flipped: false,
                                 50f)
@@ -738,8 +755,28 @@ internal static class FarmerExtensions
                 },
                 500 + Game1.random.Next(-200, 200));
 
-            slime.Set_Piped(null, PipedSlime.PipingSource.None);
+            slime.Unpipe();
             pipedSlimes.RemoveAt(i);
         }
+    }
+
+    /// <summary>Feeds the currently held crop to the target <paramref name="animal"/>.</summary>
+    /// <param name="rancher">A <see cref="Farmer"/> with the <see cref="Profession.Rancher"/> profession.</param>
+    /// <param name="animal">The <see cref="FarmAnimal"/> to be fed.</param>
+    internal static void FeedCrop(this Farmer rancher, FarmAnimal animal)
+    {
+        Game1.playSound("give_gift");
+        animal.doEmote(20);
+        rancher.reduceActiveItemByOne();
+
+        var shortTermNutrition = Data.ReadAs<int>(animal, DataKeys.ShortTermNutrition);
+        shortTermNutrition = Math.Min(shortTermNutrition + 25, 100);
+        Data.Write(animal, DataKeys.ShortTermNutrition, shortTermNutrition.ToString());
+
+        var longTermNutrition = Data.ReadAs<int>(animal, DataKeys.LongTermNutrition);
+        longTermNutrition = Math.Min(longTermNutrition + 10, 500);
+        Data.Write(animal, DataKeys.LongTermNutrition, longTermNutrition.ToString());
+
+        State.WasFedCropToday.Add(animal);
     }
 }

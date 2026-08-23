@@ -4,6 +4,7 @@
 
 using DaLion.Combat.Framework.Events;
 using Microsoft.Xna.Framework;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -43,7 +44,7 @@ internal sealed class CombatState
             {
                 EventManager.Disable<ComboResetUpdateTickedEvent>();
             }
-            else
+            else if (State.QueuedHitStep != ComboHitStep.Idle)
             {
                 EventManager.Enable<ComboResetUpdateTickedEvent>();
             }

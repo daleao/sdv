@@ -57,13 +57,13 @@ internal sealed class RemoveEnchantmentsCommand(CommandHandler handler) : Consol
             if (enchantment is null)
             {
                 Log.W($"The {tool.DisplayName} does not have a {args[0]} enchantment.");
-                args = args.Skip(1).ToArray();
+                args = [.. args.Skip(1)];
                 continue;
             }
 
             tool.RemoveEnchantment(enchantment);
             Log.I($"Removed {enchantment.GetType().Name} enchantment from {tool.DisplayName}.");
-            args = args.Skip(1).ToArray();
+            args = [.. args.Skip(1)];
         }
 
         return true;

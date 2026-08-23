@@ -27,28 +27,12 @@ internal static class GreenSlime_Piped
     }
 
     [return: NotNullIfNotNull(nameof(piper))]
-    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer? piper, PipedSlime.PipingSource source)
+    internal static PipedSlime? Set_Piped(this GreenSlime slime, Farmer piper, PipedSlime.PipingSource source)
     {
-        if (piper is not null)
-        {
-            var piped = new PipedSlime(slime, piper, source);
-            Values.AddOrUpdate(slime, piped);
-            PipedSlimes.Add(slime);
-            return piped;
-        }
-        else
-        {
-            if (!Values.TryGetValue(slime, out var piped))
-            {
-                return null;
-            }
-
-            piped.Reset();
-            piped.Dispose();
-            PipedSlimes.Remove(slime);
-            Values.Remove(slime);
-            return null;
-        }
+        var piped = new PipedSlime(slime, piper, source);
+        Values.AddOrUpdate(slime, piped);
+        PipedSlimes.Add(slime);
+        return piped;
     }
 
     internal static PipedSlime Set_Piped(this GreenSlime slime, Farmer piper, Hat hat)
@@ -57,5 +41,19 @@ internal static class GreenSlime_Piped
         Values.AddOrUpdate(slime, piped);
         PipedSlimes.Add(slime);
         return piped;
+    }
+
+    internal static bool Unpipe(this GreenSlime slime)
+    {
+        if (!Values.TryGetValue(slime, out var piped))
+        {
+            return false;
+        }
+
+        piped.Reset();
+        piped.Dispose();
+        PipedSlimes.Remove(slime);
+        Values.Remove(slime);
+        return true;
     }
 }

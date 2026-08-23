@@ -86,7 +86,7 @@ public sealed class CombatConfig
     [JsonProperty]
     [GMCMSection("cmbt.stats")]
     [GMCMPriority(105)]
-    public bool LuckImprovesCritAndDodge { get; internal set; } = true;
+    public bool LuckImprovesCritDodge { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether to allow drifting in the movement direction when swinging weapons.</summary>
     [JsonProperty]

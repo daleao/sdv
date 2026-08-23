@@ -27,7 +27,7 @@ public sealed class ILHelper
     public ILHelper(MethodBase original, IEnumerable<CodeInstruction> instructions)
     {
         this.Original = original;
-        this._instructions = instructions.ToList();
+        this._instructions = [.. instructions];
         this.Locals = this._instructions
             .Where(instruction => (instruction.IsLdloc() || instruction.IsStloc()) && instruction.operand is LocalBuilder)
             .Select(instruction => (LocalBuilder)instruction.operand)
@@ -130,7 +130,7 @@ public sealed class ILHelper
                     searchSpace.Reverse();
 
                     var start = option is SearchOption.Previous ? searchSpace.Count - this.CurrentIndex : 0;
-                    index = searchSpace.Count - searchSpace.IndexOf(pattern.Reverse().ToArray(), start) -
+                    index = searchSpace.Count - searchSpace.IndexOf([.. pattern.Reverse()], start) -
                             pattern.Length;
                     break;
                 }
@@ -483,7 +483,7 @@ public sealed class ILHelper
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     public ILHelper GetLabels(out Label[] labels)
     {
-        labels = this._instructions[this.CurrentIndex].labels.ToArray();
+        labels = [.. this._instructions[this.CurrentIndex].labels];
         return this;
     }
 
@@ -492,7 +492,7 @@ public sealed class ILHelper
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     public ILHelper SetLabels(params Label[] labels)
     {
-        this._instructions[this.CurrentIndex].labels = labels.ToList();
+        this._instructions[this.CurrentIndex].labels = [.. labels];
         return this;
     }
 
@@ -512,7 +512,7 @@ public sealed class ILHelper
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     public ILHelper GetBlocks(out ExceptionBlock[] blocks)
     {
-        blocks = this._instructions[this.CurrentIndex].blocks.ToArray();
+        blocks = [.. this._instructions[this.CurrentIndex].blocks];
         return this;
     }
 
@@ -521,7 +521,7 @@ public sealed class ILHelper
     /// <returns>The <see cref="ILHelper"/> instance.</returns>
     public ILHelper SetBlocks(params ExceptionBlock[] blocks)
     {
-        this._instructions[this.CurrentIndex].blocks = blocks.ToList();
+        this._instructions[this.CurrentIndex].blocks = [.. blocks];
         return this;
     }
 

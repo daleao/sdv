@@ -31,7 +31,7 @@ public static class EnumerableExtensions
     public static T? ArgMax<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        var list = enumerable as IList<T> ?? enumerable.ToList();
+        var list = enumerable as IList<T> ?? [.. enumerable];
         return !list.Any() ? default : list.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) >= 0 ? a : b);
     }
 
@@ -44,7 +44,7 @@ public static class EnumerableExtensions
     public static T? ArgMin<T, TComparable>(this IEnumerable<T> enumerable, Func<T, TComparable> predicate)
         where TComparable : IComparable<TComparable>
     {
-        var list = enumerable as IList<T> ?? enumerable.ToList();
+        var list = enumerable as IList<T> ?? [.. enumerable];
         return !list.Any() ? default : list.Aggregate((a, b) => predicate(a).CompareTo(predicate(b)) <= 0 ? a : b);
     }
 

@@ -62,10 +62,10 @@ public abstract class Gemstone : SmartEnum<Gemstone>, IEquatable<Gemstone>, ICom
     private static readonly DiatonicScale RubyScale;
 
     private static readonly List<double> VolumeSpace =
-        MathUtils.LinSpace(0d, 4d, 100).Select(x => Math.Exp(x - 5d)).ToList();
+        [.. MathUtils.LinSpace(0d, 4d, 100).Select(x => Math.Exp(x - 5d))];
 
     private static readonly List<double> SineSpace =
-        MathUtils.LinSpace(0d, 2 * Math.PI, 60).Select(Math.Sin).ToList();
+        [.. MathUtils.LinSpace(0d, 2 * Math.PI, 60).Select(Math.Sin)];
 
     private static int _fadeStepIndex;
 

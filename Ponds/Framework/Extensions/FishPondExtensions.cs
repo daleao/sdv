@@ -185,7 +185,7 @@ internal static class FishPondExtensions
     }
 
     /// <summary>
-    ///     Opens an <see cref="ItemGrabMenu"/> instance to allow retrieve multiple items from the
+    ///     Opens an <see cref="ItemGrabMenu"/> instance to allow retrieving multiple items from the
     ///     <paramref name="pond"/>'s chum bucket.
     /// </summary>
     /// <param name="pond">The <see cref="FishPond"/>.</param>
@@ -234,7 +234,7 @@ internal static class FishPondExtensions
     /// <returns>A <see cref="List{T}"/> of parsed <see cref="PondFish"/>.</returns>
     internal static List<PondFish> ParsePondFishes(this FishPond pond)
     {
-        return Data.Read(pond, DataKeys.PondFish).Split(';').Select(PondFish.FromString).WhereNotNull().ToList();
+        return [.. Data.Read(pond, DataKeys.PondFish).Split(';').Select(PondFish.FromString).WhereNotNull()];
     }
 
     /// <summary>Resets the <see cref="PondFish"/> data back to default values, effectively erasing stores qualities.</summary>
@@ -330,7 +330,7 @@ internal static class FishPondExtensions
                 qid = "(O)" + qid;
             }
 
-            var attempts = pond.currentOccupants.Value - reward.RequiredPopulation;
+            var attempts = pond.currentOccupants.Value - reward.RequiredPopulation + 1;
             if (qid is QIDs.Roe or QIDs.SquidInk || !r.Any(reward.Chance, attempts))
             {
                 continue;
@@ -360,7 +360,7 @@ internal static class FishPondExtensions
             }
         }
 
-        var productionChancePerFish = pond.GetRoeChance(fish.Price, fish.IsBossFish());
+        var productionChancePerFish = pond.GetRoeChance(fish.Price, fish.IsBossFish()) * 5;
         var roeQualities = new int[4];
         for (var i = 0; i < 4; i++)
         {
@@ -393,15 +393,20 @@ internal static class FishPondExtensions
                 continue;
             }
 
-            var producedWithThisQuality = r.Next(roeQualities[i]);
-            if (producedWithThisQuality <= 0)
+            int producedWithThisQuality;
+            if (i > 0)
             {
-                if (i > 0)
+                producedWithThisQuality = r.Next(roeQualities[i]);
+                var rollover = roeQualities[i] - producedWithThisQuality;
+                if (rollover > 0)
                 {
                     roeQualities[i - 1] += roeQualities[i];
+                    continue;
                 }
-
-                continue;
+            }
+            else
+            {
+                producedWithThisQuality = roeQualities[i];
             }
 
             var roe = fish.Name.Contains("Squid")
@@ -606,7 +611,7 @@ internal static class FishPondExtensions
     {
         if (pond.FishCount > 1)
         {
-            if (r.NextDouble() < chance && r.NextDouble() < chance)
+            if (r.NextBool(chance) && r.NextBool(chance))
             {
                 held.Add(ItemRegistry.Create<SObject>(QIDs.GalaxySoul));
                 if (pond.goldenAnimalCracker.Value)
@@ -618,7 +623,7 @@ internal static class FishPondExtensions
             }
 
             held.Add(ItemRegistry.Create<SObject>(which == "MNF.MoreNewFish_tui" ? QIDs.VoidEssence : QIDs.SolarEssence));
-            if (r.NextDouble() < 0.8)
+            if (r.NextBool(0.8))
             {
                 held.Last().Stack++;
             }

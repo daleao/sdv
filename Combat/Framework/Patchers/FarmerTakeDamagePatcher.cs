@@ -159,7 +159,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
 
     private static bool TryDodge(Farmer who)
     {
-        if (!Config.LuckImprovesCritAndDodge || !Game1.random.NextBool(0.01f * who.LuckLevel))
+        if (!Config.LuckImprovesCritDodge || !Game1.random.NextBool(0.01f * who.LuckLevel))
         {
             return false;
         }

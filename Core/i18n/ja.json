@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "飼料",
+    "hay.desc": "乾燥した草・牧草・作物を混ぜ合わせた、農場の動物に与えるエサ。",
+    "buildings.added_hay": "サイロに飼料を{0}個追加しました。",
+
+    "ui.buffs.burnt.damage": "-50% ダメージ",
+    "ui.buffs.burnt.dot": "3秒ごとに{{amount}}の体力を失う",
+    "ui.buffs.frozen.stuck": "移動できない",
+    "ui.buffs.frozen.vulnerable": "次の攻撃に対して無防備",
+    "ui.buffs.jinxed.defense": "-50% 防御",
+    "ui.buffs.jinxed.special": "特殊攻撃を使用できない",
+    "ui.buffs.confused.name": "混乱",
+    "ui.buffs.confused.desc": "移動方向が逆になる。",
+    "ui.buffs.warrior.attack": "+{{value}} 攻撃",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "作物の枯れ確率",
+    "gmcm.crop_wither_chance.desc": "水やりをしなかった場合、作物が毎日枯れる確率（%）。",
+    "gmcm.two_way_hoppers.title": "双方向ホッパー",
+    "gmcm.two_way_hoppers.desc": "ホッパーが機械から完成した産物を回収できるようにします。",
+    "gmcm.winter_wheat.title": "冬小麦",
+    "gmcm.winter_wheat.desc": "小麦が冬の間も休眠状態で残れるようにします。",
+    "gmcm.immersive_hay.title": "リアルな干し草",
+    "gmcm.immersive_hay.desc": "成熟した小麦から干し草を収穫できなくなりますが、未成熟の小麦からは100%の確率で干し草を収穫できます。",
+    "gmcm.consistent_farmer_debuffs.title": "一貫した農家デバフ",
+    "gmcm.consistent_farmer_debuffs.desc": "農家のデバフをこのModが提供する状態異常と統合します。"
+}

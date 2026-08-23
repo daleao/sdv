@@ -2,6 +2,9 @@
 
 internal enum MachineTreatmentCategory
 {
+    /// <summary>Overclocks production frequency with electric power.</summary>
+    Overclock,
+
     /// <summary>Conditions the vessel for cultured aging and fermentation using Oak Resin.</summary>
     Fermentation,
 

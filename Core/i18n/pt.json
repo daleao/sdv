@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Ração animal",
+    "hay.desc": "Uma mistura de grama seca, forragem e cultivos usada para alimentar os animais da fazenda.",
+    "buildings.added_hay": "{0} porção/porções de ração animal foram adicionadas ao silo.",
+
+    "ui.buffs.burnt.damage": "-50% Dano",
+    "ui.buffs.burnt.dot": "-{{amount}} de vida a cada 3 segundos",
+    "ui.buffs.frozen.stuck": "Não pode se mover",
+    "ui.buffs.frozen.vulnerable": "Vulnerável ao próximo ataque",
+    "ui.buffs.jinxed.defense": "-50% Defesa",
+    "ui.buffs.jinxed.special": "Não pode usar movimentos especiais",
+    "ui.buffs.confused.name": "Desorientado",
+    "ui.buffs.confused.desc": "O movimento está invertido.",
+    "ui.buffs.warrior.attack": "+{{value}} Ataque",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Chance de murcha dos cultivos",
+    "gmcm.crop_wither_chance.desc": "A chance percentual de que qualquer cultivo murche a cada dia se não for regado.",
+    "gmcm.two_way_hoppers.title": "Funis bidirecionais",
+    "gmcm.two_way_hoppers.desc": "Permite que os funis recuperem produtos acabados das máquinas.",
+    "gmcm.winter_wheat.title": "Trigo de inverno",
+    "gmcm.winter_wheat.desc": "Permite que o trigo permaneça em dormência durante o inverno.",
+    "gmcm.immersive_hay.title": "Feno imersivo",
+    "gmcm.immersive_hay.desc": "Remove o feno colhido do trigo maduro, mas permite colher feno do trigo imaturo com 100% de chance.",
+    "gmcm.consistent_farmer_debuffs.title": "Penalidades coerentes do fazendeiro",
+    "gmcm.consistent_farmer_debuffs.desc": "Consolida as penalidades do fazendeiro com as condições de estado fornecidas por este mod."
+}

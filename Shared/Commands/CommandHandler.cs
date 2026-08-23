@@ -199,11 +199,11 @@ public sealed class CommandHandler
 
         if (!Context.IsWorldReady)
         {
-            this._log.W("You must load a save before running a command.");
+            this._log.W("World isn't ready. Please load a save file first.");
             return;
         }
 
-        handled.Callback(args[0], args.Skip(1).ToArray());
+        handled.Callback(args[0], [.. args.Skip(1)]);
     }
 
     /// <summary>Implicitly handles <see cref="IConsoleCommand"/> types using reflection.</summary>
@@ -237,7 +237,9 @@ public sealed class CommandHandler
 #endif
 
                 var ignoreAttribute = commandType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-                if (ignoreAttribute is not null)
+                var deprecatedAttribute = commandType.GetCustomAttribute<DeprecatedAttribute>();
+                var unusedAttribute = commandType.GetCustomAttribute<UnusedAttributed>();
+                if (ignoreAttribute is not null || deprecatedAttribute is not null || unusedAttribute is not null)
                 {
                     this._log.D($"[CommandHandler]: {commandType.Name} is marked to be ignored.");
                     continue;

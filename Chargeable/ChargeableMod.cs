@@ -62,6 +62,7 @@ public sealed class ChargeableMod : Mod
             return;
         }
 
+        new Harmony(this.ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<ChargeableConfig>();
         Config.Validate(helper);
@@ -69,7 +70,6 @@ public sealed class ChargeableMod : Mod
         helper.Events.GameLoop.GameLaunched += OnGameLaunched;
         helper.Events.GameLoop.ReturnedToTitle += OnReturnedToTitle;
         helper.Events.GameLoop.UpdateTicked += OnUpdateTicked;
-        new Harmony(this.ModManifest.UniqueID).PatchAll(Assembly.GetExecutingAssembly());
 
         MaxUpgradeLevel = helper.ModRegistry.IsLoaded("iargue.PrismaticToolsContinued") ? 6 : 5;
     }

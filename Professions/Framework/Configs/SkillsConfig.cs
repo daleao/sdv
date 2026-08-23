@@ -14,7 +14,7 @@ public sealed class SkillsConfig
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
     [GMCMPriority(100)]
-    public bool EnableSkillReset { get; internal set; } = true;
+    public bool EnableSkillReset { get; internal set; } = false;
 
     /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
     [JsonProperty]

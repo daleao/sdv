@@ -1,6 +1,6 @@
 {
     "MachineTreatments": {
-        "(BC)12": {// Keg
+        "(BC)12": { // Keg
             "default": "fermentation",
             "juice_item": "glazing"
         },

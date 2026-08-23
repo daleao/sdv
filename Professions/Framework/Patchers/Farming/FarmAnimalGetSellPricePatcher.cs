@@ -34,7 +34,7 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
 
         try
         {
-            __result = (int)((__instance.GetAnimalData()?.SellPrice ?? 1) * __instance.GetBreederAdjustedFriendship());
+            __result = (int)(__instance.getSellPrice() * __instance.GetBreederAdjustedPrice());
             return false; // don't run original logic
         }
         catch (Exception ex)

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Granat",
+  "objects.garnet.desc": "Namensgeber einer wunderschönen Prinzessin aus einem fernen Land.",
+  "rings.garnet.name": "Granatring",
+  "rings.garnet.desc": "Ein goldener Ring, verziert mit einem Granat. Verkürzt die Abklingzeit des Spezialmoves um 10 %.",
+  "rings.infinity.name": "Unendlichkeitsband",
+  "rings.infinity.desc": "Ein Gefäß für große Macht.",
+
+  "rings.amethyst.prefix": "Ein kupferner Ring, verziert mit einem Amethysten.",
+  "rings.topaz.prefix": "Ein kupferner Ring, verziert mit einem Topas.",
+  "rings.aquamarine.prefix": "Ein silberner Ring, verziert mit einem Aquamarin.",
+  "rings.jade.prefix": "Ein silberner Ring, verziert mit einem Jadenstein.",
+  "rings.emerald.prefix": "Ein goldener Ring, verziert mit einem Smaragd.",
+  "rings.ruby.prefix": "Ein goldener Ring, verziert mit einem Rubin.",
+  "rings.iridium.desc": "Ein gewöhnliches Iridiumband.",
+
+  "node.garnet.name": "Granatknoten",
+  "node.garnet.desc": "Eine Ansammlung von Granaten, eingeschlossen in Stein.",
+
+  "ui.resonance": "Resonanz",
+  "ui.ruby": "Rubin",
+  "ui.aquamarine": "Aquamarin",
+  "ui.jade": "Jadenstein",
+  "ui.emerald": "Smaragd",
+  "ui.amethyst": "Amethyst",
+  "ui.topaz": "Topas",
+  "ui.garnet": "Granat",
+  "ui.item_hover.damage": "{{amount}} Schaden",
+  "ui.item_hover.c_rate": "{{amount}} Krit.-Chance",
+  "ui.item_hover.c_pow": "{{amount}} Krit.-Stärke",
+  "ui.item_hover.knockback": "{{amount}} Rückstoß",
+  "ui.item_hover.attack_speed": "{{amount}} Angriffsgeschw.",
+  "ui.item_hover.cdr": "{{amount}} Abklingzeit",
+  "ui.item_hover.resist": "{{amount}} Verteidigung",
+  "ui.item_hover.light": "Leuchtet",
+  "ui.item_hover.magnetic": "Magnetisch",
+
+  "dialogue.emily.gemstones.first": "Habt Ihr einen Edelstein schon mal wirklich gespürt? Wie ein Topas sich in die Seele schmelzt, oder wie ein Rubin das Herz entflammt?#$b#Edelsteine haben diese wunderbare Art, mit unserer Energie zu resonieren. Es ist wie die Gefühlspalette der Natur.",
+  "dialogue.emily.gemstones.second": "Einmal habe ich versucht, einen Ring mit ganz vielen Edelsteinen zu bestücken, um mit allen gleichzeitig zu resonieren.#$b#Aber er fiel immer auseinander! Clint sagte, gewöhnliche Metalle seien nicht stark genug, um die überlappenden Schwingungen auszuhalten. Also trage ich jetzt jeden Tag einen anderen!",
+
+  "global.infinitycraft": "{{someone}} hat ein Unendlichkeitsband geschmiedet.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Herstellbare Edelsteinringe",
+  "gmcm.craftable_gemstone_rings.desc": "Fügt neue Kampfrezepte zur Herstellung von Edelsteinringen hinzu.",
+  "gmcm.audible_gemstones.title": "Hörbare Edelsteine",
+  "gmcm.audible_gemstones.desc": "Ob Edelsteinfrequenzen gehört werden können.",
+  "gmcm.chord_sound_duration.title": "Akkordklanglänge",
+  "gmcm.chord_sound_duration.desc": "Die Dauer des Akkordklangsignals in Millisekunden.",
+  "gmcm.colorful_resonances.title": "Farbige Resonanzen",
+  "gmcm.colorful_resonances.desc": "Ob das Resonanzleuchten die Farbe des Grundtons übernehmen soll.",
+  "gmcm.resonance_lightsource_texture.title": "Resonanzlichtquelle Textur",
+  "gmcm.resonance_lightsource_texture.desc": "Die Textur, die für die Resonanzlichtquelle verwendet wird.",
+  "gmcm.lightsource_texture.sconce": "Wandleuchte",
+  "gmcm.lightsource_texture.stronger": "Stärker",
+  "gmcm.lightsource_texture.patterned": "Gemustert"
+}

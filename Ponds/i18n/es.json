@@ -1,0 +1,12 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "algae": "Algas",
+
+  "gmcm.days_until_algae_spawn.title": "Días hasta la aparición de algas",
+  "gmcm.days_until_algae_spawn.desc": "El número de días hasta que un estanque vacío empiece a generar algas.",
+  "gmcm.roe_production_chance_multiplier.title": "Multiplicador de probabilidad de producción de huevas",
+  "gmcm.roe_production_chance_multiplier.desc": "Un multiplicador a la probabilidad base de un pez de producir huevas cada día.",
+  "gmcm.add_legendary_pond_data.title": "Agregar datos de estanque de peces legendarios",
+  "gmcm.add_legendary_pond_data.desc": "Agrega botín inmersivo a los estanques de peces legendarios. No tiene efecto si Walk of Life está instalado."
+}

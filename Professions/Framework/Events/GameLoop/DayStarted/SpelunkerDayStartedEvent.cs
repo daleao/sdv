@@ -19,6 +19,6 @@ internal sealed class SpelunkerDayStartedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {
-        State.HasSpelunkerUsedCheckpointToday = false;
+        State.HasSpelunkerRevivedAtCheckpointToday = false;
     }
 }

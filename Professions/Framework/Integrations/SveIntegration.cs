@@ -10,18 +10,24 @@ using DaLion.Shared.Integrations;
 #endregion using directives
 
 /// <summary>Initializes a new instance of the <see cref="SveIntegration"/> class.</summary>
-[ModRequirement("FlashShifter.StardewValleyExpandedCP")]
+[ModRequirement(MOD_ID)]
 [UsedImplicitly]
 internal sealed class SveIntegration()
     : ModIntegration<SveIntegration>(ModHelper.ModRegistry)
 {
+    internal const string MOD_ID = "FlashShifter.StardewValleyExpandedCP";
+
+    internal const string BIRCH_WATER_QID = MOD_ID + "_Birch_Water";
+
+    internal const string FIR_WAX_QID = MOD_ID + "_Fir_Wax";
+
     /// <summary>Gets a value indicating whether the <c>DisableGaldoranTheme</c> config setting is enabled.</summary>
     internal bool DisabeGaldoranTheme => this.IsLoaded &&
-        (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("DisableGaldoranTheme") ?? false);
+        (ModHelper.ReadContentPackConfig(MOD_ID)?.Value<bool?>("DisableGaldoranTheme") ?? false);
 
     /// <summary>Gets a value indicating whether the <c>UseGaldoranThemeAllTimes</c> config setting is enabled.</summary>
     internal bool UseGaldoranThemeAllTimes => this.IsLoaded &&
-        (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("UseGaldoranThemeAllTimes") ?? false);
+        (ModHelper.ReadContentPackConfig(MOD_ID)?.Value<bool?>("UseGaldoranThemeAllTimes") ?? false);
 
     protected override bool RegisterImpl()
     {

@@ -80,24 +80,6 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
             return null;
         }
 
-        // try
-        // {
-        //     helper
-        //         .PatternMatch([new CodeInstruction(OpCodes.Stloc_S, helper.Locals[12])])
-        //         .Insert([
-        //             new CodeInstruction(OpCodes.Ldarg_0),
-        //             new CodeInstruction(
-        //                 OpCodes.Call,
-        //                 typeof(CropHarvestPatcher).RequireMethod(nameof(GetAgriculturistMultiplier))),
-        //             new CodeInstruction(OpCodes.Mul)
-        //         ]);
-        // }
-        // catch (Exception ex)
-        // {
-        //     Log.E($"Failed adding whispered crop quality boost.\nHelper returned {ex}");
-        //     return null;
-        // }
-
         // Injected: or (Game1.player.professions.Contains(<agriculturist_id>) && random2.NextDouble() < chanceForGoldQuality / 3.0)
         // After: if (fertilizerQualityLevel >= 3 && random2.NextDouble() < chanceForGoldQuality / 2.0)
         try
@@ -121,10 +103,10 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.agriculturist, [checkForAgriculturist])
                 .Insert([
                     new CodeInstruction(OpCodes.Brfalse_S, checkForGoldQuality),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[10]), // the local Random instance
                     new CodeInstruction(OpCodes.Callvirt, typeof(Random).RequireMethod(nameof(Random.NextDouble))),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[12]),
-                    new CodeInstruction(OpCodes.Ldc_R8, 3d),
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[12]), // local 12 = chanceForGoldQuality
+                    new CodeInstruction(OpCodes.Ldc_R8, 4d),
                     new CodeInstruction(OpCodes.Div),
                     new CodeInstruction(OpCodes.Bge_Un_S, checkForGoldQuality),
                 ]);
@@ -342,20 +324,6 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         soilMemory.Add(cropId);
         Data.Write(soil, DataKeys.SoilMemory, string.Join(',', soilMemory));
     }
-
-    // private static double GetAgriculturistMultiplier(Crop crop)
-    // {
-    //     var cropMemory = Data.Read(crop.Dirt, DataKeys.SoilMemory);
-    //     var stacks = 0;
-    //     if (!string.IsNullOrEmpty(cropMemory))
-    //     {
-    //         stacks = cropMemory.Count(c => c == ',') + 1;
-    //     }
-    //
-    //     var multiplier = 1d + (stacks * 0.05);
-    //     Log.D($"Applied a {multiplier}x quality multiplier.");
-    //     return multiplier;
-    // }
 
     #endregion injected
 }

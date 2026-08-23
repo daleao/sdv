@@ -42,9 +42,32 @@ internal sealed class BobberBarCtorPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void BobberBarCtorPostfix(BobberBar __instance, string baitID)
     {
-        if (baitID == "(O)DeluxeBait" && Game1.player.HasProfession(Profession.Fisher))
+        if (!Game1.player.HasProfession(Profession.Fisher))
         {
-            __instance.bobberBarHeight += 12;
+            return;
+        }
+
+        if (baitID == QIDs.DeluxeBait)
+        {
+            __instance.bobberBarHeight = Math.Min(__instance.bobberBarHeight + 12, 548);
+        }
+        else if (baitID == QIDs.ChallengeBait)
+        {
+            __instance.challengeBaitFishes++;
+        }
+
+        if (!Game1.player.HasProfession(Profession.Fisher, true))
+        {
+            return;
+        }
+
+        if (baitID == QIDs.DeluxeBait)
+        {
+            __instance.bobberBarHeight = Math.Min(__instance.bobberBarHeight + 12, 548);
+        }
+        else if (baitID == QIDs.ChallengeBait)
+        {
+            __instance.challengeBaitFishes++;
         }
     }
 

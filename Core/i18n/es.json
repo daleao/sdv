@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Pienso",
+    "hay.desc": "Una mezcla de hierba seca, forraje y cultivos usada para alimentar a los animales de la granja.",
+    "buildings.added_hay": "Se han añadido {0} porción/porciones de pienso al silo.",
+
+    "ui.buffs.burnt.damage": "-50% Daño",
+    "ui.buffs.burnt.dot": "-{{amount}} de vida cada 3 segundos",
+    "ui.buffs.frozen.stuck": "No puede moverse",
+    "ui.buffs.frozen.vulnerable": "Vulnerable al siguiente ataque",
+    "ui.buffs.jinxed.defense": "-50% Defensa",
+    "ui.buffs.jinxed.special": "No puede usar movimientos especiales",
+    "ui.buffs.confused.name": "Desorientado",
+    "ui.buffs.confused.desc": "El movimiento está invertido.",
+    "ui.buffs.warrior.attack": "+{{value}} Ataque",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Probabilidad de marchitamiento",
+    "gmcm.crop_wither_chance.desc": "La probabilidad en porcentaje de que cualquier cultivo se marchite cada día si no se riega.",
+    "gmcm.two_way_hoppers.title": "Tolvas bidireccionales",
+    "gmcm.two_way_hoppers.desc": "Permite a las tolvas recuperar los productos terminados de las máquinas.",
+    "gmcm.winter_wheat.title": "Trigo de invierno",
+    "gmcm.winter_wheat.desc": "Permite al trigo permanecer en reposo durante el invierno.",
+    "gmcm.immersive_hay.title": "Paja inmersiva",
+    "gmcm.immersive_hay.desc": "Elimina la paja cosechada del trigo maduro, pero permite cosechar paja del trigo inmaduro con un 100% de probabilidad.",
+    "gmcm.consistent_farmer_debuffs.title": "Penalizaciones coherentes del granjero",
+    "gmcm.consistent_farmer_debuffs.desc": "Consolida las penalizaciones del granjero con las condiciones de estado proporcionadas por este mod."
+}

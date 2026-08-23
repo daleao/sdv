@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Garnet",
+  "objects.garnet.desc": "Uzak bir diyardan gelen güzel bir prensesin adını taşır.",
+  "rings.garnet.name": "Garnet Yüzük",
+  "rings.garnet.desc": "Garnet taşıyla süslenmiş altın bir yüzük. Özel hareket bekleme süresini %10 azaltır.",
+  "rings.infinity.name": "Sonsuzluk Bandı",
+  "rings.infinity.desc": "Büyük bir güç için bir kap.",
+
+  "rings.amethyst.prefix": "Ametist taşıyla süslenmiş bakır bir yüzük.",
+  "rings.topaz.prefix": "Topaz taşıyla süslenmiş bakır bir yüzük.",
+  "rings.aquamarine.prefix": "Akuamarin taşıyla süslenmiş gümüş bir yüzük.",
+  "rings.jade.prefix": "Yeşim taşıyla süslenmiş gümüş bir yüzük.",
+  "rings.emerald.prefix": "Zümrüt taşıyla süslenmiş altın bir yüzük.",
+  "rings.ruby.prefix": "Yakut taşıyla süslenmiş altın bir yüzük.",
+  "rings.iridium.desc": "Sıradan bir iridyum bant.",
+
+  "node.garnet.name": "Garnet Damarı",
+  "node.garnet.desc": "Taşa gömülü bir garnet kümesi.",
+
+  "ui.resonance": "Rezonans",
+  "ui.ruby": "Yakut",
+  "ui.aquamarine": "Akuamarin",
+  "ui.jade": "Yeşim",
+  "ui.emerald": "Zümrüt",
+  "ui.amethyst": "Ametist",
+  "ui.topaz": "Topaz",
+  "ui.garnet": "Garnet",
+  "ui.item_hover.damage": "{{amount}} Hasar",
+  "ui.item_hover.c_rate": "{{amount}} Kritik Şansı",
+  "ui.item_hover.c_pow": "{{amount}} Kritik Gücü",
+  "ui.item_hover.knockback": "{{amount}} Geri İtme",
+  "ui.item_hover.attack_speed": "{{amount}} Saldırı Hızı",
+  "ui.item_hover.cdr": "{{amount}} Bekleme Süresi",
+  "ui.item_hover.resist": "{{amount}} Savunma",
+  "ui.item_hover.light": "Işık Yayar",
+  "ui.item_hover.magnetic": "Manyetik",
+
+  "dialogue.emily.gemstones.first": "Hiç gerçekten bir taşı hissettiniz mi? Bir topazın ruha nasıl eridiğini ya da bir yakutun kalbi nasıl tutuşturduğunu?#$b#Taşların enerjilerimizle rezonansa girme konusunda inanılmaz bir yolu var. Sanki doğanın duygu paleti gibi.",
+  "dialogue.emily.gemstones.second": "Bir keresinde aynı anda hepsiyle rezonansa girmek için bir yüzüğe bir sürü taş doldurmaya çalıştım.#$b#Ama sürekli dağıldı! Clint, sıradan metallerin üst üste gelen titreşimleri kaldıracak kadar güçlü olmadığını söyledi. O yüzden şimdi her gün farklı bir tane takıyorum!",
+
+  "global.infinitycraft": "{{someone}} bir Sonsuzluk Bandı dövdü.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Yapılabilir Taş Yüzükler",
+  "gmcm.craftable_gemstone_rings.desc": "Taş yüzük yapmak için yeni dövüş tarifleri ekler.",
+  "gmcm.audible_gemstones.title": "Duyulabilir Taşlar",
+  "gmcm.audible_gemstones.desc": "Taş frekanslarının duyulup duyulamayacağı.",
+  "gmcm.chord_sound_duration.title": "Akor Ses Süresi",
+  "gmcm.chord_sound_duration.desc": "Akor ses işaretinin süresi, milisaniye cinsinden.",
+  "gmcm.colorful_resonances.title": "Renkli Rezonanslar",
+  "gmcm.colorful_resonances.desc": "Rezonans parıltısının kök notanın rengini miras alıp almayacağı.",
+  "gmcm.resonance_lightsource_texture.title": "Rezonans Işık Kaynağı Dokusu",
+  "gmcm.resonance_lightsource_texture.desc": "Rezonans ışık kaynağı için kullanılacak doku.",
+  "gmcm.lightsource_texture.sconce": "Aplik",
+  "gmcm.lightsource_texture.stronger": "Daha Güçlü",
+  "gmcm.lightsource_texture.patterned": "Desenli"
+}

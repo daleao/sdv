@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
+using Newtonsoft.Json;
 using StardewValley.GameData.Objects;
 using StardewValley.GameData.Weapons;
 

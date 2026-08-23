@@ -71,7 +71,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
             return;
         }
 
-        buffIconsToDisplay ??= Enumerable.Repeat(string.Empty, 13).ToArray();
+        buffIconsToDisplay ??= [.. Enumerable.Repeat(string.Empty, 13)];
         switch (buffIndex)
         {
             // farming

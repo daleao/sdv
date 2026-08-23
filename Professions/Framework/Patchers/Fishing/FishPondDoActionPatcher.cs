@@ -14,8 +14,7 @@ using StardewValley.Buildings;
 #endregion using directives
 
 [UsedImplicitly]
-[ImplicitIgnore]
-// Deprecated
+[Deprecated]
 internal sealed class FishPondDoActionPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FishPondDoActionPatcher"/> class.</summary>

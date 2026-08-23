@@ -1,0 +1,57 @@
+{
+    "GrainsCategory": [
+        "(O)262", // wheat
+        "(O)270", // corn
+        "(O)271", // unmilled rice
+        "(O)300" // amaranth
+    ],
+    "LeafyGreensCategory": [
+        "(O)190", // cauliflower
+        "(O)250", // kale
+        "(O)266", // red cabbage
+        "(O)274", // artichoke
+        "(O)278", // bok choy
+        "(O)Broccoli"
+    ],
+    "LegumesCategory": [
+        "(O)188" // green bean
+    ],
+    "RootsCategory": [
+        "(O)24", // parsnip
+        "(O)264", // radish
+        "(O)284", // beet
+        "(O)Carrot"
+    ],
+    "TubersCategory": [
+        "(O)192", // potato
+        "(O)280", // yam
+    ],
+    "GourdsCategory": [
+        "(O)276", // pumpkin
+        "(O)SummerSquash"
+    ],
+    "FruitsCategory": [
+        "(O)613", // apple
+        "(O)634", // apricot
+        "(O)91", // banana
+        "(O)410", // blackberry
+        "(O)258", // blueberry
+        "(O)90", // cactus fruit
+        "(O)638", // cherry
+        "(O)282", // cranberry
+        "(O)414", // crystal fruit
+        "(O)398", // grape
+        "(O)834", // mango
+        "(O)254", // melon
+        "(O)635", // orange
+        "(O)636", // peach
+        "(O)832", // pineapple
+        "(O)637", // pomegranate
+        "(O)Powdermelon",
+        "(O)296", // salmonberry
+        "(O)396", // spice berry
+        "(O)268", // starfruit
+        "(O)400", // strawberry
+        "(O)406" // wild plum
+    ]
+}

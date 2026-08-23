@@ -79,7 +79,7 @@ public sealed class EventManager
     {
         if (parameters is not null)
         {
-            parameters = this.Collect(parameters).ToArray();
+            parameters = [.. this.Collect(parameters)];
         }
 
         var instance = typeof(TEvent).RequireConstructor(parameters?.Length ?? 1).Invoke(parameters ?? [this]);
@@ -540,7 +540,9 @@ public sealed class EventManager
 #endif
 
             var ignoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-            if (ignoreAttribute is not null)
+            var deprecatedAttribute = eventType.GetCustomAttribute<DeprecatedAttribute>();
+            var unusedAttribute = eventType.GetCustomAttribute<UnusedAttributed>();
+            if (ignoreAttribute is not null || deprecatedAttribute is not null || unusedAttribute is not null)
             {
                 continue;
             }
@@ -624,8 +626,10 @@ public sealed class EventManager
         }
 #endif
 
-        var implicitIgnoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
-        if (implicitIgnoreAttribute is not null)
+        var ignoreAttribute = eventType.GetCustomAttribute<ImplicitIgnoreAttribute>();
+        var deprecatedAttribute = eventType.GetCustomAttribute<DeprecatedAttribute>();
+        var unusedAttribute = eventType.GetCustomAttribute<UnusedAttributed>();
+        if (ignoreAttribute is not null || deprecatedAttribute is not null || unusedAttribute is not null)
         {
             this._log.D($"[EventManager]: {eventType.Name} is marked to be ignored.");
             return null;

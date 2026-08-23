@@ -145,7 +145,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
         location.createQuestionDialogue(
             I18n.Prestige_DogStatue_Which(),
-            skillResponses.ToArray(),
+            [.. skillResponses],
             "skillReset");
     }
 
@@ -209,7 +209,7 @@ internal sealed class GameLocationAnswerDialogueActionPatcher : HarmonyPatcher
             Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueCancel")));
         location.createQuestionDialogue(
             Game1.content.LoadString("Strings\\Locations:Sewer_DogStatueQuestion"),
-            skillResponses.ToArray(),
+            [.. skillResponses],
             "prestigeRespec");
     }
 

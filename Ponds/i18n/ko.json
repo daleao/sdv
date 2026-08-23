@@ -1,14 +1,12 @@
-﻿{
+{
   "$schema": "https://smapi.io/schemas/i18n.json",
 
-  "algae": "해초",
+  "algae": "녹조류",
 
-  /************
-  *** GMCM ***
-  ************/
-
-  "gmcm.days_until_algae_spawn.title": "해초 생성까지의 일수",
-  "gmcm.days_until_algae_spawn.desc": "빈 연못에 해초가 생성되기까지의 일수입니다.",
+  "gmcm.days_until_algae_spawn.title": "녹조류 생성까지의 일수",
+  "gmcm.days_until_algae_spawn.desc": "빈 연못에 녹조류가 생성되기까지의 일수입니다.",
   "gmcm.roe_production_chance_multiplier.title": "어란 생산 확률 배수",
-  "gmcm.roe_production_chance_multiplier.desc": "매일 물고기가 어란을 생산할 기본 확률에 적용되는 배수입니다."
+  "gmcm.roe_production_chance_multiplier.desc": "매일 물고기가 어란을 생산할 기본 확률에 적용되는 배수입니다.",
+  "gmcm.add_legendary_pond_data.title": "전설적인 물고기 연못 데이터 추가",
+  "gmcm.add_legendary_pond_data.desc": "전설적인 물고기 연못에 몰입감 있는 드롭을 추가합니다. Walk of Life가 설치되어 있으면 아무 효과가 없습니다."
 }

@@ -141,7 +141,7 @@ internal sealed class AddRecipesCommand(CommandHandler handler) : ConsoleCommand
                     return false;
             }
 
-            args = args.Skip(1).ToArray();
+            args = [.. args.Skip(1)];
         }
 
         return true;

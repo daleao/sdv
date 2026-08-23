@@ -14,7 +14,7 @@ internal sealed class SpelunkerStreakBuff : StackableBuff
     internal SpelunkerStreakBuff()
         : base(
             id: ID,
-            getStacks: () => State.SpelunkerLadderStreak / 5,
+            getStacks: () => (int)State.SpelunkerLadderStreak,
             maxStacks: int.MaxValue,
             source: "Spelunker",
             displaySource: _I18n.Get("spelunker.title" + (Game1.player.IsMale ? ".male" : ".female")),

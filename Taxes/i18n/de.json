@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "Bundesministerium der Finanzen^Ferngill Finanzamt^^^{{honorific}} Steuerpflichtige/r,^^hiermit teilen wir Ihnen mit, dass Ihre kürzliche Adressänderung nach Pelican Town, Stardew Valley eingetragen und registriert wurde. Die gesamte künftige Korrespondenz wird an den Hof {{farm}} gerichtet.^^Wir weisen Sie freundlich darauf hin, dass die Bundeseinkommensteuer jeweils bis zum Ende des ersten Tages einer jeden Jahreszeit fällig ist. Der geschuldete Betrag wird zu Ihrer Bequemlichkeit automatisch von Ihrem Kontostand abgebucht. Ist Ihr Kontostand unzureichend, wird gemäß § 501(c)(1) des Ferngill Steuergesetzes eine Geldbuße in Höhe von {{fine}} gegen Sie verhängt und in Ihrem Namen ein Darlehen bei der Bank of Stardew ausgestellt, das dem Nominalzins von {{interest}} jährlich unterliegt.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Geschäftsführende Direktorin, Ferngill Finanzamt[#]Bestätigung der Adressänderung",
+  "mail.frs.notice": "Bundesministerium der Finanzen^Ferngill Finanzamt^^^{{honorific}} Steuerpflichtige/r,^^hiermit teilen wir Ihnen mit, dass Ihre gesamte aufgelaufene Einkommensteuer für die ablaufende Jahreszeit in Höhe von {{due}}g {{when}} automatisch von Ihrem Kontostand abgezogen wird.^^Bitte bewahren Sie dieses Schreiben in Ihren dauerhaften Unterlagen auf, falls Sie Fragen zu Ihrer Steuersituation klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Geschäftsführende Direktorin, Ferngill Finanzamt[#]Monatliche Mitteilung des Finanzamts",
+  "mail.frs.deduction": "Bundesministerium der Finanzen^Ferngill Finanzamt^^^{{honorific}} Steuerpflichtige/r,^^hiermit teilen wir Ihnen mit, dass Ihre gesamte aufgelaufene Einkommensteuer für die ablaufende Jahreszeit {{accrued}}g beträgt. Aufgrund Ihrer jüngsten umweltschützenden Aktivitäten haben Sie gemäß § 501(c)(3) des Ferngill Steuergesetzes Anspruch auf einen Abzug von {{deductible}}.^^Daher wird Ihre endgültige fällige Einkommensteuer in Höhe von {{final}}g {{when}} automatisch von Ihrem Kontostand abgezogen.^^Bitte bewahren Sie dieses Schreiben in Ihren dauerhaften Unterlagen auf, falls Sie Fragen zu Ihrer Steuersituation klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Geschäftsführende Direktorin, Ferngill Finanzamt[#]Abzugsbescheid des Finanzamts",
+  "mail.frs.deduction.max": "Bundesministerium der Finanzen^Ferngill Finanzamt^^^{{honorific}} Steuerpflichtige/r,^^hiermit teilen wir Ihnen mit, dass Ihre gesamte aufgelaufene Einkommensteuer für die ablaufende Jahreszeit {{accrued}}g beträgt. Aufgrund Ihrer jüngsten umweltschützenden Aktivitäten haben Sie gemäß § 501(c)(3) des Ferngill Steuergesetzes Anspruch auf einen vollständigen Erlass Ihrer Bundeseinkommensteuer. Daher werden in der aktuellen Jahreszeit keine Beträge von Ihrem Konto abgebucht.^^Bitte bewahren Sie dieses Schreiben in Ihren dauerhaften Unterlagen auf, falls Sie Fragen zu Ihrer Steuersituation klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Geschäftsführende Direktorin, Ferngill Finanzamt[#]Abzugsbescheid des Finanzamts",
+  "mail.frs.outstanding": "Bundesministerium der Finanzen^Ferngill Finanzamt^^^{{honorific}} Steuerpflichtige/r,^^hiermit teilen wir Ihnen mit, dass Ihre gesamte fällige Einkommensteuer für die vergangene Jahreszeit in Höhe von {{due}}g nicht vollständig von Ihrem Kontostand abgezogen werden konnte. Gemäß § 501(c)(1) des Ferngill Steuergesetzes wird eine zusätzliche Geldbuße von {{fine}} gegen Sie verhängt, und sämtliche künftigen Einkünfte des Hofes {{farm}} werden einbehalten, bis Ihre ausstehende Schuld von insgesamt {{outstanding}}g vollständig beglichen ist. Wir empfehlen Ihnen, ausstehende Schulden so schnell wie möglich zu begleichen, um die Ansammlung von Zinsen in Höhe von {{interest}} jährlich zu vermeiden.^^Bitte bewahren Sie dieses Schreiben in Ihren dauerhaften Unterlagen auf, falls Sie Fragen zu Ihrer Steuersituation klären müssen.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Geschäftsführende Direktorin, Ferngill Finanzamt[#]Monatliche Mitteilung des Finanzamts",
+  "mail.lewis.intro": "@,^^^Willkommen in Pelican Town! Ich hoffe, Sie fühlen sich in Ihrem neuen Zuhause gut ein.^^Nur ein freundlicher Hinweis: Als neuer Eigentümer von {{farm}} sind Sie nun für die Grundsteuer des Hofes verantwortlich. Jedes Jahr bewertet das Landkreisamt den Ertragswert Ihres Farmlands und erhebt darauf eine prozentuale Steuer. Nach ihrer „Nutzwert"-Regel werden ungenutzte Flächen im Allgemeinen *höher* besteuert als aktiv genutzte, also fangen Sie am besten an, das Unkraut und die Baumstümpfe zu beseitigen!^^Ihr verstorbener Großvater hat sich um alle Steuern bis einschließlich letzten Jahres gekümmert, sodass Sie sich bis nächstes Jahr keine Sorgen machen müssen. Fragen Sie mich nicht, woher er wusste, in welchem Jahr genau Sie einziehen würden!^^Ich habe auch ein Starterpaket geschickt, um Ihnen den Einstieg zu erleichtern. Ich freue mich darauf zu sehen, was Sie alles erreichen werden!^^^  Mit freundlichen Grüßen, Bürgermeister Lewis[#]Grundsteuerbescheid der Gemeinde",
+  "mail.lewis.notice": "@,^^^Wie Sie wissen, gehört es zu meinen Aufgaben als Bürgermeister von Pelican Town, auf alle Grundstücke der Gemeinde Steuern zu erheben. Im vorangegangenen Geschäftsjahr hat das Landkreisamt den Ertragswert von {{farm}} auf {{valuation}}g festgesetzt. Dementsprechend sind Sie für den geltenden Steuerzeitraum zur Zahlung von insgesamt {{due}}g an Grundsteuer verpflichtet. Dieser Betrag wird am {{day}}. Tag des Frühlings von Ihrem Konto abgebucht.^^Im Namen von Pelican Town bin ich Ihnen für Ihre fortlaufenden Beiträge zu unserer Gemeinschaft sehr dankbar.^^^  Mit freundlichen Grüßen, Bürgermeister Lewis[#]Grundsteuerbescheid der Gemeinde",
+  "mail.lewis.outstanding": "@,^^^Es scheint, dass Ihr Konto nicht über ausreichende Mittel verfügte, um Ihre Grundsteuer für den aktuellen Zeitraum vollständig zu decken. Gemäß der Landkreispolitik teile ich Ihnen leider mit, dass eine zusätzliche Säumnisgebühr von {{fine}} gegen Sie verhängt wird. Der ausstehende Betrag von {{outstanding}}g wird an die Bank of Stardew abgetreten, die befugt ist, sämtliche Versandeinnahmen einzubehalten, bis die Schuld vollständig beglichen ist, zuzüglich eines jährlichen Zinssatzes von {{interest}}.^^Bitte wissen Sie, dass die Bewohner von Pelican Town für Sie da sind, falls Sie schwere Zeiten durchmachen.^^  Mit freundlichen Grüßen, Bürgermeister Lewis[#]Grundsteuerbescheid der Gemeinde",
+
+  // other
+  "hud.tax.debit": "{{amount}}g wurden zur Steuerzahlung von Ihrem Konto abgebucht.",
+  "hud.debt.debit": "{{amount}}g wurden aus der gestrigen Lieferung zur Begleichung ausstehender Schulden einbehalten.",
+  "honorific.male": "Sehr geehrter Herr",
+  "honorific.female": "Sehr geehrte Frau",
+  "when.tonight": "heute Nacht",
+  "when.day": "am {{day}}. Tag der aktuellen Jahreszeit",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "Einkommensteuer",
+  "gmcm.tax_rate_per_income_bracket.title": "Steuersätze pro Einkommensklasse",
+  "gmcm.tax_rate_per_income_bracket.desc": "Die auf jede Einkommensklasse angewandten Steuersätze. In jedem Paar steht die erste Zahl für die Einkommensgrenze der Klasse und die zweite für den steuerpflichtigen Einkommensanteil innerhalb dieser Klasse.",
+  "gmcm.income_bracket.title": "Klasse",
+  "gmcm.income_bracket.desc": "Die Einkommensgrenze für diese Klasse. Das gesamte Einkommen zwischen der vorherigen Klasse und dieser Zahl wird zum entsprechenden Steuersatz besteuert.",
+  "gmcm.tax_rate.title": "Steuersatz",
+  "gmcm.tax_rate.desc": "Der steuerpflichtige Einkommensanteil innerhalb dieser Klasse.",
+  "gmcm.deductible_animal_expenses.title": "Abzugsfähige Tierkosten",
+  "gmcm.deductible_animal_expenses.desc": "Welcher Prozentsatz der für den Kauf von Tieren und Zubehör ausgegebenen Goldmünzen steuerlich abzugsfähig ist.",
+  "gmcm.deductible_building_expenses.title": "Abzugsfähige Gebäudekosten",
+  "gmcm.deductible_building_expenses.desc": "Welcher Prozentsatz der für den Bau von Hofgebäuden ausgegebenen Goldmünzen steuerlich abzugsfähig ist.",
+  "gmcm.deductible_seed_expenses.title": "Abzugsfähige Saatgutkosten",
+  "gmcm.deductible_seed_expenses.desc": "Welcher Prozentsatz der für den Kauf von Saatgut ausgegebenen Goldmünzen steuerlich abzugsfähig ist.",
+  "gmcm.deductible_tool_expenses.title": "Abzugsfähige Werkzeugkosten",
+  "gmcm.deductible_tool_expenses.desc": "Welcher Prozentsatz der für den Kauf und die Aufrüstung von Werkzeug ausgegebenen Goldmünzen steuerlich abzugsfähig ist.",
+  "gmcm.deductible_extras.title": "Weitere Abzüge",
+  "gmcm.deductible_extras.desc": "Welcher Prozentsatz der für den jeweiligen Gegenstand ausgegebenen Goldmünzen steuerlich abzugsfähig ist. Gegenstände müssen manuell zu dieser Liste hinzugefügt werden.",
+  "gmcm.deductible_extras.label.key": "Gegenstandsname",
+  "gmcm.deductible_extras.label.value": "Abzugsprozentsatz",
+  "gmcm.income_tax_day.title": "Fälligkeitsdatum",
+  "gmcm.income_tax_day.desc": "Der Tag der Jahreszeit, an dem die Einkommensteuern erhoben werden.",
+  "gmcm.income_tax_lateness_fine.title": "Säumnisgebühr",
+  "gmcm.income_tax_lateness_fine.desc": "Ein einmaliger Strafzins auf den unbezahlten Betrag, wenn Einkommensteuern nicht rechtzeitig gezahlt werden.",
+
+  // property
+  "gmcm.sections.txs.property": "Grundsteuer",
+  "gmcm.baseline_unused_tile_cost.title": "Grundkosten für ungenutzte Felder",
+  "gmcm.baseline_unused_tile_cost.desc": "Die Grundkosten in Gold für ungenutzte Felder.",
+  "gmcm.unused_tile_tax_rate.title": "Steuersatz für ungenutzte Felder",
+  "gmcm.unused_tile_tax_rate.desc": "Der Steuersatz für ein Feld, das nicht produktiv genutzt wird.",
+  "gmcm.used_tile_tax_rate.title": "Steuersatz für genutzte Felder",
+  "gmcm.used_tile_tax_rate.desc": "Der Steuersatz für ein aktiv für Ackerbau, Viehzucht oder Forstwirtschaft genutztes Feld.",
+  "gmcm.building_tax_rate.title": "Steuersatz für bebaute Felder",
+  "gmcm.building_tax_rate.desc": "Der Steuersatz für ein Feld, das von einem errichteten Gebäude belegt wird (Magiegebäude sind befreit, wenn die Option unten aktiviert ist).",
+  "gmcm.exempt_magical_buildings.title": "Magiegebäude befreien",
+  "gmcm.exempt_magical_buildings.desc": "Ob Magiegebäude (d. h. jene, die am Zaubererturm beschworen werden) von der Grundsteuer befreit sind.",
+  "gmcm.property_tax_day.title": "Fälligkeitsdatum",
+  "gmcm.property_tax_day.desc": "Der Tag der Jahreszeit, an dem die Grundsteuern erhoben werden.",
+  "gmcm.property_tax_lateness_fine.title": "Säumnisgebühr",
+  "gmcm.property_tax_lateness_fine.desc": "Ein einmaliger Strafzins auf den unbezahlten Betrag, wenn Grundsteuern nicht rechtzeitig gezahlt werden.",
+
+  // other
+  "gmcm.annual_interest.title": "Jahreszins",
+  "gmcm.annual_interest.desc": "Der jährlich auf alle ausstehenden Schulden erhobene Zinssatz. Zinsen werden täglich zu einem Satz von 1/112 des Jahreszinses angesammelt.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Standardwertmultiplikator für Ernteverarbeitungsprodukte",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "Der Multiplikator zur Schätzung des Wertes handwerklicher Produkte, die aus Feldfrüchten gewonnen werden.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Standardwertmultiplikator für Tierproduktverarbeitung",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "Der Multiplikator zur Schätzung des Wertes handwerklicher Produkte, die aus tierischen Erzeugnissen gewonnen werden."
+}

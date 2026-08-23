@@ -17,8 +17,8 @@ internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = nu
     /// <inheritdoc />
     protected override void OnSecondSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)
     {
-        // we register integrations late because Love of Cooking (and therefore possibly others)
-        // may themselves register to SpaceCore on FirstSecondUpdateTicked
+        // we register integrations late because Love of Cooking (and possibly others)
+        // registers to SpaceCore on FirstSecondUpdateTicked
         Log.D("Doing first pass load of custom skills...");
         SpaceCoreIntegration.Instance!.Register();
         if (ProfessionsConfigMenu.Instance?.IsLoaded ?? false)

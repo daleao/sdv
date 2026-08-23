@@ -68,11 +68,11 @@ public static class RandomExtensions
 
     /// <summary>Samples a random decimal value from a Skew Gaussian distribution with specified <paramref name="mu"/>, <paramref name="sigma"/> and <paramref name="alpha"/> values.</summary>
     /// <param name="r">The <see cref="Random"/> number generator.</param>
-    /// <param name="mu">The mean of the Gaussian distribution.</param>
+    /// <param name="mu">The location parameter of the Gaussian distribution.</param>
     /// <param name="sigma">The standard deviation of the Gaussian distribution.</param>
     /// <param name="alpha">The skewness of the distribution.</param>
     /// <returns>A sample from the resulting Gaussian distribution.</returns>
-    public static double NextSkewGaussian(this Random r, double mu = 0d, double sigma = 1d, double alpha = 0d)
+    public static double NextGaussianSkewed(this Random r, double mu = 0d, double sigma = 1d, double alpha = 0d)
     {
         var delta = alpha / Math.Sqrt(1.0 + (alpha * alpha));
         var u0 = r.NextGaussian();

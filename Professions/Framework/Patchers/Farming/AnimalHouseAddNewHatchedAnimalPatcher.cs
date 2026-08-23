@@ -4,9 +4,11 @@
 
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using xTile.Layers;
 
 #endregion using directives
 
@@ -35,27 +37,42 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
         try
         {
             helper
-                .ForEach(
-                    [
-                        new CodeInstruction(OpCodes.Newobj, typeof(FarmAnimal).RequireConstructor(3)),
-                        new CodeInstruction(OpCodes.Stloc_S),
-                    ],
-                    _ => helper
-                        .Move()
-                        .GetOperand(out var localIndex)
-                        .Move()
-                        .Insert([
-                            new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
-                            new CodeInstruction(
-                                OpCodes.Call,
-                                typeof(AnimalHouseAddNewHatchedAnimalPatcher).RequireMethod(
-                                    nameof(AddRancherStartingFriendship)))
-                        ]));
+                // egg-layers
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Newobj, typeof(FarmAnimal).RequireConstructor(3)),
+                    new CodeInstruction(OpCodes.Stloc_S),
+                ])
+                .Move()
+                .GetOperand(out var localIndex)
+                .Move()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
+                    new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(AnimalHouseAddNewHatchedAnimalPatcher).RequireMethod(
+                            nameof(InheritPotential), [typeof(FarmAnimal), typeof(SObject)]))
+                ])
+                // mammals
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Newobj, typeof(FarmAnimal).RequireConstructor(3)),
+                    new CodeInstruction(OpCodes.Stloc_S),
+                ])
+                .Move()
+                .GetOperand(out localIndex)
+                .Move()
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(AnimalHouseAddNewHatchedAnimalPatcher).RequireMethod(
+                            nameof(InheritPotential), [typeof(FarmAnimal)]))
+                ]);
         }
         catch (Exception ex)
         {
             Log.E(
-                "Failed injecting Rancher starting friendship." + $"\nHelper returned {ex}");
+                "Failed injecting inherit potential." + $"\nHelper returned {ex}");
             return null;
         }
 
@@ -66,20 +83,45 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
 
     #region injected
 
-    private static void AddRancherStartingFriendship(FarmAnimal newborn)
+    private static void InheritPotential(FarmAnimal newborn)
     {
-        if (newborn.DoesOwnerHaveProfessionOrLax(Profession.Rancher))
+        if (!newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder) ||
+            !newborn.type.Value.ContainsAnyOf(Lookups.AnimalReproductiveTypes.Mammals))
         {
-            newborn.friendshipTowardFarmer.Value = 200 + Game1.random.Next(-50, 51);
+            return;
         }
 
-        if (newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder))
+        var parent = Utility.getAnimal(newborn.parentId.Value);
+        var parentInheritedPotential = Data.ReadAs<double>(parent, DataKeys.InheritedPotential);
+        var parentLongTermNutrition = Data.ReadAs<double>(parent, DataKeys.LongTermNutrition);
+        double inheritanceRate;
+        int newbornInheritedPotential;
+        if (parentInheritedPotential < 5000d || !newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder, true))
         {
-            Data.Write(
-                newborn,
-                newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder, true) ? DataKeys.BredByProgenitor : DataKeys.BredByBreeder,
-                true.ToString());
+            inheritanceRate = Math.Max(Random.Shared.NextGaussian(1d, 0.1), 0d);
+            newbornInheritedPotential = (int)(parentInheritedPotential + (parentLongTermNutrition * inheritanceRate));
         }
+        else
+        {
+            var alpha = 0.1 * Math.Pow(parentLongTermNutrition / 1000d, 2d);
+            inheritanceRate = Math.Max(Random.Shared.NextGaussianSkewed(1d, 0.1, alpha), 0d);
+            newbornInheritedPotential = (int)(parentInheritedPotential * inheritanceRate);
+        }
+
+        Data.Write(newborn, DataKeys.InheritedPotential, newbornInheritedPotential.ToString());
+        Data.Increment(parent, DataKeys.Pregnancies);
+    }
+
+    private static void InheritPotential(FarmAnimal newborn, SObject egg)
+    {
+        if (!newborn.DoesOwnerHaveProfessionOrLax(Profession.Breeder) ||
+            !newborn.type.Value.ContainsAnyOf(Lookups.AnimalReproductiveTypes.EggLayers))
+        {
+            return;
+        }
+
+        var potentialToInherit = Data.Read(egg, DataKeys.InheritedPotential);
+        Data.Write(newborn, DataKeys.InheritedPotential, potentialToInherit);
     }
 
     #endregion injected

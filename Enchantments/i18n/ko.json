@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "갈무리",
+  "enchantments.cleaving.name": "가르기",
+  "enchantments.energized.name": "번개",
+  "enchantments.energized.desc": "축적된 에너지: {{counter}}",
+  "enchantments.explosive.name": "폭발",
+  "enchantments.explosive.desc": "폭발 반경: {{counter}}",
+  "enchantments.mammonite.name": "맘몬",
+  "enchantments.stabbing.name": "돌격",
+  "enchantments.sunburst.name": "광휘",
+  "enchantments.vampiric.name": "흡혈",
+  "enchantments.wabbajack.name": "와바잭",
+
+  "enchantments.chilling.name": "냉기",
+  "enchantments.quincy.name": "퀸시",
+  "enchantments.echo.name": "메아리",
+
+  "enchantments.sharp.name": "예리",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "보석 소켓 스타일",
+  "gmcm.gemstone_socket_style.desc": "무기 툴팁의 일반적인 \"단조됨\" 텍스트를 다양한 스타일의 보석 소켓 아이콘으로 교체합니다.",
+  "gmcm.socket_style.diamond": "다이아몬드",
+  "gmcm.socket_style.round": "원형",
+  "gmcm.socket_style.iridium": "이리듐",
+  "gmcm.gemstone_socket_position.title": "보석 소켓 위치",
+  "gmcm.gemstone_socket_position.desc": "활성화된 경우 보석 소켓이 그려질 상대 위치를 결정합니다.",
+  "gmcm.socket_position.standard": "표준",
+  "gmcm.socket_position.above_separator": "구분선 위"
+}

@@ -26,7 +26,7 @@ public sealed class BruteFrenzy()
     internal override void Deactivate()
     {
         base.Deactivate();
-        Game1.player.buffs.AppliedBuffs.Remove(PoacherAmbushBuff.ID);
+        Game1.player.buffs.AppliedBuffs.Remove(BruteFrenzyBuff.ID);
 
         var who = Game1.player;
         var healed = (int)(who.maxHealth * this.KillCount * 0.05f);

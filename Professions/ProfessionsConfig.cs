@@ -67,7 +67,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.artisan_breeder_producer")]
     [GMCMPriority(100)]
-    public bool EnableGoldenOstrichMayo
+    public bool ExtraPoultryColors
     {
         get;
         internal set
@@ -82,7 +82,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.artisan_breeder_producer")]
     [GMCMPriority(101)]
-    public bool ImmersiveDairyYield
+    public bool ImmersiveDairyPoultryYield
     {
         get;
         internal set
@@ -132,51 +132,31 @@ public sealed class ProfessionsConfig
     [GMCMPriority(301)]
     public bool AllowScavengerHuntsOnFarm { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether determines whether a Prospector Hunt target becomes progressively tougher to break.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(302)]
-    public bool TougherProspectorHunt { get; internal set; } = true;
-
     /// <summary>Gets the distance to the treasure tile at which the scavenger tracker disappears.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(303)]
+    [GMCMPriority(302)]
     [GMCMRange(1, 12)]
     public int ScavengerHuntRange { get; internal set; } = 3;
 
-    /// <summary>Gets the time limit of the scavenger hunt.</summary>
+    /// <summary>Gets a value that determines the time limit of the scavenger hunt. Zero means unlimited.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.scavenger_prospector")]
+    [GMCMPriority(303)]
+    [GMCMRange(0, 5)]
+    public int ScavengerHuntDifficulty { get; internal set; } = 4;
+
+    /// <summary>Gets a value that determines the time limit of the prospector hunt. Zero means unlimited.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
     [GMCMPriority(304)]
-    [GMCMRange(10, 60)]
-    public int ScavengerHuntTimeLimit
-    {
-        get;
-        internal set
-        {
-            field = Math.Max(value, 10);
-        }
-    } = 40;
-
-    /// <summary>Gets the time limit of the prospector hunt.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(305)]
-    [GMCMRange(10, 60)]
-    public int ProspectorHuntTimeLimit
-    {
-        get;
-        internal set
-        {
-            field = Math.Max(value, 10);
-        }
-    } = 80;
+    [GMCMRange(0, 5)]
+    public int ProspectorHuntDifficulty { get; internal set; } = 3;
 
     /// <summary>Gets the size of the pointer used to track objects by Prospector and Scavenger professions.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(306)]
+    [GMCMPriority(305)]
     [GMCMRange(0.2f, 5f, 0.2f)]
     public float TrackingPointerScale
     {
@@ -194,7 +174,7 @@ public sealed class ProfessionsConfig
     /// <summary>Gets the speed at which the tracking pointer bounces up and down (higher is faster).</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(307)]
+    [GMCMPriority(306)]
     [GMCMRange(0.5f, 2f, 0.05f)]
     public float TrackingPointerBobRate
     {
@@ -212,7 +192,7 @@ public sealed class ProfessionsConfig
     /// <summary>Gets a value indicating whether Prospector and Scavenger will only track off-screen object while <see cref="ModKey"/> is held.</summary>
     [JsonProperty]
     [GMCMSection("prfs.scavenger_prospector")]
-    [GMCMPriority(308)]
+    [GMCMPriority(307)]
     public bool DisableAlwaysTrack { get; internal set; } = false;
 
     /// <summary>

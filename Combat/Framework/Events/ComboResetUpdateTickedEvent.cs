@@ -23,7 +23,7 @@ internal sealed class ComboResetUpdateTickedEvent : UpdateTickedEvent
     protected override void OnEnabled()
     {
         var player = Game1.player;
-        if (player?.CurrentTool is not MeleeWeapon weapon || State.QueuedHitStep == ComboHitStep.Idle)
+        if (player?.CurrentTool is not MeleeWeapon weapon)
         {
             this.Disable();
             return;

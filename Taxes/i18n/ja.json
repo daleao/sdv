@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "財務省^フェーンギル国税庁^^^{{honorific}}納税者様、^^このたびはスターデューバレー、ペリカンタウンへのご転居が受理・登録されましたことをお知らせいたします。今後の郵便物はすべて{{farm}}農場宛にお送りいたします。^^連邦所得税の納付期限は毎シーズン1日の終わりです。お客様のご利便のため、納税額は自動的に残高より差し引かれます。残高が不足している場合、フェーンギル税法第501条(c)(1)項に基づき{{fine}}の罰金が科され、スターデュー銀行にてお客様名義で年利{{interest}}の融資が発行されます。^^^敬具、^^ローラ・D・プレット^フェーンギル国税庁長官[#]住所変更確認",
+  "mail.frs.notice": "財務省^フェーンギル国税庁^^^{{honorific}}納税者様、^^このシーズンに発生した所得税の総額{{due}}Gが{{when}}、自動的に残高より差し引かれることをお知らせいたします。^^今後、税務状況に関するお問い合わせが生じた際に備え、本書をお手元に保管くださいますようお願い申し上げます。^^^敬具、^^ローラ・D・プレット^フェーンギル国税庁長官[#]国税庁月次通知",
+  "mail.frs.deduction": "財務省^フェーンギル国税庁^^^{{honorific}}納税者様、^^今シーズンの累計所得税額が{{accrued}}Gであることをお知らせいたします。お客様の最近の環境保護活動により、フェーンギル税法第501条(c)(3)項に基づき{{deductible}}の控除を受ける資格があります。^^したがって、最終納税額{{final}}Gは{{when}}、自動的に残高より差し引かれます。^^今後、税務状況に関するお問い合わせが生じた際に備え、本書をお手元に保管くださいますようお願い申し上げます。^^^敬具、^^ローラ・D・プレット^フェーンギル国税庁長官[#]国税庁控除通知",
+  "mail.frs.deduction.max": "財務省^フェーンギル国税庁^^^{{honorific}}納税者様、^^今シーズンの累計所得税額が{{accrued}}Gであることをお知らせいたします。お客様の最近の環境保護活動により、フェーンギル税法第501条(c)(3)項に基づき連邦所得税の全額免除を受ける資格があります。したがって、今シーズンは残高への請求は一切行われません。^^今後、税務状況に関するお問い合わせが生じた際に備え、本書をお手元に保管くださいますようお願い申し上げます。^^^敬具、^^ローラ・D・プレット^フェーンギル国税庁長官[#]国税庁控除通知",
+  "mail.frs.outstanding": "財務省^フェーンギル国税庁^^^{{honorific}}納税者様、^^先シーズンの所得税総額{{due}}Gが残高から全額差し引けなかったことをお知らせいたします。フェーンギル税法第501条(c)(1)項に基づき、追加罰金{{fine}}が科され、未納残高{{outstanding}}Gが完済されるまで{{farm}}農場の将来の収入はすべて差し押さえられます。年利{{interest}}の利息が累積しないよう、速やかに未払い債務を清算されることを強くお勧めいたします。^^今後、税務状況に関するお問い合わせが生じた際に備え、本書をお手元に保管くださいますようお願い申し上げます。^^^敬具、^^ローラ・D・プレット^フェーンギル国税庁長官[#]国税庁月次通知",
+  "mail.lewis.intro": "@,^^^ペリカンタウンへようこそ！新しいご自宅に落ち着いていただければ幸いです。^^ひとつお知らせがあります。{{farm}}農場の新しいオーナーとして、農地の固定資産税をお支払いいただく必要があります。毎年、郡が農地の利用価値を査定し、その一定割合が課税されます。「利用価値」ルールのもとでは、未使用の土地は活用中の土地より*高く*課税されるのが一般的ですので、まずは雑草や切り株の除去から始めることをお勧めします！^^亡きお祖父様が昨年分まですべての税金を処理してくださいましたので、来年まではご心配には及びません。なぜ引っ越してくる年をぴったり知っていたのか、私にはわかりませんが！^^スタートアップパッケージも送りましたので、ぜひお役立てください。ご活躍を楽しみにしております！^^^  敬具、ルイス村長[#]市税固定資産税通知",
+  "mail.lewis.notice": "@,^^^ご存知の通り、ペリカンタウン村長としての私の義務のひとつは、町内すべての不動産に税金を課することです。前会計年度において、郡が{{farm}}農場を査定した結果、評価額は{{valuation}}Gと算定されました。したがって、対象税期間の固定資産税として合計{{due}}Gをお支払いいただく必要があります。この金額は春の{{day}}日目にお客様の口座から引き落とされます。^^ペリカンタウンを代表して、地域への継続的なご貢献に心より感謝申し上げます。^^^  敬具、ルイス村長[#]市税固定資産税通知",
+  "mail.lewis.outstanding": "@,^^^今期の固定資産税全額をまかなうだけの残高がなかったようです。郡の規定に従い、遺憾ながら{{fine}}の延滞金を追加で課すことをお知らせいたします。未払い残高{{outstanding}}Gはスターデュー銀行に譲渡され、完済されるまで年利{{interest}}を付して全ての出荷収入が差し押さえられます。^^ペリカンタウンの住民たちは、困難な時期には皆さんのそばにいることをご承知おきください。^^  敬具、ルイス村長[#]市税固定資産税通知",
+
+  // other
+  "hud.tax.debit": "{{amount}}Gが税金の支払いとして口座から引き落とされました。",
+  "hud.debt.debit": "未払い債務の返済として、昨日の出荷収入から{{amount}}Gが差し引かれました。",
+  "honorific.male": "拝啓",
+  "honorific.female": "拝啓",
+  "when.tonight": "今夜",
+  "when.day": "今シーズンの{{day}}日目に",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "所得税",
+  "gmcm.tax_rate_per_income_bracket.title": "所得区分別税率",
+  "gmcm.tax_rate_per_income_bracket.desc": "各所得区分に適用される税率。各ペアの最初の数字はその区分の所得上限を、2番目の数字はその区分内の課税所得割合を表します。",
+  "gmcm.income_bracket.title": "区分",
+  "gmcm.income_bracket.desc": "この区分の所得上限。前の区分からこの数値までの所得は、対応する税率で課税されます。",
+  "gmcm.tax_rate.title": "税率",
+  "gmcm.tax_rate.desc": "この区分内の所得に対する課税割合。",
+  "gmcm.deductible_animal_expenses.title": "動物費用の控除",
+  "gmcm.deductible_animal_expenses.desc": "動物の購入・飼育用品に費やしたゴールドのうち、控除対象となる割合。",
+  "gmcm.deductible_building_expenses.title": "建物費用の控除",
+  "gmcm.deductible_building_expenses.desc": "農場建物の建設に費やしたゴールドのうち、控除対象となる割合。",
+  "gmcm.deductible_seed_expenses.title": "種購入費用の控除",
+  "gmcm.deductible_seed_expenses.desc": "種の購入に費やしたゴールドのうち、控除対象となる割合。",
+  "gmcm.deductible_tool_expenses.title": "道具費用の控除",
+  "gmcm.deductible_tool_expenses.desc": "道具の購入・強化に費やしたゴールドのうち、控除対象となる割合。",
+  "gmcm.deductible_extras.title": "その他の控除",
+  "gmcm.deductible_extras.desc": "特定のアイテムに費やしたゴールドのうち、控除対象となる割合。アイテムはこのリストに手動で追加する必要があります。",
+  "gmcm.deductible_extras.label.key": "アイテム名",
+  "gmcm.deductible_extras.label.value": "控除率",
+  "gmcm.income_tax_day.title": "納付期限日",
+  "gmcm.income_tax_day.desc": "所得税が徴収されるシーズンの日付。",
+  "gmcm.income_tax_lateness_fine.title": "延滞罰金",
+  "gmcm.income_tax_lateness_fine.desc": "所得税が期限内に納付されなかった場合、未納額に一度だけ課される罰則率。",
+
+  // property
+  "gmcm.sections.txs.property": "固定資産税",
+  "gmcm.baseline_unused_tile_cost.title": "未使用タイルの基本費用",
+  "gmcm.baseline_unused_tile_cost.desc": "未使用タイルの基本ゴールド費用。",
+  "gmcm.unused_tile_tax_rate.title": "未使用タイルの税率",
+  "gmcm.unused_tile_tax_rate.desc": "生産的な目的に使用されていないタイルに課される税率。",
+  "gmcm.used_tile_tax_rate.title": "使用中タイルの税率",
+  "gmcm.used_tile_tax_rate.desc": "農業・牧畜・林業に積極的に活用されているタイルに課される税率。",
+  "gmcm.building_tax_rate.title": "建物タイルの税率",
+  "gmcm.building_tax_rate.desc": "建設された建物が占めるタイルに課される税率（下の設定を有効にすると魔法建物は免除されます）。",
+  "gmcm.exempt_magical_buildings.title": "魔法建物の免税",
+  "gmcm.exempt_magical_buildings.desc": "魔法建物（魔法使いの塔で召喚されたもの）を固定資産税から免除するかどうか。",
+  "gmcm.property_tax_day.title": "納付期限日",
+  "gmcm.property_tax_day.desc": "固定資産税が徴収されるシーズンの日付。",
+  "gmcm.property_tax_lateness_fine.title": "延滞罰金",
+  "gmcm.property_tax_lateness_fine.desc": "固定資産税が期限内に納付されなかった場合、未納額に一度だけ課される罰則率。",
+
+  // other
+  "gmcm.annual_interest.title": "年利",
+  "gmcm.annual_interest.desc": "未払い債務に年間課される利率。利息は年利の1/112の日利で毎日積算されます。",
+  "gmcm.default_artisan_value_crop_multiplier.title": "作物加工品のデフォルト価値倍率",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "作物から作られる職人製品の価値を推定するために使用される倍率。",
+  "gmcm.default_artisan_value_produce_multiplier.title": "畜産物加工品のデフォルト価値倍率",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "動物産物から作られる職人製品の価値を推定するために使用される倍率。"
+}

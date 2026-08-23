@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Yıpratıcı",
+  "enchantments.cleaving.name": "Biçen",
+  "enchantments.energized.name": "Statikk",
+  "enchantments.energized.desc": "Biriken enerji: {{counter}}",
+  "enchantments.explosive.name": "Patlayıcı",
+  "enchantments.explosive.desc": "Patlama yarıçapı: {{counter}}",
+  "enchantments.mammonite.name": "Mammon",
+  "enchantments.stabbing.name": "Pervasız",
+  "enchantments.sunburst.name": "Parlak",
+  "enchantments.vampiric.name": "Kanlı",
+  "enchantments.wabbajack.name": "Wabbajack",
+
+  "enchantments.chilling.name": "Dondurucu",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.echo.name": "Yankılanan",
+
+  "enchantments.sharp.name": "Keskin",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Mücevher Yuva Stili",
+  "gmcm.gemstone_socket_style.desc": "Silah araç ipuçlarındaki genel \"Dövülmüş\" metnini çeşitli stillerde mücevher yuvası simgeleriyle değiştirir.",
+  "gmcm.socket_style.diamond": "Elmas",
+  "gmcm.socket_style.round": "Yuvarlak",
+  "gmcm.socket_style.iridium": "İridyum",
+  "gmcm.gemstone_socket_position.title": "Mücevher Yuva Konumu",
+  "gmcm.gemstone_socket_position.desc": "Etkinleştirildiğinde mücevher yuvalarının çizileceği göreli konumu belirler.",
+  "gmcm.socket_position.standard": "Standart",
+  "gmcm.socket_position.above_separator": "Ayırıcının Üstünde"
+}

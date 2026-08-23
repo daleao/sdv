@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Állateledel",
+    "hay.desc": "Szárított fű, takarmánynövény és termény keveréke, amelyet a gazdasági állatok etetésére használnak.",
+    "buildings.added_hay": "{0} adag állateledelét adtunk a silóhoz.",
+
+    "ui.buffs.burnt.damage": "-50% Sebzés",
+    "ui.buffs.burnt.dot": "-{{amount}} életerő minden 3 másodpercben",
+    "ui.buffs.frozen.stuck": "Nem tud mozogni",
+    "ui.buffs.frozen.vulnerable": "Sebezhetős a következő támadással szemben",
+    "ui.buffs.jinxed.defense": "-50% Védelem",
+    "ui.buffs.jinxed.special": "Nem használhat különleges mozdulatokat",
+    "ui.buffs.confused.name": "Dezorientált",
+    "ui.buffs.confused.desc": "A mozgás iránya megfordul.",
+    "ui.buffs.warrior.attack": "+{{value}} Támadás",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Növény hervadási esélye",
+    "gmcm.crop_wither_chance.desc": "Annak százalékos valószínűsége, hogy bármely növény elhervad minden nap, ha nem öntözik meg.",
+    "gmcm.two_way_hoppers.title": "Kétirányú tolócsövek",
+    "gmcm.two_way_hoppers.desc": "Lehetővé teszi a tolócsövek számára a gépekből a kész termékek kinyerését.",
+    "gmcm.winter_wheat.title": "Téli búza",
+    "gmcm.winter_wheat.desc": "Lehetővé teszi a búza számára, hogy télen dormanciban maradjon.",
+    "gmcm.immersive_hay.title": "Immerzív széna",
+    "gmcm.immersive_hay.desc": "Eltávolítja az érett búzából aratott szénát, de lehetővé teszi a széna aratását éretlen búzából 100% eséllyel.",
+    "gmcm.consistent_farmer_debuffs.title": "Egységes gazda-debuffok",
+    "gmcm.consistent_farmer_debuffs.desc": "Egyesíti a gazda-debuffokat a mod által biztosított állapoteffektusokkal."
+}

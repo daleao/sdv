@@ -1,0 +1,20 @@
+{
+    "GrainsCategory": [ ],
+    "LeafyGreensCategory": [
+        "(O)FlashShifter.StardewValleyExpandedCP_Ancient_Fiber"
+    ],
+    "LegumesCategory": [ ],
+    "RootsCategory": [
+        "(O)FlashShifter.StardewValleyExpandedCP_Gold_Carrot"
+    ],
+    "TubersCategory": [
+        "(O)FlashShifter.StardewValleyExpandedCP_Sweet_Potato"
+    ],
+    "GourdsCategory": [
+        "(O)FlashShifter.StardewValleyExpandedCP_Cucumber",
+        "(O)FlashShifter.StardewValleyExpandedCP_Butternut_Squash"
+    ],
+    "FruitsCategory": [
+        "(O)FlashShifter.StardewValleyExpandedCP_Salal_Berry"
+    ]
+}

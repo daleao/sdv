@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "사료",
+    "hay.desc": "건초, 목초, 작물을 혼합해 농장 동물을 먹이는 데 사용하는 먹이.",
+    "buildings.added_hay": "사일로에 사료 {0}개를 추가했습니다.",
+
+    "ui.buffs.burnt.damage": "-50% 피해",
+    "ui.buffs.burnt.dot": "3초마다 {{amount}}의 체력 감소",
+    "ui.buffs.frozen.stuck": "이동 불가",
+    "ui.buffs.frozen.vulnerable": "다음 공격에 취약",
+    "ui.buffs.jinxed.defense": "-50% 방어",
+    "ui.buffs.jinxed.special": "특수 공격 사용 불가",
+    "ui.buffs.confused.name": "혼란",
+    "ui.buffs.confused.desc": "이동 방향이 반전됩니다.",
+    "ui.buffs.warrior.attack": "+{{value}} 공격",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "작물 시들 확률",
+    "gmcm.crop_wither_chance.desc": "물을 주지 않았을 때 작물이 매일 시들 확률(%).",
+    "gmcm.two_way_hoppers.title": "양방향 호퍼",
+    "gmcm.two_way_hoppers.desc": "호퍼가 기계에서 완성된 산출물을 회수할 수 있게 합니다.",
+    "gmcm.winter_wheat.title": "겨울 밀",
+    "gmcm.winter_wheat.desc": "밀이 겨울 동안 휴면 상태로 유지되도록 합니다.",
+    "gmcm.immersive_hay.title": "몰입형 건초",
+    "gmcm.immersive_hay.desc": "성숙한 밀에서 건초 수확을 제거하지만, 미성숙한 밀에서는 100% 확률로 건초를 수확할 수 있습니다.",
+    "gmcm.consistent_farmer_debuffs.title": "일관된 농부 디버프",
+    "gmcm.consistent_farmer_debuffs.desc": "농부 디버프를 이 모드가 제공하는 상태 효과와 통합합니다."
+}

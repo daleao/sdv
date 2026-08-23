@@ -1,21 +1,28 @@
 {
-  "$schema": "https://smapi.io/schemas/i18n.json",
+    "$schema": "https://smapi.io/schemas/i18n.json",
 
-  "ui.buffs.burnt.damage": "-50% Damage",
-  "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
-  "ui.buffs.frozen.stuck": "Can't move",
-  "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
-  "ui.buffs.jinxed.defense": "-50% Defense",
-  "ui.buffs.jinxed.special": "Can't use special moves",
-  "ui.buffs.confused.name": "Disoriented",
-  "ui.buffs.confused.desc": "Movement is inverted.",
-  "ui.buffs.warrior.attack": "+{{value}} Attack",
+    "ui.buffs.burnt.damage": "-50% Damage",
+    "ui.buffs.burnt.dot": "-{{amount}} health every 3 seconds",
+    "ui.buffs.frozen.stuck": "Can't move",
+    "ui.buffs.frozen.vulnerable": "Vulnerable to the next attack",
+    "ui.buffs.jinxed.defense": "-50% Defense",
+    "ui.buffs.jinxed.special": "Can't use special moves",
+    "ui.buffs.confused.name": "Disoriented",
+    "ui.buffs.confused.desc": "Movement is inverted.",
+    "ui.buffs.warrior.attack": "+{{value}} Attack",
 
-  /************
-  *** GMCM ***
-  ************/
+    /************
+     *** GMCM ***
+     ************/
 
-  "gmcm.crop_wither_chance.title": "Crop Wither Chance",
-  "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered."
-
+    "gmcm.crop_wither_chance.title": "Crop Wither Chance",
+    "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered.",
+    "gmcm.two_way_hoppers.title": "Two Way Hoppers",
+    "gmcm.two_way_hoppers.desc": "Allows Hoppers to retreive finished output from machines.",
+    "gmcm.winter_wheat.title": "Winter Wheat",
+    "gmcm.winter_wheat.desc": "Allows wheat to remain frozen through winter.",
+    "gmcm.immersive_hay.title": "Immersive Hay",
+    "gmcm.immersive_hay.desc": "Removes Hay harvested from mature Wheat, but allows harvesting Hay from premature Wheat at 100% chance.",
+    "gmcm.consistent_farmer_debuffs.title": "Consistent Farmer Debuffs",
+    "gmcm.consistent_farmer_debuffs.desc": "Consolidates farmer debuffs with the status conditions provided by this mod."
 }

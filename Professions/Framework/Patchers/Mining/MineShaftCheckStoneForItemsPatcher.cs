@@ -168,7 +168,9 @@ internal sealed class MineShaftCheckStoneForItemsPatcher : HarmonyPatcher
     {
         return who is null || !who.IsLocalPlayer || !who.HasProfession(Profession.Spelunker)
             ? 0d
-            : ((State.SpelunkerLadderStreak / 5) * 0.0025) + (State.SpelunkerClusterStreak * 0.001);
+            : who.secretNotesSeen.Contains(10) && !who.mailReceived.Contains("qiCave")
+                ? (State.SpelunkerClusterStreak * 0.001)
+                : (State.SpelunkerLadderStreak * 0.0005) + (State.SpelunkerClusterStreak * 0.001);
     }
 
     #endregion injected

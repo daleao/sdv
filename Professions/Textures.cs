@@ -28,8 +28,8 @@ internal static class Textures
     private static Lazy<Texture2D> _masteredSkillIcons =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_MasteredSkillIcons"));
 
-    private static Lazy<Texture2D> _dirtarrow =
-        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_DirtArrow"));
+    private static Lazy<Texture2D> _dirtarrows =
+        new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_DirtArrows"));
 
     private static Lazy<Texture2D> _minion =
         new(() => ModHelper.GameContent.Load<Texture2D>($"{UniqueId}_Minion"));
@@ -47,7 +47,7 @@ internal static class Textures
 
     internal static Texture2D MasteredSkillIcons => _masteredSkillIcons.Value;
 
-    internal static Texture2D DirtArrow => _dirtarrow.Value;
+    internal static Texture2D DirtArrows => _dirtarrows.Value;
 
     internal static Texture2D Minion => _minion.Value;
 

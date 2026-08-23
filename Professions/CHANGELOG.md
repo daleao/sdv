@@ -2,78 +2,213 @@
 
 ## 1.5.0
 
+- Major redesigns for Artisan, Spelunker, Slimed Piper and the Rancher farming branch.
+
+### Highlights
+
+<details>
+<summary><b>Skill Reset is now <ins>disabled</ins> by default.</b> It's not removed, don't worry. But new users will have to consciously enable it. If you care why, click to expand.</summary>
+
+- This mod was originally designed without any Reset or Prestige mechanics. The professions were never intended to be balanced assuming players could take all of them. In fact, they were never really balanced at all; the word "balance" isn't used once in the mod description (referring to this mod). No, the goal never was about balance; the goal was interesting, and hopefully fun, choices, and to prevent there being one single "optimal" choice as there is in Vanilla. As such, the professions were designed assuming players would be forced to choose one in each skill.
+- When Prestige was later added, I wanted to extend the gameplay into very-late game. All Prestige jobs were initially simple direct upgrades, definitely not meant to be balanced; I actually think balance is meaningless at the point where players can easily make millions of gold regardless. But over the years, after many, many iterations, they have converged to a state closer to resembling "balance", and, more importantly, having their own unique identities.
+- Recently I've noticed a lot of negative discourse about this mod's balance. In this update, I've tried to address some of the most glaring balance and usability issues with specific classes. But as explained above, there will never be balance with the Skill Reset + Prestige combo (for example, the interaction between Agriculturist and Artisan exponentially increases the value of those two jobs). And given my original vision for this mod, it never made sense to offer Reset as a default option.
+- Now, by enabling Skill Reset, you do so at your own discretion. You accept the responsibility of unbalancing your own game, and I get to wipe my hands off that criticism.
+
+</details>
+
+- Artisan prestige has been redesigned around the new Machinist profession and Machine Treatments.
+- Spelunker has been significantly reworked around Momentum and a new Survey Flag item.
+- Slimed Piper has been redesigned around the new Slimecaller Flute, making Slime minions fully optional.
+- Ranchers can now feed crops to their animals. Breeder and Producer have been redesigned around managing the nutrition of animals through crop feeding.
+
 ### Added
 
 * Added Slimecaller Flute as a crafting recipe available to Slimed Pipers.
-    * Slimes minions are no longer summoned automatically when entering a dungeon.
-    * Players must now craft and use the Slimecaller Flute.
-    * Playing the flute will summon at least 1 Slime minion. More will be summoned depending on number of Slimes raised inside Slime Hutches (Slimes outside on the Farm will not be counted). Number of summoned Slimes is affected by Daily Luck.
-    * New: All nearby Slimes at the moment the flute is used will also be turned into minions.
+    * Players must now craft and use the Slimecaller Flute to summon Slime minions.
+    * Playing the flute will summon at least 1 Slime minion. More will be summoned depending on the number of Slimes raised inside Slime Hutches (Slimes outside on the Farm are not counted). Also affected by Daily Luck.
+    * All nearby Slimes at the moment the flute is used will also become minions.
     * Playing the flute again will not summon new Slimes until the previous ones have been defeated or dismissed, but nearby enemy Slimes can always be charmed without limit.
     * Playing the flute puts it on a 1-minute cooldown.
-    * Playing the flute while holding the Mod Key will dismiss all Slime minions. Summoned Slimes will disappear, but charmed Slimes will be released and become hostile.
-    * When Prestiged, summoned Slimes will now take on the appearance of Slimes in the hard-mode Mines.
-* Added a glow to the target stone during a Prospector Hunt to make it more noticeable.
-* Added `AnglerFishPriceBonusRate` config setting.
-* Prospector Hunt now displays leftover stones when a target is broken.
+    * Playing the flute while holding the Mod Key dismisses all summoned Slime minions. Charmed Slimes are released and become hostile again.
+    * Prestiged Piper summoned Slimes now use the dangerous Slime appearance.
+    * Summoned Slimes no longer copy the stats of the same Slime whose color was copied. Instead, stats are chosen randomly from the range between the lowest and highest across all raised Slimes.
+    * Increased base Slime summon scaling to 1 per 5 raised Slimes, up from 1 per 10.
+
+* Added Survey Flag as a crafting recipe available to Cavewardens.
+    * Once per day, the Cavewarden can place a Survey Flag in any Mine level of their choice (Skull Cavern counts as Mines). A placed flag persists until the end of the day.
+    * The flagged Mine level remains static; it will not reset if the player leaves the Mines. New monsters will not spawn on that level.
+    * The flag acts as a checkpoint:
+        * Leaving and re-entering the Mines normally (i.e., without taking an elevator) returns the player directly to the flagged level.
+        * Once per day, dying below the flagged level respawns the player at the flag without losing any items.
+        * Items left behind during the run have a small chance of reappearing next to the flag.
+
+* Added a glow effect to the target stone during a Prospector Hunt to make it more noticeable.
+* Added `AnglerPriceBonusRate` config setting.
+* Fisher bait perk now also adds +1 to the number of fish attempts granted by Challenge Bait (cannot be doubled as that would be overpowered). Prestiged Fisher adds another +1.
+* Prestiged Fisher now also affects Deluxe Bait bar height.
+* Added `MachineTreatments.json` data files for adding Machine Treatment data for custom Artisan Machines (see explanation below in the **Changed** section.
+    * Treatment compatibility can be customized through the `*.MachineTreatments.json` files using machine IDs and product IDs or context tags.
+    * As usual, data for SVE and Cornucopia is already included.
+
+* Added Blue Eggs, since I recently learned they are a real thing. Blue Mayonnaise still makes no sense though (there's no "brown mayonnaise" either).
+* Added a console command to manually revalidate buildings (updates buildings affected by professions).
+* Added ES, IT, HU, TR and JA translations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
 
 ### Changed
 
-* Piper Slimes no longer need to satisfy conditions to apply the Slimed debuff onto other enemies. Summoned Slimes can now inflict this debuff even without the Prestige, and even if they are not exactly "green". This is now the default Slime ability. It will get overwritten by color-specific abilities when the Piper is prestiged.
-* Piper minions no longer take the stats of a randomly selected raised Slime. Instead, they received random stats between lowest and highest of raised Slimes.
-* Increased base Slime summon scaling to 1 per 5 raised Slimes, up from 1 per 10 raised Slimes.
-* Changes to `set fishdex` command.
-* Agriculturist no longer consumes Retention Soil when a crop is planted.
-* Reduced Agriculturist growth speed bonus from 5% per memorized crop to 2.5%.
-* Skill Reset stars now begin at silver and finish at iridium, instead of starting at bronze and finishing at gold. This should avoid the confusion of the implicit assumption that there must be a fourth (iridium) level.
-* Spelunker ladder chance bonus no longer scales infinitely.
-    * Reduced to 0.25% per Mine level, down from 0.5% per Mine level.
-    * Now hard caps after 10 Mine levels (max 2.5%).
-    * New: Mining adjacent stones will also offer a non-persistent increased ladder chance. As a Spelunker, it becomes advantageous to find and focus on breaking large stone clusters, instead of every individual stone you see. Should add some strategy to mining without totally breaking it.
-    * Spelunker perks no longer affect stones destroyed by bombs.
-* Spelunker no longer automatically recovers HP and Energy by entering a safe room. Instead, players can now spend their accumulated Momentum buff to regain a proportional amount of Energy.
-* Pyrotechnician explosions no longer chain onto enemies. This is to prevent issues with out-of-bounds or invulnerable enemies.
-* Chained Reactions are now limited by the original bomb size, rather than chaining indefinitely.
+#### Artisan
 
-### Checked
+* Industrialist has been replaced by **Machinist**. Machinists can boost artisan machines with special Machine Treatments. There are 3 coating treatments which are based on the 3 basic tree syrups, as well as 1 overclock treatment which uses batteries. These treatments are loosely based on real principles, but allowing a lot of creative liberty to fit the limitation of just these 3 items. Treatment data is provided as an asset file instead of being hardcoded, so users may customize if they dislike the defaults.
+	* Overclock treatment consumes a Battery to double production speed for 20 cycles.
+	* Fermentation treatment uses Oak Resin to enhance alcoholic beverages.
+	* Glazing treatment uses Maple Syrup (or SVE Birch Water) to enhance juices, jams, butter, yogurt, and similar products.
+	* Sealing treatment uses Pine Tar (or SVE Fir Wax) to enhance oils, smoked, dried, and heat-based products.
+* Artisan no longer passively speeds up all machines. Instead, machines gradually build up processing speed by repeatedly processing the same ingredient. Just 10 cycles are needed to reach the maximum bonus of 25%.
+	* Machinists add an ingredient surplus feature to the calibration mechanic, producing an additional low-quality output for every 5 processed inputs.
+* Chance to preserve ingredient quality was reduced by half, from `FarmingLevel / 30` to `FarmingLevel / 60` (16.7% at level 10, 33% at level 20).
+    * This makes quality preservation a shortcut--a surprise gold "advancement"--rather than a reliable cask replacement.
+    * Industrialist/Machinist no longer guarantees ingredient quality preservation.
+* Industrialist/Machinist no longer requires Hoppers to provide its bonus. As such, changes made to Hoppers by the [Core](../Core) mod are now disabled by default.
+* Hoppers automatically apply compatible Machine Treatments. Automate will not.
+* Artisan's natural, "hidden" 5% chance to upgrade output quality has been removed.
+* Renamed "Relicseeker" -> "Wayfarer".
+* Renamed "Archaeologist" -> "Relicseeker". Sorry about the confusion.
+* Renamed `EnableGoldenDelightMayo` to `ExtraPoultryItemColors` since it now also adds the Blue Egg item..
+* Renamed `ImmersiveDairyYield` to `ImmersiveDairyPoultryYield` since eggs are not dairy.
 
-* *Tapper recipe bonus lost upon skill reset.*
-    * Could not reproduce. Probably caused by wrong patch priority (fixed below).
-* *Prospector Hunt soft locks when using bombs.*
-    * Could not reproduce. There must be a more specific condition to the soft lock than simply "use bombs".
-* *Crashes from chained explosions in Skull Caverns.*
-    * Could not reproduce. Probably caused by edge interactions with certain characters. Should be resolved by no longer chaining to characters at all.
-* *Cannot dismiss Slimes by clicking the portrait.*
-    * Could not reproduce, on a PC at least. No longer relevant since Minion HUD system is being scrapped entirely.
-* *Starfruits do not receive Agriculturist perk.*
-    * Could not reproduce. Probably a mod conflict.
+#### Rancher, Breeder & Producer
+
+Old Breeder and Producer had opposite problems:
+- Producer had fairly strong perks and mechanics, but terrible flavor. Industrial animal farming is antithetic to Stardew Valley.
+- Breeder had a good flavor, but weak and boring mechanics. Waiting around for a pregnancy to happen isn't fun, and selling the animals you raised to max friendship is cold.
+
+I've added a new spin without changing the originals too much, but I think it alleviated both problems.
+
+* Added "short-term" and "long-term" nutrition.
+    * Most crops have been classified into custom categories that loosely represent different animal diets (e.g., grains, greens, legumes, etc.). Crop classifications can be customized by editing `*.CropCategories.json` data files inside the [Core mod assets](../Core/assets), and animal preferences can be customized by editing `*.AnimalFavoredFeeds.json` files inside [this mod's assets](/assets/). Data is already provided for SVE animals, crops and Cornucopia crops.
+    * Once per day, you can approach an animal with any crop of a corresponding favored category to receive a friendship boost and improve its "nutrition" stats.
+    * Crops function as **supplements**, and not as replacements for regular hay / grass.
+    * "Short-term" nutrition is a variable ranging from 0 to 100. It increases by 25 each day when the animal is fed a crop, and decreases by 10 each day when the animal is not fed a crop. If the animal does not eat hay or grass that day then nutrition drops by 50 points if the animal was not fed a crop, and stays unchanged if it was fed a crop.
+    * "Long-term" nutrition (a.k.a. nutritional potential) increases at the same rate, but does not decrease. It hard caps at 1000.
+* Replaced ~~Rancher~~ with Nutritionist.
+    * Removed: "Gain friendship twice as quickly."
+    * Added: "Animals can be fed certain crops to supplement nutrition and increase friendship."
+        * *I.e., Unlocks the nutrition stats and crop feeding. This will be at the core of the level 10 branches.*
+* Producer double production frequency is now conditional on "short-term" nutrition instead of mood.
+    * Animals will progress through their production cycles twice as quickly only on days where short-term nutrition is maxed out at 100.
+    * When prestiged, short-term nutrition cap increases to 200, granting twice the bonus when maxed, and the regular bonus betwen 100 and 199.
+    * *Mood was too easy to max simply by letting the animal eat grass. Short-term nutrition requires continuous upkeep.*
+* Breeder now increases value of animals based on inherited "long-term" nutrition, instead of friendship.
+    * Animals will pass on their long-term nutrition onto offspring. The passed-on portion becomes the offspring's base, and does not count towards their 1000 maximum potential. This means that each offspring tends toward progressively higher total nutrition, and therefore better offspring.
+    * The animal's sale value increases only with the inherited portion of their nutrition, determined at birth. It will not increase again throughout its life regardless of how many crops it is given. However, those crops will contribute to the potential of the next generation.
+    * Animal value will also decrease with age and number of pregnancies or eggs laid. The optimal moment of sale is thus right after the animal reaches maturity.
+    * Animal value builds up exponentially, a second generation maxed animal being worth around 2x, and soft-capping at around 10x after a few more generations, unless prestiged.
+    * Note about eggs: an individual inherited potential value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean potential of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
+    * If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
+    * *This generates an actual gameplay loop; the player must choose which animals to breed to maximize bloodline potential, and when to sell animals for maximum profit.*
+
+**Closing comments:**
+I like the idea of closing the loop between crop farming and animal ranching. This also gives a reason to plant crops that would otherwise be sub-optimal for pure profit. And while the professions are mostly the same, Producer gains a more "organic" flavor, while Breeder, despite still not having control over animal births, becomes far less passive.
+
+#### Spelunker
+
+* Bonus ladder chance has been significantly reduced.
+    * Reduced from 0.5% to 0.05% per stack, with each Mine level adding 5 stacks.
+    * Now caps at 100 stacks (maximum 5%). For reference, vanilla chance is around 4% per stone at the start of a level.
+    * No longer affects stones destroyed by bombs.
+    * No longer applies during Qi's Challenge.
+    * To compensate, Spelunker also gains a bonus when breaking stones in clusters; ladder chance will increase when breaking a stone adjacent another stone, but this resets as soon as you move on to another cluster. *This promotes strategic mining.*
+        * This bonus does apply during Qi's Challenge.
+* Removed bonus movement speed. Added: "After finding a ladder, Momentum decays, but all stones can drop ore."
+    * Decays by 3 stacks per 10-minute clock tick.
+    * Requires finding a ladder by breaking stones. Does not apply if a ladder was already naturally present on the level. 
+    * *Spelunker gameplay now revolves around managing their Momentum resource; rather than infinitely stacking ladder chance, Momentum builds and decays naturally, and the player can benefit from both conditions strategically.*
+* Removed: Safe floors restore Health and Energy automatically. Added: "Can spend all Momentum to recover some energy."
+    * Double press the Mod key to trigger (no need to hold).
+    * Always consumes all Momentum.
+    * Restores twice the number of consumed stacks as energy.
+    * Requires at least 20 stacks.
+
+#### Slimed Piper
+
+* Slimes are no longer summoned automatically.
+* The Slime Minion HUD has been removed.
+* Piper Slimes no longer need to satisfy additional conditions to apply the **Slimed** debuff.
+    * Applying Slimed is now the default Slime ability.
+    * Color-specific abilities still override Slimed when the Piper is prestiged.
+
+#### Agriculturist
+
+* Agriculturist no longer consumes Retention Soil when planting crops.
+* Crop rotation growth speed bonus now caps at 20% (4 unique crops).
+
+#### Demolitionist
+
+* Chained explosions are now limited by half the original bomb's area, instead of chaining indefinitely.
+    * Goal is to make Mega Bombs no longer useless with Pyrotechnic. But it's still a pretty large area. Might need more nerfs.
+* Explosions no longer chain onto enemies.
+    * Prevents issues involving out-of-bounds or invulnerable enemies.
+* Removed manual detonation mode. This was clunky and not useful.
+
+#### Prospector and Scavenger
+
+* Both now separately track your longest success streak from your current success streak. Prestige bonuses are now based on longest streak, so you don't lose them just because you lost or ignored a hunt.
+* Signficant overhaul to both treasure hunt loot tables. The items are mostly the same, but the odds are rebalanced significantly. No longer swings wildly to 1000+ stacks of one item.
+
+#### Other
+
+* Skill Reset stars now begin at **Silver** and finish at **Iridium**, instead of starting at Bronze and ending at Gold.
+    * This mirrors item qualities, and avoids the assumption that an additional Iridium tier exists. Idk why I didn't do this to begin with.
+* Updated the `set fishdex` command.
 
 ### Fixed
 
-* Forgot to set priority of Tapper recipe.
-* Fixed max icon for trap fish expecting max size + 1 (vanilla game is inconsistent with this).
-* Fixed a possible out-of-range exception if Slime Hutch is cleared.
-* Fixed some bad logic in colored Slime debuffs that caused Prismatic Slimes to only apply Slimed and not the other debuffs.
-* Fixed Prismarch paint brushes appearing in Collections screen.
-* Fixed stone glowing above characters in Prospector Hunt.
-* Fixed ally Slimes preventing progression in infested mine floors.
-* Fixed dismissed Slimes not fading as intended.
-* Fixed Gemologist perks not applying correctly to Item Extension resources.
-* Fixed a possible issue where Slime Minion HUD did not disappear as intended.199871
-* Fixed an issue where defeated Slime minions where not properly removed from the Slime Minion HUD.
-* Slime minions are now immune to trinkets (fixes Slimes being eaten by frog trinket, or targeted by snow trinket, etc.).
-* Fixed an issue where Barn and Coop animal capacities did not update correctly upon obtaining Progenitor / Yieldmeister professions.
+* Fixed Tapper recipe priority being lost after Skill Reset.
+* Fixed the trap fish max icon expecting max size + 1 (matching inconsistent vanilla behavior).
+* Fixed a possible out-of-range exception when a Slime Hutch is emptied.
+* Fixed colored Slime debuffs causing Prismatic Slimes to apply only Slimed instead of all intended debuffs.
+* Fixed Prismarch paint brushes appearing in the Collections screen.
+* Fixed the Prospector Hunt target stone glowing above characters.
+* Fixed Piper Slimes preventing progression on infested Mine floors.
+* Fixed Piper Slimes being targeted by trinkets (e.g. Frog Trinket, Snow Trinket, etc.).
+* Fixed dismissed Slimes not fading correctly.
+* Fixed Gemologist perks not applying correctly to Item Extensions resources.
+* ~~Fixed the Slime Minion HUD occasionally failing to disappear.~~ *Redundant.*
+* ~~Fixed defeated Slime minions not being properly removed from the Slime Minion HUD.~~ *Redundant.*
+* Fixed Barn and Coop capacities not updating correctly after obtaining Progenitor or Yieldmeister.
+* Fixed Sword and Sorcery HP bonuses being overridden (thanks to [BTreadwell](https://github.com/BTreadwell) on GitHub).
+* Improved compatibility for the Immersive Dairy Yield configuration with additional mods.
+* Fixed a possible issue preventing access to the Mastery Cave when Limit Break is disabled.
+* Profession rules should now apply to buildings on construction, instead of requiring a save reload. (Buildings can now also be revalidated manually using a console command.)
+* Fixed long-standing issues with how Producer reduces production days. Producer was reducing more days than intended, and its prestige was reducing less than base Producer.
+* Fixed a bug where Scavenger Hunt failure would reset the longest streak instead of the current streak.
+* Fixed incorrect initializing of raised Slime stats.
+* Fixed an issue where Brute Frenzy incorrectly referenced Poacher Buff ID.
+* Fixed missing translations across all languages using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+The following reported issues were also checked:
+
+* **Tapper recipe bonus lost upon skill reset.**
+    * Probably caused by incorrect patch priority, which was fixed.
+* **Prospector Hunt soft locks when using bombs.**
+    * Could not reproduce. There must be a more specific condition than simply using bombs. Needs further testing.
+* **Crashes from chained explosions in Skull Caverns.**
+    * Could not reproduce. Probably caused by edge interactions with certain characters. Should now be resolved by no longer allowing explosions to chain onto characters.
+* **Cannot dismiss Slimes by clicking the portrait.**
+    * Could not reproduce, at least on PC. No longer relevant since the Slime Minion HUD has been removed.
+* **Starfruits, specifically, do not receive Agriculturist perk.**
+    * Could not reproduce. Probably caused by a mod conflict.
+* **If a Scavenger Hunt is initiated in a rainy location, the rain overwrites the soil arrow indicators.**
+    * Known issue. Still haven't found a fix.
 
 ### Removed
 
-* Removed manual detonation mode from Demolitionist perks.
-* Removed pond restriction on extended family fish.
-
-### Known Issues
-
-* If a Scavenger Hunt is initiated on a rainy location, the rain will overwrite the arrow indicators on the soil.
+* Removed the pond restriction on Extended Family fish.
+* Removed LegendaryFishPondData (moved to [Ponds](../Ponds)).
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+---
 
 ## 1.4.2
 

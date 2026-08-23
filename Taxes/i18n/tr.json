@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "Hazine ve Maliye Bakanlığı^Ferngill Gelir İdaresi^^^Sayın {{honorific}} Mükellef,^^Pelican Town, Stardew Valley adresine yaptığınız adres değişikliğinin kayıt altına alındığını bildiririz. Bundan böyle tüm yazışmalar {{farm}} çiftliğinize gönderilecektir.^^Federal gelir vergisi ödemelerinin her mevsimin ilk gününün sonuna kadar yapılması gerekmektedir. Kolaylık sağlamak amacıyla ödenecek tutarlar bakiyenizden otomatik olarak kesilecektir. Bakiyenizin yetersiz olması durumunda Ferngill Vergi Kanunu'nun 501(c)(1). maddesi uyarınca {{fine}} tutarında ceza uygulanacak ve Stardew Bankası nezdinde adınıza yıllık {{interest}} faiz oranıyla kredi açılacaktır.^^^Saygılarımla,^^Laura D. Pretto^Genel Müdür, Ferngill Gelir İdaresi[#]Adres Değişikliği Onayı",
+  "mail.frs.notice": "Hazine ve Maliye Bakanlığı^Ferngill Gelir İdaresi^^^Sayın {{honorific}} Mükellef,^^Kapanan mevsim için toplam tahakkuk eden gelir vergisi tutarınızın {{due}}g olduğunu ve {{when}} bakiyenizden otomatik olarak kesileceğini bildiririz.^^Mali durumunuza ilişkin herhangi bir sorunu çözmeniz gerektiğinde başvurabilmek için bu yazıyı kalıcı kayıtlarınızda saklayınız.^^^Saygılarımla,^^Laura D. Pretto^Genel Müdür, Ferngill Gelir İdaresi[#]Gelir İdaresi Aylık Bildirimi",
+  "mail.frs.deduction": "Hazine ve Maliye Bakanlığı^Ferngill Gelir İdaresi^^^Sayın {{honorific}} Mükellef,^^Kapanan mevsim için toplam tahakkuk eden gelir vergisi tutarınızın {{accrued}}g olduğunu bildiririz. Son dönemdeki çevreci faaliyetleriniz nedeniyle Ferngill Vergi Kanunu'nun 501(c)(3). maddesi uyarınca {{deductible}} tutarında indirim hakkı kazanmış bulunmaktasınız.^^Bu doğrultuda ödenecek nihai gelir vergisi tutarınız {{final}}g, {{when}} bakiyenizden otomatik olarak kesilecektir.^^Mali durumunuza ilişkin herhangi bir sorunu çözmeniz gerektiğinde başvurabilmek için bu yazıyı kalıcı kayıtlarınızda saklayınız.^^^Saygılarımla,^^Laura D. Pretto^Genel Müdür, Ferngill Gelir İdaresi[#]Gelir İdaresi İndirim Bildirimi",
+  "mail.frs.deduction.max": "Hazine ve Maliye Bakanlığı^Ferngill Gelir İdaresi^^^Sayın {{honorific}} Mükellef,^^Kapanan mevsim için toplam tahakkuk eden gelir vergisi tutarınızın {{accrued}}g olduğunu bildiririz. Son dönemdeki çevreci faaliyetleriniz nedeniyle Ferngill Vergi Kanunu'nun 501(c)(3). maddesi uyarınca federal gelir verginizin tamamından muaf tutulma hakkı kazanmış bulunmaktasınız. Bu nedenle mevcut mevsimde bakiyenizden herhangi bir kesinti yapılmayacaktır.^^Mali durumunuza ilişkin herhangi bir sorunu çözmeniz gerektiğinde başvurabilmek için bu yazıyı kalıcı kayıtlarınızda saklayınız.^^^Saygılarımla,^^Laura D. Pretto^Genel Müdür, Ferngill Gelir İdaresi[#]Gelir İdaresi İndirim Bildirimi",
+  "mail.frs.outstanding": "Hazine ve Maliye Bakanlığı^Ferngill Gelir İdaresi^^^Sayın {{honorific}} Mükellef,^^Geçen mevsime ait toplam {{due}}g tutarındaki gelir vergisinin bakiyenizden tam olarak kesilemediğini bildiririz. Ferngill Vergi Kanunu'nun 501(c)(1). maddesi uyarınca ek olarak {{fine}} tutarında ceza uygulanacak ve {{outstanding}}g tutarındaki toplam borcunuz tamamen ödeninceye kadar {{farm}} çiftliğinin tüm geliri haczedilecektir. Yıllık {{interest}} faiz oranıyla faiz birikmesini önlemek için mevcut borçlarınızı en kısa sürede kapatmanızı tavsiye ederiz.^^Mali durumunuza ilişkin herhangi bir sorunu çözmeniz gerektiğinde başvurabilmek için bu yazıyı kalıcı kayıtlarınızda saklayınız.^^^Saygılarımla,^^Laura D. Pretto^Genel Müdür, Ferngill Gelir İdaresi[#]Gelir İdaresi Aylık Bildirimi",
+  "mail.lewis.intro": "@,^^^Pelican Town'a hoş geldiniz! Yeni evinize güzel uyum sağladığınızı umuyorum.^^Dostça bir hatırlatma: {{farm}}'ın yeni sahibi olarak artık çiftliğin emlak vergisinden sorumlusunuz. Her yıl ilçe, çiftlik arazilerinin değerini değerlendirir ve belirli bir yüzde oranında vergi uygular. "Kullanım değeri" kuralları uyarınca, kullanılmayan araziler genel olarak aktif kullanımdaki arazilere kıyasla *daha yüksek* vergilendirilir; bu nedenle o yabani otları ve kütükleri temizlemeye bir an önce başlamanızı tavsiye ederim!^^Merhum büyükbabanız geçen yıl dahil tüm vergileri halletmiş, dolayısıyla gelecek yıla kadar endişelenmenize gerek yok. Sizin tam olarak hangi yıl taşınacağınızı nasıl bildiğini ben de anlayamıyorum!^^Başlamanıza yardımcı olacak bir başlangıç paketi de gönderdim. Neler başaracağınızı görmek için sabırsızlanıyorum!^^^  Saygılarımla, Muhtar Lewis[#]Belediye Emlak Vergisi Bildirimi",
+  "mail.lewis.notice": "@,^^^Bildiğiniz üzere Pelican Town muhtarı olarak görevlerimden biri kasabadaki tüm mülklere vergi uygulamaktır. Geçtiğimiz mali yılda ilçenin {{farm}} çiftliğinin mülkünü değerlendirmesi sonucunda {{valuation}}g değer tespit edilmiştir. Bu doğrultuda geçerli vergi dönemi için toplam {{due}}g emlak vergisi ödemeniz gerekmektedir. Bu tutar İlkbahar'ın {{day}}. günü hesabınızdan tahsil edilecektir.^^Pelican Town adına toplumumuza süregelen katkılarınız için içtenlikle minnettarım.^^^  Saygılarımla, Muhtar Lewis[#]Belediye Emlak Vergisi Bildirimi",
+  "mail.lewis.outstanding": "@,^^^Hesabınızda mevcut döneme ait emlak vergisinin tamamını karşılamaya yetecek bakiye bulunmadığı anlaşılmaktadır. İlçe politikası gereğince, üzülerek {{fine}} tutarında gecikme cezası uygulanacağını bildiriyorum. {{outstanding}}g tutarındaki kalan borç, tamamı ödeninceye kadar tüm gönderim gelirlerinizi haczetme yetkisine sahip olan Stardew Bankası'na devredilecek ve yıllık {{interest}} faiz oranı uygulanacaktır.^^Zor günler geçiriyorsanız Pelican Town sakinlerinin her zaman yanınızda olduğunu bilin.^^  Saygılarımla, Muhtar Lewis[#]Belediye Emlak Vergisi Bildirimi",
+
+  // other
+  "hud.tax.debit": "Vergi ödemesi için hesabınızdan {{amount}}g kesildi.",
+  "hud.debt.debit": "Bekleyen borçlar için dünkü gönderim gelirinizden {{amount}}g mahsup edildi.",
+  "honorific.male": "Sayın",
+  "honorific.female": "Sayın",
+  "when.tonight": "bu gece",
+  "when.day": "mevcut mevsimin {{day}}. gününde",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "Gelir Vergisi",
+  "gmcm.tax_rate_per_income_bracket.title": "Gelir Dilimine Göre Vergi Oranları",
+  "gmcm.tax_rate_per_income_bracket.desc": "Her gelir dilimine uygulanan vergi oranları. Her çiftte birinci sayı o dilimin gelir tavanını, ikinci sayı ise o dilim içindeki vergiye tabi gelir yüzdesini gösterir.",
+  "gmcm.income_bracket.title": "Dilim",
+  "gmcm.income_bracket.desc": "Bu dilimin gelir tavanı. Bir önceki dilim ile bu değer arasındaki tüm gelir, ilgili vergi oranı üzerinden vergilendirilir.",
+  "gmcm.tax_rate.title": "Vergi Oranı",
+  "gmcm.tax_rate.desc": "Bu dilim içindeki gelirin vergiye tabi yüzdesi.",
+  "gmcm.deductible_animal_expenses.title": "İndirilebilir Hayvan Giderleri",
+  "gmcm.deductible_animal_expenses.desc": "Hayvan alımı ve malzemeleri için harcanan altının yüzde kaçının vergiden düşülebileceği.",
+  "gmcm.deductible_building_expenses.title": "İndirilebilir Bina Giderleri",
+  "gmcm.deductible_building_expenses.desc": "Çiftlik binaları inşası için harcanan altının yüzde kaçının vergiden düşülebileceği.",
+  "gmcm.deductible_seed_expenses.title": "İndirilebilir Tohum Giderleri",
+  "gmcm.deductible_seed_expenses.desc": "Tohum alımı için harcanan altının yüzde kaçının vergiden düşülebileceği.",
+  "gmcm.deductible_tool_expenses.title": "İndirilebilir Alet Giderleri",
+  "gmcm.deductible_tool_expenses.desc": "Alet alımı ve geliştirmesi için harcanan altının yüzde kaçının vergiden düşülebileceği.",
+  "gmcm.deductible_extras.title": "Diğer İndirimler",
+  "gmcm.deductible_extras.desc": "Belirli bir eşya için harcanan altının yüzde kaçının vergiden düşülebileceği. Eşyalar bu listeye elle eklenmelidir.",
+  "gmcm.deductible_extras.label.key": "Nesne Adı",
+  "gmcm.deductible_extras.label.value": "İndirim %'si",
+  "gmcm.income_tax_day.title": "Son Ödeme Tarihi",
+  "gmcm.income_tax_day.desc": "Mevsim içinde gelir vergisinin tahsil edildiği gün.",
+  "gmcm.income_tax_lateness_fine.title": "Gecikme Cezası",
+  "gmcm.income_tax_lateness_fine.desc": "Gelir vergisi zamanında ödenmediğinde ödenmemiş tutara uygulanan tek seferlik ceza oranı.",
+
+  // property
+  "gmcm.sections.txs.property": "Emlak Vergisi",
+  "gmcm.baseline_unused_tile_cost.title": "Kullanılmayan Karo Taban Maliyeti",
+  "gmcm.baseline_unused_tile_cost.desc": "Kullanılmayan karoların altın cinsinden taban maliyeti.",
+  "gmcm.unused_tile_tax_rate.title": "Kullanılmayan Karo Vergi Oranı",
+  "gmcm.unused_tile_tax_rate.desc": "Üretken amaçlarla aktif olarak kullanılmayan karolara uygulanan vergi oranı.",
+  "gmcm.used_tile_tax_rate.title": "Kullanılan Karo Vergi Oranı",
+  "gmcm.used_tile_tax_rate.desc": "Tarım, hayvancılık veya ormancılık amacıyla aktif olarak kullanılan karolara uygulanan vergi oranı.",
+  "gmcm.building_tax_rate.title": "Bina Karosu Vergi Oranı",
+  "gmcm.building_tax_rate.desc": "İnşa edilmiş bir bina tarafından işgal edilen karolara uygulanan vergi oranı (aşağıdaki seçenek etkinleştirilirse büyülü binalar muaftır).",
+  "gmcm.exempt_magical_buildings.title": "Büyülü Binaları Muaf Tut",
+  "gmcm.exempt_magical_buildings.desc": "Büyülü binaların (yani Büyücü Kulesi'nde çağrılanların) emlak vergisinden muaf tutulup tutulmayacağı.",
+  "gmcm.property_tax_day.title": "Son Ödeme Tarihi",
+  "gmcm.property_tax_day.desc": "Mevsim içinde emlak vergisinin tahsil edildiği gün.",
+  "gmcm.property_tax_lateness_fine.title": "Gecikme Cezası",
+  "gmcm.property_tax_lateness_fine.desc": "Emlak vergisi zamanında ödenmediğinde ödenmemiş tutara uygulanan tek seferlik ceza oranı.",
+
+  // other
+  "gmcm.annual_interest.title": "Yıllık Faiz",
+  "gmcm.annual_interest.desc": "Herhangi bir bekleyen borca yıllık olarak uygulanan faiz oranı. Faiz, yıllık oranın 1/112'si üzerinden her gün birikir.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Varsayılan Ekin Ürünleri Zanaatkâr Değer Çarpanı",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "Ekinlerden elde edilen el yapımı ürünlerin değerini tahmin etmek için kullanılan çarpan.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Varsayılan Hayvansal Ürünler Zanaatkâr Değer Çarpanı",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "Hayvansal üretimden elde edilen el yapımı ürünlerin değerini tahmin etmek için kullanılan çarpan."
+}

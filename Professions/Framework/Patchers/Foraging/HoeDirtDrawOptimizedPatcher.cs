@@ -26,7 +26,7 @@ internal sealed class HoeDirtDrawOptimizedPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [UsedImplicitly]
     private static void HoeDirtDrawOptimizedPostfix(HoeDirt __instance, SpriteBatch? dirt_batch)
     {
@@ -50,7 +50,7 @@ internal sealed class HoeDirtDrawOptimizedPatcher : HarmonyPatcher
         }
 
         dirt_batch.Draw(
-            Textures.DirtArrow,
+            Textures.DirtArrows,
             drawPosition + new Vector2(32f, 32f),
             sourceRect,
             Color.White,

@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Granato",
+  "objects.garnet.desc": "Porta il nome di una bellissima principessa di una terra lontana.",
+  "rings.garnet.name": "Anello di granato",
+  "rings.garnet.desc": "Un anello d'oro adornato con un granato. Riduce il tempo di recupero della mossa speciale del 10%.",
+  "rings.infinity.name": "Banda dell'Infinito",
+  "rings.infinity.desc": "Un ricettacolo di grande potere.",
+
+  "rings.amethyst.prefix": "Un anello di rame adornato con un'ametista.",
+  "rings.topaz.prefix": "Un anello di rame adornato con un topazio.",
+  "rings.aquamarine.prefix": "Un anello d'argento adornato con un'acquamarina.",
+  "rings.jade.prefix": "Un anello d'argento adornato con la giada.",
+  "rings.emerald.prefix": "Un anello d'oro adornato con uno smeraldo.",
+  "rings.ruby.prefix": "Un anello d'oro adornato con un rubino.",
+  "rings.iridium.desc": "Una comune banda di iridio.",
+
+  "node.garnet.name": "Filone di granato",
+  "node.garnet.desc": "Un gruppo di granati racchiusi nella roccia.",
+
+  "ui.resonance": "Risonanza",
+  "ui.ruby": "Rubino",
+  "ui.aquamarine": "Acquamarina",
+  "ui.jade": "Giada",
+  "ui.emerald": "Smeraldo",
+  "ui.amethyst": "Ametista",
+  "ui.topaz": "Topazio",
+  "ui.garnet": "Granato",
+  "ui.item_hover.damage": "{{amount}} Danno",
+  "ui.item_hover.c_rate": "{{amount}} Prob. Critico",
+  "ui.item_hover.c_pow": "{{amount}} Potere Critico",
+  "ui.item_hover.knockback": "{{amount}} Respinta",
+  "ui.item_hover.attack_speed": "{{amount}} Vel. Attacco",
+  "ui.item_hover.cdr": "{{amount}} Recupero",
+  "ui.item_hover.resist": "{{amount}} Difesa",
+  "ui.item_hover.light": "Emette luce",
+  "ui.item_hover.magnetic": "Magnetico",
+
+  "dialogue.emily.gemstones.first": "Hai mai sentito davvero una gemma? Come un topazio si scioglie nell'anima, o come un rubino infiamma il cuore?#$b#Le gemme hanno questo modo incredibile di risuonare con le nostre energie. È come la tavolozza delle emozioni della natura.",
+  "dialogue.emily.gemstones.second": "Una volta ho provato a riempire un anello con tante gemme, per risuonare con tutte in una volta.#$b#Ma continuava a rompersi! Clint ha detto che i metalli ordinari non sono abbastanza forti da reggere le vibrazioni sovrapposte. Così ora ne indosso una diversa ogni giorno!",
+
+  "global.infinitycraft": "{{someone}} ha forgiato una Banda dell'Infinito.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Anelli di gemme fabbricabili",
+  "gmcm.craftable_gemstone_rings.desc": "Aggiunge nuove ricette di combattimento per creare anelli di gemme.",
+  "gmcm.audible_gemstones.title": "Gemme udibili",
+  "gmcm.audible_gemstones.desc": "Se le frequenze delle gemme possono essere sentite.",
+  "gmcm.chord_sound_duration.title": "Durata del suono dell'accordo",
+  "gmcm.chord_sound_duration.desc": "La durata del segnale sonoro dell'accordo, in millisecondi.",
+  "gmcm.colorful_resonances.title": "Risonanze colorate",
+  "gmcm.colorful_resonances.desc": "Se il bagliore di risonanza deve ereditare il colore della nota fondamentale.",
+  "gmcm.resonance_lightsource_texture.title": "Texture sorgente luminosa risonanza",
+  "gmcm.resonance_lightsource_texture.desc": "La texture da usare per la sorgente luminosa di risonanza.",
+  "gmcm.lightsource_texture.sconce": "Applique",
+  "gmcm.lightsource_texture.stronger": "Più forte",
+  "gmcm.lightsource_texture.patterned": "Decorato"
+}

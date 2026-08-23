@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "石榴石",
+  "objects.garnet.desc": "以遥远国度一位美丽公主的名字命名。",
+  "rings.garnet.name": "石榴石戒指",
+  "rings.garnet.desc": "镶嵌石榴石的金戒指。特殊招式冷却时间缩短10%。",
+  "rings.infinity.name": "无限之环",
+  "rings.infinity.desc": "蕴藏强大力量的容器。",
+
+  "rings.amethyst.prefix": "镶嵌紫水晶的铜戒指。",
+  "rings.topaz.prefix": "镶嵌黄晶的铜戒指。",
+  "rings.aquamarine.prefix": "镶嵌海蓝宝石的银戒指。",
+  "rings.jade.prefix": "镶嵌翡翠的银戒指。",
+  "rings.emerald.prefix": "镶嵌绿宝石的金戒指。",
+  "rings.ruby.prefix": "镶嵌红宝石的金戒指。",
+  "rings.iridium.desc": "普通的铱合金戒环。",
+
+  "node.garnet.name": "石榴石矿脉",
+  "node.garnet.desc": "封存于岩石中的石榴石矿块。",
+
+  "ui.resonance": "共鸣",
+  "ui.ruby": "红宝石",
+  "ui.aquamarine": "海蓝宝石",
+  "ui.jade": "翡翠",
+  "ui.emerald": "绿宝石",
+  "ui.amethyst": "紫水晶",
+  "ui.topaz": "黄晶",
+  "ui.garnet": "石榴石",
+  "ui.item_hover.damage": "{{amount}} 伤害",
+  "ui.item_hover.c_rate": "{{amount}} 暴击率",
+  "ui.item_hover.c_pow": "{{amount}} 暴击威力",
+  "ui.item_hover.knockback": "{{amount}} 击退",
+  "ui.item_hover.attack_speed": "{{amount}} 攻击速度",
+  "ui.item_hover.cdr": "{{amount}} 冷却时间",
+  "ui.item_hover.resist": "{{amount}} 防御",
+  "ui.item_hover.light": "发光",
+  "ui.item_hover.magnetic": "磁性",
+
+  "dialogue.emily.gemstones.first": "你有没有真正感受过一颗宝石？比如黄晶融入灵魂的感觉，或者红宝石点燃心火的感觉？#$b#宝石有一种神奇的方式，能与我们的能量产生共鸣。就像大自然调配情感的调色盘。",
+  "dialogue.emily.gemstones.second": "有一次我尝试把好多宝石都塞进一枚戒指，想同时与所有宝石共鸣。#$b#但它一直散架！克林特说，普通金属不够强韧，无法承受相互叠加的振动。所以现在我每天换一颗来戴！",
+
+  "global.infinitycraft": "{{someone}}锻造了一枚无限之环。",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "可合成宝石戒指",
+  "gmcm.craftable_gemstone_rings.desc": "添加新的战斗配方用于合成宝石戒指。",
+  "gmcm.audible_gemstones.title": "可听见的宝石",
+  "gmcm.audible_gemstones.desc": "是否能听到宝石的频率。",
+  "gmcm.chord_sound_duration.title": "和弦音效时长",
+  "gmcm.chord_sound_duration.desc": "和弦音效的持续时间，以毫秒为单位。",
+  "gmcm.colorful_resonances.title": "彩色共鸣",
+  "gmcm.colorful_resonances.desc": "共鸣光晕是否继承根音的颜色。",
+  "gmcm.resonance_lightsource_texture.title": "共鸣光源纹理",
+  "gmcm.resonance_lightsource_texture.desc": "用于共鸣光源的纹理。",
+  "gmcm.lightsource_texture.sconce": "壁灯",
+  "gmcm.lightsource_texture.stronger": "更强",
+  "gmcm.lightsource_texture.patterned": "花纹"
+}

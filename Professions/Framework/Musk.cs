@@ -28,8 +28,7 @@ internal sealed class Musk
         this.Duration = duration;
         for (var i = 0; i < 3; i++)
         {
-            Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                .broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                     location,
                     new TemporaryAnimatedSprite(5, position + new Vector2(16f, -64f + (32f * i)), Color.Purple)
                     {
@@ -66,8 +65,7 @@ internal sealed class Musk
         this.Duration = duration;
         for (var i = 0; i < 3; i++)
         {
-            Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                .broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                     attachedMonster.currentLocation,
                     new TemporaryAnimatedSprite(
                         5,
@@ -117,8 +115,7 @@ internal sealed class Musk
             return;
         }
 
-        Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-            .broadcastSprites(
+        Game1.Multiplayer.broadcastSprites(
                 this.Location,
                 new TemporaryAnimatedSprite(
                     5,

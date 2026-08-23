@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "석류석",
+  "objects.garnet.desc": "먼 나라에서 온 아름다운 공주의 이름을 딴 보석.",
+  "rings.garnet.name": "석류석 반지",
+  "rings.garnet.desc": "석류석으로 장식된 금 반지. 특수 공격 쿨다운을 10% 감소시킨다.",
+  "rings.infinity.name": "인피니티 밴드",
+  "rings.infinity.desc": "위대한 힘을 담는 그릇.",
+
+  "rings.amethyst.prefix": "자수정으로 장식된 구리 반지.",
+  "rings.topaz.prefix": "토파즈로 장식된 구리 반지.",
+  "rings.aquamarine.prefix": "아쿠아마린으로 장식된 은 반지.",
+  "rings.jade.prefix": "비취로 장식된 은 반지.",
+  "rings.emerald.prefix": "에메랄드로 장식된 금 반지.",
+  "rings.ruby.prefix": "루비로 장식된 금 반지.",
+  "rings.iridium.desc": "평범한 이리듐 밴드.",
+
+  "node.garnet.name": "석류석 광맥",
+  "node.garnet.desc": "돌 속에 박힌 석류석 덩어리.",
+
+  "ui.resonance": "공명",
+  "ui.ruby": "루비",
+  "ui.aquamarine": "아쿠아마린",
+  "ui.jade": "비취",
+  "ui.emerald": "에메랄드",
+  "ui.amethyst": "자수정",
+  "ui.topaz": "토파즈",
+  "ui.garnet": "석류석",
+  "ui.item_hover.damage": "{{amount}} 피해",
+  "ui.item_hover.c_rate": "{{amount}} 치명타 확률",
+  "ui.item_hover.c_pow": "{{amount}} 치명타 위력",
+  "ui.item_hover.knockback": "{{amount}} 넉백",
+  "ui.item_hover.attack_speed": "{{amount}} 공격 속도",
+  "ui.item_hover.cdr": "{{amount}} 쿨다운",
+  "ui.item_hover.resist": "{{amount}} 방어",
+  "ui.item_hover.light": "빛을 냄",
+  "ui.item_hover.magnetic": "자성",
+
+  "dialogue.emily.gemstones.first": "보석을 진짜로 느껴본 적 있어요? 토파즈가 영혼에 녹아드는 느낌이라든가, 루비가 마음에 불을 붙이는 느낌 같은 거요?#$b#보석엔 우리의 에너지와 공명하는 놀라운 힘이 있어요. 자연이 만들어낸 감정의 팔레트 같달까요.",
+  "dialogue.emily.gemstones.second": "한번은 반지에 보석을 잔뜩 끼워서 한꺼번에 모두와 공명해 보려 했거든요.#$b#근데 계속 부서지는 거예요! 클린트 말로는 보통 금속은 겹쳐지는 진동을 버티기에 충분히 강하지 않대요. 그래서 지금은 매일 다른 걸 하나씩 착용해요!",
+
+  "global.infinitycraft": "{{someone}}이(가) 인피니티 밴드를 제련했습니다.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "보석 반지 제작 가능",
+  "gmcm.craftable_gemstone_rings.desc": "보석 반지를 제작하는 새로운 전투 레시피를 추가합니다.",
+  "gmcm.audible_gemstones.title": "보석 소리 활성화",
+  "gmcm.audible_gemstones.desc": "보석 주파수를 들을 수 있는지 여부.",
+  "gmcm.chord_sound_duration.title": "화음 소리 지속 시간",
+  "gmcm.chord_sound_duration.desc": "화음 소리 신호의 지속 시간(밀리초 단위).",
+  "gmcm.colorful_resonances.title": "화려한 공명",
+  "gmcm.colorful_resonances.desc": "공명 발광이 근음의 색상을 따를지 여부.",
+  "gmcm.resonance_lightsource_texture.title": "공명 광원 텍스처",
+  "gmcm.resonance_lightsource_texture.desc": "공명 광원에 사용될 텍스처.",
+  "gmcm.lightsource_texture.sconce": "벽걸이 조명",
+  "gmcm.lightsource_texture.stronger": "더 강하게",
+  "gmcm.lightsource_texture.patterned": "무늬 있음"
+}

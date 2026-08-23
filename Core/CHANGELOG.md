@@ -1,5 +1,24 @@
 ﻿# CORE Changelog
 
+## 2.2.3
+
+### Added
+
+* Added Winter Wheat; wheat survives dormant through Winter if it sprouts before Winter 1st. Growth resumes as normal on Spring 1st. Any Wheat that overwinters is guaranteed to yield double harvest (which can be doubled again by Harvester).
+    * Mimics how wheat is actually grown IRL and something to keep your crop fields fertile.
+* Added Immersive Hay; hay cannot be harvested from mature Wheat, but can instead be harvested from premature (stage 4) Wheat at 100% chance.
+    * Applies Harvester profession perk if [Professions](../Professions) is installed.
+    * Mimics how hay is produced IRL, and forces a conscious decision to either harvest Wheat or Hay.
+* Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+### Changed
+
+* Hopper automation [is no longer a requirement for Walk of Life](../Professions/CHANGELOG.md#1-5-0), therefore it is now an opt-in optional feature.
+
+### Fixed
+
+* Fixed GMCM menu not building correctly.
+
 ## 2.2.2
 
 ### Fixed

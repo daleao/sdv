@@ -179,13 +179,13 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
             {
                 this._formFields.Enqueue(("MultiPageLink", () => this.AddMultiPageLinkOption(
                     () => string.Empty,
-                    links.ToArray(),
+                    [.. links],
                     link => link.PageId,
                     link => this._I18n.Get($"gmcm.pages.{link.PageTitleKey}"))));
                 this._formFields.Enqueue(("VSpace", () => this.AddVerticalSpace()));
             }
 
-            if (prioritized.Count == 0)
+            if (prioritized.Count == 0 && unprioritized.Count == 0)
             {
                 continue;
             }

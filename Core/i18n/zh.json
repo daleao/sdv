@@ -1,21 +1,32 @@
-﻿{
-  "$schema": "https://smapi.io/schemas/i18n.json",
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
 
-  "ui.buffs.burnt.damage": "-50%伤害",
-  "ui.buffs.burnt.dot": "-每3秒恢复{{amount}}生命值",
-  "ui.buffs.frozen.stuck": "无法移动",
-  "ui.buffs.frozen.vulnerable": "容易遭受下一次攻击",
-  "ui.buffs.jinxed.defense": "-50%防御",
-  "ui.buffs.jinxed.special": "无法使用特殊动作",
-  "ui.buffs.confused.name": "昏迷",
-  "ui.buffs.confused.desc": "反方向移动。",
-  "ui.buffs.warrior.attack": "+{{value}}攻击",
+    "hay.name": "饲料",
+    "hay.desc": "由干草、牧草和作物混合制成，用于饲养农场动物。",
+    "buildings.added_hay": "已向粮仓添加 {0} 份饲料。",
 
-  /**********************
-  *** 通用模组管理菜单 ***
-  **********************/
+    "ui.buffs.burnt.damage": "-50% 伤害",
+    "ui.buffs.burnt.dot": "每3秒损失 {{amount}} 点生命值",
+    "ui.buffs.frozen.stuck": "无法移动",
+    "ui.buffs.frozen.vulnerable": "对下一次攻击处于易伤状态",
+    "ui.buffs.jinxed.defense": "-50% 防御",
+    "ui.buffs.jinxed.special": "无法使用特殊招式",
+    "ui.buffs.confused.name": "迷失方向",
+    "ui.buffs.confused.desc": "移动方向反转。",
+    "ui.buffs.warrior.attack": "+{{value}} 攻击",
 
-  "gmcm.crop_wither_chance.title": "作物枯萎几率",
-  "gmcm.crop_wither_chance.desc": "如果不浇水,赋予任何作物每天枯萎的几率百分比。"
+    /**********************
+     *** 通用模组管理菜单 ***
+     **********************/
 
+    "gmcm.crop_wither_chance.title": "作物枯萎几率",
+    "gmcm.crop_wither_chance.desc": "如果不浇水，任何作物每天枯萎的概率百分比。",
+    "gmcm.two_way_hoppers.title": "双向漏斗",
+    "gmcm.two_way_hoppers.desc": "允许漏斗从机器中取回已完成的产出物。",
+    "gmcm.winter_wheat.title": "冬小麦",
+    "gmcm.winter_wheat.desc": "允许小麦在冬季保持休眠状态。",
+    "gmcm.immersive_hay.title": "沉浸式干草",
+    "gmcm.immersive_hay.desc": "移除从成熟小麦中收获的干草，但允许以100%的概率从未成熟的小麦中收获干草。",
+    "gmcm.consistent_farmer_debuffs.title": "统一农场主减益",
+    "gmcm.consistent_farmer_debuffs.desc": "将农场主减益与本模组提供的状态效果整合。"
 }

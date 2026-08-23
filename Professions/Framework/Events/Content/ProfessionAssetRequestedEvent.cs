@@ -37,12 +37,11 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     /// <inheritdoc />
     protected override void Initialize()
     {
-        this.Edit("Data/achievements", new AssetEditor(EditAchievementsData));
         this.Edit("Data/BigCraftables", new AssetEditor(EditBigCraftablesData));
         this.Edit("Data/Buildings", new AssetEditor(EditBuildingsData));
         this.Edit("Data/CraftingRecipes", new AssetEditor(EditCraftingRecipesData, AssetEditPriority.Late));
         this.Edit("Data/FarmAnimals", new AssetEditor(EditFarmAnimalsData, AssetEditPriority.Late));
-        this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
+        //this.Edit("Data/FishPondData", new AssetEditor(EditFishPondDataData, AssetEditPriority.Early));
         this.Edit("Data/mail", new AssetEditor(EditMailData));
         this.Edit("Data/Machines", new AssetEditor(EditMachinesData, (AssetEditPriority)int.MaxValue));
         this.Edit("Data/NPCGiftTastes", new AssetEditor(EditNPCGiftTastesData));
@@ -59,10 +58,16 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             $"{UniqueId}_AnimalDerivedGoods", new DictionaryProvider<string, string[]>(ProvideAnimalDerivedGoods));
         this.Provide(
             $"{UniqueId}_ArtisanMachines", new DictionaryProvider<string, string[]>(ProvideArtisanMachines));
-        this.Provide(
-            $"{UniqueId}_LegendaryFishPondData", new DictionaryProvider<string, List<FishPondData>>(ProvideLegendaryFishPondData));
+        //this.Provide(
+        //    $"{UniqueId}_LegendaryFishPondData", new DictionaryProvider<string, List<FishPondData>>(ProvideLegendaryFishPondData));
         this.Provide(
             $"{UniqueId}_MachineTreatments", new DictionaryProvider<string, MachineTreatmentRules>(ProvideMachineTreatmentRules));
+        this.Provide(
+            $"{UniqueId}_CropCategories", new DictionaryProvider<string, HashSet<string>>(ProvideCropCategories));
+        this.Provide(
+            $"{UniqueId}_AnimalReproductiveTypes", new DictionaryProvider<string, string[]>(ProvideAnimalReproductiveTypes));
+        this.Provide(
+            $"{UniqueId}_AnimalFavoredFeeds", new DictionaryProvider<string, string[]>(ProvideAnimalFavoredFeeds));
         this.Provide(
             $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
@@ -88,13 +93,16 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             $"{UniqueId}_Mayo",
             new ModTextureProvider(() => "assets/sprites/mayo.png"));
         this.Provide(
+            $"{UniqueId}_BlueEgg",
+            new ModTextureProvider(() => "assets/sprites/BlueEgg.png"));
+        this.Provide(
             $"{UniqueId}_SlimeGoods",
             new ModTextureProvider(() => "assets/sprites/slimegoods.png"));
         this.Provide(
             $"{UniqueId}_GoldSlime",
             new ModTextureProvider(() => $"assets/sprites/slime_{Config.Masteries.GoldSpritePalette}.png"));
         this.Provide(
-            $"{UniqueId}_DirtArrow",
+            $"{UniqueId}_DirtArrows",
             new ModTextureProvider(() => $"assets/sprites/dirtarrow_{(ModHelper.ModRegistry.IsLoaded("Acerbicon.Recolor") ? "Wittily" : "Vanilla")}.png"));
         this.Provide(
             $"{UniqueId}_Highlight",
@@ -108,30 +116,34 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Provide(
             $"{UniqueId}_Brushes",
             new ModTextureProvider(() => "assets/sprites/PaintBrush.png"));
+        this.Provide(
+            $"{UniqueId}_SurveyFlag",
+            new ModTextureProvider(() => "assets/sprites/flag.png"));
     }
 
     #region editor callback
 
-    /// <summary>Patches achievements data with prestige achievements.</summary>
-    private static void EditAchievementsData(IAssetData asset)
-    {
-        var data = asset.AsDictionary<int, string>().Data;
-
-        string title = _I18n.Get("prestige.achievement.title" + (Game1.player.IsMale ? ".male" : ".female"));
-        string desc = _I18n.Get("prestige.achievement.desc" + (Game1.player.IsMale ? ".male" : ".female"));
-
-        const string shouldDisplayBeforeEarned = "false";
-        const string prerequisite = "-1";
-        const string hatIndex = "";
-
-        var newEntry = string.Join("^", [title, desc, shouldDisplayBeforeEarned, prerequisite, hatIndex]);
-        data[title.GetDeterministicHashCode()] = newEntry;
-    }
-
-    /// <summary>Removes Heavy Tapper multiplier.</summary>
+    /// <summary>Removes Heavy Tapper multiplier; adds Survey Flag.</summary>
     private static void EditBigCraftablesData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, BigCraftableData>().Data;
+
+        data[SurveyFlagId] = new BigCraftableData()
+        {
+            Name = "Survey Flag",
+            DisplayName = I18n.Objects_Surveyflag_Name(),
+            Description = I18n.Objects_Surveyflag_Desc(),
+            Price = 0,
+            Fragility = 0,
+            CanBePlacedOutdoors = false,
+            CanBePlacedIndoors = true,
+            IsLamp = false,
+            Texture = $"{UniqueId}_SurveyFlag",
+            SpriteIndex = 0,
+            ContextTags = [],
+            CustomFields = null,
+        };
+
         if (Config.ImmersiveHeavyTapperYield)
         {
             var id = QIDs.HeavyTapper.SplitWithoutAllocation(')')[1].ToString();
@@ -180,6 +192,8 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PurpleSlimeEgg} 1/Field/{PurpleBrushId}/false/none/";
         var prismaticBrushRecipe =
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PrismaticJelly} 1/Field/{PrismaticBrushId}/false/none/";
+        var surveyFlagRecipe =
+            $"{QIDs.Wood} 10 {QIDs.Stone} 10 {QIDs.Fiber} 10/Field/{SurveyFlagId}/false/none/";
 
         data["Slime Flute"] = slimeFluteRecipe;
         data["Red Paintbrush"] = redBrushRecipe;
@@ -187,14 +201,15 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         data["Blue Paintbrush"] = blueBrushRecipe;
         data["Purple Paintbrush"] = purpleBrushRecipe;
         data["Prismatic Paintbrush"] = prismaticBrushRecipe;
+        data["Survey Flag"] = surveyFlagRecipe;
         if (!Context.IsWorldReady || (!Game1.player?.HasProfession(Profession.Tapper) ?? false))
         {
             return;
         }
 
         string[] fields;
-        if (ModHelper.ModRegistry.IsLoaded("FlashShifter.StardewValleyExpandedCP") &&
-            (ModHelper.ReadContentPackConfig("FlashShifter.StardewValleyExpandedCP")?.Value<bool?>("BalancedCrafting") ?? false))
+        if (ModHelper.ModRegistry.IsLoaded(SveIntegration.MOD_ID) &&
+            (ModHelper.ReadContentPackConfig(SveIntegration.MOD_ID)?.Value<bool?>("BalancedCrafting") ?? false))
         {
             fields = data["Tapper"].Split('/');
             fields[0] = $"{QIDs.Hardwood} 2 {QIDs.CopperBar} 1";
@@ -313,12 +328,23 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     /// <summary>Patches animal data for Producer perk.</summary>
     private static void EditFarmAnimalsData(IAssetData asset)
     {
-        asset.AsDictionary<string, FarmAnimalData>().Data.ForEach(pair =>
+        var data = asset.AsDictionary<string, FarmAnimalData>().Data;
+        data.ForEach(pair =>
         {
             pair.Value.ProfessionForHappinessBoost = Profession.Rancher;
             pair.Value.ProfessionForFasterProduce = Profession.Producer;
             pair.Value.ProfessionForQualityBoost = -1;
         });
+
+        if (!Config.ExtraPoultryColors)
+        {
+            return;
+        }
+
+        data["Blue Chicken"].EggItemIds = [BlueEggId, LargeBlueEggId];
+        data["Blue Chicken"].ProduceItemIds[0].ItemId = BlueEggId;
+        data["Blue Chicken"].DeluxeProduceItemIds[0].ItemId = LargeBlueEggId;
+        data["Blue Chicken"].BirthText = "[LocalizedText Strings\\Locations:AnimalHouse_Incubator_Hatch_RegularEgg]";
     }
 
     /// <summary>Patches fish pond data with legendary fish data.</summary>
@@ -357,7 +383,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     {
         var data = asset.AsDictionary<string, MachineData>().Data;
 
-        if (Config.EnableGoldenOstrichMayo)
+        if (Config.ExtraPoultryColors)
         {
             var rule = data[QIDs.MayonnaiseMachine]
                 .OutputRules
@@ -425,7 +451,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     });
         }
 
-        if (Config.ImmersiveDairyYield)
+        if (Config.ImmersiveDairyPoultryYield)
         {
             foreach (var (_, machine) in data)
             {
@@ -434,18 +460,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                     continue;
                 }
 
-                Func<MachineOutputRule, bool> appliesToLargeDairyItem = r =>
-                    (r.Id is not null && r.Id.Contains("Large") && r.Id.ContainsAnyOf("Egg", "Milk")) ||
-                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
-                     first.RequiredTags.ContainsAny("large_milk_item", "large_egg_item"));
-                Func<MachineOutputRule, bool> appliesToEggItem = r =>
-                    (r.Id is not null && r.Id.ContainsAnyOf("Egg")) ||
-                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
-                     first.RequiredTags.ContainsAny("egg_item"));
-                Func<MachineOutputRule, bool> appliesToMilkItem = r =>
-                    (r.Id is not null && r.Id.ContainsAnyOf("Milk")) ||
-                    (r.Triggers?.FirstOrDefault() is { RequiredTags: not null } first &&
-                     first.RequiredTags.ContainsAny("milk_item"));
                 foreach (var rule in machine.OutputRules)
                 {
                     if (appliesToLargeDairyItem(rule))
@@ -507,24 +521,86 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                 }
             }
         }
+
+        static bool appliesToLargeDairyItem(MachineOutputRule r)
+        {
+            var trigger = r.Triggers?.FirstOrDefault();
+            var requiredItemId = trigger?.RequiredItemId?.ToLowerInvariant();
+            var outputItemId = r.OutputItem.FirstOrDefault()?.ItemId?.ToLowerInvariant(); // default rule can have null Item Id
+
+            // checks if the output rule ID refers to Large Egg or Large Milk (works for vanilla)
+            var checkByRuleId = r.Id?.Contains("Large") == true && r.Id.ContainsAnyOf("Egg", "Milk");
+
+            // checks if the output rule refers to Large Egg or Large Milk by generic tags (should work if mod authors use tags correctly)
+            var checkByOutputTags = trigger?.RequiredTags?.ContainsAny(
+                "large_milk_item",
+                "large_egg_item") == true;
+
+            // checks if the input item itself refers to a Large Egg or Large Milk and the output item refers to Mayonnaise or Cheese (should work on modded items if IDs are proper) 
+            var checkByInputId = requiredItemId?.Contains("large") == true &&
+                requiredItemId.ContainsAnyOf("egg", "milk") &&
+                outputItemId?.ContainsAnyOf("mayonnaise", "cheese") == true;
+
+            return checkByRuleId || checkByOutputTags || checkByInputId;
+        }
+
+        static bool appliesToEggItem(MachineOutputRule r)
+        {
+            var trigger = r.Triggers?.FirstOrDefault();
+            var requiredItemId = trigger?.RequiredItemId?.ToLowerInvariant();
+            var outputItemId = r.OutputItem.FirstOrDefault()?.ItemId?.ToLowerInvariant(); // default rule can have null Item Id
+
+            // checks if the output rule ID refers to Large Egg or Large Milk (works for vanilla)
+            var checkByRuleId = r.Id?.Contains("Egg") == true;
+
+            // checks if the output rule refers to Large Egg or Large Milk by generic tags (should work if mod authors use tags correctly)
+            var checkByOutputTags = trigger?.RequiredTags?.Contains("egg_item") == true;
+
+            // checks if the input item itself refers to a Large Egg or Large Milk and the output item refers to Mayonnaise or Cheese (should work on modded items if IDs are proper) 
+            var checkByInputId = requiredItemId?.Contains("egg") == true &&
+               outputItemId?.Contains("mayonnaise") == true;
+
+            return checkByRuleId || checkByOutputTags || checkByInputId;
+        }
+
+        static bool appliesToMilkItem(MachineOutputRule r)
+        {
+            var trigger = r.Triggers?.FirstOrDefault();
+            var requiredItemId = trigger?.RequiredItemId?.ToLowerInvariant();
+            var outputItemId = r.OutputItem.FirstOrDefault()?.ItemId?.ToLowerInvariant(); // default rule can have null Item Id
+
+            // checks if the output rule ID refers to Large Egg or Large Milk (works for vanilla)
+            var checkByRuleId = r.Id?.Contains("Milk") == true;
+
+            // checks if the output rule refers to Large Egg or Large Milk by generic tags (should work if mod authors use tags correctly)
+            var checkByOutputTags = trigger?.RequiredTags?.Contains("milk_item") == true;
+
+            // checks if the input item itself refers to a Large Egg or Large Milk and the output item refers to Mayonnaise or Cheese (should work on modded items if IDs are proper) 
+            var checkByInputId = requiredItemId?.Contains("milk") == true &&
+                outputItemId?.Contains("cheese") == true;
+
+            return checkByRuleId || checkByOutputTags || checkByInputId;
+        }
     }
 
     /// <summary>Patches NPC gift tastes for new mayo and other objects.</summary>
     private static void EditNPCGiftTastesData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, string>().Data;
-        if (Config.EnableGoldenOstrichMayo)
+        if (Config.ExtraPoultryColors)
         {
             foreach (var (key, value) in data)
             {
-                if (!value.ContainsAllOf("306", "307"))
+                if (value.ContainsAllOf("306", "307"))
                 {
-                    continue;
+                    var split = value.Split("307");
+                    data[key] = split[0] + "307 " + OstrichMayoId + ' ' + GoldenMayoId + split[1];
                 }
-
-                var split = value.Split("307");
-                data[key] = split[0] + "307 " + OstrichMayoId + ' ' + GoldenMayoId + split[1];
             }
+
+            var split2 = data["Shane"].Split('/');
+            split2[1] += $" {BlueEggId} {LargeBlueEggId}";
+            data["Shane"] = string.Join('/', split2);
         }
 
         if (Config.EnableSlimeGoods)
@@ -570,8 +646,47 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     private static void EditObjectsData(IAssetData asset)
     {
         var data = asset.AsDictionary<string, ObjectData>().Data;
-        if (Config.EnableGoldenOstrichMayo)
+        if (Config.ExtraPoultryColors)
         {
+            data[$"{BlueEggId}"] = new ObjectData
+            {
+                Name = "Blue Egg",
+                DisplayName = I18n.Objects_Blueegg_Name(),
+                Description = I18n.Objects_Blueegg_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.Eggs,
+                Price = 60,
+                Texture = $"{UniqueId}_BlueEgg",
+                SpriteIndex = 0,
+                Edibility = 10,
+                ContextTags =
+                [
+                    "color_blue",
+                    "egg_item",
+                ],
+                ExcludeFromShippingCollection = true,
+            };
+
+            data[$"{LargeBlueEggId}"] = new ObjectData
+            {
+                Name = "Blue Egg",
+                DisplayName = I18n.Objects_Largeblueegg_Name(),
+                Description = I18n.Objects_Largeblueegg_Desc(),
+                Type = "Basic",
+                Category = (int)ObjectCategory.Eggs,
+                Price = 115,
+                Texture = $"{UniqueId}_BlueEgg",
+                SpriteIndex = 1,
+                Edibility = 15,
+                ContextTags =
+                [
+                    "color_blue",
+                    "egg_item",
+                    "large_egg_item",
+                ],
+                ExcludeFromShippingCollection = true,
+            };
+
             data[$"{OstrichMayoId}"] = new ObjectData
             {
                 Name = "Delight Mayonnaise",
@@ -844,7 +959,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             Log.E($"Failed loading Animal Derived Goods data.\n{ex}");
         }
 
-        return new Dictionary<string, string[]> { ["AnimalDerivedGoods"] = animalGoods.ToArray() };
+        return new Dictionary<string, string[]> { ["AnimalDerivedGoods"] = [.. animalGoods] };
     }
 
     private static Dictionary<string, string[]> ProvideArtisanMachines()
@@ -870,25 +985,25 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             Log.E($"Failed loading Artisan Machines data.\n{ex}");
         }
 
-        return new Dictionary<string, string[]> { ["ArtisanMachines"] = artisanMachines.ToArray() };
+        return new Dictionary<string, string[]> { ["ArtisanMachines"] = [.. artisanMachines] };
     }
 
-    private static Dictionary<string, List<FishPondData>> ProvideLegendaryFishPondData()
-    {
-        var file = Path.Combine(ModHelper.DirectoryPath, "assets", "data", "LegendaryFishPondData.json");
+    //private static Dictionary<string, List<FishPondData>> ProvideLegendaryFishPondData()
+    //{
+    //    var file = Path.Combine(ModHelper.DirectoryPath, "assets", "data", "LegendaryFishPondData.json");
 
-        try
-        {
-            var json = File.ReadAllText(file);
-            var parsed = JsonConvert.DeserializeObject<Dictionary<string, List<FishPondData>>>(json);
-            return (parsed?.TryGetValue("LegendaryFishPondData", out _) ?? false) ? parsed : [];
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed loading Legendary Fish Pond data.\n{ex}");
-            return [];
-        }
-    }
+    //    try
+    //    {
+    //        var json = File.ReadAllText(file);
+    //        var parsed = JsonConvert.DeserializeObject<Dictionary<string, List<FishPondData>>>(json);
+    //        return (parsed?.TryGetValue("LegendaryFishPondData", out _) ?? false) ? parsed : [];
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.E($"Failed loading Legendary Fish Pond data.\n{ex}");
+    //        return [];
+    //    }
+    //}
 
     private static Dictionary<string, MachineTreatmentRules> ProvideMachineTreatmentRules()
     {
@@ -967,6 +1082,103 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
 
         return machineTreatmentRules;
+    }
+
+    private static Dictionary<string, HashSet<string>> ProvideCropCategories()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, HashSet<string>> cropCategories = new()
+        {
+            { "GrainsCategory", [] },
+            { "LeafyGreensCategory", [] },
+            { "LegumesCategory", [] },
+            { "RootsCategory", [] },
+            { "TubersCategory", [] },
+            { "GourdsCategory", [] },
+            { "FruitsCategory", [] },
+        };
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.CropCategories.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed is null)
+                {
+                    Log.W($"Failed to parse Crop Categories data from '{Path.GetFileName(file)}'.");
+                    continue;
+                }
+
+                foreach (var (key, value) in parsed)
+                {
+                    cropCategories[key].UnionWith(value);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Crop Categories data.\n{ex}");
+        }
+
+        return cropCategories;
+    }
+
+    private static Dictionary<string, string[]> ProvideAnimalReproductiveTypes()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, string[]> animalReproductiveTypes = [];
+
+        try
+        {
+            var json = File.ReadAllText(Path.Combine(path, "AnimalReproductiveTypes.json"));
+            var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+            if (parsed?.TryGetValue("Mammals", out var mammals) ?? false)
+            {
+                animalReproductiveTypes["Mammals"] = mammals;
+            }
+
+            if (parsed?.TryGetValue("EggLayers", out var eggLayers) ?? false)
+            {
+                animalReproductiveTypes["EggLayers"] = eggLayers;
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Animal Reproductive Types data.\n{ex}");
+        }
+
+        return animalReproductiveTypes;
+    }
+
+    private static Dictionary<string, string[]> ProvideAnimalFavoredFeeds()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, string[]> favoredFeeds = [];
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.AnimalFavoredFeeds.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string[]>>>(json);
+                if (parsed?.TryGetValue("AnimalFavoredFeeds", out var favored) ?? false)
+                {
+                    foreach (var (animal, feeds) in favored)
+                    {
+                        favoredFeeds[animal] = feeds;
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Animal Favored Feeds data.\n{ex}");
+        }
+
+        return favoredFeeds;
     }
 
     #endregion provider callbacks

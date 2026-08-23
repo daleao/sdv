@@ -75,7 +75,8 @@ internal sealed class ObjectDrawInMenuPatcher : HarmonyPatcher
 
     [HarmonyTranspiler]
     [UsedImplicitly]
-    private static IEnumerable<CodeInstruction>? GameLocationDamageMonsterTranspiler(IEnumerable<CodeInstruction> instructions, MethodBase original)
+    private static IEnumerable<CodeInstruction>? ObjectDrawInMenuTranspiler(
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
@@ -83,10 +84,19 @@ internal sealed class ObjectDrawInMenuPatcher : HarmonyPatcher
         // After: float drawnScale = scaleSize;
         try
         {
+            var notSlimeFlute = generator.DefineLabel();
             helper
-                .PatternMatch([new CodeInstruction(OpCodes.Stloc_3)])
+                .PatternMatch([new CodeInstruction(OpCodes.Stloc_1)])
+                .Move()
+                .AddLabels([notSlimeFlute])
                 .Insert(
                 [
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(SObject).RequirePropertyGetter(nameof(SObject.QualifiedItemId))),
+                    new CodeInstruction(OpCodes.Call, typeof(ProfessionsMod).RequirePropertyGetter(nameof(SlimeFluteId))),
+                    new CodeInstruction(OpCodes.Call, typeof(string).RequireMethod(nameof(string.Equals), [typeof(string), typeof(string)])),
+                    new CodeInstruction(OpCodes.Brfalse_S, notSlimeFlute),
+                    new CodeInstruction(OpCodes.Ldloc_1),
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(ProfessionsMod).RequirePropertyGetter(nameof(State))),
@@ -94,6 +104,7 @@ internal sealed class ObjectDrawInMenuPatcher : HarmonyPatcher
                         OpCodes.Callvirt,
                         typeof(ProfessionsState).RequirePropertyGetter(nameof(State.SlimeFluteAddedScale))),
                     new CodeInstruction(OpCodes.Add),
+                    new CodeInstruction(OpCodes.Stloc_1),
                 ]);
         }
         catch (Exception ex)

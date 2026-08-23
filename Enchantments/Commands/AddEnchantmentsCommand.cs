@@ -97,14 +97,14 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
             if (enchantment is null)
             {
                 Log.W($"Ignoring unknown enchantment {args[0]}.");
-                args = args.Skip(1).ToArray();
+                args = [.. args.Skip(1)];
                 continue;
             }
 
             if (!enchantment.CanApplyTo(tool))
             {
                 Log.W($"Cannot apply {args[0].FirstCharToUpper()} enchantment to {tool.DisplayName}.");
-                args = args.Skip(1).ToArray();
+                args = [.. args.Skip(1)];
                 continue;
             }
 
@@ -114,7 +114,7 @@ internal sealed class AddEnchantmentsCommand(CommandHandler handler) : ConsoleCo
                 .ForEach(tool.RemoveEnchantment);
             tool.AddEnchantment(enchantment);
             Log.I($"Applied {enchantment.GetType().Name} to {tool.DisplayName}.");
-            args = args.Skip(1).ToArray();
+            args = [.. args.Skip(1)];
         }
 
         return true;

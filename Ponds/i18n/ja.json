@@ -1,0 +1,12 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "algae": "藻類",
+
+  "gmcm.days_until_algae_spawn.title": "藻類が発生するまでの日数",
+  "gmcm.days_until_algae_spawn.desc": "空の池に藻類が発生し始めるまでの日数。",
+  "gmcm.roe_production_chance_multiplier.title": "魚卵生産確率の倍率",
+  "gmcm.roe_production_chance_multiplier.desc": "魚が毎日魚卵を産む基本確率に掛ける倍率。",
+  "gmcm.add_legendary_pond_data.title": "伝説の魚の池データを追加",
+  "gmcm.add_legendary_pond_data.desc": "伝説の魚の池に没入感のあるドロップを追加します。Walk of Life がインストールされている場合は効果がありません。"
+}

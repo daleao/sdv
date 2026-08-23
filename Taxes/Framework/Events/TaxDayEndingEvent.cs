@@ -67,7 +67,6 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                 Data.Write(farm, DataKeys.SeasonCheckOffset, Game1.random.Next(5).ToString());
                 goto default;
 
-            // handle Conservationist profession
             case 28:
             {
                 if (CheckIncomeStatement(taxpayer))

@@ -4,6 +4,8 @@
 
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Limits;
+using DaLion.Professions.Framework.VirtualProperties;
+using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
 using StardewValley.Monsters;
 
@@ -65,6 +67,7 @@ internal sealed class PiperConcertoBuff : Buff
             }
         }
 
+        GreenSlime_Piped.PipedSlimes.ForEach(piped => piped.Health = (int)Math.Min(piped.Health + (piped.MaxHealth * 0.1f), piped.MaxHealth));
         EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
     }
 

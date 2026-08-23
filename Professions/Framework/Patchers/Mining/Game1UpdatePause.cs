@@ -67,20 +67,19 @@ internal sealed class Game1UpdatePause : HarmonyPatcher
     private static bool DoSpelunkerRevival()
     {
         if (Game1.currentLocation is not MineShaft shaft || !Game1.player.HasProfession(Profession.Spelunker, true) ||
-            State.HasSpelunkerUsedCheckpointToday || State.SpelunkerCheckpoint is null ||
-            State.SpelunkerCheckpointTile is null)
+            State.HasSpelunkerRevivedAtCheckpointToday || State.SpelunkerFlag is null)
         {
             return false;
         }
 
-        var request = new LocationRequest(shaft.Name, false, State.SpelunkerCheckpoint);
+        var request = new LocationRequest(shaft.Name, false, State.SpelunkerFlag.Location);
         request.OnWarp += () =>
         {
             Game1.killScreen = false;
             Game1.player.health = 10;
             Game1.pauseThenMessage(1500, Game1.parseText(I18n.Spelunker_Revival()));
             State.UsingSpelunkerCheckpoint = true;
-            State.HasSpelunkerUsedCheckpointToday = true;
+            State.HasSpelunkerRevivedAtCheckpointToday = true;
         };
 
         Game1.warpFarmer(request, 0, 0, 0);

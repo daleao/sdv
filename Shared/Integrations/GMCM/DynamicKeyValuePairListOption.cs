@@ -50,7 +50,7 @@ public class DynamicKeyValuePairListOption : DynamicListOption
         : base(
             getOptionName,
             getOptionTooltip,
-            () => string.Join(' ', getPairs().Select(pair => $"{pair.Key} {pair.Value}")).Split().ToList(),
+            () => [.. string.Join(' ', getPairs().Select(pair => $"{pair.Key} {pair.Value}")).Split()],
             values =>
             {
                 List<KeyValuePair<string, string>> pairs = [];

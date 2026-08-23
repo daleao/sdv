@@ -1,0 +1,52 @@
+{
+    "GrainsCategory": [
+        "(O)Cornucopia_Barley",
+        "(O)Cornucopia_Buckwheat",
+        "(O)Cornucopia_Durum",
+        "(O)Cornucopia_Oats",
+        "(O)Cornucopia_Quinoa"
+    ],
+    "LeafyGreensCategory": [
+        "(O)Cornucopia_Lettuce",
+        "(O)Cornucopia_Spinach",
+        "(O)Cornucopia_Asparagus",
+        "(O)Cornucopia_Cabbage",
+        "(O)Cornucopia_BeanSprouts",
+        "(O)Cornucopia_Celery"
+    ],
+    "LegumesCategory": [
+        "(O)Cornucopia_Soybeans",
+        "(O)Cornucopia_AdzukiBean",
+        "(O)Cornucopia_BlackBeans",
+        "(O)Cornucopia_Chickpea",
+        "(O)Cornucopia_GreenPeas",
+        "(O)Cornucopia_KidneyBeans",
+        "(O)Cornucopia_NavyBeans",
+        "(O)Cornucopia_PintoBeans",
+        "(O)Cornucopia_Lentils"
+    ],
+    "RootsCategory": [
+        "(O)Cornucopia_Turnip",
+        "(O)Cornucopia_Daikon",
+        "(O)Cornucopia_SugarBeet"
+    ],
+    "TubersCategory": [
+        "(O)Cornucopia_SweetPotato",
+        "(O)Cornucopia_Ube"
+    ],
+    "GourdsCategory": [
+        "(O)Cornucopia_Cucumber",
+        "(O)Cornucopia_Zucchini",
+        "(O)Cornucopia_ButternutSquash"
+    ],
+    "FruitsCategory": [
+        "(O)Cornucopia_CanaryMelon",
+        "(O)Cornucopia_Cantaloupe",
+        "(O)Cornucopia_Groundcherries",
+        "(O)Cornucopia_Honeydew",
+        "(O)Cornucopia_KiwiFruit",
+        "(O)Cornucopia_Passionfruit",
+        "(O)Cornucopia_Watermelon",
+        "(O)Cornucopia_WhiteGrape"
+    ]
+}

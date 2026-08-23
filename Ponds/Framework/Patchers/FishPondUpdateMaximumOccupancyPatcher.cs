@@ -36,7 +36,7 @@ internal sealed class FishPondUpdateMaximumOccupancyPatcher : HarmonyPatcher
         }
 
         fishes.SortDescending();
-        fishes = fishes.Take(__instance.FishCount).ToList();
+        fishes = [.. fishes.Take(__instance.FishCount)];
         Data.Write(__instance, DataKeys.PondFish, string.Join(';', fishes));
     }
 

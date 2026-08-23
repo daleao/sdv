@@ -10,10 +10,10 @@ internal sealed class ProspectorHuntBuff : Buff
             id: ID,
             source: "Prospector Hunt",
             displaySource: _I18n.Get("prospector.title" + (Game1.player.IsMale ? ".male" : ".female")),
-            duration: Config.ProspectorHuntTimeLimit * 1000,
+            duration: State.ProspectorHunt!.TimeLimit * 1000,
             iconTexture: Game1.mouseCursors,
             iconSheetIndex: SHEET_INDEX,
-            description: I18n.Scavenger_HuntStarted())
+            description: I18n.Prospector_HuntStarted())
     {
     }
 }

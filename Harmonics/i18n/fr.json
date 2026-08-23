@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Grenat",
+  "objects.garnet.desc": "Porte le nom d'une belle princesse d'un pays lointain.",
+  "rings.garnet.name": "Anneau de grenat",
+  "rings.garnet.desc": "Un anneau en or orné d'un grenat. Réduit le temps de recharge du mouvement spécial de 10 %.",
+  "rings.infinity.name": "Anneau de l'Infini",
+  "rings.infinity.desc": "Un réceptacle de grande puissance.",
+
+  "rings.amethyst.prefix": "Un anneau en cuivre orné d'une améthyste.",
+  "rings.topaz.prefix": "Un anneau en cuivre orné d'un topaze.",
+  "rings.aquamarine.prefix": "Un anneau en argent orné d'une aigue-marine.",
+  "rings.jade.prefix": "Un anneau en argent orné d'un jade.",
+  "rings.emerald.prefix": "Un anneau en or orné d'une émeraude.",
+  "rings.ruby.prefix": "Un anneau en or orné d'un rubis.",
+  "rings.iridium.desc": "Un simple anneau en iridium.",
+
+  "node.garnet.name": "Filon de grenat",
+  "node.garnet.desc": "Un amas de grenats enchâssés dans la pierre.",
+
+  "ui.resonance": "Résonance",
+  "ui.ruby": "Rubis",
+  "ui.aquamarine": "Aigue-marine",
+  "ui.jade": "Jade",
+  "ui.emerald": "Émeraude",
+  "ui.amethyst": "Améthyste",
+  "ui.topaz": "Topaze",
+  "ui.garnet": "Grenat",
+  "ui.item_hover.damage": "{{amount}} Dégâts",
+  "ui.item_hover.c_rate": "{{amount}} Chance de critique",
+  "ui.item_hover.c_pow": "{{amount}} Puissance critique",
+  "ui.item_hover.knockback": "{{amount}} Recul",
+  "ui.item_hover.attack_speed": "{{amount}} Vit. d'attaque",
+  "ui.item_hover.cdr": "{{amount}} Temps de recharge",
+  "ui.item_hover.resist": "{{amount}} Défense",
+  "ui.item_hover.light": "Émet de la lumière",
+  "ui.item_hover.magnetic": "Magnétique",
+
+  "dialogue.emily.gemstones.first": "Avez-vous déjà vraiment ressenti une gemme ? Comme un topaze qui se fond dans l'âme, ou comme un rubis qui embrase le cœur ?#$b#Les gemmes ont cette façon incroyable de résonner avec nos énergies. C'est comme la palette d'émotions de la nature.",
+  "dialogue.emily.gemstones.second": "J'ai essayé une fois de remplir une bague de plein de gemmes pour résonner avec toutes en même temps.#$b#Mais elle n'arrêtait pas de se désintégrer ! Clint m'a dit que les métaux ordinaires ne sont pas assez solides pour supporter les vibrations qui se superposent. Alors maintenant j'en porte une différente chaque jour !",
+
+  "global.infinitycraft": "{{someone}} a forgé un Anneau de l'Infini.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Anneaux de gemmes fabriquables",
+  "gmcm.craftable_gemstone_rings.desc": "Ajoute de nouvelles recettes de combat pour fabriquer des anneaux de gemmes.",
+  "gmcm.audible_gemstones.title": "Gemmes audibles",
+  "gmcm.audible_gemstones.desc": "Si les fréquences des gemmes peuvent être entendues.",
+  "gmcm.chord_sound_duration.title": "Durée du son d'accord",
+  "gmcm.chord_sound_duration.desc": "La durée du signal sonore d'accord, en millisecondes.",
+  "gmcm.colorful_resonances.title": "Résonances colorées",
+  "gmcm.colorful_resonances.desc": "Si la lueur de résonance doit hériter de la couleur de la note fondamentale.",
+  "gmcm.resonance_lightsource_texture.title": "Texture de la source lumineuse de résonance",
+  "gmcm.resonance_lightsource_texture.desc": "La texture utilisée pour la source lumineuse de résonance.",
+  "gmcm.lightsource_texture.sconce": "Applique",
+  "gmcm.lightsource_texture.stronger": "Plus intense",
+  "gmcm.lightsource_texture.patterned": "Motif"
+}

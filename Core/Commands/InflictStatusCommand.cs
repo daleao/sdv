@@ -30,7 +30,7 @@ internal sealed class InflictStatusCommand(CommandHandler handler)
         var all = args.Any(a => a is "-a" or "--all");
         if (all)
         {
-            args = args.Except(["-a", "--all"]).ToArray();
+            args = [.. args.Except(["-a", "--all"])];
         }
 
         if (args.Length == 0)

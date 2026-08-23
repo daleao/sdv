@@ -52,6 +52,14 @@ internal static class SObjectExtensions
                 ItemExtensionsIntegration.Instance.ModApi.IsResource(@object.ItemId, out _, out _));
     }
 
+    /// <summary>Determines whether <paramref name="object"/> belongs to a <see cref="MachineTreatmentCategory"/>.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/> is a battery or syrup, otherwise <see langword="false"/>.</returns>
+    internal static bool IsPossibleMachineTreatment(this SObject @object)
+    {
+        return @object.QualifiedItemId == QIDs.BatteryPack || @object.IsSyrup();
+    }
+
     /// <summary>Determines whether the <paramref name="profession"/> should track <paramref name="object"/>.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <param name="profession">Either <see cref="Profession.Scavenger"/> or <see cref="Profession.Prospector"/>.</param>

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Dilacerante",
+  "enchantments.cleaving.name": "Ceifador",
+  "enchantments.energized.name": "Cargado",
+  "enchantments.energized.desc": "Energia acumulada: {{counter}}",
+  "enchantments.explosive.name": "Explosivo",
+  "enchantments.explosive.desc": "Raio de explosão: {{counter}}",
+  "enchantments.mammonite.name": "Mammon",
+  "enchantments.stabbing.name": "Temerário",
+  "enchantments.sunburst.name": "Radiante",
+  "enchantments.vampiric.name": "Sanguíneo",
+  "enchantments.wabbajack.name": "Wabbajack",
+
+  "enchantments.chilling.name": "Gélido",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.echo.name": "Ressonante",
+
+  "enchantments.sharp.name": "Afiado",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Estilo do encaixe de gemas",
+  "gmcm.gemstone_socket_style.desc": "Substitui o texto genérico \"Forjado\" nos tooltips de armas por ícones de encaixe de gemas em vários estilos.",
+  "gmcm.socket_style.diamond": "Diamante",
+  "gmcm.socket_style.round": "Redondo",
+  "gmcm.socket_style.iridium": "Irídio",
+  "gmcm.gemstone_socket_position.title": "Posição do encaixe de gemas",
+  "gmcm.gemstone_socket_position.desc": "Determina a posição relativa onde os encaixes de gemas devem ser desenhados, se ativado.",
+  "gmcm.socket_position.standard": "Padrão",
+  "gmcm.socket_position.above_separator": "Acima do separador"
+}

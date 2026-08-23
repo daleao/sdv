@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -35,12 +36,20 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
         var helper = new ILHelper(original, instructions);
 
         // From: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (0.0055)
-        // To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).animalsThatLiveHere.Count * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
+        // To: if (Game1.random.NextDouble() < (double)(building.indoors.Value as AnimalHouse).AnimalsThatCanHavePregnancy() * (Game1.player.professions.Contains(<breeder_id>) ? 0.011 : 0.0055)
         try
         {
             var isNotBreeder = generator.DefineLabel();
             var resumeExecution = generator.DefineLabel();
             helper
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Ldfld, typeof(AnimalHouse).RequireField(nameof(AnimalHouse.animalsThatLiveHere)))
+                ])
+                .ReplaceWith(
+                    new CodeInstruction(OpCodes.Call, typeof(AnimalHouseExtensions).RequireMethod(nameof(AnimalHouseExtensions.AnimalsThatCanHavePregnancy)))
+                )
+                .Move()
+                .Remove()
                 .PatternMatch([
                     // find index of loading base pregnancy chance
                     new CodeInstruction(OpCodes.Ldc_R8, 0.0055),
@@ -52,7 +61,7 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.butcher)
                 .Insert([new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)])
                 .Insert([
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 3), // x3 for regular
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 4), // x4 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)]);
         }
         catch (Exception ex)
@@ -61,8 +70,37 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
             return null;
         }
 
+        try
+        {
+            helper
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Ldloc_0)
+                ])
+                .Move()
+                .RemoveUntil([
+                    new CodeInstruction(OpCodes.Call, typeof(Utility).RequireMethod(nameof(Utility.getAnimal)))
+                ])
+                .Insert([
+                    new CodeInstruction(OpCodes.Call, typeof(QuestionEventSetUpPatcher).RequireMethod(nameof(SelectPregnantAnimal)))
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed improving pregnancy animal selection.\nHelper returned {ex}");
+            return null;
+        }
+
         return helper.Flush();
     }
 
     #endregion harmony patches
+
+    #region injected
+
+    private static FarmAnimal SelectPregnantAnimal(AnimalHouse house)
+    {
+        return house.Animals.Values.Where(a => a.CanHavePregnancy()).Choose(Game1.random)!;
+    }
+
+    #endregion injected
 }

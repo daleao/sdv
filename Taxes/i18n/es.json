@@ -1,0 +1,76 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  // mail
+  "mail.frs.intro": "Ministerio de Hacienda^Agencia Tributaria de Ferngill^^^{{honorific}} Contribuyente,^^Le comunicamos que el cambio de domicilio a Pueblo Pelícano, Valle de la Estrella, ha sido tramitado y registrado. Toda correspondencia futura será dirigida a la granja {{farm}}.^^Le recordamos amablemente que las contribuciones al impuesto federal sobre la renta deben abonarse antes del final del día 1 de cada estación. Para su comodidad, sus obligaciones tributarias serán deducidas automáticamente de su saldo. En caso de saldo insuficiente, se le impondrá una sanción conforme al artículo 501(c)(1) del Código Tributario de Ferngill por un importe de {{fine}}, y se emitirá un préstamo a su nombre con el Banco de Stardew, sujeto al tipo de interés nominal de {{interest}} anual.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Tributaria de Ferngill[#]Confirmación de cambio de domicilio",
+  "mail.frs.notice": "Ministerio de Hacienda^Agencia Tributaria de Ferngill^^^{{honorific}} Contribuyente,^^Le comunicamos que su impuesto sobre la renta total acumulado para la estación que concluye, por un importe de {{due}}g, será deducido automáticamente de su saldo {{when}}.^^Conserve esta carta en sus registros permanentes por si necesita resolver cualquier consulta sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Tributaria de Ferngill[#]Aviso mensual de la Agencia Tributaria",
+  "mail.frs.deduction": "Ministerio de Hacienda^Agencia Tributaria de Ferngill^^^{{honorific}} Contribuyente,^^Le comunicamos que su impuesto sobre la renta total acumulado para la estación que concluye asciende a {{accrued}}g. En virtud de sus recientes actividades medioambientales, tiene derecho a una deducción de {{deductible}} conforme al artículo 501(c)(3) del Código Tributario de Ferngill.^^Por tanto, su impuesto sobre la renta final a pagar, por importe de {{final}}g, será deducido automáticamente de su saldo {{when}}.^^Conserve esta carta en sus registros permanentes por si necesita resolver cualquier consulta sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Tributaria de Ferngill[#]Aviso de deducción de la Agencia Tributaria",
+  "mail.frs.deduction.max": "Ministerio de Hacienda^Agencia Tributaria de Ferngill^^^{{honorific}} Contribuyente,^^Le comunicamos que su impuesto sobre la renta total acumulado para la estación que concluye asciende a {{accrued}}g. En virtud de sus recientes actividades medioambientales, tiene derecho a la deducción íntegra de su impuesto federal sobre la renta conforme al artículo 501(c)(3) del Código Tributario de Ferngill. Por tanto, no se realizará ningún cargo en su saldo durante la estación actual.^^Conserve esta carta en sus registros permanentes por si necesita resolver cualquier consulta sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Tributaria de Ferngill[#]Aviso de deducción de la Agencia Tributaria",
+  "mail.frs.outstanding": "Ministerio de Hacienda^Agencia Tributaria de Ferngill^^^{{honorific}} Contribuyente,^^Le comunicamos que su impuesto sobre la renta total adeudado de la estación anterior, por importe de {{due}}g, no ha podido ser deducido íntegramente de su saldo. De conformidad con el artículo 501(c)(1) del Código Tributario de Ferngill, se le impondrá una sanción adicional de {{fine}} y todos los ingresos futuros de la granja {{farm}} serán retenidos hasta que su deuda pendiente, que asciende a {{outstanding}}g, quede completamente saldada. Le recomendamos liquidar cualquier deuda pendiente cuanto antes para evitar la acumulación de intereses al tipo de {{interest}} anual.^^Conserve esta carta en sus registros permanentes por si necesita resolver cualquier consulta sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Agencia Tributaria de Ferngill[#]Aviso mensual de la Agencia Tributaria",
+  "mail.lewis.intro": "@,^^^¡Bienvenido a Pueblo Pelícano! Espero que te estés instalando bien en tu nuevo hogar.^^Solo un pequeño aviso: como nuevo propietario de {{farm}}, ahora eres responsable del impuesto sobre bienes inmuebles de la granja. Cada año, el condado evaluará el valor de tus tierras y aplicará un porcentaje como impuesto. Bajo su regla de "valor de uso", las tierras sin uso suelen tributar *más* que las tierras en activo, así que mejor empieza a despejar esas malas hierbas y tocones.^^Tu difunto abuelo ya se encargó de todos los impuestos hasta el año pasado, así que no tienes de qué preocuparte hasta el año que viene. ¡No me preguntes cómo sabía exactamente el año en que ibas a mudarte!^^También te he enviado un paquete de bienvenida para ayudarte a empezar. ¡Tengo muchas ganas de ver todo lo que conseguirás!^^^  Atentamente, Sr. Lewis[#]Aviso de impuesto municipal sobre bienes inmuebles",
+  "mail.lewis.notice": "@,^^^Como ya sabes, una de mis obligaciones como alcalde de Pueblo Pelícano es recaudar los impuestos sobre todas las propiedades del pueblo. Durante el ejercicio fiscal anterior, la valoración catastral del condado sobre la granja {{farm}} determinó un valor de {{valuation}}g. Por ello, debes abonar {{due}}g en concepto de impuesto sobre bienes inmuebles para el período fiscal aplicable. Este importe se cargará en tu cuenta el día {{day}} de Primavera.^^En nombre de Pueblo Pelícano, te estoy muy agradecido por tus continuas aportaciones a nuestra comunidad.^^^  Atentamente, Sr. Lewis[#]Aviso de impuesto municipal sobre bienes inmuebles",
+  "mail.lewis.outstanding": "@,^^^Parece que tu cuenta no tenía fondos suficientes para cubrir la totalidad de tu impuesto sobre bienes inmuebles del período actual. Según la normativa del condado, con pesar te informo de que se te impondrá una sanción adicional de {{fine}} por demora. El importe pendiente de {{outstanding}}g será cedido al Banco de Stardew, que está autorizado a retener todos los ingresos por ventas hasta su pago íntegro, con un tipo de interés anual de {{interest}}.^^Sabe que los vecinos de Pueblo Pelícano estamos aquí para apoyarte si atraviesas momentos difíciles.^^  Atentamente, Sr. Lewis[#]Aviso de impuesto municipal sobre bienes inmuebles",
+
+  // other
+  "hud.tax.debit": "Se han deducido {{amount}}g de tu cuenta para el pago de impuestos.",
+  "hud.debt.debit": "Se han retenido {{amount}}g del envío de ayer para saldar deudas pendientes.",
+  "honorific.male": "Estimado",
+  "honorific.female": "Estimada",
+  "when.tonight": "esta noche",
+  "when.day": "el día {{day}} de la estación actual",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  // income
+  "gmcm.sections.txs.income": "IRPF",
+  "gmcm.tax_rate_per_income_bracket.title": "Tipos impositivos por tramo de renta",
+  "gmcm.tax_rate_per_income_bracket.desc": "Los tipos impositivos aplicados a cada tramo de renta. En cada par, el primer número representa el límite de ingresos del tramo y el segundo representa el porcentaje imponible de los ingresos dentro de ese tramo.",
+  "gmcm.income_bracket.title": "Tramo",
+  "gmcm.income_bracket.desc": "El límite de ingresos para este tramo. Todos los ingresos entre el tramo anterior y este número tributarán al tipo impositivo correspondiente.",
+  "gmcm.tax_rate.title": "Tipo impositivo",
+  "gmcm.tax_rate.desc": "El porcentaje imponible de los ingresos dentro de este tramo.",
+  "gmcm.deductible_animal_expenses.title": "Gastos deducibles por animales",
+  "gmcm.deductible_animal_expenses.desc": "El porcentaje del oro gastado en la compra de animales y suministros que puede deducirse fiscalmente.",
+  "gmcm.deductible_building_expenses.title": "Gastos deducibles por edificios",
+  "gmcm.deductible_building_expenses.desc": "El porcentaje del oro gastado en la construcción de edificios en la granja que puede deducirse fiscalmente.",
+  "gmcm.deductible_seed_expenses.title": "Gastos deducibles por semillas",
+  "gmcm.deductible_seed_expenses.desc": "El porcentaje del oro gastado en la compra de semillas que puede deducirse fiscalmente.",
+  "gmcm.deductible_tool_expenses.title": "Gastos deducibles por herramientas",
+  "gmcm.deductible_tool_expenses.desc": "El porcentaje del oro gastado en la compra y mejora de herramientas que puede deducirse fiscalmente.",
+  "gmcm.deductible_extras.title": "Otras deducciones",
+  "gmcm.deductible_extras.desc": "El porcentaje del oro gastado en el objeto concreto que puede deducirse fiscalmente. Los objetos deben añadirse manualmente a esta lista.",
+  "gmcm.deductible_extras.label.key": "Nombre del objeto",
+  "gmcm.deductible_extras.label.value": "% deducible",
+  "gmcm.income_tax_day.title": "Fecha de vencimiento",
+  "gmcm.income_tax_day.desc": "El día de la estación en que se cobra el impuesto sobre la renta.",
+  "gmcm.income_tax_lateness_fine.title": "Recargo por demora",
+  "gmcm.income_tax_lateness_fine.desc": "Un recargo único aplicado sobre el importe no pagado cuando el impuesto sobre la renta no se abona a tiempo.",
+
+  // property
+  "gmcm.sections.txs.property": "IBI",
+  "gmcm.baseline_unused_tile_cost.title": "Coste base por parcela sin uso",
+  "gmcm.baseline_unused_tile_cost.desc": "El coste base en oro de las parcelas sin uso.",
+  "gmcm.unused_tile_tax_rate.title": "Tipo sobre parcelas sin uso",
+  "gmcm.unused_tile_tax_rate.desc": "El tipo impositivo aplicado a una parcela que no se usa activamente para fines productivos.",
+  "gmcm.used_tile_tax_rate.title": "Tipo sobre parcelas en uso",
+  "gmcm.used_tile_tax_rate.desc": "El tipo impositivo aplicado a una parcela usada activamente para agricultura, ganadería o silvicultura.",
+  "gmcm.building_tax_rate.title": "Tipo sobre parcelas edificadas",
+  "gmcm.building_tax_rate.desc": "El tipo impositivo aplicado a una parcela ocupada por un edificio construido (los edificios mágicos están exentos si se activa la opción de abajo).",
+  "gmcm.exempt_magical_buildings.title": "Eximir edificios mágicos",
+  "gmcm.exempt_magical_buildings.desc": "Si los edificios mágicos (es decir, los invocados en la Torre del Mago) están exentos del impuesto sobre bienes inmuebles.",
+  "gmcm.property_tax_day.title": "Fecha de vencimiento",
+  "gmcm.property_tax_day.desc": "El día de la estación en que se cobra el impuesto sobre bienes inmuebles.",
+  "gmcm.property_tax_lateness_fine.title": "Recargo por demora",
+  "gmcm.property_tax_lateness_fine.desc": "Un recargo único aplicado sobre el importe no pagado cuando el impuesto sobre bienes inmuebles no se abona a tiempo.",
+
+  // other
+  "gmcm.annual_interest.title": "Interés anual",
+  "gmcm.annual_interest.desc": "El tipo de interés aplicado anualmente sobre cualquier deuda pendiente. Los intereses se acumulan diariamente a un tipo de 1/112 del tipo anual.",
+  "gmcm.default_artisan_value_crop_multiplier.title": "Multiplicador de valor artesanal para cultivos",
+  "gmcm.default_artisan_value_crop_multiplier.desc": "El multiplicador usado para estimar el valor de los productos artesanales derivados de los cultivos.",
+  "gmcm.default_artisan_value_produce_multiplier.title": "Multiplicador de valor artesanal para productos animales",
+  "gmcm.default_artisan_value_produce_multiplier.desc": "El multiplicador usado para estimar el valor de los productos artesanales derivados de productos animales."
+}

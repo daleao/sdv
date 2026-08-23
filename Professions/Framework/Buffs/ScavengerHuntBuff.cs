@@ -10,10 +10,10 @@ internal sealed class ScavengerHuntBuff : Buff
             id: ID,
             source: "Scavenger Hunt",
             displaySource: _I18n.Get("scavenger.title" + (Game1.player.IsMale ? ".male" : ".female")),
-            duration: Config.ScavengerHuntTimeLimit * 1000,
+            duration: State.ScavengerHunt!.TimeLimit * 1000,
             iconTexture: Game1.mouseCursors,
             iconSheetIndex: SHEET_INDEX,
-            description: I18n.Prospector_HuntStarted())
+            description: I18n.Scavenger_HuntStarted())
     {
     }
 }

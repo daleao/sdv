@@ -243,7 +243,7 @@ internal sealed class PipedSlime : IDisposable
                                      currentLocation.Name.ContainsAnyOf("Mine", "SkullCave");
                 if (!inDangerZone && currentLocation.IsOutdoors)
                 {
-                    slime.Set_Piped(null, PipingSource.None);
+                    slime.Unpipe();
                 }
             }
             else if (!TheHatSlimeIsUponUs)
@@ -624,7 +624,7 @@ internal sealed class PipedSlime : IDisposable
 
         slime.Health = 0;
         slime.deathAnimation();
-        slime.Set_Piped(null, PipingSource.None);
+        slime.Unpipe();
     }
 
     /// <summary>Reset to original stats.</summary>

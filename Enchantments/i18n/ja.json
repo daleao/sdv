@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "破甲",
+  "enchantments.cleaving.name": "斬撃",
+  "enchantments.energized.name": "帯電",
+  "enchantments.energized.desc": "蓄積エネルギー: {{counter}}",
+  "enchantments.explosive.name": "爆裂",
+  "enchantments.explosive.desc": "爆発範囲: {{counter}}",
+  "enchantments.mammonite.name": "マモン",
+  "enchantments.stabbing.name": "無謀",
+  "enchantments.sunburst.name": "陽炎",
+  "enchantments.vampiric.name": "吸血",
+  "enchantments.wabbajack.name": "ワッバジャック",
+
+  "enchantments.chilling.name": "凍牙",
+  "enchantments.quincy.name": "クインシー",
+  "enchantments.echo.name": "残響",
+
+  "enchantments.sharp.name": "鋭利",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "宝石ソケットのスタイル",
+  "gmcm.gemstone_socket_style.desc": "武器ツールチップの汎用「鍛造済み」テキストを、様々なスタイルの宝石ソケットアイコンに置き換えます。",
+  "gmcm.socket_style.diamond": "ダイヤモンド",
+  "gmcm.socket_style.round": "ラウンド",
+  "gmcm.socket_style.iridium": "イリジウム",
+  "gmcm.gemstone_socket_position.title": "宝石ソケットの位置",
+  "gmcm.gemstone_socket_position.desc": "有効な場合に宝石ソケットを描画する相対位置を決定します。",
+  "gmcm.socket_position.standard": "標準",
+  "gmcm.socket_position.above_separator": "セパレーターの上"
+}

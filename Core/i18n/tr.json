@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Hayvan Yemi",
+    "hay.desc": "Çiftlik hayvanlarını beslemek için kullanılan kurutulmuş ot, yem bitkisi ve ekin karışımı.",
+    "buildings.added_hay": "Siloya {0} porsiyon hayvan yemi eklendi.",
+
+    "ui.buffs.burnt.damage": "-%50 Hasar",
+    "ui.buffs.burnt.dot": "Her 3 saniyede -{{amount}} can",
+    "ui.buffs.frozen.stuck": "Hareket edemiyor",
+    "ui.buffs.frozen.vulnerable": "Bir sonraki saldırıya karşı savunmasız",
+    "ui.buffs.jinxed.defense": "-%50 Savunma",
+    "ui.buffs.jinxed.special": "Özel hareketleri kullanamıyor",
+    "ui.buffs.confused.name": "Yönünü Yitirmiş",
+    "ui.buffs.confused.desc": "Hareket yönü tersine dönmüş.",
+    "ui.buffs.warrior.attack": "+{{value}} Saldırı",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Ekin Solma İhtimali",
+    "gmcm.crop_wither_chance.desc": "Herhangi bir ekinin sulanmadığı takdirde her gün solma yüzde ihtimali.",
+    "gmcm.two_way_hoppers.title": "Çift Yönlü Huniler",
+    "gmcm.two_way_hoppers.desc": "Hunilerin makinelerden tamamlanmış çıktıları almasına izin verir.",
+    "gmcm.winter_wheat.title": "Kışlık Buğday",
+    "gmcm.winter_wheat.desc": "Buğdayın kış boyunca dinlenme halinde kalmasına izin verir.",
+    "gmcm.immersive_hay.title": "Gerçekçi Saman",
+    "gmcm.immersive_hay.desc": "Olgunlaşmış buğdaydan saman hasadını kaldırır, ancak olgunlaşmamış buğdaydan %100 ihtimalle saman hasat edilmesine izin verir.",
+    "gmcm.consistent_farmer_debuffs.title": "Tutarlı Çiftçi Debuffları",
+    "gmcm.consistent_farmer_debuffs.desc": "Çiftçi debufflarını bu modun sağladığı durum koşullarıyla birleştirir."
+}

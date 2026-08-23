@@ -80,13 +80,6 @@ public sealed class EnchantmentsMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<EnchantmentsConfig>();
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Data = new ModDataManager(UniqueId, Log);
-        PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
-            .ManageInitial(assembly, "DaLion.Enchantments.Framework.Events");
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Enchantments.Framework.Patchers",
@@ -100,6 +93,13 @@ public sealed class EnchantmentsMod : Mod
             Log,
             UniqueId,
             "ench");
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<EnchantmentsConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
+        PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+            .ManageInitial(assembly, "DaLion.Enchantments.Framework.Events");
         this.ValidateMultiplayer();
     }
 }

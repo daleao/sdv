@@ -69,12 +69,6 @@ public sealed class TaxesMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<TaxesConfig>();
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Data = new ModDataManager(UniqueId, Log);
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
-            .ManageInitial(assembly, "DaLion.Taxes.Framework.Events");
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Taxes.Framework.Patchers",
@@ -88,6 +82,13 @@ public sealed class TaxesMod : Mod
             Log,
             UniqueId,
             "txs");
+        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+            .ManageInitial(assembly, "DaLion.Taxes.Framework.Events");
+
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<TaxesConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
         this.ValidateMultiplayer();
     }
 

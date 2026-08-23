@@ -36,13 +36,13 @@ internal sealed class SpelunkerButtonDoublePressedEvent : ButtonDoublePressedEve
             return;
         }
 
-        if (State.SpelunkerLadderStreak < 10)
+        if (State.SpelunkerLadderStreak < 20)
         {
             Game1.playSound("cancel");
             return;
         }
 
-        var recovered = State.SpelunkerLadderStreak * 2;
+        var recovered = State.SpelunkerLadderStreak;
         player.Stamina = Math.Min(player.Stamina + recovered, player.MaxStamina);
         player.currentLocation.debris.Add(new Debris(
             recovered,

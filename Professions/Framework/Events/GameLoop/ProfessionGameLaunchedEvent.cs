@@ -5,6 +5,8 @@
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
+using static StardewValley.Menus.CharacterCustomization;
+using CropCategory = DaLion.Core.Framework.CropCategory;
 
 #endregion using directives
 
@@ -26,5 +28,28 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
         }
 
         Lookups.MachineTreatments.AddRange(ModHelper.GameContent.Load<Dictionary<string, MachineTreatmentRules>>($"{UniqueId}_MachineTreatments"));
+
+        var cropCategories = ModHelper.GameContent.Load<Dictionary<string, HashSet<string>>>($"{UniqueId}_CropCategories");
+        Lookups.CropsByCategory[CropCategory.Grains] = cropCategories["GrainsCategory"];
+        Lookups.CropsByCategory[CropCategory.LeafyGreens] = cropCategories["LeafyGreensCategory"];
+        Lookups.CropsByCategory[CropCategory.Legumes] = cropCategories["LegumesCategory"];
+        Lookups.CropsByCategory[CropCategory.Roots] = cropCategories["RootsCategory"];
+        Lookups.CropsByCategory[CropCategory.Tubers] = cropCategories["TubersCategory"];
+        Lookups.CropsByCategory[CropCategory.Gourds] = cropCategories["GourdsCategory"];
+
+        var inverted = Lookups.CropsByCategory
+            .SelectMany(pair => pair.Value.Select(value => new { value, key = pair.Key }))
+            .ToDictionary(x => x.value, x => x.key);
+        Lookups.CategoryByCrop.AddRange(inverted);
+
+        var favoredFeedsData = ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalFavoredFeeds");
+        Lookups.AnimalFavoredFeeds.AddRange(favoredFeedsData.ToDictionary(
+            pair => pair.Key,
+            pair => pair.Value
+                .Select(value => Enum.Parse<CropCategory>(value, ignoreCase: true))
+                .ToHashSet()));
+
+        var reproductiveTypesData = ModHelper.GameContent.Load<Dictionary<string, string[]>>($"{UniqueId}_AnimalReproductiveTypes");
+        Lookups.AnimalReproductiveTypes = new(reproductiveTypesData["Mammals"], reproductiveTypesData["EggLayers"]);
     }
 }

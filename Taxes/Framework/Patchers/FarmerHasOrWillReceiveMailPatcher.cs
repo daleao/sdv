@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Taxes.Framework.Patchers;
 
+using DaLion.Shared.Extensions;
+
 #region using directives
 
 using DaLion.Shared.Harmony;
@@ -26,7 +28,8 @@ internal sealed class FarmerHasOrWillReceiveMailPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static bool FarmerHasOrWillReceiveMailPrefix(ref bool __result, string id)
     {
-        if (!id.Contains(UniqueId))
+        if (!id.StartsWith(UniqueId) ||
+            id.ContainsAnyOf(Mail.FrsIntro.ToString(), Mail.LewisIntro.ToString()))
         {
             return true; // run original logic
         }

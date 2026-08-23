@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "ガーネット",
+  "objects.garnet.desc": "遠い国の美しい姫の名を冠した宝石。",
+  "rings.garnet.name": "ガーネットリング",
+  "rings.garnet.desc": "ガーネットをあしらった金のリング。特殊攻撃のクールダウンを10%短縮する。",
+  "rings.infinity.name": "インフィニティバンド",
+  "rings.infinity.desc": "大いなる力の器。",
+
+  "rings.amethyst.prefix": "アメジストをあしらった銅のリング。",
+  "rings.topaz.prefix": "トパーズをあしらった銅のリング。",
+  "rings.aquamarine.prefix": "アクアマリンをあしらった銀のリング。",
+  "rings.jade.prefix": "翡翠をあしらった銀のリング。",
+  "rings.emerald.prefix": "エメラルドをあしらった金のリング。",
+  "rings.ruby.prefix": "ルビーをあしらった金のリング。",
+  "rings.iridium.desc": "普通のイリジウムのバンド。",
+
+  "node.garnet.name": "ガーネット鉱脈",
+  "node.garnet.desc": "石の中に封じられたガーネットの塊。",
+
+  "ui.resonance": "共鳴",
+  "ui.ruby": "ルビー",
+  "ui.aquamarine": "アクアマリン",
+  "ui.jade": "翡翠",
+  "ui.emerald": "エメラルド",
+  "ui.amethyst": "アメジスト",
+  "ui.topaz": "トパーズ",
+  "ui.garnet": "ガーネット",
+  "ui.item_hover.damage": "{{amount}} ダメージ",
+  "ui.item_hover.c_rate": "{{amount}} 会心率",
+  "ui.item_hover.c_pow": "{{amount}} 会心力",
+  "ui.item_hover.knockback": "{{amount}} ノックバック",
+  "ui.item_hover.attack_speed": "{{amount}} 攻撃速度",
+  "ui.item_hover.cdr": "{{amount}} クールダウン",
+  "ui.item_hover.resist": "{{amount}} 防御",
+  "ui.item_hover.light": "光を放つ",
+  "ui.item_hover.magnetic": "磁気",
+
+  "dialogue.emily.gemstones.first": "宝石を本当に感じたことはある？トパーズが魂に溶け込む感じとか、ルビーが心に火をつける感じとか。#$b#宝石って私たちのエネルギーと共鳴するすごい力があるの。まるで自然が生み出した感情のパレットみたい。",
+  "dialogue.emily.gemstones.second": "一度、たくさんの宝石を一つのリングに詰め込んで、全部と同時に共鳴しようとしたことがあって。#$b#でもずっと壊れちゃうの！クリントが言うには、普通の金属は重なり合う振動に耐えられないんだって。だから今は毎日違う宝石を身につけてるの！",
+
+  "global.infinitycraft": "{{someone}}がインフィニティバンドを鍛造した。",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "宝石リングのクラフト",
+  "gmcm.craftable_gemstone_rings.desc": "宝石リングを作るための新しい戦闘レシピを追加します。",
+  "gmcm.audible_gemstones.title": "宝石の音を有効にする",
+  "gmcm.audible_gemstones.desc": "宝石の周波数が聞こえるようにするかどうか。",
+  "gmcm.chord_sound_duration.title": "コード音の持続時間",
+  "gmcm.chord_sound_duration.desc": "コード音のキューの持続時間（ミリ秒単位）。",
+  "gmcm.colorful_resonances.title": "カラフルな共鳴",
+  "gmcm.colorful_resonances.desc": "共鳴の輝きがルートノートの色を継承するかどうか。",
+  "gmcm.resonance_lightsource_texture.title": "共鳴光源テクスチャ",
+  "gmcm.resonance_lightsource_texture.desc": "共鳴光源に使用されるテクスチャ。",
+  "gmcm.lightsource_texture.sconce": "ウォールランプ",
+  "gmcm.lightsource_texture.stronger": "強め",
+  "gmcm.lightsource_texture.patterned": "模様入り"
+}

@@ -28,9 +28,9 @@ internal sealed class MachineTreatmentRulesConverter : JsonConverter<MachineTrea
                 : MachineTreatmentCategory.None;
 
         Dictionary<string, MachineTreatmentCategory> overrides = [];
-        foreach ((string key, var value) in obj)
+        foreach ((var key, var value) in obj)
         {
-            if (key.Equals("default", StringComparison.OrdinalIgnoreCase))
+            if (key.Equals("default", StringComparison.OrdinalIgnoreCase) || value is null)
             {
                 continue;
             }

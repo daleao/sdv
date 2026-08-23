@@ -39,52 +39,29 @@ public static class PointExtensions
         return new Vector2(self.X + ((other.X - self.X) / 2f), self.Y + ((other.Y - self.Y) / 2f));
     }
 
-    /// <summary>Draws a border of specified height and width starting at the <paramref name="point"/>.</summary>
-    /// <param name="point">The <see cref="Point"/>.</param>
-    /// <param name="height">The height of the border.</param>
-    /// <param name="width">The width of the border.</param>
-    /// <param name="pixel">The border pixel texture.</param>
-    /// <param name="thickness">The border thickness.</param>
-    /// <param name="color">The border <see cref="Color"/>.</param>
-    /// <param name="batch">A <see cref="SpriteBatch"/> to draw to.</param>
-    public static void DrawBorder(
-        this Point point, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch batch)
+    /// <summary>Checks whether two vectors are adjacent with respect to the chosen <paramref name="metric"/>.</summary>
+    /// <param name="self">The <see cref="Point"/>.</param>
+    /// <param name="other">Some other <see cref="Point"/>.</param>
+    /// <param name="metric">Either "chessboard" or "manhattan".</param>
+    /// <returns><see langword="true"/> if <paramref name="self"/> and <paramref name="other"/> are adjacent with respect to the chosen <paramref name="metric"/>, otherwise <see langword="false"/>.</returns>
+    public static bool IsAdjacentTo(this Point self, Point other, string metric = "chessboard")
     {
-        var (x, y) = point;
-        batch.Draw(pixel, new Rectangle(x, y, width, thickness), color); // top line
-        batch.Draw(pixel, new Rectangle(x, y, thickness, height), color); // left line
-        batch.Draw(pixel, new Rectangle(x + width - thickness, y, thickness, height), color); // right line
-        batch.Draw(pixel, new Rectangle(x, y + height - thickness, width, thickness), color); // bottom line
-    }
-
-    /// <summary>Draws a border of specified height and width starting at the <paramref name="point"/>.</summary>
-    /// <param name="point">The <see cref="Point"/>.</param>
-    /// <param name="height">The height of the border.</param>
-    /// <param name="width">The width of the border.</param>
-    /// <param name="pixel">The border pixel texture.</param>
-    /// <param name="thickness">The border thickness.</param>
-    /// <param name="color">The border <see cref="Color"/>.</param>
-    /// <param name="batch">A <see cref="SpriteBatch"/> to draw to.</param>
-    /// <param name="offset">An offset that should be applied to the point's position.</param>
-    public static void DrawBorder(
-        this Point point, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch batch, Vector2 offset)
-    {
-        var (x, y) = point + offset.ToPoint();
-        batch.Draw(pixel, new Rectangle(x, y, width, thickness), color); // top line
-        batch.Draw(pixel, new Rectangle(x, y, thickness, height), color); // left line
-        batch.Draw(pixel, new Rectangle(x + width - thickness, y, thickness, height), color); // right line
-        batch.Draw(pixel, new Rectangle(x, y + height - thickness, width, thickness), color); // bottom line
+        return metric == "chessboard"
+            ? self.ChessboardDistance(other) == 1
+            : metric == "manhattan"
+                ? self.ManhattanDistance(other) == 1
+                : false;
     }
 
     /// <summary>Gets the 4-connected neighboring points in a given region.</summary>
-    /// <param name="point">The center <see cref="Point"/>.</param>
+    /// <param name="tile">The center <see cref="Point"/>.</param>
     /// <param name="width">The width of the entire region.</param>
     /// <param name="height">The height of the entire region.</param>
-    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="point"/>.</returns>
+    /// <returns>A <see cref="IEnumerable{T}"/> of the four-connected neighbors of the <paramref name="tile"/>.</returns>
     [SuppressMessage("StyleCop.CSharp.LayoutRules", "SA1503:Braces should not be omitted", Justification = "Conciseness")]
-    public static IEnumerable<Point> GetFourNeighbors(this Point point, int width, int height)
+    public static IEnumerable<Point> GetFourNeighbors(this Point tile, int width, int height)
     {
-        var (x, y) = point;
+        var (x, y) = tile;
         if (x > 0) yield return new Point(x - 1, y);
         if (y > 0) yield return new Point(x, y - 1);
         if (x < width - 1 ) yield return new Point(x + 1, y);
@@ -207,5 +184,42 @@ public static class PointExtensions
         }
 
         return flooded;
+    }
+
+    /// <summary>Draws a border of specified height and width starting at the <paramref name="point"/>.</summary>
+    /// <param name="point">The <see cref="Point"/>.</param>
+    /// <param name="height">The height of the border.</param>
+    /// <param name="width">The width of the border.</param>
+    /// <param name="pixel">The border pixel texture.</param>
+    /// <param name="thickness">The border thickness.</param>
+    /// <param name="color">The border <see cref="Color"/>.</param>
+    /// <param name="batch">A <see cref="SpriteBatch"/> to draw to.</param>
+    public static void DrawBorder(
+        this Point point, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch batch)
+    {
+        var (x, y) = point;
+        batch.Draw(pixel, new Rectangle(x, y, width, thickness), color); // top line
+        batch.Draw(pixel, new Rectangle(x, y, thickness, height), color); // left line
+        batch.Draw(pixel, new Rectangle(x + width - thickness, y, thickness, height), color); // right line
+        batch.Draw(pixel, new Rectangle(x, y + height - thickness, width, thickness), color); // bottom line
+    }
+
+    /// <summary>Draws a border of specified height and width starting at the <paramref name="point"/>.</summary>
+    /// <param name="point">The <see cref="Point"/>.</param>
+    /// <param name="height">The height of the border.</param>
+    /// <param name="width">The width of the border.</param>
+    /// <param name="pixel">The border pixel texture.</param>
+    /// <param name="thickness">The border thickness.</param>
+    /// <param name="color">The border <see cref="Color"/>.</param>
+    /// <param name="batch">A <see cref="SpriteBatch"/> to draw to.</param>
+    /// <param name="offset">An offset that should be applied to the point's position.</param>
+    public static void DrawBorder(
+        this Point point, int height, int width, Texture2D pixel, int thickness, Color color, SpriteBatch batch, Vector2 offset)
+    {
+        var (x, y) = point + offset.ToPoint();
+        batch.Draw(pixel, new Rectangle(x, y, width, thickness), color); // top line
+        batch.Draw(pixel, new Rectangle(x, y, thickness, height), color); // left line
+        batch.Draw(pixel, new Rectangle(x + width - thickness, y, thickness, height), color); // right line
+        batch.Draw(pixel, new Rectangle(x, y + height - thickness, width, thickness), color); // bottom line
     }
 }

@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Vésett",
+  "enchantments.cleaving.name": "Hasító",
+  "enchantments.energized.name": "Feltöltött",
+  "enchantments.energized.desc": "Felhalmozott energia: {{counter}}",
+  "enchantments.explosive.name": "Robbanékony",
+  "enchantments.explosive.desc": "Robbanási sugár: {{counter}}",
+  "enchantments.mammonite.name": "Mammon",
+  "enchantments.stabbing.name": "Vakmerő",
+  "enchantments.sunburst.name": "Ragyogó",
+  "enchantments.vampiric.name": "Vérszomjas",
+  "enchantments.wabbajack.name": "Wabbajack",
+
+  "enchantments.chilling.name": "Fagyasztó",
+  "enchantments.quincy.name": "Quincy",
+  "enchantments.echo.name": "Visszhangzó",
+
+  "enchantments.sharp.name": "Éles",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Drágakő foglalatának stílusa",
+  "gmcm.gemstone_socket_style.desc": "Lecseréli az általános \"Kovácsolt\" szöveget a fegyverek eszköztippjeiben különböző stílusú drágakőfoglalat ikonokra.",
+  "gmcm.socket_style.diamond": "Gyémánt",
+  "gmcm.socket_style.round": "Kerek",
+  "gmcm.socket_style.iridium": "Irídium",
+  "gmcm.gemstone_socket_position.title": "Drágakő foglalatának pozíciója",
+  "gmcm.gemstone_socket_position.desc": "Meghatározza a drágakőfoglalatok relatív pozícióját, ha engedélyezett.",
+  "gmcm.socket_position.standard": "Normál",
+  "gmcm.socket_position.above_separator": "Elválasztó felett"
+}

@@ -1,5 +1,20 @@
 ﻿# COMBAT Changelog
 
+## 1.2.1
+
+### Added
+
+* Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+### Changed
+
+* Crits now ignore only 1 point of defense, plus 1 for every 100% crit power, instead of always ignoring all defense.
+
+### Fixed
+
+* Slight optimization by reducing console spamming.
+* Fixed missing translation keys.
+
 ## 1.2.0
 
 ### Added

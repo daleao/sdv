@@ -2,14 +2,13 @@
 
 #region using directives
 
-using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using StardewValley.GameData.FarmAnimals;
 
 #endregion using directives
 
@@ -27,35 +26,52 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Patch to apply Producer production frequency bonus at max happiness.</summary>
+    /// <summary>Patch to apply Producer production frequency bonus at max nutrition.</summary>
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static void FarmAnimalDayUpdatePrefix(FarmAnimal __instance)
+    {
+        if (!__instance.GetOwner().HasProfessionOrLax(Profession.Producer))
+        {
+            return;
+        }
+
+        var nutrition = Data.ReadAs<int>(__instance, DataKeys.ShortTermNutrition);
+        if (nutrition < 100)
+        {
+            return;
+        }
+
+        __instance.daysSinceLastLay.Value++;
+        if (__instance.GetOwner().HasProfession(Profession.Producer, true) && nutrition >= 200)
+        {
+            __instance.daysSinceLastLay.Value += 2;
+        }
+    }
+
     [HarmonyTranspiler]
     [UsedImplicitly]
     private static IEnumerable<CodeInstruction>? FarmAnimalDayUpdateTranspiler(
-        IEnumerable<CodeInstruction> instructions, MethodBase original)
+        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
 
         try
         {
             helper
-                .PatternMatch(
-                    [
-                        new CodeInstruction(OpCodes.Stloc_2),
-                    ],
-                    nth: 2)
-                .Move(-2)
-                .Remove(2)
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Stloc_S, helper.Locals[18])
+                ])
+                .Move()
                 .Insert([
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_0),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(FarmAnimalDayUpdatePatcher).RequireMethod(nameof(ApplyProducerProductionSpeedBonus)))
+                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[18]),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmAnimalDayUpdatePatcher).RequireMethod(nameof(InheritPotential))),
                 ]);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed patching animal production speed bonus for Producer.\nHelper returned {ex}");
+            Log.E($"Failed injecting dodge chance.\nHelper returned {ex}");
             return null;
         }
 
@@ -66,13 +82,32 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 
     #region injected
 
-    private static int ApplyProducerProductionSpeedBonus(int produceSpeedBonus, FarmAnimal animal, FarmAnimalData data)
+    private static void InheritPotential(FarmAnimal chicken, SObject egg)
     {
-        return animal.happiness.Value < 200
-            ? produceSpeedBonus
-            : animal.GetOwner().HasProfessionOrLax(Profession.FromValue(data.ProfessionForFasterProduce), true)
-                ? produceSpeedBonus + (int)Math.Ceiling(data.DaysToProduce * (2f / 3f))
-                : produceSpeedBonus + (int)Math.Ceiling(data.DaysToProduce / 2f);
+        if (!chicken.DoesOwnerHaveProfessionOrLax(Profession.Breeder) ||
+            !chicken.type.Value.ContainsAnyOf(Lookups.AnimalReproductiveTypes.EggLayers))
+        {
+            return;
+        }
+
+        var parentInheritedPotential = Data.ReadAs<double>(chicken, DataKeys.InheritedPotential);
+        var parentLongTermNutrition = Data.ReadAs<double>(chicken, DataKeys.LongTermNutrition);
+        double inheritanceRate;
+        int eggInheritedPotential;
+        if (parentInheritedPotential < 5000d || !chicken.DoesOwnerHaveProfessionOrLax(Profession.Breeder, true))
+        {
+            inheritanceRate = Math.Max(Random.Shared.NextGaussian(1d, 0.1), 0d);
+            eggInheritedPotential = (int)(parentInheritedPotential + (parentLongTermNutrition * inheritanceRate));
+        }
+        else
+        {
+            var alpha = 0.1 * Math.Pow(parentLongTermNutrition / 1000d, 2d);
+            inheritanceRate = Math.Max(Random.Shared.NextGaussianSkewed(1d, 0.1, alpha), 0d);
+            eggInheritedPotential = (int)(parentInheritedPotential * inheritanceRate);
+        }
+
+        Data.Write(egg, DataKeys.InheritedPotential, eggInheritedPotential.ToString());
+        Data.Increment(chicken, DataKeys.EggsLaid);
     }
 
     #endregion injected

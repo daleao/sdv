@@ -1,0 +1,32 @@
+{
+    "$schema": "https://smapi.io/schemas/i18n.json",
+
+    "hay.name": "Mangime",
+    "hay.desc": "Un misto di erba essiccata, foraggio e colture usato per nutrire gli animali della fattoria.",
+    "buildings.added_hay": "Aggiunte {0} porzione/i di mangime al silo.",
+
+    "ui.buffs.burnt.damage": "-50% Danno",
+    "ui.buffs.burnt.dot": "-{{amount}} punti vita ogni 3 secondi",
+    "ui.buffs.frozen.stuck": "Non può muoversi",
+    "ui.buffs.frozen.vulnerable": "Vulnerabile al prossimo attacco",
+    "ui.buffs.jinxed.defense": "-50% Difesa",
+    "ui.buffs.jinxed.special": "Non può usare mosse speciali",
+    "ui.buffs.confused.name": "Disorientato",
+    "ui.buffs.confused.desc": "Il movimento è invertito.",
+    "ui.buffs.warrior.attack": "+{{value}} Attacco",
+
+    /************
+     *** GMCM ***
+     ************/
+
+    "gmcm.crop_wither_chance.title": "Probabilità di appassimento",
+    "gmcm.crop_wither_chance.desc": "La percentuale di probabilità che una qualsiasi coltura appassisca ogni giorno se non viene annaffiata.",
+    "gmcm.two_way_hoppers.title": "Tramogge bidirezionali",
+    "gmcm.two_way_hoppers.desc": "Consente alle tramogge di recuperare i prodotti finiti dalle macchine.",
+    "gmcm.winter_wheat.title": "Grano invernale",
+    "gmcm.winter_wheat.desc": "Consente al grano di rimanere in dormienza durante l'inverno.",
+    "gmcm.immersive_hay.title": "Fieno immersivo",
+    "gmcm.immersive_hay.desc": "Rimuove il fieno raccolto dal grano maturo, ma permette di raccogliere fieno dal grano immaturo con il 100% di probabilità.",
+    "gmcm.consistent_farmer_debuffs.title": "Debuff coerenti del contadino",
+    "gmcm.consistent_farmer_debuffs.desc": "Consolida i debuff del contadino con le condizioni di stato fornite da questo mod."
+}

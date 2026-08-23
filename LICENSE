@@ -1,48 +1,143 @@
 DaLion Mod Series for Stardew Valley
-Non-Commercial Mod License
-Version 1.1
-Date: January 23rd, 2025
+Source-Available Mod License
+Version 2.0
+Date: June 20th, 2026
+
+Copyright (c) 2026 DaLion / VonLoewe / Arleo
 
 Terms and Conditions:
 
-1. Grant of License:
-   Subject to the terms and conditions of this License, DaLion ("Licensor") grants you ("Licensee") a limited, non-exclusive, non-transferable license to create and distribute derivative works based on the source code of the Mod Series for Stardew Valley ("the Mods").
+0. Definitions
 
-2. Copyleft Provision:
-   Any derivative works based on the Mods' source code must be licensed under the same terms and conditions as this License. This includes the prohibition on redistribution and commercial use.
-   
-   A derivative work may include, but is not limited to, modifications, adaptations, translations, or additions to the source code. It does not extend to independent software projects that merely interact with the Mods, either via direct patching or provided APIs.
-      
-   Any derivative works must include an attribution notice referencing the original Mods, including the Licensor's username or handle, and a link to the original repository or platform. Attribution shall be made in a README file or front page in the case of a derivative work.
-   
-   All files and content found within the Shared project are exempt from this clause.
+	"Collection" means the Stardew Valley Mod Collection repository in which this License is published, including all source code, assets, projects, and content contained therein, except the Shared project.
 
-3. Prohibited Activities:
-   a. Redistribution: Licensee is expressly prohibited from publicly redistributing, sharing, or otherwise making the Mods' compiled binaries, including modified versions, available to third parties in any form, whether for free or for commercial gain, outside of the platforms listed below:
-		- [NexusMods](https://nexusmods.com)
-        - [Stardew Valley Discord](https://discord.com/invite/stardewvalley)
-		- [GitHub](https://github.com)
+	"Shared" means the project named Shared contained within the Collection repository. Shared is not governed by this License and is instead licensed separately under the MIT License.
+
+	"Licensor" means the copyright holder of the Collection.
+
+	"Licensee" means any person or entity exercising rights granted under this License.
+
+	"Source Code" means the human-readable form of software contained in the Collection.
+
+	"Binary" means any compiled, packaged, built, executable, or otherwise machine-readable form of the Collection or any derivative work thereof.
+
+	"Derivative Work" means any work based upon, incorporating, modifying, adapting, translating, extending, or otherwise deriving from Source Code governed by this License.
+
+1. Grant of Rights
+
+	Subject to the terms of this License, the Licensor grants Licensee a worldwide, non-exclusive, revocable, non-transferable license to:
+
+		a. Access, view, and study the Source Code.
+		b. Create private or public forks of the Source Code.
+		c. Modify the Source Code and create Derivative Works.
+		d. Redistribute Source Code and Derivative Works in source form.
+		e. Submit contributions to the Collection.
+
+	No rights are granted to publicly distribute Binaries except as expressly provided in this License.
+
+2. Copyleft Requirement
+
+	Any Derivative Work distributed in source form must:
+
+		a. Be licensed under this License.
+		b. Include a complete copy of this License.
+		c. Preserve existing copyright notices.
+		d. Provide attribution to the original Collection in a README file or equivalent prominent location. Such attribution must include:
 		
-   b. Commercial Use: Licensee is expressly prohibited from using the Mod's source code or any derivative work created based on it for any commercial purposes, including, but not limited to, selling, licensing, hosting on monetized, ad or donation-enabled webpage, or otherwise generating revenue from it.
+			i. The name of the original Collection.
+			ii. At least one of the following identifiers: DaLion, VonLoewe, or Arleo.
+			iii. A link to the original repository.
 
-4. Acceptable Use:
-   a. Derivatives: Licensee may create and distribute derivative works based on the Mods' source code, provided such derivatives are used for non-commercial purposes, are not themselves redistributed, and are hosted on a public Git repository.
-   
-5. Disclaimer:
-   The Mods are provided "as is," without warranty of any kind. The Licensor shall not be liable for any direct, indirect, incidental, special, exemplary, or consequential damages, including but not limited to damages for loss of profits, goodwill, use, data, or other intangible losses.
+	The copyleft requirements of this Section apply only to Derivative Works.
 
-6. Termination:
-   This License is effective until terminated. Licensor may terminate this License at any time if Licensee breaches any of its terms. Upon termination, Licensee must immediately cease all use of the Mods and their source code and destroy any derivative works created.
+	The copyleft requirements do not apply to software that merely interacts with the Collection through documented APIs, Harmony patches, integrations, compatibility layers, extensions, dependencies, interoperability mechanisms, or similar means without incorporating Source Code governed by this License.
 
-7. Governing Law:
-   This License is governed by and construed in accordance with the laws of Brazil. Any disputes arising from this License shall be subject to the exclusive jurisdiction of the courts in Brazil.
-   
-   In the event of a breach of this License, the Licensor may take legal action to seek damages, injunctive relief, or any other remedy available under applicable law.
+3. Binary Distribution Restriction
 
-8. Rights Reserved:
-   Except as explicitly granted in this License, all rights, title, and interest in the Mods, including but not limited to copyright, patent, and trademark rights, are reserved by the Licensor. No rights are granted by implication, estoppel, or otherwise.
+	Except by the Licensor or with the Licensor's prior written consent, Licensees may not publicly host, publish, distribute, advertise, mirror, or otherwise make Binaries available to the general public.
 
-By using the Mods themselves or their source code, or creating derivative works based on the latter, Licensee agrees to be bound by the terms of this License.
+	The foregoing restriction applies equally to original and modified Binaries.
 
-DaLion / VonLoewe, a.k.a. Matheus Leao
-For contact please message @DaLion on the [Stardew Valley Discord](https://discord.com/invite/stardewvalley).
+	Nothing in this Section prohibits:
+
+		a. Private use.
+		b. Internal organizational use.
+		c. Incidental, temporary, or person-to-person sharing that is not intended to function as a public software distribution channel.
+		d. Sharing Binaries for collaborative development, testing, debugging, review, or contribution purposes.
+
+	The determination of whether a distribution constitutes public hosting or publication shall be based on the nature and purpose of the distribution as a whole rather than any specific duration of availability.
+
+4. Non-Commercial Use
+
+	Neither the Collection nor any Derivative Work may be used for commercial purposes.
+
+	Prohibited commercial activities include, without limitation:
+
+		a. Selling or licensing the Collection or any Derivative Work.
+		b. Charging for access to Source Code or Binaries.
+		c. Including the Collection or any Derivative Work in paid modpacks.
+		d. Soliciting or receiving donations, sponsorships, subscriptions, revenue sharing, or similar financial support directly tied to the distribution, development, maintenance, or availability of the Collection or any Derivative Work.
+		e. Hosting or distributing the Collection or any Derivative Work through services whose purpose is to generate revenue from access to, distribution of, or association with the Collection or any Derivative Work.
+
+	Nothing in this Section prohibits:
+
+		a. Discussion, review, commentary, or criticism.
+		b. Educational content.
+		c. News articles, blog posts, guides, documentation, or similar transformative works.
+		d. Video content, livestreams, broadcasts, or other media depicting or utilizing the Collection.
+		e. Professional services that do not distribute, license, monetize, or otherwise exploit the Collection itself.
+
+5. Contributions
+
+	Unless otherwise explicitly agreed in writing, any contribution submitted to the Collection shall be deemed to grant the Licensor a perpetual, worldwide, irrevocable, non-exclusive, royalty-free license to use, reproduce, modify, distribute, sublicense, and incorporate that contribution into the Collection.
+
+	Contributors retain ownership of their own copyrights.
+
+6. Shared Project Exception
+
+	The Shared project is expressly excluded from this License.
+
+	All files contained within the Shared project are governed exclusively by their own license terms.
+
+	Where Source Code governed by this License incorporates code from Shared, such incorporation shall not alter the licensing status of Shared.
+
+7. Disclaimer of Warranty
+
+	THE COLLECTION IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT.
+
+8. Limitation of Liability
+
+	TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE LICENSOR SHALL NOT BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY ARISING FROM OR RELATED TO THE COLLECTION, WHETHER IN CONTRACT, TORT, OR OTHERWISE.
+
+9. Termination
+
+	Any violation of Section 5 (Non-Commercial Use) immediately and automatically terminates all rights granted under this License.
+
+	For violations of any other provision of this License, rights granted under this License terminate automatically if the violation is not cured within thirty (30) days after the Licensee becomes aware of the violation or receives notice from the Licensor, whichever occurs first.
+
+	Upon curing such violation within the applicable cure period, rights under this License shall automatically be reinstated.
+
+	Upon termination, Licensee must cease exercising rights granted by this License.
+
+10. License Versions
+
+	Each fork, branch, or Derivative Work is governed by the version of this License that accompanied the most recent Source Code incorporated from the Collection.
+
+	A fork that incorporates newer Source Code from the Collection must adopt the version of this License accompanying that Source Code.
+
+11. Governing Law
+
+	This License shall be governed by and construed in accordance with the laws of Brazil, excluding conflict-of-law principles.
+
+	Any dispute arising from or relating to this License shall be subject to the jurisdiction of the competent courts of Brazil.
+
+12. Reservation of Rights
+
+	Except for the rights expressly granted by this License, all rights are reserved by the Licensor.
+
+	No rights shall be implied by estoppel, waiver, or otherwise.
+
+By exercising any right granted under this License, Licensee agrees to be bound by its terms.
+
+DaLion / VonLoewe / Arleo
+For contact please message @DaLion or @Arleo on the [Stardew Valley Discord](https://discord.com/invite/stardewvalley).

@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -14,6 +15,7 @@ using StardewValley.GameData.FarmAnimals;
 #endregion using directives
 
 [UsedImplicitly]
+[Deprecated]
 internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="FarmAnimalPetPatcher"/> class.</summary>
@@ -22,57 +24,57 @@ internal sealed class FarmAnimalPetPatcher : HarmonyPatcher
     internal FarmAnimalPetPatcher(Harmonizer harmonizer, Logger logger)
         : base(harmonizer, logger)
     {
-        this.Target = this.RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
+        //this.Target = this.RequireMethod<FarmAnimal>(nameof(FarmAnimal.pet));
     }
 
     #region harmony patches
 
-    /// <summary>Patch for Prestiged Rancher tripled friendship bonus.</summary>
-    [HarmonyTranspiler]
-    [UsedImplicitly]
-    private static IEnumerable<CodeInstruction>? FarmAnimalPetTranspiler(
-        IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
-    {
-        var helper = new ILHelper(original, instructions);
+    ///// <summary>Patch for Prestiged Rancher tripled friendship bonus.</summary>
+    //[HarmonyTranspiler]
+    //[UsedImplicitly]
+    //private static IEnumerable<CodeInstruction>? FarmAnimalPetTranspiler(
+    //    IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
+    //{
+    //    var helper = new ILHelper(original, instructions);
 
-        try
-        {
-            var isNotPrestiged = generator.DefineLabel();
-            helper
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                ])
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Brfalse_S)
-                ])
-                .GetOperand(out var label)
-                .Move()
-                .AddLabels(isNotPrestiged)
-                .CopyUntil((Label)label, out var copy)
-                .Insert([
-                    new CodeInstruction(OpCodes.Ldarg_1),
-                    new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
-                    new CodeInstruction(OpCodes.Ldloc_3),
-                    new CodeInstruction(
-                        OpCodes.Ldfld,
-                        typeof(FarmAnimalData).RequireField(nameof(FarmAnimalData.ProfessionForHappinessBoost))),
-                    new CodeInstruction(OpCodes.Ldc_I4_S, 100),
-                    new CodeInstruction(OpCodes.Add),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
-                    new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
-                ])
-                .Insert(copy.Take(copy.Length - 1).ToArray());
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
-            return null;
-        }
+    //    try
+    //    {
+    //        var isNotPrestiged = generator.DefineLabel();
+    //        helper
+    //            .PatternMatch([
+    //                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
+    //            ])
+    //            .PatternMatch([
+    //                new CodeInstruction(OpCodes.Brfalse_S)
+    //            ])
+    //            .GetOperand(out var label)
+    //            .Move()
+    //            .AddLabels(isNotPrestiged)
+    //            .CopyUntil((Label)label, out var copy)
+    //            .Insert([
+    //                new CodeInstruction(OpCodes.Ldarg_1),
+    //                new CodeInstruction(OpCodes.Ldfld, typeof(Farmer).RequireField(nameof(Farmer.professions))),
+    //                new CodeInstruction(OpCodes.Ldloc_3),
+    //                new CodeInstruction(
+    //                    OpCodes.Ldfld,
+    //                    typeof(FarmAnimalData).RequireField(nameof(FarmAnimalData.ProfessionForHappinessBoost))),
+    //                new CodeInstruction(OpCodes.Ldc_I4_S, 100),
+    //                new CodeInstruction(OpCodes.Add),
+    //                new CodeInstruction(
+    //                    OpCodes.Callvirt,
+    //                    typeof(NetIntHashSet).RequireMethod(nameof(NetIntHashSet.Contains))),
+    //                new CodeInstruction(OpCodes.Brfalse_S, isNotPrestiged),
+    //            ])
+    //            .Insert([.. copy.Take(copy.Length - 1)]);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Log.E($"Failed adding prestiged Rancher friendship bonuses.\nHelper returned {ex}");
+    //        return null;
+    //    }
 
-        return helper.Flush();
-    }
+    //    return helper.Flush();
+    //}
 
     #endregion harmony patches
 }

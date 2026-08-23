@@ -1,0 +1,36 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "enchantments.carving.name": "Разящий",
+  "enchantments.cleaving.name": "Рассекающий",
+  "enchantments.energized.name": "Наэлектризованный",
+  "enchantments.energized.desc": "Накопленная энергия: {{counter}}",
+  "enchantments.explosive.name": "Взрывной",
+  "enchantments.explosive.desc": "Радиус взрыва: {{counter}}",
+  "enchantments.mammonite.name": "Маммон",
+  "enchantments.stabbing.name": "Безрассудный",
+  "enchantments.sunburst.name": "Лучезарный",
+  "enchantments.vampiric.name": "Кровожадный",
+  "enchantments.wabbajack.name": "Ваббаджек",
+
+  "enchantments.chilling.name": "Леденящий",
+  "enchantments.quincy.name": "Куинси",
+  "enchantments.echo.name": "Эхо",
+
+  "enchantments.sharp.name": "Острый",
+
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.gemstone_socket_style.title": "Стиль гнёзд для самоцветов",
+  "gmcm.gemstone_socket_style.desc": "Заменяет общий текст \"Откован\" в подсказках оружия иконками гнёзд для самоцветов различных стилей.",
+  "gmcm.socket_style.diamond": "Алмаз",
+  "gmcm.socket_style.round": "Круглый",
+  "gmcm.socket_style.iridium": "Иридий",
+  "gmcm.gemstone_socket_position.title": "Позиция гнёзд для самоцветов",
+  "gmcm.gemstone_socket_position.desc": "Определяет относительную позицию для отрисовки гнёзд самоцветов, если включено.",
+  "gmcm.socket_position.standard": "Стандарт",
+  "gmcm.socket_position.above_separator": "Над разделителем"
+}

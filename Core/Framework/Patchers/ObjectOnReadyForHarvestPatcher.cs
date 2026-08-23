@@ -37,6 +37,11 @@ internal sealed class ObjectOnReadyForHarvestPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ObjectOnReadyForHarvestPostfix(SObject __instance)
     {
+        if (!Config.TwoWayHoppers)
+        {
+            return;
+        }
+
         var location = __instance.Location;
         if (location is null)
         {

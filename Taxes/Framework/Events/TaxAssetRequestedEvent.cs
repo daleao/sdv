@@ -69,6 +69,9 @@ internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
                 interest);
 
         // county letters
+        data[$"{UniqueId}_{Mail.LewisIntro}"] =
+            I18n.Mail_Lewis_Intro(player.farmName.Value);
+
         due = Data.ReadAs<int>(player, DataKeys.AccruedPropertyTax);
         var valuation = Data.ReadAs<int>(Game1.getFarm(), DataKeys.TotalValuation);
         data[$"{UniqueId}_{Mail.LewisNotice}"] = I18n.Mail_Lewis_Notice(

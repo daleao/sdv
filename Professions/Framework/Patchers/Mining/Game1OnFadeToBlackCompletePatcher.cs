@@ -2,6 +2,9 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Stardew;
+using DaLion.Shared.Extensions.Xna;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -27,14 +30,18 @@ internal sealed class Game1OnFadeToBlackCompletePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void Game1OnFadeToBlackCompletePostfix()
     {
-        if (State.SpelunkerCheckpointTile is not { } checkpointTile || !State.UsingSpelunkerCheckpoint)
+        if (State.SpelunkerFlag is not { } flag || !State.UsingSpelunkerCheckpoint)
         {
             return;
         }
 
+        var checkpointTile = flag.TileLocation;
+        var mapWidth = flag.Location.Map.Layers[0].LayerWidth;
+        var mapHeight = flag.Location.Map.Layers[0].LayerHeight;
+        var spawnTile = checkpointTile.GetEightNeighbors(mapWidth, mapHeight).Where(t => !flag.Location.Objects.ContainsKey(t)).Choose();
+        var checkpointDirection = (checkpointTile - spawnTile).ToFacingDirection();
         Game1.player.Position = new Vector2(checkpointTile.X * Game1.tileSize, checkpointTile.Y * Game1.tileSize);
-        Game1.player.faceDirection((State.SpelunkerCheckpointDirection + 2) % 4);
-        State.SpelunkerCheckpointTile = null;
+        Game1.player.faceDirection((int)checkpointDirection);
         State.UsingSpelunkerCheckpoint = false;
     }
 

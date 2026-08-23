@@ -1,0 +1,13 @@
+{
+    "AnimalFavoredFeeds": {
+        "Chicken": [ "Grains", "Legumes", "Fruits" ],
+        "Duck": [ "Grains", "Legumes", "LeafyGreens", "Fruits" ],
+        "Dinosaur": [ "Grains", "LeafyGreens", "Gourds", "Fruits" ],
+        "Rabbit": [ "LeafyGreens", "Roots", "Fruits" ],
+        "Cow": [ "LeafyGreens", "Legumes" ],
+        "Goat": [ "LeafyGreens", "Legumes", "Fruits" ],
+        "Sheep": [ "LeafyGreens", "Legumes" ],
+        "Pig": [ "Grains", "LeafyGreens", "Roots", "Tubers", "Gourds", "Fruits" ],
+        "Ostrich": [ "Grains", "LeafyGreens", "Fruits" ]
+    }
+}

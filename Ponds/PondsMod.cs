@@ -72,14 +72,6 @@ public sealed class PondsMod : Mod
         }
 
         var assembly = Assembly.GetExecutingAssembly();
-        I18n.Init(helper.Translation);
-        Config = helper.ReadConfig<PondsConfig>();
-        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
-        Data = new ModDataManager(UniqueId, Log);
-        helper.Events.Content.AssetRequested += OnAssetRequested;
-        helper.Events.GameLoop.DayStarted += OnDayStarted;
-        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
-        helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
         Harmonizer.ApplyFromNamespace(
             assembly,
             "DaLion.Ponds.Framework.Patchers",
@@ -93,6 +85,14 @@ public sealed class PondsMod : Mod
             Log,
             UniqueId,
             "pnds");
+        I18n.Init(helper.Translation);
+        Config = helper.ReadConfig<PondsConfig>();
+        Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
+        Data = new ModDataManager(UniqueId, Log);
+        helper.Events.Content.AssetRequested += OnAssetRequested;
+        helper.Events.GameLoop.DayStarted += OnDayStarted;
+        helper.Events.GameLoop.GameLaunched += OnGameLaunched;
+        helper.Events.GameLoop.SaveLoaded += OnSaveLoaded;
         this.ValidateMultiplayer();
     }
 
@@ -108,59 +108,60 @@ public sealed class PondsMod : Mod
             {
                 // patch algae fish data
                 var data = (List<FishPondData>)asset.Data;
-                data.InsertRange(data.Count - 1, new List<FishPondData>
-                {
-                    new() // seaweed
-                    {
-                        Id = Manifest.UniqueID + "_Seaweed",
-                        PopulationGates =
-                            new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
-                        ProducedItems =
-                        [
-                            new FishPondReward
-                            {
-                                Chance = 1f, ItemId = QIDs.Seaweed, MinStack = 1, MaxStack = 1,
-                            },
-                        ],
-                        RequiredTags = ["item_seaweed"],
-                        SpawnTime = 2,
-                        Precedence = 0,
-                    },
-                    new() // green algae
-                    {
-                        Id = Manifest.UniqueID + "_GreenAlgae",
-                        PopulationGates =
-                            new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
-                        ProducedItems =
-                        [
-                            new FishPondReward
-                            {
-                                Chance = 1f, ItemId = QIDs.GreenAlgae, MinStack = 1, MaxStack = 1,
-                            },
-                        ],
-                        RequiredTags = ["item_green_algae"],
-                        SpawnTime = 2,
-                        Precedence = 0,
-                    },
-                    new() // white algae
-                    {
-                        Id = Manifest.UniqueID + "_WhiteAlgae",
-                        PopulationGates =
-                            new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
-                        ProducedItems =
-                        [
-                            new FishPondReward
-                            {
-                                Chance = 1f, ItemId = QIDs.WhiteAlgae, MinStack = 1, MaxStack = 1,
-                            },
-                        ],
-                        RequiredTags = ["item_white_algae"],
-                        SpawnTime = 2,
-                        Precedence = 0,
-                    },
-                });
+                data.InsertRange(
+                    data.Count - 1,
+                    [
+                        new() // seaweed
+                        {
+                            Id = Manifest.UniqueID + "_Seaweed",
+                            PopulationGates =
+                                new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
+                            ProducedItems =
+                            [
+                                new FishPondReward
+                                {
+                                    Chance = 1f, ItemId = QIDs.Seaweed, MinStack = 1, MaxStack = 1,
+                                },
+                            ],
+                            RequiredTags = ["item_seaweed"],
+                            SpawnTime = 2,
+                            Precedence = 0,
+                        },
+                        new() // green algae
+                        {
+                            Id = Manifest.UniqueID + "_GreenAlgae",
+                            PopulationGates =
+                                new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
+                            ProducedItems =
+                            [
+                                new FishPondReward
+                                {
+                                    Chance = 1f, ItemId = QIDs.GreenAlgae, MinStack = 1, MaxStack = 1,
+                                },
+                            ],
+                            RequiredTags = ["item_green_algae"],
+                            SpawnTime = 2,
+                            Precedence = 0,
+                        },
+                        new() // white algae
+                        {
+                            Id = Manifest.UniqueID + "_WhiteAlgae",
+                            PopulationGates =
+                                new Dictionary<int, List<string>> { { 4, ["368 3"] }, { 7, ["369 5"] }, },
+                            ProducedItems =
+                            [
+                                new FishPondReward
+                                {
+                                    Chance = 1f, ItemId = QIDs.WhiteAlgae, MinStack = 1, MaxStack = 1,
+                                },
+                            ],
+                            RequiredTags = ["item_white_algae"],
+                            SpawnTime = 2,
+                            Precedence = 0,
+                        },
+                    ]);
 
-                if (!Config.AddLegendaryFishPondData || ModHelper.ModRegistry.IsLoaded("DaLion.Professions"))
+                if (!Config.AddLegendaryFishPondData)
                 {
                     return;
                 }

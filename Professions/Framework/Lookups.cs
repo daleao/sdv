@@ -3,10 +3,14 @@
 #region using directives
 
 using System.Collections.Generic;
+using DaLion.Professions.Framework.Integrations;
+using DaLion.Shared.Enums;
+using Microsoft.Xna.Framework;
+using CropCategory = DaLion.Core.Framework.CropCategory;
 
 #endregion using directives
 
-/// <summary>Holds maps which may be referenced by different modules.</summary>
+/// <summary>Holds maps which may be referenced by the module.</summary>
 internal static class Lookups
 {
     /// <summary>Gets the qualified IDs of the Artisan machines.</summary>
@@ -75,4 +79,44 @@ internal static class Lookups
 
     /// <summary>Gets the respective <see cref="MachineTreatmentRules"/> for each artisan machine.</summary>
     internal static Dictionary<string, MachineTreatmentRules> MachineTreatments { get; } = [];
+
+    /// <summary>Gets the corresponding items that can be used to apply any <see cref="MachineTreatmentCategory"/>.</summary>
+    internal static Dictionary<MachineTreatmentCategory, string[]> TreatmentsByCategory { get; } = new()
+    {
+        { MachineTreatmentCategory.Overclock, [ QIDs.BatteryPack ] },
+        { MachineTreatmentCategory.Fermentation, [ QIDs.OakResin ] },
+        { MachineTreatmentCategory.Glazing, [ QIDs.MapleSyrup, SveIntegration.BIRCH_WATER_QID ] },
+        { MachineTreatmentCategory.Sealing, [ QIDs.PineTar, SveIntegration.FIR_WAX_QID ] },
+    };
+
+    /// <summary>Gets the corresponding <see cref="MachineTreatmentCategory"/> for each valid treatment item.</summary>
+    internal static Dictionary<string, MachineTreatmentCategory> CategoryByTreatment { get; } = new()
+    {
+        { QIDs.BatteryPack, MachineTreatmentCategory.Overclock },
+        { QIDs.OakResin, MachineTreatmentCategory.Fermentation },
+        { QIDs.MapleSyrup, MachineTreatmentCategory.Glazing },
+        { QIDs.PineTar, MachineTreatmentCategory.Sealing },
+        { SveIntegration.BIRCH_WATER_QID, MachineTreatmentCategory.Glazing },
+        { SveIntegration.FIR_WAX_QID, MachineTreatmentCategory.Sealing },
+    };
+
+    /// <summary>Gets a list of vegetables belonging to each category.</summary>
+    public static Dictionary<CropCategory, HashSet<string>> CropsByCategory { get; } = new()
+    {
+        { CropCategory.Grains, [] },
+        { CropCategory.LeafyGreens, [] },
+        { CropCategory.Legumes, [] },
+        { CropCategory.Roots, [] },
+        { CropCategory.Tubers, [] },
+        { CropCategory.Gourds, [] },
+    };
+
+    /// <summary>Gets a list of vegetables belonging to each category.</summary>
+    public static Dictionary<string, CropCategory> CategoryByCrop { get; } = [];
+
+    /// <summary>Gets the feeds favored by each animal type.</summary>
+    internal static Dictionary<string, HashSet<CropCategory>> AnimalFavoredFeeds { get; } = [];
+
+    /// <summary>Gets or sets arrays of mammals or egg-layers.</summary>
+    internal static AnimalsByReproductiveType AnimalReproductiveTypes { get; set; } = new([], []);
 }

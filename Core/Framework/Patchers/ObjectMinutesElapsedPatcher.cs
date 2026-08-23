@@ -35,6 +35,11 @@ internal sealed class ObjectMinutesElapsedPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ObjectMinutesElapsedPostfix(SObject __instance)
     {
+        if (!Config.TwoWayHoppers)
+        {
+            return;
+        }
+
         var location = __instance.Location;
         if (location is null || !__instance.TryGetHopper(out var hopper))
         {
@@ -65,7 +70,7 @@ internal sealed class ObjectMinutesElapsedPatcher : HarmonyPatcher
 
     #endregion harmony patches
 
-    public static Task<bool> AttemptAutoLoad(Chest source, SObject destination, Farmer who)
+    private static Task<bool> AttemptAutoLoad(Chest source, SObject destination, Farmer who)
     {
         var taskSource = new TaskCompletionSource<bool>();
         source.GetMutex().RequestLock(() =>

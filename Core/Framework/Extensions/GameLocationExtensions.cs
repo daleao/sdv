@@ -64,7 +64,7 @@ public static class GameLocationExtensions
     /// <param name="tile">The <see cref="Vector2"/> tile coordinates.</param>
     /// <param name="hopper">A <see cref="Chest"/> reference to the hopper, if found. Otherwise <see langword="null"/>.</param>
     /// <returns><see langword="true"/> if the instance is a hopper chest, otherwise <see langword="false"/>.</returns>
-    internal static bool TryGetHopperAt(this GameLocation location, Vector2 tile, [NotNullWhen(true)] out Chest? hopper)
+    public static bool TryGetHopperAt(this GameLocation location, Vector2 tile, [NotNullWhen(true)] out Chest? hopper)
     {
         hopper = null;
         return location.Objects.TryGetValue(tile, out var @object) && @object.TryGetHopper(out hopper);

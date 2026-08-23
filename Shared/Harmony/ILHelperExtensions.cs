@@ -39,7 +39,7 @@ public static class ILHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.Insert([.. toInsert]);
     }
 
     /// <summary>Inserts a sequence of <see cref="CodeInstruction"/>s at the currently pointed index to roll a random integer.</summary>
@@ -67,6 +67,6 @@ public static class ILHelperExtensions
             toInsert[0].labels.AddRange(labels);
         }
 
-        return helper.Insert(toInsert.ToArray());
+        return helper.Insert([.. toInsert]);
     }
 }

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "algae": "Algen",
+
+  "gmcm.days_until_algae_spawn.title": "Tage bis zur Algenbildung",
+  "gmcm.days_until_algae_spawn.desc": "Die Anzahl der Tage, bis ein leerer Teich beginnt, Algen zu bilden.",
+  "gmcm.roe_production_chance_multiplier.title": "Multiplikator für Rogen-Produktionschance",
+  "gmcm.roe_production_chance_multiplier.desc": "Ein Multiplikator für die Grundwahrscheinlichkeit eines Fisches, täglich Rogen zu produzieren.",
+  "gmcm.add_legendary_pond_data.title": "Daten für legendäre Fischteiche hinzufügen",
+  "gmcm.add_legendary_pond_data.desc": "Fügt immersive Drops zu legendären Fischteichen hinzu. Hat keine Wirkung, wenn Walk of Life installiert ist."
+}

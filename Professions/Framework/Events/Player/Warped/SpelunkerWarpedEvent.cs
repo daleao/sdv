@@ -2,11 +2,10 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Extensions.Xna;
-using Microsoft.Xna.Framework;
 using StardewModdingAPI.Events;
 using StardewValley;
 using StardewValley.Locations;
@@ -19,7 +18,7 @@ using StardewValley.Locations;
 internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    private static readonly Func<int, double> ItemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
+    private static readonly Func<float, double> ItemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
     private static int _previousMineLevel;
 
     /// <inheritdoc />
@@ -39,25 +38,30 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
         var player = e.Player;
         var oldLocation = e.OldLocation;
         var newLocation = e.NewLocation;
-        if (oldLocation is MineShaft oldShaft && player.HasProfession(Profession.Spelunker, true))
+        var wasInMines = oldLocation is MineShaft;
+        var isInMines = newLocation is MineShaft;
+        if (player.HasProfession(Profession.Spelunker, true) && State.SpelunkerFlag is not null)
         {
-            foreach (var debris in oldLocation.debris)
+            if (wasInMines && !ReferenceEquals(oldLocation, State.SpelunkerFlag.Location))
             {
-                if (debris?.itemId?.Value is { } id && id.StartsWith("(O)") &&
-                    Game1.random.NextBool())
+                foreach (var debris in oldLocation.debris)
                 {
-                    State.SpelunkerUncollectedItems.Add((id, ItemRecoveryChance(oldShaft.mineLevel)));
+                    if (debris?.itemId?.Value is { } id && id.StartsWith("(O)"))
+                    {
+                        State.SpelunkerUncollectedItems.Add((id, ItemRecoveryChance(State.SpelunkerLadderStreak)));
+                    }
                 }
             }
 
-            if (newLocation.Name is "Mine" or "SkullCave")
+            if (isInMines && ReferenceEquals(newLocation, State.SpelunkerFlag.Location))
             {
                 var mapWidth = newLocation.Map.Layers[0].LayerWidth;
                 var mapHeight = newLocation.Map.Layers[0].LayerHeight;
-                var spawnTiles = player.Tile.GetTwentyFourNeighbors(mapWidth, mapHeight).ToArray();
-                foreach (var (id, chance) in State.SpelunkerUncollectedItems)
+                var spawnTiles = player.Tile.GetFourtyEightNeighbors(mapWidth, mapHeight).ToArray();
+                for (var i = State.SpelunkerUncollectedItems.Count - 1; i >= 0; i--)
                 {
-                    if (Game1.random.NextBool(chance))
+                    var (id, chance) = State.SpelunkerUncollectedItems[i];
+                    if (Random.Shared.NextBool(chance))
                     {
                         Game1.createItemDebris(
                             ItemRegistry.Create(id),
@@ -65,45 +69,34 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
                             -1,
                             newLocation);
                     }
+
+                    State.SpelunkerUncollectedItems.RemoveAt(i);
                 }
 
                 State.SpelunkerUncollectedItems.Clear();
-                State.SpelunkerLadderStreak = 0;
-                State.SpelunkerCheckpoint = null;
-                _previousMineLevel = 0;
-                return;
             }
         }
 
-        if (newLocation is not MineShaft && oldLocation is MineShaft)
+        if (wasInMines && !isInMines)
         {
             State.SpelunkerLadderStreak = 0;
-            State.SpelunkerCheckpoint = null;
             _previousMineLevel = 0;
             return;
         }
 
-        if (newLocation is not MineShaft newShaft || newShaft.mineLevel <= _previousMineLevel)
+        if (!isInMines)
         {
             return;
         }
 
-        State.SpelunkerLadderStreak = Math.Min(State.SpelunkerLadderStreak + 1, 50);
+        var newShaft = (MineShaft)newLocation;
+        if (newShaft.mineLevel <= _previousMineLevel)
+        {
+            return;
+        }
+
+        State.SpelunkerLadderStreak = Math.Min(State.SpelunkerLadderStreak + 5, 100);
+        this.Manager.Disable<SpelunkerTimeChangedEvent>();
         _previousMineLevel = newShaft.mineLevel;
-        if (!newShaft.IsTreasureOrSafeRoom())
-        {
-            return;
-        }
-
-        //var healed = (int)(player.maxHealth * 0.05f);
-        //player.health = Math.Min(player.health + healed, player.maxHealth);
-        //player.Stamina = Math.Min(player.Stamina + (player.MaxStamina * 0.05f), player.MaxStamina);
-        //newLocation.debris.Add(new Debris(
-        //    healed,
-        //    new Vector2(player.StandingPixel.X, player.StandingPixel.Y),
-        //    Color.Lime,
-        //    1f,
-        //    player));
-        //Game1.playSound("healSound");
     }
 }

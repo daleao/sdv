@@ -40,12 +40,12 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
             return;
         }
 
-        var tile = new Vector2(x, y);
+        var tile = new Point(x, y);
         if (State.SpelunkerLastStoneDestroyedAt is not null)
         {
             if (tile.IsAdjacentTo(State.SpelunkerLastStoneDestroyedAt.Value))
             {
-                State.SpelunkerClusterStreak += 1;
+                State.SpelunkerClusterStreak++;
             }
             else
             {
@@ -53,7 +53,7 @@ internal sealed class GameLocationOnStoneDestroyedPatcher : HarmonyPatcher
             }
         }
 
-        State.SpelunkerLastStoneDestroyedAt = new Vector2(x, y);
+        State.SpelunkerLastStoneDestroyedAt = new Point(x, y);
     }
 
     /// <summary>Patch to remove Prospector double coal chance.</summary>

@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
@@ -12,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="GaldoraHudThemeWarpedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-[ModRequirement("FlashShifter.StardewValleyExpandedCP", "Stardew Valley Expanded")]
+[ModRequirement(SveIntegration.MOD_ID, "Stardew Valley Expanded")]
 [AlwaysEnabledEvent]
 internal sealed class GaldoraHudThemeWarpedEvent(EventManager? manager = null)
     : WarpedEvent(manager ?? ProfessionsMod.EventManager)

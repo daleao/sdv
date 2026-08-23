@@ -28,7 +28,7 @@ internal sealed class PiperButtonsChangedEvent(EventManager? manager = null)
         }
         else if (Config.ModKey.GetState() == SButtonState.Released && _temporarilyPiped is not null)
         {
-            _temporarilyPiped.Set_Piped(null, PipedSlime.PipingSource.None);
+            _temporarilyPiped.Unpipe();
             _temporarilyPiped = null;
         }
     }

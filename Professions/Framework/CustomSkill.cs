@@ -45,7 +45,7 @@ public sealed class CustomSkill : ISkill
         this.ProfessionPairByRoot[this.Professions[1]] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
 
-        this._scSkill.ExperienceCurve = ISkill.ExperienceCurve.Skip(1).ToArray();
+        this._scSkill.ExperienceCurve = [.. ISkill.ExperienceCurve.Skip(1)];
         Loaded[id] = this;
         FromSpaceCore[this._scSkill] = this;
         Log.D($"Successfully initialized custom skill {id}");
@@ -74,7 +74,7 @@ public sealed class CustomSkill : ISkill
         this.ProfessionPairByRoot[this.Professions[1]] =
             new ProfessionPair(this.Professions[4], this.Professions[5], this.Professions[1], 10);
 
-        scSkill.ExperienceCurve = ISkill.ExperienceCurve.Skip(1).ToArray();
+        scSkill.ExperienceCurve = [.. ISkill.ExperienceCurve.Skip(1)];
         Loaded[this.StringId] = this;
         FromSpaceCore[scSkill] = this;
         Log.D($"Successfully initialized custom skill {this.StringId}");
@@ -152,7 +152,7 @@ public sealed class CustomSkill : ISkill
 
         // reset new levels
         var newLevels = SpaceCoreIntegration.Instance!.GetNewLevels();
-        SpaceCoreIntegration.Instance.SetNewLevels(newLevels.Where(pair => pair.Key != this.StringId).ToList());
+        SpaceCoreIntegration.Instance.SetNewLevels([.. newLevels.Where(pair => pair.Key != this.StringId)]);
 
         // reset recipes
         if (Config.Skills.ForgetRecipesOnSkillReset)

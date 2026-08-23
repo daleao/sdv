@@ -103,7 +103,7 @@ internal sealed class AddCommand(CommandHandler handler)
 
         if (tokens[0].ToLower() is "mastery" or "masteries")
         {
-            tokens = tokens.Skip(1).ToList();
+            tokens = [.. tokens.Skip(1)];
             foreach (var token in tokens)
             {
                 if (string.Equals(token, "all", StringComparison.InvariantCultureIgnoreCase))
@@ -150,7 +150,7 @@ internal sealed class AddCommand(CommandHandler handler)
         var prestige = prestigeArgs.Any();
         if (prestige)
         {
-            tokens = tokens.Except(prestigeArgs).ToList();
+            tokens = [.. tokens.Except(prestigeArgs)];
         }
 
         List<int> professionsToAdd = [];
@@ -161,7 +161,7 @@ internal sealed class AddCommand(CommandHandler handler)
                 var range = Profession.GetRange().ToArray();
                 if (prestige)
                 {
-                    range = range.Concat(Profession.GetRange(true)).ToArray();
+                    range = [.. range, .. Profession.GetRange(true)];
                 }
 
                 range = [.. range, .. CustomProfession.List.Select(p => p.Id)];

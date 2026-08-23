@@ -137,11 +137,16 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
     private static int DoDamageMitigation(int damage, Monster monster)
     {
-        return monster.Get_GotCrit() && Config.CritsIgnoreDefense
-            ? damage
-            : Config.HyperbolicMitigationFormula
-                ? (int)(damage * (10f / (10f + monster.resilience.Value)))
-                : Math.Max(1, damage - monster.resilience.Value);
+        var resilience = monster.resilience.Value;
+        if (monster.Get_GotCrit() && Config.CritsIgnoreDefense)
+        {
+            resilience -= (int)monster.Get_GotCritMultiplier() - 2;
+        }
+
+        var mitigated = Config.HyperbolicMitigationFormula
+                ? (int)(damage * (10f / (10f + resilience)))
+                : Math.Max(1, damage - resilience);
+        return mitigated;
     }
 
     #endregion injected

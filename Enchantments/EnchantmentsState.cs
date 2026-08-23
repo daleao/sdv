@@ -10,4 +10,6 @@ using StardewValley.Monsters;
 internal sealed class EnchantmentsState
 {
     internal Monster? HoveredEnemy { get; set; }
+
+    internal Dictionary<(string Level, int X, int Y), int> MineShaftWallHits { get; } = [];
 }

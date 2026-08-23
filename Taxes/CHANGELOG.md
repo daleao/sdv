@@ -1,5 +1,21 @@
 ﻿# TAXES Changelog
 
+## 2.2.3
+
+### Added
+
+* Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
+
+### Changes
+
+* Some tweaks to wording in some letters.
+
+### Fixed
+
+* Fixed an issue preventing players from receiving the FRS and County tax introduction letters.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.2.2
 
 ### Added

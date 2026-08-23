@@ -93,7 +93,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
             }
         }
 
-        if (radius >= 2)
+        if (radius > 1)
         {
             State.ChainedExplosions.Add(new ChainedExplosion(__instance, tileLocation, radius, damage_amount, who));
         }
@@ -216,8 +216,7 @@ internal sealed class GameLocationExplodePatcher : HarmonyPatcher
                 Log.D("Blaster made extra prestiged coal from MineShaft.checkStoneForItems!");
             }
 
-            Reflector.GetStaticFieldGetter<Multiplayer>(typeof(Game1), "multiplayer").Invoke()
-                .broadcastSprites(
+            Game1.Multiplayer.broadcastSprites(
                     location,
                     new TemporaryAnimatedSprite(
                         25,

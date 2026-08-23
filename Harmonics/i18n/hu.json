@@ -1,0 +1,62 @@
+{
+  "$schema": "https://smapi.io/schemas/i18n.json",
+
+  "objects.garnet.name": "Gránát",
+  "objects.garnet.desc": "Névadója egy gyönyörű hercegnő egy távoli földről.",
+  "rings.garnet.name": "Gránátgyűrű",
+  "rings.garnet.desc": "Egy gránáttal díszített aranygyűrű. 10%-kal csökkenti a különleges mozdulat visszatöltési idejét.",
+  "rings.infinity.name": "Végtelenség Gyűrűje",
+  "rings.infinity.desc": "Nagy hatalom edénye.",
+
+  "rings.amethyst.prefix": "Egy ametiszttel díszített rézgyűrű.",
+  "rings.topaz.prefix": "Egy topázzal díszített rézgyűrű.",
+  "rings.aquamarine.prefix": "Egy akvamarinnal díszített ezüstgyűrű.",
+  "rings.jade.prefix": "Egy jádeköves díszített ezüstgyűrű.",
+  "rings.emerald.prefix": "Egy smaragddal díszített aranygyűrű.",
+  "rings.ruby.prefix": "Egy rubinnal díszített aranygyűrű.",
+  "rings.iridium.desc": "Egy közönséges irídiumgyűrű.",
+
+  "node.garnet.name": "Gránát-telér",
+  "node.garnet.desc": "Kőbe zárt gránátok csoportja.",
+
+  "ui.resonance": "Rezonancia",
+  "ui.ruby": "Rubin",
+  "ui.aquamarine": "Akvamarinháló",
+  "ui.jade": "Jáde",
+  "ui.emerald": "Smaragd",
+  "ui.amethyst": "Ametiszt",
+  "ui.topaz": "Topáz",
+  "ui.garnet": "Gránát",
+  "ui.item_hover.damage": "{{amount}} Sebzés",
+  "ui.item_hover.c_rate": "{{amount}} Krit. esély",
+  "ui.item_hover.c_pow": "{{amount}} Krit. erő",
+  "ui.item_hover.knockback": "{{amount}} Visszalökés",
+  "ui.item_hover.attack_speed": "{{amount}} Támadási sebesség",
+  "ui.item_hover.cdr": "{{amount}} Visszatöltés",
+  "ui.item_hover.resist": "{{amount}} Védelem",
+  "ui.item_hover.light": "Fényt bocsát ki",
+  "ui.item_hover.magnetic": "Mágneses",
+
+  "dialogue.emily.gemstones.first": "Igazán éreztél már valaha egy drágakövet? Ahogy egy topáz beolvad a lelkedbe, vagy ahogy egy rubin lángra lobbantja a szívedet?#$b#A drágaköveknek csodálatos módjuk van arra, hogy rezonáljanak az energiáinkkal. Olyan, mint a természet érzelempalettája.",
+  "dialogue.emily.gemstones.second": "Egyszer megpróbáltam egy gyűrűt tele pakolni mindenféle drágakővel, hogy egyszerre rezonáljak mindegyikkel.#$b#De folyton szétesett! Clint azt mondta, a közönséges fémek nem elég erősek az átfedő rezgések elviselésére. Szóval most minden nap mást viselek!",
+
+  "global.infinitycraft": "{{someone}} kovácsolt egy Végtelenség Gyűrűjét.",
+
+  /************
+   *** GMCM ***
+   ************/
+
+  "gmcm.craftable_gemstone_rings.title": "Elkészíthető drágakőgyűrűk",
+  "gmcm.craftable_gemstone_rings.desc": "Új harci recepteket ad drágakőgyűrűk készítéséhez.",
+  "gmcm.audible_gemstones.title": "Hallható drágakövek",
+  "gmcm.audible_gemstones.desc": "Hallhatóak-e a drágakőfrekvenciák.",
+  "gmcm.chord_sound_duration.title": "Akkordjelzés időtartama",
+  "gmcm.chord_sound_duration.desc": "Az akkordjelzés időtartama milliszekundumban.",
+  "gmcm.colorful_resonances.title": "Színes rezonanciák",
+  "gmcm.colorful_resonances.desc": "A rezonanciaragyogás örökölje-e az alaphang színét.",
+  "gmcm.resonance_lightsource_texture.title": "Rezonancia fényforrás textúra",
+  "gmcm.resonance_lightsource_texture.desc": "A rezonancia fényforráshoz használandó textúra.",
+  "gmcm.lightsource_texture.sconce": "Falikar",
+  "gmcm.lightsource_texture.stronger": "Erősebb",
+  "gmcm.lightsource_texture.patterned": "Mintás"
+}

@@ -11,12 +11,12 @@ using Microsoft.Xna.Framework;
 /// <summary>Extensions for the <see cref="Vector2"/> struct.</summary>
 public static class Vector2Extensions
 {
-    /// <summary>Gets the angle between this <paramref name="vector"/> and the horizontal, in degrees.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <returns>The angle between the <paramref name="vector"/> and a horizontal line, in degrees.</returns>
-    public static double AngleWithHorizontal(this Vector2 vector)
+    /// <summary>Gets the angle between this <paramref name="self"/> and the horizontal, in degrees.</summary>
+    /// <param name="self">The <see cref="Vector2"/>.</param>
+    /// <returns>The angle between the <paramref name="self"/> and a horizontal line, in degrees.</returns>
+    public static double AngleWithHorizontal(this Vector2 self)
     {
-        var (x, y) = vector;
+        var (x, y) = self;
         return Math.Atan2(0f - y, 0f - x) * (180 / Math.PI);
     }
 
@@ -34,27 +34,36 @@ public static class Vector2Extensions
     }
 
     /// <summary>Creates a new <see cref="Vector2"/> that is perpendicular to this one.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <param name="self">The <see cref="Vector2"/>.</param>
     /// <returns>A new <see cref="Vector2"/> obtained by a 90-degree anti-clockwise rotation of the original.</returns>
-    public static Vector2 Perpendicular(this Vector2 vector)
+    public static Vector2 Perpendicular(this Vector2 self)
     {
-        var (x, y) = vector;
+        var (x, y) = self;
         return new Vector2(y, -x);
     }
 
-    /// <summary>Creates a new <see cref="Vector2"/> by rotating this <paramref name="vector"/> by the specified <paramref name="angle"/>, in degrees.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
+    /// <summary>Creates a new <see cref="Vector2"/> by rotating this <paramref name="self"/> by the specified <paramref name="angle"/>, in degrees.</summary>
+    /// <param name="self">The <see cref="Vector2"/>.</param>
     /// <param name="angle">An angle, in degrees, to rotate by.</param>
     /// <returns>A new <see cref="Vector2"/> obtained by the specified rotation of the original.</returns>
-    public static Vector2 Rotate(this Vector2 vector, double angle)
+    public static Vector2 Rotate(this Vector2 self, double angle)
     {
         var sin = (float)Math.Sin(angle * Math.PI / 180d);
         var cos = (float)Math.Cos(angle * Math.PI / 180d);
-        var tx = vector.X;
-        var ty = vector.Y;
+        var tx = self.X;
+        var ty = self.Y;
         return new Vector2(
             (cos * tx) - (sin * ty),
             (sin * tx) + (cos * ty));
+    }
+
+    /// <summary>Checks whether two vectors are adjacent in 8-connected space.</summary>
+    /// <param name="self">The <see cref="Vector2"/>.</param>
+    /// <param name="other">Some other <see cref="Vector2"/>.</param>
+    /// <returns><see langword="true"/> if <paramref name="self"/> and <paramref name="other"/> are adjacent in 8-connected space, otherwise <see langword="false"/>.</returns>
+    public static bool IsAdjacentTo(this Vector2 self, Vector2 other)
+    {
+        return Math.Abs(self.X - other.X) <= 1 && Math.Abs(self.Y - other.Y) <= 1 && self != other;
     }
 
     /// <summary>Gets the 4-connected neighboring tiles in a given region.</summary>
@@ -215,15 +224,6 @@ public static class Vector2Extensions
                 }
             }
         }
-    }
-
-    /// <summary>Checks whether two vectors are adjacent in an 8-connected space.</summary>
-    /// <param name="vector">The <see cref="Vector2"/>.</param>
-    /// <param name="other">Some other <see cref="Vector2"/>.</param>
-    /// <returns><see langword="true"/> if <paramref name="vector"/> and <paramref name="other"/> are adjacent in an 8-connected space, otherwise <see langword="false"/>.</returns>
-    public static bool IsAdjacentTo(this Vector2 vector, Vector2 other)
-    {
-        return Math.Abs(vector.X - other.X) <= 1 && Math.Abs(vector.Y - other.Y) <= 1 && vector != other;
     }
 
     /// <summary>Gets the horizontal and vertical unit vector projections of this <paramref name="vector"></paramref>.</summary>
