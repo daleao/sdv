@@ -19,8 +19,8 @@
      *** GMCM ***
      ************/
 
-    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
-    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
+    "gmcm.colored_slime_balls.title": "Colored Slime Balls",
+    "gmcm.colored_slime_balls.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "作物の枯れ確率",
     "gmcm.crop_wither_chance.desc": "水やりをしなかった場合、作物が毎日枯れる確率（%）。",
     "gmcm.two_way_hoppers.title": "双方向ホッパー",

@@ -19,8 +19,8 @@
      *** GMCM ***
      ************/
 
-    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
-    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
+    "gmcm.colored_slime_balls.title": "Colored Slime Balls",
+    "gmcm.colored_slime_balls.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Pflanzen-Welkchance",
     "gmcm.crop_wither_chance.desc": "Die prozentuale Wahrscheinlichkeit, dass eine beliebige Pflanze jeden Tag verwelkt, wenn sie nicht bewässert wird.",
     "gmcm.two_way_hoppers.title": "Bidirektionale Trichter",

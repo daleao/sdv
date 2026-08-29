@@ -26,13 +26,15 @@ internal sealed class CropNewDayPatcher : HarmonyPatcher
     /// <summary>Patch for Winter Wheat.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static void CropNewDayPrefix(Crop __instance)
+    private static bool CropNewDayPrefix(Crop __instance)
     {
         if (__instance.indexOfHarvest.Value == "262" && Game1.currentSeason == "winter" &&
             __instance.currentPhase.Value > 0 && Config.WinterWheat)
         {
-            return;
+            return false; // don't run original logic
         }
+
+        return true; // run original logic
     }
 
     #endregion harmony patches

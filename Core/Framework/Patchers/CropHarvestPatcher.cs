@@ -110,7 +110,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
                         new CodeInstruction(OpCodes.Ldarg_0),
                         new CodeInstruction(OpCodes.Call, typeof(CropHarvestPatcher).RequireMethod(nameof(IsWinterWheat))),
                         new CodeInstruction(OpCodes.Brfalse_S, notWinterWheat),
-                        new CodeInstruction(OpCodes.Ldloca_S, helper.Locals[15]),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[15]),
                         new CodeInstruction(OpCodes.Ldc_I4_2),
                         new CodeInstruction(OpCodes.Mul),
                         new CodeInstruction(OpCodes.Stloc_S, helper.Locals[15]),
@@ -132,7 +132,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
 
     private static bool IsWinterWheat(Crop crop)
     {
-        return crop.indexOfHarvest.Value == QIDs.Wheat && Data.ReadAs<bool>(crop, DataKeys.WinterWheat);
+        return crop.indexOfHarvest.Value == "262" && Data.ReadAs<bool>(crop, DataKeys.WinterWheat);
     }
 
     #endregion injected

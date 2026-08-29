@@ -15,8 +15,8 @@
      *** GMCM ***
      ************/
 
-    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
-    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
+    "gmcm.colored_slime_balls.title": "Colored Slime Balls",
+    "gmcm.colored_slime_balls.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Crop Wither Chance",
     "gmcm.crop_wither_chance.desc": "The percent chance that any given crop may wither each day if left un-watered.",
     "gmcm.two_way_hoppers.title": "Two Way Hoppers",

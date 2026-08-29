@@ -19,8 +19,8 @@
      *** 通用模组管理菜单 ***
      **********************/
 
-    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
-    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
+    "gmcm.colored_slime_balls.title": "Colored Slime Balls",
+    "gmcm.colored_slime_balls.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "作物枯萎几率",
     "gmcm.crop_wither_chance.desc": "如果不浇水，任何作物每天枯萎的概率百分比。",
     "gmcm.two_way_hoppers.title": "双向漏斗",

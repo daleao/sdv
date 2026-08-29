@@ -27,11 +27,19 @@ internal sealed class CropIsInSeasonPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void CropIsInSeasonPostfix(Crop __instance, ref bool __result)
     {
-        if (__instance.indexOfHarvest.Value == "262" && Game1.currentSeason == "winter" &&
-            __instance.currentPhase.Value > 0 && Config.WinterWheat)
+        if (__instance.indexOfHarvest.Value != "262" || !Config.WinterWheat)
+        {
+            return;
+        }
+
+        if (Game1.currentSeason == "winter" && __instance.currentPhase.Value > 0)
         {
             __result = true;
             Data.WriteIfNotExists(__instance, DataKeys.WinterWheat, true.ToString());
+        }
+        else if (Game1.currentSeason == "spring" && Data.ReadAs<bool>(__instance, DataKeys.WinterWheat))
+        {
+            __result = true;
         }
     }
 

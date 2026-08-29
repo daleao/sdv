@@ -19,8 +19,8 @@
      *** GMCM ***
      ************/
 
-    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
-    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
+    "gmcm.colored_slime_balls.title": "Colored Slime Balls",
+    "gmcm.colored_slime_balls.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Növény hervadási esélye",
     "gmcm.crop_wither_chance.desc": "Annak százalékos valószínűsége, hogy bármely növény elhervad minden nap, ha nem öntözik meg.",
     "gmcm.two_way_hoppers.title": "Kétirányú tolócsövek",

@@ -29,9 +29,9 @@
     * All nearby Slimes at the moment the flute is used will also become minions.
     * Playing the flute again will not summon new Slimes until the previous ones have been defeated or dismissed, but nearby enemy Slimes can always be charmed without limit.
     * Playing the flute puts it on a 1-minute cooldown.
-    * Playing the flute while holding the Mod Key dismisses all summoned Slime minions. Charmed Slimes are released and become hostile again.
+    * Playing the flute while holding the Mod key recalls all summoned Slime minions. Charmed Slimes are released back as wild Slimes.
     * Prestiged Piper summoned Slimes now use the dangerous Slime appearance.
-    * Summoned Slimes no longer copy the stats of the same Slime whose color was copied. Instead, stats are chosen randomly from the range between the lowest and highest across all raised Slimes.
+    * Summoned Slimes no longer copy the stats of the same Slime whose color was copied. Instead, stats are taken from the collective range of stats across all raised Slimes, separately from color.
     * Increased base Slime summon scaling to 1 per 5 raised Slimes, up from 1 per 10.
 
 * Added Survey Flag as a crafting recipe available to Cavewardens.
@@ -46,10 +46,6 @@
 * Added `AnglerPriceBonusRate` config setting.
 * Fisher bait perk now also adds +1 to the number of fish attempts granted by Challenge Bait (cannot be doubled as that would be overpowered). Prestiged Fisher adds another +1.
 * Prestiged Fisher now also affects Deluxe Bait bar height.
-* Added `MachineTreatments.json` data files for adding Machine Treatment data for custom Artisan Machines (see explanation below in the **Changed** section.
-    * Treatment compatibility can be customized through the `*.MachineTreatments.json` files using machine IDs and product IDs or context tags.
-    * As usual, data for SVE and Cornucopia is already included.
-
 * Added Blue Eggs, since I recently learned they are a real thing. Blue Mayonnaise still makes no sense though (there's no "brown mayonnaise" either).
 * Added a console command to manually revalidate buildings (updates buildings affected by professions).
 * Added ES, IT, HU, TR and JA translations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
@@ -58,11 +54,12 @@
 
 #### Artisan
 
-* Industrialist has been replaced by **Machinist**. Machinists can boost artisan machines with special Machine Treatments. There are 3 coating treatments which are based on the 3 basic tree syrups, as well as 1 overclock treatment which uses batteries. These treatments are loosely based on real principles, but allowing a lot of creative liberty to fit the limitation of just these 3 items. Treatment data is provided as an asset file instead of being hardcoded, so users may customize if they dislike the defaults.
+* Industrialist has been replaced by **Machinist**. Machinists can boost artisan machines with special Machine Treatments. There are 3 coating treatments which are based on the 3 basic tree syrups, as well as 1 overclock treatment which uses batteries. These treatments are loosely based on real principles, but allowing a lot of creative liberty to fit the limitation of just these 3 items. Treatment data is provided as an asset file instead of being hardcoded, so users may customize if they dislike the defaults (see `MachineTreatments.json` files inside [data assets](assets/data/)).
 	* Overclock treatment consumes a Battery to double production speed for 20 cycles.
 	* Fermentation treatment uses Oak Resin to enhance alcoholic beverages.
 	* Glazing treatment uses Maple Syrup (or SVE Birch Water) to enhance juices, jams, butter, yogurt, and similar products.
 	* Sealing treatment uses Pine Tar (or SVE Fir Wax) to enhance oils, smoked, dried, and heat-based products.
+    * Third-party compatibility can also be added through `*.MachineTreatments.json` filess using machine IDs and product IDs or context tags. As usual, data for SVE and Cornucopia is already included..
 * Artisan no longer passively speeds up all machines. Instead, machines gradually build up processing speed by repeatedly processing the same ingredient. Just 10 cycles are needed to reach the maximum bonus of 25%.
 	* Machinists add an ingredient surplus feature to the calibration mechanic, producing an additional low-quality output for every 5 processed inputs.
 * Chance to preserve ingredient quality was reduced by half, from `FarmingLevel / 30` to `FarmingLevel / 60` (16.7% at level 10, 33% at level 20).
@@ -85,7 +82,7 @@ Old Breeder and Producer had opposite problems:
 I've added a new spin without changing the originals too much, but I think it alleviated both problems.
 
 * Added "short-term" and "long-term" nutrition.
-    * Most crops have been classified into custom categories that loosely represent different animal diets (e.g., grains, greens, legumes, etc.). Crop classifications can be customized by editing `*.CropCategories.json` data files inside the [Core mod assets](../Core/assets), and animal preferences can be customized by editing `*.AnimalFavoredFeeds.json` files inside [this mod's assets](/assets/). Data is already provided for SVE animals, crops and Cornucopia crops.
+    * Most crops have been classified into custom categories that loosely represent different animal diets (e.g., grains, greens, legumes, etc.). Crop classifications can be customized by editing `*.CropCategories.json` files inside [data assets](../Core/assets), and animal preferences can be customized by editing `*.AnimalFavoredFeeds.json` in the same folder. Data is already provided for SVE animals, crops and Cornucopia crops.
     * Once per day, you can approach an animal with any crop of a corresponding favored category to receive a friendship boost and improve its "nutrition" stats.
     * Crops function as **supplements**, and not as replacements for regular hay / grass.
     * "Short-term" nutrition is a variable ranging from 0 to 100. It increases by 25 each day when the animal is fed a crop, and decreases by 10 each day when the animal is not fed a crop. If the animal does not eat hay or grass that day then nutrition drops by 50 points if the animal was not fed a crop, and stays unchanged if it was fed a crop.
@@ -247,13 +244,13 @@ The following reported issues were also checked:
 
 * Added population gates to legendary fish ponds (this doesn't mean they can reproduce).
 * Slimed Piper now pacifies wild Slimes. They will act neutral towards all players while in the presence of a Piper.
-* Slimed Piper can now hold the Mod Key to temporarily charm the nearest Slime. This can be used to add an extra unit to your Slime army, but the main use of this perk is to manually herd Slimes for breeding.
+* Slimed Piper can now hold the Mod key to temporarily charm the nearest Slime. This can be used to add an extra unit to your Slime army, but the main use of this perk is to manually herd Slimes for breeding.
 * Prestiged Slimed Piper can now craft Slime Paintbrushes. 5 new recipes will be added upon choosing this prestige (Green Brush, Blue Brush, Red Brush, Purple Brush and Prismatic Brush). Brushes other than Prismatic can be applied to raised Slimes to increase their RGB color values, bringing them closer to perfect white. The Prismatic Brush can only be applied to a perfect White Slime, and will convert it into a Prismatic Slime. Prismatic Slimes gain a significant boost to combat stats and also gain access to all special colored abilities, expect for Black and Gold). For the purpose of breeding, a Prismatic Slime behaves like a regular White Slime.
     * Slime Paintbrushes are a universal neutral gift, except for:
       * Loved by: Leah, Emily, Jas, Vincent, Leo and Krobus (he's fascinated by colorful things).
       * Liked by: Penny and Robin.
       * Disliked by: Haley (it's icky), Pam and Sebastian (hates colorful things).
-* Prestiged Slime Piper can now "see" the color components of raised Slimes, either by hovering the cursor over the Slime (Mouse & KB only) or by holding the Mod Key.
+* Prestiged Slime Piper can now "see" the color components of raised Slimes, either by hovering the cursor over the Slime (Mouse & KB only) or by holding the Mod key.
 
 ### Changed
 
