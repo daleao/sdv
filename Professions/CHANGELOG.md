@@ -68,10 +68,6 @@
 * Industrialist/Machinist no longer requires Hoppers to provide its bonus. As such, changes made to Hoppers by the [Core](../Core) mod are now disabled by default.
 * Hoppers automatically apply compatible Machine Treatments. Automate will not.
 * Artisan's previous "hidden" 5% chance to upgrade output quality has been removed.
-* Renamed "Relicseeker" -> "Wayfarer".
-* Renamed "Archaeologist" -> "Relicseeker". Sorry about the confusion.
-* Renamed `EnableGoldenDelightMayo` to `ExtraPoultryItemColors` since it now also adds the Blue Egg item..
-* Renamed `ImmersiveDairyYield` to `ImmersiveDairyPoultryYield` since eggs are not dairy.
 
 #### Rancher, Breeder & Producer
 
@@ -157,6 +153,10 @@ I like the idea of closing the loop between crop farming and animal ranching. Th
 * Skill Reset stars now begin at **Silver** and finish at **Iridium**, instead of starting at Bronze and ending at Gold.
     * This mirrors item qualities, and avoids the assumption that an additional Iridium tier exists. Idk why I didn't do this to begin with.
 * Updated the `set fishdex` command.
+* Renamed "Relicseeker" -> "Wayfarer".
+* Renamed "Archaeologist" -> "Relicseeker". Sorry about the confusion.
+* Renamed `EnableGoldenDelightMayo` to `ExtraPoultryItemColors` since it now also adds the Blue Egg item..
+* Renamed `ImmersiveDairyYield` to `ImmersiveDairyPoultryYield` since eggs are not dairy.
 
 ### Fixed
 
