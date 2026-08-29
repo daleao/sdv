@@ -17,7 +17,7 @@
     "artisan.title.prestiged.male": "Industriel",
     "artisan.title.prestiged.female": "Industrielle",
     "artisan.desc": "Les machines d'artisan se calibrent aux ingrédients répétés, réduisant le temps de traitement. Chance de préserver la qualité des ingrédients.",
-    "artisan.desc.prestiged": "Les machines calibrées augmentent également le rendement. Appliquez des batteries ou agents de traitement pour améliorer la vitesse ou la qualité du traitement.",
+    "artisan.desc.prestiged": "Les machines se calibrent deux fois plus vite. Appliquez des batteries ou agents de traitement pour améliorer la vitesse ou la qualité du traitement.",
 
     "rancher.title.male": "Cowboy",
     "rancher.title.female": "Cowgirl",

@@ -17,7 +17,7 @@
     "artisan.title.prestiged.male": "Maquinista",
     "artisan.title.prestiged.female": "Maquinista",
     "artisan.desc": "Las máquinas de artesano se calibran a ingredientes repetidos, reduciendo el tiempo de procesado. Probabilidad de preservar la calidad del ingrediente.",
-    "artisan.desc.prestiged": "Las máquinas calibradas también aumentan el rendimiento. Aplica baterías o agentes de curado para mejorar la velocidad de procesado o la calidad del resultado.",
+    "artisan.desc.prestiged": "Las máquinas se calibran el doble de rápido. Aplica baterías o agentes de curado para mejorar la velocidad de procesado o la calidad del resultado.",
 
     "rancher.title.male": "Ranchero",
     "rancher.title.female": "Ranchera",

@@ -123,16 +123,23 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var r = Random.Shared;
         var newQuality = ObjectQuality.Regular;
 
+        const int maxCalibration = 25;
+
         // artisan users can preserve the input quality
         if (__instance.QualifiedItemId != QIDs.Cask && user.HasProfession(Profession.Artisan))
         {
-            newQuality = (ObjectQuality)input.Quality;
-            if (r.NextDouble() > who.FarmingLevel / 60d)
+            var repeatedCycles = Data.ReadAs<int>(__instance, DataKeys.RepeatedInputCycles);
+            var calibrationLevel = Math.Min(repeatedCycles, maxCalibration);
+            if (calibrationLevel >= maxCalibration)
             {
-                newQuality = newQuality.Decrement();
-                if (r.NextDouble() > who.FarmingLevel / 30d)
+                newQuality = (ObjectQuality)input.Quality;
+                if (r.NextDouble() > who.FarmingLevel / 60d)
                 {
                     newQuality = newQuality.Decrement();
+                    if (r.NextDouble() > who.FarmingLevel / 30d)
+                    {
+                        newQuality = newQuality.Decrement();
+                    }
                 }
             }
         }
@@ -148,8 +155,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         if (input.QualifiedItemId == __instance.lastInputItem.Value?.QualifiedItemId)
         {
             var repeatedCycles = Data.ReadAs<int>(__instance, DataKeys.RepeatedInputCycles);
-            var calibrationLevel = Math.Min(repeatedCycles, 10);
-            var calibrationBonus = calibrationLevel * 0.025;
+            var calibrationLevel = Math.Min(repeatedCycles, maxCalibration);
+            var calibrationBonus = calibrationLevel * 0.01;
             if (__instance is Cask cask)
             {
                 cask.daysToMature.Value -= (int)Math.Floor(cask.daysToMature.Value * calibrationBonus);
@@ -160,6 +167,10 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             }
 
             Data.Increment(__instance, DataKeys.RepeatedInputCycles);
+            if (owner.HasProfessionOrLax(Profession.Artisan, true))
+            {
+                Data.Increment(__instance, DataKeys.RepeatedInputCycles);
+            }
         }
         else
         {

@@ -16,8 +16,8 @@
     "artisan.title.female": "Artisan",
     "artisan.title.prestiged.male": "Machinist", // consider Curator
     "artisan.title.prestiged.female": "Machinist", // consider Curator
-    "artisan.desc": "Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality.",
-    "artisan.desc.prestiged": "Calibrated machines also increase yield. Enhance machines with batteries and curing agents to further boost processing speed or output quality.",
+    "artisan.desc": "Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality when fully calibrated.",
+    "artisan.desc.prestiged": "Machines calibrate twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.",
 
     "rancher.title.male": "Nutritionist",
     "rancher.title.female": "Nutritionist",

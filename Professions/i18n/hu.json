@@ -17,7 +17,7 @@
     "artisan.title.prestiged.male": "Gépész",
     "artisan.title.prestiged.female": "Gépész",
     "artisan.desc": "A kézműves gépek ismétlődő alapanyagokhoz kalibrálódnak, fokozatosan csökkentve a feldolgozási időt. Esély az alapanyag minőségének megőrzésére.",
-    "artisan.desc.prestiged": "A kalibrált gépek a hozamot is növelik. Akkumulátorok vagy keményítőszerek alkalmazásával tovább növelhető a feldolgozási sebesség vagy a kimeneti minőség.",
+    "artisan.desc.prestiged": "A gépek kétszer olyan gyorsan kalibrálódnak. Akkumulátorok vagy keményítőszerek alkalmazásával tovább növelhető a feldolgozási sebesség vagy a kimeneti minőség.",
 
     "rancher.title.male": "Tanyás",
     "rancher.title.female": "Tanyás",

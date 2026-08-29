@@ -55,19 +55,19 @@
 #### Artisan
 
 * Industrialist has been replaced by **Machinist**. Machinists can boost artisan machines with special Machine Treatments. There are 3 coating treatments which are based on the 3 basic tree syrups, as well as 1 overclock treatment which uses batteries. These treatments are loosely based on real principles, but allowing a lot of creative liberty to fit the limitation of just these 3 items. Treatment data is provided as an asset file instead of being hardcoded, so users may customize if they dislike the defaults (see `MachineTreatments.json` files inside [data assets](assets/data/)).
-	* Overclock treatment consumes a Battery to double production speed for 20 cycles.
+	* Overclock treatment consumes a Battery to double production speed for 30 cycles.
 	* Fermentation treatment uses Oak Resin to enhance alcoholic beverages.
 	* Glazing treatment uses Maple Syrup (or SVE Birch Water) to enhance juices, jams, butter, yogurt, and similar products.
 	* Sealing treatment uses Pine Tar (or SVE Fir Wax) to enhance oils, smoked, dried, and heat-based products.
     * Third-party compatibility can also be added through `*.MachineTreatments.json` filess using machine IDs and product IDs or context tags. As usual, data for SVE and Cornucopia is already included..
-* Artisan no longer passively speeds up all machines. Instead, machines gradually build up processing speed by repeatedly processing the same ingredient. Just 10 cycles are needed to reach the maximum bonus of 25%.
-	* Machinists add an ingredient surplus feature to the calibration mechanic, producing an additional low-quality output for every 5 processed inputs.
-* Chance to preserve ingredient quality was reduced by half, from `FarmingLevel / 30` to `FarmingLevel / 60` (16.7% at level 10, 33% at level 20).
+* Artisan no longer passively speeds up all machines. Instead, machines gradually build up processing speed by repeatedly processing the same ingredient. 25 cycles are needed to reach the maximum bonus of 25% (1% per cycle).
+* Quality preservation now occurs only at max calibration. Chance to preserve ingredient quality also reduced by half, from `FarmingLevel / 30` to `FarmingLevel / 60` (16.7% at level 10, 33% at level 20).
     * This makes quality preservation a shortcut--a surprise gold "advancement"--rather than a reliable cask replacement.
     * Industrialist/Machinist no longer guarantees ingredient quality preservation.
+* "Hidden" bonus: when fully calibrated, machines also produce one additional low-quality output for every 5 processed inputs.
 * Industrialist/Machinist no longer requires Hoppers to provide its bonus. As such, changes made to Hoppers by the [Core](../Core) mod are now disabled by default.
 * Hoppers automatically apply compatible Machine Treatments. Automate will not.
-* Artisan's natural, "hidden" 5% chance to upgrade output quality has been removed.
+* Artisan's previous "hidden" 5% chance to upgrade output quality has been removed.
 * Renamed "Relicseeker" -> "Wayfarer".
 * Renamed "Archaeologist" -> "Relicseeker". Sorry about the confusion.
 * Renamed `EnableGoldenDelightMayo` to `ExtraPoultryItemColors` since it now also adds the Blue Egg item..
@@ -203,6 +203,10 @@ The following reported issues were also checked:
 * Removed the pond restriction on Extended Family fish.
 * Removed LegendaryFishPondData (moved to [Ponds](../Ponds)).
 * Removed support for the Legacy UI Info Suite 2 mod. Please use the new [UI Info Suite 2 Alt](https://www.nexusmods.com/stardewvalley/mods/43127) instead.
+
+### Planned
+
+* Some visual feedback while an Artisan machine is enhanced with a coating.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

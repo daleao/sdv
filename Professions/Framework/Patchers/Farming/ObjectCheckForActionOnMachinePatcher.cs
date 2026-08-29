@@ -67,14 +67,15 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     private static bool CheckForExtraMaterial(SObject machine, Farmer who, SObject objectThatWasHeld)
     {
-        if (!machine.IsArtisanMachine() || !who.HasProfession(Profession.Artisan, true))
+        if (!machine.IsArtisanMachine() || !who.HasProfession(Profession.Artisan))
         {
             return false;
         }
 
         var repeatedCycles = Data.ReadAs<int>(machine, DataKeys.RepeatedInputCycles);
         var lastLeftoverCycle = Data.ReadAs<int>(machine, DataKeys.LastLeftoverCycle);
-        if (repeatedCycles <= 10 || (repeatedCycles - 10) % 5 != 0 || lastLeftoverCycle == repeatedCycles)
+        const int maxCalibration = 25;
+        if (repeatedCycles <= maxCalibration || (repeatedCycles - maxCalibration) % 5 != 0 || lastLeftoverCycle == repeatedCycles)
         {
             return false;
         }

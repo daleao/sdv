@@ -17,7 +17,7 @@
     "artisan.title.prestiged.male": "機械師",
     "artisan.title.prestiged.female": "機械師",
     "artisan.desc": "職人機械は繰り返し使う材料に合わせて調整され、加工時間が徐々に短縮される。材料の品質を保持できる確率がある。",
-    "artisan.desc.prestiged": "調整済みの機械は収量も増加させる。バッテリーや硬化剤を使って機械の加工速度や出力品質をさらに向上できる。",
+    "artisan.desc.prestiged": "機械の調整速度が2倍になります。バッテリーや硬化剤を使って機械の加工速度や出力品質をさらに向上できる。",
 
     "rancher.title.male": "牧場主",
     "rancher.title.female": "牧場主",

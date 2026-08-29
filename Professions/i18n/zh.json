@@ -17,7 +17,7 @@
     "artisan.title.prestiged.male": "工业家",
     "artisan.title.prestiged.female": "工业家",
     "artisan.desc": "工匠机器根据重复使用的食材进行校准，逐步缩短加工时间。有几率保留食材品质。",
-    "artisan.desc.prestiged": "校准后的机器同样提升产量。施加电池或固化剂可进一步提升机器的加工速度或产出品质。",
+    "artisan.desc.prestiged": "机器的校准速度提高一倍。施加电池或固化剂可进一步提升机器的加工速度或产出品质。",
 
     "rancher.title.male": "牧场主",
     "rancher.title.female": "牧场主",
