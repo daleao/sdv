@@ -45,8 +45,8 @@ Any crop that fully grows within that time can be harvested as normal despite be
 Retaining Soil can be used to extend a crop's lifetme into the winter season, but [b]cannot be used to plant crops during winter[/b].[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/U7pkTnJ.png[/img] [b]Artisan (Lv10)[/b] - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality.
-[spoiler][color=gold][img]https://i.imgur.com/mb1smYT.png[/img] [b]Machinist (Lv20)[/b] - Calibrated machines also increase yield. Enhance machines with batteries and curing agents to further boost processing speed or output quality.[/color]
+[*][img]https://i.imgur.com/U7pkTnJ.png[/img] [b]Artisan (Lv10)[/b] - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality when fully calibrated.
+[spoiler][color=gold][img]https://i.imgur.com/mb1smYT.png[/img] [b]Machinist (Lv20)[/b] - Machines calibrate twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.[/color]
 [spoiler][size=2]
 [b]Calibration:[/b] Process the same ingredient consecutively to reduce each subsequent process cycle by 2.5%, capping at 25%. If the ingredient changes, calibration drops back to zero. Does not distinguish items of different qualities. Bonus is tied to each machine; as long as the machine was crafted by an Artisan player, any player using the machine receives the bonus (ownership requirement can be disabled in settings). When prestiged, one additional output is generated for free every 5 cycles.
 

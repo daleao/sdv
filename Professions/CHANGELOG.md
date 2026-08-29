@@ -212,6 +212,7 @@ The following reported issues were also checked:
 ### Planned
 
 * Some visual feedback while an Artisan machine is enhanced with a coating.
+* Apiarist profession. Possibly as an alternative to Rancher.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

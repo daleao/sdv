@@ -131,13 +131,13 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <!--- Artisan --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/artisan.png"/> <b>Artisan (Lv10)</b> - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality.
+<summary><img src="./resources/assets/sprites/loose/artisan.png"/> <b>Artisan (Lv10)</b> - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality when fully calibrated.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Calibrated machines also increase yield. Enhance machines with batteries and curing agents to further boost processing speed or output quality.
+<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Machines calibrated twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.
 </font>
 
 <font size="2">
