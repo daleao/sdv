@@ -7,6 +7,6 @@
   "gmcm.days_until_algae_spawn.desc": "Количество дней, через которое в пустом пруду начнут появляться водоросли.",
   "gmcm.roe_production_chance_multiplier.title": "Множитель шанса производства икры",
   "gmcm.roe_production_chance_multiplier.desc": "Множитель базового шанса рыбы производить икру каждый день.",
-  "gmcm.add_legendary_pond_data.title": "Добавить данные для прудов с легендарной рыбой",
-  "gmcm.add_legendary_pond_data.desc": "Добавляет атмосферные дропы в пруды с легендарной рыбой. Не работает, если установлен Walk of Life."
+  "gmcm.add_legendary_fish_pond_data.title": "Добавить данные для прудов с легендарной рыбой",
+  "gmcm.add_legendary_fish_pond_data.desc": "Добавляет атмосферные дропы в пруды с легендарной рыбой. Не работает, если установлен Walk of Life."
 }

@@ -7,6 +7,6 @@
   "gmcm.days_until_algae_spawn.desc": "Boş bir gölette yosun oluşmaya başlayana kadar geçecek gün sayısı.",
   "gmcm.roe_production_chance_multiplier.title": "Yumurta Üretim Şansı Çarpanı",
   "gmcm.roe_production_chance_multiplier.desc": "Bir balığın her gün yumurta üretme temel şansına uygulanan çarpan.",
-  "gmcm.add_legendary_pond_data.title": "Efsanevi Balık Göleti Verileri Ekle",
-  "gmcm.add_legendary_pond_data.desc": "Efsanevi Balık Göletlerine sürükleyici düşürme öğeleri ekler. Walk of Life yüklüyse bu seçeneğin hiçbir etkisi olmaz."
+  "gmcm.add_legendary_fish_pond_data.title": "Efsanevi Balık Göleti Verileri Ekle",
+  "gmcm.add_legendary_fish_pond_data.desc": "Efsanevi Balık Göletlerine sürükleyici düşürme öğeleri ekler. Walk of Life yüklüyse bu seçeneğin hiçbir etkisi olmaz."
 }

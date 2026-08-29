@@ -7,6 +7,6 @@
   "gmcm.days_until_algae_spawn.desc": "O número de dias até que um lago vazio comece a gerar algas.",
   "gmcm.roe_production_chance_multiplier.title": "Multiplicador da Chance de Produção de Ovas",
   "gmcm.roe_production_chance_multiplier.desc": "Um multiplicador aplicado à chance padrão de um peixe produzir ovas a cada dia.",
-  "gmcm.add_legendary_pond_data.title": "Adicionar Dados de Lago de Peixes Lendários",
-  "gmcm.add_legendary_pond_data.desc": "Adiciona drops imersivos aos Lagos de Peixes Lendários. Não tem efeito se Walk of Life estiver instalado."
+  "gmcm.add_legendary_fish_pond_data.title": "Adicionar Dados de Lago de Peixes Lendários",
+  "gmcm.add_legendary_fish_pond_data.desc": "Adiciona drops imersivos aos Lagos de Peixes Lendários. Não tem efeito se Walk of Life estiver instalado."
 }

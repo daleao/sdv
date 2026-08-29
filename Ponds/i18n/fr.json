@@ -7,6 +7,6 @@
   "gmcm.days_until_algae_spawn.desc": "Le nombre de jours avant que des algues commencent à apparaître dans un étang vide.",
   "gmcm.roe_production_chance_multiplier.title": "Multiplicateur de chance de production d'œufs de poissons",
   "gmcm.roe_production_chance_multiplier.desc": "Un multiplicateur à la chance de base d'un poisson de produire des œufs de poissons chaque jour.",
-  "gmcm.add_legendary_pond_data.title": "Ajouter des données pour les étangs de poissons légendaires",
-  "gmcm.add_legendary_pond_data.desc": "Ajoute des butins immersifs aux étangs de poissons légendaires. Cela n'a aucun effet si Walk of Life est installé."
+  "gmcm.add_legendary_fish_pond_data.title": "Ajouter des données pour les étangs de poissons légendaires",
+  "gmcm.add_legendary_fish_pond_data.desc": "Ajoute des butins immersifs aux étangs de poissons légendaires. Cela n'a aucun effet si Walk of Life est installé."
 }
