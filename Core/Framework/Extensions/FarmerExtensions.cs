@@ -46,4 +46,12 @@ public static class FarmerExtensions
     {
         return farmer.hasBuff(BuffIDs.Jinxed);
     }
+
+    /// <summary>Determines whether the <paramref name="farmer"/> is stepping on a snowy tile.</summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the corresponding <see cref="FarmerSprite"/> is using snowy step sounds, otherwise <see langword="false"/>.</returns>
+    internal static bool IsStandingOnSnow(this Farmer farmer)
+    {
+        return farmer.FarmerSprite.currentStep == "snowyStep";
+    }
 }

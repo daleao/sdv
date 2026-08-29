@@ -53,4 +53,7 @@ internal sealed class DataKeys
 
     // projectile keys
     internal const string Overcharge = "Overcharge";
+
+    // location keys
+    internal const string PiecesOfFeed = "PiecesOfFeed";
 }

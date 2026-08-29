@@ -32,6 +32,8 @@ internal static class GreenSlime_Piped
         var piped = new PipedSlime(slime, piper, source);
         Values.AddOrUpdate(slime, piped);
         PipedSlimes.Add(slime);
+        slime.MaxHealth *= 5;
+        slime.Health = slime.MaxHealth;
         return piped;
     }
 
@@ -54,6 +56,8 @@ internal static class GreenSlime_Piped
         piped.Dispose();
         PipedSlimes.Remove(slime);
         Values.Remove(slime);
+        slime.MaxHealth /= 5;
+        slime.Health = slime.MaxHealth;
         return true;
     }
 }

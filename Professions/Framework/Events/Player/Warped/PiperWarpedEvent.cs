@@ -29,32 +29,43 @@ internal sealed class PiperWarpedEvent(EventManager? manager = null)
             return;
         }
 
-        var piper = e.Player;
         var newLocation = e.NewLocation;
         var toDangerZone = newLocation.IsEnemyArea();
         if (!toDangerZone)
         {
-            this.Manager.Enable<PipedDismissOneSecondUpdateTickedEvent>();
-            if ((!newLocation.IsOutdoors && newLocation is not SlimeHutch) || !PipedSlime.TheHatSlimeIsUponUs)
+            var fromDangerZone = e.OldLocation.IsEnemyArea();
+            if (fromDangerZone && GreenSlime_Piped.Values.Any())
             {
-                return;
+                foreach (var (_, piped) in GreenSlime_Piped.Values)
+                {
+                    if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
+                    {
+                        piped.WarpToPiper();
+                    }
+                }
+
+                this.Manager.Enable<PipedDismissOneSecondUpdateTickedEvent>();
             }
 
-            PipedSlime.HatSlime.WarpToPiper();
-            this.Manager.Enable<PiperVisionCursorMovedEvent>();
-            return;
-        }
-
-        if (!GreenSlime_Piped.Values.Any())
-        {
-            return;
-        }
-
-        foreach (var (_, piped) in GreenSlime_Piped.Values)
-        {
-            if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
+            if (newLocation.IsOutdoors || newLocation is SlimeHutch)
             {
-                piped.WarpToPiper();
+                this.Manager.Enable<PiperVisionCursorMovedEvent>();
+            }
+
+            if (PipedSlime.TheHatSlimeIsUponUs)
+            {
+                PipedSlime.HatSlime.WarpToPiper();
+            }
+        }
+
+        if (GreenSlime_Piped.Values.Any())
+        {
+            foreach (var (_, piped) in GreenSlime_Piped.Values)
+            {
+                if (!ReferenceEquals(piped.Slime.currentLocation, newLocation))
+                {
+                    piped.WarpToPiper();
+                }
             }
         }
     }

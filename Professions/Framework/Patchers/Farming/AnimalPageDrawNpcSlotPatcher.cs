@@ -68,7 +68,7 @@ internal sealed class AnimalPageDrawNpcSlotPatcher : HarmonyPatcher
 
     private static void DrawCropFeedCheckbox(AnimalPage page, SpriteBatch b, int i, AnimalEntry entry, int yOffset)
     {
-        if (!Game1.player.HasProfession(Profession.Rancher))
+        if (entry.AnimalType == "Horse" || !Game1.player.HasProfession(Profession.Rancher))
         {
             return;
         }

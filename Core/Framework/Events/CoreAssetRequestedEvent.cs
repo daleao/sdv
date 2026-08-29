@@ -4,7 +4,6 @@
 
 using DaLion.Shared.Content;
 using DaLion.Shared.Events;
-using Newtonsoft.Json;
 using StardewValley.GameData.Objects;
 using StardewValley.GameData.Weapons;
 
@@ -24,17 +23,20 @@ internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
         this.Edit("Data/Weapons", new AssetEditor(EditWeaponsData));
 
         this.Provide(
-            $"{Manifest.UniqueID}_BleedAnimation",
+            $"{UniqueId}_BleedAnimation",
             new ModTextureProvider(() => "assets/sprites/bleed.png"));
         this.Provide(
-            $"{Manifest.UniqueID}_SlowAnimation",
+            $"{UniqueId}_SlowAnimation",
             new ModTextureProvider(() => "assets/sprites/slow.png"));
         this.Provide(
-            $"{Manifest.UniqueID}_StunAnimation",
+            $"{UniqueId}_StunAnimation",
             new ModTextureProvider(() => "assets/sprites/stun.png"));
         this.Provide(
-            $"{Manifest.UniqueID}_PoisonAnimation",
+            $"{UniqueId}_PoisonAnimation",
             new ModTextureProvider(() => "assets/sprites/poison.png"));
+        this.Provide(
+            $"{UniqueId}_SnowballCollisionAnimation",
+            new ModTextureProvider(() => "assets/sprites/snowball.png"));
     }
 
     /// <summary>Makes seaweed an algae item.</summary>

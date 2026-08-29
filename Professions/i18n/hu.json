@@ -308,6 +308,8 @@
     "honorific.male": "Kedves",
     "honorific.female": "Kedves",
 
+    "buildings.PiecesOfHayAndMore": "Szénakupacok: {0}/{1}^Gabonák: {2}/{9}^Leveles zöldségek: {3}/{9}^Hüvelyesek: {4}/{9}^Gyökérzöldségek: {5}/{9}^Gumósok: {6}/{9}^Tökfélék: {7}/{9}^Gyümölcsök: {8}/{9}",
+
     /************
      *** GMCM ***
      ************/

@@ -15,6 +15,15 @@ public sealed class SlimeBallObjectListChangedEvent(EventManager? manager = null
     : ObjectListChangedEvent(manager ?? CoreMod.EventManager)
 {
     /// <inheritdoc />
+    protected override void OnEnabled()
+    {
+        if (!Config.ColoredSlimeBalls && !ModHelper.ModRegistry.IsLoaded("DaLion.Professions"))
+        {
+            this.Disable();
+        }
+    }
+
+    /// <inheritdoc />
     protected override void OnObjectListChangedImpl(object? sender, ObjectListChangedEventArgs e)
     {
         if (e.Location is not SlimeHutch)

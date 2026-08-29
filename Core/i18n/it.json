@@ -19,6 +19,8 @@
      *** GMCM ***
      ************/
 
+    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
+    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Probabilità di appassimento",
     "gmcm.crop_wither_chance.desc": "La percentuale di probabilità che una qualsiasi coltura appassisca ogni giorno se non viene annaffiata.",
     "gmcm.two_way_hoppers.title": "Tramogge bidirezionali",

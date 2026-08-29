@@ -304,13 +304,14 @@
     "objects.machinetreatments.glazing": "Glasurschicht",
     "objects.machinetreatments.sealing": "Versiegelungsschicht",
 
-
     "honorific.male": "Lieber",
     "honorific.female": "Liebe",
 
-    /***********
-  *** GMCM ***
-  ************/
+    "buildings.PiecesOfHayAndMore": "Heuballen: {0}/{1}^Getreide: {2}/{9}^Blattgemüse: {3}/{9}^Hülsenfrüchte: {4}/{9}^Wurzelgemüse: {5}/{9}^Knollen: {6}/{9}^Kürbisgewächse: {7}/{9}^Früchte: {8}/{9}",
+
+    /************
+     *** GMCM ***
+     ************/
 
     // pages
     "gmcm.pages.prfs": "Talente",

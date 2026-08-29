@@ -1,6 +1,6 @@
 ﻿# CORE Changelog
 
-## 2.2.3
+## 2.2.4
 
 ### Added
 
@@ -9,6 +9,9 @@
 * Added Immersive Hay; hay cannot be harvested from mature Wheat, but can instead be harvested from premature (stage 4) Wheat at 100% chance.
     * Applies Harvester profession perk if [Professions](../Professions) is installed.
     * Mimics how hay is produced IRL, and forces a conscious decision to either harvest Wheat or Hay.
+* Added Snowball projectile.
+    * Use an empty slingshot while standing over a snowy tile to fire a snowball. Doesn't do damage, but it's fun.
+* Added config settings `TwoWayHoppers` and `ColoredSlimeBalls`.
 * Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
 
 ### Changed
@@ -19,7 +22,7 @@
 
 * Fixed GMCM menu not building correctly.
 
-## 2.2.2
+## 2.2.3
 
 ### Fixed
 

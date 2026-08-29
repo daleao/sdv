@@ -660,9 +660,10 @@ internal static class FarmerExtensions
                             {
                                 spawn.prismatic.Value = true;
                                 spawn.Name = "Prismatic Slime";
-                                spawn.MaxHealth *= 2;
+                                spawn.MaxHealth *= 4;
                                 spawn.DamageToFarmer *= 2;
                                 spawn.resilience.Value *= 2;
+                                spawn.Health = spawn.MaxHealth;
                             }
 
                             break;
@@ -768,15 +769,6 @@ internal static class FarmerExtensions
         Game1.playSound("give_gift");
         animal.doEmote(20);
         rancher.reduceActiveItemByOne();
-
-        var shortTermNutrition = Data.ReadAs<int>(animal, DataKeys.ShortTermNutrition);
-        shortTermNutrition = Math.Min(shortTermNutrition + 25, 100);
-        Data.Write(animal, DataKeys.ShortTermNutrition, shortTermNutrition.ToString());
-
-        var longTermNutrition = Data.ReadAs<int>(animal, DataKeys.LongTermNutrition);
-        longTermNutrition = Math.Min(longTermNutrition + 10, 500);
-        Data.Write(animal, DataKeys.LongTermNutrition, longTermNutrition.ToString());
-
         State.WasFedCropToday.Add(animal);
     }
 }

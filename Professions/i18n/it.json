@@ -308,6 +308,8 @@
     "honorific.male": "Caro",
     "honorific.female": "Cara",
 
+    "buildings.PiecesOfHayAndMore": "Mucchi di fieno: {0}/{1}^Cereali: {2}/{9}^Verdure a foglia: {3}/{9}^Legumi: {4}/{9}^Radici: {5}/{9}^Tuberi: {6}/{9}^Zucca: {7}/{9}^Frutti: {8}/{9}",
+
     /************
      *** GMCM ***
      ************/

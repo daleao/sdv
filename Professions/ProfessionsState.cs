@@ -206,4 +206,6 @@ internal sealed class ProfessionsState
     internal Queue<ISkill> SkillsToReset { get; } = [];
 
     internal MasteryWarningBox? WarningBox { get; set; }
+
+    internal SiloMenuWrapper? MenuWrapper { get; set; }
 }

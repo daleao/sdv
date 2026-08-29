@@ -5,8 +5,6 @@
 using System.Collections.Generic;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Enums;
-using Microsoft.Xna.Framework;
-using CropCategory = DaLion.Core.Framework.CropCategory;
 
 #endregion using directives
 
@@ -101,7 +99,7 @@ internal static class Lookups
     };
 
     /// <summary>Gets a list of vegetables belonging to each category.</summary>
-    public static Dictionary<CropCategory, HashSet<string>> CropsByCategory { get; } = new()
+    internal static Dictionary<CropCategory, HashSet<string>> FeedCropsByCategory { get; } = new()
     {
         { CropCategory.Grains, [] },
         { CropCategory.LeafyGreens, [] },
@@ -112,10 +110,10 @@ internal static class Lookups
     };
 
     /// <summary>Gets a list of vegetables belonging to each category.</summary>
-    public static Dictionary<string, CropCategory> CategoryByCrop { get; } = [];
+    internal static Dictionary<string, CropCategory> CategoryByFeedCrop { get; } = [];
 
     /// <summary>Gets the feeds favored by each animal type.</summary>
-    internal static Dictionary<string, HashSet<CropCategory>> AnimalFavoredFeeds { get; } = [];
+    internal static Dictionary<AnimalType, HashSet<CropCategory>> AnimalFavoredFeeds { get; } = [];
 
     /// <summary>Gets or sets arrays of mammals or egg-layers.</summary>
     internal static AnimalsByReproductiveType AnimalReproductiveTypes { get; set; } = new([], []);

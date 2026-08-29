@@ -30,6 +30,11 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void SlimeHutchDayUpdatePostfix(SlimeHutch __instance)
     {
+        if (!Config.ColoredSlimeBalls && !ModHelper.ModRegistry.IsLoaded("DaLion.Professions"))
+        {
+            return;
+        }
+
         var r = Random.Shared;
         var slimes = __instance.characters.OfType<GreenSlime>().ToArray();
         if (!slimes.Any())

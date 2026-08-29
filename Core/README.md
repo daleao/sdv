@@ -8,20 +8,19 @@
 
 This is the core mod which provides shared functionality required by other DaLion mods.
 
-By itself, this mod carries the following non-controversial features:
-- **Improved Hoppers:** Adds the ability for Hoppers to pull items back out from machines, allowing them to fully automate a single machine at a time and transforming them from completely useless into a more balanced version of [Automate](https://www.nexusmods.com/stardewvalley/mods/1063).
-- **Colored Slime Balls:** Causes Slime Balls to take on the color of the Slimes which produced them, and adds regular color-based Slime drops to Slime Ball loot tables.
+It carries a few features of its own because I've no interest in managing a bunch of small miscellaneous mods.
+All are disabled by default.
 
-The features above should've been part of the vanilla game all along, and are required functionality for mods like [Walk Of Life](../Professions) and therefore are not-configurable and non-negotiable.
-
-The following optional features are also included:
-- **Witherable Crops:** Crops may wither if left un-watered. This is disabled by default.
-- **Snowballs**
-
+- **Colored Slime Balls:** Causes Slime Balls to take on the color of the Slimes which produced them, and adds regular color-based Slime drops to Slime Ball loot tables. This is required by [Profession](../Professions), so will auto-enable when that mod is installed.
+- **Two-Way Hoppers:** Adds the ability for Hoppers to pull items back out from machines, allowing them to fully automate a single machine at a time and transforming them from completely useless into a more balanced version of [Automate](https://www.nexusmods.com/stardewvalley/mods/1063).
+- **Witherable Crops:** Crops may wither if left un-watered.
+- **Immersive Hay:** Obtain Hay from harvesting pre-mature Wheat (stage 4). Mimics how hay is made IRL.
+- **Winter Wheat:** Plant Wheat near the end of Fall to have it survive dormant through Winter. In Spring, it resumes growing, yielding twice as much harvest. Mimics how real wheat is planted IRL.
+- **Snowball Fights:** Use an empty slingshot while standing over a snowy tile to fire a snowball projectile. Doesn't do damage; it's just for fun.
 
 ## Status Effects
 
-Taking inspiration from classic game tropes, this mod adds a framework for causing various status conditions to enemies. These effects will be used by the various DaLion mods, and can also be used by any C# mod which consumed the provided [API](/ICoreApi).
+Taking inspiration from classic game tropes, this mod adds a framework for causing various status conditions to enemies. These effects will be used by the various DaLion mods, and can also be used by any C# mod that wishes to consume [API](/ICoreApi).
 
 | Status   | Effect                                                                                                                                                                                                                                                   |
 |----------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|

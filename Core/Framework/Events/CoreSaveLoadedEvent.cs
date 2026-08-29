@@ -17,6 +17,9 @@ internal sealed class CoreSaveLoadedEvent(EventManager? manager = null)
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
-        this.Manager.Enable<SlimeBallObjectListChangedEvent>();
+        if (Config.ColoredSlimeBalls)
+        {
+            this.Manager.Enable<SlimeBallObjectListChangedEvent>();
+        }
     }
 }

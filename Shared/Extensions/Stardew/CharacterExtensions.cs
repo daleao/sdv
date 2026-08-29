@@ -143,6 +143,23 @@ public static class CharacterExtensions
     }
 
     /// <summary>
+    ///     Finds the closest <see cref="Building"/> to this
+    ///     <paramref name="character"/> in the current <see cref="GameLocation"/>.
+    /// </summary>
+    /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="candidates">The candidate buildings, if already available.</param>
+    /// <param name="buildingType">An optional filter on the building type.</param>
+    /// <returns>The <see cref="Building"/> with the minimal distance to <paramref name="character"/>.</returns>
+    public static Building? GetClosestBuilding(
+        this Character character,
+        IEnumerable<Building>? candidates = null,
+        string buildingType = "")
+    {
+        candidates ??= character.currentLocation.buildings;
+        return character.GetClosest(candidates, b => b.GetBoundingBox().Center.ToVector2(), out _, b => b.buildingType.Value == buildingType);
+    }
+
+    /// <summary>
     ///     Finds the closest <see cref="Building"/> of subtype <typeparamref name="TBuilding"/> to this
     ///     <paramref name="character"/> in the current <see cref="GameLocation"/>.
     /// </summary>

@@ -23,17 +23,17 @@ Level 5 professions always grant one minor early-game perk. Level 10 professions
 [*][img]https://i.imgur.com/tMK83Vu.png[/img] [b]Harvester (Lv5)[/b] - 10% chance for extra yield from harvested crops.
 [spoiler][color=gold][img]https://i.imgur.com/bzpC7KG.png[/img] [b]Master Harvester (Lv15)[/b] - [s]10%[/s] → 20% chance for extra yield from harvested crops.[/color]
 [spoiler][size=2]
-Equivalent in value to vanilla's 10% price bonus on average, while also providing value should you choose not to sell raw crops.[/size][/spoiler]
+Equivalent in value to vanilla's 10% price bonus on average, but also provides value if you don't sell raw crops.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/JAhCe85.png[/img] [b]Agriculturist (Lv10)[/b] - Crops grow 10% faster, plus 5% per different crop type grown in the same tile and season. Highest-quality crops can be harvested organically, without fertilizers.
 [spoiler][color=gold][img]https://i.imgur.com/YXpr4ZY.png[/img] [b]Cropwhisperer (Lv20)[/b] - Chance to harvest crops grown previously in the same tile and season. Use Retaining Soil to grow crops out of season.[/color]
 [spoiler][size=2]
-Every tilled tile keeps a memory of the previous crops grown on that tile in the current season. For each unique crop in that memory, the [i]next[/i] crop gains 5% bonus to growth speed. If prestiged, each crop in memory also has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5% / etc.).
+Every tilled tile keeps a memory of the previous crops grown on that tile in the current season. For each unique crop in that memory, the [i]next[/i] crop gains 5% bonus to growth speed. If prestiged, each crop in memory also has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5%). Caps out at 4 crops.
 
 Soil memory resets on the 1st of every season, and is completely lost if the hoe dirt disappears (whether from using a Pickaxe or left unplanted).
 
-[b]Highest-quality[/b] refers to iridium, which normally requires Deluxe Fertilizer. This does [b]not[/b] affect the [i]chance[/i] to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
+[b]Highest-quality[/b] refers to iridium, which normally requires Deluxe Fertilizer. The chance is very small; about 7% at level 10, without fertilizers. Deluxe Fertilizer increases that to about 40% at level 10. Fertilizers are still very useful.
 Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
 
 When prestiged, Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season. Each quality of Retaining Soil allows a single tile to sustain an out-of-season crop for a limited number of days:
@@ -45,36 +45,62 @@ Any crop that fully grows within that time can be harvested as normal despite be
 Retaining Soil can be used to extend a crop's lifetme into the winter season, but [b]cannot be used to plant crops during winter[/b].[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/U7pkTnJ.png[/img] [b]Artisan (Lv10)[/b] - Artisan machines work 10% faster. Machine output quality can be as good as input ingredient quality.
-[spoiler][color=gold][img]https://i.imgur.com/mb1smYT.png[/img] [b]Industrialist (Lv20)[/b] - Hopper-automated machines work 25% faster. Machine output quality is always as good as input ingredient quality.[/color]
+[*][img]https://i.imgur.com/U7pkTnJ.png[/img] [b]Artisan (Lv10)[/b] - Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality.
+[spoiler][color=gold][img]https://i.imgur.com/mb1smYT.png[/img] [b]Machinist (Lv20)[/b] - Calibrated machines also increase yield. Enhance machines with batteries and curing agents to further boost processing speed or output quality.[/color]
 [spoiler][size=2]
-The quality of the output is based on your Farming level. The lowest possible quality is 2 stages below the input quality, and the highest is 1 stage above at a flat 5% chance. For reference, the chance to [i]match[/i] input quality at Farming level 10 is 30%. Note that the quality preservation part of the perk is tied to the Artisan player, while the production time and quality promotion perks are tied to the machine itself; i.e., only Artisans themselves can preserve the ingredient quality, and they can do so on any machine, but non-Artisan players can still benefit from faster production and small chance for quality upgrade (in that case, capped at silver), so long as they use a machine that was crafted by an Artisan player (ownership requirements can be turned off in the configs).
+[b]Calibration:[/b] Process the same ingredient consecutively to reduce each subsequent process cycle by 2.5%, capping at 25%. If the ingredient changes, calibration drops back to zero. Does not distinguish items of different qualities. Bonus is tied to each machine; as long as the machine was crafted by an Artisan player, any player using the machine receives the bonus (ownership requirement can be disabled in settings). When prestiged, one additional output is generated for free every 5 cycles.
 
-In order to maintain the consistency of this profession, this mod also adds two additional optional changes: first, it makes Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality, and second, it adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included. Both options are enabled by default.
+[b]Quality Preservation: [/b]Is a percentage based on Farming level. Performs multiple checks, reducing quality by one stage on each failure. Iridium input guarantees at least silver-quality output. Bonus is tied to the Artisan player; only a player with this profession can preserve quality, regardless of who crafted the machine.
 
-[b]Vanilla Hopper behavior is improved by the core mod [url=https://www.nexusmods.com/stardewvalley/mods/24332]Lionheart[/url].[/b] The Industrialist perk will still work with Automate, as long as a Hopper is used to feed the machine input.[/size][/spoiler]
+[b]Machine Treatments:[/b] Machines accept four kinds of treatments.[/size]
+[list]
+[*][size=2][b]Fermentation treatment [/b]coats the machine with Oak Resin. Imparts oak, woody smells and flavors, while promoting a favorable environment for fermentation. Applies to fermented products like wines, beers, meads, cheeses, and pickles.[/size][/*]
+[*][size=2][b]Glazing treatment[/b] coats the machine with sweet, viscous syrup like Maple Syrup. Enhances the sweetness of fruits and other ingredients while making juices, jams and other confectures. [i]If SVE is installed, Birch Syrup can also be used.[/i][/size][/*]
+[*][b]Sealing treatment[/b] applies thick greese like Pine Tar to seal gaps and condition surfaces for heat retention. Supports manufacturing of oils, waxes and dried goods, while also enhancing the flavor of smoked meats. [i]If SVE is installed, Fir Wax can also be used.[/i][/*]
+[*][b]Overclock treatment[/b] fits a battery-powered controller to push the machine beyond its limits, dramatically increasing process speed for a few cycles.[/*]
+[/list]
+[size=2]Treatments last between 20 to 30 cycles. Interact with the machine while holding the corresponding item to apply the treatment. Can be customized using files in the assets/data folder.
+
+[b]Additional changes:[/b] Not exclusive to Artisan, but added optionally to improve the job fantasy. All can be disabled in settings.[/size]
+[list]
+[*][size=2]Large Eggs and Large Milk increase the output stack of Mayo and Cheese respectively, instead of increasing output quality to gold.[/size][/*]
+[*][size=2]Added Ostrich and Golden Mayo, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs.[/size][/*]
+[/list]
+[/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/pzj62pg.png[/img] [b]Rancher (Lv5)[/b] - Befriend animals 2x more quickly.
-[spoiler][color=gold][img]https://i.imgur.com/Ipu2yYK.png[/img] [b]Master Rancher (Lv15)[/b] - Befriend animals [s]2×[/s] → 3x more quickly.[/color]
+[*][img]https://i.imgur.com/pzj62pg.png[/img] [b]Rancher (Lv5)[/b] - Animals can be fed certain crops to supplement nutrition and increase friendship.
+[spoiler][color=gold][img]https://i.imgur.com/Ipu2yYK.png[/img] [b]Master Rancher (Lv15)[/b] - Crops placed in a shed are distributed by feed hoppers. Friendship with animals builds twice as quickly.[/color]
 [spoiler][size=2]
-Applies to both mood [i]and[/i] friendship points from petting. Newborn animals are born with a non-zero, randomized initial friendship betwen 150 and 250 (around 1 heart).[/size][/spoiler]
+[b]Crop Feeding:[/b] Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. [b]Short-term[/b] nutrition increases by 25 per feeding, caps at 100, and decays by 10 on days where the animal is not fed. [b]Long-term[/b] nutrition also increases by 25 per feeding, caps at 1000, and never decays.
+
+There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. Quality makes no difference. You can track which animals have been fed in the Animals menu.[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/410Ljxw.png[/img] [b]Breeder (Lv10)[/b] - Incubation 2x faster and natural pregnancy 3x more likely. Increase value of animals at high friendship.
-[spoiler][color=gold][img]https://i.imgur.com/dG0aSUn.png[/img] [b]Progenitor (Lv20)[/b] - Hatched or bred animals are always worth maximum value. Deluxe Barn capacity +2.[/color]
+[*][img]https://i.imgur.com/410Ljxw.png[/img] [b]Breeder (Lv10)[/b] - Halved incubation time and increased pregnancy chance. Animals with life-long supplemental nutrition build increasingly valuable bloodlines.
+[spoiler][color=gold][img]https://i.imgur.com/dG0aSUn.png[/img] [b]Progenitor (Lv20)[/b] - Animal bloodlines can be improved further and without limitations. Deluxe Barn capacity +2.[/color]
 [spoiler][size=2]
-At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession. This rather aggressive increase is necessary to achieve reasonable balance with Agriculturist / Artisan. Prestige eliminates the friendship requirement. [b]Only affects bred animals[/b], and [b]only bred animals [i]after [/i]obtaining this profession[/b].[/size][/spoiler]
+Animals you breed inherit the life-long nutrition of their mother. Inherited nutrition becomes their baseline, and does not contribute to its 1000 potential. This new baseline determined the animal's sale value; feeding the animal will not increase its value, but will increase its total nutrition, which can be passed on to the next generation, leading to better and better bloodlines.
+
+An animal's sale value also decreases slowly over the years according to age and number of pregnancies or laid eggs. This will never decrease its value past the vanilla baseline. The optimal time to sell an animal is thus right when it hits maturity. Before prestige, there is a soft cap around ~10x vanilla price, which takes about 5 generations. After prestige, price can scale indefinitely.
+
+[b]O[/b][b]nly affects animals born *after* obtaining this profession[/b], though nutrition can be accumulated earlier.
+
+This generates an actual gameplay loop; choose which animals to breed to maximize bloodline potential, and when to sell animals for maximum profit.
+
+[b]Note about eggs:[/b] An individual's inherited nutrition value is stored [b]on each egg[/b]; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
+
+[b]Bonus: [/b]If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/dv1ujZt.png[/img] [b]Producer (Lv10)[/b] - Happy animals produce 2x as frequently. Produce is worth 5% more for every full barn or coop.
-[spoiler][color=gold][img]https://i.imgur.com/riCLlNf.png[/img] [b]Yieldmeister (Lv20)[/b] - Happy animals produce [s]2x[/s] → 3x as frequently. Deluxe Coop capacity +2.[/color]
+[*][img]https://i.imgur.com/dv1ujZt.png[/img] [b]Producer (Lv10)[/b] - Animals with daily supplemental nutrition can produce twice as frequently. Animal produce worth 5% more for every full barn or coop.
+[spoiler][color=gold][img]https://i.imgur.com/riCLlNf.png[/img] [b]Prolific (Lv20)[/b] - Animals with daily supplemental nutrition can produce up to four times more frequently. Deluxe Coop capacity +2.[/color]
 [spoiler][size=2]
-Note that happiness, or [url=https://stardewvalleywiki.com/Animals#Mood]mood[/url], is [b]not[/b] the same as friendship. This will [b]not[/b] allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day.
+Animals will progress through their production cycles twice as quickly on days where their short-term nutrition value is maxed at 100. This means that Ducks will lay eggs every day, and Ostriches will lay eggs every 4 days (rounds up). If the animal already produces daily, this does [b]not[/b] cause it to produce twice per day.
 
-The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees can be animals too, via settings), and meats.
+If prestiged, the nutrition cap is raised to 200, and the animal's production cycle is doubled again while maxed out at that value, so Ostriches and Dinosaurs will lay eggs every 2 days.
 
-Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). SVE Premium buildings will also be considered. But they, too, must be [b]full[/b] (i.e., must have 16 animals). If prestiged, [b]this also includes the bonus 2 animal slots[/b], which means that the bonus from coops [i]will[/i] be temporarily lost until those extra slots are filled.
+Bonus value from full buildings also applies to artisan goods derived from animal products (such as cloth, cheeses, mayos), honey (configurable), and meats (not included). Oly deluxe buildings can be considered full, and only barns and coops owned (i.e., commissioned) by the Producer (ownership requirements can be turned off in the configs). SVE Premium buildings will also be considered, but they, too, must be [b]full[/b] (i.e., must have 16 animals). If prestiged, [b]this also includes the bonus 2 animal slots[/b], which means that the bonus from coops [i]will[/i] be temporarily lost until those extra slots are filled.
 
 There is no upper limit to the price bonus.[/size][/spoiler][/spoiler][/*][/list]
 [size=5][img]https://i.imgur.com/jf88nPt.png[/img] [font=bebas_neuebook]Foraging[/font][/size]
@@ -89,23 +115,21 @@ Other than the name, changed for consistency with other skills, this profession 
 [*][img]https://i.imgur.com/6g9IRVA.png[/img] [b]Ecologist (Lv10)[/b] - Foraged items restore 50% more health and energy. The quality of foraged items increases as new varieties are uncovered.
 [spoiler][color=gold][img]https://i.imgur.com/gEUl2fl.png[/img] [b]Bioharmonist (Lv20)[/b] - Foraged items restore [s]50%[/s] → 100% more health and energy and also afford buffs.[/color]
 [spoiler][size=2]
-All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and "study" new varieties of forage.
+All foraged items will have the same deterministic quality, providing immediate inventory convenience. But the quality initially starts at silver and progresses to iridium based on how many kinds of forage you have "studied". By default, requires 30 forage varieties to reach iridium, which is a number balanced for vanilla. This target can be increased via mod settings in case you have many mods adding new forage items. Only items foraged [i]after[/i] obtaining the profession will be counted.
 
-By default, you must have collected 30 forage varieties to reach max-quality, which is balanced for vanilla. This can be increased in case you have many mods adding new forage items. Only items foraged [i]after[/i] obtaining the profession will be counted.
-
-If prestiged, a buff will be chosen at random the first time a forage is consumed (eaten) since obtaining the prestige. That particular forage will henceforth always afford the same buff [i]for that player[/i], which will be indicated in the item's tooltip. If a different player in the multiplayer session also picks this prestige, their buffs will be different.[/size][/spoiler]
-[/spoiler]
-[/*]
+If prestiged, a buff is chosen at random the first time a forage is consumed (eaten) since obtaining the prestige. That particular forage will henceforth always grant the same buff [i]for that player[/i], which will be indicated in the item's tooltip. If a different player in the multiplayer session also picks this prestige, their buffs will be different.[/size][/spoiler][/spoiler][/*]
 [*][img]https://i.imgur.com/mMWXwRd.png[/img] [b]Scavenger (Lv10)[/b] - Location of forageable items revealed. Occasionally detect buried treasures.
-[spoiler][color=gold][img]https://i.imgur.com/Na7x4w0.png[/img] [b]Relicseeker (Lv20)[/b] - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.[/color]
-[spoiler][list]
-Whenever you are outside there is a chance to trigger a Scavenger Hunt mini-game, which works as a game of "hot-and-cold":[*][list]
-[*][size=2]You must hoe the tiles around you and follow the cues until you find the treasure-containing tile before the time limit. Hoed tiles will point you in the right direction.[/size][/*]
-[*][size=2]If you are far away from the treasure tile, a purple tracking arrow will also be displayed at the edge of the screen, pointing towards the general treasure vicinity.[/size][/*]
+[spoiler][color=gold][img]https://i.imgur.com/Na7x4w0.png[/img] [b]Wayfarer (Lv20)[/b] - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.[/color]
+[spoiler]Whenever you are outside there is a chance to trigger a Scavenger Hunt mini-game, which works as a game of "hot-and-cold":
+[list]
+[*][size=2]Hoe nearby tiles and follow the cues to find the treasure before the time limit.[/size][/*]
+[*][size=2]If you are far away from the treasure tile, a purple tracking arrow is displayed at the edge of the screen, pointing towards the general treasure vicinity.[/size][/*]
 [*][size=2]Rewards include smelted metal bars, artifacts, rare seeds and special equipment.[/size][/*]
-[*][size=2]If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. This uses your longest win streak instead of your current streak.[/size][/*]
+[*][size=2]If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. Uses your longest win streak, and not your current streak, so the bonus is never lost.[/size][/*]
 [/list]
-You can also hold the mod key (LeftShift by default) to highlight all forageable items currently on-screen for easier viewing.There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. This uses your longest win streak instead of your current streak.Pointer colors: Yellow: Spawned forage items, blooming berry bushes, ginger, coconuts. Green: Artifact spots. Purple: Buried treasure (Scavenger Hunt only).[/*][/list][/spoiler][/spoiler][/*][/list]
+Can also hold the Mod key (Left Shift by default) to highlight forageable items on-screen for easier viewing. There is a mod setting to prevent the tracking HUD arrows from displaying all the time as it does in vanilla, and instead display only when holding the Mod key.
+
+If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. This uses your longest win streak instead of your current streak. Pointer colors: [color=#ffff00]Yellow[/color]: Spawned forage items, blooming berry bushes, ginger, coconuts. [color=#00ff00]Green[/color]: Artifact spots. [color=#9900ff]Purple[/color]: Buried treasure (Scavenger Hunt only).[/spoiler][/spoiler][/*][/list]
 [list]
 [*][img]https://i.imgur.com/A1SXkFC.png[/img] [b]Lumberjack (Lv5)[/b] - Felled trees yield 25% more wood.
 [spoiler][color=gold][img]https://i.imgur.com/jkQMCaj.png[/img] [b]Master Lumberjack (Lv15)[/b] - Felled trees yield [s]25%[/s] → 50% more wood.[/color]
@@ -116,9 +140,11 @@ The perk is unchanged from vanilla, but it is now attached to the "correct" prof
 [*][img]https://i.imgur.com/l7BxjnL.png[/img] [b]Arborist (Lv10)[/b] - Planted trees grow 25% faster. All trees have a chance to drop hardwood.
 [spoiler][color=gold][img]https://i.imgur.com/zdJDcEP.png[/img] [b]Silviculturist (Lv20)[/b] - All trees can drop even more hardwood. The Green Rain may fall in any season if Green Rain Trees are grown on the farm.[/color]
 [spoiler][size=2]
-Applies to both common trees and fruit trees. Note that common trees grow randomly, and so gain 25% bonus chance to advance a stage each night. But fruit tree grow on a fixed schedule, so the perk simply causes every 4th day to be skipped, so as to preserve that predictable growth.
+Applies to both common trees and fruit trees. Note that common trees grow randomly, and so gain 25% bonus chance to advance a stage each night. But fruit trees grow on a fixed schedule, so the perk simply causes every 4th day to be skipped, so as to preserve the predictable growth.
 
-If prestiged, as long as at least one Green Rain Tree grows on the farm, there is a 10% base chance to convert any rainy weather, even those caused by Rain Totems, into Green Rain, plus 2% for each fully-grown Green Rain Tree, up to a maximum of 50%. A "hidden" bonus, also grants 1% additional chance to trigger an overnight [url=https://stardewvalleywiki.com/Random_Events#The_Crop_Fairy]Crop Fairy[/url]﻿ event (should pair well with [url=https://www.nexusmods.com/stardewvalley/mods/36332]Junimo Hut Fairies[/url]﻿).[/size][/spoiler]
+If prestiged, as long as at least one Green Rain Tree exists on the farm, there is a 10% base chance to convert any rainy weather, even those caused by Rain Totems, into Green Rain, plus 2% for each fully-grown Green Rain Tree, up to a maximum of 50%.
+
+A "hidden" bonus, also grants 1% additional chance per tree to trigger an overnight [url=https://stardewvalleywiki.com/Random_Events#The_Crop_Fairy]Crop Fairy[/url]﻿ event.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/XTv8SX1.png[/img] [b]Tapper (Lv10)[/b] - Tappers are cheaper to craft. Tapped trees produce syrup 25% faster.
@@ -127,7 +153,8 @@ If prestiged, as long as at least one Green Rain Tree grows on the farm, there i
 New regular recipe: x25 wood, x1 copper bar.
 New Heavy recipe: x18 hardwood, x1 radioactive bar.
 
-In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which brings it more in line with the new Heavy Furnace (enabled by default).[/size][/spoiler][/spoiler][/*][/list]
+To avoid redundancy with Heavy Tappers, an optional mod setting alters Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, similar to Heavy Furnace. This is enabled by default.[/size][/spoiler]
+[/spoiler][/*][/list]
 [size=5][img]https://i.imgur.com/TidtIw0.png[/img] [font=bebas_neuebook]Mining[/font][/size]
 
 [list]
@@ -137,61 +164,61 @@ In order to avoid redundancy with Heavy Tappers and maintain balance, this mod o
 This profession is completely unchanged from vanilla.[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/BUfV7PA.png[/img] [b]Spelunker (Lv10)[/b] - Chance to find ladders and shafts increases as you mine deeper without resurfacing. Restore some health and energy when you reach a safe room.
-[spoiler][color=gold][img]https://i.imgur.com/japqXDF.png[/img] [b]Cavewarden (Lv20)[/b] - Chance to resurface unclaimed mining debris, higher at deeper levels. Once per day, return to the nearest safe room when you pass out in the Mines.[/color]
+[*][img]https://i.imgur.com/BUfV7PA.png[/img] [b]Spelunker (Lv10)[/b] - Mining without resurfacing builds Momentum; increases ladder chance, or spend to recover energy. After finding a ladder, Momentum decays, but stones can drop ore.
+[spoiler][color=gold][img]https://i.imgur.com/japqXDF.png[/img] [b]Cavewarden (Lv20)[/b] - Craft and place a Survey Flag to establish a checkpoint with several benefits. While Momentum decays, stones can drop even more ore.[/color]
 [spoiler][size=2]
-Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface.
+Gain 5 stacks of Momentum each time you go down a level in the Mines or Skull Caverns. Each stack adds 0.05% ladder chance per stone destroyed, so 0.25% per level. Caps out at 100 stacks, totaling 5% bonus ladder chance per stone. For reference, the vanilla chance is roughly 4% per stone on a brand new level. When *you* trigger a ladder spawn, every 10 minute tick of the clock will decrease your Momentum by 3 stack until you use the ladder. However, in the exchange, every stone will have a 20% chance to drop ore. Resurfacing resets all Momentum.
 
-If prestiged, any items left behind while mining have a chance to spawn back at the Mines or Skull Caverns entrance. The chance increases to near 100% below floor 100 of the Skull Caverns.
+If you have at least 20 stacks, you may also double press the Mod key (default Left Shift) to consume all Momentum to restore the same amount of Energy.
 
-For revival, a safe room is equivalent to a treasure room. In the Skull Caverns, the chance to encounter safe rooms is also bumped up a little.[/size][/spoiler]
+Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
+
+On prestige, you unlock a recipe to craft a Survey Flag. One per day, you can place down a flag on any Mine level to create a checkpoint. If you leave the Mines and re-enter, you will begin at the checkpoint level. One per day, if you die at a lower level, you will respawn at the checkpoint without losing any items. And any item you do not pick up during your expedition have a chance to re-appear on the ground near the checkpoint. Also doubles the ore chance after ladder spawn.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/F54tRpw.png[/img] [b]Prospector (Lv10)[/b] - Location of ladders and mining nodes revealed. Occasionally detect mineral treasures.
-[spoiler][color=gold][img]https://i.imgur.com/QalCrLN.png[/img] [b]Archaeologist (Lv20)[/b] - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.[/color]
+[spoiler][color=gold][img]https://i.imgur.com/QalCrLN.png[/img] [b]Relicseeker (Lv20)[/b] - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.[/color]
 [spoiler][size=2]
-This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts.
+Mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts.
 While mining, there is a chance to trigger a [b]Prospector Hunt[/b] mini-game, which works like a game of "Simon says":[/size]
 [list]
-[*][size=2]A random nearby stone will begin to glow. Break the glowing stone to reveal the next stone. Continue the sequence until the 7th stone to obtain the treasure.[/size][/*]
-[*][size=2]Each target stone in the sequence becomes progressively harder to break.[/size][/*]
+[*][size=2]A random nearby stone will begin to glow. Break it to reveal the next stone, and so on. [/size][size=2]Each subsequent stone is slightly more difficult to break. Breaking enough stones grants the treasure.[/size][/*]
 [*][size=2]Rewards include ores, rare minerals, fossilized artifacts and special equipment.[/size][/*]
 [/list]
 [size=2]
-You can also hold the mod key (LeftShift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
-There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
+Can also hold the Mod key (Left Shift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
+An optional mod setting changes the tracking arrows to display only while holding the Mod key, instead of all the time as they do in vanilla.
 
-If prestiged, building up a win streak will cause increased spawns of mining nodes in every mine floor and in the Volcano Dungeon. This uses your longest win streak instead of your current streak.
+If prestiged, building up a win streak increases the number of ore vein spawned on every mine floor and the Volcano Dungeon. Uses your longest win streak, and not your current streak, so the bonus is never lost. 
 
-[b]Pointer colors:[/b] [color=orange]Orange:[/color] Mining nodes and forage minerals. [color=blue]Blue:[/color] Ladders/shafts, panning spots. [color=green]Green:[/color] Artifact spots.[/size][/spoiler]
+[b]Pointer colors:[/b] [color=orange]Orange:[/color] Mining nodes and forage minerals. [color=#1155cc]Blue[/color][color=blue]:[/color]Ladders/shafts, panning spots. [color=#00ff00]Green[/color][color=green]:[/color] Artifact spots.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/LrkCTqt.png[/img] [b]Blaster (Lv5)[/b] - Craft twice as many explosives. Exploded rocks yield 2x as much coal.
 [spoiler][color=gold][img]https://i.imgur.com/V8h5E6g.png[/img] [b]Master Blaster (Lv15)[/b] - Exploded rocks yield [s]2x[/s] → 3x as much coal.[/color]
 [spoiler][size=2]
-Supports the bomberman style of mining, and also alleviates the removal of the vanilla Prospector profession.[/size][/spoiler]
+Bomberman mining style. Somewhat replaces vanilla Prospector.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/Rmwsynr.png[/img] [b]Demolitionist (Lv10)[/b] - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
-[spoiler][color=gold][img]https://i.imgur.com/nFjPIvN.png[/img] [b]Pyrotechnician (Lv20)[/b] - Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.[/color]
+[spoiler][color=gold][img]https://i.imgur.com/nFjPIvN.png[/img] [b]Pyrotechnician (Lv20)[/b] - Gain 50% >> 100% more resources from exploded rocks. Explosions cause chain reactions.[/color]
 [spoiler][size=2]
-Further expands the viability of bomberman mining style, and also alleviates the lack of a Geologist profession. An optional buff grants a short burst of movement speed whenever hit by an explosion (can be toggled by the "Get Excited" setting). These perks also apply to Explosive Ammo.
+Better bomberman mining. Somewhat replaces vanilla Geologist. Also works with Explosive Ammo.
 
-You also gain the ability to manually detonate bombs. Double press the mod key (default LeftShift) to engage manual detonation, and then double press again to trigger the detonation after placing your bombs on the ground.
+In settings, can optionally toggle a setting to replace with `Pyromaniac`, which gives the same perks with the addition of a short burst of movement speed when you are hit by your own explosions (a reference to Jinx).
 
-If prestiged, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of entire mine levels with a few Cherry Bombs.
-
-"Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.[/size][/spoiler]
+An additional "hidden" perk, causes Furnaces and Heavy Furnaces to consume only half as much coal.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/P7WHhdQ.png[/img] [b]Gemologist (Lv10)[/b] - Chance for gems to appear in pairs. The quality of mined gemstones increases as new mineral varieties are uncovered.
 [spoiler][color=gold][img]https://i.imgur.com/EoBMh04.png[/img] [b]Crystallographer (Lv20)[/b] - Chance for gems to appear in triplets. Crystalaria produce perfect replicas.[/color]
 [spoiler][size=2]
-The mining-equivalent of Ecologist. All gems and minerals mined from nodes will have the same deterministic quality, starting at silver and gradually increasing to iridium as you collect and "study" new varieties of gemstones. Note that this bonus applies only to gems and minerals that have been physically mined (i.e., crushed geodes do not receive quality).
+The mining-equivalent of Ecologist. All gems and minerals mined from nodes have the same deterministic quality, starting at silver and increasing to iridium as you collect new kinds of gems and minerals. [b]Applies only to gems and minerals that have been physically mined[/b] (i.e., [b]NOT [/b]crushed geodes).
 
-By default, you must have mined 30 mineral varieties to reach max-quality, which is balanced for vanilla. This can be increased in case you have many mods adding new mineral items. Only counts items mined [i]after[/i] obtaining the profession. Minerals from crushed geodes [i]do[/i] count towards this progression.
+By default, requires 30 mineral varieties to reach iridium, which is balanced for vanilla. Can be increased via mod setting in case you have many mods adding new mineral items. Only counts items mined [i]after[/i] obtaining the profession. [b]Minerals from crushed geodes DO count[/b] towards this progression.
 
-If prestiged, a "perfect replica" refers to preserving the quality of the input gem.[/size][/spoiler][/spoiler][/*][/list]
+If prestiged, a "perfect replica" refers to preserving the quality of the input gem.[/size][/spoiler]
+[/spoiler][/*][/list]
 [size=5][img]https://i.imgur.com/XvdVsAn.png[/img] [font=bebas_neuebook]Fishing[/font][/size]
 
 [list]
@@ -204,36 +231,33 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 [*][img]https://i.imgur.com/3X5VNms.png[/img] [b]Angler (Lv10)[/b] - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
 [spoiler][color=gold][img]https://i.imgur.com/9DPJjPB.png[/img] [b]Rodmancer (Lv20)[/b] - Up to two tackle effects can linger on the fishing rod. Re-encounter legendary fish on a successful fishing streak.[/color]
 [spoiler][size=2]
-Legendary fish are worth 5 regular fish (irrespective of size); i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
+Legendary fish are worth 5 regular fish (irrespective of size). Applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with any properly made mod. Unless disabled in the mod settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size; blue for regular fish, red for crab pot fish. Only blue-icon fish are counted for the perk.
 
-By default, the bonus caps at 100%, but this can be configured. Note that [b]not all fih are obtainable at max size[/b], as that depends on the actual size of the body of water where the fish is found. [b]That's okay.[/b] There are plenty of fish to max-out the bonus.
+Bonus caps at 100% by default, but can be changed in mod settings. Note that [b]not all fish are obtainable at max size[/b], as that depends on the physical size of the water where the fish is found. [b]That's a vanilla game limitation, and it's okay.[/b] There are plenty of fish to max-out the bonus.
 
 Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
 
-If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. Each subsequent successful catch then increases the encounter rate by 1%, or 2% for a perfect catch. Failing any catch resets the streak back to 0.[/size][/spoiler]
+If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. Each subsequent successful catch increases the encounter rate by 1%, or 2% for a perfect catch. Failing any catch resets the streak back to 0.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/ZwyxtGd.png[/img] [b]Aquarist (Lv10)[/b] - Fish pond max capacity +2. Catching bar decreases slower for every unique fish species raised in a Fish Pond.
 [spoiler][color=gold][img]https://i.imgur.com/XACHLWL.png[/img] [b]Ichthyologist (Lv20)[/b] - Fish pond max capacity [s]+2[/s] → +4. Fish species raised to max pond capacity are reeled instantly.[/color]
 [spoiler][size=2]
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, which stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings. Though it isn't stated, this profession also unlocks the ability to raise legendary fish in a pond at reduced max population (5)*. They will not reproduce, but will produce special rare items appropriate to each fish. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url] you will additionally be able to raise Extended Family in the same pond as their relatives.
+Designed for players who struggle with, or just dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, which stacks with Trap Bobber (hint: 12 Fish Ponds + Trap Bobber makes the bar stand still). In multiplayer, only Fish Ponds owned by the Aquarist player are counted, but ownership requirements can be toggled off in the mod settings. If you also install the companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url] you will also be able to raise Extended Family in the same pond as their relatives.
 
-If prestiged, an instant catch also automatically catches treasure chests if applicable. This profession removes the lock on max population of legendary ponds, restoring it back to 10. A "hidden" bonus, this profession removes the lock on max population of legendary ponds, restoring it back to 10.
-
-[i]* This profession was designed for a version of the game [b]before[/b] legendary fish were allowed in Fish Ponds. Even though this was added in the 1.6 update, I have decided to [b]not[/b] change the profession. This means that this mod will remove the ability to raise legendary fish, [b]unless[/b] (or until) the player chooses this profession. It is what it is.[/i][/size][/spoiler]
+Increases capacity does not apply to Legendary Fish unless prestiged. Instant catches also automatically succeed at treasure chests.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/UJGcqZ3.png[/img] [b]Trapper (Lv5)[/b] - Crab pots are cheaper to craft. Can trap higher-quality fish.
 [spoiler][color=gold][img]https://i.imgur.com/6P07E5x.png[/img] [b]Master Trapper (Lv15)[/b] - Increased minimum quality of trapped fish.[/color]
 [spoiler][size=2]
-All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The Crab Pot recipe part of the perk is unchanged from vanilla.[/size][/spoiler]
+All trapped fish can have quality, up to gold, which depends on Fishing level. If prestiged, quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. Crab Pot recipe is unchanged from vanilla.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/vlPPakS.png[/img] [b]Luremaster (Lv10)[/b] - Baited Crab pots can produce 2x per day. Unlock new bait effects.
 [spoiler][color=gold][img]https://i.imgur.com/FZ4iJ9X.png[/img] [b]Baitweaver (Lv20)[/b] - Baited Crab pots can produce [s]2x[/s] → 3x per day. Double yield from machines which produce bait.[/color]
 [spoiler][size=2]
 Each type of bait will also apply its regular fishing effects:[/size]
-
 [list]
 [*][size=2][b]Wild bait:[/b] (25 + DailyLuck / 2)% chance to double the stack.[/size][/*]
 [*][size=2][b]Magnet:[/b] Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).[/size][/*]
@@ -247,9 +271,10 @@ All baits, with the exception of Magnet, also prevent collecting junk.[/size][/s
 [*][img]https://i.imgur.com/UuVQlfG.png[/img] [b]Conservationist (Lv10)[/b] - Crab pots without bait can trap junk. Clean the Valley's waters to earn the village's favor and merit tax deductions.
 [spoiler][color=gold][img]https://i.imgur.com/rHA93zp.png[/img] [b]Oceanographer (Lv20)[/b] - Crab pots without bait can also trap fish. Special conditions apply during rainy or full-moon days.[/color]
 [spoiler][size=2]
-By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url] is installed; if it is, then a tax deduction works as you would expect: a percent reduction of your overall amount due in [b]income[/b] taxes (property taxes are not deducted). Otherwise, a tax deduction works as a flat % price increase to all items. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
+Every 100 (configurable) junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [url=https://www.nexusmods.com/stardewvalley/mods/24357]Serfdom[/url] is installed; if so, then a tax deduction works as you would expect: a percent reduction of overall tax amount due in [b]income[/b] taxes (property taxes are not deducted). Otherwise, a tax deduction works as a flat % price increase to all shipped items. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of each season.
 
-If prestiged, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.[/size][/spoiler][/spoiler][/*][/list]
+If prestiged, fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch whole schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (assumed to be the 15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.[/size][/spoiler]
+[/spoiler][/*][/list]
 [size=5][img]https://i.imgur.com/fUnZSTj.png[/img] [font=bebas_neuebook]Combat[/font][/size]
 
 [list]
@@ -278,7 +303,7 @@ Completely unchanged from vanilla.[/size][/spoiler]
 [spoiler][size=2]
 Double press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explosive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the [b]musked[/b] property.
+If prestiged, hold the Mod key while shooting to fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot; grants the primary ammo the [b]musked[/b] property.
 
 [b]Musked Ammo:[/b] When a musked projectile collides with a wall or enemy, it transfers the musk to that target, causing other enemies to flock to that spot for 15s. This allows players to completely evade combat. Each slotted Monster Musk lasts for 10 shots. Does not work with Explosive Ammo, but the Monster Musk will still be consumed.[/size][/spoiler]
 [/spoiler]
@@ -295,14 +320,12 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 [b]Rebound Shot:[/b] A prestiged hip-fired shot can bounce off of walls once, allowing you to hit those expert curve shots.[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/XV5jQ3k.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Slimes raised in a hutch may be summoned in combat. Can assign a Hat Slime to carry items. Slime Hutch capacity +50%.
-[spoiler][color=gold][img]https://i.imgur.com/g6pfah7.png[/img] [b]Prismarch | Prismatrice (Lv20)[/b] - Can craft colorful Slime Brushes. Summoned Slimes gain special abilities tied to color. Slime Balls drop rare colored items.[/color]
+[*][img]https://i.imgur.com/XV5jQ3k.png[/img] [b]Slimed Piper | Siren (Lv10)[/b] - Summon raised Slimes and charm wild Slimes with music. Assign a Hat Slime to carry items. Slime Hutch capacity +50%.
+[spoiler][color=gold][img]https://i.imgur.com/g6pfah7.png[/img] [b]Prismarch | Prismatrice (Lv20)[/b] - Can craft colorful Slime Brushes. Ally Slimes gain special abilities tied to color. Slime Balls drop rare colored items.[/color]
 [spoiler][size=2]
+The most unique profession, so the description is longer. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
 
-This is the most unique profession, so the description is a little long. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
-
-All Slimes gain the following Pokemon-inspired features, [b]before any professions[/b]:[/size]
-
+All Slimes gain the following Pokemon-inspired features, [b]before any profession perks[/b]:[/size]
 [list]
 [*][size=2]Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.[/size][/*]
 [*][size=2]IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).[/size][/*]
@@ -312,44 +335,33 @@ All Slimes gain the following Pokemon-inspired features, [b]before any professio
 [*][size=2]A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e., try breeding Red and Green Slimes together).[/size][/*]
 [/list]
 [size=2]
-Note that breeding is an optional feature tailored at "power gamers". Most users can ignore this and still benefit from all the class perks. For those interested, [url=https://www.reddit.com/r/StardewValley/comments/m1hkgk/15_the_new_definitive_guide_to_rgb_slime_ranching/]here is a useful guide[/url] about Slime breeding.
+Breeding is entirely optional. You can ignore it and still benefit from all the class perks. For those interested, [url=https://www.reddit.com/r/StardewValley/comments/m1hkgk/15_the_new_definitive_guide_to_rgb_slime_ranching/]here is a useful guide[/url] about Slime breeding.
 
 The following perks are gained when obtaining the [b]Slimed Piper[/b] profession:[/size]
-
 [list]
-[*][size=2]Slime Hutch capacity will be increased to 30 the following day. [b]Please remove Sprinklers or other items placed above and below the water spots[/b], as those tiles will be overwritten by additional water spots, deleting any placed objects.[/size][/*]
-[*][size=2]All Slimes will act neutral toward players on the current map. They will still damage players if touched (unless, of course, the player wears the Slime Charmer Ring).[/size][/*]
-[*][size=2]Automatically summon raised Slimes in combat. Only Slimes that are raised inside a Hutch can be summoned. One additional Slime will be summoned for every 10 Slimes raised inside a Hutch (i.e., 1 summoned Slime for up to 10 raised Slimes, 2 summoned Slimes for 11 to 20 raised Slimes, and so on). There is no upper limit.[/size][/*]
-[*][size=2]Summoned Slimes are immune to damage from the player, including from explosives. But they can be damaged by other non-Slime enemies.[/size][/*]
-[*][size=2]Summoned Slimes will fight and distract other non-Slime enemies by grabbing aggro.[/size][/*]
-[*][size=2]Summoned Slimes inherit the stats (attack, defense and health) of the chosen raised Slime. [i]This is where breeding comes in handy.[/i][/size][/*]
-[*][size=2]Summoned Slimes regain health if shot at with a Slime ammo (Rascal feature).[/size][/*]
-[*][size=2]Summoned Slimes are indicated by individual HUD portraits. The portraits can be clicked to dismiss and re-summon Slimes at will.[/size][/*]
-[*][size=2]When a Summoned Slime is defeated, it goes on a 42-second cooldown (1 in-game hour), after which a new raised Slime will automatically take its place. This has no actual effect on the Slimes in your Hutches.[/size][/*]
-[*][size=2]A summoned Slime, or any raised Slime, can be interacted with while holding a hat to turn it into a [b]Hat Slime[/b]:[/size][/*]
-[*][size=2]A Hat Slime does not participate in combat. Instead, it functions as an "item mule". It has access to a 12-slot inventory, which can be checked at any moment by interacting with the Hat Slime.[/size][/*]
-[*][size=2]When viewing the Hat Slime's inventory, you can take items from it, but cannot directly give it any items. The Hat Slime will only pick up items that are dropped on the ground nearby (and [b]only[/b] dropped items, [b]not[/b] spawned forage). [i]To give it an item, simply drop it from your own inventory.[/i][/size][/*]
-[*][size=2]When the Hat Slime picks up an item, it will be automatically given to the player if, and only if, the player is already carrying a stack of that item. Otherwise, the item is added to the Hat Slime's inventory.[/size][/*]
-[*][size=2]To dismiss a Hat Slime, interact with it while holding a different hat. This will unequip the current hat, returning the Slime to a wild state. All of its held items will be dropped on the ground.[/size][/*]
-[*][size=2]The Hat Slime can follow you even outside of combat zones, unlike other Summoned Slimes. But it cannot follow you indoors (it'll just wait outside for you).[/size][/*]
-[*][size=2]Holding the Mod Key (Left Shift, by default) will temporarily charm the nearest Slime in a 3-tile radius. A charmed Slime behaves like a regular Summoned Slime. Releasing the Mod Key removes the effect. [i]The main usecase for this feature is for herding Slimes for breeding.[/i][/size][/*]
-[*][size=2]The damage of Slime ammo is increased to 20 (equivalent to iron ore).[/size][/*]
+[*][size=2]Slime Hutch capacity is increased to 30 the following day. [b]Please remove Sprinklers or other items placed above and below the water spots[/b], as those tiles will be overwritten by additional water spots, deleting placed objects.[/size][/*]
+[*][size=2]Can craft a [b]Slimecaller Flute[/b] which grants ally Slimes when played. Play it again while holding the Mod key (Left Shift by default) to dismiss all ally Slimes.[/size][/*]
+[*][size=2]"Hidden" bonus 1: wild Slimes act more neutral towards players in the current map. They will still cause damage if touched (unless, of course, the player wears the Slime Charmer Ring).[/size][/*]
+[*][size=2]"Hidden" bonus 2: h[/size]olding the Mod Key to temporarily "guide" nearby Slimes (helpful for herding and breeding).[/*]
+[*][size=2]"Hidden" bonus 3: damage of Slime ammo increased to 20 (equivalent to iron ore).[/size][/*]
 [/list]
+[size=2][b]
+Ally Slimes: [/b]Includes both Summoned and Charmed Slimes;  Summoned Slimes (summoned from Slime Hutches you own) inherit the stats of raised Slimes (this is where breeding comes in handy). Charmed Slimes (charmed from the wild) do not, but all ally Slimes gain a substantial HP buff. They [/size][size=2]will fight and distract other non-Slime enemies. They are immune to damage from players, including from explosives, bu can be damaged by non-Slime enemies. They r[/size][size=2]egain health if shot at with Slime ammo (Rascal feature), and c[/size][size=2]an be interacted with while holding a hat to turn it into a [b]Hat Slime[/b].[/size]
 [size=2]
-The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Prismarchs, a.k.a. Slime Painters:[/size]
-
+[b]Hat Slime: [/b]Does not participate in combat, but will auto-pick up dropped items ([b]not[/b] spawned forage) and functions as an "item mule". It will follow you everywhere (even indoors), and has access to a 12-slot inventory, which can be checked by interacting with it. You can take items from it, but cannot directly give items to it (but you can drop items on the ground to have the Slime pick it up). When it picks up an item, if the player already has a stack on that item, it will be added to the player's stack instead of the Slime's own inventory. Can be dismissed by removing its hat (interact with it while holding a different hat). When dismissed, carried items are dropped on the ground. You can have only one Hat Slime at a time. 
+ 
+The following additional perks are granted to prestiged Slimed Pipers, a.k.a. [b]Prismarchs [/b](or Slime Painters):[/size]
 [list]
-[*][size=2]Learn to craft Slime Brushes using wood, fiber and a Slime Egg of the desired color. These brushes can be used on raised Slimes to change their pigmentation, increasing only the corresponding color component. If that color component is already maxed out, the brush then reduces the other two components.[/size][/*]
+[*][size=2]Can craft colorful [b]Slime Brushes[/b], which have the effect of changing the pigmentation of raised Slimes, nudging towards  only the corresponding color. If that color component is already maxed out (say, red), the brush then reduces the other two components (green and blue).[/size][/*]
 [/list]
 [spoiler][size=2]
 ﻿  ﻿- [b]Green Brush[/b] -> increases a Slime's green component, or reduces its red and blue components.
 ﻿  ﻿- [b]Blue Brush[/b] -> increases a Slime's blue component, or reduces its red and green components.
 ﻿  ﻿- [b]Red Brush[/b] -> increases a Slime's red component, or reduces its green and blue components.
 ﻿  ﻿- [b]Purple Brush[/b] -> increases a Slime's red and blue components, or reduces its green component.
-﻿  ﻿- [b]Prismatic Brush[/b] -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
-﻿  ﻿[/size][/spoiler]
+﻿  ﻿- [b]Prismatic Brush[/b] -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.[/size][/spoiler]
 [list]
-[*][size=2]Each of the Slime color variants below gain a special combat ability:[/size][/*]
+[*][size=2]Each colored Slime variant gains a special combat ability:[/size][/*]
 [/list]
 [spoiler][size=2]
 ﻿  ﻿- [b]Green Slimes[/b] -> can cause Slimed debuff.
@@ -358,12 +370,14 @@ The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Pr
 ﻿  ﻿- [b]White Slimes[/b] -> emit an aura that heals a low amount of health over time.
 ﻿  ﻿- [b]Black Slimes[/b] -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void Essence.
 ﻿  ﻿- [b]Gold Slimes[/b] -> cause nearby enemies to drop gold when defeated (100g per kill).
-﻿  ﻿- [b]Prismatic Slimes[/b] -> combine all previous effects, except for Black and Gold Slime effects.
-﻿  ﻿[/size][/spoiler]
+﻿  ﻿- [b]Prismatic Slimes[/b] -> combine all previous effects, except for Black and Gold Slime effects.[/size][/spoiler]
 [list]
 [*][size=2]Colored Slime Balls will always drop one random item of the [url=https://stardewvalleywiki.com/Dyeing]Dyeing loot table[/url]﻿ of the corresponding color.[/size][/*]
-[*][size=2]Both color-specific features above are valid within a range of 10 chroma values from the precise Slime or dye color.[/size][/*]
-[*][size=2]The damage of Slime ammo is increased to 40 (between gold ore and iridium ore).[/size][/*][/list][/spoiler][/spoiler][/*]
+[*][size=2]"Hidden" bonus: the damage of Slime ammo is increased (again) to 40 (between gold ore and iridium ore).[/size][/*]
+[/list]
+Color-specific features above are valid within a range of 10 chroma values from the actual target color, so there's some room for flexibility and does not need to be precise.[/spoiler]
+[/spoiler]
+[/*]
 [/list]
 [size=6][font=bebas_neuebook]Skill Progression Tropes[/font][/size]
 
@@ -424,8 +438,7 @@ Journey of the Prairie King, "IRL". Charged by hitting monsters with projectiles
 [spoiler][size=2]
 If an enlarged Slime is defeated or the effect ends, it will burst into tiny baby Slimes. Your minion Slimes deflate back to normal. Nearby Big Slimes burst immediately when the effect is activated. Enlarged Slimes can hit flying enemies even when not jumping.
 
-Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.[/size][/spoiler][/*]
-[/list]
+Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.[/size][/spoiler][/*][/list]
 [font=bebas_neuebook][size=6]Misc. Changes[/size][/font]
 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
@@ -630,7 +643,7 @@ In practice, that means only the Combat skill would meaningfully benefit from go
 
 So TL;DR: no.[/spoiler]
 
-[size=6][font=bebas_neuebook]DaLion Mod Series[/font][/size]
+[size=6][font=bebas_neuebook]DaLion.Stardew Series[/font][/size]
 
 [b]Walk of Life[/b] - An extensive overhaul of profession trees and skill progression systems.
 [url=https://www.nexusmods.com/stardewvalley/mods/24356]Aquarism[/url] - Make Fish Ponds actually useful. Created with the Aquarism profession in mind.

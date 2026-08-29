@@ -205,6 +205,7 @@ The following reported issues were also checked:
 
 * Removed the pond restriction on Extended Family fish.
 * Removed LegendaryFishPondData (moved to [Ponds](../Ponds)).
+* Removed support for the Legacy UI Info Suite 2 mod. Please use the new [UI Info Suite 2 Alt](https://www.nexusmods.com/stardewvalley/mods/43127) instead.
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 

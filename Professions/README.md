@@ -79,7 +79,7 @@ Click on any profession below to expand for more details. Golden professions ref
 <font size="2">
 <details>
 
-Equivalent in value to vanilla's 10% price bonus on average, while also providing value should you choose not to sell raw crops.
+Equivalent in value to vanilla's 10% price bonus on average, but also provides value if you don't sell raw crops.
 </details>
 </font>
 
@@ -137,7 +137,7 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Calibrated machines also increase yield. Apply batteries or curing agents to further boost machine processing speed or output quality.
+<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Calibrated machines also increase yield. Enhance machines with batteries and curing agents to further boost processing speed or output quality.
 </font>
 
 <font size="2">
@@ -180,19 +180,19 @@ Other:
 <!--- Rancher --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/rancher.png"/> <b>Rancher (Lv5)</b> - Befriend animals 2x more quickly.
+<summary><img src="./resources/assets/sprites/loose/rancher.png"/> <b>Rancher (Lv5)</b> - Animals can be fed certain crops to supplement nutrition and increase friendship.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/rancher_p.png"/> <b>Master Rancher (Lv15)</b> - Befriend animals <s>2×</s> → 3x more quickly.
+<img src="./resources/assets/sprites/loose/rancher_p.png"/> <b>Master Rancher (Lv15)</b> - Crops placed in a shed are distributed by feed hoppers. Friendship with animals builds twice as quickly.
 </font>
 
 <font size="2">
 <details>
 
-Grants double mood *and* friendship points from petting. Newborn animals are born with a non-zero, randomized initial friendship.
+**Crop Feeding:** Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. Interact with the animal while holding a crop to feed it. There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. You can track which animals have been fed in the Animals menu.
 </details>
 </font>
 
@@ -202,19 +202,29 @@ Grants double mood *and* friendship points from petting. Newborn animals are bor
 <!--- Breeder --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Incubation 2x faster and natural pregnancy 3x more likely. Friendly animals are valued significantly higher.
+<summary><img src="./resources/assets/sprites/loose/breeder.png"/> <b>Breeder (Lv10)</b> - Halved incubation time and increased pregnancy chance. Animals with life-long supplemental nutrition build increasingly valuable bloodlines.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/breeder_p.png"/> <b>Progenitor (Lv20)</b> - Hatched or bred animals are always worth maximum value. Deluxe Barn capacity +2.
+<img src="./resources/assets/sprites/loose/breeder_p.png"/> <b>Progenitor (Lv20)</b> - Animal bloodlines can be improved further and without limitations. Deluxe Barn capacity +2.
 </font>
 
 <font size="2">
 <details>
 
-At max friendship animals are worth 10x their base price, compared to vanilla's 1.3x without this profession. **Only applies to animals born *after* obtaining this profession.** Prestige eliminates the friendship requirement.
+Animals you breed inherit the life-long nutrition of their mother. Inherited nutrition becomes their baseline, and does not contribute to its 1000 potential. This new baseline determined the animal's sale value; feeding the animal will not increase its value, but will increase its total nutrition, which can be passed on to the next generation, leading to better and better bloodlines.
+
+An animal's sale value also decreases slowly over the years according to age and number of pregnancies or laid eggs. This will never decrease its value past the vanilla baseline. The optimal time to sell an animal is thus right when it hits maturity. Before prestige, there is a soft cap around ~10x vanilla price, which takes about 5 generations. After prestige, price can scale indefinitely.
+
+Only affects animals born *after* obtaining this profession, though nutrition can be accumulated earlier.
+
+This generates an actual gameplay loop; choose which animals to breed to maximize bloodline potential, and when to sell animals for maximum profit.
+
+Note about eggs: An individual's inherited nutrition value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
+
+Bonus: If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
 </details>
 </font>
 
@@ -236,7 +246,13 @@ At max friendship animals are worth 10x their base price, compared to vanilla's 
 <font size="2">
 <details>
 
-Note that happiness, or [mood](https://stardewvalleywiki.com/Animals#Mood), is **not** the same as friendship. This will **not** allow certain animals that already produce every day (i.e., cows and chickens) to produce more that once per day. The bonus produce value also applies to artisan goods derived from animal products (such as cheeses, mayos and cloth), honey (bees are animals too), and meats. Only deluxe buildings can be considered full, and only barns and coops owned by the Producer will be considered (ownership requirements can be turned off in the configs). There is no limit to the price bonus.
+Animals will progress through their production cycles twice as quickly on days where their short-term nutrition value is maxed at 100. This means that Ducks will lay eggs every day, and Ostriches will lay eggs every 4 days (rounds up). If the animal already produces daily, this does not cause it to produce twice per day.
+
+If prestiged, the nutrition cap is raised to 200, and the animal's production cycle is doubled again while maxed out at that value, so Ostriches and Dinosaurs will lay eggs every 2 days.
+
+Bonus value from full buildings also applies to artisan goods derived from animal products (such as cloth, cheeses, mayos), honey (configurable), and meats (not included). Oly deluxe buildings can be considered full, and only barns and coops owned (i.e., commissioned) by the Producer (ownership requirements can be turned off in the configs). SVE Premium buildings will also be considered, but they, too, must be full (i.e., must have 16 animals). If prestiged, this also includes the bonus 2 animal slots, which means that the bonus from coops will be temporarily lost until those extra slots are filled.
+
+There is no upper limit to the price bonus.
 </details>
 </font>
 
@@ -443,10 +459,13 @@ This profession is completely unchanged from vanilla.
 <font size="2">
 <details>
 
-Adds 0.5% ladder chance per consecutive mine level, which resets when taking the stairs back to the surface.
+Gain 5 stacks of Momentum each time you go down a level in the Mines or Skull Caverns. Each stack adds 0.05% ladder chance per stone destroyed, so 0.25% per level. Caps out at 100 stacks, totaling 5% bonus ladder chance per stone. For reference, the vanilla chance is roughly 4% per stone on a brand new level. When *you* trigger a ladder spawn, every 10 minute tick of the clock will decrease your Momentum by 3 stack until you use the ladder. However, in the exchange, every stone will have a 20% chance to drop ore. Resurfacing resets all Momentum.
 
-For Cavewarden, any items left behind while mining have a chance to spawn back at the Mines or Skull Caverns entrance. The chance starts out fairly low at ~10% at level 1 of the Mines, and increases to 100% at around level 200 of the Skull Caverns (level 320 of the Mines).
-Revival via the Cavewarden perk avoids all item loss penalties. A "safe room" is one where enemies cannot spawn (usually a treasure room). The chance to find treasure rooms in the Skull Caverns is also increased by 50% for every Cavewarden in the area.
+If you have at least 20 stacks, you may also double press the Mod key (default Left Shift) to consume all Momentum to restore the same amount of Energy.
+
+Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
+
+On prestige, you unlock a recipe to craft a Survey Flag. One per day, you can place down a flag on any Mine level to create a checkpoint. If you leave the Mines and re-enter, you will begin at the checkpoint level. One per day, if you die at a lower level, you will respawn at the checkpoint without losing any items. And any item you do not pick up during your expedition have a chance to re-appear on the ground near the checkpoint. Also doubles the ore chance after ladder spawn.
 </details>
 </font>
 
@@ -846,7 +865,7 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 <!--- Piper --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Wild Slime are pacified. Slimes raised in a Hutch are summoned in combat. Designate one Slime to carry items. Slime Hutch capacity +50%.
+<summary><img src="./resources/assets/sprites/loose/piper.png"/> <b>Slimed Piper | Siren (Lv10)</b> - Summon raised Slimes and charm wild Slimes with music. Assign a Hat Slime to carry items. Slime Hutch capacity +50%.
 </summary>
 
 <ul>
@@ -858,55 +877,46 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 <font size="2">
 <details>
 
-This is the most unique profession, so the description is a little long. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
+The most unique profession, so the description is longer. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
 
-All Slimes gain the following Pokemon-inspired features, **before any professions**:
-- Every Slime is assigned an IV (Individual Value) between 0 and 5 for each of Attack, Defense and Health.
-- IVs grant a multiplicative bonus to the corresponding stat (x2 at 5).
-- First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2.
-- IVs can be increased by [breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results); when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease. This guarantees that IVs will converge to max after a few generations.
-- Baby Slime stats are inherited independently of color, so that Slimes of any color can be raised to max stats.
-- A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0), also known as HTML Gold (i.e., try breeding Red and Green Slimes together).
+All Slimes gain "Individual Values"ç Pokémon-inspired, hidden genetic stats between 0 - 5 for each of Attack, Defense and Health. IVs grant a multiplicative bonus to the corresponding stat (x2 at 5). First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2. IVs can be increased by breeding; when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease.
 
-Note that breeding is an optional feature tailored at "power gamers". Most users can ignore this and still benefit from all the class perks. For those interested, [here is a useful guide](https://www.reddit.com/r/StardewValley/comments/m1hkgk/15_the_new_definitive_guide_to_rgb_slime_ranching/) about Slime breeding.
+IVs are inherited separately from color, so Slimes of any color can be raised to max stats.
+A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0) (also known as HTML Gold; try mixing Red and Green Slimes).
 
-The following perks are gained when obtaining the Slimed Piper profession:
-- Slime Hutch capacity will be increased to 30 the following day. **Please remove Sprinklers or other items placed above and below the water spots**, as those tiles will be overwritten by additional water spots, deleting any placed objects.
-- All Slimes will act neutral toward players on the current map. They will still damage players if touched (unless, of course, the player wears the Slime Charmer Ring).
-- Automatically summon raised Slimes in combat. Only Slimes that are raised inside a Hutch can be summoned. One additional Slime will be summoned for every 10 Slimes raised inside a Hutch (i.e., 1 summoned Slime for up to 10 raised Slimes, 2 summoned Slimes for 11 to 20 raised Slimes, and so on). There is no upper limit.
-- Summoned Slimes are immune to damage from the player, including from explosives. But they can be damaged by other non-Slime enemies.
-- Summoned Slimes will fight and distract other non-Slime enemies by grabbing aggro.
-- Summoned Slimes inherit the stats (attack, defense and health) of the chosen raised Slime. _This is where breeding comes in handy._
-- Summoned Slimes regain health if shot at with a Slime ammo (Rascal feature).
-- Summoned Slimes are indicated by individual HUD portraits. The portraits can be clicked to dismiss and re-summon Slimes at will. 
-- When a Summoned Slime is defeated, it goes on a 42-second cooldown (1 in-game hour), after which a new raised Slime will automatically take its place. This has no actual effect on the Slimes in your Hutches.
-- A summoned Slime, or any raised Slime, can be interacted with while holding a hat to turn it into a **Hat Slime**:
-  - A Hat Slime does not participate in combat. Instead, it functions as an "item mule". It has access to a 12-slot inventory, which can be checked at any moment by interacting with the Hat Slime.
-  - When viewing the Hat Slime's inventory, you can take items from it, but cannot directly give it any items. The Hat Slime will only pick up items that are dropped on the ground nearby (and **only** dropped items, **not** spawned forage). _To give it an item, simply drop it from your own inventory._
-  - When the Hat Slime picks up an item, it will be automatically given to the player if, and only if, the player is already carrying a stack of that item. Otherwise, the item is added to the Hat Slime's inventory.
-  - To dismiss a Hat Slime, interact with it while holding a different hat. This will unequip the current hat, returning the Slime to a wild state. All of its held items will be dropped on the ground.
-  - The Hat Slime can follow you even outside of combat zones, unlike other Summoned Slimes. But it cannot follow you indoors (it'll just wait outside for you).
-- Holding the Mod Key (Left Shift, by default) will temporarily charm the nearest Slime in a 3-tile radius. A charmed Slime behaves like a regular Summoned Slime. Releasing the Mod Key removes the effect. _The main usecase for this feature is for herding Slimes for breeding._
-- The damage of Slime ammo is increased to 20 (equivalent to iron ore).
+Breeding is entirely optional. You can ignore it and still benefit from all the class perks. For those interested, [here is a useful guide about Slime breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
 
-The following additional perks are granted to prestiged Slimed Pipers, a.k.a. Prismarchs, a.k.a. Slime Painters:
-- Learn to craft Slime Brushes using wood, fiber and a Slime Egg of the desired color. These brushes can be used on raised Slimes to change their pigmentation, increasing only the corresponding color component. If that color component is already maxed out, the brush then reduces the other two components.
-  - Green Brush -> increases a Slime's green component, or reduces its red and blue components.
-  - Blue Brush -> increases a Slime's blue component, or reduces its red and green components.
-  - Red Brush -> increases a Slime's red component, or reduces its green and blue components.
-  - Purple Brush -> increases a Slime's red and blue components, or reduces its green component.
-  - Prismatic Brush -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
-- Each of the Slime color variants below gain a special combat ability:
-  - Green Slimes -> can cause Slimed debuff.
-  - Blue Slimes -> can cause Chilled/Frozen debuff.
-  - Red & Purple Slimes -> can cause Burn debuff.
-  - White Slimes -> emit an aura that heals a low amount of health over time.
-  - Black Slimes -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void Essence.
-  - Gold Slimes -> cause nearby enemies to drop gold when defeated (100g per kill).
-  - Prismatic Slimes -> combine all previous effects, except for Black and Gold Slime effects.
-- Colored Slime Balls will always drop one random item of the [Dyeing loot table](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
-- Both color-specific features above are valid within a range of 10 chroma values from the precise Slime or dye color.
-- The damage of Slime ammo is increased to 40 (between gold ore and iridium ore).
+The following perks are gained when obtaining the **Slimed Piper** profession (Lv10):
+- Slime Hutch capacity is increased to 30 the following day. Please remove Sprinklers or other items placed above and below the water spots, as those tiles will be overwritten by additional water spots, deleting placed objects.
+- Can craft a Slimecaller Flute which grants ally Slimes when played. Play it again while holding the Mod key (Left Shift by default) to dismiss all ally Slimes.
+- "Hidden" bonus 1: wild Slimes act more neutral towards players in the current map. They will still cause damage if touched (unless, of course, the player wears the Slime Charmer Ring).
+- "Hidden" bonus 2: holding the Mod Key to temporarily "guide" nearby Slimes (helpful for herding and breeding).
+- "Hidden" bonus 3: damage of Slime ammo increased to 20 (equivalent to iron ore).
+
+**Ally Slimes:** Includes both Summoned and Charmed Slimes;  Summoned Slimes (summoned from Slime Hutches you own) inherit the stats of raised Slimes (this is where breeding comes in handy). Charmed Slimes (charmed from the wild) do not, but all ally Slimes gain a substantial HP buff. They will fight and distract other non-Slime enemies. They are immune to damage from players, including from explosives, bu can be damaged by non-Slime enemies. They regain health if shot at with Slime ammo (Rascal feature), and can be interacted with while holding a hat to turn it into a Hat Slime.
+
+**Hat Slime:** Does not participate in combat, but will auto-pick up dropped items (not spawned forage) and functions as an "item mule". It will follow you everywhere (even indoors), and has access to a 12-slot inventory, which can be checked by interacting with it. You can take items from it, but cannot directly give items to it (but you can drop items on the ground to have the Slime pick it up). When it picks up an item, if the player already has a stack on that item, it will be added to the player's stack instead of the Slime's own inventory. Can be dismissed by removing its hat (interact with it while holding a different hat). When dismissed, carried items are dropped on the ground. You can have only one Hat Slime at a time. 
+ 
+The following additional perks are granted to prestiged Slimed Pipers, a.k.a. **Prismarchs** (or Slime Painters, Lv20):
+- Can craft colorful Slime Brushes, which have the effect of changing the pigmentation of raised Slimes, nudging towards  only the corresponding color. If that color component is already maxed out (say, red), the brush then reduces the other two components (green and blue).
+    ﻿﻿- **Green Brush** -> increases a Slime's green component, or reduces its red and blue components.
+    ﻿- **Blue Brush** -> increases a Slime's blue component, or reduces its red and green components.
+    - **Red Brush** -> increases a Slime's red component, or reduces its green and blue components.
+    - **Purple Brush** -> increases a Slime's red and blue components, or reduces its green component.
+    - **Prismatic Brush** -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
+- Each colored Slime variant gains a special combat ability:
+    - **Green Slimes** -> can cause Slimed debuff.
+    - **Blue Slimes**-> can cause Chilled/Frozen debuff.
+    - **Red & Purple Slimes** -> can cause Burn debuff.
+    - **White Slimes** -> emit an aura that heals a low amount of health over time.
+    - **Black Slimes** -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void  Essence.
+    - **Gold Slimes** -> cause nearby enemies to drop gold when defeated (100g per kill).
+    - **Prismatic Slimes** -> combine all previous effects, except for Black and Gold Slime effects.
+- Colored Slime Balls will always drop one random item of the [Dyeing loot table﻿](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
+- "Hidden" bonus: the damage of Slime ammo is increased (again) to 40 (between gold ore and iridium ore).
+ [Dyeing loot table] of the corresponding color.
+
+Color-specific features above are valid within a range of 10 chroma values from the actual target color, so there's some room for flexibility and does not need to be precise.
 
 </details>
 </font>

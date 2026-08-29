@@ -6,6 +6,10 @@
 
 * Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
 
+### Fixed
+
+* Fixed the display name of the Sharp enchantment, which was incorrectly using the same string as Stabbing enchantment and causing a lot of confusion.
+
 <sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
 
 ## 2.2.3

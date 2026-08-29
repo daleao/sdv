@@ -19,6 +19,8 @@
      *** GMCM ***
      ************/
 
+    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
+    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Chance de murcha dos cultivos",
     "gmcm.crop_wither_chance.desc": "A chance percentual de que qualquer cultivo murche a cada dia se não for regado.",
     "gmcm.two_way_hoppers.title": "Funis bidirecionais",

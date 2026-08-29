@@ -198,7 +198,7 @@
     "piper.title.female": "Charmeuse de limon",
     "piper.title.prestiged.male": "Prismarque", // Peintre de Slime
     "piper.title.prestiged.female": "Prismatrice", // Peintre de Slimes
-    "piper.desc": "Jouez de la Flûte Visqueuse pour invoquer et charmer les Slimes proches. Désignez un Slime à chapeau pour porter des objets. Capacité du Clapier pour Slime +50%.",
+    "piper.desc": "Invoquez les Slimes élevés et charmez les Slimes sauvages avec votre musique. Désignez un Slime à chapeau pour porter des objets. Capacité du Clapier pour Slime +50%.",
     "piper.desc.prestiged": "Peut fabriquer des Pinceaux à Slime colorés. Les Slimes colorés acquièrent des capacités spéciales liées à leur couleur. Les Boules de Slime peuvent contenir des objets colorés rares.",
     "piper.slime.bag_full": "La bourse du Slime est pleine.",
     "piper.slime.health": "{{value}} Vie",
@@ -307,9 +307,11 @@
     "honorific.male": "Monsieur",
     "honorific.female": "Madame",
 
-    /***********
-  *** GMCM ***
-  ************/
+    "buildings.PiecesOfHayAndMore": "Meules de foin : {0}/{1}^Céréales : {2}/{9}^Légumes à feuilles : {3}/{9}^Légumineuses : {4}/{9}^Racines : {5}/{9}^Tubercules : {6}/{9}^Courges : {7}/{9}^Fruits : {8}/{9}",
+
+    /************
+     *** GMCM ***
+     ************/
 
     // pages
     "gmcm.pages.prfs": "Professions",

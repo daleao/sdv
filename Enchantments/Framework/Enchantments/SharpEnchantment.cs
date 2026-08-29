@@ -22,7 +22,7 @@ public sealed class SharpEnchantment : BaseWeaponEnchantment
     /// <inheritdoc />
     public override string GetName()
     {
-        return I18n.Enchantments_Stabbing_Name();
+        return I18n.Enchantments_Sharp_Name();
     }
 
     /// <inheritdoc />

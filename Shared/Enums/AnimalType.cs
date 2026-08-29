@@ -42,4 +42,7 @@ public enum AnimalType
 
     /// <summary>A Camel, added by SVE.</summary>
     Camel,
+
+    /// <summary>An unknown animal, likely from a mod.</summary>
+    Unknown = -1,
 }

@@ -308,6 +308,8 @@
     "honorific.male": "Sayın",
     "honorific.female": "Sayın",
 
+    "buildings.PiecesOfHayAndMore": "Saman Yığınları: {0}/{1}^Tahıllar: {2}/{9}^Yapraklı Sebzeler: {3}/{9}^Baklagiller: {4}/{9}^Kök Sebzeler: {5}/{9}^Yumrular: {6}/{9}^Kabakgiller: {7}/{9}^Meyveler: {8}/{9}",
+
     /************
      *** GMCM ***
      ************/

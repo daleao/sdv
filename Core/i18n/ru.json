@@ -19,6 +19,8 @@
      *** GMCM ***
      ************/
 
+    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
+    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Шанс увядания культуры",
     "gmcm.crop_wither_chance.desc": "Процентная вероятность того, что любая культура завянет каждый день, если её не поливать.",
     "gmcm.two_way_hoppers.title": "Двунаправленные воронки",

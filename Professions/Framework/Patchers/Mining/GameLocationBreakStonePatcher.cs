@@ -31,7 +31,7 @@ internal sealed class GameLocationBreakStonePatcher : HarmonyPatcher
     private static void GameLocationBreakStonePostfix(GameLocation __instance, string stoneId, int x, int y, Farmer? who, Random r)
     {
         if (who is null || __instance is not MineShaft shaft ||
-            !who.HasProfession(Profession.Spelunker) || !shaft.ladderHasSpawned)
+            !who.HasProfession(Profession.Spelunker) || !shaft.ladderHasSpawned || State.SpelunkerLadderStreak <= 0)
         {
             return;
         }

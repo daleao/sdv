@@ -19,6 +19,8 @@
      *** GMCM ***
      ************/
 
+    "gmcm.coloredslimeballs.title": "Colored Slime Balls",
+    "gmcm.coloredslimeballs.desc": "Allows colored Slimes to produce different-colored Slime Balls with color-specific drops.",
     "gmcm.crop_wither_chance.title": "Chance de dépérissement des cultures",
     "gmcm.crop_wither_chance.desc": "Le pourcentage de probabilité qu'une culture donnée dépérisse chaque jour si elle n'est pas arrosée.",
     "gmcm.two_way_hoppers.title": "Trémies bidirectionnelles",

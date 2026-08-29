@@ -52,6 +52,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Maps/SVE_PremiumBarn", new AssetEditor(EditPremiumBarnMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumCoop", new AssetEditor(EditPremiumCoopMap, AssetEditPriority.Late));
         this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
+        this.Edit("Strings/Buildings", new AssetEditor(EditBuildingsStrings));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
 
         this.Provide(
@@ -173,6 +174,13 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         {
             asset.AsDictionary<string, BuildingData>().Data["Deluxe Barn"].IndoorItems[0].Tile.X -= 2;
         }
+    }
+
+    /// <summary>Patches Hay tooltip.</summary>
+    private static void EditBuildingsStrings(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, string>().Data;
+        data["PiecesOfHayAndMore"] = I18n.Buildings_PiecesOfHayAndMore();
     }
 
     /// <summary>Patches Tapper recipes for Foraging professions.</summary>

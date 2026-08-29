@@ -1,5 +1,11 @@
 ﻿namespace DaLion.Shared.Extensions.Stardew;
 
+#region using directives
+
+using DaLion.Shared.Enums;
+
+#endregion using directives
+
 /// <summary>Extensions for the <see cref="FarmAnimal"/> class.</summary>
 public static class FarmAnimalExtensions
 {
@@ -18,5 +24,24 @@ public static class FarmAnimalExtensions
     public static bool IsOwnedBy(this FarmAnimal animal, Farmer farmer)
     {
         return animal.ownerID.Value == farmer.UniqueMultiplayerID;
+    }
+
+    /// <summary>Gets the <see cref="AnimalType"/> for this <paramref name="animal"/>.</summary>
+    /// <param name="animal">The <see cref="FarmAnimal"/>.</param>
+    /// <returns>The corresponding <see cref="AnimalType"/>.</returns>
+    public static AnimalType GetAnimalType(this FarmAnimal animal)
+    {
+        if (animal.type.Value.Contains("Chicken"))
+        {
+            return AnimalType.Chicken;
+        }
+        else if (animal.type.Value.Contains("Cow"))
+        {
+            return AnimalType.Cow;
+        }
+        else
+        {
+            return Enum.TryParse<AnimalType>(animal.type.Value, out var type) ? type : AnimalType.Unknown;
+        }
     }
 }

@@ -24,7 +24,7 @@ internal sealed class ItemGrabMenuCtorPatcher : HarmonyPatcher
 
     #region harmony patches
 
-    /// <summary>Update ItemsHeld data on grab menu close.</summary>
+    /// <summary>Set display parameters for Chum Bucket menu.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
     private static void ItemGrabMenuCtorPostfix(ItemGrabMenu __instance)

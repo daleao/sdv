@@ -198,7 +198,7 @@
     "piper.title.female": "Encantadora de Gosma",
     "piper.title.prestiged.male": "Pintor de Gosma",
     "piper.title.prestiged.female": "Pintora de Gosma",
-    "piper.desc": "Toque a Flauta Viscosa para invocar e encantar Gosmas próximas. Designe uma Gosma com chapéu para carregar itens. Capacidade da Casa de Gosmas +50%.",
+    "piper.desc": "Invoque Gosmas criadas e encante Gosmas selvagens com música. Designe uma Gosma com chapéu para carregar itens. Capacidade da Casa de Gosmas +50%.",
     "piper.desc.prestiged": "Pode fabricar Pincéis de Gosma coloridos. Gosmas coloridas ganham habilidades especiais ligadas à cor. Bolas de Gosma podem conter itens coloridos raros.",
     "piper.slime.bag_full": "O inventário da Gosma esta cheio.",
     "piper.slime.health": "{{value}} Vida",
@@ -307,9 +307,11 @@
     "honorific.male": "Caro",
     "honorific.female": "Cara",
 
-    /***********
-  *** GMCM ***
-  ************/
+    "buildings.PiecesOfHayAndMore": "Montes de feno: {0}/{1}^Grãos: {2}/{9}^Verduras folhosas: {3}/{9}^Leguminosas: {4}/{9}^Raízes: {5}/{9}^Tubérculos: {6}/{9}^Cabaças: {7}/{9}^Frutas: {8}/{9}",
+
+    /************
+     *** GMCM ***
+     ************/
 
     // pages
     "gmcm.pages.prfs": "Profissões",

@@ -25,7 +25,7 @@
    ************/
 
   "gmcm.gemstone_socket_style.title": "宝石插槽样式",
-  "gmcm.gemstone_socket_style.desc": "将武器工具提示中的通用"锻造"文本替换为各种样式的宝石插槽图标。",
+  "gmcm.gemstone_socket_style.desc": "将武器工具提示中的通用\"锻造\"文本替换为各种样式的宝石插槽图标。",
   "gmcm.socket_style.diamond": "钻石",
   "gmcm.socket_style.round": "圆形",
   "gmcm.socket_style.iridium": "铱",

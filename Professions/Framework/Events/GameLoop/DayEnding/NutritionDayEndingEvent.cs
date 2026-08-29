@@ -3,6 +3,9 @@
 #region using directives
 
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
+using DaLion.Shared.Extensions.Stardew;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -18,6 +21,7 @@ internal sealed class NutritionDayEndingEvent(EventManager? manager = null)
     {
         Utility.ForEachLocation(location =>
         {
+            var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
             foreach (var animal in location.animals.Values)
             {
                 if (animal is null)
@@ -25,28 +29,48 @@ internal sealed class NutritionDayEndingEvent(EventManager? manager = null)
                     continue;
                 }
 
-                var nutrition = Data.ReadAs<int>(animal, DataKeys.ShortTermNutrition);
+                var shortTermNutrition = Data.ReadAs<int>(animal, DataKeys.ShortTermNutrition);
+                var longTermNutrition = Data.ReadAs<int>(animal, DataKeys.LongTermNutrition);
                 if (!State.WasFedCropToday.Contains(animal))
                 {
-                    if (animal.fullness.Value < 200)
+                    if (Lookups.AnimalFavoredFeeds.TryGetValue(animal.GetAnimalType(), out var favoredFeeds))
                     {
-                        nutrition -= 50;
+                        if (favoredFeeds.FirstOrDefault(feedsPerCategory.ContainsKey) is { } first)
+                        {
+                            feedsPerCategory[first]--;
+                            if (animal.fullness.Value > 200)
+                            {
+                                shortTermNutrition += 25;
+                                longTermNutrition += 10;
+                            }
+                        }
                     }
                     else
                     {
-                        nutrition -= 10;
+                        if (animal.fullness.Value < 200)
+                        {
+                            shortTermNutrition -= 50;
+                        }
+                        else
+                        {
+                            shortTermNutrition -= 10;
+                        }
                     }
                 }
                 else if (animal.fullness.Value > 200)
                 {
-                    nutrition += 25;
+                    shortTermNutrition += 25;
+                    longTermNutrition += 10;
                 }
 
                 var nutritionCeiling = animal.DoesOwnerHaveProfessionOrLax(Profession.Producer) ? 200 : 100;
-                nutrition = Math.Clamp(nutrition, 0, nutritionCeiling);
-                Data.Write(animal, DataKeys.ShortTermNutrition, nutrition.ToString());
+                shortTermNutrition = Math.Clamp(shortTermNutrition, 0, nutritionCeiling);
+                longTermNutrition = Math.Min(longTermNutrition, 500);
+                Data.Write(animal, DataKeys.ShortTermNutrition, shortTermNutrition.ToString());
+                Data.Write(animal, DataKeys.LongTermNutrition, longTermNutrition.ToString());
             }
 
+            Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
             return true;
         });
 

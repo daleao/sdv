@@ -2,6 +2,7 @@
 
 #region using directives
 
+using DaLion.Core.Framework.Events;
 using DaLion.Shared.Integrations.GMCM.Attributes;
 using Newtonsoft.Json;
 using StardewModdingAPI.Utilities;
@@ -11,6 +12,8 @@ using StardewModdingAPI.Utilities;
 /// <summary>Config schema for the Core mod.</summary>
 public sealed class CoreConfig
 {
+    private bool _coloredSlimeBalls = false;
+
     /// <summary>Gets the chance a crop may wither per day left un-watered.</summary>
     [JsonProperty]
     [GMCMRange(0f, 1f, 0.05f)]
@@ -20,13 +23,36 @@ public sealed class CoreConfig
     [JsonProperty]
     public bool TwoWayHoppers { get; internal set; } = false;
 
+    /// <summary>Gets a value indicating whether to harvest Hay from premature Wheat.</summary>
+    [JsonProperty]
+    public bool ImmersiveHay { get; internal set; } = false;
+
     /// <summary>Gets a value indicating whether to allow Wheat to survive in winter.</summary>
     [JsonProperty]
     public bool WinterWheat { get; internal set; } = false;
 
-    /// <summary>Gets a value indicating whether to harvest Hay from premature Wheat.</summary>
+    /// <summary>Gets a value indicating whether to allow Slime Balls to inherit Slime's color.</summary>
     [JsonProperty]
-    public bool ImmersiveHay { get; internal set; } = false;
+    public bool ColoredSlimeBalls
+    {
+        get;
+        internal set
+        {
+            if (Context.IsWorldReady && value != this._coloredSlimeBalls)
+            {
+                if (value)
+                {
+                    EventManager.Enable<SlimeBallObjectListChangedEvent>();
+                }
+                else
+                {
+                    EventManager.Disable<SlimeBallObjectListChangedEvent>();
+                }
+            }
+
+            this._coloredSlimeBalls = value;
+        }
+    } = false;
 
     /// <summary>Gets a value indicating whether to consolidate farmer debuffs with the status conditions provided by this mod.</summary>
     [JsonProperty]

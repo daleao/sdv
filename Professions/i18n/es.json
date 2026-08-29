@@ -199,7 +199,7 @@
     "piper.title.female": "Sirena de Slimes",
     "piper.title.prestiged.male": "Prismarco",
     "piper.title.prestiged.female": "Prismarca",
-    "piper.desc": "Toca la Flauta Viscosa para invocar y encantar Slimes cercanos. Designa un Slime con sombrero para llevar objetos. Capacidad del Criadero de babas +50%.",
+    "piper.desc": "Invoca a Slimes criados y encanta a Slimes salvajes con tu música. Designa un Slime con sombrero para llevar objetos. Capacidad del Criadero de babas +50%.",
     "piper.desc.prestiged": "Puede fabricar Pinceles de Slime de colores. Los Slimes de colores obtienen habilidades especiales según su color. Las Bolas de Slime pueden contener objetos de colores raros.",
     "piper.slime.bag_full": "La bolsa del Slime está llena.",
     "piper.slime.health": "{{value}} Salud",
@@ -307,6 +307,8 @@
 
     "honorific.male": "Estimado",
     "honorific.female": "Estimada",
+
+    "buildings.PiecesOfHayAndMore": "Montones de heno: {0}/{1}^Cereales: {2}/{9}^Verduras de hoja: {3}/{9}^Legumbres: {4}/{9}^Raíces: {5}/{9}^Tubérculos: {6}/{9}^Calabazas: {7}/{9}^Frutas: {8}/{9}",
 
     /************
      *** GMCM ***

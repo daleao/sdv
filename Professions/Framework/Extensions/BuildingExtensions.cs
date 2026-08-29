@@ -2,10 +2,16 @@
 
 #region using directives
 
+using DaLion.Professions.Framework.UI;
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using Microsoft.Xna.Framework;
 using StardewValley.Buildings;
+using StardewValley.Menus;
+using StardewValley.Mods;
 using StardewValley.Monsters;
+using StardewValley.Objects;
 
 #endregion using directives
 
@@ -39,6 +45,153 @@ internal static class BuildingExtensions
     internal static bool IsOwnedByOrLax(this Building building, Farmer farmer)
     {
         return building.IsOwnedBy(farmer) || Config.LaxOwnershipRequirements;
+    }
+
+    /// <summary>Converts the <paramref name="item"/> into feed data for animal nutrition and stores it in <paramref name="building"/>'s parent location's <seealso cref="ModDataDictionary"/>.</summary>
+    /// <param name="building">The silo <see cref="Building"/>.</param>
+    /// <param name="item">The crop <see cref="SObject"/>.</param>
+    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="item"/> was converted, otherwise <see langword="false"/>.</returns>
+    internal static bool AddPiecesOfCropFeed(this Building building, Item? item, Farmer who)
+    {
+        if (item is not SObject crop || building.buildingType.Value != "Silo")
+        {
+            return false;
+        }
+
+        var location = building.GetParentLocation();
+        if (!Lookups.CategoryByFeedCrop.TryGetValue(crop.QualifiedItemId, out var category))
+        {
+            return false;
+        }
+
+        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
+        var capacity = location.GetHayCapacity() / 10;
+        var amountThatCanBeAdded = feedsPerCategory.TryGetValue(category, out var amount) ? capacity - amount : capacity;
+        if (amountThatCanBeAdded <= 0)
+        {
+            Game1.playSound("cancel");
+            return false;
+        }
+
+        var amountActuallyAdded = Math.Min(crop.Stack, amountThatCanBeAdded);
+        feedsPerCategory.AddOrUpdate(category, amountActuallyAdded, (a, b) => a + b);
+        Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
+        if (crop.ConsumeStack(amountActuallyAdded) == null)
+        {
+            who.removeItemFromInventory(crop);
+        }
+
+        building.ShowShipment(item, playThrowSound: false);
+        var deposited = crop.getOne();
+        deposited.Stack = amountActuallyAdded;
+        SiloMenuWrapper.LastItemDeposited = (SObject)deposited;
+        if (who.ActiveItem is null)
+        {
+            who.showNotCarrying();
+            who.Halt();
+        }
+
+        return true;
+    }
+
+    /// <summary>Removes the <paramref name="item"/>'s feed data from the <paramref name="building"/>'s parent location's <seealso cref="ModDataDictionary"/>.</summary>
+    /// <param name="building">The silo <see cref="Building"/>.</param>
+    /// <param name="item">The crop <see cref="SObject"/>.</param>
+    /// <param name="stack">The original stack of <paramref name="item"/>.</param>
+    /// <remarks><paramref name="stack"/> is needed because it may be consumed before this point by adding to the player's inventory.</remarks>
+    internal static void RemovePiecesOfCropFeed(this Building building, Item? item, int stack)
+    {
+        if (item is not SObject crop || building.buildingType.Value != "Silo")
+        {
+            return;
+        }
+
+        var location = building.GetParentLocation();
+        if (!Lookups.CategoryByFeedCrop.TryGetValue(crop.QualifiedItemId, out var category))
+        {
+            return;
+        }
+
+        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
+        feedsPerCategory.AddOrUpdate(category, stack, (a, b) => a - b);
+        Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
+    }
+
+    /// <summary>Opens an <see cref="ItemGrabMenu"/> instance to allow depositing crops into the Silo.</summary>
+    /// <param name="silo">The <see cref="Building"/>.</param>
+    /// <returns><see langword="true"/> (required by vanilla code).</returns>
+    internal static bool OpenSiloMenu(this Building silo)
+    {
+        var menu = new ItemGrabMenu(
+            null,
+            reverseGrab: true,
+            showReceivingMenu: false,
+            i => Lookups.CategoryByFeedCrop.ContainsKey(i?.QualifiedItemId ?? string.Empty),
+            (i, w) => silo.AddPiecesOfCropFeed(i, w),
+            string.Empty,
+            null,
+            snapToBottom: true,
+            canBeExitedWithKey: true,
+            playRightClickSound: false,
+            allowRightClick: true,
+            showOrganizeButton: false,
+            ItemGrabMenu.source_none,
+            null,
+            -1,
+            silo);
+        State.MenuWrapper = new(silo, menu);
+        Game1.activeClickableMenu = menu;
+        var player = Game1.player;
+        Game1.playSound("shwip");
+        if (player.FacingDirection == 1)
+        {
+            player.Halt();
+        }
+
+        return true; // expected by vanilla code
+    }
+
+    /// <inheritdoc cref="ShippingBin.showShipment(Item, bool)"/>
+    internal static void ShowShipment(this Building building, Item item, bool playThrowSound = true)
+    {
+        var parentLocation = building.GetParentLocation();
+        if (playThrowSound)
+        {
+            parentLocation.localSound("backpackIN");
+        }
+
+        DelayedAction.playSoundAfterDelay("Ship", playThrowSound ? 250 : 0);
+        var itemData = ItemRegistry.GetDataOrErrorItem(item.QualifiedItemId);
+        var coloredObj = item as ColoredObject;
+        var initialPosition = (new Vector2(building.tileX.Value + 0.5f, building.tileY.Value + 1) * 64f) + (new Vector2(7 + Game1.random.Next(6), 2f) * 4f);
+        var array = new bool[2] { false, true };
+        foreach (var isColorOverlay in array)
+        {
+            if (isColorOverlay && (coloredObj is null || coloredObj.ColorSameIndexAsParentSheetIndex))
+            {
+                continue;
+            }
+
+            parentLocation.temporarySprites.Add(
+                new TemporaryAnimatedSprite(
+                    itemData.TextureName,
+                    itemData.GetSourceRect(isColorOverlay ? 1 : 0),
+                    initialPosition,
+                    flipped: false,
+                    0f,
+                    Color.White)
+                {
+                    interval = 9999f,
+                    scale = 4f,
+                    alphaFade = 0.045f,
+                    layerDepth = ((building.tileY.Value + 3) * 64 / 10000f) + 0.000225f,
+                    motion = new Vector2(0f, 0.3f),
+                    acceleration = new Vector2(0f, 0.2f),
+                    scaleChange = -0.05f,
+                    color = coloredObj?.color.Value ?? Color.White,
+                });
+        }
     }
 
     /// <summary>Applies applicable profession rules to the <paramref name="building"/>.</summary>
