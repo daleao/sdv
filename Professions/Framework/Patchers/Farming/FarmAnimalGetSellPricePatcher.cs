@@ -25,22 +25,21 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
     /// <summary>Patch to adjust Breeder animal sell price.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static bool FarmAnimalGetSellPricePostfix(FarmAnimal __instance, ref int __result)
+    private static void FarmAnimalGetSellPricePostfix(FarmAnimal __instance, ref int __result)
     {
         if (!__instance.DoesOwnerHaveProfessionOrLax(Profession.Breeder))
         {
-            return true; // run original logic
+            return; // do not change sell price
         }
 
         try
         {
-            __result = (int)(__result * __instance.GetBreederAdjustedPrice());
-            return false; // don't run original logic
+            __result = (int)(__result * __instance.GetBreederAdjustedPrice()); 
         }
         catch (Exception ex)
         {
             Log.E($"Failed in {MethodBase.GetCurrentMethod()?.Name}:\n{ex}");
-            return true; // default to original logic
+            return; // default to original logic
         }
     }
 
