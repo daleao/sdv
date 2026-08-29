@@ -17,6 +17,7 @@
 * Fixed ponds not rewarding experience (`checkedToday` flag not being reset).
 * Fixed pond reward attempts being zero at the required population.
 * Fixed missing translation keys.
+* Fixed lower-case "squids" not producing ink.
 
 <sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
 

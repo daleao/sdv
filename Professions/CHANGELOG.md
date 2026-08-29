@@ -204,6 +204,11 @@ The following reported issues were also checked:
 * Removed LegendaryFishPondData (moved to [Ponds](../Ponds)).
 * Removed support for the Legacy UI Info Suite 2 mod. Please use the new [UI Info Suite 2 Alt](https://www.nexusmods.com/stardewvalley/mods/43127) instead.
 
+### Known Issues:
+
+* If a Scavenger Hunt is initiated in a rainy location, the rain overwrites the soil arrow indicators.
+* Slimes minions still attack Shadow People after a certain SVE event.
+
 ### Planned
 
 * Some visual feedback while an Artisan machine is enhanced with a coating.

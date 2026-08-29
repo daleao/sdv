@@ -409,7 +409,7 @@ internal static class FishPondExtensions
                 producedWithThisQuality = roeQualities[i];
             }
 
-            var roe = fish.Name.Contains("Squid")
+            var roe = fish.Name.Contains("squid", StringComparison.OrdinalIgnoreCase)
                 ? ItemRegistry.Create<SObject>(QIDs.SquidInk)
                 : ItemRegistry.GetObjectTypeDefinition().CreateFlavoredRoe(fish);
             roe.Stack = producedWithThisQuality * (pond.goldenAnimalCracker.Value ? 2 : 1);
