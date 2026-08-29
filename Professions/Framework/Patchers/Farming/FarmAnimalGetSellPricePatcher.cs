@@ -23,9 +23,9 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
     #region harmony patches
 
     /// <summary>Patch to adjust Breeder animal sell price.</summary>
-    [HarmonyPrefix]
+    [HarmonyPostfix]
     [UsedImplicitly]
-    private static bool FarmAnimalGetSellPricePrefix(FarmAnimal __instance, ref int __result)
+    private static bool FarmAnimalGetSellPricePostfix(FarmAnimal __instance, ref int __result)
     {
         if (!__instance.DoesOwnerHaveProfessionOrLax(Profession.Breeder))
         {
@@ -34,7 +34,7 @@ internal sealed class FarmAnimalGetSellPricePatcher : HarmonyPatcher
 
         try
         {
-            __result = (int)(__instance.getSellPrice() * __instance.GetBreederAdjustedPrice());
+            __result = (int)(__result * __instance.GetBreederAdjustedPrice());
             return false; // don't run original logic
         }
         catch (Exception ex)
