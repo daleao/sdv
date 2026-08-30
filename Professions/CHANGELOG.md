@@ -8,12 +8,13 @@
 
 ### Fixed
 
-* Fixed Stack Overflow in `Animal.GetSellPrice`.
-* Replaced "Shed" with "Silo" in Prestiged Rancher description.
-* Fixed Slime Flute and Survey Flag not being granted with their respective professions.
-* Fixed Slime Flute recipe producing Slime Brush instead.
+* Fixed Stack Overflow in `Animal.GetSellPrice` (thanks [Azzurite](https://www.nexusmods.com/profile/Azzu)).
+* Replaced "Shed" with "Silo" in Prestiged Rancher description (thank [lordelbric](https://www.nexusmods.com/profile/lordelbric).
+* Fixed Slime Flute and Survey Flag not being granted with their respective professions (thanks [raecrowned](https://www.nexusmods.com/profile/raecrowned)).
+* Fixed Slime Flute recipe producing Slime Brush instead (thanks [raecrowned](https://www.nexusmods.com/profile/raecrowned)).
 * Fixed error when crab pots produce rings.
 * Ally Slimes no longer attack Shadow folk if the player has completed a certain Special Order from SVE.
+* Other edge case fixes (thanks [raecrowned](https://www.nexusmods.com/profile/raecrowned)).
 
 <sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
 
