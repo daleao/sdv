@@ -145,6 +145,12 @@ public sealed class CustomSkill : ISkill
     }
 
     /// <inheritdoc />
+    public bool CanReset()
+    {
+        return Config.Skills.EnableSkillResetForCustomSkill[this.StringId] && ISkill.CanReset(this);
+    }
+
+    /// <inheritdoc />
     public void Reset()
     {
         // reset skill level and experience

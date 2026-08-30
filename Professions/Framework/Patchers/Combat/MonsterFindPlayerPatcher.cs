@@ -75,6 +75,7 @@ internal sealed class MonsterFindPlayerPatcher : HarmonyPatcher
                         m => !m.IsSlime() && m is not Spiker &&
                              (m is not Duggy duggy || duggy.Sprite.CurrentFrame is > 0 and < 10) &&
                              m is not LavaLurk &&
+                             (m is not (ShadowBrute or ShadowGirl or ShadowGuy or ShadowShaman) || !piped.Piper.mailReceived.Contains("GaveVoidSouls")) && // SVE befriend Shadow folk
                              slime.IsCharacterWithinThreshold(m));
                     if (aggroee is not null)
                     {

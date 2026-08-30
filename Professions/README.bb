@@ -70,7 +70,7 @@ Retaining Soil can be used to extend a crop's lifetme into the winter season, bu
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/pzj62pg.png[/img] [b]Rancher (Lv5)[/b] - Animals can be fed certain crops to supplement nutrition and increase friendship.
-[spoiler][color=gold][img]https://i.imgur.com/Ipu2yYK.png[/img] [b]Master Rancher (Lv15)[/b] - Crops placed in a shed are distributed by feed hoppers. Friendship with animals builds twice as quickly.[/color]
+[spoiler][color=gold][img]https://i.imgur.com/Ipu2yYK.png[/img] [b]Master Rancher (Lv15)[/b] - Crops placed in a Silo are distributed by feed hoppers. Friendship with animals builds twice as quickly.[/color]
 [spoiler][size=2]
 [b]Crop Feeding:[/b] Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. [b]Short-term[/b] nutrition increases by 25 per feeding, caps at 100, and decays by 10 on days where the animal is not fed. [b]Long-term[/b] nutrition also increases by 25 per feeding, caps at 1000, and never decays.
 

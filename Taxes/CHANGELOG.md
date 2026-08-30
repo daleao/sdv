@@ -1,5 +1,13 @@
 ﻿# TAXES Changelog
 
+## 2.2.4
+
+### Fixed
+
+* Fixed taxes not being counted in spring of year 1.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.2.3
 
 ### Added

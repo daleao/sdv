@@ -226,8 +226,9 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             }
         }
 
-        if (appliedTreatments.OverclockCycles-- > 0)
+        if (appliedTreatments.OverclockCycles > 0)
         {
+            appliedTreatments.OverclockCycles--;
             __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady / 2d);
         }
 

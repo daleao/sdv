@@ -189,7 +189,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         var data = asset.AsDictionary<string, string>().Data;
 
         var slimeFluteRecipe =
-            $"{QIDs.Slime} 50 {QIDs.BoneFlute} 1 {QIDs.RefineQuartz} 2/Field/{RedBrushId}/false/none/";
+            $"{QIDs.Slime} 50 {QIDs.BoneFlute} 1 {QIDs.RefineQuartz} 2/Field/{SlimeFluteId}/false/none/";
         var redBrushRecipe =
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.RedSlimeEgg} 1/Field/{RedBrushId}/false/none/";
         var greenBrushRecipe =

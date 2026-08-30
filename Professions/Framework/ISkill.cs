@@ -254,7 +254,7 @@ public interface ISkill : IEquatable<ISkill>
     /// <returns><see langword="true"/> if at least one vanilla or loaded custom skill can be reset, otherwise <see langword="false"/>.</returns>
     internal static bool CanResetAny()
     {
-        return Skill.List.Any(CanReset) || CustomSkill.Loaded.Values.Any(CanReset);
+        return Skill.List.Any(s => s.CanReset()) || CustomSkill.Loaded.Values.Any(s => s.CanReset());
     }
 
     /// <summary>Revalidates all vanilla and custom skills.</summary>

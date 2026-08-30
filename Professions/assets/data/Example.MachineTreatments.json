@@ -1,0 +1,12 @@
+{
+    "MachineTreatments": {
+        "(BC)ExampleMod_IceCreamMachine": {
+            "default": "glazing"
+        },
+        "(BC)ExampleMod_ExampleMachine": {
+            "default": "fermentation",
+            "context_tag": "glazing",
+            "(O)ExampleMod_ExampleItem": "sealing"
+        }
+    }
+}

@@ -16,10 +16,17 @@ public sealed class SkillsConfig
     [GMCMPriority(100)]
     public bool EnableSkillReset { get; internal set; } = false;
 
-    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
+    /// <summary>Gets a dictionary of custom skill IDs with value indicating whether Skill Reset should be enabled for that skill.</summary>
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
     [GMCMPriority(101)]
+    [GMCMOverride(typeof(ProfessionsConfigMenu), "EnableSkillResetForCustomSkillOverride")]
+    public Dictionary<string, bool> EnableSkillResetForCustomSkill { get; internal set; } = [];
+
+    /// <summary>Gets the base skill reset cost multiplier. Set to 0 to reset for free.</summary>
+    [JsonProperty]
+    [GMCMSection("prfs.skill_reset")]
+    [GMCMPriority(102)]
     [GMCMRange(0f, 3f)]
     public float SkillResetCostMultiplier
     {
@@ -33,19 +40,19 @@ public sealed class SkillsConfig
     /// <summary>Gets a value indicating whether resetting a skill also clears all corresponding recipes.</summary>
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
-    [GMCMPriority(102)]
+    [GMCMPriority(103)]
     public bool ForgetRecipesOnSkillReset { get; internal set; } = true;
 
     /// <summary>Gets a value indicating whether the player can use the Statue of Uncertainty more than once per day.</summary>
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
-    [GMCMPriority(103)]
+    [GMCMPriority(104)]
     public bool AllowMultipleResets { get; internal set; } = false;
 
     /// <summary>Gets a multiplier applied to a skill's experience gain after a respective skill reset. Negative values mean it becomes harder to regain those levels.</summary>
     [JsonProperty]
     [GMCMSection("prfs.skill_reset")]
-    [GMCMPriority(104)]
+    [GMCMPriority(105)]
     [GMCMRange(0.5f, 2f, 0.05f)]
     public float SkillExpMultiplierPerReset
     {

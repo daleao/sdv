@@ -198,8 +198,9 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                 if (property.GetCustomAttribute<GMCMSectionAttribute>() is { } sectionAttribute &&
                     (string.IsNullOrEmpty(currentSection) || sectionAttribute.SectionTitleKey != currentSection))
                 {
-                    foreach (var other in unprioritized)
+                    for (var i = unprioritized.Count - 1; i >= 0; i--)
                     {
+                        var other = unprioritized[i];
                         if (other.GetCustomAttribute<GMCMSectionAttribute>() is not
                                 { } otherSectionAttribute ||
                             otherSectionAttribute.SectionTitleKey != currentSection)
@@ -208,7 +209,7 @@ public abstract class GMCMBuilder<TGenericModConfigMenu> :
                         }
 
                         this._formFields.Enqueue(($"FormField:{other.Name}", () => this.AddFromPropertyInfo(other, nextConfig)));
-                        unprioritized.Remove(other);
+                        unprioritized.RemoveAt(i);
                     }
 
                     if (sectionAttribute.SectionTitleKey == "other")

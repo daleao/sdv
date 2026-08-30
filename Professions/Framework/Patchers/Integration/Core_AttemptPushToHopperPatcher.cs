@@ -39,7 +39,9 @@ internal sealed class Core_AttemptPushToHopperPatcher : HarmonyPatcher
         }
 
         var repeatedCycles = Data.ReadAs<int>(machine, DataKeys.RepeatedInputCycles);
-        if (repeatedCycles <= 10 || (repeatedCycles - 10) % 5 != 0)
+        var lastLeftoverCycle = Data.ReadAs<int>(machine, DataKeys.LastLeftoverCycle);
+        const int maxCalibration = 25;
+        if (repeatedCycles <= maxCalibration || (repeatedCycles - maxCalibration) % 5 != 0 || lastLeftoverCycle == repeatedCycles)
         {
             return;
         }

@@ -1,0 +1,23 @@
+{
+    "GrainsCategory": [
+        "(O)ExampleMod_Cereal"
+    ],
+    "LeafyGreensCategory": [
+        "(O)ExampleMod_Lettuce"
+    ],
+    "LegumesCategory": [
+        "(O)ExampleMod_Beans"
+    ],
+    "RootsCategory": [
+        "(O)ExampleMod_Carrot"
+    ],
+    "TubersCategory": [
+        "(O)ExampleMod_Potato"
+    ],
+    "GourdsCategory": [
+        "(O)ExampleMod_Squash"
+    ],
+    "FruitsCategory": [
+        "(O)ExampleMod_Melon"
+    ]
+}

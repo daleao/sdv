@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 2.2.5
+
+### Fixed
+
+* Removed a rogue x5 multiplier to Roe chance that was left over from a debugging session.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.2.4
 
 ### Added

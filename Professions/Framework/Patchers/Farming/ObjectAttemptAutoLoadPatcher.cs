@@ -95,7 +95,7 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
             appliedTreatments.CoatingCycles = 20;
         }
 
-        if (appliedTreatments.OverclockCycles == 0 && inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[MachineTreatmentCategory.Overclock])) is { } battery)
+        if (appliedTreatments.OverclockCycles <= 0 && inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[MachineTreatmentCategory.Overclock])) is { } battery)
         {
             battery.ConsumeStack(1);
             appliedTreatments.OverclockCycles = 30;

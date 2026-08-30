@@ -37,7 +37,8 @@ internal sealed class FarmAnimalGetProduceIdPatcher : HarmonyPatcher
         {
             var parentInheritedPotential = Data.ReadAs<int>(__instance, DataKeys.InheritedPotential);
             var parentLongTermNutrition = Data.ReadAs<int>(__instance, DataKeys.LongTermNutrition);
-            if (parentLongTermNutrition < 1000 || parentInheritedPotential < 1000)
+            const int longTermNutritionCap = 500;
+            if (parentLongTermNutrition < longTermNutritionCap || parentInheritedPotential < longTermNutritionCap)
             {
                 return;
             }

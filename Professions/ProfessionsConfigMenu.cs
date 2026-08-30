@@ -103,4 +103,22 @@ internal sealed class ProfessionsConfigMenu : GMCMBuilder<ProfessionsConfigMenu>
             }
         }
     }
+
+    [UsedImplicitly]
+    private static void EnableSkillResetForCustomSkillOverride()
+    {
+        foreach (var (skillId, value) in Config.Skills.EnableSkillResetForCustomSkill)
+        {
+            if (CustomSkill.Loaded.TryGetValue(skillId, out var customSkill))
+            {
+                Instance!.AddCheckbox(
+                    () => I18n.Gmcm_EnableSkillResetForCustomSkill_Title(customSkill.DisplayName),
+                    null,
+                    config => config.Skills.EnableSkillResetForCustomSkill[skillId],
+                    (config, value) => config.Skills.EnableSkillResetForCustomSkill[skillId] = value,
+                    () => Config,
+                    id: "EnableSkillResetForCustomSkill." + skillId);
+            }
+        }
+    }
 }

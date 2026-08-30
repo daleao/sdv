@@ -33,16 +33,14 @@ internal sealed class NutritionDayEndingEvent(EventManager? manager = null)
                 var longTermNutrition = Data.ReadAs<int>(animal, DataKeys.LongTermNutrition);
                 if (!State.WasFedCropToday.Contains(animal))
                 {
-                    if (Lookups.AnimalFavoredFeeds.TryGetValue(animal.GetAnimalType(), out var favoredFeeds))
+                    if (feedsPerCategory.Any() && Lookups.AnimalFavoredFeeds.TryGetValue(animal.GetAnimalType(), out var favoredFeeds) &&
+                        favoredFeeds.FirstOrDefault(category => feedsPerCategory.TryGetValue(category, out var feeds) && feeds > 0) is { } favored)
                     {
-                        if (favoredFeeds.FirstOrDefault(feedsPerCategory.ContainsKey) is { } first)
+                        feedsPerCategory[favored]--;
+                        if (animal.fullness.Value > 200)
                         {
-                            feedsPerCategory[first]--;
-                            if (animal.fullness.Value > 200)
-                            {
-                                shortTermNutrition += 25;
-                                longTermNutrition += 10;
-                            }
+                            shortTermNutrition += 25;
+                            longTermNutrition += 10;
                         }
                     }
                     else
@@ -63,9 +61,10 @@ internal sealed class NutritionDayEndingEvent(EventManager? manager = null)
                     longTermNutrition += 10;
                 }
 
-                var nutritionCeiling = animal.DoesOwnerHaveProfessionOrLax(Profession.Producer) ? 200 : 100;
-                shortTermNutrition = Math.Clamp(shortTermNutrition, 0, nutritionCeiling);
-                longTermNutrition = Math.Min(longTermNutrition, 500);
+                const int longTermNutritionCap = 500;
+                var shortTermNutritionCap = animal.DoesOwnerHaveProfessionOrLax(Profession.Producer) ? 200 : 100;
+                shortTermNutrition = Math.Clamp(shortTermNutrition, 0, shortTermNutritionCap);
+                longTermNutrition = Math.Min(longTermNutrition, longTermNutritionCap);
                 Data.Write(animal, DataKeys.ShortTermNutrition, shortTermNutrition.ToString());
                 Data.Write(animal, DataKeys.LongTermNutrition, longTermNutrition.ToString());
             }

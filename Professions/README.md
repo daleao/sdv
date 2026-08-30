@@ -186,7 +186,7 @@ Other:
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/rancher_p.png"/> <b>Master Rancher (Lv15)</b> - Crops placed in a shed are distributed by feed hoppers. Friendship with animals builds twice as quickly.
+<img src="./resources/assets/sprites/loose/rancher_p.png"/> <b>Master Rancher (Lv15)</b> - Crops placed in a Silo are distributed by feed hoppers. Friendship with animals builds twice as quickly.
 </font>
 
 <font size="2">

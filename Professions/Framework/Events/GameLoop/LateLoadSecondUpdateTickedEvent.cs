@@ -4,6 +4,7 @@
 
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Events;
+using DaLion.Shared.Extensions.Collections;
 using StardewModdingAPI.Events;
 
 #endregion using directives
@@ -21,6 +22,7 @@ internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = nu
         // registers to SpaceCore on FirstSecondUpdateTicked
         Log.D("Doing first pass load of custom skills...");
         SpaceCoreIntegration.Instance!.Register();
+        CustomSkill.Loaded.ForEach(skill => Config.Skills.EnableSkillResetForCustomSkill.TryAdd(skill.Key, true));
         if (ProfessionsConfigMenu.Instance?.IsLoaded ?? false)
         {
             ProfessionsConfigMenu.Instance.Register();

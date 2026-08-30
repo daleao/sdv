@@ -9,6 +9,7 @@ using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Objects;
+using StardewValley.Tools;
 
 #endregion using directives
 
@@ -106,7 +107,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                     }
                 }
             }
-            else if (caught[1] is not ('R' or 'W')) // not ring or weapon
+            else if (caught[1] == 'O') // not ring or weapon
             {
                 var isSpecialOceanographerCondition = owner.HasProfession(Profession.Conservationist, true) &&
                     (Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
@@ -122,12 +123,19 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                     }
                 }
             }
-            else
+            else if (caught[1] == 'R')
             {
                 caught = caught.ReplaceAt(1, "O");
             }
 
-            __instance.heldObject.Value = ItemRegistry.Create<SObject>(caught, amount: quantity, quality: quality);
+            var caughtItem = ItemRegistry.Create(caught, amount: quantity, quality: quality);
+            if (caughtItem is not SObject)
+            {
+                caughtItem = ItemRegistry.Create<SObject>("(O)0", amount: quantity, quality: quality);
+                caughtItem.ItemId = caught[3..];
+            }
+
+            __instance.heldObject.Value = (SObject)caughtItem;
             __instance.tileIndexToShow = 714;
             __instance.readyForHarvest.Value = true;
             __instance.onReadyForHarvest();

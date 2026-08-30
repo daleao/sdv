@@ -1,5 +1,13 @@
 ﻿# CORE Changelog
 
+## 2.2.5
+
+### Fixed
+
+* Fixed a bug in the GMCM builder.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.2.4
 
 ### Added
@@ -21,6 +29,8 @@
 ### Fixed
 
 * Fixed GMCM menu not building correctly.
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
 
 ## 2.2.3
 

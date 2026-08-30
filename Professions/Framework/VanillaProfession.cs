@@ -392,7 +392,8 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
                 })
                 .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>());
+                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Spelunker).Then(() => who.craftingRecipes.TryAdd("Survey Flag", 0));
 
             return;
         }
@@ -425,6 +426,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth += 25)
             .When(Piper).Then(() =>
             {
+                who.craftingRecipes.TryAdd("Slime Flute", 0);
                 EventManager.Enable(
                     typeof(ChromaBallObjectListChangedEvent),
                     typeof(PiperButtonsChangedEvent),
@@ -459,7 +461,8 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.Remove("Prismatic Paintbrush");
                 })
                 .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>());
+                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Spelunker).Then(() => who.craftingRecipes.Remove("Survey Flag"));
 
             return;
         }
@@ -495,6 +498,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Brute).Then(() => Game1.player.maxHealth -= 25)
             .When(Piper).Then(() =>
             {
+                who.craftingRecipes.Remove("Slime Flute");
                 EventManager.Disable(
                     typeof(ChromaBallObjectListChangedEvent),
                     typeof(PiperButtonsChangedEvent),

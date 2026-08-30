@@ -285,18 +285,18 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static string GetHayDialogueForPrestigedRancher(GameLocation location)
     {
-        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
+        var feeds = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
         return Game1.content.LoadString(
             "Strings\\Buildings:PiecesOfHayAndMore",
             location.piecesOfHay.Value,
             location.GetHayCapacity(),
-            feedsPerCategory.TryGetValue(CropCategory.Grains, out var grains) ? grains : 0,
-            feedsPerCategory.TryGetValue(CropCategory.LeafyGreens, out var greens) ? greens : 0,
-            feedsPerCategory.TryGetValue(CropCategory.Legumes, out var legumes) ? legumes : 0,
-            feedsPerCategory.TryGetValue(CropCategory.Roots, out var roots) ? roots : 0,
-            feedsPerCategory.TryGetValue(CropCategory.Tubers, out var tubers) ? tubers : 0,
-            feedsPerCategory.TryGetValue(CropCategory.Gourds, out var gourds) ? gourds : 0,
-            feedsPerCategory.TryGetValue(CropCategory.Fruits, out var fruits) ? fruits : 0,
+            feeds.TryGetValue(CropCategory.Grains, out var grains) ? grains : 0,
+            feeds.TryGetValue(CropCategory.LeafyGreens, out var greens) ? greens : 0,
+            feeds.TryGetValue(CropCategory.Legumes, out var legumes) ? legumes : 0,
+            feeds.TryGetValue(CropCategory.Roots, out var roots) ? roots : 0,
+            feeds.TryGetValue(CropCategory.Tubers, out var tubers) ? tubers : 0,
+            feeds.TryGetValue(CropCategory.Gourds, out var gourds) ? gourds : 0,
+            feeds.TryGetValue(CropCategory.Fruits, out var fruits) ? fruits : 0,
             location.GetHayCapacity() / 10);
     }
 

@@ -309,10 +309,10 @@ internal static class FishPondExtensions
             return;
         }
 
+        var location = pond.GetParentLocation();
+        var fish = pond.GetFishObject();
         foreach (var reward in fishPondData.ProducedItems)
         {
-            var location = pond.GetParentLocation();
-            var fish = pond.GetFishObject();
             if (pond.currentOccupants.Value < reward.RequiredPopulation ||
                 !GameStateQuery.CheckConditions(reward.Condition, location, pond.GetOwner(), null, fish))
             {
@@ -330,8 +330,13 @@ internal static class FishPondExtensions
                 qid = "(O)" + qid;
             }
 
+            if (qid is QIDs.Roe or QIDs.SquidInk)
+            {
+                continue;
+            }
+
             var attempts = pond.currentOccupants.Value - reward.RequiredPopulation + 1;
-            if (qid is QIDs.Roe or QIDs.SquidInk || !r.Any(reward.Chance, attempts))
+            if (!r.Any(reward.Chance, attempts))
             {
                 continue;
             }
@@ -360,7 +365,7 @@ internal static class FishPondExtensions
             }
         }
 
-        var productionChancePerFish = pond.GetRoeChance(fish.Price, fish.IsBossFish()) * 5;
+        var productionChancePerFish = pond.GetRoeChance(fish.Price, fish.IsBossFish());
         var roeQualities = new int[4];
         for (var i = 0; i < 4; i++)
         {

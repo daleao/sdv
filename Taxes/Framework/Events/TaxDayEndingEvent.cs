@@ -54,11 +54,6 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
                 : $"No items were sold on day {Game1.dayOfMonth} of {Game1.currentSeason}.");
 
         var dayIncome = amountSold;
-        if (Game1.currentSeason == "spring" && Game1.year == 1)
-        {
-            goto skipSwitch;
-        }
-
         var farm = Game1.getFarm();
         switch (Game1.dayOfMonth)
         {
@@ -85,14 +80,14 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
 
             default:
             {
-                if (Game1.dayOfMonth == Config.IncomeTaxDay)
+                if (Game1.dayOfMonth == Config.IncomeTaxDay && Game1.game1.GetCurrentDateNumber() > 28)
                 {
                     DebitIncomeStatement(taxpayer, ref dayIncome);
                 }
 
                 if (taxpayer.IsMainPlayer)
                 {
-                    if (Game1.currentSeason == "spring" && Game1.dayOfMonth == Config.PropertyTaxDay)
+                    if (Game1.currentSeason == "spring" && Game1.dayOfMonth == Config.PropertyTaxDay && Game1.game1.GetCurrentDateNumber() > 112)
                     {
                         DebitPropertyStatement(taxpayer, ref dayIncome);
                     }
@@ -150,7 +145,6 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             }
         }
 
-        skipSwitch:
         if (dayIncome < amountSold)
         {
             Data.Write(taxpayer, DataKeys.Withheld, (amountSold - dayIncome).ToString());

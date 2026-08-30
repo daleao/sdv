@@ -1,4 +1,4 @@
 {
-    "Mammals": [ "Cow", "Goat", "Sheep", "Pig", "Rabbit", "Bear", "Camel" ],
-    "EggLayers": [ "Chicken", "Duck", "Ostrich", "Dinosaur" ]
+    "Mammals": [ "Cow", "Goat", "Sheep", "Pig", "Rabbit", "Bear", "FlashShifter.StardewValleyExpandedCP_Bear", "Camel", "FlashShifter.StardewValleyExpandedCP_Camel" ],
+    "EggLayers": [ "Chicken", "Duck", "Ostrich", "Dinosaur", "Goose", "FlashShifter.StardewValleyExpandedCP_Goose" ]
 }

@@ -52,7 +52,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
             var held = __instance.heldObject.Value;
             if (held is not null)
             {
-                var item = ItemRegistry.Create(held.QualifiedItemId, held.Stack, held.Quality);
+                var item = ItemRegistry.Create(held.ItemId, held.Stack, held.Quality);
                 if (item is SObject && who.stats.Get("Book_Crabbing") != 0)
                 {
                     var r = Utility.CreateDaySaveRandom(

@@ -1,5 +1,22 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.5.1
+
+### Added
+
+* Added config setting to individually toggle Skill Reset for custom skills.
+
+### Fixed
+
+* Fixed Stack Overflow in `Animal.GetSellPrice`.
+* Replaced "Shed" with "Silo" in Prestiged Rancher description.
+* Fixed Slime Flute and Survey Flag not being granted with their respective professions.
+* Fixed Slime Flute recipe producing Slime Brush instead.
+* Fixed error when crab pots produce rings.
+* Ally Slimes no longer attack Shadow folk if the player has completed a certain Special Order from SVE.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.5.0
 
 - Major redesigns for Artisan, Spelunker, Slimed Piper and the Rancher farming branch.
@@ -82,7 +99,7 @@ I've added a new spin without changing the originals too much, but I think it al
     * Once per day, you can approach an animal with any crop of a corresponding favored category to receive a friendship boost and improve its "nutrition" stats.
     * Crops function as **supplements**, and not as replacements for regular hay / grass.
     * "Short-term" nutrition is a variable ranging from 0 to 100. It increases by 25 each day when the animal is fed a crop, and decreases by 10 each day when the animal is not fed a crop. If the animal does not eat hay or grass that day then nutrition drops by 50 points if the animal was not fed a crop, and stays unchanged if it was fed a crop.
-    * "Long-term" nutrition (a.k.a. nutritional potential) increases at the same rate, but does not decrease. It hard caps at 1000.
+    * "Long-term" nutrition (a.k.a. nutritional potential) does not decrease.
 * Replaced ~~Rancher~~ with Nutritionist.
     * Removed: "Gain friendship twice as quickly."
     * Added: "Animals can be fed certain crops to supplement nutrition and increase friendship."
