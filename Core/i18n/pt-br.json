@@ -1,0 +1,17 @@
+{
+  "ui.buffs.burnt.damage": "-50% de Dano",
+  "ui.buffs.burnt.dot": "-{{amount}} de vida a cada 3 segundos",
+  "ui.buffs.frozen.stuck": "Não pode se mover",
+  "ui.buffs.frozen.vulnerable": "Vulnerável ao próximo ataque",
+  "ui.buffs.jinxed.defense": "-50% de Defesa",
+  "ui.buffs.jinxed.special": "Não pode usar movimentos especiais",
+  "ui.buffs.confused.name": "Desorientado",
+  "ui.buffs.confused.desc": "Movimentos são invertidos.",
+  "ui.buffs.warrior.attack": "+{{value}} de Ataque",
+
+  /************
+  *** GMCM ***
+  ************/
+
+  "gmcm.crop_wither_chance.title": "Chance da Plantação Murchar",
+  "gmcm.crop_wither_chance.desc": "A chance, em porcentagem, que quaisquer plantas possam murchar em cada dia caso não sejam irrigadas."
