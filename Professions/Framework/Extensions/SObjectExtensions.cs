@@ -5,6 +5,8 @@
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using SpaceCore.Spawnables;
 
 #endregion using directives
 
@@ -52,7 +54,7 @@ internal static class SObjectExtensions
                 ItemExtensionsIntegration.Instance.ModApi.IsResource(@object.ItemId, out _, out _));
     }
 
-    /// <summary>Determines whether <paramref name="object"/> belongs to a <see cref="MachineTreatmentCategory"/>.</summary>
+    /// <summary>Determines whether <paramref name="object"/> belongs to a <see cref="MachineTreatment"/>.</summary>
     /// <param name="object">The <see cref="SObject"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="object"/> is a battery or syrup, otherwise <see langword="false"/>.</returns>
     internal static bool IsPossibleMachineTreatment(this SObject @object)
@@ -99,5 +101,26 @@ internal static class SObjectExtensions
     internal static bool IsOwnedByOrLax(this SObject @object, Farmer farmer)
     {
         return @object.IsOwnedBy(farmer) || Config.LaxOwnershipRequirements;
+    }
+
+    internal static void MakePremium(this SObject @object, string catalystId)
+    {
+        @object.Name = "Premium " + @object.Name;
+        if (LocalizedContentManager.CurrentLanguageCode is
+            LocalizedContentManager.LanguageCode.es or
+            LocalizedContentManager.LanguageCode.fr or
+            LocalizedContentManager.LanguageCode.it or
+            LocalizedContentManager.LanguageCode.pt or
+            LocalizedContentManager.LanguageCode.ru)
+        {
+            @object.displayName += I18n.Object_Coated_Affix();
+        }
+        else
+        {
+            @object.displayName = I18n.Object_Coated_Affix() + @object.displayName;
+        }
+
+        var catalyst = ItemRegistry.Create<SObject>(catalystId);
+        @object.Price += catalyst.Price * 2;
     }
 }

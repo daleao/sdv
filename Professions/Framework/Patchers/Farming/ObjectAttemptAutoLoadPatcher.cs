@@ -80,22 +80,23 @@ internal sealed class ObjectAttemptAutoLoadPatcher : HarmonyPatcher
             inputTreatmentCategory = overrideCategory;
         }
 
-        if (inputTreatmentCategory == MachineTreatmentCategory.None)
+        if (inputTreatmentCategory == MachineTreatmentRegistry.None)
         {
             return true; // don't run original logic
         }
 
         // get applied treatments to this machine
         var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
-        if ((appliedTreatments.CoatingCategory != inputTreatmentCategory || appliedTreatments.CoatingCycles == 0) &&
-            inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[inputTreatmentCategory])) is { } treatmentItem)
+        var coatingCategory = MachineTreatmentRegistry.FromCatalyst(appliedTreatments.CoatingCatalyst);
+        if ((coatingCategory != inputTreatmentCategory || appliedTreatments.CoatingCycles == 0) &&
+            inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.CatalystsByTreatment[inputTreatmentCategory])) is { } treatmentItem)
         {
             treatmentItem.ConsumeStack(1);
-            appliedTreatments.CoatingCategory = inputTreatmentCategory;
             appliedTreatments.CoatingCycles = 20;
+            appliedTreatments.CoatingCatalyst = treatmentItem.QualifiedItemId;
         }
 
-        if (appliedTreatments.OverclockCycles <= 0 && inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.TreatmentsByCategory[MachineTreatmentCategory.Overclock])) is { } battery)
+        if (appliedTreatments.OverclockCycles <= 0 && inventory.FirstOrDefault(item => item.QualifiedItemId.IsIn(Lookups.CatalystsByTreatment[MachineTreatmentRegistry.Overclock])) is { } battery)
         {
             battery.ConsumeStack(1);
             appliedTreatments.OverclockCycles = 30;

@@ -62,13 +62,15 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         //this.Provide(
         //    $"{UniqueId}_LegendaryFishPondData", new DictionaryProvider<string, List<FishPondData>>(ProvideLegendaryFishPondData));
         this.Provide(
+            $"{UniqueId}_AnimalReproductiveTypes", new DictionaryProvider<string, HashSet<string>>(ProvideAnimalReproductiveTypes));
+        this.Provide(
+            $"{UniqueId}_FeedsByCategory", new DictionaryProvider<string, HashSet<string>>(ProvideFeedsByCategory));
+        this.Provide(
+            $"{UniqueId}_AnimalFavoredFeeds", new DictionaryProvider<string, HashSet<string>>(ProvideAnimalFavoredFeeds));
+        this.Provide(
+            $"{UniqueId}_MachineTreatmentCatalysts", new DictionaryProvider<string, HashSet<string>>(ProvideMachineTreatmentCatalysts));
+        this.Provide(
             $"{UniqueId}_MachineTreatments", new DictionaryProvider<string, MachineTreatmentRules>(ProvideMachineTreatmentRules));
-        this.Provide(
-            $"{UniqueId}_CropCategories", new DictionaryProvider<string, HashSet<string>>(ProvideCropCategories));
-        this.Provide(
-            $"{UniqueId}_AnimalReproductiveTypes", new DictionaryProvider<string, string[]>(ProvideAnimalReproductiveTypes));
-        this.Provide(
-            $"{UniqueId}_AnimalFavoredFeeds", new DictionaryProvider<string, string[]>(ProvideAnimalFavoredFeeds));
         this.Provide(
             $"{UniqueId}_HudPointer",
             new ModTextureProvider(() => "assets/sprites/pointer.png"));
@@ -229,7 +231,7 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         fields[0] = $"{QIDs.Wood} 20 {QIDs.CopperBar} 1";
         data["Tapper"] = string.Join('/', fields);
 
-    heavyTapper:
+heavyTapper:
         fields = data["Heavy Tapper"].Split('/');
         fields[0] = $"{QIDs.Hardwood} 15 {QIDs.RadioactiveBar} 1";
         data["Heavy Tapper"] = string.Join('/', fields);
@@ -417,9 +419,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             data[QIDs.MayonnaiseMachine]
                 .OutputRules
                 .Add(new MachineOutputRule()
-                    {
-                        Id = $"{UniqueId}_Slime",
-                        Triggers =
+                {
+                    Id = $"{UniqueId}_Slime",
+                    Triggers =
                         [
                             new MachineOutputTriggerRule
                             {
@@ -429,19 +431,19 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                                 RequiredCount = 10,
                             },
                         ],
-                        OutputItem =
+                    OutputItem =
                         [
                             new MachineItemOutput { Id = $"(O){SlimeMayoId}", ItemId = $"(O){SlimeMayoId}", }
                         ],
-                        MinutesUntilReady = 180,
-                    });
+                    MinutesUntilReady = 180,
+                });
 
             data[QIDs.CheesePress]
                 .OutputRules
                 .Add(new MachineOutputRule()
-                    {
-                        Id = $"{UniqueId}_Slime",
-                        Triggers =
+                {
+                    Id = $"{UniqueId}_Slime",
+                    Triggers =
                         [
                             new MachineOutputTriggerRule
                             {
@@ -451,12 +453,12 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
                                 RequiredCount = 25,
                             },
                         ],
-                        OutputItem =
+                    OutputItem =
                         [
                             new MachineItemOutput { Id = $"(O){SlimeCheeseId}", ItemId = $"(O){SlimeCheeseId}", }
                         ],
-                        MinutesUntilReady = 200,
-                    });
+                    MinutesUntilReady = 200,
+                });
         }
 
         if (Config.ImmersiveDairyPoultryYield)
@@ -1013,6 +1015,163 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
     //    }
     //}
 
+    private static Dictionary<string, HashSet<string>> ProvideAnimalReproductiveTypes()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, HashSet<string>> animalReproductiveTypes = new()
+        {
+            { "Mammals", [] },
+            { "EggLayers", [] },
+        };
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.AnimalReproductiveTypes.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed?.TryGetValue("Mammals", out var mammals) ?? false)
+                {
+                    animalReproductiveTypes["Mammals"].UnionWith(mammals);
+                }
+
+                if (parsed?.TryGetValue("EggLayers", out var eggLayers) ?? false)
+                {
+                    animalReproductiveTypes["EggLayers"].UnionWith(eggLayers);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Animal Reproductive Types data.\n{ex}");
+        }
+
+        return animalReproductiveTypes;
+    }
+
+    private static Dictionary<string, HashSet<string>> ProvideFeedsByCategory()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, HashSet<string>> feedsByCategory = new()
+        {
+            { "GrainsCategory", [] },
+            { "LeafyGreensCategory", [] },
+            { "LegumesCategory", [] },
+            { "RootsCategory", [] },
+            { "TubersCategory", [] },
+            { "GourdsCategory", [] },
+            { "FruitsCategory", [] },
+            { "InsectsCategory", [] },
+        };
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.FeedsByCategory.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed is null)
+                {
+                    Log.W($"Failed to parse Feed Categories data from '{Path.GetFileName(file)}'.");
+                    continue;
+                }
+
+                foreach (var (key, value) in parsed)
+                {
+                    if (!feedsByCategory.ContainsKey(key))
+                    {
+                        feedsByCategory.Add(key, []);
+                    }
+
+                    feedsByCategory[key].UnionWith(value);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Feed Categories data.\n{ex}");
+        }
+
+        return feedsByCategory;
+    }
+
+    private static Dictionary<string, HashSet<string>> ProvideAnimalFavoredFeeds()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, HashSet<string>> favoredFeeds = [];
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.AnimalFavoredFeeds.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string[]>>>(json);
+                if (parsed?.TryGetValue("AnimalFavoredFeeds", out var favored) ?? false)
+                {
+                    foreach (var (animal, feeds) in favored)
+                    {
+                        if (!favoredFeeds.TryAdd(animal, [.. feeds]))
+                        {
+                            favoredFeeds[animal].UnionWith(feeds);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Animal Favored Feeds data.\n{ex}");
+        }
+
+        return favoredFeeds;
+    }
+
+    private static Dictionary<string, HashSet<string>> ProvideMachineTreatmentCatalysts()
+    {
+        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
+        Dictionary<string, HashSet<string>> catalystsByTreatment = new()
+        {
+            { "Overclock", [] },
+            { "Fermentation", [] },
+            { "Glazing", [] },
+            { "Sealing", [] },
+        };
+
+        try
+        {
+            var files = Directory.GetFiles(path, "*.MachineTreatmentCatalysts.json");
+            foreach (var file in files)
+            {
+                var json = File.ReadAllText(file);
+                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
+                if (parsed is null)
+                {
+                    Log.W($"Failed to parse Machine Treatment Catalysts data from '{Path.GetFileName(file)}'.");
+                    continue;
+                }
+
+                foreach (var (key, value) in parsed)
+                {
+                    if (!catalystsByTreatment.ContainsKey(key))
+                    {
+                        catalystsByTreatment.Add(key, []);
+                    }
+
+                    catalystsByTreatment[key].UnionWith(value);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed loading Machine Treatment Catalysts data.\n{ex}");
+        }
+
+        return catalystsByTreatment;
+    }
+
     private static Dictionary<string, MachineTreatmentRules> ProvideMachineTreatmentRules()
     {
         var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
@@ -1090,103 +1249,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
 
         return machineTreatmentRules;
-    }
-
-    private static Dictionary<string, HashSet<string>> ProvideCropCategories()
-    {
-        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        Dictionary<string, HashSet<string>> cropCategories = new()
-        {
-            { "GrainsCategory", [] },
-            { "LeafyGreensCategory", [] },
-            { "LegumesCategory", [] },
-            { "RootsCategory", [] },
-            { "TubersCategory", [] },
-            { "GourdsCategory", [] },
-            { "FruitsCategory", [] },
-        };
-
-        try
-        {
-            var files = Directory.GetFiles(path, "*.CropCategories.json");
-            foreach (var file in files)
-            {
-                var json = File.ReadAllText(file);
-                var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
-                if (parsed is null)
-                {
-                    Log.W($"Failed to parse Crop Categories data from '{Path.GetFileName(file)}'.");
-                    continue;
-                }
-
-                foreach (var (key, value) in parsed)
-                {
-                    cropCategories[key].UnionWith(value);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed loading Crop Categories data.\n{ex}");
-        }
-
-        return cropCategories;
-    }
-
-    private static Dictionary<string, string[]> ProvideAnimalReproductiveTypes()
-    {
-        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        Dictionary<string, string[]> animalReproductiveTypes = [];
-
-        try
-        {
-            var json = File.ReadAllText(Path.Combine(path, "AnimalReproductiveTypes.json"));
-            var parsed = JsonConvert.DeserializeObject<Dictionary<string, string[]>>(json);
-            if (parsed?.TryGetValue("Mammals", out var mammals) ?? false)
-            {
-                animalReproductiveTypes["Mammals"] = mammals;
-            }
-
-            if (parsed?.TryGetValue("EggLayers", out var eggLayers) ?? false)
-            {
-                animalReproductiveTypes["EggLayers"] = eggLayers;
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed loading Animal Reproductive Types data.\n{ex}");
-        }
-
-        return animalReproductiveTypes;
-    }
-
-    private static Dictionary<string, string[]> ProvideAnimalFavoredFeeds()
-    {
-        var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        Dictionary<string, string[]> favoredFeeds = [];
-
-        try
-        {
-            var files = Directory.GetFiles(path, "*.AnimalFavoredFeeds.json");
-            foreach (var file in files)
-            {
-                var json = File.ReadAllText(file);
-                var parsed = JsonConvert.DeserializeObject<Dictionary<string, Dictionary<string, string[]>>>(json);
-                if (parsed?.TryGetValue("AnimalFavoredFeeds", out var favored) ?? false)
-                {
-                    foreach (var (animal, feeds) in favored)
-                    {
-                        favoredFeeds[animal] = feeds;
-                    }
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            Log.E($"Failed loading Animal Favored Feeds data.\n{ex}");
-        }
-
-        return favoredFeeds;
     }
 
     #endregion provider callbacks

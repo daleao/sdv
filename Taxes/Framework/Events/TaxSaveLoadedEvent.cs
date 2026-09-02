@@ -23,7 +23,7 @@ internal sealed class TaxSaveLoadedEvent(EventManager? manager = null)
         }
 
         var farm = Game1.getFarm();
-        if (!Game1.player.IsMainPlayer || Data.ReadAs(farm, DataKeys.UsableTiles, -1) > 0)
+        if (!Context.IsMainPlayer || Data.ReadAs(farm, DataKeys.UsableTiles, -1) > 0)
         {
             return;
         }

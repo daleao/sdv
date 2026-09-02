@@ -51,7 +51,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         if (actionType == "BuildingSilo")
         {
             if (!who.IsLocalPlayer || !who.HasProfession(Profession.Rancher, true) || who.ActiveObject is not { } heldObject ||
-                !Lookups.CategoryByFeedCrop.ContainsKey(heldObject.QualifiedItemId))
+                !Lookups.CategoryByFeed.ContainsKey(heldObject.QualifiedItemId))
             {
                 return true; // run original logic
             }
@@ -285,18 +285,18 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     private static string GetHayDialogueForPrestigedRancher(GameLocation location)
     {
-        var feeds = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
+        var feeds = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
         return Game1.content.LoadString(
             "Strings\\Buildings:PiecesOfHayAndMore",
             location.piecesOfHay.Value,
             location.GetHayCapacity(),
-            feeds.TryGetValue(CropCategory.Grains, out var grains) ? grains : 0,
-            feeds.TryGetValue(CropCategory.LeafyGreens, out var greens) ? greens : 0,
-            feeds.TryGetValue(CropCategory.Legumes, out var legumes) ? legumes : 0,
-            feeds.TryGetValue(CropCategory.Roots, out var roots) ? roots : 0,
-            feeds.TryGetValue(CropCategory.Tubers, out var tubers) ? tubers : 0,
-            feeds.TryGetValue(CropCategory.Gourds, out var gourds) ? gourds : 0,
-            feeds.TryGetValue(CropCategory.Fruits, out var fruits) ? fruits : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Grains.Id, out var grains) ? grains : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.LeafyGreens.Id, out var greens) ? greens : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Legumes.Id, out var legumes) ? legumes : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Roots.Id, out var roots) ? roots : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Tubers.Id, out var tubers) ? tubers : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Gourds.Id, out var gourds) ? gourds : 0,
+            feeds.TryGetValue(FeedCategoryRegistry.Fruits.Id, out var fruits) ? fruits : 0,
             location.GetHayCapacity() / 10);
     }
 

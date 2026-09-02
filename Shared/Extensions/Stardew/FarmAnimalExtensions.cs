@@ -26,22 +26,22 @@ public static class FarmAnimalExtensions
         return animal.ownerID.Value == farmer.UniqueMultiplayerID;
     }
 
-    /// <summary>Gets the <see cref="AnimalType"/> for this <paramref name="animal"/>.</summary>
+    /// <summary>Gets the animal type for this <paramref name="animal"/>.</summary>
     /// <param name="animal">The <see cref="FarmAnimal"/>.</param>
-    /// <returns>The corresponding <see cref="AnimalType"/>.</returns>
-    public static AnimalType GetAnimalType(this FarmAnimal animal)
+    /// <returns>The corresponding animal type as a <see cref="string"/>.</returns>
+    public static string GetAnimalType(this FarmAnimal animal)
     {
         if (animal.type.Value.Contains("Chicken"))
         {
-            return AnimalType.Chicken;
+            return "Chicken";
         }
         else if (animal.type.Value.Contains("Cow"))
         {
-            return AnimalType.Cow;
+            return "Cow";
         }
         else
         {
-            return Enum.TryParse<AnimalType>(animal.type.Value, out var type) ? type : AnimalType.Unknown;
+            return animal.type.Value;
         }
     }
 }

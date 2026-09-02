@@ -1,5 +1,56 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.5.4
+
+### Added
+
+* Added Sealing treatment to Fish Smoker.
+
+### Changed
+
+* Take-two of Artisan calibration mechanic:
+    * Calibration is now a score **per ingredient** from 0-100%, increasing by 4% with each repeated cycle.
+    * Every 4% calibration increases processing speed by 1% (max 25%, as before).
+    * Above 50% calibration, activates quality preservation at `FarmingLevel / 60` chance. At 100% calibration, chance doubles to `FarmingLevel / 30` (same as used to be in 1.4.x and older versions).
+    * Replacing the ingredient no longer resets the calibration of other ingredients. However, every time calibration increases for one ingredient, all others decrease by 2%. This means you can eventually calibrate up to two ingredients to 100%, or 1 ingredient to 100% and two to 50%, etc.
+    * You can "lock" the calibration **for the next cycle only** by holding the Mod key while placing the ingredient. This will prevent any increase or decrease. Obviously this only works when using machines manually.
+    * Mousing over a machine, or standing immediately next to and facing towards it with a controller, displays the calibration levels per ingredient. The most recently increased calibration appears in green, decreased in orange, locked in yellow, and maxed-out in blue.
+    * Machinist halves the calibration loss to 1%, which means you can near-fully calibrate up to 4 ingredients instead of just 2.
+
+    **Authors commentary:**
+    I think this solves most of the complaints with the first iteration: you are not severly punished for changing ingredients, less micro-managing, and more visual feedback. I also think it's more thematic; changing the input represents adjusting the current calibration to a new one, and eventually converging to a calibration that fits both items, rather than scrapping everything and starting over.
+
+* Artisan coating treatment now produced a "Premium" variant, which adds twice the value of the catalyst to the base price. This stacks with iridium-quality for an even bigger boost, making coatings far more valuable. As Maple Syrup is also more valuable than Oak Resin, this reduces the gap between wines and juices.
+* Replaced Birch Water -> Birch Syrup as an acceptable glazing agent.
+* Automatic crop feeding from Silo now happens on day start instead of day end. This way the player can actually see that animals have been fed in the menu.
+* Feed status for cat now displays the fishing icon instead of the farming crop icon.
+
+### Fixed
+
+* Fixed animal feed status not reseting on new day.
+* Fixed default value and range of `AnglerPriceBonusRate` setting. It should be set to 0.01 by default instead of -1. Please fix this manually in your config settings or delete your config file to auto-generate a new one.
+* Hopefully fixed some multiplayer / splitscreen issues.
+* Fixed a Null-Reference exception that occurred when a mammal is born.
+* Fixed automatic feeding logic looking for feeds inside the barn instead of the farm.
+* Fixed not being able to feed custom animals.
+* Fixed pet feed status not resetting on new day.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
+## 1.5.2
+
+### Added
+
+* Crop categories, favored feeds, artisan machines, animal-derived products, and machine treatments can now be added by mod authors using context tags or `CustomFields`.
+* Animals now provide feedback when they don't like a certain crop feed or when they've already been fed, via emotes.
+* Can now give feed to your pets. Cats eat fish, and dogs eat roots, gourds and fruits.
+
+### Fixed
+
+* Fixed animals being fed over wifi.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.5.1
 
 ### Added

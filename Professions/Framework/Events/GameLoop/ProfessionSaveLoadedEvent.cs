@@ -3,10 +3,11 @@
 #region using directives
 
 using DaLion.Professions.Framework.Events.Display.RenderedHud;
+using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
-using DaLion.Professions.Framework.Events.Multiplayer.PeerConnected;
+using DaLion.Professions.Framework.Events.Multiplayer;
 using DaLion.Professions.Framework.Events.Player;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Limits;
@@ -61,7 +62,7 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         if (string.IsNullOrEmpty(Data.Read(player, DataKeys.ResetCountBySkill)))
         {
             Dictionary<string, int> resetCountBySkill = [];
-            foreach (ISkill vanilla in VanillaSkill.List)
+            foreach (ISkill vanilla in Skill.List)
             {
                 if (vanilla.AcquiredProfessions.Length == 0 ||
                     (vanilla.AcquiredProfessions.Length == 1 && vanilla.CurrentLevel >= 10))
@@ -129,16 +130,25 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         }
 
         // enable host events
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster))
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Rancher))
         {
-            this.Manager.Enable(typeof(LuremasterTimeChangedEvent));
+            this.Manager.Enable(
+                typeof(NutritionDayStartedEvent),
+                typeof(NutritionDayEndingEvent));
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster) && Context.IsMainPlayer)
+        {
+            this.Manager.Enable(
+                typeof(LuremasterDayStartedEvent),
+                typeof(LuremasterTimeChangedEvent));
         }
         else if (Context.IsMultiplayer)
         {
-            this.Manager.Enable<LuremasterPeerConnectedEvent>();
+            this.Manager.Enable<ProfessionsPeerConnectedEvent>();
         }
 
-        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper, prestiged: true))
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Piper))
         {
             this.Manager.Enable<ChromaBallObjectListChangedEvent>();
         }

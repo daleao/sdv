@@ -12,9 +12,7 @@ using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley;
-using StardewValley.Locations;
 using StardewValley.Monsters;
-using xTile.Tiles;
 
 #endregion using directives
 
@@ -83,8 +81,6 @@ internal sealed class ProfessionsState
             Log.I($"{Game1.player.Name}'s LimitBreak was set to {value}.");
         }
     }
-
-    internal HashSet<FarmAnimal> WasFedCropToday { get; } = [];
 
     internal ProspectorHunt? ProspectorHunt
     {

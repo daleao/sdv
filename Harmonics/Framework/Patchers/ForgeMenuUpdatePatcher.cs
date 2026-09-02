@@ -25,7 +25,7 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
     internal ForgeMenuUpdatePatcher(Harmonizer harmonizer, Logger logger)
         : base(harmonizer, logger)
     {
-        this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), new[] { typeof(GameTime) });
+        this.Target = this.RequireMethod<ForgeMenu>(nameof(ForgeMenu.update), [typeof(GameTime)]);
     }
 
     #region harmony patches
@@ -44,31 +44,36 @@ internal sealed class ForgeMenuUpdatePatcher : HarmonyPatcher
         // After: if (leftIngredientSpot.item is CombinedRing leftRing)
         try
         {
-            var vanillaUnforge = generator.DefineLabel();
+            var notInfinityBand = generator.DefineLabel();
             helper
                 .PatternMatch([
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[11]), // local 11 = CombinedRing leftRing
                 ])
-                .PatternMatch([new CodeInstruction(OpCodes.Brfalse_S)])
-                .GetOperand(out var resumeExecution)
+                .Move(2)
+                .GetOperand(out var isCombinedRing)
                 .Move()
-                .AddLabels(vanillaUnforge)
-                .Insert([
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
-                    new CodeInstruction(
-                        OpCodes.Callvirt,
-                        typeof(Item).RequirePropertyGetter(nameof(Item.QualifiedItemId))),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(HarmonicsMod).RequirePropertyGetter(nameof(InfinityBandId))),
-                    new CodeInstruction(OpCodes.Bne_Un_S, vanillaUnforge),
-                    new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
-                    new CodeInstruction(
-                        OpCodes.Call,
-                        typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
-                    new CodeInstruction(OpCodes.Br_S, resumeExecution),
-                ]);
+                .GetOperand(out var resumeExecution)
+                .LabelMatch((Label)isCombinedRing)
+                .StripLabels()
+                .AddLabels(notInfinityBand)
+                .Insert(
+                    [
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
+                        new CodeInstruction(
+                            OpCodes.Callvirt,
+                            typeof(Item).RequirePropertyGetter(nameof(Item.QualifiedItemId))),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(HarmonicsMod).RequirePropertyGetter(nameof(InfinityBandId))),
+                        new CodeInstruction(OpCodes.Bne_Un_S, notInfinityBand),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[11]),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(ForgeMenuUpdatePatcher).RequireMethod(nameof(UnforgeInfinityBand))),
+                        new CodeInstruction(OpCodes.Br, (Label)resumeExecution),
+                    ],
+                    [(Label)isCombinedRing]);
         }
         catch (Exception ex)
         {

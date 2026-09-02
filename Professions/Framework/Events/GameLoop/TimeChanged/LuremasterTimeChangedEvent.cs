@@ -48,13 +48,13 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
             }
 
             var isOwnedByPrestigedLuremaster = owner.HasProfessionOrLax(Profession.Luremaster, true);
-            if (crabPot.IsBlockedFromAdditionalCatches())
+            if (crabPot.IsBlockedFromAdditionalCatches(isOwnedByPrestigedLuremaster))
             {
                 return;
             }
 
             var chance = CatchProbabilityByAttempts[crabPot.Get_CatchAttempts()];
-            if (!Game1.random.NextBool(chance))
+            if (!Random.Shared.NextBool(chance))
             {
                 crabPot.IncrementCatchAttempts();
                 return;
@@ -63,6 +63,8 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
             Log.D($"Crab Pot instance succeeded in Luremaster additional capture at {e.NewTime} hours. Running day update...");
             crabPot.DayUpdate();
             Log.D("Day update complete.");
+
+            crabPot.IncrementCatches();
             if (isOwnedByPrestigedLuremaster)
             {
                 crabPot.ResetCatchAttempts();

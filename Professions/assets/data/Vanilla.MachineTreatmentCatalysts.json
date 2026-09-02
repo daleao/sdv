@@ -1,0 +1,14 @@
+{
+    "Fermentation": [
+        "(O)725" // oak resin
+    ],
+    "Glazing": [
+        "(O)724" // maple syrup
+    ],
+    "Sealing": [
+        "(O)726" // pine tar
+    ],
+    "Overclock": [
+        "(O)787" // battery pack
+    ]
+}

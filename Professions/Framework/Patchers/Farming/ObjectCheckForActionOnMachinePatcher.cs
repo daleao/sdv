@@ -4,6 +4,7 @@
 
 using System.Reflection;
 using System.Reflection.Emit;
+using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -11,6 +12,7 @@ using HarmonyLib;
 #endregion using directives
 
 [UsedImplicitly]
+[Deprecated]
 internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 {
     /// <summary>Initializes a new instance of the <see cref="ObjectCheckForActionOnMachinePatcher"/> class.</summary>
@@ -67,24 +69,25 @@ internal sealed class ObjectCheckForActionOnMachinePatcher : HarmonyPatcher
 
     private static bool CheckForExtraMaterial(SObject machine, Farmer who, SObject objectThatWasHeld)
     {
-        if (!machine.IsArtisanMachine() || !who.HasProfession(Profession.Artisan))
-        {
-            return false;
-        }
+        return false;
+        //if (!machine.IsArtisanMachine() || !who.HasProfession(Profession.Artisan))
+        //{
+        //    return false;
+        //}
 
-        var repeatedCycles = Data.ReadAs<int>(machine, DataKeys.RepeatedInputCycles);
-        var lastLeftoverCycle = Data.ReadAs<int>(machine, DataKeys.LastLeftoverCycle);
-        const int maxCalibration = 25;
-        if (repeatedCycles <= maxCalibration || (repeatedCycles - maxCalibration) % 5 != 0 || lastLeftoverCycle == repeatedCycles)
-        {
-            return false;
-        }
+        //var repeatedCycles = Data.ReadAs<int>(machine, DataKeys.CalibrationPerItem);
+        //var lastLeftoverCycle = Data.ReadAs<int>(machine, DataKeys.LastLeftoverCycle);
+        //const int maxCalibration = 25;
+        //if (repeatedCycles <= maxCalibration || (repeatedCycles - maxCalibration) % 5 != 0 || lastLeftoverCycle == repeatedCycles)
+        //{
+        //    return false;
+        //}
 
-        var extraOutput = objectThatWasHeld.getOne();
-        extraOutput.Quality = SObject.lowQuality;
-        machine.heldObject.Value = (SObject)extraOutput;
-        Data.Write(machine, DataKeys.LastLeftoverCycle, repeatedCycles.ToString());
-        return true;
+        //var extraOutput = objectThatWasHeld.getOne();
+        //extraOutput.Quality = SObject.lowQuality;
+        //machine.heldObject.Value = (SObject)extraOutput;
+        //Data.Write(machine, DataKeys.LastLeftoverCycle, repeatedCycles.ToString());
+        //return true;
     }
 
     #endregion injected

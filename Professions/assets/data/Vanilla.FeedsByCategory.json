@@ -1,11 +1,11 @@
 {
-    "GrainsCategory": [
+    "Grains": [
         "(O)262", // wheat
         "(O)270", // corn
         "(O)271", // unmilled rice
         "(O)300" // amaranth
     ],
-    "LeafyGreensCategory": [
+    "LeafyGreens": [
         "(O)190", // cauliflower
         "(O)250", // kale
         "(O)266", // red cabbage
@@ -13,24 +13,24 @@
         "(O)278", // bok choy
         "(O)Broccoli"
     ],
-    "LegumesCategory": [
+    "Legumes": [
         "(O)188" // green bean
     ],
-    "RootsCategory": [
+    "Roots": [
         "(O)24", // parsnip
         "(O)264", // radish
         "(O)284", // beet
         "(O)Carrot"
     ],
-    "TubersCategory": [
+    "Tubers": [
         "(O)192", // potato
         "(O)280", // yam
     ],
-    "GourdsCategory": [
+    "Gourds": [
         "(O)276", // pumpkin
         "(O)SummerSquash"
     ],
-    "FruitsCategory": [
+    "Fruits": [
         "(O)613", // apple
         "(O)634", // apricot
         "(O)91", // banana
@@ -53,5 +53,8 @@
         "(O)268", // starfruit
         "(O)400", // strawberry
         "(O)406" // wild plum
+    ],
+    "Insects": [
+        "(O)684" // bug meat
     ]
 }

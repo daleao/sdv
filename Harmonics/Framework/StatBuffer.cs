@@ -92,18 +92,18 @@ public sealed class StatBuffer
     }
 
     /// <summary>Compares two <see cref="StatBuffer"/>s.</summary>
-    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the add sign.</param>
-    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the add sign.</param>
-    /// <returns>Sum of the vectors.</returns>
+    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the equal sign.</param>
+    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the equal sign.</param>
+    /// <returns><see langword="true"/> if both buffer stats are equal, otherwise <see langword="false"/>.</returns>
     public static bool operator ==(StatBuffer left, StatBuffer right)
     {
         return left._stats == right._stats;
     }
 
     /// <summary>Compares two <see cref="StatBuffer"/>s.</summary>
-    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the add sign.</param>
-    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the add sign.</param>
-    /// <returns>Sum of the vectors.</returns>
+    /// <param name="left">Source <see cref="StatBuffer" /> on the left of the not-equal sign.</param>
+    /// <param name="right">Source <see cref="StatBuffer" /> on the right of the not-equal sign.</param>
+    /// <returns><see langword="true"/> if both buffer stats are different, otherwise <see langword="false"/>.</returns>
     public static bool operator !=(StatBuffer left, StatBuffer right)
     {
         return !(left == right);

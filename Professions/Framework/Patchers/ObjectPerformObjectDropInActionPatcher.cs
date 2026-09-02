@@ -1,11 +1,11 @@
 ﻿namespace DaLion.Professions.Framework.Patchers;
 
-using System.Reflection.Emit;
-
 #region using directives
 
+using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
@@ -51,20 +51,18 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         }
 
         // apply machine treatment
-        var treatmentCategory = Lookups.CategoryByTreatment.TryGetValue(dropInItem.QualifiedItemId, out var category)
-            ? category
-            : MachineTreatmentCategory.None;
-        if (treatmentCategory == MachineTreatmentCategory.None)
+        var treatmentCategory = MachineTreatmentRegistry.FromCatalyst(dropInItem.QualifiedItemId);
+        if (treatmentCategory == MachineTreatmentRegistry.None)
         {
             return true; // run original logic
         }
 
         var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
-        if (treatmentCategory == MachineTreatmentCategory.Overclock)
+        if (treatmentCategory == MachineTreatmentRegistry.Overclock)
         {
             if (appliedTreatments.OverclockCycles > 0)
             {
-                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_AlreadyApplied(dropInItem.DisplayName));
+                Game1.showRedMessage(I18n.Machines_Coatings_Cant_AlreadyApplied(dropInItem.DisplayName));
                 __result = false;
                 return false; // don't run original logic
             }
@@ -75,27 +73,21 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         {
             if (!treatmentRules.Contains(treatmentCategory))
             {
-                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_NotApplicable());
+                Game1.showRedMessage(I18n.Machines_Coatings_Cant_NotApplicable());
                 __result = false;
                 return false; // don't run original logic
             }
 
-            if (appliedTreatments.CoatingCategory == treatmentCategory)
+            var currentCoatingCategory = MachineTreatmentRegistry.FromCatalyst(appliedTreatments.CoatingCatalyst);
+            if (treatmentCategory == currentCoatingCategory && treatmentCategory != MachineTreatmentRegistry.None)
             {
-                var which = treatmentCategory switch
-                {
-                    MachineTreatmentCategory.Fermentation => I18n.Objects_Machinetreatments_Fermentation(),
-                    MachineTreatmentCategory.Glazing => I18n.Objects_Machinetreatments_Glazing(),
-                    MachineTreatmentCategory.Sealing => I18n.Objects_Machinetreatments_Sealing(),
-                };
-
-                Game1.showRedMessage(I18n.Objects_Machinetreatments_Cant_AlreadyApplied(which));
+                Game1.showRedMessage(I18n.Machines_Coatings_Cant_AlreadyApplied(treatmentCategory.DisplayName.ToLower()));
                 __result = false;
                 return false; // don't run original logic
             }
 
             appliedTreatments.CoatingCycles = 20;
-            appliedTreatments.CoatingCategory = treatmentCategory;
+            appliedTreatments.CoatingCatalyst = dropInItem.QualifiedItemId;
         }
 
         dropInItem.ConsumeStack(1);
@@ -112,8 +104,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         SObject __instance, bool __state, Item dropInItem, Farmer who)
     {
         // if there was an object inside before running the original method, or if the machine is not an artisan machine, or if the machine is still empty after running the original method, then do nothing
-        if (__state || !__instance.IsArtisanMachine() || __instance.heldObject.Value is not { } output ||
-            dropInItem is not SObject input)
+        if (__state || !__instance.IsArtisanMachine() || __instance is Cask ||
+            __instance.heldObject.Value is not { } output || dropInItem is not SObject input)
         {
             return;
         }
@@ -123,61 +115,87 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var r = Random.Shared;
         var newQuality = ObjectQuality.Regular;
 
-        const int maxCalibration = 25;
-
-        // artisan users can preserve the input quality
-        if (__instance.QualifiedItemId != QIDs.Cask && user.HasProfession(Profession.Artisan))
+        var calibrationPerItem = Data.Read(__instance, DataKeys.CalibrationPerItem).ParseDictionary<string, int>();
+        var inputHasCalibration = calibrationPerItem.TryGetValue(input.QualifiedItemId, out var calibration);
+        if (inputHasCalibration)
         {
-            var repeatedCycles = Data.ReadAs<int>(__instance, DataKeys.RepeatedInputCycles);
-            var calibrationLevel = Math.Min(repeatedCycles, maxCalibration);
-            if (calibrationLevel >= maxCalibration)
+            // artisan users can preserve the input quality above 50 calibration
+            if (__instance is not Cask && user.HasProfession(Profession.Artisan) &&
+                calibration >= 50)
             {
+                var chance = who.FarmingLevel / 60d;
+                if (calibration >= 100)
+                {
+                    chance *= 2;
+                }
+
                 newQuality = (ObjectQuality)input.Quality;
-                if (r.NextDouble() > who.FarmingLevel / 60d)
+                if (r.NextDouble() > chance)
                 {
                     newQuality = newQuality.Decrement();
-                    if (r.NextDouble() > who.FarmingLevel / 30d)
+                    if (r.NextDouble() > chance / 2d)
                     {
                         newQuality = newQuality.Decrement();
                     }
                 }
             }
-        }
 
-        output.Quality = Math.Max(output.Quality, (int)newQuality);
+            output.Quality = Math.Max(output.Quality, (int)newQuality);
 
-        if (!owner.HasProfessionOrLax(Profession.Artisan))
-        {
-            return;
-        }
-
-        // artisan-owned machines calibrate to repeated ingredients
-        if (input.QualifiedItemId == __instance.lastInputItem.Value?.QualifiedItemId)
-        {
-            var repeatedCycles = Data.ReadAs<int>(__instance, DataKeys.RepeatedInputCycles);
-            var calibrationLevel = Math.Min(repeatedCycles, maxCalibration);
-            var calibrationBonus = calibrationLevel * 0.01;
-            if (__instance is Cask cask)
+            // artisan-owned machines calibrate to repeated ingredients
+            var calibrationSpeedup = calibration / 400d;
+            if (__instance is not Cask && owner.HasProfessionOrLax(Profession.Artisan))
             {
-                cask.daysToMature.Value -= (int)Math.Floor(cask.daysToMature.Value * calibrationBonus);
+                __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady * calibrationSpeedup);
+            }
+        }
+
+        if (user.HasProfession(Profession.Artisan))
+        {
+            // re-calibrate
+            if (!inputHasCalibration || calibration < 100)
+            {
+                if (!Config.ModKey.IsDown())
+                {
+                    foreach (var key in calibrationPerItem.Keys.ToList())
+                    {
+                        if (key == input.QualifiedItemId)
+                        {
+                            continue;
+                        }
+
+                        calibrationPerItem[key] -= 1;
+                        if (!user.HasProfession(Profession.Artisan, true))
+                        {
+                            calibrationPerItem[key] -= 1;
+                        }
+
+                        if (calibrationPerItem[key] <= 0)
+                        {
+                            calibrationPerItem.Remove(key);
+                        }
+                    }
+
+                    calibrationPerItem[input.QualifiedItemId] = Math.Min(calibration + 4, 100);
+                    Data.Write(__instance, DataKeys.CalibrationChanged, "true".ToString());
+                    Data.Write(__instance, DataKeys.CalibrationLocked, "false".ToString());
+                }
+                else
+                {
+                    Data.Write(__instance, DataKeys.CalibrationChanged, "false".ToString());
+                    Data.Write(__instance, DataKeys.CalibrationLocked, "true".ToString());
+                }
             }
             else
             {
-                __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady * calibrationBonus);
-            }
-
-            Data.Increment(__instance, DataKeys.RepeatedInputCycles);
-            if (owner.HasProfessionOrLax(Profession.Artisan, true))
-            {
-                Data.Increment(__instance, DataKeys.RepeatedInputCycles);
+                Data.Write(__instance, DataKeys.CalibrationChanged, "false".ToString());
+                Data.Write(__instance, DataKeys.CalibrationLocked, "false".ToString());
             }
         }
-        else
-        {
-            Data.Write(__instance, DataKeys.RepeatedInputCycles, null);
-        }
 
-        // apply machinist calibration bonus
+        Data.Write(__instance, DataKeys.CalibrationPerItem, calibrationPerItem.Stringify());
+        __instance.Set_Calibrations(calibrationPerItem);
+
         if (!owner.HasProfession(Profession.Artisan, true))
         {
             return;
@@ -206,15 +224,17 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             inputTreatmentCategory = overrideCategory;
         }
 
-        if (inputTreatmentCategory == MachineTreatmentCategory.None)
+        if (inputTreatmentCategory == MachineTreatmentRegistry.None)
         {
             return;
         }
 
         // get applied treatments to this machine
         var appliedTreatments = Data.ReadAppliedMachineTreatments(__instance);
-        if (appliedTreatments.CoatingCategory == inputTreatmentCategory && appliedTreatments.CoatingCycles-- > 0)
+        var currentCoatingCategory = MachineTreatmentRegistry.FromCatalyst(appliedTreatments.CoatingCatalyst);
+        if (currentCoatingCategory == inputTreatmentCategory && appliedTreatments.CoatingCycles-- > 0)
         {
+            output.MakePremium(appliedTreatments.CoatingCatalyst);
             if (output.Quality < SObject.bestQuality)
             {
                 output.Quality += output.Quality == SObject.highQuality ? 2 : 1;
@@ -222,7 +242,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
             if (appliedTreatments.CoatingCycles == 0)
             {
-                appliedTreatments.CoatingCategory = MachineTreatmentCategory.None;
+                appliedTreatments.CoatingCatalyst = string.Empty;
             }
         }
 

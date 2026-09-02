@@ -21,7 +21,7 @@ internal static class Lookups
         QIDs.PreservesJar,
         QIDs.Keg,
         QIDs.Dehydrator,
-        QIDs.Cask,
+        //QIDs.Cask,
     ];
 
     /// <summary>Gets the qualified IDs of artisan goods derived from animal produce.</summary>
@@ -75,46 +75,24 @@ internal static class Lookups
     /// <summary>Gets the seed object ID from the corresponding crop ID.</summary>
     internal static Dictionary<string, string> SeedByCrop { get; } = [];
 
+    /// <summary>Gets or sets arrays of mammals or egg-layers.</summary>
+    internal static AnimalsByReproductiveType AnimalReproductiveTypes { get; set; } = new([], []);
+
+    /// <summary>Gets a list of feeds belonging to each category.</summary>
+    internal static Dictionary<FeedCategory, HashSet<string>> FeedsByCategory { get; } = [];
+
+    /// <summary>Gets the parent category for a given feed.</summary>
+    internal static Dictionary<string, FeedCategory> CategoryByFeed { get; } = [];
+
+    /// <summary>Gets the feeds favored by each animal type.</summary>
+    internal static Dictionary<string, HashSet<FeedCategory>> FavoredFeedsByAnimalType { get; } = [];
+
     /// <summary>Gets the respective <see cref="MachineTreatmentRules"/> for each artisan machine.</summary>
     internal static Dictionary<string, MachineTreatmentRules> MachineTreatments { get; } = [];
 
-    /// <summary>Gets the corresponding items that can be used to apply any <see cref="MachineTreatmentCategory"/>.</summary>
-    internal static Dictionary<MachineTreatmentCategory, string[]> TreatmentsByCategory { get; } = new()
-    {
-        { MachineTreatmentCategory.Overclock, [ QIDs.BatteryPack ] },
-        { MachineTreatmentCategory.Fermentation, [ QIDs.OakResin ] },
-        { MachineTreatmentCategory.Glazing, [ QIDs.MapleSyrup, SveIntegration.BIRCH_WATER_QID ] },
-        { MachineTreatmentCategory.Sealing, [ QIDs.PineTar, SveIntegration.FIR_WAX_QID ] },
-    };
+    /// <summary>Gets the corresponding items that can be used to apply any <see cref="MachineTreatment"/>.</summary>
+    internal static Dictionary<MachineTreatment, HashSet<string>> CatalystsByTreatment { get; } = [];
 
-    /// <summary>Gets the corresponding <see cref="MachineTreatmentCategory"/> for each valid treatment item.</summary>
-    internal static Dictionary<string, MachineTreatmentCategory> CategoryByTreatment { get; } = new()
-    {
-        { QIDs.BatteryPack, MachineTreatmentCategory.Overclock },
-        { QIDs.OakResin, MachineTreatmentCategory.Fermentation },
-        { QIDs.MapleSyrup, MachineTreatmentCategory.Glazing },
-        { QIDs.PineTar, MachineTreatmentCategory.Sealing },
-        { SveIntegration.BIRCH_WATER_QID, MachineTreatmentCategory.Glazing },
-        { SveIntegration.FIR_WAX_QID, MachineTreatmentCategory.Sealing },
-    };
-
-    /// <summary>Gets a list of vegetables belonging to each category.</summary>
-    internal static Dictionary<CropCategory, HashSet<string>> FeedCropsByCategory { get; } = new()
-    {
-        { CropCategory.Grains, [] },
-        { CropCategory.LeafyGreens, [] },
-        { CropCategory.Legumes, [] },
-        { CropCategory.Roots, [] },
-        { CropCategory.Tubers, [] },
-        { CropCategory.Gourds, [] },
-    };
-
-    /// <summary>Gets a list of vegetables belonging to each category.</summary>
-    internal static Dictionary<string, CropCategory> CategoryByFeedCrop { get; } = [];
-
-    /// <summary>Gets the feeds favored by each animal type.</summary>
-    internal static Dictionary<AnimalType, HashSet<CropCategory>> AnimalFavoredFeeds { get; } = [];
-
-    /// <summary>Gets or sets arrays of mammals or egg-layers.</summary>
-    internal static AnimalsByReproductiveType AnimalReproductiveTypes { get; set; } = new([], []);
+    /// <summary>Gets the corresponding <see cref="MachineTreatment"/> for each valid treatment catalyst.</summary>
+    internal static Dictionary<string, MachineTreatment> TreatmentByCatalyst { get; } = [];
 }

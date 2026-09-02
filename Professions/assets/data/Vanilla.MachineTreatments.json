@@ -19,6 +19,9 @@
         },
         "(BC)Dehydrator": {
             "default": "sealing"
+        },
+        "(BC)FishSmoker": {
+            "default": "sealing"
         }
     }
 }

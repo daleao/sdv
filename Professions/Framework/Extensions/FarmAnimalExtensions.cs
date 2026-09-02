@@ -51,12 +51,12 @@ internal static class FarmAnimalExtensions
         var ageMultiplier = (float)Math.Pow(2d, -daysSinceAdult / halfLifeDays);
 
         var breedMultiplier = 1f;
-        if (animal.type.Value.ContainsAnyOf(Lookups.AnimalReproductiveTypes.Mammals))
+        if (animal.type.Value.ContainsAnyOf(StringComparison.OrdinalIgnoreCase, Lookups.AnimalReproductiveTypes.Mammals))
         {
             var pregnancies = Data.ReadAs<int>(animal, DataKeys.Pregnancies);
             breedMultiplier = (float)Math.Max(1d / (1d + (pregnancies * 0.1)), 0.5);
         }
-        else if (animal.type.Value.ContainsAnyOf(Lookups.AnimalReproductiveTypes.EggLayers))
+        else if (animal.type.Value.ContainsAnyOf(StringComparison.OrdinalIgnoreCase, Lookups.AnimalReproductiveTypes.EggLayers))
         {
             var eggsLaid = Data.ReadAs<int>(animal, DataKeys.EggsLaid);
             breedMultiplier = (float)Math.Max(1d - (5e-4d * eggsLaid), 0.75d);

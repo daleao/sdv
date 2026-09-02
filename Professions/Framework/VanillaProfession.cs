@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Professions.Framework.Events.Display.RenderedHud;
+using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
@@ -383,6 +384,17 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     ModHelper.GameContent.InvalidateCache("Data/Locations");
                 })
+                .When(Aquarist).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Aquarist", "PeerProfessionGained");
+                    }
+                })
                 .When(Piper).Then(() =>
                 {
                     who.craftingRecipes.TryAdd("Green Paintbrush", 0);
@@ -391,22 +403,71 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.TryAdd("Purple Paintbrush", 0);
                     who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
                 })
-                .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Breeder).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Breeder", "PeerProfessionGained");
+                    }
+                })
+                .When(Producer).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Producer", "PeerProfessionGained");
+                    }
+                })
                 .When(Spelunker).Then(() => who.craftingRecipes.TryAdd("Survey Flag", 0));
 
             return;
         }
 
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Rancher).Then(() =>
+            {
+                if (Context.IsMainPlayer)
+                {
+                    EventManager.Enable(
+                        typeof(NutritionDayStartedEvent),
+                        typeof(NutritionDayEndingEvent));
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Rancher", "PeerProfessionGained");
+                }
+            })
             .When(Aquarist).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
-                ModHelper.GameContent.InvalidateCache("Data/Objects");
+                if (Context.IsMainPlayer)
+                {
+                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Aquarist", "PeerProfessionGained");
+                }
             })
-            .When(Luremaster).Then(() => EventManager.Enable(typeof(LuremasterTimeChangedEvent)))
+            .When(Luremaster).Then(() =>
+            {
+                if (Context.IsMainPlayer)
+                {
+                    EventManager.Enable(
+                        typeof(LuremasterDayStartedEvent),
+                        typeof(LuremasterTimeChangedEvent));
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Luremaster", "PeerProfessionGained");
+                }
+            })
             .When(Prospector).Then(() =>
             {
                 State.ProspectorHunt ??= new ProspectorHunt();
@@ -427,10 +488,17 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Piper).Then(() =>
             {
                 who.craftingRecipes.TryAdd("Slime Flute", 0);
-                EventManager.Enable(
-                    typeof(ChromaBallObjectListChangedEvent),
-                    typeof(PiperButtonsChangedEvent),
-                    typeof(RevalidateBuildingsDayStartedEvent));
+                EventManager.Enable<PiperButtonsChangedEvent>();
+                if (Context.IsMainPlayer)
+                {
+                    EventManager.Enable(
+                        typeof(ChromaBallObjectListChangedEvent),
+                        typeof(RevalidateBuildingsDayStartedEvent));
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Piper", "PeerProfessionGained");
+                }
             });
 
         if ((Skill)this.ParentSkill == Skill.Combat && this.Level == 10 && this.ParentSkill.CanGainPrestigeLevels() &&
@@ -452,6 +520,17 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     ModHelper.GameContent.InvalidateCache("Data/Locations");
                 })
+                .When(Aquarist).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Aquarist", "PeerProfessionLost");
+                    }
+                })
                 .When(Piper).Then(() =>
                 {
                     who.craftingRecipes.Remove("Green Paintbrush");
@@ -460,20 +539,70 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                     who.craftingRecipes.Remove("Purple Paintbrush");
                     who.craftingRecipes.Remove("Prismatic Paintbrush");
                 })
-                .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-                .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+                .When(Breeder).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Breeder", "PeerProfessionLost");
+                    }
+                })
+                .When(Producer).Then(() =>
+                {
+                    if (Context.IsMainPlayer)
+                    {
+                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    }
+                    else
+                    {
+                        Broadcaster.MessageHost("Producer", "PeerProfessionLost");
+                    }
+                })
                 .When(Spelunker).Then(() => who.craftingRecipes.Remove("Survey Flag"));
 
             return;
         }
 
         this
-            .When(Breeder).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
-            .When(Producer).Then(() => EventManager.Enable<RevalidateBuildingsDayStartedEvent>())
+            .When(Rancher).Then(() =>
+            {
+                if (Context.IsMainPlayer && !Game1.game1.DoesAnyPlayerHaveProfession(Rancher))
+                {
+                    EventManager.Disable(
+                        typeof(NutritionDayStartedEvent),
+                        typeof(NutritionDayEndingEvent));
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Rancher", "PeerProfessionLost");
+                }
+            })
             .When(Aquarist).Then(() =>
             {
-                EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
-                ModHelper.GameContent.InvalidateCache("Data/Objects");
+                if (Context.IsMainPlayer)
+                {
+                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Aquarist", "PeerProfessionLost");
+                }
+            })
+            .When(Luremaster).Then(() =>
+            {
+                if (Context.IsMainPlayer && !Game1.game1.DoesAnyPlayerHaveProfession(Luremaster))
+                {
+                    EventManager.Disable(
+                        typeof(LuremasterDayStartedEvent),
+                        typeof(LuremasterTimeChangedEvent));
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Luremaster", "PeerProfessionLost");
+                }
             })
             .When(Prospector).Then(() =>
             {
@@ -499,10 +628,20 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Piper).Then(() =>
             {
                 who.craftingRecipes.Remove("Slime Flute");
-                EventManager.Disable(
-                    typeof(ChromaBallObjectListChangedEvent),
-                    typeof(PiperButtonsChangedEvent),
-                    typeof(RevalidateBuildingsDayStartedEvent));
+                EventManager.Disable<PiperButtonsChangedEvent>();
+                if (Context.IsMainPlayer)
+                {
+                    if (!Game1.game1.DoesAnyPlayerHaveProfession(Piper))
+                    {
+                        EventManager.Disable<ChromaBallObjectListChangedEvent>();
+                    }
+
+                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                }
+                else
+                {
+                    Broadcaster.MessageHost("Piper", "PeerProfessionLost");
+                }
             });
 
         if ((Skill)this.ParentSkill == Skill.Combat && this.Level == 10 && State.LimitBreak == LimitBreak.FromId(this))

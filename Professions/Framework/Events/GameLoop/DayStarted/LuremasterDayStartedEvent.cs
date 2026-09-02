@@ -12,13 +12,9 @@ using StardewModdingAPI.Events;
 /// <summary>Initializes a new instance of the <see cref="LuremasterDayStartedEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-[AlwaysEnabledEvent]
 internal sealed class LuremasterDayStartedEvent(EventManager? manager = null)
     : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    /// <inheritdoc />
-    public override bool IsEnabled => Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster);
-
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)
     {

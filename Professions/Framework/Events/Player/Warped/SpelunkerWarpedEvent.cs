@@ -90,7 +90,7 @@ internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
         }
 
         var newShaft = (MineShaft)newLocation;
-        if (newShaft.mineLevel <= _previousMineLevel)
+        if (newShaft.mineLevel <= _previousMineLevel || newShaft.mineLevel == 1)
         {
             return;
         }

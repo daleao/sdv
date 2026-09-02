@@ -39,12 +39,11 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
             helper
                 // egg-layers
                 .PatternMatch([
-                    new CodeInstruction(OpCodes.Newobj, typeof(FarmAnimal).RequireConstructor(3)),
-                    new CodeInstruction(OpCodes.Stloc_S),
+                    new CodeInstruction(OpCodes.Call, typeof(AnimalHouse).RequireMethod(nameof(AnimalHouse.adoptAnimal))),
                 ])
-                .Move()
+                .Move(-1)
                 .GetOperand(out var localIndex)
-                .Move()
+                .Move(-1)
                 .Insert([
                     new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
                     new CodeInstruction(OpCodes.Ldloc_3),
@@ -54,13 +53,14 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
                             nameof(InheritPotential), [typeof(FarmAnimal), typeof(SObject)]))
                 ])
                 // mammals
-                .PatternMatch([
-                    new CodeInstruction(OpCodes.Newobj, typeof(FarmAnimal).RequireConstructor(3)),
-                    new CodeInstruction(OpCodes.Stloc_S),
-                ])
-                .Move()
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Call, typeof(AnimalHouse).RequireMethod(nameof(AnimalHouse.adoptAnimal))),
+                    ],
+                    nth: 2)
+                .Move(-1)
                 .GetOperand(out localIndex)
-                .Move()
+                .Move(-1)
                 .Insert([
                     new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
                     new CodeInstruction(

@@ -46,6 +46,16 @@ public static class StringExtensions
         return candidates.Any(@string.Contains);
     }
 
+    /// <summary>Determines whether the string contains any of the specified sub-strings.</summary>
+    /// <param name="string">The <see cref="string"/>.</param>
+    /// <param name="comparisonType">The <see cref="StringComparison"/>.</param>
+    /// <param name="candidates">The sub-strings to search for.</param>
+    /// <returns><see langword="true"/> if <paramref name="string"/> contains at least one of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAnyOf(this string @string, StringComparison comparisonType, params string[] candidates)
+    {
+        return candidates.Any(c => @string.Contains(c, comparisonType));
+    }
+
     /// <summary>Determines whether the string contains all the specified sub-strings.</summary>
     /// <param name="string">The <see cref="string"/>.</param>
     /// <param name="candidates">The sub-strings to search for.</param>
@@ -53,6 +63,16 @@ public static class StringExtensions
     public static bool ContainsAllOf(this string @string, params string[] candidates)
     {
         return candidates.All(@string.Contains);
+    }
+
+    /// <summary>Determines whether the string contains all the specified sub-strings.</summary>
+    /// <param name="string">The <see cref="string"/>.</param>
+    /// <param name="comparisonType">The <see cref="StringComparison"/>.</param>
+    /// <param name="candidates">The sub-strings to search for.</param>
+    /// <returns><see langword="true"/> if <paramref name="string"/> contains all of the <see cref="string"/>s in <paramref name="candidates"/>, otherwise <see langword="false"/>.</returns>
+    public static bool ContainsAllOf(this string @string, StringComparison comparisonType = StringComparison.Ordinal, params string[] candidates)
+    {
+        return candidates.All(c => @string.Contains(c, comparisonType));
     }
 
     /// <summary>Determines whether the string starts with any of the specified sub-strings.</summary>

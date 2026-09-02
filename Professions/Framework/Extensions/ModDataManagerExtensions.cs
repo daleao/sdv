@@ -46,27 +46,27 @@ internal static class ModDataManagerExtensions
     /// <param name="data">The <see cref="ModDataManager"/>.</param>
     /// <param name="machine">The <see cref="SObject"/> machine instance.</param>
     /// <returns>A tuple containing overclock cycles, coating cycles, and the type of coating applied.</returns>
-    internal static (int OverclockCycles, int CoatingCycles, MachineTreatmentCategory CoatingCategory) ReadAppliedMachineTreatments(this ModDataManager data, SObject machine)
+    internal static (int OverclockCycles, int CoatingCycles, string CoatingCatalyst) ReadAppliedMachineTreatments(this ModDataManager data, SObject machine)
     {
         var value = data.Read(machine, DataKeys.AppliedMachineTreatments);
         if (string.IsNullOrEmpty(value))
         {
-            return (0, 0, MachineTreatmentCategory.None);
+            return (0, 0, string.Empty);
         }
 
         var split = value.Split(',');
         return (
             int.Parse(split[0]),
             int.Parse(split[1]),
-            Enum.Parse<MachineTreatmentCategory>(split[2]));
+            split[2]);
     }
 
     /// <summary>Writes to the <paramref name="machine"/>'s treatments data the.</summary>
     /// <param name="data">The <see cref="ModDataManager"/>.</param>
     /// <param name="machine">The <see cref="SObject"/> machine instance.</param>
     /// <param name="value">The values to be written.</param>
-    internal static void WriteAppliedMachineTreatments(this ModDataManager data, SObject machine, (int OverclockCycles, int CoatingCycles, MachineTreatmentCategory CoatingCategory) value)
+    internal static void WriteAppliedMachineTreatments(this ModDataManager data, SObject machine, (int OverclockCycles, int CoatingCycles, string CoatingCatalyst) value)
     {
-        data.Write(machine, DataKeys.AppliedMachineTreatments, $"{value.OverclockCycles},{value.CoatingCycles},{(int)value.CoatingCategory}");
+        data.Write(machine, DataKeys.AppliedMachineTreatments, $"{value.OverclockCycles},{value.CoatingCycles},{value.CoatingCatalyst}");
     }
 }

@@ -16,8 +16,8 @@
     "artisan.title.female": "Artisan",
     "artisan.title.prestiged.male": "Machinist", // consider Curator
     "artisan.title.prestiged.female": "Machinist", // consider Curator
-    "artisan.desc": "Artisan machines calibrate to repeated ingredients, progressively reducing process time. Chance to preserve ingredient quality when fully calibrated.",
-    "artisan.desc.prestiged": "Machines calibrate twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.",
+    "artisan.desc": "Artisan machines become calibrated through repeated use of the same ingredients. Calibration reduces process time and allows preserving ingredient quality.",
+    "artisan.desc.prestiged": "Halved calibration penalty when changing ingredients. Enhance machines with batteries and curing agents to further boost processing speed or output quality.",
 
     "rancher.title.male": "Nutritionist",
     "rancher.title.female": "Nutritionist",
@@ -43,7 +43,6 @@
     "apiarist.title.prestiged.female": "Swarmkeeper",
     "apiarist.desc": "Bee houses are cheaper to craft. Can produce honey blends of two flower species.",
     "apiarist.desc.prestiged": "Can produce honey blends of three flowers species. Bees pollinate nearby crops, increasing their chance to grow giant.",
-
 
     // foraging
     "forager.title.male": "Forager",
@@ -299,11 +298,14 @@
     "objects.surveyflag.cant.player": "You can't use this item.",
     "objects.surveyflag.cant.here": "Can't use that here.",
     "objects.surveyflag.cant.double": "A Survey Flag has already been placed.",
-    "objects.machinetreatments.cant.not_applicable": "Cannot be applied to this machine.",
-    "objects.machinetreatments.cant.already_applied": "A {{treatment}} is already applied.",
-    "objects.machinetreatments.fermentation": "fermentation coat",
-    "objects.machinetreatments.glazing": "glazing coat",
-    "objects.machinetreatments.sealing": "sealing coat",
+    "object.coated.affix": "Premium ",
+    
+    "machines.coatings.cant.not_applicable": "Cannot be applied to this machine.",
+    "machines.coatings.cant.already_applied": "A {{treatment}} is already applied.",
+    "machines.coatings.fermentation": "Fermentation Coat",
+    "machines.coatings.glazing": "Glazing Coat",
+    "machines.coatings.sealing": "Sealing Coat",
+    "animals.cant_eat": "{{animal}} doesn't like that food.",
 
     "honorific.male": "Dear",
     "honorific.female": "Dear",

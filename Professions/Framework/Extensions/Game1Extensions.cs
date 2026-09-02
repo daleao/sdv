@@ -104,6 +104,11 @@ internal static class Game1Extensions
     /// <param name="game1">The <see cref="Game1"/> instance.</param>
     internal static void RevalidateAllBuildings(this Game1 game1)
     {
+        if (!Context.IsMainPlayer)
+        {
+            return;
+        }
+
         bool areThereAnyPrestigedBreeders = false,
             areThereAnyPrestigedProducers = false,
             areThereAnyPipers = false;

@@ -1,6 +1,7 @@
 {
     "AnimalFavoredFeeds": {
-        "Bear": [ "Fruits", "Roots", "Tubers", "Gourds" ],
-        "Camel": [ "Grains", "Legumes", "LeafyGreens" ],
+        "FlashShifter.StardewValleyExpandedCP_Bear": [ "Fruits", "Roots", "Tubers", "Gourds", "Honey" ],
+        "FlashShifter.StardewValleyExpandedCP_Camel": [ "Grains", "Legumes", "LeafyGreens" ],
+        "FlashShifter.StardewValleyExpandedCP_Goose": [ "Grains", "LeafyGreens", "Fruits", "Insects" ],
     }
 }

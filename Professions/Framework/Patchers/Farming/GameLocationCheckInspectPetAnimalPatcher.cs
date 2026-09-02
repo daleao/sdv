@@ -58,6 +58,7 @@ internal sealed class GameLocationCheckInspectPetAnimalPatcher : HarmonyPatcher
     {
         var helper = new ILHelper(original, instructions);
 
+        var whereType = original.GetParameters()[0].ParameterType;
         try
         {
             var didntFeed = generator.DefineLabel();
@@ -74,8 +75,12 @@ internal sealed class GameLocationCheckInspectPetAnimalPatcher : HarmonyPatcher
                 .Return()
                 .Insert([
                     new CodeInstruction(OpCodes.Ldloc_2),
+                    new CodeInstruction(OpCodes.Ldarg_1),
+                    new CodeInstruction(OpCodes.Box, whereType),
                     new CodeInstruction(OpCodes.Ldarg_2),
-                    new CodeInstruction(OpCodes.Call, typeof(GameLocationCheckInspectPetAnimalPatcher).RequireMethod(nameof(CheckFeedCrop))),
+                    new CodeInstruction(
+                        OpCodes.Call,
+                        typeof(GameLocationCheckInspectPetAnimalPatcher).RequireMethod(nameof(CheckFeedCrop))),
                     new CodeInstruction(OpCodes.Brfalse_S, didntFeed),
                     new CodeInstruction(OpCodes.Ldc_I4_1),
                     new CodeInstruction(OpCodes.Stloc_S, helper.Locals[4]),
@@ -95,27 +100,67 @@ internal sealed class GameLocationCheckInspectPetAnimalPatcher : HarmonyPatcher
 
     #region injected
 
-    private static bool CheckFeedCrop(FarmAnimal animal, Farmer who)
+    private static bool CheckFeedCrop(FarmAnimal animal, object where, Farmer who)
     {
-        if (!who.HasProfession(Profession.Rancher) || State.WasFedCropToday.Contains(animal) ||
-            who.ActiveObject is null || !Lookups.CategoryByFeedCrop.TryGetValue(who.ActiveObject.QualifiedItemId, out var cropCategory))
+        if (!who.HasProfession(Profession.Rancher) || who.ActiveObject is null ||
+            !Lookups.CategoryByFeed.TryGetValue(who.ActiveObject.QualifiedItemId, out var feedCategory))
         {
             return false;
         }
 
-        var type = animal.GetAnimalType();
-        if (!Lookups.AnimalFavoredFeeds.TryGetValue(type, out var favoriteFeeds))
+        switch (where)
         {
-            return false;
+            case Vector2 position:
+                if (!animal.GetCursorPetBoundingBox().Contains((int)position.X, (int)position.Y))
+                {
+                    return false;
+                }
+
+                break;
+            case Rectangle rect:
+                if (!animal.GetBoundingBox().Intersects(rect))
+                {
+                    return false;
+                }
+
+                break;
+            default:
+                return false;
         }
 
-        if (favoriteFeeds.Contains(cropCategory))
+        if (Data.ReadAs<bool>(animal, DataKeys.WasSupplementedToday))
+        {
+            animal.doEmote(40);
+            return true;
+        }
+
+        if (!Lookups.FavoredFeedsByAnimalType.TryGetValue(animal.type.Value, out var favoriteFeeds))
+        {
+            if (animal.type.Value.Contains("Chicken", StringComparison.OrdinalIgnoreCase))
+            {
+                favoriteFeeds = Lookups.FavoredFeedsByAnimalType["Chicken"];
+            }
+            else if (animal.type.Value.Contains("Cow", StringComparison.OrdinalIgnoreCase))
+            {
+                favoriteFeeds = Lookups.FavoredFeedsByAnimalType["Cow"];
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        if (favoriteFeeds.Contains(feedCategory))
         {
             who.FeedCrop(animal);
             return true;
         }
-
-        return false;
+        else
+        {
+            animal.doEmote(36);
+            //Game1.drawDialogueBox(I18n.Animals_CantEat(animal.Name));
+            return true;
+        }
     }
 
     #endregion injected

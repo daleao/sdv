@@ -1,12 +1,12 @@
 {
-    "GrainsCategory": [
+    "Grains": [
         "(O)Cornucopia_Barley",
         "(O)Cornucopia_Buckwheat",
         "(O)Cornucopia_Durum",
         "(O)Cornucopia_Oats",
         "(O)Cornucopia_Quinoa"
     ],
-    "LeafyGreensCategory": [
+    "LeafyGreens": [
         "(O)Cornucopia_Lettuce",
         "(O)Cornucopia_Spinach",
         "(O)Cornucopia_Asparagus",
@@ -14,7 +14,7 @@
         "(O)Cornucopia_BeanSprouts",
         "(O)Cornucopia_Celery"
     ],
-    "LegumesCategory": [
+    "Legumes": [
         "(O)Cornucopia_Soybeans",
         "(O)Cornucopia_AdzukiBean",
         "(O)Cornucopia_BlackBeans",
@@ -25,21 +25,21 @@
         "(O)Cornucopia_PintoBeans",
         "(O)Cornucopia_Lentils"
     ],
-    "RootsCategory": [
+    "Roots": [
         "(O)Cornucopia_Turnip",
         "(O)Cornucopia_Daikon",
         "(O)Cornucopia_SugarBeet"
     ],
-    "TubersCategory": [
+    "Tubers": [
         "(O)Cornucopia_SweetPotato",
         "(O)Cornucopia_Ube"
     ],
-    "GourdsCategory": [
+    "Gourds": [
         "(O)Cornucopia_Cucumber",
         "(O)Cornucopia_Zucchini",
         "(O)Cornucopia_ButternutSquash"
     ],
-    "FruitsCategory": [
+    "Fruits": [
         "(O)Cornucopia_CanaryMelon",
         "(O)Cornucopia_Cantaloupe",
         "(O)Cornucopia_Groundcherries",

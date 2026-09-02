@@ -271,7 +271,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         if (Context.IsMultiplayer && !Context.IsMainPlayer &&
             Game1.player.HasProfession(VanillaProfession.Scavenger, true))
         {
-            Broadcaster.MessageHost("false", $"HuntingForTreasure/Scavenger");
+            Broadcaster.MessageHost("false", "HuntingForTreasure/Scavenger");
         }
 
         base.End(success);

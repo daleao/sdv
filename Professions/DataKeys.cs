@@ -26,8 +26,9 @@ internal sealed class DataKeys
     internal const string SecondMemorizedTackleUses = "SecondMemorizedTackleUses";
     internal const string MuskUses = "MuskTimesUsed";
     internal const string PersistedCoals = "PersistedCoals";
-    internal const string RepeatedInputCycles = "InputItemRepeatCount";
-    internal const string LastLeftoverCycle = "LastLeftoverCycle";
+    internal const string CalibrationPerItem = "CalibrationPerItem";
+    internal const string CalibrationChanged = "CalibrationChanged";
+    internal const string CalibrationLocked = "CalibrationLocked";
     internal const string AppliedMachineTreatments = "AppliedMachineTreatments";
 
     // terrain feature and crop keys
@@ -42,6 +43,7 @@ internal sealed class DataKeys
     internal const string InheritedPotential = "InheritedPotential";
     internal const string Pregnancies = "Pregnancies";
     internal const string EggsLaid = "EggsLaid";
+    internal const string WasSupplementedToday = "WasSupplementedToday";
 
     // monster keys
     internal const string BaseAttack = "BaseAttack";

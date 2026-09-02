@@ -37,7 +37,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             PostalService.Send(Mail.FrsIntro);
         }
 
-        if (!PostalService.HasSent(Mail.LewisIntro) && Game1.player.IsMainPlayer)
+        if (!PostalService.HasSent(Mail.LewisIntro) && Context.IsMainPlayer)
         {
             PostalService.Send(Mail.LewisIntro);
         }

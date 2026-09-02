@@ -73,10 +73,45 @@ internal sealed class AnimalPageDrawNpcSlotPatcher : HarmonyPatcher
             return;
         }
 
-        var wasFedCropYet = State.WasFedCropToday.Contains(entry.Animal) ? 2 : 0;
+        var wasFedCropYet = Data.ReadAs<bool>(entry.Animal, DataKeys.WasSupplementedToday) ? 2 : 0;
         var xOffset = 84;
-        b.Draw(Game1.mouseCursors, new Vector2(page.xPositionOnScreen + 704 - 4 + xOffset, page.sprites[i].bounds.Y + yOffset + 64 - 52), new Rectangle(10, 428, 10, 10), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.8f);
-        b.Draw(Game1.mouseCursors_1_6, new Vector2(page.xPositionOnScreen + 704 - 4 + xOffset, page.sprites[i].bounds.Y + yOffset + 64 - 8), new Rectangle(273 + (wasFedCropYet * 9), 253, 9, 9), Color.White, 0f, Vector2.Zero, 4f, SpriteEffects.None, 0.8f);
+        if (entry.AnimalType is "Cat")
+        {
+            b.Draw(
+                Game1.mouseCursors,
+                new Vector2(page.xPositionOnScreen + 704 - 4 + xOffset, page.sprites[i].bounds.Y + yOffset + 64 - 52),
+                new Rectangle(20, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                SpriteEffects.None,
+                0.8f);
+        }
+        else
+        {
+            b.Draw(
+                Game1.mouseCursors,
+                new Vector2(page.xPositionOnScreen + 704 - 4 + xOffset, page.sprites[i].bounds.Y + yOffset + 64 - 52),
+                new Rectangle(10, 428, 10, 10),
+                Color.White,
+                0f,
+                Vector2.Zero,
+                4f,
+                SpriteEffects.None,
+                0.8f);
+        }
+
+        b.Draw(
+            Game1.mouseCursors_1_6,
+            new Vector2(page.xPositionOnScreen + 704 - 4 + xOffset, page.sprites[i].bounds.Y + yOffset + 64 - 8),
+            new Rectangle(273 + (wasFedCropYet * 9), 253, 9, 9),
+            Color.White,
+            0f,
+            Vector2.Zero,
+            4f,
+            SpriteEffects.None,
+            0.8f);
     }
 
     #endregion injected

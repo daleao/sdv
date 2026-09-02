@@ -22,12 +22,12 @@ internal sealed class MachineTreatmentRulesConverter : JsonConverter<MachineTrea
         JsonSerializer serializer)
     {
         var obj = JObject.Load(reader);
-        MachineTreatmentCategory @default =
+        var @default =
             obj.TryGetValue("default", StringComparison.OrdinalIgnoreCase, out JToken? defaultToken)
                 ? ParseCategory(defaultToken)
-                : MachineTreatmentCategory.None;
+                : MachineTreatmentRegistry.None;
 
-        Dictionary<string, MachineTreatmentCategory> overrides = [];
+        Dictionary<string, MachineTreatment> overrides = [];
         foreach ((var key, var value) in obj)
         {
             if (key.Equals("default", StringComparison.OrdinalIgnoreCase) || value is null)
@@ -50,20 +50,17 @@ internal sealed class MachineTreatmentRulesConverter : JsonConverter<MachineTrea
         throw new NotSupportedException();
     }
 
-    private static MachineTreatmentCategory ParseCategory(JToken token)
+    private static MachineTreatment ParseCategory(JToken token)
     {
         if (token.Type == JTokenType.Null)
         {
-            return MachineTreatmentCategory.None;
+            return MachineTreatmentRegistry.None;
         }
 
         string? value = token.Value<string>();
-        return Enum.TryParse(
-            value,
-            ignoreCase: true,
-            out MachineTreatmentCategory category)
-            ? category
-            : throw new JsonSerializationException(
-                $"Invalid machine treatment category '{value}'.");
+        return value is null
+            ? throw new JsonSerializationException(
+                $"Invalid machine treatment category '{value}'.")
+            : MachineTreatmentRegistry.GetOrRegister(value);
     }
 }

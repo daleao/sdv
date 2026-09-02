@@ -2,6 +2,10 @@
 
 ## 2.2.5
 
+### Added
+
+* Some helper methods.
+
 ### Fixed
 
 * Fixed a bug in the GMCM builder.

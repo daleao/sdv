@@ -27,25 +27,30 @@ internal static class CrabPot_AdditionalCatch
         Values.GetOrCreateValue(crabPot).Attempts = 0;
     }
 
-    internal static bool IsBlockedFromAdditionalCatches(this CrabPot crabPot)
+    internal static void IncrementCatches(this CrabPot crabPot)
     {
-        return Values.GetOrCreateValue(crabPot).Blocked;
+        Values.GetOrCreateValue(crabPot).Catches++;
+    }
+
+    internal static bool IsBlockedFromAdditionalCatches(this CrabPot crabPot, bool isOwnedByPrestigedLuremaster)
+    {
+        return Values.GetOrCreateValue(crabPot).Catches >= (isOwnedByPrestigedLuremaster ? 2 : 1);
     }
 
     internal static void BlockAdditionalCatches(this CrabPot crabPot)
     {
-        Values.GetOrCreateValue(crabPot).Blocked = true;
+        Values.GetOrCreateValue(crabPot).Catches = int.MaxValue;
     }
 
     internal static void UnblockAdditionalCatches(this CrabPot crabPot)
     {
-        Values.GetOrCreateValue(crabPot).Blocked = false;
+        Values.GetOrCreateValue(crabPot).Catches = 0;
     }
 
     internal class Holder
     {
         public int Attempts { get; internal set; }
 
-        public bool Blocked { get; internal set; }
+        public int Catches { get; internal set; }
     }
 }

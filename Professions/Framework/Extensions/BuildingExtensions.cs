@@ -60,14 +60,14 @@ internal static class BuildingExtensions
         }
 
         var location = building.GetParentLocation();
-        if (!Lookups.CategoryByFeedCrop.TryGetValue(crop.QualifiedItemId, out var category))
+        if (!Lookups.CategoryByFeed.TryGetValue(crop.QualifiedItemId, out var category))
         {
             return false;
         }
 
-        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
+        var storedFeedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
         var capacity = location.GetHayCapacity() / 10;
-        var amountThatCanBeAdded = feedsPerCategory.TryGetValue(category, out var amount) ? capacity - amount : capacity;
+        var amountThatCanBeAdded = storedFeedsPerCategory.TryGetValue(category.Id, out var amount) ? capacity - amount : capacity;
         if (amountThatCanBeAdded <= 0)
         {
             Game1.playSound("cancel");
@@ -75,8 +75,8 @@ internal static class BuildingExtensions
         }
 
         var amountActuallyAdded = Math.Min(crop.Stack, amountThatCanBeAdded);
-        feedsPerCategory.AddOrUpdate(category, amountActuallyAdded, (a, b) => a + b);
-        Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
+        storedFeedsPerCategory.AddOrUpdate(category.Id, amountActuallyAdded, (a, b) => a + b);
+        Data.Write(location, DataKeys.PiecesOfFeed, storedFeedsPerCategory.Stringify());
         if (crop.ConsumeStack(amountActuallyAdded) == null)
         {
             who.removeItemFromInventory(crop);
@@ -108,13 +108,13 @@ internal static class BuildingExtensions
         }
 
         var location = building.GetParentLocation();
-        if (!Lookups.CategoryByFeedCrop.TryGetValue(crop.QualifiedItemId, out var category))
+        if (!Lookups.CategoryByFeed.TryGetValue(crop.QualifiedItemId, out var category))
         {
             return;
         }
 
-        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<CropCategory, int>();
-        feedsPerCategory.AddOrUpdate(category, stack, (a, b) => a - b);
+        var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
+        feedsPerCategory.AddOrUpdate(category.Id, stack, (a, b) => a - b);
         Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
     }
 
@@ -127,7 +127,7 @@ internal static class BuildingExtensions
             null,
             reverseGrab: true,
             showReceivingMenu: false,
-            i => Lookups.CategoryByFeedCrop.ContainsKey(i?.QualifiedItemId ?? string.Empty),
+            i => Lookups.CategoryByFeed.ContainsKey(i?.QualifiedItemId ?? string.Empty),
             (i, w) => silo.AddPiecesOfCropFeed(i, w),
             string.Empty,
             null,

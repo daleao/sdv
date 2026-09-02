@@ -202,7 +202,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
     [GMCMPriority(500)]
-    [GMCMRange(0.25f, 4f, 0.25f)]
+    [GMCMRange(0.25f, 2f, 0.25f)]
     public float AnglerPriceBonusCeiling
     {
         get;
@@ -216,7 +216,7 @@ public sealed class ProfessionsConfig
     [JsonProperty]
     [GMCMSection("prfs.angler_aquarist")]
     [GMCMPriority(501)]
-    [GMCMRange(0.25f, 4f, 0.25f)]
+    [GMCMRange(0.005f, 0.02f, 0.005f)]
     public float AnglerPriceBonusRate
     {
         get;
@@ -224,7 +224,7 @@ public sealed class ProfessionsConfig
         {
             field = Math.Abs(value);
         }
-    } = -1f;
+    } = 0.01f;
 
     /// <summary>
     ///     Gets a value indicating whether to display the MAX icon below fish in the Collections Menu which have been caught at the

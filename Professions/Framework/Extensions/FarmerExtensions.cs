@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Professions.Framework.Buffs;
+using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
@@ -769,6 +770,8 @@ internal static class FarmerExtensions
         Game1.playSound("give_gift");
         animal.doEmote(20);
         rancher.reduceActiveItemByOne();
-        State.WasFedCropToday.Add(animal);
+        animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 15);
+        Data.Write(animal, DataKeys.WasSupplementedToday, "true".ToString());
+        EventManager.Enable<NutritionDayEndingEvent>();
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace DaLion.Professions.Framework.Events.Multiplayer.PeerDisconnected;
+﻿namespace DaLion.Professions.Framework.Events.Multiplayer;
 
 #region using directives
 

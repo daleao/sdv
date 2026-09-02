@@ -9,7 +9,9 @@ using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Buildings;
 using StardewValley.Events;
+using StardewValley.GameData.Buildings;
 
 #endregion using directives
 
@@ -61,7 +63,7 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.butcher)
                 .Insert([new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)])
                 .Insert([
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 4), // x4 for regular
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 200), // x4 for regular
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)]);
         }
         catch (Exception ex)
