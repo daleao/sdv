@@ -20,7 +20,6 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
     /// <inheritdoc />
     protected override bool RegisterImpl()
     {
-        return true;
         if (!this.IsLoaded)
         {
             return false;

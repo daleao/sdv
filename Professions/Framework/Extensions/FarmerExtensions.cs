@@ -772,6 +772,5 @@ internal static class FarmerExtensions
         rancher.reduceActiveItemByOne();
         animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 15);
         Data.Write(animal, DataKeys.WasSupplementedToday, "true".ToString());
-        EventManager.Enable<NutritionDayEndingEvent>();
     }
 }

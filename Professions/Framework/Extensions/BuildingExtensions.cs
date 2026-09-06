@@ -54,36 +54,31 @@ internal static class BuildingExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> was converted, otherwise <see langword="false"/>.</returns>
     internal static bool AddPiecesOfCropFeed(this Building building, Item? item, Farmer who)
     {
-        if (item is not SObject crop || building.buildingType.Value != "Silo")
+        if (item is not SObject feed || building.buildingType.Value != "Silo" || !feed.IsValidAnimalFeed(out var feedCategory))
         {
             return false;
         }
 
         var location = building.GetParentLocation();
-        if (!Lookups.CategoryByFeed.TryGetValue(crop.QualifiedItemId, out var category))
-        {
-            return false;
-        }
-
         var storedFeedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
         var capacity = location.GetHayCapacity() / 10;
-        var amountThatCanBeAdded = storedFeedsPerCategory.TryGetValue(category.Id, out var amount) ? capacity - amount : capacity;
+        var amountThatCanBeAdded = storedFeedsPerCategory.TryGetValue(feedCategory.Id, out var amount) ? capacity - amount : capacity;
         if (amountThatCanBeAdded <= 0)
         {
             Game1.playSound("cancel");
             return false;
         }
 
-        var amountActuallyAdded = Math.Min(crop.Stack, amountThatCanBeAdded);
-        storedFeedsPerCategory.AddOrUpdate(category.Id, amountActuallyAdded, (a, b) => a + b);
+        var amountActuallyAdded = Math.Min(feed.Stack, amountThatCanBeAdded);
+        storedFeedsPerCategory.AddOrUpdate(feedCategory.Id, amountActuallyAdded, (a, b) => a + b);
         Data.Write(location, DataKeys.PiecesOfFeed, storedFeedsPerCategory.Stringify());
-        if (crop.ConsumeStack(amountActuallyAdded) == null)
+        if (feed.ConsumeStack(amountActuallyAdded) == null)
         {
-            who.removeItemFromInventory(crop);
+            who.removeItemFromInventory(feed);
         }
 
         building.ShowShipment(item, playThrowSound: false);
-        var deposited = crop.getOne();
+        var deposited = feed.getOne();
         deposited.Stack = amountActuallyAdded;
         SiloMenuWrapper.LastItemDeposited = (SObject)deposited;
         if (who.ActiveItem is null)
@@ -102,19 +97,14 @@ internal static class BuildingExtensions
     /// <remarks><paramref name="stack"/> is needed because it may be consumed before this point by adding to the player's inventory.</remarks>
     internal static void RemovePiecesOfCropFeed(this Building building, Item? item, int stack)
     {
-        if (item is not SObject crop || building.buildingType.Value != "Silo")
+        if (item is not SObject feed || building.buildingType.Value != "Silo" || !feed.IsValidAnimalFeed(out var feedCategory))
         {
             return;
         }
 
         var location = building.GetParentLocation();
-        if (!Lookups.CategoryByFeed.TryGetValue(crop.QualifiedItemId, out var category))
-        {
-            return;
-        }
-
         var feedsPerCategory = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
-        feedsPerCategory.AddOrUpdate(category.Id, stack, (a, b) => a - b);
+        feedsPerCategory.AddOrUpdate(feedCategory.Id, stack, (a, b) => a - b);
         Data.Write(location, DataKeys.PiecesOfFeed, feedsPerCategory.Stringify());
     }
 
@@ -127,7 +117,7 @@ internal static class BuildingExtensions
             null,
             reverseGrab: true,
             showReceivingMenu: false,
-            i => Lookups.CategoryByFeed.ContainsKey(i?.QualifiedItemId ?? string.Empty),
+            i => i is not null && i is SObject obj && obj.IsValidAnimalFeed(out _) && i.IsCrop(excludeFlowers: true),
             (i, w) => silo.AddPiecesOfCropFeed(i, w),
             string.Empty,
             null,
@@ -212,6 +202,7 @@ internal static class BuildingExtensions
         }
 
         var indoors = building.GetIndoors();
+        var shouldFixAllAnimals = false;
         switch (indoors)
         {
             case AnimalHouse house:
@@ -223,12 +214,34 @@ internal static class BuildingExtensions
                         case true when barn.Name.Contains("Deluxe") && barn.animalLimit.Value == 12:
                             {
                                 barn.animalLimit.Value = 14;
-                                if (barn.Objects.TryGetValue(new Vector2(6, 3), out var hopper))
+                                if (barn.Objects.TryGetValue(new Vector2(4, 3), out var object1))
                                 {
-                                    barn.Objects.Remove(hopper.TileLocation);
-                                    hopper.TileLocation = new Vector2(4, 3);
-                                    barn.Objects[hopper.TileLocation] = hopper;
-                                    barn.feedAllAnimals();
+                                    object1.performRemoveAction();
+                                    Game1.createItemDebris(object1.getOne(), object1.TileLocation * 64f, Game1.down, location: barn);
+                                    barn.Objects.Remove(object1.TileLocation);
+                                }
+
+                                if (barn.Objects.TryGetValue(new Vector2(5, 3), out var object2))
+                                {
+                                    object2.performRemoveAction();
+                                    Game1.createItemDebris(object2.getOne(), object2.TileLocation * 64f, Game1.down, location: barn);
+                                    barn.Objects.Remove(object2.TileLocation);
+                                }
+
+                                if (barn.Objects.TryGetValue(new Vector2(6, 3), out var object3))
+                                {
+                                    object3.performRemoveAction();
+                                    barn.Objects.Remove(object3.TileLocation);
+                                    if (object3.QualifiedItemId == QIDs.FeedHopper)
+                                    {
+                                        object3.TileLocation = new Vector2(4, 3);
+                                        barn.Objects.Add(object3.TileLocation, object3);
+                                        barn.feedAllAnimals();
+                                    }
+                                    else
+                                    {
+                                        Game1.createItemDebris(object3.getOne(), object3.TileLocation * 64f, Game1.down, location: barn);
+                                    }
                                 }
 
                                 break;
@@ -237,12 +250,11 @@ internal static class BuildingExtensions
                         case true when barn.Name.Contains("Premium") && barn.animalLimit.Value == 16:
                             {
                                 barn.animalLimit.Value = 18;
-                                if (barn.Objects.TryGetValue(new Vector2(4, 4), out var hopper))
+                                if (barn.Objects.TryGetValue(new Vector2(4, 4), out var @object))
                                 {
-                                    barn.Objects.Remove(hopper.TileLocation);
-                                    hopper.TileLocation = new Vector2(2, 5);
-                                    barn.Objects[hopper.TileLocation] = hopper;
-                                    barn.feedAllAnimals();
+                                    @object.performRemoveAction();
+                                    Game1.createItemDebris(@object.getOne(), @object.TileLocation * 64f, Game1.down, location: barn);
+                                    barn.Objects.Remove(@object.TileLocation);
                                 }
 
                                 break;
@@ -251,11 +263,22 @@ internal static class BuildingExtensions
                         case false when barn.Name.Contains("Deluxe") && barn.animalLimit.Value == 14:
                             {
                                 barn.animalLimit.Value = 12;
-                                if (barn.Objects.TryGetValue(new Vector2(4, 3), out var hopper))
+                                barn.Objects.Remove(new Vector2(6, 3));
+                                barn.Objects.Remove(new Vector2(5, 3));
+                                if (barn.Objects.TryGetValue(new Vector2(4, 3), out var @object) && @object.QualifiedItemId == QIDs.FeedHopper)
                                 {
-                                    barn.Objects.Remove(hopper.TileLocation);
-                                    hopper.TileLocation = new Vector2(6, 3);
-                                    barn.Objects[hopper.TileLocation] = hopper;
+                                    @object.performRemoveAction();
+                                    barn.Objects.Remove(@object.TileLocation);
+                                    @object.TileLocation = new Vector2(6, 3);
+                                    barn.Objects.Add(@object.TileLocation, @object);
+                                }
+
+                                for (var i = barn.animalsThatLiveHere.Count; i > 12; i--)
+                                {
+                                    var toRelocate = barn.animals.Values.Choose()!;
+                                    toRelocate.home = null;
+                                    toRelocate.homeInterior = null;
+                                    shouldFixAllAnimals = true;
                                 }
 
                                 break;
@@ -264,11 +287,23 @@ internal static class BuildingExtensions
                         case false when barn.Name.Contains("Premium") && barn.animalLimit.Value == 18:
                             {
                                 barn.animalLimit.Value = 16;
-                                if (barn.Objects.TryGetValue(new Vector2(2, 5), out var hopper))
+                                barn.Objects.Remove(new Vector2(5, 4));
+                                barn.Objects.Remove(new Vector2(4, 4));
+                                var (tile, hopper) = barn.Objects.Pairs.FirstOrDefault(pair => pair.Value.QualifiedItemId == QIDs.FeedHopper);
+                                if (hopper is not null)
                                 {
-                                    barn.Objects.Remove(hopper.TileLocation);
+                                    hopper.performRemoveAction();
+                                    barn.Objects.Remove(tile);
                                     hopper.TileLocation = new Vector2(4, 4);
-                                    barn.Objects[hopper.TileLocation] = hopper;
+                                    barn.Objects.Add(hopper.TileLocation, hopper);
+                                }
+
+                                for (var i = barn.animalsThatLiveHere.Count; i > 16; i--)
+                                {
+                                    var toRelocate = barn.animals.Values.Choose()!;
+                                    toRelocate.home = null;
+                                    toRelocate.homeInterior = null;
+                                    shouldFixAllAnimals = true;
                                 }
 
                                 break;
@@ -281,14 +316,86 @@ internal static class BuildingExtensions
                 else if (house.Name.Contains("Coop"))
                 {
                     var coop = house;
-                    house.animalLimit.Value = areThereAnyPrestigedProducers switch
+                    switch (areThereAnyPrestigedProducers)
                     {
-                        true when coop.Name.Contains("Deluxe") && coop.animalLimit.Value == 12 => 14,
-                        true when coop.Name.Contains("Premium") && coop.animalLimit.Value == 16 => 18,
-                        false when coop.Name.Contains("Deluxe") && coop.animalLimit.Value == 14 => 12,
-                        false when coop.Name.Contains("Premium") && coop.animalLimit.Value == 18 => 16,
-                        _ => coop.animalLimit.Value,
-                    };
+                        case true when coop.Name.Contains("Deluxe") && coop.animalLimit.Value == 12:
+                            coop.animalLimit.Value = 14;
+                            if (coop.Objects.TryGetValue(new Vector2(4, 3), out var @object))
+                            {
+                                @object.performRemoveAction();
+                                Game1.createItemDebris(@object.getOne(), @object.TileLocation * 64f, Game1.down, location: coop);
+                                coop.Objects.Remove(@object.TileLocation);
+                            }
+
+                            break;
+                        case true when coop.Name.Contains("Premium") && coop.animalLimit.Value == 16:
+                            {
+                                coop.animalLimit.Value = 18;
+                                if (coop.Objects.TryGetValue(new Vector2(3, 4), out var object1))
+                                {
+                                    object1.performRemoveAction();
+                                    Game1.createItemDebris(object1.getOne(), object1.TileLocation * 64f, Game1.down, location: coop);
+                                    coop.Objects.Remove(object1.TileLocation);
+                                }
+
+                                if (coop.Objects.TryGetValue(new Vector2(22, 4), out var object2))
+                                {
+                                    object2.performRemoveAction();
+                                    Game1.createItemDebris(object2.getOne(), object2.TileLocation * 64f, Game1.down, location: coop);
+                                    coop.Objects.Remove(object2.TileLocation);
+                                }
+
+                                break;
+                            }
+
+                        case false when coop.Name.Contains("Deluxe") && coop.animalLimit.Value == 14:
+                            coop.animalLimit.Value = 12;
+                            coop.Objects.Remove(new Vector2(5, 3));
+                            coop.Objects.Remove(new Vector2(18, 3));
+                            for (var i = coop.animalsThatLiveHere.Count; i > 12; i--)
+                            {
+                                var toRelocate = coop.animals.Values.Choose()!;
+                                toRelocate.home = null;
+                                toRelocate.homeInterior = null;
+                                shouldFixAllAnimals = true;
+                            }
+
+                            break;
+                        case false when coop.Name.Contains("Premium") && coop.animalLimit.Value == 18:
+                            {
+                                coop.animalLimit.Value = 16;
+                                coop.Objects.Remove(new Vector2(4, 4));
+                                coop.Objects.Remove(new Vector2(21, 4));
+                                var (tile1, hopper) = coop.Objects.Pairs.FirstOrDefault(pair => pair.Value.QualifiedItemId == QIDs.FeedHopper);
+                                if (hopper is not null)
+                                {
+                                    hopper.performRemoveAction();
+                                    coop.Objects.Remove(tile1);
+                                    hopper.TileLocation = new Vector2(3, 4);
+                                    coop.Objects.Add(hopper.TileLocation, hopper);
+                                }
+
+                                var (tile2, incubator) = coop.Objects.Pairs.FirstOrDefault(pair => pair.Value.QualifiedItemId == QIDs.Incubator);
+                                if (incubator is not null)
+                                {
+                                    incubator.performRemoveAction();
+                                    coop.Objects.Remove(tile2);
+                                    incubator.TileLocation = new Vector2(22, 4);
+                                    coop.Objects.Add(incubator.TileLocation, incubator);
+                                }
+
+                                for (var i = coop.animalsThatLiveHere.Count; i > 16; i--)
+                                {
+                                    var toRelocate = coop.animals.Values.Choose()!;
+                                    toRelocate.home = null;
+                                    toRelocate.homeInterior = null;
+                                    shouldFixAllAnimals = true;
+                                }
+
+                                break;
+                            }
+
+                    }
 
                     ModHelper.GameContent.InvalidateCache("Maps/Coop3");
                     ModHelper.GameContent.InvalidateCache("Maps/SVE_PremiumCoop");
@@ -302,8 +409,20 @@ internal static class BuildingExtensions
                     Reflector
                         .GetUnboundFieldSetter<SlimeHutch, int>(hutch, "_slimeCapacity")
                         .Invoke(hutch, 30);
-                    hutch.Objects.Remove(new Vector2(16, 5));
-                    hutch.Objects.Remove(new Vector2(16, 10));
+                    if (hutch.Objects.TryGetValue(new Vector2(16, 5), out var object1))
+                    {
+                        object1.performRemoveAction();
+                        hutch.debris.Add(new Debris(object1, object1.TileLocation + new Vector2(-1, 0), object1.TileLocation + new Vector2(-1, 0)));
+                        hutch.Objects.Remove(object1.TileLocation);
+                    }
+
+                    if (hutch.Objects.TryGetValue(new Vector2(16, 10), out var object2))
+                    {
+                        object2.performRemoveAction();
+                        hutch.debris.Add(new Debris(object2, object2.TileLocation + new Vector2(-1, 0), object2.TileLocation + new Vector2(-1, 0)));
+                        hutch.Objects.Remove(object2.TileLocation);
+                    }
+
                     hutch.waterSpots.SetCount(6);
                 }
                 else
@@ -315,12 +434,17 @@ internal static class BuildingExtensions
                     var slimeCount = hutch.characters.OfType<GreenSlime>().Count();
                     while (slimeCount > 20)
                     {
-                        hutch.characters.RemoveAt(Game1.random.Next(slimeCount--));
+                        hutch.characters.RemoveAt(Random.Shared.Next(slimeCount--));
                     }
                 }
 
                 ModHelper.GameContent.InvalidateCache("Maps/SlimeHutch");
                 break;
+        }
+
+        if (shouldFixAllAnimals)
+        {
+            Utility.fixAllAnimals();
         }
     }
 }

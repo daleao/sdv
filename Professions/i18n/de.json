@@ -79,7 +79,7 @@
     "tapper.title.prestiged.male": "Harzvirtuose",
     "tapper.title.prestiged.female": "Harzvirtuosin",
     "tapper.desc": "Zapfhähne sind günstiger herzustellen. Angezapfte Bäume geben 25% schneller Sirup.",
-    "tapper.desc.prestiged": "Angezapfte Bäume geben 25% >> 50% schneller Sirup. Alle Rezepte, die Sirup brauchen, geben doppelt so viel Ertrag.",
+    "tapper.desc.prestiged": "Angezapfte Bäume geben 25% >> 50% schneller Sirup. Kann eine beliebige Handwerkszutat durch eine gleichwertige Menge Saft ersetzen.",
 
     // mining
     "miner.title.male": "Bergarbeiter",
@@ -342,8 +342,6 @@
     "gmcm.extra_poultry_colors.desc": "Ob neue Goldene and Straußen Mayonnaise Gegenstände zum Spiel hinzugefügt werden sollten, um Handwerkswaren stimmiger zu machen.",
     "gmcm.immersive_dairy_poultry_yield.title": "Immersive Milchprodukte",
     "gmcm.immersive_dairy_poultry_yield.desc": "Sorgt dafür, dass ein großes Ei, oder eine große Milch zwei Mayonnaise bzw. Käse aber mit normaler Qualität herstellen. Sorgt für stimmigere Handwerks-Talente. Falls Straußen Mayo nicht aktiviert ist, geben die immer noch 10 mayo, aber behalten nicht die Qualität des Straußen-Eis. Wenn Goldene Mayo nicht aktiviert ist, wird ein goldenes Ei immer eine Mayo aber mit maximaler Qualität produziern.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Tierwert-Multiplikator des Züchters",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "Der Multiplikator für den Wert von Tieren mit maximaler Freundschaft, die vom Züchter verkauft werden. Nur zur Kompensation von Drittanbieter-Gewinnausgleichs-Mods verwenden.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ökologe/Ökologin & Gemmologe/Gemmologin",

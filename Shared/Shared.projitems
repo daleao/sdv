@@ -17,6 +17,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Attributes\ModRequirementAttribute.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\BuffIDs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Constants\QIDs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Reflection\ConstructorInfoExtensions.cs" />
     <Compile Include="..\Shared\Enums\MapLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\Input\ButtonDoublePressUpdateTickedEvent.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Events\ListEventsCommand.cs" />

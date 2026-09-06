@@ -50,8 +50,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
         if (actionType == "BuildingSilo")
         {
-            if (!who.IsLocalPlayer || !who.HasProfession(Profession.Rancher, true) || who.ActiveObject is not { } heldObject ||
-                !Lookups.CategoryByFeed.ContainsKey(heldObject.QualifiedItemId))
+            if (!who.IsLocalPlayer || !who.HasProfession(Profession.Rancher, true) || who.ActiveObject is not { } heldObject)
             {
                 return true; // run original logic
             }

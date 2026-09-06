@@ -61,9 +61,7 @@ internal sealed class ProfessionsModMessageReceivedEvent(EventManager? manager =
             case "Rancher":
                 if (e.Type.EndsWith("Gained"))
                 {
-                    this.Manager.Enable(
-                        typeof(NutritionDayStartedEvent),
-                        typeof(NutritionDayEndingEvent));
+                    this.Manager.Enable<NutritionDayStartedEvent>();
                 }
                 else if (e.Type.EndsWith("Lost") && !Game1.game1.DoesAnyPlayerHaveProfession(Profession.Rancher))
                 {

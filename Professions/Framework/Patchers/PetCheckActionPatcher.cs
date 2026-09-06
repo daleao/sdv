@@ -3,7 +3,6 @@
 #region using directives
 
 using DaLion.Shared.Extensions;
-using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using StardewValley.Characters;
@@ -47,8 +46,8 @@ internal sealed class PetCheckActionPatcher : HarmonyPatcher
                 isFavoredFeed = who.ActiveObject.Category == SObject.FishCategory;
                 break;
             case "Dog":
-                isFavoredFeed = Lookups.CategoryByFeed.TryGetValue(who.ActiveObject.QualifiedItemId, out var category) &&
-                    category.IsAnyOf(FeedCategoryRegistry.Fruits, FeedCategoryRegistry.Roots, FeedCategoryRegistry.Gourds);
+                isFavoredFeed = who.ActiveObject.IsValidAnimalFeed(out var feedCategory) &&
+                    feedCategory.IsAnyOf(FeedCategoryRegistry.Fruits, FeedCategoryRegistry.Roots, FeedCategoryRegistry.Gourds);
                 break;
         }
 

@@ -1,5 +1,40 @@
 ﻿# PROFESSIONS Changelog
 
+## 1.5.5
+
+### Added
+
+* Syrupwright rework:
+    * Added: "Can replace any one crafting ingredient with an equal-value amount of sap."
+    * The previous "yield double from crafting recipes that use syrup" is not removed. It remains as a "hidden" bonus, for now. Need feedback on whether this is too OP.
+* Valid animal feeds can now also be defined by context tag.
+
+### Changed
+
+* Calibration now increases by `4 + 2 * <num days until ready>`.
+    * If a machine takes longer than 1 whole day to process an ingredient, then the calibration gained per processing cycle will increase by twice the number of days, ignoring decimals; e.g., wine, which take 6.25 days to complete, will gain `4 + 2 * 6 = 16` calibration points per item processed, reducing the time to 100% from 5 seasons (exactly, btw, which is kinda neat) down to 38.5 days.
+    * General formula for time to 100% is given by:
+
+    $$
+    \boxed{ T(t)= t\sum_{n=0}^{N-1} \left( 1-\frac{\left\lfloor nx/4\right\rfloor}{100} \right) }
+    $$
+
+### Fixed
+
+* Farming experience now contributes half as much to mastery experience, as it is in the base game since 1.6.6.
+* Moved nutrition gain logic from `DayEnding` to `FarmAnimal.dayUpdate`, fixing an issue where auto-fed animals would never actually be considered "fed".
+* Fixed some problems with animal house capacity increase/decrease from Breeder/Producer perks and Slime Hutch capacity increase from Piper.
+    * Added proper checks to remove placed objects in tiles that will become feeding troughs / water spots, and spawn them as debris that can be picked up later, so no items are destroyed.
+    * When expanding Premium buildings (SVE), the Feed Hopper will also be spawned as debris, so the player can relocate it as they wish. Same for the Incubator in the Premium Coop. Deluxe buildings still relocate the Hopper automatically.
+    * If an animal building is left overcapacity (from the player losing a profession), the game will now attempt to relocate those animals to different buildings. If it cannot, those animals are moved outside and remain homeless. The player can later relocate them manually after having made enough room.
+* Fixed a window tile in the expanded Premium Barn map.
+
+### Removed
+
+* Removed the deprecated `BreederFriendlyAnimalMultiplier` config setting.
+
+<sup><sup>[🔼 Back to top](#professions-changelog)</sup></sup>
+
 ## 1.5.4
 
 ### Added

@@ -57,13 +57,37 @@
    </properties>
   </tile>
  </tileset>
+ <tileset firstgid="233" name="barn" tilewidth="16" tileheight="16" tilecount="84" columns="4">
+  <image source=".references/coopTiles" width="64" height="336"/>
+  <tile id="12">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="33">
+   <properties>
+    <property name="Passable" type="int" value="0"/>
+    <property name="Trough" value="T"/>
+   </properties>
+  </tile>
+  <tile id="53">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+  <tile id="54">
+   <properties>
+    <property name="Type" value="Wood"/>
+   </properties>
+  </tile>
+ </tileset>
  <layer id="1" name="Back" width="25" height="15">
   <data encoding="csv">
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,0,0,0,13,13,13,21,
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,17,
 13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,13,21,
 13,66,54,54,54,38,34,34,34,34,34,34,34,34,34,34,34,34,34,34,54,54,54,38,55,
-13,37,14,26,16,57,54,54,54,47,54,54,47,54,54,47,54,54,47,54,54,195,202,56,55,
+13,37,14,26,16,57,54,54,54,47,54,54,47,54,54,47,54,54,47,54,54,258,245,56,55,
 13,13,18,19,20,37,13,13,13,13,55,37,55,14,15,16,13,13,13,53,13,13,13,55,55,
 13,13,22,23,24,13,55,13,55,13,13,13,18,19,19,24,13,55,13,14,15,16,13,13,55,
 13,13,55,13,55,13,13,13,13,13,55,13,18,19,20,55,13,13,13,18,19,19,15,16,55,

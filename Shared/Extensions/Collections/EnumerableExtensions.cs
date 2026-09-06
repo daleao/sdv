@@ -75,19 +75,30 @@ public static class EnumerableExtensions
     /// <returns>A random <typeparamref name="T"/> element from within <paramref name="enumerable"/>.</returns>
     public static T? Choose<T>(this IEnumerable<T> enumerable, Random? r = null)
     {
+        ArgumentNullException.ThrowIfNull(enumerable);
+
         r ??= Random.Shared;
-        if (enumerable is ICollection<T> { Count: > 0 } collection)
+        if (enumerable is IList<T> list)
         {
-            return collection.ElementAt(r.Next(collection.Count));
+            return list.Count == 0
+                ? default
+                : list[r.Next(list.Count)];
         }
 
-        var selected = default(T);
-        var count = 0;
-        foreach (var element in enumerable)
+        using var enumerator = enumerable.GetEnumerator();
+        if (!enumerator.MoveNext())
         {
-            if (r.Next(++count) == 0)
+            return default;
+        }
+
+        var selected = enumerator.Current;
+        var count = 1;
+        while (enumerator.MoveNext())
+        {
+            count++;
+            if (r.Next(count) == 0)
             {
-                selected = element;
+                selected = enumerator.Current;
             }
         }
 

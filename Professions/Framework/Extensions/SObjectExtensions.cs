@@ -5,8 +5,6 @@
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using SpaceCore.Spawnables;
 
 #endregion using directives
 
@@ -122,5 +120,17 @@ internal static class SObjectExtensions
 
         var catalyst = ItemRegistry.Create<SObject>(catalystId);
         @object.Price += catalyst.Price * 2;
+    }
+
+    internal static bool IsValidAnimalFeed(this SObject @object, out FeedCategory category)
+    {
+        category = FeedCategoryRegistry.None;
+        if (Lookups.CategoryByFeed.TryGetValue(@object.QualifiedItemId, out var found) ||
+            @object.GetContextTags().Any(tag => Lookups.CategoryByContextTag.TryGetValue(tag, out found)))
+        {
+            category = found;
+        }
+
+        return category != FeedCategoryRegistry.None;
     }
 }

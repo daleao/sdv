@@ -79,7 +79,7 @@
     "tapper.title.prestiged.male": "Siropier",
     "tapper.title.prestiged.female": "Siropière",
     "tapper.desc": "Les extracteurs sont moins chers à fabriquer. Les arbres saignés donnent du sirop 25 % plus vite.",
-    "tapper.desc.prestiged": "Les arbres saignés donnent du sirop 25 % >> 50 % plus vite. Rendement double pour les recettes qui utilisent des sirops.",
+    "tapper.desc.prestiged": "Les arbres saignés donnent du sirop 25 % >> 50 % plus vite. Peut remplacer n'importe quel ingrédient de fabrication par une quantité équivalente de sève.",
 
     // mining
     "miner.title.male": "Mineur",
@@ -342,8 +342,6 @@
     "gmcm.extra_poultry_colors.desc": "Indique si de nouveaux objets de mayonnaise dorée et d'autruche doivent être ajoutés au jeu afin de rendre la production artisanale plus cohérente.",
     "gmcm.immersive_dairy_poultry_yield.title": "Rendements laitiers immersifs",
     "gmcm.immersive_dairy_poultry_yield.desc": "Un gros œuf ou du grand lait produit deux mayonnaise ou fromage de qualité normale, au lieu d'un seul de qualité dorée. Cela rend l'avantage de la profession Artisan plus cohérent. Si la Mayonnaise d'Autruche n'est pas activée, les œufs d'autruche produisent toujours 10 mayonnaises mais ne conservent pas la qualité d'entrée. Si la mayonnaise dorée n'est pas activée, un œuf doré donnera une seule mayonnaise mais toujours de la plus haute qualité.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Multiplicateur de valeur des animaux de l'Éleveur",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "Le multiplicateur appliqué à la valeur des animaux à amitié maximale vendus par l'Éleveur. À utiliser uniquement pour compenser les mods de rééquilibrage des profits tiers.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Écologiste et Gemmologue",

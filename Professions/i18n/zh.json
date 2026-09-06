@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "树脂工匠",
     "tapper.title.prestiged.female": "树脂工匠",
     "tapper.desc": "制作树液采集器的成本更低。采集树获得树液的速度提高25%。",
-    "tapper.desc.prestiged": "采集树获得树液的速度从25%提升至50%。使用树液的配方产出加倍。",
+    "tapper.desc.prestiged": "采集树获得树液的速度从25%提升至50%。可用等值数量的树液替代任意一种制作材料。",
 
     // 采矿
     "miner.title.male": "矿工",
@@ -344,8 +344,6 @@
     "gmcm.extra_poultry_colors.desc": "是否向游戏中添加新的金蛋和鸵鸟蛋黄酱项目,以使工匠生产更加一致。",
     "gmcm.immersive_dairy_poultry_yield.title": "沉浸式乳品产量",
     "gmcm.immersive_dairy_poultry_yield.desc": "使一个大型鸡蛋或牛奶产出两个蛋黄酱或奶酪,但品质为普通,而不是一个为金星品质。这使工匠职业声望更加一致。如果未启用鸵鸟蛋黄酱,鸵鸟蛋仍然产出10个蛋黄酱,但不保留输入品质。如果未启用金蛋黄酱,金蛋将产出一个蛋黄酱,但始终为最高品质。",
-    "gmcm.breeder_friendly_animal_multiplier.title": "动物价值倍率调节",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "此倍率用于调整通过繁殖者出售的满好感度动物的价值。该选项仅建议在安装第三方利润平衡模组时用于补偿收益。",
 
     // 生态学家 & 宝石学家
     "gmcm.sections.prfs.ecologist_gemologist": "生态学家 & 宝石学家",

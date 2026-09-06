@@ -5,7 +5,6 @@
 using System.Reflection;
 using System.Reflection.Emit;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -103,7 +102,7 @@ internal sealed class GameLocationCheckInspectPetAnimalPatcher : HarmonyPatcher
     private static bool CheckFeedCrop(FarmAnimal animal, object where, Farmer who)
     {
         if (!who.HasProfession(Profession.Rancher) || who.ActiveObject is null ||
-            !Lookups.CategoryByFeed.TryGetValue(who.ActiveObject.QualifiedItemId, out var feedCategory))
+            !who.ActiveObject.IsValidAnimalFeed(out var feedCategory))
         {
             return false;
         }

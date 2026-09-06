@@ -34,6 +34,9 @@ internal static class FeedCategoryRegistry
     /// <summary>Gets the category for insect proteins, such as bug meat.</summary>
     internal static FeedCategory Insects { get; } = Register("Insects");
 
+    /// <summary>Gets a category which represents an item that is not valid feed.</summary>
+    internal static FeedCategory None { get; } = Register("None");
+
     internal static FeedCategory Register(string id)
     {
         if (_categories.TryGetValue(id, out var existing))

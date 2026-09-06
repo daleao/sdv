@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "수액 장인",
     "tapper.title.prestiged.female": "수액 장인",
     "tapper.desc": "수액 채취기를 저렴하게 제작할 수 있으며, 수액 채취 속도가 25% 향상됩니다.",
-    "tapper.desc.prestiged": "수액 채취 속도가 25% >> 50% 증가합니다. 한 번에 2개의 수액이 생산됩니다.",
+    "tapper.desc.prestiged": "수액 채취 속도가 25% >> 50% 증가합니다. 제작 재료 하나를 같은 가치의 수액으로 대체할 수 있습니다.",
 
     // mining
     "miner.title.male": "광부",
@@ -344,8 +344,6 @@
     "gmcm.extra_poultry_colors.desc": "장인 제작 설비가 더 일관성 있게 작동하도록 하기 위해 황금 달걀과 타조알이 재료로 쓰이게 할지 여부",
     "gmcm.immersive_dairy_poultry_yield.title": "확장된 일일 생산품",
     "gmcm.immersive_dairy_poultry_yield.desc": "큰 계란 또는 큰 우유 1개로 장인 제작품을 생산 시 제작품 2개가 나올 때 하나는 금별, 하나는 일반 품질로 나오도록 설정합니다.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "브리더 동물 가치 배율",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "브리더가 판매하는 최대 친밀도 동물의 가치에 적용되는 배율입니다. 서드파티 수익 균형 모드를 보정하는 용도로만 사용하세요.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "환경 전문가 & 보석 공학자",

@@ -71,7 +71,25 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
         }
         catch (Exception ex)
         {
-            Log.E($"Failed injecting dodge chance.\nHelper returned {ex}");
+            Log.E($"Failed injecting potential inheritance.\nHelper returned {ex}");
+            return null;
+        }
+
+        try
+        {
+            helper
+                .PatternMatch([
+                    new CodeInstruction(OpCodes.Call, typeof(Utility).RequireMethod(nameof(Utility.isFestivalDay)))
+                ])
+                .Move(-2)
+                .Insert([
+                    new CodeInstruction(OpCodes.Ldarg_0),
+                    new CodeInstruction(OpCodes.Call, typeof(FarmAnimalDayUpdatePatcher).RequireMethod(nameof(UpdateNutrition))),
+                ]);
+        }
+        catch (Exception ex)
+        {
+            Log.E($"Failed injecting nutrition update.\nHelper returned {ex}");
             return null;
         }
 
@@ -108,6 +126,32 @@ internal sealed class FarmAnimalDayUpdatePatcher : HarmonyPatcher
 
         Data.Write(egg, DataKeys.InheritedPotential, eggInheritedPotential.ToString());
         Data.Increment(chicken, DataKeys.EggsLaid);
+    }
+
+    private static void UpdateNutrition(FarmAnimal animal)
+    {
+        var shortTermNutrition = Data.ReadAs<int>(animal, DataKeys.ShortTermNutrition);
+        var longTermNutrition = Data.ReadAs<int>(animal, DataKeys.LongTermNutrition);
+        if (Data.ReadAs<bool>(animal, DataKeys.WasSupplementedToday) && animal.fullness.Value > 200)
+        {
+            shortTermNutrition += 25;
+            longTermNutrition += 10;
+        }
+        else if (animal.fullness.Value > 200)
+        {
+            shortTermNutrition -= 10;
+        }
+        else if (animal.fullness.Value < 200)
+        {
+            shortTermNutrition -= 50;
+        }
+
+        const int longTermNutritionCap = 500;
+        var shortTermNutritionCap = animal.DoesOwnerHaveProfessionOrLax(Profession.Producer) ? 200 : 100;
+        shortTermNutrition = Math.Clamp(shortTermNutrition, 0, shortTermNutritionCap);
+        longTermNutrition = Math.Min(longTermNutrition, longTermNutritionCap);
+        Data.Write(animal, DataKeys.ShortTermNutrition, shortTermNutrition.ToString());
+        Data.Write(animal, DataKeys.LongTermNutrition, longTermNutrition.ToString());
     }
 
     #endregion injected

@@ -79,7 +79,7 @@
     "tapper.title.prestiged.male": "Artífice do Xarope",
     "tapper.title.prestiged.female": "Artífice do Xarope",
     "tapper.desc": "Torneiras de xarope são mais fáceis de fabricar e fornecem xaropes 25% mais rápido.",
-    "tapper.desc.prestiged": "Torneiras de xarope fornecem 25% >> 50% mais rápido. Dobro de rendimento de receitas que consomem xaropes.",
+    "tapper.desc.prestiged": "Torneiras de xarope fornecem 25% >> 50% mais rápido. Pode substituir qualquer ingrediente de fabricação por uma quantidade equivalente de seiva.",
 
     // mining
     "miner.title.male": "Minerador",
@@ -342,8 +342,6 @@
     "gmcm.extra_poultry_colors.desc": "Adiciona novos itens, Maionese Dourada e de Avestruz, ao jogo para tornar a produção artesanal mais consistente.",
     "gmcm.immersive_dairy_poultry_yield.title": "Produção de laticínios imersiva",
     "gmcm.immersive_dairy_poultry_yield.desc": "Faz com que um ovo grande ou leite grande produza duas maioneses ou queijos, mas de qualidade regular, em vez de uma unidade em qualidade ouro. Isso torna a profissão Artesão mais consistente. Se a Maionese de Avestruz não estiver ativada, os ovos de avestruz ainda rendem 10 maionese, mas não retêm a qualidade de entrada. Se Maionese Dourada não estiver ativada, um Ovo Dourado renderá uma única maionese, mas sempre da mais alta qualidade.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Multiplicador de valor de animais do Reprodutor",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "O multiplicador aplicado ao valor dos animais com amizade máxima vendidos pelo Reprodutor. Usar apenas para compensar mods de balanceamento de lucro de terceiros.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ecologista e Gemólogo(a)",

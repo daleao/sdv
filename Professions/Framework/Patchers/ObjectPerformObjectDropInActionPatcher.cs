@@ -115,16 +115,18 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var r = Random.Shared;
         var newQuality = ObjectQuality.Regular;
 
-        var calibrationPerItem = Data.Read(__instance, DataKeys.CalibrationPerItem).ParseDictionary<string, int>();
+        var calibrationPerItem = Data.Read(__instance, DataKeys.CalibrationPerItem).ParseDictionary<string, float>();
         var inputHasCalibration = calibrationPerItem.TryGetValue(input.QualifiedItemId, out var calibration);
+        const float dayLength = 1600f;
+        var calibrationDelta = 4f + (int)(__instance.MinutesUntilReady / dayLength);
         if (inputHasCalibration)
         {
             // artisan users can preserve the input quality above 50 calibration
             if (__instance is not Cask && user.HasProfession(Profession.Artisan) &&
-                calibration >= 50)
+                calibration >= 50f)
             {
                 var chance = who.FarmingLevel / 60d;
-                if (calibration >= 100)
+                if (calibration >= 100f)
                 {
                     chance *= 2;
                 }
@@ -143,17 +145,17 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             output.Quality = Math.Max(output.Quality, (int)newQuality);
 
             // artisan-owned machines calibrate to repeated ingredients
-            var calibrationSpeedup = calibration / 400d;
+            var calibrationSpeedup = calibration / 400f;
             if (__instance is not Cask && owner.HasProfessionOrLax(Profession.Artisan))
             {
-                __instance.MinutesUntilReady -= (int)Math.Floor(__instance.MinutesUntilReady * calibrationSpeedup);
+                __instance.MinutesUntilReady -= (int)(__instance.MinutesUntilReady * calibrationSpeedup);
             }
         }
 
         if (user.HasProfession(Profession.Artisan))
         {
             // re-calibrate
-            if (!inputHasCalibration || calibration < 100)
+            if (!inputHasCalibration || calibration < 100f)
             {
                 if (!Config.ModKey.IsDown())
                 {
@@ -164,19 +166,20 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                             continue;
                         }
 
-                        calibrationPerItem[key] -= 1;
-                        if (!user.HasProfession(Profession.Artisan, true))
+                        var calibrationLoss = calibrationDelta / 2f;
+                        if (user.HasProfession(Profession.Artisan, true))
                         {
-                            calibrationPerItem[key] -= 1;
+                            calibrationLoss /= 2f;
                         }
 
-                        if (calibrationPerItem[key] <= 0)
+                        calibrationPerItem[key] -= calibrationLoss;
+                        if (calibrationPerItem[key] <= 0f)
                         {
                             calibrationPerItem.Remove(key);
                         }
                     }
 
-                    calibrationPerItem[input.QualifiedItemId] = Math.Min(calibration + 4, 100);
+                    calibrationPerItem[input.QualifiedItemId] = Math.Min(calibration + calibrationDelta, 100f);
                     Data.Write(__instance, DataKeys.CalibrationChanged, "true".ToString());
                     Data.Write(__instance, DataKeys.CalibrationLocked, "false".ToString());
                 }

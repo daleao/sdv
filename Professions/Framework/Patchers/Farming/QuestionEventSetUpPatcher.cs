@@ -63,7 +63,11 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
                 .InsertProfessionCheck(Farmer.butcher)
                 .Insert([new CodeInstruction(OpCodes.Brfalse_S, isNotBreeder)])
                 .Insert([
-                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 200), // x4 for regular
+#if DEBUG
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 400), // x400 for testing
+#elif RELEASE
+                    new CodeInstruction(OpCodes.Ldc_R8, 0.0055 * 4), // x4 for regular
+#endif
                     new CodeInstruction(OpCodes.Br_S, resumeExecution)]);
         }
         catch (Exception ex)
@@ -95,7 +99,7 @@ internal sealed class QuestionEventSetUpPatcher : HarmonyPatcher
         return helper.Flush();
     }
 
-    #endregion harmony patches
+#endregion harmony patches
 
     #region injected
 

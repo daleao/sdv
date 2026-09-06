@@ -61,9 +61,17 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [UsedImplicitly]
     private static void IClickableMenuDrawHoverTextPrefix(
+        ref int xOffset,
+        ref int yOffset,
         ref string[]? buffIconsToDisplay,
         Item? hoveredItem)
     {
+        if (State.TapperCraftingRecipeBeingHovered is not null)
+        {
+            xOffset = State.TapperCraftingMenuCursorLockPosition.X - Game1.getOldMouseX();
+            yOffset = State.TapperCraftingMenuCursorLockPosition.Y - Game1.getOldMouseY();
+        }
+
         if (hoveredItem is not SObject @object || !@object.isForage() ||
             !Game1.player.HasProfession(Profession.Ecologist, true) ||
             !State.EcologistBuffsLookup.TryGetValue(@object.ItemId, out var buffIndex))

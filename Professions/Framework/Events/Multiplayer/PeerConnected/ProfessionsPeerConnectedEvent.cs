@@ -31,9 +31,7 @@ internal sealed class ProfessionsPeerConnectedEvent(EventManager? manager = null
 
         if (peer.HasProfession(Profession.Rancher))
         {
-            this.Manager.Enable(
-                typeof(NutritionDayStartedEvent),
-                typeof(NutritionDayEndingEvent));
+            this.Manager.Enable<NutritionDayStartedEvent>();
         }
 
         if (peer.HasProfession(Profession.Breeder) || peer.HasProfession(Profession.Producer) ||

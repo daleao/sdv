@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "Szörpmester",
     "tapper.title.prestiged.female": "Szörpmester",
     "tapper.desc": "A csapolók olcsóbbak elkészíteni. A csapolt fák 25%-kal gyorsabban adnak szörpöt.",
-    "tapper.desc.prestiged": "A csapolt fák 25% >> 50%-kal gyorsabban adnak szörpöt. Szörpöt használó receptekből kétszeres hozam.",
+    "tapper.desc.prestiged": "A csapolt fák 25% >> 50%-kal gyorsabban adnak szörpöt. Bármelyik barkácsolási hozzávalót helyettesítheti azonos értékű nedvvel.",
 
     // mining
     "miner.title.male": "Bányász",
@@ -343,8 +343,6 @@
     "gmcm.extra_poultry_colors.desc": "Hozzáadja-e a játékhoz az új Arany majonéz és Strucc majonéz tárgyakat a kézműves termelés következetesebbé tételéhez.",
     "gmcm.immersive_dairy_poultry_yield.title": "Valósághű tejtermelési hozam",
     "gmcm.immersive_dairy_poultry_yield.desc": "Egy nagy tojás vagy nagy tej két majonézt vagy sajtot termel normál minőségben egy arany minőségű helyett. Ha a Strucc majonéz nincs engedélyezve, a strucc tojások még mindig 10 majonézt adnak, de nem tartják meg a bemeneti minőséget. Ha az Arany majonéz nincs engedélyezve, egy Arany tojás egyetlen majonézt ad, de mindig a legmagasabb minőségben.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Tenyésztő állatérték-szorzó",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "A Tenyésztő által eladott maximális barátságú állatok értékére alkalmazott szorzó. Csak harmadik féltől származó haszonegyensúlyi módok kompenzálására használd.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ökológus és Gemmológus",

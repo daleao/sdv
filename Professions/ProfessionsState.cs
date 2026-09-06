@@ -18,9 +18,6 @@ using StardewValley.Monsters;
 
 internal sealed class ProfessionsState
 {
-    private ProspectorHunt? _prospectorHunt;
-    private ScavengerHunt? _scavengerHunt;
-
     internal List<int> OrderedProfessions
     {
         get
@@ -84,10 +81,10 @@ internal sealed class ProfessionsState
 
     internal ProspectorHunt? ProspectorHunt
     {
-        get => this._prospectorHunt;
+        get;
         set
         {
-            if (value is null && this._scavengerHunt is null)
+            if (value is null && this.ScavengerHunt is null)
             {
                 EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
@@ -96,16 +93,16 @@ internal sealed class ProfessionsState
                 EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
-            this._prospectorHunt = value;
+            field = value;
         }
     }
 
     internal ScavengerHunt? ScavengerHunt
     {
-        get => this._scavengerHunt;
+        get;
         set
         {
-            if (value is null && this._prospectorHunt is null)
+            if (value is null && this.ProspectorHunt is null)
             {
                 EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
@@ -114,7 +111,7 @@ internal sealed class ProfessionsState
                 EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
-            this._scavengerHunt = value;
+            field = value;
         }
     }
 
@@ -198,6 +195,34 @@ internal sealed class ProfessionsState
     internal int SlimeFluteCooldown { get; set; }
 
     internal float SlimeFluteAddedScale { get; set; }
+
+    internal CraftingRecipe? TapperCraftingRecipeBeingHovered { get; set; }
+
+    internal List<KeyValuePair<string, int>> OriginalRecipeList { get; set; } = [];
+
+    internal Point TapperCraftingMenuCursorLockPosition { get; set; }
+
+    internal int TapperCraftingIngredientSelected
+    {
+        get;
+        set
+        {
+            if (this.TapperCraftingRecipeBeingHovered is null)
+            {
+                field = 0;
+                return;
+            }
+
+            var newValue = Math.Clamp(value, 0, this.TapperCraftingRecipeBeingHovered.recipeList.Count - 1);
+            if (field != newValue)
+            {
+                this.TapperCraftingRecipeBeingHovered.ResetCraftingRecipe();
+                field = newValue;
+                Game1.playSound("smallSelect");
+                this.TapperCraftingRecipeBeingHovered.AlterCraftingRecipeForTapper();
+            }
+        }
+    }
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
 

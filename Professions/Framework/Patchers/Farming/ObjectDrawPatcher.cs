@@ -9,7 +9,6 @@ using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using xTile.Tiles;
 
 #endregion using directives
 
@@ -103,7 +102,7 @@ internal sealed class ObjectDrawPatcher : HarmonyPatcher
                 drawLayer);
 
             Utility.drawTinyDigits(
-                value,
+                (int)value,
                 spriteBatch,
                 new Vector2(iconX + 32f, iconY + 8f),
                 3f,

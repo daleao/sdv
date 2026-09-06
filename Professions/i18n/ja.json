@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "樹液職人",
     "tapper.title.prestiged.female": "樹液職人",
     "tapper.desc": "樹液採取器の製作コストが下がる。採液した木が25%速くシロップを産出する。",
-    "tapper.desc.prestiged": "採液した木のシロップ産出が25% >> 50%速くなる。シロップを使うレシピの収量が2倍。",
+    "tapper.desc.prestiged": "採液した木のシロップ産出が25% >> 50%速くなる。クラフト素材1種類を、同価値の樹液で置き換えられる。",
 
     // 採掘
     "miner.title.male": "鉱夫",
@@ -343,8 +343,6 @@
     "gmcm.extra_poultry_colors.desc": "職人生産をより一貫したものにするために、新しいゴールデンマヨネーズとダチョウのマヨネーズのアイテムをゲームに追加するかどうか。",
     "gmcm.immersive_dairy_poultry_yield.title": "没入型乳製品収量",
     "gmcm.immersive_dairy_poultry_yield.desc": "大きな卵または牛乳1つが金品質1個の代わりに通常品質のマヨネーズまたはチーズを2個生産する。これにより職人職業の特典がより一貫したものになる。ダチョウのマヨネーズが有効でない場合、ダチョウの卵は引き続き10個のマヨネーズを生産するが入力品質を保持しない。ゴールデンマヨネーズが有効でない場合、金の卵は常に最高品質でマヨネーズ1個を生産する。",
-    "gmcm.breeder_friendly_animal_multiplier.title": "ブリーダー動物価値乗数",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "ブリーダーが販売する最大友好度動物の価値に適用される乗数。サードパーティの利益バランスMODを補正するためにのみ使用する。",
 
     // エコロジスト・宝石学者
     "gmcm.sections.prfs.ecologist_gemologist": "エコロジスト・宝石学者",

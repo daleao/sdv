@@ -98,12 +98,12 @@ public sealed class ProfessionsConfig
     [GMCMPriority(102)]
     public bool BeesAreAnimals { get; internal set; } = true;
 
-    /// <summary>Gets the multiplier applied to the value of friendly animals sold by Breeder. This should only be used to compensate for third-party profit balancing mods.</summary>
-    [JsonProperty]
-    [GMCMSection("prfs.artisan_breeder_producer")]
-    [GMCMPriority(103)]
-    [GMCMRange(2f, 10f, 0.5f)]
-    public float BreederFriendlyAnimalMultiplier { get; internal set; } = 10f;
+    ///// <summary>Gets the amount by which a machine's calibration increases after each production cycle.</summary>
+    //[JsonProperty]
+    //[GMCMSection("prfs.artisan_breeder_producer")]
+    //[GMCMPriority(103)]
+    //[GMCMRange(4, 20, 4)]
+    //public int CalibrationGainPerCycle { get; internal set; } = 4;
 
     /// <summary>Gets the number of items that must be foraged before foraged items become iridium-quality.</summary>
     [JsonProperty]

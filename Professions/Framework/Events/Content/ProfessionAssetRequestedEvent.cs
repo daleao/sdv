@@ -1053,17 +1053,7 @@ heavyTapper:
     private static Dictionary<string, HashSet<string>> ProvideFeedsByCategory()
     {
         var path = Path.Combine(ModHelper.DirectoryPath, "assets", "data");
-        Dictionary<string, HashSet<string>> feedsByCategory = new()
-        {
-            { "GrainsCategory", [] },
-            { "LeafyGreensCategory", [] },
-            { "LegumesCategory", [] },
-            { "RootsCategory", [] },
-            { "TubersCategory", [] },
-            { "GourdsCategory", [] },
-            { "FruitsCategory", [] },
-            { "InsectsCategory", [] },
-        };
+        Dictionary<string, HashSet<string>> feedsByCategory = [];
 
         try
         {

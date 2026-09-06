@@ -53,7 +53,7 @@ internal sealed class FarmerGainExperiencePatcher : HarmonyPatcher
                 Skill.List.All(s => s.CurrentLevel >= 10))
             {
                 var old = MasteryTrackerMenu.getCurrentMasteryLevel();
-                Game1.stats.Increment("MasteryExp", howMuch);
+                Game1.stats.Increment("MasteryExp", Math.Max(1, (which == Farmer.farmingSkill) ? (howMuch / 2) : howMuch));
                 if (MasteryTrackerMenu.getCurrentMasteryLevel() <= old)
                 {
                     return false; // don't run original logic

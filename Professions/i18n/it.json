@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "Sciroppaio",
     "tapper.title.prestiged.female": "Sciroppaia",
     "tapper.desc": "I rubinetti sono più economici da costruire. Gli alberi spillati producono sciroppo il 25% più velocemente.",
-    "tapper.desc.prestiged": "Gli alberi spillati producono sciroppo il 25% >> 50% più velocemente. Resa doppia dalle ricette che usano sciroppi.",
+    "tapper.desc.prestiged": "Gli alberi spillati producono sciroppo il 25% >> 50% più velocemente. Può sostituire qualsiasi ingrediente di fabbricazione con una quantità equivalente di linfa.",
 
     // mining
     "miner.title.male": "Minatore",
@@ -343,8 +343,6 @@
     "gmcm.extra_poultry_colors.desc": "Se aggiungere al gioco nuovi oggetti Maionese dorata e Maionese d'ostrica per rendere la produzione artigianale più coerente.",
     "gmcm.immersive_dairy_poultry_yield.title": "Rese casearie immersive",
     "gmcm.immersive_dairy_poultry_yield.desc": "Un uovo grande o latte grande produce due maionesi o formaggi di qualità normale invece di uno di qualità oro. Questo rende il bonus della professione Artigiano più coerente. Se la Maionese d'ostrica non è attivata, le uova di struzzo producono comunque 10 maionesi ma non trattengono la qualità dell'input. Se la Maionese dorata non è attivata, un Uovo dorato produrrà una sola maionese ma sempre della massima qualità.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Moltiplicatore valore animali del Selezionatore",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "Il moltiplicatore applicato al valore degli animali ad amicizia massima venduti dal Selezionatore. Da usare solo per compensare mod di bilanciamento dei profitti di terze parti.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ecologista e Gemmologo/a",

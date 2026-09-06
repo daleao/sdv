@@ -12,7 +12,9 @@ using DaLion.Professions.Framework.Events.Display.RenderedHud;
 using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
+using DaLion.Professions.Framework.Events.Input.ButtonPressed;
 using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
+using DaLion.Professions.Framework.Events.Input.CursorMoved;
 using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Hunting;
@@ -435,9 +437,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable(
-                        typeof(NutritionDayStartedEvent),
-                        typeof(NutritionDayEndingEvent));
+                    EventManager.Enable<NutritionDayStartedEvent>();
                 }
                 else
                 {
@@ -571,9 +571,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer && !Game1.game1.DoesAnyPlayerHaveProfession(Rancher))
                 {
-                    EventManager.Disable(
-                        typeof(NutritionDayStartedEvent),
-                        typeof(NutritionDayEndingEvent));
+                    EventManager.Disable<NutritionDayStartedEvent>();
                 }
                 else
                 {

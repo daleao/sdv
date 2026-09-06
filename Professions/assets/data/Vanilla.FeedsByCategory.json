@@ -56,5 +56,8 @@
     ],
     "Insects": [
         "(O)684" // bug meat
+    ],
+    "Fish": [
+        "fish_item"
     ]
 }

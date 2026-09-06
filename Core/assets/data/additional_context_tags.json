@@ -6,5 +6,8 @@
     "oil_item": [
         "(O)247",
         "(O)432"
+    ],
+    "syrup_item": [
+        "(O)MysticSyrup"
     ]
 }

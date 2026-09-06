@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "Şurup Ustası",
     "tapper.title.prestiged.female": "Şurup Ustası",
     "tapper.desc": "Damlatıcılar daha ucuza üretilir. Damlatılan ağaçlar %25 daha hızlı şurup verir.",
-    "tapper.desc.prestiged": "Damlatılan ağaçlar %25 >> %50 daha hızlı şurup verir. Şurup kullanan tariflerden çift verim.",
+    "tapper.desc.prestiged": "Damlatılan ağaçlar %25 >> %50 daha hızlı şurup verir. Herhangi bir üretim malzemesini eşit değerde özsuyla değiştirebilir.",
 
     // mining
     "miner.title.male": "Madenci",
@@ -343,8 +343,6 @@
     "gmcm.extra_poultry_colors.desc": "Zanaatkar üretimini daha tutarlı hale getirmek için oyuna yeni Altın ve Devekuşu Mayonezu eşyaları eklensin mi.",
     "gmcm.immersive_dairy_poultry_yield.title": "Gerçekçi Süt Ürünleri Verimi",
     "gmcm.immersive_dairy_poultry_yield.desc": "Bir büyük yumurta veya büyük süt, altın kalitesinde bir tane yerine normal kalitede iki mayonez veya peynir üretir. Devekuşu Mayonezu etkinleştirilmemişse devekuşu yumurtaları hâlâ 10 mayonez verir ancak giriş kalitesini korumaz. Altın Mayonez etkinleştirilmemişse bir Altın Yumurta tek bir mayonez verir ancak her zaman en yüksek kalitede.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Yetiştirici Hayvan Değer Çarpanı",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "Yetiştirici tarafından satılan maksimum dostluk hayvanlarının değerine uygulanan çarpan. Yalnızca üçüncü taraf kâr dengeleme modlarını telafi etmek için kullanın.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ekolojist ve Mücevherci",

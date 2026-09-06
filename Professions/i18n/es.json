@@ -80,7 +80,7 @@
     "tapper.title.prestiged.male": "Siropero",
     "tapper.title.prestiged.female": "Siropera",
     "tapper.desc": "Los grifos de savia son más baratos de fabricar. Los árboles sangrados producen sirope un +25% más rápido.",
-    "tapper.desc.prestiged": "Los árboles sangrados producen sirope un +25% >> +50% más rápido. Doble rendimiento en recetas que usan siropes.",
+    "tapper.desc.prestiged": "Los árboles sangrados producen sirope un +25% >> +50% más rápido. Puede reemplazar cualquier ingrediente de fabricación por una cantidad equivalente de savia.",
 
     // mining
     "miner.title.male": "Minero",
@@ -343,8 +343,6 @@
     "gmcm.extra_poultry_colors.desc": "Si añadir nuevos objetos de Mayonesa Dorada y de Avestruz al juego para hacer la producción artesanal más consistente.",
     "gmcm.immersive_dairy_poultry_yield.title": "Producción láctea inmersiva",
     "gmcm.immersive_dairy_poultry_yield.desc": "Hace que un huevo grande o leche grande produzcan dos mayonesas o quesos de calidad normal, en vez de uno de calidad oro. Esto hace el bono de la profesión Artesano más consistente. Si la Mayonesa de Avestruz no está activada, los huevos de avestruz siguen dando 10 mayonesas pero no retienen la calidad de entrada. Si la Mayonesa Dorada no está activada, un Huevo Dorado dará una sola mayonesa, pero siempre de la más alta calidad.",
-    "gmcm.breeder_friendly_animal_multiplier.title": "Multiplicador de valor de animales del Criador",
-    "gmcm.breeder_friendly_animal_multiplier.desc": "El multiplicador aplicado al valor de los animales de amistad máxima vendidos por el Criador. Solo usar para compensar mods de equilibrio de ganancias de terceros.",
 
     // ecologist & gemologist
     "gmcm.sections.prfs.ecologist_gemologist": "Ecologista y Gemólogo/a",

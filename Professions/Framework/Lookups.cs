@@ -84,6 +84,9 @@ internal static class Lookups
     /// <summary>Gets the parent category for a given feed.</summary>
     internal static Dictionary<string, FeedCategory> CategoryByFeed { get; } = [];
 
+    /// <summary>Gets the parent category for a given context tag.</summary>
+    internal static Dictionary<string, FeedCategory> CategoryByContextTag { get; } = [];
+
     /// <summary>Gets the feeds favored by each animal type.</summary>
     internal static Dictionary<string, HashSet<FeedCategory>> FavoredFeedsByAnimalType { get; } = [];
 

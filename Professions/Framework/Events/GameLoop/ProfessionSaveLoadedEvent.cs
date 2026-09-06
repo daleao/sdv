@@ -132,9 +132,7 @@ internal sealed class ProfessionSaveLoadedEvent(EventManager? manager = null)
         // enable host events
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Rancher))
         {
-            this.Manager.Enable(
-                typeof(NutritionDayStartedEvent),
-                typeof(NutritionDayEndingEvent));
+            this.Manager.Enable<NutritionDayStartedEvent>();
         }
 
         if (Game1.game1.DoesAnyPlayerHaveProfession(Profession.Luremaster) && Context.IsMainPlayer)

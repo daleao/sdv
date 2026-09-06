@@ -79,6 +79,22 @@ internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
         foreach (var (categoryId, feeds) in feedsByCategory)
         {
             var category = FeedCategoryRegistry.GetOrRegister(categoryId);
+            foreach (var feed in feeds.ToList())
+            {
+                var feedData = ItemRegistry.GetDataOrErrorItem(feed);
+                if (feedData.IsErrorItem && !feed.StartsWith("(O)"))
+                {
+                    // assume this is a context tag
+                    var tag = feed;
+                    if (!Lookups.CategoryByContextTag.TryAdd(tag, category) && Lookups.CategoryByContextTag[tag] != category)
+                    {
+                        Log.W($"Attempted to assign the context tag {tag} to category {category}, but it already belongs to category {Lookups.CategoryByContextTag[tag]}. The new assignment will be ignored.");
+                    }
+
+                    feeds.Remove(feed);
+                }
+            }
+
             if (!Lookups.FeedsByCategory.TryAdd(category, feeds))
             {
                 Lookups.FeedsByCategory[category].UnionWith(feeds);

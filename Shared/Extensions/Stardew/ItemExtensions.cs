@@ -13,6 +13,18 @@ public static class ItemExtensions
 {
     /// <summary>Determines whether the <paramref name="item"/> is an artisan good.</summary>
     /// <param name="item">The <see cref="Item"/>.</param>
+    /// <param name="excludeFlowers">Whether to exclude flower crops.</param>
+    /// <param name="includeForage">Whether to include wild forage items.</param>
+    /// <returns><see langword="true"/> if the <paramref name="item"/> is created by an artisan machine, otherwise <see langword="false"/>.</returns>
+    public static bool IsCrop(this Item item, bool excludeFlowers = false, bool includeForage = false)
+    {
+        return item.Category is (int)ObjectCategory.Vegetables or (int)ObjectCategory.Fruits ||
+            (!excludeFlowers && item.Category == (int)ObjectCategory.Flowers) ||
+            (includeForage && item.Category == (int)ObjectCategory.Greens);
+    }
+
+    /// <summary>Determines whether the <paramref name="item"/> is an artisan good.</summary>
+    /// <param name="item">The <see cref="Item"/>.</param>
     /// <returns><see langword="true"/> if the <paramref name="item"/> is created by an artisan machine, otherwise <see langword="false"/>.</returns>
     public static bool IsArtisanGood(this Item item)
     {

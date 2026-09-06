@@ -25,7 +25,7 @@ public static class Reflector
     /// <summary>Gets a delegate which returns the value of an instance field.</summary>
     /// <typeparam name="TInstance">The type of the instance that the delegate will be invoked on.</typeparam>
     /// <typeparam name="TField">The type of the field.</typeparam>
-    /// <param name="type">The type which has the field.</param>
+    /// <param name="type">The <see cref="Type"/> which has the field.</param>
     /// <param name="name">The field name.</param>
     /// <returns>A delegate for getting the field's value.</returns>
     public static Func<TInstance, TField> GetUnboundFieldGetter<TInstance, TField>(Type type, string name)
@@ -79,7 +79,7 @@ public static class Reflector
 
     /// <summary>Gets a delegate which returns the value of a static field.</summary>
     /// <typeparam name="TField">The type of the field.</typeparam>
-    /// <param name="type">The type which declares the field.</param>
+    /// <param name="type">The <see cref="Type"/> which declares the field.</param>
     /// <param name="name">The field name.</param>
     /// <returns>A delegate for getting the field's value.</returns>
     public static Func<TField> GetStaticFieldGetter<TField>(Type type, string name)
@@ -106,7 +106,7 @@ public static class Reflector
     /// <summary>Gets a delegate which sets the value of an instance field.</summary>
     /// <typeparam name="TInstance">The type of the instance that the delegate will be invoked on.</typeparam>
     /// <typeparam name="TField">The type of the field.</typeparam>
-    /// <param name="type">The type which has the field.</param>
+    /// <param name="type">The <see cref="Type"/> which has the field.</param>
     /// <param name="name">The field name.</param>
     /// <returns>A delegate for setting the field's value.</returns>
     public static Action<TInstance, TField> GetUnboundFieldSetter<TInstance, TField>(Type type, string name)
@@ -160,7 +160,7 @@ public static class Reflector
 
     /// <summary>Gets a delegate which sets the value of a static field.</summary>
     /// <typeparam name="TField">The type that will be returned by the delegate.</typeparam>
-    /// <param name="type">The type which declares the field.</param>
+    /// <param name="type">The <see cref="Type"/> which declares the field.</param>
     /// <param name="name">The field name.</param>
     /// <returns>A delegate for setting the field's value.</returns>
     public static Action<TField> GetStaticFieldSetter<TField>(Type type, string name)
@@ -191,7 +191,7 @@ public static class Reflector
     /// <summary>Gets a delegate which returns the value of an instance property.</summary>
     /// <typeparam name="TInstance">The type of the instance that the delegate will be invoked on.</typeparam>
     /// <typeparam name="TProperty">The type of the property.</typeparam>
-    /// <param name="type">The type which has the property.</param>
+    /// <param name="type">The <see cref="Type"/> which has the property.</param>
     /// <param name="name">The property name.</param>
     /// <returns>A delegate to the property getter.</returns>
     public static Func<TInstance, TProperty> GetUnboundPropertyGetter<TInstance, TProperty>(Type type, string name)
@@ -245,7 +245,7 @@ public static class Reflector
 
     /// <summary>Gets a delegate which returns the value of a static property.</summary>
     /// <typeparam name="TProperty">The type of the property.</typeparam>
-    /// <param name="type">The type which declares the property.</param>
+    /// <param name="type">The <see cref="Type"/> which declares the property.</param>
     /// <param name="name">The property name.</param>
     /// <returns>A delegate to the property getter.</returns>
     public static Func<TProperty> GetStaticPropertyGetter<TProperty>(Type type, string name)
@@ -272,7 +272,7 @@ public static class Reflector
     /// <summary>Gets a delegate which sets the value of an instance property.</summary>
     /// <typeparam name="TInstance">The type of the instance that the delegate will be invoked on.</typeparam>
     /// <typeparam name="TProperty">The type of the property.</typeparam>
-    /// <param name="type">The type which has the property.</param>
+    /// <param name="type">The <see cref="Type"/> which has the property.</param>
     /// <param name="name">The property name.</param>
     /// <returns>A delegate to the property setter.</returns>
     public static Action<TInstance, TProperty> GetUnboundPropertySetter<TInstance, TProperty>(Type type, string name)
@@ -326,7 +326,7 @@ public static class Reflector
 
     /// <summary>Gets a delegate which sets the value of a static property.</summary>
     /// <typeparam name="TProperty">The type of the property.</typeparam>
-    /// <param name="type">The type which declares the property.</param>
+    /// <param name="type">The <see cref="Type"/> which declares the property.</param>
     /// <param name="name">The property name.</param>
     /// <returns>A delegate to the property setter.</returns>
     public static Action<TProperty> GetStaticPropertySetter<TProperty>(Type type, string name)
@@ -358,7 +358,7 @@ public static class Reflector
     /// <typeparam name="TDelegate">
     ///     A delegate type which mirrors the desired method signature and accepts the target
     ///     instance type as the first parameter.</typeparam>
-    /// <param name="type">The type which has the method.</param>
+    /// <param name="type">The <see cref="Type"/> which has the method.</param>
     /// <param name="name">The method name.</param>
     /// <returns>A delegate to the method.</returns>
     public static TDelegate GetUnboundMethodDelegate<TDelegate>(Type type, string name)
@@ -400,7 +400,7 @@ public static class Reflector
 
     /// <summary>Gets a delegate which calls a static method.</summary>
     /// <typeparam name="TDelegate">A delegate type which mirrors the desired method signature.</typeparam>
-    /// <param name="type">The type which declares the method.</param>
+    /// <param name="type">The <see cref="Type"/> which declares the method.</param>
     /// <param name="name">The method name.</param>
     /// <returns>A delegate to the method.</returns>
     public static TDelegate GetStaticMethodDelegate<TDelegate>(Type type, string name)
@@ -428,10 +428,96 @@ public static class Reflector
 
     #endregion methods
 
+    #region constructors
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="type">The <see cref="Type"/>.</param>
+    /// <param name="parameterCount">The number of parameters.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(Type type, int parameterCount)
+        where TDelegate : Delegate
+    {
+        return GetCachedDelegate(
+            "c",
+            type,
+            $"{type.Name}.{parameterCount}",
+            false,
+            () => type.RequireConstructor(parameterCount).CompileConstructorDelegate<TDelegate>());
+    }
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="instance">An instance of the desired type.</param>
+    /// <param name="parameterCount">The number of parameters.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(object instance, int parameterCount)
+        where TDelegate : Delegate
+    {
+        return GetConstructorDelegate<TDelegate>(instance.GetType(), parameterCount);
+    }
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="typeName">The name of the type which has the method.</param>
+    /// <param name="parameterCount">The number of parameters.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(string typeName, int parameterCount)
+        where TDelegate : Delegate
+    {
+        return GetConstructorDelegate<TDelegate>(typeName.ToType(), parameterCount);
+    }
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="type">The <see cref="Type"/>.</param>
+    /// <param name="parameterTypes">The types of the constructor signature.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(Type type, Type[] parameterTypes)
+        where TDelegate : Delegate
+    {
+        return GetCachedDelegate(
+            "c",
+            type,
+            $"{type.Name}.{parameterTypes.Length}",
+            false,
+            () => type.RequireConstructor(parameterTypes).CompileConstructorDelegate<TDelegate>());
+    }
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="instance">An instance of the desired type.</param>
+    /// <param name="parameterTypes">The types of the constructor signature.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(object instance, Type[] parameterTypes)
+        where TDelegate : Delegate
+    {
+        return GetConstructorDelegate<TDelegate>(instance.GetType(), parameterTypes);
+    }
+
+    /// <summary>Gets a delegate which calls a constructor.</summary>
+    /// <typeparam name="TDelegate">
+    ///     A delegate type which mirrors the desired constructor signature and returns the target instance type.</typeparam>
+    /// <param name="typeName">The name of the type which has the method.</param>
+    /// <param name="parameterTypes">The types of the constructor signature.</param>
+    /// <returns>A delegate to the constructor.</returns>
+    public static TDelegate GetConstructorDelegate<TDelegate>(string typeName, Type[] parameterTypes)
+        where TDelegate : Delegate
+    {
+        return GetConstructorDelegate<TDelegate>(typeName.ToType(), parameterTypes);
+    }
+
+    #endregion constructors
+
     /// <summary>Retrieves an existing delegate instance from the cache, or caches a new instance.</summary>
     /// <typeparam name="TDelegate">The expected <see cref="Delegate"/> type.</typeparam>
     /// <param name="prefix">A letter or letters representing the member type (like 'm' for method).</param>
-    /// <param name="type">The declaring type of the reflected member.</param>
+    /// <param name="type">The declaring <see cref="Type"/> of the reflected member.</param>
     /// <param name="name">The member name.</param>
     /// <param name="isStatic">Whether the member is static.</param>
     /// <param name="fetch">Fetches a new value to cache.</param>
