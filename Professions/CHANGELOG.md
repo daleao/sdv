@@ -12,11 +12,17 @@
 ### Changed
 
 * Calibration now increases by `4 + 2 * <num days until ready>`.
-    * If a machine takes longer than 1 whole day to process an ingredient, then the calibration gained per processing cycle will increase by twice the number of days, ignoring decimals; e.g., wine, which take 6.25 days to complete, will gain `4 + 2 * 6 = 16` calibration points per item processed, reducing the time to 100% from 5 seasons (exactly, btw, which is kinda neat) down to 38.5 days.
-    * General formula for time to 100% is given by:
+    * If a machine takes longer than 1 whole day to process an ingredient, then the calibration gained per processing cycle will increase by twice the number of days, ignoring decimals; e.g., wine, which take 6.25 days to complete, will gain `4 + 2 * 6 = 16` calibration points per item processed, reducing the time to 100% from 5 seasons (exactly, btw, which is kinda neat) down to 38.5 days. The loss is also increased proportionately.
+    * General formula for time to 100% calibration is given by:
 
     $$
     \boxed{ T(t)= t\sum_{n=0}^{N-1} \left( 1-\frac{\left\lfloor nx/4\right\rfloor}{100} \right) }
+    $$
+
+    where `t` is in day, and `N` is given by:
+    
+    $$
+    \boxed{N=\left\lceil\frac{100}{x}\right\rceil}
     $$
 
 ### Fixed
