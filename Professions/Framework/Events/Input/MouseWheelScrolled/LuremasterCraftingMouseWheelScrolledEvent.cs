@@ -7,26 +7,27 @@ using StardewModdingAPI.Events;
 
 #endregion using directives
 
-/// <summary>Initializes a new instance of the <see cref="TapperCraftingMouseWheelScrolledEvent"/> class.</summary>
+/// <summary>Initializes a new instance of the <see cref="LuremasterCraftingMouseWheelScrolledEvent"/> class.</summary>
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
-internal sealed class TapperCraftingMouseWheelScrolledEvent(EventManager? manager = null)
+internal sealed class LuremasterCraftingMouseWheelScrolledEvent(EventManager? manager = null)
     : MouseWheelScrolledEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.TapperCraftingRecipeBeingHovered is not null;
+    public override bool IsEnabled => State.LuremasterCraftingRecipeBeingHovered is not null;
 
     /// <inheritdoc />
     protected override void OnMouseWheelScrolledImpl(object? sender, MouseWheelScrolledEventArgs e)
     {
+        State.IsLuremasterUsingCursorInput = false;
         ModHelper.Input.SuppressScrollWheel();
         switch (e.Delta)
         {
             case > 0:
-                State.TapperCraftingIngredientSelected--;
+                State.LuremasterCraftingIngredientSelected--;
                 break;
             case < 0:
-                State.TapperCraftingIngredientSelected++;
+                State.LuremasterCraftingIngredientSelected++;
                 break;
         }
     }

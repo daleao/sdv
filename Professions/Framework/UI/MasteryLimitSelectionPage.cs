@@ -13,7 +13,7 @@ using StardewValley.Menus;
 /// <summary>The Limit Break selection menu displayed upon Mastering the Combat skill.</summary>
 internal sealed class MasteryLimitSelectionPage : IClickableMenu
 {
-    private readonly List<ClickableTextureComponent> _textureComponents = [];
+    private readonly List<ClickableTextureComponent> _components = [];
     private readonly Color _backItemColor = new(132, 160, 255, 220);
     private readonly Color _backItemColorHover = new(132, 160, 255, 150);
     private readonly string _menuTitle;
@@ -35,25 +35,34 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
         foreach (var profession in ((ISkill)Skill.Combat).TierTwoProfessions.Cast<Profession>())
         {
             var limit = LimitBreak.FromId(profession.Id);
-            this._textureComponents.Add(new ClickableTextureComponent(Rectangle.Empty, Game1.mouseCursors, profession.TargetSheetRect, 4f, drawShadow: true)
+            var component = new ClickableTextureComponent(Rectangle.Empty, Game1.mouseCursors, profession.TargetSheetRect, 4f, drawShadow: true)
             {
                 name = limit.DisplayName,
                 hoverText = limit.Description,
                 myID = limit.Id,
                 region = 0,
                 myAlternateID = Game1.player.HasProfession(limit.ParentProfession) ? 1 : 0,
-            });
+            };
+
+            this._components.Add(component);
         }
 
         var yHeight = 80;
-        for (var i = 0; i < this._textureComponents.Count; i++)
+        var defaultComponentId = 0;
+        for (var i = 0; i < this._components.Count; i++)
         {
-            this._textureComponents[i].bounds = new Rectangle(this.xPositionOnScreen + 64, this.yPositionOnScreen + 64 + (int)yHeight, this.width - 128, 64);
-            this._textureComponents[i].label = Game1.parseText(this._textureComponents[i].label, Game1.smallFont, this.width - 200);
-            yHeight += (int)Game1.smallFont.MeasureString(this._textureComponents[i].label).Y;
-            if (i < this._textureComponents.Count - 1)
+            this._components[i].bounds = new Rectangle(this.xPositionOnScreen + 64, this.yPositionOnScreen + 64 + (int)yHeight, this.width - 128, 64);
+            this._components[i].label = Game1.parseText(this._components[i].label, Game1.smallFont, this.width - 200);
+            yHeight += (int)Game1.smallFont.MeasureString(this._components[i].label).Y;
+
+            if (i == 0)
             {
-                yHeight += this._textureComponents[i].sourceRect.Height > 16 ? 132 : 80;
+                defaultComponentId = this._components[i].myID;
+            }
+
+            if (i < this._components.Count - 1)
+            {
+                yHeight += this._components[i].sourceRect.Height > 16 ? 132 : 80;
             }
         }
 
@@ -63,21 +72,15 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
         var num = this.yPositionOnScreen;
         this.yPositionOnScreen = (int)Utility.getTopLeftPositionForCenteringOnScreen(800, this.height).Y;
         var offset = num - this.yPositionOnScreen;
-        foreach (var c in this._textureComponents)
+        foreach (var c in this._components)
         {
             c.bounds.Y -= offset;
         }
 
         this.upperRightCloseButton.bounds.Y -= offset;
-        if (!Game1.options.SnappyMenus)
-        {
-            return;
-        }
-
         this.populateClickableComponentList();
-        this.allClickableComponents.Reverse();
         ClickableComponent.ChainNeighborsUpDown(this.allClickableComponents);
-        this.currentlySnappedComponent = this.getComponentWithID(0);
+        this.currentlySnappedComponent = this.getComponentWithID(defaultComponentId);
         this.snapCursorToCurrentSnappedComponent();
     }
 
@@ -97,7 +100,7 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
             0.88f,
             junimoText: false,
             Color.Black);
-        foreach (var c in this._textureComponents)
+        foreach (var c in this._components)
         {
             drawTextureBox(
                 b,
@@ -176,7 +179,7 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
         }
 
         this._hoverText = string.Empty;
-        foreach (var c in this._textureComponents)
+        foreach (var c in this._components)
         {
             c.region = 0;
             if (!c.bounds.Contains(x, y))
@@ -200,6 +203,16 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
     }
 
     /// <inheritdoc />
+    public override void populateClickableComponentList()
+    {
+        base.populateClickableComponentList();
+        foreach (var component in this._components)
+        {
+            this.allClickableComponents.Add(component);
+        }
+    }
+
+    /// <inheritdoc />
     public override void receiveLeftClick(int x, int y, bool playSound = true)
     {
         if (this._destroyTimer > 0f)
@@ -207,7 +220,7 @@ internal sealed class MasteryLimitSelectionPage : IClickableMenu
             return;
         }
 
-        foreach (var c in this._textureComponents)
+        foreach (var c in this._components)
         {
             if (c.myID == -1 || c.myAlternateID != 1 || !c.bounds.Contains(x, y))
             {

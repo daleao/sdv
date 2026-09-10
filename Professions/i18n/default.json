@@ -79,7 +79,7 @@
     "tapper.title.prestiged.male": "Syrupwright",
     "tapper.title.prestiged.female": "Syrupwright",
     "tapper.desc": "Tappers are cheaper to craft. Tapped trees produce syrup 25% faster.",
-    "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster. Can replace any one crafting ingredient with an equal-Dvalue amount of sap.",
+    "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster. Can replace crafting ingredients with sap and double the yield of recipes with syrup.",
 
     // mining
     "miner.title.male": "Miner",
@@ -151,8 +151,8 @@
     "luremaster.title.female": "Luremaster",
     "luremaster.title.prestiged.male": "Baitweaver",
     "luremaster.title.prestiged.female": "Baitweaver",
-    "luremaster.desc": "Baited crab pots can trap twice per day. Unlock new bait effects.",
-    "luremaster.desc.prestiged": "Baited crab pots can trap twice >> thrice per day. Double yield from machines which produce bait.",
+    "luremaster.desc": "Baited crab pots can trap up to twice per day. Unlock new bait effects.",
+    "luremaster.desc.prestiged": "Baited crab pots can trap up to thrice per day. Can make bait from any ingredient and double the yield of machines which produce bait.",
     "conservationist.title.male": "Conservationist",
     "conservationist.title.female": "Conservationist",
     "conservationist.title.prestiged.male": "Oceanographer",

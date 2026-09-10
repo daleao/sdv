@@ -3,8 +3,10 @@
 #region using directives
 
 using DaLion.Professions.Framework.Integrations;
+using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley.Extensions;
 
 #endregion using directives
 
@@ -58,6 +60,17 @@ internal static class SObjectExtensions
     internal static bool IsPossibleMachineTreatment(this SObject @object)
     {
         return @object.QualifiedItemId == QIDs.BatteryPack || @object.IsSyrup();
+    }
+
+    /// <summary>Determines whether <paramref name="object"/> can be used as a replacement ingredient to make bait a prestiged Luremaster.</summary>
+    /// <param name="object">The <see cref="SObject"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="object"/> is can be used as bait ingredient, otherwise <see langword="false"/>.</returns>
+    internal static bool IsValidBaitIngredientForLuremaster(this SObject @object)
+    {
+        return !@object.HasTypeBigCraftable() && !@object.IsBait() && @object.canBeTrashed() &&
+            ((ObjectCategory)@object.Category) is not (ObjectCategory.None or ObjectCategory.Eggs or
+            ObjectCategory.Milk or ObjectCategory.Syrups or ObjectCategory.Cooking or ObjectCategory.Crafting or
+            ObjectCategory.Fish);
     }
 
     /// <summary>Determines whether the <paramref name="profession"/> should track <paramref name="object"/>.</summary>

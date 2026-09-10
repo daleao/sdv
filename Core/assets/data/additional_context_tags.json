@@ -1,13 +1,31 @@
 {
     "cheese_item": [
-        "(O)424",
-        "(O)426"
+        "(O)424", // cheese
+        "(O)426" // goat cheese
+    ],
+    "mushroom_item": [
+        "(O)257", // morel
+        "(O)281", // chanterelle
+        "(O)404", // common mushroom
+        "(O)420", // red mushroom
+        "(O)422", // purple mushroom
+        "(O)430", // truffle
+        "(O)851" // magma cap
     ],
     "oil_item": [
-        "(O)247",
-        "(O)432"
+        "(O)247", // oil
+        "(O)432" // truffle oil
     ],
     "syrup_item": [
         "(O)MysticSyrup"
+    ],
+    "bait_item": [
+        "(O)685", // bait
+        "(O)703", // magnet
+        "(O)774", // wild bait
+        "(O)908", // magic bait
+        "(O)DeluxeBait",
+        "(O)SpecificBait",
+        "(O)ChallengeBait"
     ]
 }

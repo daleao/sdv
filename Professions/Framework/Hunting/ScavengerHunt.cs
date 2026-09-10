@@ -30,7 +30,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     private const int MIN_DISTANCE_TO_TREASURE = 12;
     private const int POINTS_PER_STEP = 1;
     private const int POINTS_PER_ITEM_FORAGED = 50;
-    private const int POINTS_PER_TREES_CHOPPED = 100;
+    private const int POINTS_PER_TREE_CHOPPED = 100;
 
     private readonly ConcurrentDictionary<string, List<(Vector2 Tile, bool Diggable)>> _eligibleTreasureHuntTilesByMap = [];
     private readonly ConcurrentDictionary<string, Task> _treasureTileCacheTaskByMap = [];
@@ -129,7 +129,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         var itemsForaged = criteria[1];
         var treesChopped = criteria[2];
         this.TriggerPool += (stepsTaken * POINTS_PER_STEP) + (itemsForaged * POINTS_PER_ITEM_FORAGED) +
-                            (treesChopped * POINTS_PER_TREES_CHOPPED);
+                            (treesChopped * POINTS_PER_TREE_CHOPPED);
         Log.D($"[Scavenger Hunt]: Hunt trigger pool increased to {this.TriggerPool}/{this.TriggerThreshold}.");
         if (this.TriggerPool >= this.TriggerThreshold)
         {

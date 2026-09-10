@@ -36,7 +36,7 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
     {
         Game1.game1.EnumerateAllCrabPots().ForEach(crabPot =>
         {
-            if (crabPot.bait.Value is null)
+            if (crabPot.bait.Value is null || crabPot.heldObject.Value is not null)
             {
                 return;
             }

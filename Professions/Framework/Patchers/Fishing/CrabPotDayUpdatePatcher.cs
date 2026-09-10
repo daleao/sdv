@@ -77,19 +77,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             {
                 if (owner.HasProfession(Profession.Conservationist, true))
                 {
-                    var isSpecialOceanographerCondition =
-                        Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
-                        Game1.dayOfMonth == 15;
-                    if (isSpecialOceanographerCondition || r.NextBool(0.1))
-                    {
-                        caught = __instance.ChooseTrapFish(false, owner, r);
-                    }
-
-                    if (!string.IsNullOrEmpty(caught) && isSpecialOceanographerCondition)
-                    {
-                        quantity = __instance.GetTrapQuantity(caught, isLuremaster, isSpecialOceanographerCondition, owner, r);
-                        quality = (int)__instance.GetTrapQuality(caught, isLuremaster, owner, r).Increment();
-                    }
+                    caught = __instance.TryFromPondData(owner, r);
                 }
 
                 if (string.IsNullOrEmpty(caught))
@@ -109,19 +97,8 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             }
             else if (caught[1] == 'O') // not ring or weapon
             {
-                var isSpecialOceanographerCondition = owner.HasProfession(Profession.Conservationist, true) &&
-                    (Game1.IsRainingHere(location) || Game1.IsLightningHere(location) ||
-                    Game1.dayOfMonth == 15);
-                quantity = __instance.GetTrapQuantity(caught, isLuremaster, isSpecialOceanographerCondition, owner, r);
+                quantity = __instance.GetTrapQuantity(caught, isLuremaster, owner, r);
                 quality = (int)__instance.GetTrapQuality(caught, isLuremaster, owner, r);
-                if (isSpecialOceanographerCondition)
-                {
-                    quality += 1;
-                    if (quality is 3 or > 4)
-                    {
-                        quality = 4;
-                    }
-                }
             }
             else if (caught[1] == 'R')
             {

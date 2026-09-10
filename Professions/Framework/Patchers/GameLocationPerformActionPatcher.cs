@@ -273,7 +273,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             ];
         }
 
-        if (options.Length <= 0)
+        if (options.Length == 0)
         {
             return false;
         }

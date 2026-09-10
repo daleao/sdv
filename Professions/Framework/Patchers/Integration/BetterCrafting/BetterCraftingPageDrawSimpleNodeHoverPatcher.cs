@@ -1,12 +1,18 @@
 ﻿namespace DaLion.Professions.Framework.Patchers.Integration.BetterCrafting;
 
+using DaLion.Professions.Framework.Integrations;
+
 #region using directives
 
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using StardewValley;
+using StardewValley.Menus;
 
 #endregion using directives
 
@@ -29,13 +35,24 @@ internal sealed class BetterCraftingPageDrawSimpleNodeHoverPatcher : HarmonyPatc
 
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static void DrawSimpleNodeHoverPrefix(ref int offsetX, ref int offsetY)
+    private static void DrawSimpleNodeHoverPrefix(SpriteBatch b, ref int offsetX, ref int offsetY)
     {
-        if (State.TapperCraftingRecipeBeingHovered is not null)
+        if (State.TapperCraftingRecipeBeingHovered is null && State.LuremasterCraftingRecipeBeingHovered is null)
         {
-            offsetX = State.TapperCraftingMenuCursorLockPosition.X - Game1.getOldMouseX();
-            offsetY = State.TapperCraftingMenuCursorLockPosition.Y - Game1.getOldMouseY();
+            return;
         }
+
+        offsetX = State.CraftingMenuCursorLockPosition.X - Game1.getOldMouseX();
+        offsetY = State.CraftingMenuCursorLockPosition.Y - Game1.getOldMouseY();
+        if (State.LuremasterCraftingRecipeBeingHovered is null)
+        {
+            return;
+        }
+
+        var inventory = BetterCraftingIntegration.Instance!
+                .GetInventoryMenu()
+                .inventory;
+        inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.Pink, b);
     }
 
     #endregion harmony patches

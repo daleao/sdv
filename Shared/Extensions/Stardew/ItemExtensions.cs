@@ -28,7 +28,7 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is created by an artisan machine, otherwise <see langword="false"/>.</returns>
     public static bool IsArtisanGood(this Item item)
     {
-        return item.Category is (int)ObjectCategory.ArtisanGoods or (int)ObjectCategory.Syrups ||
+        return item.Category is (int)ObjectCategory.ArtisanGoods ||
                item.QualifiedItemId == QIDs.Coffee;
     }
 
@@ -45,7 +45,8 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is a mushroom, otherwise <see langword="false"/>.</returns>
     public static bool IsMushroom(this Item item)
     {
-        return item.QualifiedItemId.IsMushroomId();
+        return item.HasContextTag("mushroom_item") || item.HasContextTag("edible_mushroom") ||
+            item.QualifiedItemId is QIDs.RedMushroom or QIDs.Truffle;
     }
 
     /// <summary>Determines whether the <paramref name="item"/> is a syrup.</summary>
@@ -53,7 +54,18 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is a syrup, otherwise <see langword="false"/>.</returns>
     public static bool IsSyrup(this Item item)
     {
-        return item.Category == SObject.syrupCategory;
+        return item.Category == SObject.syrupCategory || item.HasContextTag("syrup_item") ||
+            item.QualifiedItemId == QIDs.MysticSyrup;
+    }
+
+    /// <summary>Determines whether the <paramref name="item"/> is a bait.</summary>
+    /// <param name="item">The <see cref="Item"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="item"/> is a bait, otherwise <see langword="false"/>.</returns>
+    public static bool IsBait(this Item item)
+    {
+        return item.HasContextTag("bait_item") || item.QualifiedItemId is
+            QIDs.Bait or QIDs.WildBait or QIDs.MagicBait or QIDs.DeluxeBait or
+            QIDs.ChallengeBait or QIDs.SpecificBait or QIDs.MagnetBait;
     }
 
     /// <summary>
@@ -64,7 +76,7 @@ public static class ItemExtensions
     /// <returns><see langword="true"/> if the <paramref name="item"/> is any fish, otherwise <see langword="false"/>.</returns>
     public static bool IsFish(this Item item)
     {
-        return item.Category == SObject.FishCategory;
+        return item.Category == SObject.FishCategory || item.HasContextTag("fish_item");
     }
 
     /// <summary>

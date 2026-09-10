@@ -4,9 +4,14 @@
 
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Attributes;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Microsoft.Xna.Framework.Input;
+using StardewValley.Menus;
 
 #endregion using directives
 
@@ -29,52 +34,169 @@ internal sealed class BetterCraftingPagePerformHoverActionPatcher : HarmonyPatch
 
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool CraftingPagePerformHoverActionPrefix()
+    private static bool BetterCraftingPagePerformHoverActionPrefix()
     {
-        return State.TapperCraftingRecipeBeingHovered is null;
+        return State.TapperCraftingRecipeBeingHovered is null && State.LuremasterCraftingRecipeBeingHovered is null;
     }
 
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void CraftingPagePerformHoverActionPostfix(object __instance, int x, int y)
+    private static void BetterCraftingPagePerformHoverActionPostfix(IClickableMenu __instance, int x, int y)
     {
-        if (!Game1.player.HasProfession(Profession.Tapper, true))
+        if (Config.ModKey.HasKeybind(new(SButton.LeftShift)))
         {
-            return; // run original logic
+            var ctrling = Game1.oldKBState.IsKeyDown(Keys.LeftControl) && __instance.GetChildMenu() is null;
+            if (ctrling)
+            {
+                return;
+            }
+        }
+        else if (Config.ModKey.HasKeybind(new(SButton.LeftControl)))
+        {
+            var shifting = Game1.oldKBState.IsKeyDown(Keys.LeftShift) && __instance.GetChildMenu() is null;
+            if (shifting)
+            {
+                return;
+            }
         }
 
-        var betterCraftingIntegration = BetterCraftingIntegration.Instance!;
-        var recipe = betterCraftingIntegration.GetRecipeBeingHovered(__instance);
+        var bcIntegration = BetterCraftingIntegration.Instance!;
+        bcIntegration.AssertLoaded();
+
+        var recipe = bcIntegration.Menu!.ActiveRecipe;
         if (recipe is null)
         {
             return;
         }
 
-        var vanillaRecipe = betterCraftingIntegration.GetVanillaCraftingRecipe(recipe);
-        var ingredients = betterCraftingIntegration.GetIngredientsFromRecipe(recipe);
-        if (vanillaRecipe is null || ingredients is null || ingredients.Length == 0)
+        var vanillaRecipe = recipe.CraftingRecipe;
+        var ingredients = recipe.Ingredients;
+        if (vanillaRecipe is null || ingredients is null)
         {
-            //ThrowHelper.ThrowInvalidOperationException("Better Crafting recipe data is invalid."); // apparently BCBuildings violates this without being invalid
             return;
         }
 
-        if (Config.ModKey.IsDown() && State.TapperCraftingRecipeBeingHovered is null)
+        var reflectedIngredients = bcIntegration.GetIngredientsFromHoveredRecipe();
+        if (reflectedIngredients is null || ingredients.Length != reflectedIngredients.Length)
         {
-            State.TapperCraftingRecipeBeingHovered = vanillaRecipe;
-            betterCraftingIntegration.BetterCraftingPage = __instance;
-            betterCraftingIntegration.HoveredIngredientsCopy = (Array)ingredients.Clone();
-            State.TapperCraftingMenuCursorLockPosition = new(x, y);
-            vanillaRecipe.AlterCraftingRecipeForTapper();
+            ThrowHelper.ThrowInvalidDataException("Mismatch between API-provided and reflected ingredients.");
             return;
         }
 
-        if (!Config.ModKey.IsDown() && State.TapperCraftingRecipeBeingHovered == vanillaRecipe)
+        if (Game1.player.HasProfession(Profession.Luremaster, true) && recipe.Name == "Bait" && ingredients.Length == 1)
         {
-            State.TapperCraftingIngredientSelected = 0;
-            State.TapperCraftingRecipeBeingHovered = null;
-            vanillaRecipe.ResetCraftingRecipe();
-            betterCraftingIntegration.BetterCraftingPage = null;
-            betterCraftingIntegration.HoveredIngredientsCopy = null;
+            var inventoryMenu = bcIntegration.GetInventory(__instance);
+            if (Config.ModKey.IsDown() && State.LuremasterCraftingRecipeBeingHovered is null)
+            {
+                State.LuremasterValidIngredientsForSubstitution.Clear();
+                var inventory = inventoryMenu.actualInventory;
+                for (var i = 0; i < inventory.Count; i++)
+                {
+                    if (inventory[i] is SObject @object && @object.IsValidBaitIngredientForLuremaster())
+                    {
+                        State.LuremasterValidIngredientsForSubstitution.Add(i);
+                    }
+                }
+
+                if (State.LuremasterValidIngredientsForSubstitution.Count < 1)
+                {
+                    return;
+                }
+
+                inventoryMenu.highlightMethod = item => item is SObject @object && @object.IsValidBaitIngredientForLuremaster();
+                __instance.exitFunction = () =>
+                {
+                    State.LuremasterCraftingRecipeBeingHovered = null;
+                    State.LuremasterCraftingIngredientSelected = 0;
+                    inventoryMenu.highlightMethod = InventoryMenu.highlightAllItems;
+                };
+
+                State.LuremasterCraftingRecipeBeingHovered = vanillaRecipe;
+                State.OriginalRecipeList = [.. vanillaRecipe.recipeList];
+                State.LuremasterCraftingIngredientSelected = 0;
+                bcIntegration.HoveredIngredientsCopy = [.. ingredients];
+                State.CraftingMenuCursorLockPosition = new(x, y);
+                var substituteIngredient = (SObject)bcIntegration.GetInventoryMenu().actualInventory[State.LuremasterCraftingIngredientSelected];
+                vanillaRecipe.AlterCraftingRecipeForLuremaster(substituteIngredient);
+                return;
+            }
+
+            if (Config.ModKey.IsDown() && State.LuremasterCraftingRecipeBeingHovered is not null &&
+                bcIntegration.GetItemBeingHovered(__instance) is SObject hoverObject &&
+                !hoverObject.IsBait())
+            {
+                vanillaRecipe.AlterCraftingRecipeForLuremaster(hoverObject);
+                return;
+            }
+
+            if (!Config.ModKey.IsDown() && State.LuremasterCraftingRecipeBeingHovered == vanillaRecipe)
+            {
+                inventoryMenu.highlightMethod = InventoryMenu.highlightAllItems;
+                State.LuremasterCraftingRecipeBeingHovered = null;
+                State.LuremasterCraftingIngredientSelected = 0;
+                vanillaRecipe.ResetLuremasterCraftingRecipe();
+                bcIntegration.HoveredIngredientsCopy = null;
+                return;
+            }
+        }
+
+        var recipeList = vanillaRecipe.recipeList;
+        if (Game1.player.HasProfession(Profession.Tapper, true) && ingredients.Length > 1)
+        {
+            if (Config.ModKey.IsDown() && State.TapperCraftingRecipeBeingHovered is null &&
+                reflectedIngredients.Cast<object>().None(i => bcIntegration.GetIngredientId(i) == "92"))
+            {
+                State.TapperValidIngredientsForSubstitution.Clear();
+                var doesRecipeUseSyrup = reflectedIngredients
+                    .Cast<object>()
+                    .Any(i => bcIntegration.GetIngredientId(i).IsSyrupId());
+                for (var i = 0; i < ingredients.Length; i++)
+                {
+                    var ingredient = ingredients[i];
+                    var reflectedIngredient = reflectedIngredients.GetValue(i);
+                    if (reflectedIngredient is null)
+                    {
+                        ThrowHelper.ThrowInvalidDataException($"Reflected ingredient at index {i} was null!");
+                        return;
+                    }
+
+                    if (!doesRecipeUseSyrup || bcIntegration.GetIngredientId(reflectedIngredient).IsSyrupId())
+                    {
+                        State.TapperValidIngredientsForSubstitution.Add(i);
+                    }
+                }
+
+                if (State.TapperValidIngredientsForSubstitution.Count < 1)
+                {
+                    return;
+                }
+
+                State.TapperCraftingRecipeBeingHovered = vanillaRecipe;
+                __instance.exitFunction = () =>
+                {
+                    State.TapperCraftingRecipeBeingHovered = null;
+                    State.TapperCraftingIngredientSelected = 0;
+                };
+
+                State.OriginalQuantityPerCraft = vanillaRecipe.numberProducedPerCraft;
+                if (doesRecipeUseSyrup)
+                {
+                    vanillaRecipe.numberProducedPerCraft /= 2;
+                }
+
+                bcIntegration.HoveredIngredientsCopy = [.. ingredients];
+                State.CraftingMenuCursorLockPosition = new(x, y);
+                vanillaRecipe.AlterCraftingRecipeForTapper();
+                return;
+            }
+
+            if (!Config.ModKey.IsDown() && State.TapperCraftingRecipeBeingHovered == vanillaRecipe)
+            {
+                State.TapperCraftingRecipeBeingHovered = null;
+                State.TapperCraftingIngredientSelected = 0;
+                vanillaRecipe.ResetTapperCraftingRecipe();
+                bcIntegration.HoveredIngredientsCopy = null;
+            }
         }
     }
 

@@ -6,7 +6,9 @@ using System.Globalization;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Shared.Extensions.Reflection;
+using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
@@ -61,15 +63,22 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
     [HarmonyPrefix]
     [UsedImplicitly]
     private static void IClickableMenuDrawHoverTextPrefix(
+        SpriteBatch b,
         ref int xOffset,
         ref int yOffset,
         ref string[]? buffIconsToDisplay,
         Item? hoveredItem)
     {
-        if (State.TapperCraftingRecipeBeingHovered is not null)
+        if (State.TapperCraftingRecipeBeingHovered is not null || State.LuremasterCraftingRecipeBeingHovered is not null)
         {
-            xOffset = State.TapperCraftingMenuCursorLockPosition.X - Game1.getOldMouseX();
-            yOffset = State.TapperCraftingMenuCursorLockPosition.Y - Game1.getOldMouseY();
+            xOffset = State.CraftingMenuCursorLockPosition.X - Game1.getOldMouseX();
+            yOffset = State.CraftingMenuCursorLockPosition.Y - Game1.getOldMouseY();
+            if (State.LuremasterCraftingRecipeBeingHovered is not null &&
+                Game1.activeClickableMenu is GameMenu menu && menu.GetCurrentPage() is CraftingPage page)
+            {
+                var inventory = page.inventory.inventory;
+                inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.Pink, b);
+            }
         }
 
         if (hoveredItem is not SObject @object || !@object.isForage() ||

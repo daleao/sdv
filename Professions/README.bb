@@ -228,7 +228,7 @@ If prestiged, a "perfect replica" refers to preserving the quality of the input 
 Doubles the chance to attract fish normally associated with every bait, as well as the double catch chance of Wild Bait and the bonus treasure chance of Magnet. Triple when prestiged.[/size][/spoiler]
 [/spoiler]
 [/*]
-[*][img]https://i.imgur.com/3X5VNms.png[/img] [b]Angler (Lv10)[/b] - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes it's effects to linger on the fishing rod.
+[*][img]https://i.imgur.com/3X5VNms.png[/img] [b]Angler (Lv10)[/b] - Fish are 1% more valuable for every unique max-sized species caught. Fully-expending a tackle causes its effects to linger on the fishing rod.
 [spoiler][color=gold][img]https://i.imgur.com/9DPJjPB.png[/img] [b]Rodmancer (Lv20)[/b] - Up to two tackle effects can linger on the fishing rod. Re-encounter legendary fish on a successful fishing streak.[/color]
 [spoiler][size=2]
 Legendary fish are worth 5 regular fish (irrespective of size). Applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with any properly made mod. Unless disabled in the mod settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size; blue for regular fish, red for crab pot fish. Only blue-icon fish are counted for the perk.

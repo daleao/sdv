@@ -958,7 +958,7 @@ All custom mod skills based on SpaceCore are compatible with Skill Reset by defa
 
 ### Prestige Professions
 
-If enabled, Mastering a skill will also unlock it's progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). More importantly, at levels 15 and 20 you will be offered the choice of a [Prestige Profession](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass).
+If enabled, Mastering a skill will also unlock its progression up to level 20, allowing you to continue to develop your tool proficiency, max health and other stats. Some more perks of gaining additional levels include better odds of higher-quality crops, fishes and forage, a larger fishing bar, more berries foraged per bush, and longer-lasting [Limit Breaks](#limit-breaks). More importantly, at levels 15 and 20 you will be offered the choice of a [Prestige Profession](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass).
 
 <div align="center">
 

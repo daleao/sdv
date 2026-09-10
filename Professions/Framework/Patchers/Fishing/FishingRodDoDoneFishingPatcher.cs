@@ -130,7 +130,7 @@ internal sealed class FishingRodDoDoneFishingPatcher : HarmonyPatcher
             return;
         }
 
-        if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2]?.QualifiedItemId)
+        if (rod.AttachmentSlotsCount >= 3 && tackle.QualifiedItemId == rod.attachments[2]?.QualifiedItemId && rod.lastUser.HasProfession(Profession.Angler, true))
         {
             Data.Write(rod, DataKeys.SecondMemorizedTackle, tackle.QualifiedItemId);
             Data.Write(rod, DataKeys.SecondMemorizedTackleUses, ((FishingRod.maxTackleUses / 2) + 1).ToString());

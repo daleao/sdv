@@ -27,5 +27,10 @@ internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = nu
         {
             ProfessionsConfigMenu.Instance.Register();
         }
+
+        if (BetterCraftingIntegration.Instance?.IsLoaded ?? false)
+        {
+            BetterCraftingIntegration.Instance.Register();
+        }
     }
 }

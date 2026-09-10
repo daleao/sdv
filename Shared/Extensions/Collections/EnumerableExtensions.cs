@@ -10,6 +10,16 @@ using System.Linq;
 /// <summary>Extensions for generic enumerations of objects.</summary>
 public static class EnumerableExtensions
 {
+    /// <summary>Determines whether no element in a sequence satifies the specified <paramref name="condition"/>.</summary>
+    /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
+    /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
+    /// <param name="condition">A acondition to check.</param>
+    /// <returns><see langword="false"/> if at least one element in the <paramref name="enumerable"/> satisfies the <paramref name="condition"/>, otherwise <see langword="true"/>.</see></returns>
+    public static bool None<T>(this IEnumerable<T> enumerable, Func<T, bool> condition)
+    {
+        return !enumerable.Any(condition);
+    }
+
     /// <summary>Applies an <paramref name="action"/> to each item in the <paramref name="enumerable"/>.</summary>
     /// <typeparam name="T">The type of elements in the <paramref name="enumerable"/>.</typeparam>
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>

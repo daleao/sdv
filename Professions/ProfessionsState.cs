@@ -7,11 +7,13 @@ using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
 using DaLion.Professions.Framework.Events.GameLoop.UpdateTicked;
 using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Hunting;
+using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using StardewValley;
+using StardewValley.Menus;
 using StardewValley.Monsters;
 
 #endregion using directives
@@ -115,6 +117,14 @@ internal sealed class ProfessionsState
         }
     }
 
+    internal uint StepsTakenUntilPreviousTimeChange { get; set; }
+
+    internal uint ItemsForagedUntilPreviousTimeChange { get; set; }
+
+    internal uint TreesChoppedUntilPreviousTimeChange { get; set; }
+
+    internal uint RocksCrushedUntilPreviousTimeChange { get; set; }
+
     internal Dictionary<string, int> EcologistBuffsLookup
     {
         get
@@ -198,9 +208,7 @@ internal sealed class ProfessionsState
 
     internal CraftingRecipe? TapperCraftingRecipeBeingHovered { get; set; }
 
-    internal List<KeyValuePair<string, int>> OriginalRecipeList { get; set; } = [];
-
-    internal Point TapperCraftingMenuCursorLockPosition { get; set; }
+    internal List<int> TapperValidIngredientsForSubstitution { get; } = [];
 
     internal int TapperCraftingIngredientSelected
     {
@@ -213,16 +221,119 @@ internal sealed class ProfessionsState
                 return;
             }
 
-            var newValue = Math.Clamp(value, 0, this.TapperCraftingRecipeBeingHovered.recipeList.Count - 1);
-            if (field != newValue)
+            var valid = this.TapperValidIngredientsForSubstitution;
+            if (valid.Count == 0)
             {
-                this.TapperCraftingRecipeBeingHovered.ResetCraftingRecipe();
-                field = newValue;
-                Game1.playSound("smallSelect");
-                this.TapperCraftingRecipeBeingHovered.AlterCraftingRecipeForTapper();
+                field = 0;
+                return;
             }
+            else if (valid.Count == 1)
+            {
+                field = valid[0];
+                return;
+            }
+
+            var currentIndex = valid.IndexOf(field);
+            if (currentIndex < 0)
+            {
+                field = valid[0];
+                return;
+            }
+
+            if (value > field)
+            {
+                currentIndex = Math.Min(currentIndex + 1, valid.Count - 1);
+            }
+            else if (value < field)
+            {
+                currentIndex = Math.Max(currentIndex - 1, 0);
+            }
+
+            var newValue = valid[currentIndex];
+            if (field == newValue)
+            {
+                return;
+            }
+
+            this.TapperCraftingRecipeBeingHovered.ResetTapperCraftingRecipe();
+            field = newValue;
+            Log.D($"Trapper selected ingredient {field}.");
+            Game1.playSound("smallSelect");
+            this.TapperCraftingRecipeBeingHovered.AlterCraftingRecipeForTapper();
         }
     }
+
+    internal CraftingRecipe? LuremasterCraftingRecipeBeingHovered { get; set; }
+
+    internal List<int> LuremasterValidIngredientsForSubstitution { get; } = [];
+
+    internal int LuremasterCraftingIngredientSelected
+    {
+        get;
+        set
+        {
+            if (this.LuremasterCraftingRecipeBeingHovered is null)
+            {
+                field = 0;
+                return;
+            }
+
+            var valid = this.LuremasterValidIngredientsForSubstitution;
+            if (valid.Count == 0)
+            {
+                field = 0;
+                return;
+            }
+            else if (valid.Count == 1)
+            {
+                field = valid[0];
+                return;
+            }
+
+            var currentIndex = valid.IndexOf(field);
+            if (currentIndex < 0)
+            {
+                field = valid[0];
+                return;
+            }
+
+            if (value > field)
+            {
+                if (value - field >= 10)
+                {
+                    currentIndex = Math.Min(currentIndex + 10, valid.Count - 1);
+                }
+
+                currentIndex = Math.Min(currentIndex + 1, valid.Count - 1);
+            }
+            else if (value < field)
+            {
+                currentIndex = Math.Max(currentIndex - 1, 0);
+            }
+
+            var newValue = valid[currentIndex];
+            if (field == newValue)
+            {
+                return;
+            }
+
+            field = newValue;
+            Log.D($"Luremaster selected ingredient {field}.");
+            Game1.playSound("smallSelect");
+            var inventoryMenu = BetterCraftingIntegration.Instance?.Menu is not null
+                ? BetterCraftingIntegration.Instance.GetInventoryMenu()
+                : ((CraftingPage)((GameMenu)Game1.activeClickableMenu).GetCurrentPage()).inventory;
+            this.LuremasterCraftingRecipeBeingHovered.AlterCraftingRecipeForLuremaster((SObject)inventoryMenu.actualInventory[newValue]);
+        }
+    }
+
+    internal bool IsLuremasterUsingCursorInput { get; set; }
+
+    internal List<KeyValuePair<string, int>> OriginalRecipeList { get; set; } = [];
+
+    internal int OriginalQuantityPerCraft { get; set; }
+
+    internal Point CraftingMenuCursorLockPosition { get; set; }
 
     internal Queue<ISkill> SkillsToReset { get; } = [];
 

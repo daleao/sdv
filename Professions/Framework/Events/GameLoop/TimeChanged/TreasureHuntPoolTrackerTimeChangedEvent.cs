@@ -14,28 +14,23 @@ using StardewValley.Locations;
 internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? manager = null)
     : TimeChangedEvent(manager ?? ProfessionsMod.EventManager)
 {
-    private static uint _stepsTakenUntilPreviousTimeChange;
-    private static uint _itemsForagedUntilPreviousTimeChange;
-    private static uint _treesChoppedUntilPreviousTimeChange;
-    private static uint _rocksCrushedUntilPreviousTimeChange;
-
     /// <inheritdoc />
     protected override void OnEnabled()
     {
-        _stepsTakenUntilPreviousTimeChange = Game1.player.stats.StepsTaken;
-        _itemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
-        _treesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
-        _rocksCrushedUntilPreviousTimeChange = Game1.player.stats.RocksCrushed;
+        State.StepsTakenUntilPreviousTimeChange = Game1.player.stats.StepsTaken;
+        State.ItemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
+        State.TreesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
+        State.RocksCrushedUntilPreviousTimeChange = Game1.player.stats.RocksCrushed;
     }
 
     /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
-        var stepsTakenSincePreviousTimeChange = (int)(Game1.player.stats.StepsTaken - _stepsTakenUntilPreviousTimeChange);
+        var stepsTakenSincePreviousTimeChange = (int)(Game1.player.stats.StepsTaken - State.StepsTakenUntilPreviousTimeChange);
         if (State.ScavengerHunt is not null && Game1.currentLocation.IsOutdoors)
         {
-            var itemsForagedSincePreviousTimeChange = (int)(Game1.player.stats.ItemsForaged - _itemsForagedUntilPreviousTimeChange);
-            var treesChoppedSincePreviousTimeChange = (int)(Game1.player.stats.Get("treesChopped") - _treesChoppedUntilPreviousTimeChange);
+            var itemsForagedSincePreviousTimeChange = (int)(Game1.player.stats.ItemsForaged - State.ItemsForagedUntilPreviousTimeChange);
+            var treesChoppedSincePreviousTimeChange = (int)(Game1.player.stats.Get("treesChopped") - State.TreesChoppedUntilPreviousTimeChange);
             if (stepsTakenSincePreviousTimeChange > 0 || itemsForagedSincePreviousTimeChange > 0 || treesChoppedSincePreviousTimeChange > 0)
             {
                 State.ScavengerHunt.UpdateTriggerPool(
@@ -44,12 +39,12 @@ internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? mana
                     treesChoppedSincePreviousTimeChange);
             }
 
-            _itemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
-            _treesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
+            State.ItemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
+            State.TreesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
         }
         else if (State.ProspectorHunt is not null && Game1.currentLocation is MineShaft or VolcanoDungeon)
         {
-            var rocksCrushedSincePreviousTimeChange = (int)(Game1.player.stats.RocksCrushed - _rocksCrushedUntilPreviousTimeChange);
+            var rocksCrushedSincePreviousTimeChange = (int)(Game1.player.stats.RocksCrushed - State.RocksCrushedUntilPreviousTimeChange);
             if (stepsTakenSincePreviousTimeChange > 0 || rocksCrushedSincePreviousTimeChange > 0)
             {
                 State.ProspectorHunt.UpdateTriggerPool(
@@ -58,9 +53,9 @@ internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? mana
                     0);
             }
 
-            _rocksCrushedUntilPreviousTimeChange = Game1.player.stats.RocksCrushed;
+            State.RocksCrushedUntilPreviousTimeChange = Game1.player.stats.RocksCrushed;
         }
 
-        _stepsTakenUntilPreviousTimeChange = Game1.player.stats.StepsTaken;
+        State.StepsTakenUntilPreviousTimeChange = Game1.player.stats.StepsTaken;
     }
 }

@@ -45,7 +45,7 @@ internal sealed class SlimeHutchDayUpdatePatcher : HarmonyPatcher
             }
         }
 
-        if (!owner.HasProfessionOrLax(Profession.Piper, true) || __instance.waterSpots.Length < 6)
+        if (!owner.HasProfessionOrLax(Profession.Piper) || __instance.waterSpots.Length < 6)
         {
             return;
         }

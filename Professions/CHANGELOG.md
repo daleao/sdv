@@ -6,8 +6,30 @@
 
 * Syrupwright rework:
     * Added: "Can replace any one crafting ingredient with an equal-value amount of sap."
-    * The previous "yield double from crafting recipes that use syrup" is not removed. It remains as a "hidden" bonus, for now. Need feedback on whether this is too OP.
-* Valid animal feeds can now also be defined by context tag.
+        * Hold the Mod key while hovering a recipe in the crafting menu to engage "sap mode". ***Note:** Since the game already uses Left Shift to engage bulk crafting mode (x5), this mod changes the bulk crafting key to Left Control if the Mod key is also set to Left Shift. Left Control (which engages x25 mode) then becomes Left Shift (effectively just swaps the two keys).*
+        * Move the cursor up or down to scroll between ingredients to be replaced with sap. Can also use the mouse scroll wheel or directional arrow keys. Gamepads can use the D-pad.
+        * Does not work on single-ingredient recipes, or recipes that already use sap.
+        * When a recipe uses syrups, then only syrups can be replaced.
+        * Supports Better Crafting.
+    * The previous "yield double from crafting recipes that use syrup" remains. This does not apply to sap.
+        * When using "sap mode" to replace a syrup with sap, this bonus does not apply.
+* Baitweaver rework:
+    * Added: "Can use any ingredient to craft an equal-value amount of bait."
+        * Hold the Mod key while hovering the regular bait recipe in the crafting manu to engage "bait mode". ***Note:** Since the game already uses Left Shift to engage bulk crafting mode (x5), this mod changes the bulk crafting key to Left Control if the Mod key is also set to Left Shift. Left Control (which engages x25 mode) then becomes Left Shift (effectively just swaps the two keys).*
+        * The cursor will immediately hover the first valid item in your bag. Move the cursor to the item you wish to consume. Can also use the mouse scroll wheel or directional arrow keys. Gamepads can use the D-pad.
+        * Cannot use bait items, obviously.
+        * You also learn recipes to convert regular bait into specialized baits (Wild Bait, Magic Bait, Deluxe Bait and Challenge Bait).
+    * The previous "yield double from bait from machines that produce it" remains. This is still the only way to acquire targeted bait.
+    * Symmetric with Syrupwright.
+* Oceanographer rework:
+    * Removed: ~~"Can trap fish without bait. Gain more fish on rainy days and full moon."~~
+    * Added: "Using crab pots to collect trash also improves biodiversity, leading to increased chance to encounter rare fish species (via regular fishing). The fish reward you with gifts."
+        * The old version was antithetical to the conservationist theme. The new version instead continues the theme.
+        * No longer catches fish without bait. But allows crab pots to function as "mini fish ponds". The crab pot catch function will read the fishes in the current location and each of their fish pond data. With population gates replaced by trash collection thresholds, the mod will attempt to roll fish pond data prizes on every crab pot at a reduced chance. This clearly does not replace Fish Ponds, as you don't have populations to raise the odds, and you don't have control over the fish species. Still, it fits very well with the theme of conservation; if pond-raised fishes can randomly gift you items, it stands to reason that happy fish in the wild can also reward you.
+        * Also normalizes fish encounter rates, reducing the chance of common fish and distributing those odds to rarer fish.
+* Silviculturist rework:
+    * *Pending.*
+* Valid animal feeds can now also be defined by context tag; e.g., can set `{ "Fish": [ "fish_item" ] }` inside `xyz.FeedsByCategory.json` data file to tag every fish item as a valid feed in the "Fish" category, which you can then assign to animals in `xyz.AnimalFavoredFeeds.json`. The mod will interpret as a context tag any string that does not begin with the object qualifier "(O)".
 
 ### Changed
 
@@ -19,7 +41,13 @@
     \boxed{ T(t)= t\sum_{n=0}^{N-1} \left( 1-\frac{\left\lfloor nx/4\right\rfloor}{100} \right) }
     $$
 
-    where `t` is in day, and `N` is given by:
+    where `t` is in days, `x` is given by:
+
+    $$
+    \boxed{x=4+2\lfloor t\rfloor}
+    $$
+
+    and `N` is given by:
     
     $$
     \boxed{N=\left\lceil\frac{100}{x}\right\rceil}
@@ -34,6 +62,10 @@
     * When expanding Premium buildings (SVE), the Feed Hopper will also be spawned as debris, so the player can relocate it as they wish. Same for the Incubator in the Premium Coop. Deluxe buildings still relocate the Hopper automatically.
     * If an animal building is left overcapacity (from the player losing a profession), the game will now attempt to relocate those animals to different buildings. If it cannot, those animals are moved outside and remain homeless. The player can later relocate them manually after having made enough room.
 * Fixed a window tile in the expanded Premium Barn map.
+* Second tackle memorization now actually checks if the player has the Rodmancer profession.
+* Treasure Hunt trigger pool now uses PerScreen state.
+* Fixed sprinklers in the expanded Slime Hutch not watering the bottom two troughs.
+* The Limit Break selection window now properly handles gamepad input.
 
 ### Removed
 
