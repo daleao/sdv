@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ScavengerHuntRenderedHudEvent(EventManager? manager = null)
-    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager, true)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.ScavengerHunt?.IsActive ?? false;

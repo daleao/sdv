@@ -15,7 +15,7 @@ using StardewValley.Locations;
 
 [UsedImplicitly]
 internal sealed class ProspectorRenderedHudEvent(EventManager? manager = null)
-    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager, true)
 {
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)
