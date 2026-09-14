@@ -31,6 +31,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     private const int POINTS_PER_STEP = 1;
     private const int POINTS_PER_ITEM_FORAGED = 50;
     private const int POINTS_PER_TREE_CHOPPED = 100;
+    private const int POINTS_PER_ARTIFACT_SPOT = 500;
 
     private readonly ConcurrentDictionary<string, List<(Vector2 Tile, bool Diggable)>> _eligibleTreasureHuntTilesByMap = [];
     private readonly ConcurrentDictionary<string, Task> _treasureTileCacheTaskByMap = [];
@@ -115,7 +116,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     /// <inheritdoc />
     public override void UpdateTriggerPool(params int[] criteria)
     {
-        if (criteria.Length != 3)
+        if (criteria.Length != 4)
         {
             ThrowHelper.ThrowInvalidOperationException("Criteria did not match expected size.");
         }
@@ -128,9 +129,10 @@ internal sealed class ScavengerHunt : TreasureHunt
         var stepsTaken = criteria[0];
         var itemsForaged = criteria[1];
         var treesChopped = criteria[2];
+        var artifactSpotsDug = criteria[3];
         this.TriggerPool += (stepsTaken * POINTS_PER_STEP) + (itemsForaged * POINTS_PER_ITEM_FORAGED) +
-                            (treesChopped * POINTS_PER_TREE_CHOPPED);
-        Log.D($"[Scavenger Hunt]: Hunt trigger pool increased to {this.TriggerPool}/{this.TriggerThreshold}.");
+                            (treesChopped * POINTS_PER_TREE_CHOPPED) + (artifactSpotsDug * POINTS_PER_ARTIFACT_SPOT);
+        Log.D($"[Scavenger Hunt]: Hunt trigger pool increased to {this.TriggerPool}/{this.TriggerThreshold}. (StepsTaken: {stepsTaken}, itemsForaged: {itemsForaged}, treesChopped: {treesChopped}, artifactSpotsDug: {artifactSpotsDug})");
         if (this.TriggerPool >= this.TriggerThreshold)
         {
             Log.D("[Scavenger Hunt]: Hunt threshold reached. Begin monitoring for valid hunt location...");
