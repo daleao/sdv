@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Events;
 using StardewModdingAPI.Events;
+using StardewModdingAPI.Utilities;
 
 #endregion using directives
 
@@ -14,15 +15,38 @@ internal sealed class ScavengerHuntUpdateTickedEvent(EventManager? manager = nul
     : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
 {
     /// <inheritdoc />
-    public override bool IsEnabled => State.ScavengerHunt?.IsActive ?? false;
+    public override bool IsEnabled => State.ScavengerHunt != null;
+
+    private static PerScreen<int> MovingFrames = new();
 
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)
     {
-        State.ScavengerHunt!.TimeUpdate(e.Ticks);
-        if (Game1.player.HasProfession(Profession.Scavenger, true))
+        AddPointsForMoving();
+
+        if (State.ScavengerHunt!.IsActive)
         {
-            Game1.gameTimeInterval = 0;
+            State.ScavengerHunt!.TimeUpdate(e.Ticks);
+            if (Game1.player.HasProfession(Profession.Scavenger, true))
+            {
+                Game1.gameTimeInterval = 0;
+            }
+        }
+    }
+
+    /// <summary>Add scavenger hunt points for moving around. Using this method instead of Game1.player.stats.StepsTaken
+    /// allows points to increase while not walking, i.e. being on a horse</summary>
+    private void AddPointsForMoving()
+    {
+        if (Game1.player.isMoving())
+        {
+            MovingFrames.Value++;
+            if (MovingFrames.Value >= 100)
+            {
+                // Character takes one step every 20 frames by default
+                State.ScavengerHunt!.UpdateTriggerPool(MovingFrames.Value / 20, 0, 0, 0);
+                MovingFrames.Value = MovingFrames.Value % 20;
+            }
         }
     }
 }
