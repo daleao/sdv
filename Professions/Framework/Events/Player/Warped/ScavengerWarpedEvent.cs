@@ -27,18 +27,21 @@ internal sealed class ScavengerWarpedEvent(EventManager? manager = null)
         }
 
         State.ScavengerHunt ??= new ScavengerHunt();
-        if (State.ScavengerHunt.IsActive)
-        {
-            State.ScavengerHunt.Fail();
-        }
-
         var newLocation = e.NewLocation;
-        if (newLocation.currentEvent is not null)
-        {
-            return;
-        }
 
         State.ScavengerHunt.TryCacheEligibleTreasureTiles(newLocation);
+
+        if (State.ScavengerHunt.IsActive)
+        {
+            if (State.ScavengerHunt.Elapsed > 3)
+            {
+                State.ScavengerHunt.Fail();
+            }
+            else
+            {
+                State.ScavengerHunt.TryRestartOrCancel(newLocation);
+            }
+        }
 
         if (!e.Player.HasProfession(Profession.Scavenger, true) || newLocation.currentEvent is not null ||
             !newLocation.IsOutdoors || newLocation.IsFarm)

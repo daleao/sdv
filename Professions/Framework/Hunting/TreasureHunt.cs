@@ -73,7 +73,7 @@ internal abstract class TreasureHunt : ITreasureHunt
 
     /// <inheritdoc />
     [MemberNotNullWhen(true, nameof(Location), nameof(TargetTile))]
-    public bool TryStart(GameLocation location)
+    public bool TryStart(GameLocation location, bool withMessage = true)
     {
         if (this.IsActive || ReferenceEquals(this.Location, location) || location.currentEvent is not null ||
             !this.IsLocationSuitable(location) || !this.ChooseTreasureTile(location))
@@ -85,7 +85,7 @@ internal abstract class TreasureHunt : ITreasureHunt
         this.Location = location;
         this.Elapsed = 0;
         HudPointer.Instance.ShouldBob = true;
-        this.StartImpl(this.Location, this.TargetTile.Value);
+        this.StartImpl(this.Location, this.TargetTile.Value, withMessage);
         Log.D($"[Treasure Hunt]: Started hunt at {location}.");
         return true;
     }
@@ -143,7 +143,8 @@ internal abstract class TreasureHunt : ITreasureHunt
     /// <summary>Start-up logic implementation.</summary>
     /// <param name="location">Reference to <see cref="Location"/>.</param>
     /// <param name="treasureTile">Reference to the chosen <see cref="TargetTile"/>.</param>
-    protected virtual void StartImpl(GameLocation location, Vector2 treasureTile)
+    /// <param name="withMessage">If the player should be shown a message for successful start.</param>
+    protected virtual void StartImpl(GameLocation location, Vector2 treasureTile, bool withMessage)
     {
         this.OnStarted(treasureTile, this.TimeLimit);
     }

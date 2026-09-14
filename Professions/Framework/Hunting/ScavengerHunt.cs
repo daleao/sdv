@@ -100,6 +100,7 @@ internal sealed class ScavengerHunt : TreasureHunt
             Data.Write(player, DataKeys.LongestScavengerHuntStreak, currentStreak.ToString());
         }
 
+        Log.D($"[Scavenger Hunt]: Current Streak: {currentStreak}, Previous Longest: {longestStreak}");
         Data.Write(player, DataKeys.CurrentScavengerHuntStreak, currentStreak.ToString());
         this.End(true);
     }
@@ -135,6 +136,32 @@ internal sealed class ScavengerHunt : TreasureHunt
         {
             Log.D("[Scavenger Hunt]: Hunt threshold reached. Begin monitoring for valid hunt location...");
             EventManager.Enable<ScavengerHuntTriggerTimeChangedEvent>();
+        }
+    }
+
+    /// <summary>Tries to restart a current treasure hunt at the given location, and if it doesn't succeed, cancels it without ending the streak.</summary>
+    public void TryRestartOrCancel(GameLocation location)
+    {
+        if (this._treasureTileCacheTaskByMap.TryGetValue(location.NameOrUniqueName, out var cacheTask))
+        {
+            cacheTask.ContinueWith((_) => {
+                this.TryRestartOrCancelImpl(location);
+            });
+        }
+        else
+        {
+            this.TryRestartOrCancelImpl(location);
+        }
+    }
+
+    private void TryRestartOrCancelImpl(GameLocation location)
+    {
+        var savedTriggerPool = this.TriggerPool;
+        this.End(false);
+        this.TriggerPool = savedTriggerPool;
+        if (!this.TryStart(location, false))
+        {
+            Game1.addHUDMessage(new HuntNotification(I18n.Scavenger_HuntCancelled()));
         }
     }
 
@@ -279,7 +306,7 @@ internal sealed class ScavengerHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void StartImpl(GameLocation location, Vector2 treasureTile)
+    protected override void StartImpl(GameLocation location, Vector2 treasureTile, bool withMessage)
     {
         location.EnforceTileDiggable(treasureTile);
         foreach (var (tile, diggable) in this._eligibleTreasureHuntTilesByMap[location.NameOrUniqueName])
@@ -287,7 +314,11 @@ internal sealed class ScavengerHunt : TreasureHunt
             location.EnforceTileDiggable(tile);
         }
 
-        Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
+        if (withMessage)
+        {
+            Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
+        }
+
         if (Game1.player.HasProfession(VanillaProfession.Scavenger, true) &&
             (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
@@ -303,7 +334,7 @@ internal sealed class ScavengerHunt : TreasureHunt
                 "HuntingForTreasure/Scavenger");
         }
 
-        base.StartImpl(location, treasureTile);
+        base.StartImpl(location, treasureTile, withMessage);
         Game1.player.applyBuff(new ScavengerHuntBuff());
     }
 

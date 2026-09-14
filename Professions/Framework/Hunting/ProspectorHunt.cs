@@ -279,10 +279,10 @@ internal sealed class ProspectorHunt : TreasureHunt
     }
 
     /// <inheritdoc />
-    protected override void StartImpl(GameLocation location, Vector2 treasureTile)
+    protected override void StartImpl(GameLocation location, Vector2 treasureTile, bool withMessage)
     {
         var player = Game1.player;
-        Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
+        if (withMessage) Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
             EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
@@ -299,7 +299,7 @@ internal sealed class ProspectorHunt : TreasureHunt
 
         this._numTargets = Math.Min((int)this.Random.NextSplitGaussian(mu: 6, sigmaLeft: 1, sigmaRight: 4), 10) - (int)(player.DailyLuck * 11d);
         this._targetsFound = 0;
-        base.StartImpl(location, treasureTile);
+        base.StartImpl(location, treasureTile, withMessage);
         player.applyBuff(new ProspectorHuntBuff());
     }
 

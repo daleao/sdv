@@ -33,9 +33,10 @@ public interface ITreasureHunt
 
     /// <summary>Tries to start a new hunt at a random tile.</summary>
     /// <param name="location">The current <see cref="GameLocation"/>.</param>
+    /// <param name="withMessage">If the player should be shown a message for successful start.</param>
     /// <returns><see langword="true"/> if a hunt was started, otherwise <see langword="false"/>.</returns>
     [MemberNotNullWhen(true, nameof(Location), nameof(TargetTile))]
-    public bool TryStart(GameLocation location);
+    public bool TryStart(GameLocation location, bool withMessage);
 
     /// <summary>Ends the active hunt successfully.</summary>
     public void Complete();
