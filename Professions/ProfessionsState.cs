@@ -125,6 +125,8 @@ internal sealed class ProfessionsState
 
     internal uint RocksCrushedUntilPreviousTimeChange { get; set; }
 
+    internal uint ArtifactSpotsDugUntilPreviousTimeChange { get; set; }
+
     internal Dictionary<string, int> EcologistBuffsLookup
     {
         get
