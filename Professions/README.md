@@ -7,16 +7,13 @@
 
 <!-- BADGES -->
 [![Nexus Mods](https://img.shields.io/badge/Nexus%20Mods-Walk%20of%20Life-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/stardewvalley/mods/24355)
-[![Nexus downloads](https://img.shields.io/nexusmods/dm/stardewvalley/24355?logo=nexusmods&logoColor=white&label=downloads&color=da8e35)](https://www.nexusmods.com/stardewvalley/mods/24355)
+[![Nexus downloads](https://img.shields.io/badge/downloads-180%2C000%2B-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/stardewvalley/mods/24355)
 [![Stardew Valley](https://img.shields.io/badge/Stardew%20Valley-1.6-8a5a2b?logo=stardewvalley&logoColor=white)](https://www.stardewvalley.net/)
 [![SMAPI](https://img.shields.io/badge/SMAPI-4.0%2B-cc4400?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQCbxYPnAAAAAElFTkSuQmCC)](https://smapi.io/)
 [![License](https://img.shields.io/badge/license-see%20LICENSE-888)](https://github.com/daleao/sdv/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/daleao/sdv?logo=github&style=flat&color=e0b040)](https://github.com/daleao/sdv/stargazers)
 
 ***An extensive overhaul of Stardew Valley's skill progression and profession trees.***
-
-<!-- NAV -->
-[**⬇ Nexus Mods**](https://www.nexusmods.com/stardewvalley/mods/24355) &nbsp;•&nbsp; [**📖 Wiki**](https://stardewvalleywiki.com/) &nbsp;•&nbsp; [**🐛 Report a Bug**](https://github.com/daleao/sdv/issues) &nbsp;•&nbsp; [**💾 Source Code**](https://github.com/daleao/sdv/tree/main/Professions)
 
 <br>
 
