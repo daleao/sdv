@@ -36,8 +36,8 @@ public class SlowAnimation : TemporaryAnimatedSprite
         this.Position = monster.GetOverheadOffset() + new Vector2(0f, -32f);
         this.positionFollowsAttachedCharacter = true;
         this.attachedCharacter = monster;
-        EventManager.Enable<SlowAnimationRenderedWorldEvent>();
-        EventManager.Enable<SlowAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<SlowAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<SlowAnimationUpdateTickedEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, SlowAnimation> SlowAnimationByMonster { get; } = [];

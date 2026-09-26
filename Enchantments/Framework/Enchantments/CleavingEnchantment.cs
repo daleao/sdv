@@ -44,7 +44,8 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
                 continue;
             }
 
-            var (x, y) = Utility.getAwayFromPositionTrajectory(other.GetBoundingBox(), monster.Position);
+            var otherBox = other.GetBoundingBox();
+            var (x, y) = Utility.getAwayFromPositionTrajectory(otherBox, monster.Position);
             other.takeDamage(damage, (int)x, (int)y, false, double.MaxValue, who);
             location.debris.Add(new Debris(
                 damage,
@@ -54,7 +55,9 @@ public sealed class CleavingEnchantment : BaseWeaponEnchantment
                 who));
             if (other.Health <= 0)
             {
-                other.Die(who);
+                Reflector
+                        .GetStaticMethodDelegate<Action<Farmer, Monster, Rectangle, bool>>(typeof(GameLocation), "onMonsterKilled")
+                        .Invoke(who, other, otherBox, false);
             }
         }
     }

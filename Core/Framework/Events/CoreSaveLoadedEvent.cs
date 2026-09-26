@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class CoreSaveLoadedEvent(EventManager? manager = null)
-    : SaveLoadedEvent(manager ?? CoreMod.EventManager)
+    : SaveLoadedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)

@@ -26,7 +26,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     /// <summary>Finalizes an instance of the <see cref="ExplosiveEnchantment"/> class.</summary>
     ~ExplosiveEnchantment()
     {
-        EventManager.Disable<ExplosiveUpdateTickedEvent>();
+        EnchantmentsMod.Events.Disable<ExplosiveUpdateTickedEvent>();
     }
 
     /// <summary>Gets the largest possible explosion radius.</summary>
@@ -56,7 +56,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
     {
         if (this.Accumulated < AccumulationStep)
         {
-            EventManager.Disable<ExplosiveUpdateTickedEvent>();
+            EnchantmentsMod.Events.Disable<ExplosiveUpdateTickedEvent>();
             return;
         }
 
@@ -72,7 +72,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
         var radius = this.ExplosionRadius + 1;
         var toolLocation = who.GetToolLocation();
         var tileLocation = new Vector2((int)toolLocation.X / Game1.tileSize, (int)toolLocation.Y / Game1.tileSize);
-        Log.D($"Doing explosion at ({tileLocation.X}, {tileLocation.Y}) with radius {radius} and power {damage}.");
+        //Log.D($"Doing explosion at ({tileLocation.X}, {tileLocation.Y}) with radius {radius} and power {damage}.");
 
         this.Accumulated = 0;
         who.currentLocation.playSound("explosion");
@@ -91,7 +91,7 @@ public sealed class ExplosiveEnchantment : BaseWeaponEnchantment
         base._OnUnequip(who);
         if (who.IsLocalPlayer)
         {
-            EventManager.Disable<ExplosiveUpdateTickedEvent>();
+            EnchantmentsMod.Events.Disable<ExplosiveUpdateTickedEvent>();
         }
     }
 }

@@ -16,7 +16,7 @@ internal sealed class DemolitionistButtonDoublePressedEvent : ButtonDoublePresse
     /// <summary>Initializes a new instance of the <see cref="DemolitionistButtonDoublePressedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     public DemolitionistButtonDoublePressedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this.OnButtonDoublePressed = this.OnButtonDoublePressedImpl;
     }
@@ -41,12 +41,10 @@ internal sealed class DemolitionistButtonDoublePressedEvent : ButtonDoublePresse
         if (State.IsManualDetonationModeEnabled)
         {
             Game1.addHUDMessage(new HUDMessage(I18n.Demolitionist_Manual()));
-            Log.D("Manual detonation mode engaged.");
         }
         else
         {
             Game1.addHUDMessage(new HUDMessage(I18n.Demolitionist_Timed()));
-            Log.D("Manual detonation mode disengaged.");
         }
     }
 }

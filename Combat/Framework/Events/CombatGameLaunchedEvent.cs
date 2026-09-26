@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class CombatGameLaunchedEvent(EventManager? manager = null)
-    : GameLaunchedEvent(manager ?? CombatMod.EventManager)
+    : GameLaunchedEvent(manager ?? CombatMod.Events)
 {
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)

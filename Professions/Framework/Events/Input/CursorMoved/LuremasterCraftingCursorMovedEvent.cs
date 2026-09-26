@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [LimitEvent]
 internal sealed class LuremasterCraftingCursorMovedEvent(EventManager? manager = null)
-    : CursorMovedEvent(manager ?? ProfessionsMod.EventManager)
+    : CursorMovedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.LuremasterCraftingRecipeBeingHovered is not null;

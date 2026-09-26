@@ -52,7 +52,7 @@ internal sealed class BetterCraftingPageDrawSimpleNodeHoverPatcher : HarmonyPatc
         var inventory = BetterCraftingIntegration.Instance!
                 .GetInventoryMenu()
                 .inventory;
-        inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.Pink, b);
+        inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.DeepPink, b);
     }
 
     #endregion harmony patches

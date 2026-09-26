@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class RestoreForgottenRecipesLevelChangedEvent(EventManager? manager = null)
-    : LevelChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : LevelChangedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnLevelChangedImpl(object? sender, LevelChangedEventArgs e)

@@ -18,7 +18,7 @@ using StardewValley.Tools;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
-    : RenderedWorldEvent(manager ?? CoreMod.EventManager)
+    : RenderedWorldEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;
@@ -89,16 +89,16 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                     e.SpriteBatch.DrawString(
                         Game1.dialogueFont,
                         @string,
-                        new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
+                        new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 1)),
                         Color.White);
 
                     @string = $"Position: {character.Position}";
                     textWidth = Game1.dialogueFont.MeasureString(@string).X;
-                    e.SpriteBatch.DrawString(
-                        Game1.dialogueFont,
-                        @string,
-                        new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 3)),
-                        Color.White);
+                    //e.SpriteBatch.DrawString(
+                    //    Game1.dialogueFont,
+                    //    @string,
+                    //    new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
+                    //    Color.White);
                     bb = new Rectangle((int)character.Position.X - 2, (int)character.Position.Y - 2, 4, 4);
                     bb.X -= Game1.viewport.X;
                     bb.Y -= Game1.viewport.Y;
@@ -107,11 +107,11 @@ internal sealed class DebugRenderedWorldEvent(EventManager? manager = null)
                     var bbc = character.GetBoundingBox().Center;
                     @string = $"BB Center: {bbc}";
                     textWidth = Game1.dialogueFont.MeasureString(@string).X;
-                    e.SpriteBatch.DrawString(
-                        Game1.dialogueFont,
-                        @string,
-                        new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
-                        Color.White);
+                    //e.SpriteBatch.DrawString(
+                    //    Game1.dialogueFont,
+                    //    @string,
+                    //    new Vector2(bb.X - ((textWidth - bb.Width) / 2f), bb.Y - bb.Height - (textHeight * 2)),
+                    //    Color.White);
                     bb = new Rectangle(bbc.X - 2, bbc.Y - 2, 4, 4);
                     bb.X -= Game1.viewport.X;
                     bb.Y -= Game1.viewport.Y;

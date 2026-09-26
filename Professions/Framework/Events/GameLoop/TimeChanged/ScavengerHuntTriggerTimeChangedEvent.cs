@@ -11,18 +11,45 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ScavengerHuntTriggerTimeChangedEvent(EventManager? manager = null)
-    : TimeChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : TimeChangedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnTimeChangedImpl(object? sender, TimeChangedEventArgs e)
     {
-        if (Game1.currentLocation.IsRainingHere())
+        var player = Game1.player;
+        var location = Game1.currentLocation;
+        if (location.IsRainingHere())
         {
             return;
         }
 
-        Log.D("Attempting to start Scavenger Hunt.");
-        if (State.ScavengerHunt!.TryStart(Game1.currentLocation))
+        var targetPosition = player.GetBoundingBox();
+        switch (player.FacingDirection)
+        {
+            case Game1.up:
+                targetPosition.Y -= (int)Math.Ceiling(player.getMovementSpeed()) * 3;
+                targetPosition.Inflate(Game1.tileSize, 0);
+                break;
+            case Game1.right:
+                targetPosition.X += (int)Math.Ceiling(player.getMovementSpeed()) * 3;
+                targetPosition.Inflate(0, Game1.tileSize);
+                break;
+            case Game1.down:
+                targetPosition.Y += (int)Math.Ceiling(player.getMovementSpeed()) * 3;
+                targetPosition.Inflate(Game1.tileSize, 0);
+                break;
+            case Game1.left:
+                targetPosition.X -= (int)Math.Ceiling(player.getMovementSpeed()) * 3;
+                targetPosition.Inflate(0, Game1.tileSize);
+                break;
+        }
+
+        if (location.isCollidingWithWarp(targetPosition, player) is not null)
+        {
+            return;
+        }
+
+        if (State.ScavengerHunt!.TryStart(location))
         {
             this.Disable();
         }

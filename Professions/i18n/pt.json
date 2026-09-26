@@ -158,7 +158,7 @@
     "conservationist.title.prestiged.male": "Oceanógrafo",
     "conservationist.title.prestiged.female": "Oceanógrafa",
     "conservationist.desc": "Covos sem isca podem capturar lixo. Limpe as águas do Vale para ganhar o apreço dos moradores e conseguir deduções fiscais.",
-    "conservationist.desc.prestiged": "Covos sem iscas podem capturar peixes. Condições especiais se aplicam durante dias chuvosos ou de maré alta.",
+    "conservationist.desc.prestiged": "Águas limpas promovem a biodiversidade aquática; peixes raros são mais comuns, e covos sem isca podem coletar produtos de peixes.",
     "conservationist.mail": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para uma dedução de imposto de renda de {{taxBonus}} de acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Aviso de dedução",
     "conservationist.mail.max": "Ministério da Fazenda^Secretaría da Receita Federal de Ferngill^^^{{honorific}} @,^^Temos o prazer de informar que, após análise de suas atividades ambientalistas, determinamos que você se qualifica para a dedução máxima de imposto de renda de {{taxBonus}} acordo com a seção 501(c)(3) do Código de Receita de Tributos e Contribuições de Ferngill. Como tal, todos os rendimentos tributáveis ​​de {{farm}} serão aumentados pelo valor supracitado, válido durante a atual temporada de {{season}}.^^Por favor, mantenha esta carta em seus registros permanentes caso precise resolver quaisquer questões sobre sua situação fiscal.^^^Atenciosamente,^^Laura D. Pretto^Diretora Executiva, Secretaría da Receita Federal de Ferngill[#]Aviso de dedução",
 
@@ -310,7 +310,7 @@
     "honorific.male": "Caro",
     "honorific.female": "Cara",
 
-    "buildings.PiecesOfHayAndMore": "Montes de feno: {0}/{1}^Grãos: {2}/{9}^Verduras folhosas: {3}/{9}^Leguminosas: {4}/{9}^Raízes: {5}/{9}^Tubérculos: {6}/{9}^Cabaças: {7}/{9}^Frutas: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Grãos: {{grains}}/{{capacity}}^Verduras folhosas: {{greens}}/{{capacity}}^Leguminosas: {{legumes}}/{{capacity}}^Raízes: {{roots}}/{{capacity}}^Tubérculos: {{tubers}}/{{capacity}}^Cabaças: {{gourds}}/{{capacity}}^Frutas: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

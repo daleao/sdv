@@ -29,7 +29,7 @@ internal sealed class BasicProjectileBehaviorOnCollisionWithMonsterPatcher : Har
     [UsedImplicitly]
     private static void BasicProjectileBehaviorOnCollisionWithMonsterPrefix(BasicProjectile __instance, NPC n, GameLocation location)
     {
-        if (n is Monster && Data.ReadAs<bool>(__instance, DataKeys.Energized))
+        if (n is Monster && Data.HasKey(__instance, DataKeys.Energized))
         {
             location.DoLightningBarrage(n.Tile, 6, __instance.GetPlayerWhoFiredMe(location));
         }

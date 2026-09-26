@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PipedDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? ProfessionsMod.EventManager)
+    : DayEndingEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => GreenSlime_Piped.Values.Any();

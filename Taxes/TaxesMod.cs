@@ -31,7 +31,7 @@ public sealed class TaxesMod : Mod
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
+    internal static EventManager Events { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
@@ -82,7 +82,7 @@ public sealed class TaxesMod : Mod
             Log,
             UniqueId,
             "txs");
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+        Events = new EventManager(helper.Events, helper.ModRegistry, Log)
             .ManageInitial(assembly, "DaLion.Taxes.Framework.Events");
 
         I18n.Init(helper.Translation);

@@ -13,7 +13,7 @@ using static System.FormattableString;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class TaxAssetRequestedEvent(EventManager? manager = null)
-    : AssetRequestedEvent(manager ?? TaxesMod.EventManager)
+    : AssetRequestedEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     protected override void Initialize()

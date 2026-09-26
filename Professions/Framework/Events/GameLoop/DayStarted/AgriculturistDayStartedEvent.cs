@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class AgriculturistDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
+    : DayStartedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Game1.game1.DoesAnyPlayerHaveProfession(Profession.Agriculturist);

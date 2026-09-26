@@ -16,7 +16,7 @@ using StardewValley.Locations;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class SpelunkerWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
+    : WarpedEvent(manager ?? ProfessionsMod.Events)
 {
     private static readonly Func<float, double> ItemRecoveryChance = x => 1 / (1 + Math.Exp(-0.02 * (x - 120)));
     private static int _previousMineLevel;

@@ -39,6 +39,12 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     {
         try
         {
+            if (__instance.modData.ContainsKey("PeacefulEnd.Archery.Weapon"))
+            {
+                return true; // run original logic
+            }
+
+            // check for special ammo
             var canDoQuincy = (EnchantmentsIntegration.Instance?.IsLoaded ?? false) &&
                               __instance.enchantments
                                   .OfType<BaseSlingshotEnchantment>()
@@ -98,7 +104,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
             var overcharge = who.HasProfession(Profession.Desperado) ? __instance.GetOvercharge() : 1f;
             if (overcharge > 1f)
             {
-                EventManager.Disable<DesperadoOverchargeUpdateTickedEvent>();
+                ProfessionsMod.Events.Disable<DesperadoOverchargeUpdateTickedEvent>();
             }
 
             // adjust velocity
@@ -197,7 +203,7 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
                 }
             }
             else
-            // do Prestiged Rascsal double shot
+            // do Prestiged Rascal double shot
             if (who.HasProfession(Profession.Rascal, true) && Config.ModKey.IsDown() &&
                 hasSecondaryAmmo && !isMusked)
             {

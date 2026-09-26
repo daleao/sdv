@@ -181,7 +181,6 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         State.QueuedHitStep++;
         State.FarmerAnimating = true;
-        Log.D("[Combo]: Queued Forward Slash");
     }
 
     internal static void QueueReverseSwipe(this Farmer farmer, MeleeWeapon weapon)
@@ -338,7 +337,6 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         State.QueuedHitStep++;
         State.FarmerAnimating = true;
-        Log.D("[Combo]: Queued Backslash");
     }
 
     internal static void QueueSmash(this Farmer farmer, MeleeWeapon weapon)
@@ -480,7 +478,6 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         State.QueuedHitStep++;
         State.FarmerAnimating = true;
-        Log.D("[Combo]: Queued Smash");
     }
 
     internal static void QueueThrust(this Farmer farmer, MeleeWeapon weapon)
@@ -584,7 +581,6 @@ internal static class FarmerExtensions
             .Invoke(sprite, sprite.CurrentAnimation.Count);
         State.QueuedHitStep++;
         State.FarmerAnimating = true;
-        Log.D("[Combo]: Queued Thrust");
     }
 
     private static void QueueNextSwipeAfterForward(this Farmer farmer, MeleeWeapon weapon)

@@ -15,7 +15,7 @@ using StardewValley.Monsters;
 [UsedImplicitly]
 [LimitEvent]
 internal sealed class PiperVisionCursorMovedEvent(EventManager? manager = null)
-    : CursorMovedEvent(manager ?? ProfessionsMod.EventManager)
+    : CursorMovedEvent(manager ?? ProfessionsMod.Events)
 {
     private static readonly List<GreenSlime> _SlimesHere = [];
 

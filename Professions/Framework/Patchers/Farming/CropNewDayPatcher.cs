@@ -2,6 +2,8 @@
 
 #region using directives
 
+using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
 
@@ -21,11 +23,31 @@ internal sealed class CropNewDayPatcher : HarmonyPatcher
 
     #region harmony patches
 
+    [HarmonyPrefix]
+    [UsedImplicitly]
+    private static void CropNewDayPrefix(Crop __instance, ref bool __state)
+    {
+        __state = __instance.Dirt.readyForHarvest();
+    }
+
     /// <summary>Patch to deduct out-of-season days from Agriculturist crops.</summary>
     [HarmonyPostfix]
     [UsedImplicitly]
-    private static void CropNewDayPostfix(Crop __instance)
+    private static void CropNewDayPostfix(Crop __instance, bool __state)
     {
+        var soil = __instance.Dirt;
+        if (!__state && soil.readyForHarvest())
+        {
+            var cropId = __instance.GetData().HarvestItemId;
+            if (cropId is not null)
+            {
+                var soilMemory = Data.Read(soil, DataKeys.SoilMemory).ParseList<string>();
+                soilMemory.RemoveAll(string.IsNullOrEmpty);
+                soilMemory.AddOrReplace(cropId);
+                Data.Write(soil, DataKeys.SoilMemory, string.Join(',', soilMemory.TakeLast(4)));
+            }
+        }
+
         if (__instance.GetData()?.Seasons.Contains(Game1.season) ?? true)
         {
             return;

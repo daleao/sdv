@@ -12,14 +12,14 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class TaxSaveLoadedEvent(EventManager? manager = null)
-    : SaveLoadedEvent(manager ?? TaxesMod.EventManager)
+    : SaveLoadedEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)
     {
         if (Data.ReadAs<int>(Game1.player, DataKeys.OvernightDebit) > 0 || Data.ReadAs<int>(Game1.player, DataKeys.Withheld) > 0)
         {
-            TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
+            TaxesMod.Events.Enable<TaxDayStartedEvent>();
         }
 
         var farm = Game1.getFarm();

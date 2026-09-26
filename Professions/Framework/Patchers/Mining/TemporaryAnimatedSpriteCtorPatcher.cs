@@ -45,7 +45,7 @@ internal sealed class TemporaryAnimatedSpriteCtorPatcher : HarmonyPatcher
         }
 
         __instance.totalNumberOfLoops = int.MaxValue;
-        EventManager.Enable<ManualDetonationUpdateTickedEvent>();
+        ProfessionsMod.Events.Enable<ManualDetonationUpdateTickedEvent>();
     }
 
     #endregion harmony patches

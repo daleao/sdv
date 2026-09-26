@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class HostModMessageReceivedEvent(EventManager? manager = null)
-    : ModMessageReceivedEvent(manager ?? TaxesMod.EventManager)
+    : ModMessageReceivedEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;

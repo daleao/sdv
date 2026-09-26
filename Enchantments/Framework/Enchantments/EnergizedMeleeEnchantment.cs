@@ -28,7 +28,7 @@ public sealed class EnergizedMeleeEnchantment : BaseWeaponEnchantment
     /// <summary>Finalizes an instance of the <see cref="EnergizedMeleeEnchantment"/> class.</summary>
     ~EnergizedMeleeEnchantment()
     {
-        EventManager.Disable<EnergizedUpdateTickedEvent>();
+        EnchantmentsMod.Events.Disable<EnergizedUpdateTickedEvent>();
     }
 
     /// <summary>Gets or sets the current number of energy stacks.</summary>
@@ -109,7 +109,7 @@ public sealed class EnergizedMeleeEnchantment : BaseWeaponEnchantment
         }
 
         this._previousStepsTaken = Game1.stats.StepsTaken;
-        EventManager.Enable<EnergizedUpdateTickedEvent>();
+        EnchantmentsMod.Events.Enable<EnergizedUpdateTickedEvent>();
     }
 
     /// <inheritdoc />
@@ -122,6 +122,6 @@ public sealed class EnergizedMeleeEnchantment : BaseWeaponEnchantment
         }
 
         this._previousStepsTaken = uint.MaxValue;
-        EventManager.Disable<EnergizedUpdateTickedEvent>();
+        EnchantmentsMod.Events.Disable<EnergizedUpdateTickedEvent>();
     }
 }

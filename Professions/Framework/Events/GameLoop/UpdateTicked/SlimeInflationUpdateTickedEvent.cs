@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class SlimeInflationUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

@@ -29,7 +29,7 @@ internal sealed class MineCreateLadderDownPatcher : HarmonyPatcher
     {
         if (State.SpelunkerLadderStreak > 0)
         {
-            EventManager.Enable<SpelunkerTimeChangedEvent>();
+            ProfessionsMod.Events.Enable<SpelunkerTimeChangedEvent>();
         }
     }
 

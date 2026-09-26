@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class EnchantmentsAssetsInvalidatedEvent(EventManager? manager = null)
-    : AssetsInvalidatedEvent(manager ?? EnchantmentsMod.EventManager)
+    : AssetsInvalidatedEvent(manager ?? EnchantmentsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)

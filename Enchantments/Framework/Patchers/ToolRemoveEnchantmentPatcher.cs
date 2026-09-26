@@ -31,10 +31,10 @@ internal sealed class ToolRemoveEnchantmentPatcher : HarmonyPatcher
         switch (enchantment)
         {
             case EnergizedMeleeEnchantment:
-                EventManager.Disable<EnergizedUpdateTickedEvent>();
+                EnchantmentsMod.Events.Disable<EnergizedUpdateTickedEvent>();
                 break;
             case ExplosiveEnchantment:
-                EventManager.Disable<ExplosiveUpdateTickedEvent>();
+                EnchantmentsMod.Events.Disable<ExplosiveUpdateTickedEvent>();
                 break;
         }
     }

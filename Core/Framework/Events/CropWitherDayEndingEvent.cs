@@ -14,7 +14,7 @@ using StardewValley.TerrainFeatures;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class CropWitherDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? CoreMod.EventManager)
+    : DayEndingEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMainPlayer && Config.CropWitherChance > 0f;

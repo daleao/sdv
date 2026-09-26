@@ -1,12 +1,24 @@
 ﻿# CHARGEABLE Changelog
 
+## 2.2.2
+
+### Changed
+
+* Minor change to stamina consumption for compatibility with [Professions](../Professions).
+
+### Fixed
+
+* Redundancy to avoid what should be an impossible Index Out Of Range error.
+
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
+
 ## 2.2.1
 
 ### Added
 
 * Added all localizations using AI. I'm happy to replace them if anybody wants to make it themselves, but for now these are placeholders.
 
-<sup><sup>[🔼 Back to top](#chargeable-changelog)</
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 2.2.0
 
@@ -15,7 +27,7 @@
 * Fixed charged shockwave duplicating resources and experience for all players in multiplayer. 
 * Mod now recognizes [Prismatic Tools Continued](https://www.nexusmods.com/stardewvalley/mods/21450).
 
-<sup><sup>[🔼 Back to top](#chargeable-changelog)</
+<sup><sup>[🔼 Back to top](#chargeable-changelog)</sup></sup>
 
 ## 2.1.1
 

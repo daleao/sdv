@@ -75,13 +75,16 @@ internal sealed class AxeDoFunctionPatcher
         }
 
         var toolPower = who.toolPower.Value;
+        var proficiency = ModHelper.ModRegistry.IsLoaded("DaLion.Professions")
+            ? Math.Max(Math.Min(who.foragingLevel.Value, 10) + who.buffs.ForagingLevel, 0)
+            : who.ForagingLevel * 0.1f;
         if (toolPower <= 0)
         {
-            who.Stamina -= (2f * power) - (who.ForagingLevel * 0.1f);
+            who.Stamina -= (2f * power) - proficiency;
         }
         else
         {
-            who.Stamina -= (2f * (toolPower + 1)) - (who.ForagingLevel * 0.1f);
+            who.Stamina -= (2f * (toolPower + 1)) - proficiency;
         }
     }
 }

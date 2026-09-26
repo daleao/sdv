@@ -42,7 +42,7 @@ internal sealed class LimitOverlay
 
         if (this._opacity >= MaxOpacity)
         {
-            EventManager.Disable<LimitOverlayFadeInUpdateTickedEvent>();
+            ProfessionsMod.Events.Disable<LimitOverlayFadeInUpdateTickedEvent>();
         }
     }
 
@@ -59,6 +59,6 @@ internal sealed class LimitOverlay
             return;
         }
 
-        EventManager.Disable<LimitOverlayFadeOutUpdateTickedEvent>();
+        ProfessionsMod.Events.Disable<LimitOverlayFadeOutUpdateTickedEvent>();
     }
 }

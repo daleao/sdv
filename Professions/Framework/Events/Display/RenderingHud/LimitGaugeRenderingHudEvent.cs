@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [LimitEvent]
 [UsedImplicitly]
 internal sealed class LimitGaugeRenderingHudEvent(EventManager? manager = null)
-    : RenderingHudEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderingHudEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnRenderingHudImpl(object? sender, RenderingHudEventArgs e)
@@ -21,7 +21,15 @@ internal sealed class LimitGaugeRenderingHudEvent(EventManager? manager = null)
         if (!Game1.game1.takingMapScreenshot && !Game1.game1.ScreenshotBusy &&
             !Game1.eventUp && !Game1.isFestival() && !Game1.fadeToBlack)
         {
-            State.LimitBreak!.Gauge.Draw(e.SpriteBatch);
+            try
+            {
+                State.LimitBreak!.Gauge.Draw(e.SpriteBatch);
+            }
+            catch (NullReferenceException)
+            {
+                Log.E($"Tried rendering Limit Gauge for {Game1.player.Name} who doesn't have a Limit Break. The even will forcefully shut-down.");
+                this.Disable();
+            }
         }
     }
 }

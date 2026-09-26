@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class HarmonicsGameLaunchedEvent(EventManager? manager = null)
-    : GameLaunchedEvent(manager ?? HarmonicsMod.EventManager)
+    : GameLaunchedEvent(manager ?? HarmonicsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)

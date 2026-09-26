@@ -14,17 +14,23 @@ using StardewValley.Monsters;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PiperButtonsChangedEvent(EventManager? manager = null)
-    : ButtonsChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : ButtonsChangedEvent(manager ?? ProfessionsMod.Events)
 {
     private static GreenSlime? _temporarilyPiped;
 
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)
     {
+        if (!Game1.currentLocation.IsFarm && Game1.currentLocation is not SlimeHutch)
+        {
+            return;
+        }
+
         if (Config.ModKey.JustPressed() && _temporarilyPiped is null)
         {
-            _temporarilyPiped = Game1.player.GetClosestCharacter<GreenSlime>(predicate: s => !s.IsPiped());
+            var slime = Game1.player.GetClosestCharacter<GreenSlime>(predicate: s => !s.IsPiped() && (!s.firstGeneration.Value || Data.HasKey(s, DataKeys.HatchedByPiper)));
             _temporarilyPiped?.Set_Piped(Game1.player, PipedSlime.PipingSource.Herded);
+            _temporarilyPiped = slime;
         }
         else if (Config.ModKey.GetState() == SButtonState.Released && _temporarilyPiped is not null)
         {

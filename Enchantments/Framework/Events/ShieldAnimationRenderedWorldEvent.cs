@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ShieldAnimationRenderedWorldEvent(EventManager? manager = null)
-    : RenderedWorldEvent(manager ?? EnchantmentsMod.EventManager)
+    : RenderedWorldEvent(manager ?? EnchantmentsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => ShieldAnimation.Instance is not null;

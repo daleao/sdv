@@ -19,17 +19,28 @@
         * The cursor will immediately hover the first valid item in your bag. Move the cursor to the item you wish to consume. Can also use the mouse scroll wheel or directional arrow keys. Gamepads can use the D-pad.
         * Cannot use bait items, obviously.
         * You also learn recipes to convert regular bait into specialized baits (Wild Bait, Magic Bait, Deluxe Bait and Challenge Bait).
-    * The previous "yield double from bait from machines that produce it" remains. This is still the only way to acquire targeted bait.
+    * The previous "yield double from bait from machines that produce it" remains. Bait Machine is still the only way to acquire targeted bait.
     * Symmetric with Syrupwright.
+
+    > [!NOTE]
+    > **Better Crafting + Gamepad:** The Syrupwright and Baitweaver crafting features both officially support controller input. However, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
+
 * Oceanographer rework:
     * Removed: ~~"Can trap fish without bait. Gain more fish on rainy days and full moon."~~
-    * Added: "Using crab pots to collect trash also improves biodiversity, leading to increased chance to encounter rare fish species (via regular fishing). The fish reward you with gifts."
+    * Added: "Using crab pots to collect trash also improves biodiversity (increased chance to encounter rare fish species for everyone via regular fishing or baited crab pot). The fish reward you with gifts."
         * The old version was antithetical to the conservationist theme. The new version instead continues the theme.
-        * No longer catches fish without bait. But allows crab pots to function as "mini fish ponds". The crab pot catch function will read the fishes in the current location and each of their fish pond data. With population gates replaced by trash collection thresholds, the mod will attempt to roll fish pond data prizes on every crab pot at a reduced chance. This clearly does not replace Fish Ponds, as you don't have populations to raise the odds, and you don't have control over the fish species. Still, it fits very well with the theme of conservation; if pond-raised fishes can randomly gift you items, it stands to reason that happy fish in the wild can also reward you.
+        * No longer catches fish without bait. But allows crab pots to function as "mini fish ponds". The crab pot catch function will read the fishes in the current location and each of their fish pond data. With population gates replaced by trash collection thresholds, the mod will attempt to roll fish pond data prizes on every crab pot. The odds are always lower since there is no population, and you don't have control over the fish species, but this is counteracted by the fact that you can easily place down hundreds of crab pots.
         * Also normalizes fish encounter rates, reducing the chance of common fish and distributing those odds to rarer fish.
+
+* Prestiged Trapper can now place Crab Pots in Caldera lava pools.
+    * Only Magic Bait survives the heat. If the player has Luremaster profession (apply bait effects), then Lava Eels can be caught this way at 50% chance.
+    * If the player has Oceanographer prestige (produce fish pond items), then Lava Eel produce can be obtained this way.
+
 * Silviculturist rework:
     * *Pending.*
+
 * Valid animal feeds can now also be defined by context tag; e.g., can set `{ "Fish": [ "fish_item" ] }` inside `xyz.FeedsByCategory.json` data file to tag every fish item as a valid feed in the "Fish" category, which you can then assign to animals in `xyz.AnimalFavoredFeeds.json`. The mod will interpret as a context tag any string that does not begin with the object qualifier "(O)".
+    * Added "Fish" category as valid feed for bears (SVE).
 
 ### Changed
 
@@ -53,6 +64,19 @@
     \boxed{N=\left\lceil\frac{100}{x}\right\rceil}
     $$
 
+* Machine Treatments (Machinist feature) now require holding the mod key to apply. This is to allow treatment catalysts to also function as regular machine inputs.
+* Scavenger Hunt now avoids triggering when the player is close to a warp.
+* Silo dialogue now filters out empty crop categories.
+* Made some tweaks to default feed categories for some animals.
+* Changed how Silo hay dialogue is rendered, to hopefully be more compatible.
+* Tool proficiency no longer increases above level 10. This made Efficient enchantment pointless and was causing issues at level 20.
+* Manually herding Slimes now only works in the Farm or inside a Slime Hutch, and only works on hatched or bred Slimes (not wild Slimes).
+* Conservationist now respects separate wallets in multiplayer.
+    * Actually the mod always assumed player wallets were separate. The change is that now, when using a shared wallet, the mod will pool all trash collected by all Conservationist players and compute a single global tax deduction that benefits all players in the farm.
+    * Changing wallet types will not affect how tax deduction is applied until the following season.
+    * This is a huge flat buff in multiplayer, but it just makes sense.
+* All profession-related recipes are now excluded from Perfection tracker (with or without the Perfection Exclusions mod).
+
 ### Fixed
 
 * Farming experience now contributes half as much to mastery experience, as it is in the base game since 1.6.6.
@@ -66,6 +90,14 @@
 * Treasure Hunt trigger pool now uses PerScreen state.
 * Fixed sprinklers in the expanded Slime Hutch not watering the bottom two troughs.
 * The Limit Break selection window now properly handles gamepad input.
+* Fixed crafting recipes not being added to farmers who had the respective professions before installing / updating.
+* Fixed several console commands (but not all) to work in splitscreen.
+* Fixed an exception that occurred when a Farmhand attempted to warp a Piped Slime to a different map. Piped Slimes still behave strangely in splitscreen though.
+* Fixed calibration tooltip not displaying until an item has been processed.
+* Moved crop memory update logic from on-harvest to on-fully-grown, which should resolve issues with crops not being committed to memory in certain cases (like when growing giant).
+* Mod now yields when firing a [Bow](https://www.nexusmods.com/stardewvalley/mods/16767).
+* Replaced custom `Die()` call with `onMonsterKilled()`. Fixes issue with Saboteur deadly poison not working immediately.
+* Fixed an issue where the mod was incorrectly attempting to read egg inheritance data from the incubator.
 
 ### Removed
 
@@ -299,6 +331,7 @@ I like the idea of closing the loop between crop farming and animal ranching. Th
 * Renamed "Archaeologist" -> "Relicseeker". Sorry about the confusion.
 * Renamed `EnableGoldenDelightMayo` to `ExtraPoultryItemColors` since it now also adds the Blue Egg item..
 * Renamed `ImmersiveDairyYield` to `ImmersiveDairyPoultryYield` since eggs are not dairy.
+* Scavenger Hunts can no longer trigger when raining.
 
 ### Fixed
 
@@ -348,7 +381,6 @@ The following reported issues were also checked:
 
 ### Known Issues:
 
-* If a Scavenger Hunt is initiated in a rainy location, the rain overwrites the soil arrow indicators.
 * Slimes minions still attack Shadow People after a certain SVE event.
 
 ### Planned
@@ -396,7 +428,7 @@ The following reported issues were also checked:
 
 * Added population gates to legendary fish ponds (this doesn't mean they can reproduce).
 * Slimed Piper now pacifies wild Slimes. They will act neutral towards all players while in the presence of a Piper.
-* Slimed Piper can now hold the Mod key to temporarily charm the nearest Slime. This can be used to add an extra unit to your Slime army, but the main use of this perk is to manually herd Slimes for breeding.
+* Slimed Piper can now hold the Mod key to temporarily charm the nearest Slime. Useful for manually herding Slimes for breeding.
 * Prestiged Slimed Piper can now craft Slime Paintbrushes. 5 new recipes will be added upon choosing this prestige (Green Brush, Blue Brush, Red Brush, Purple Brush and Prismatic Brush). Brushes other than Prismatic can be applied to raised Slimes to increase their RGB color values, bringing them closer to perfect white. The Prismatic Brush can only be applied to a perfect White Slime, and will convert it into a Prismatic Slime. Prismatic Slimes gain a significant boost to combat stats and also gain access to all special colored abilities, expect for Black and Gold). For the purpose of breeding, a Prismatic Slime behaves like a regular White Slime.
     * Slime Paintbrushes are a universal neutral gift, except for:
       * Loved by: Leah, Emily, Jas, Vincent, Leo and Krobus (he's fascinated by colorful things).

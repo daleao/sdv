@@ -15,7 +15,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class CooldownSaveLoadedEvent(EventManager? manager = null)
-    : SaveLoadedEvent(manager ?? HarmonicsMod.EventManager)
+    : SaveLoadedEvent(manager ?? HarmonicsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnSaveLoadedImpl(object? sender, SaveLoadedEventArgs e)

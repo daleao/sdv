@@ -100,7 +100,7 @@ public static class StringExtensions
             or QIDs.RadioactiveOre;
     }
 
-    private static string QualifyId(this string id)
+    public static string QualifyId(this string id)
     {
         return id.StartsWith("(O)", StringComparison.Ordinal)
             ? id

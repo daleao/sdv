@@ -106,6 +106,19 @@ public class ModDataManager
     }
 
     /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="farmer"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="farmer">The <see cref="Farmer"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Farmer farmer, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return farmer.modData.ContainsKey($"{modId}/{key}");
+    }
+
+    /// <summary>
     ///     Writes to a <paramref name="key"/> in the <paramref name="farmer"/>'s <see cref="ModDataDictionary"/>, or
     ///     removes it if supplied a null or empty <paramref name="newValue"/>.
     /// </summary>
@@ -262,6 +275,19 @@ public class ModDataManager
         }
 
         return value;
+    }
+
+    /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="building"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="building">The <see cref="Building"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Building building, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return building.modData.ContainsKey($"{modId}/{key}");
     }
 
     /// <summary>
@@ -425,6 +451,19 @@ public class ModDataManager
     }
 
     /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="character"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="character">The <see cref="Character"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Character character, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return character.modData.ContainsKey($"{modId}/{key}");
+    }
+
+    /// <summary>
     ///     Writes to a <paramref name="key"/> in the <paramref name="character"/>'s <see cref="ModDataDictionary"/>,
     ///     or removes it if supplied a null or empty <paramref name="newValue"/>.
     /// </summary>
@@ -581,6 +620,19 @@ public class ModDataManager
         }
 
         return value;
+    }
+
+    /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="location"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="location">The <see cref="GameLocation"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(GameLocation location, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return location.modData.ContainsKey($"{modId}/{key}");
     }
 
     /// <summary>
@@ -744,6 +796,19 @@ public class ModDataManager
     }
 
     /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="item"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="item">The <see cref="Item"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Item item, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return item.modData.ContainsKey($"{modId}/{key}");
+    }
+
+    /// <summary>
     ///     Writes to a <paramref name="key"/> in the <paramref name="item"/>'s <see cref="ModDataDictionary"/>, or
     ///     removes it if supplied a null or empty <paramref name="newValue"/>.
     /// </summary>
@@ -857,19 +922,19 @@ public class ModDataManager
     #region terrainfeature rw
 
     /// <summary>
-    ///     Reads from a <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Reads from a <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/> as <see cref="string"/>.
     /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to read from.</param>
     /// <param name="defaultValue">The value to return if the <paramref name="key"/> does not exist.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     /// <returns>The value of the <paramref name="key"/> as a <see cref="string"/>, if it exists, or <paramref name="defaultValue"/> if not.</returns>
-    public string Read(TerrainFeature terrainFeature, string key, string defaultValue = "", string? modId = null)
+    public string Read(TerrainFeature feature, string key, string defaultValue = "", string? modId = null)
     {
         modId ??= this._id;
         this.AssertKeyNotEmpty(key);
-        var value = terrainFeature.modData.Read($"{modId}/{key}", defaultValue);
+        var value = feature.modData.Read($"{modId}/{key}", defaultValue);
         if (this._readCallbacks.TryGetValue(key, out var callback))
         {
             callback(value);
@@ -879,21 +944,21 @@ public class ModDataManager
     }
 
     /// <summary>
-    ///     Reads from a <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Reads from a <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/> as <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">The expected type for the <paramref name="key"/>'s value. This should most likely be a primitive.</typeparam>
-    /// <param name = "terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name = "feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to read from.</param>
     /// <param name="defaultValue"> The value to return if the <paramref name="key"/> does not exist.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     /// <returns>The value of the <paramref name="key"/> as <typeparamref name="T"/>, if it exists, or <paramref name="defaultValue"/> if not.</returns>
-    public T ReadAs<T>(TerrainFeature terrainFeature, string key, T defaultValue = default, string? modId = null)
+    public T ReadAs<T>(TerrainFeature feature, string key, T defaultValue = default, string? modId = null)
         where T : struct
     {
         modId ??= this._id;
         this.AssertKeyNotEmpty(key);
-        var value = terrainFeature.modData.Read($"{modId}/{key}", defaultValue);
+        var value = feature.modData.Read($"{modId}/{key}", defaultValue);
         if (this._readCallbacks.TryGetValue(key, out var callback))
         {
             callback(value.ToString() ?? string.Empty);
@@ -903,22 +968,35 @@ public class ModDataManager
     }
 
     /// <summary>
-    ///     Writes to a <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="feature"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(TerrainFeature feature, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return feature.modData.ContainsKey($"{modId}/{key}");
+    }
+
+    /// <summary>
+    ///     Writes to a <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/>, or removes it if supplied a null or empty <paramref name="newValue"/>.
     /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to write to.</param>
     /// <param name="newValue">The value to write, or <see langword="null"/> to remove the <paramref name="key"/>.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
-    public void Write(TerrainFeature terrainFeature, string key, string? newValue, string? modId = null)
+    public void Write(TerrainFeature feature, string key, string? newValue, string? modId = null)
     {
         modId ??= this._id;
         this.AssertKeyNotEmpty(key);
-        var oldValue = terrainFeature.modData.Read($"{modId}/{key}");
-        terrainFeature.modData.Write($"{modId}/{key}", newValue);
+        var oldValue = feature.modData.Read($"{modId}/{key}");
+        feature.modData.Write($"{modId}/{key}", newValue);
         this._log.V(string.IsNullOrEmpty(newValue)
-            ? $"[ModDataManager]: Cleared {terrainFeature.GetType().Name}'s {key}."
-            : $"[ModDataManager]: {terrainFeature.GetType().Name}'s {key} changed from {oldValue} to {newValue}.");
+            ? $"[ModDataManager]: Cleared {feature.GetType().Name}'s {key}."
+            : $"[ModDataManager]: {feature.GetType().Name}'s {key} changed from {oldValue} to {newValue}.");
         if (this._writeCallbacks.TryGetValue(key, out var callback))
         {
             callback(oldValue, newValue ?? string.Empty);
@@ -926,50 +1004,50 @@ public class ModDataManager
     }
 
     /// <summary>
-    ///     Writes to a <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Writes to a <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/>, only if it doesn't yet have a value.
     /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to write to.</param>
     /// <param name="value">The value to write, or <see langword="null"/> to remove the <paramref name="key"/>.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
     /// <returns><see langword="true"/> if the <paramref name="key"/> was written to, otherwise <see langword="false"/>.</returns>
-    public bool WriteIfNotExists(TerrainFeature terrainFeature, string key, string? value, string? modId = null)
+    public bool WriteIfNotExists(TerrainFeature feature, string key, string? value, string? modId = null)
     {
         modId ??= this._id;
-        if (terrainFeature.modData.ContainsKey($"{modId}/{key}"))
+        if (feature.modData.ContainsKey($"{modId}/{key}"))
         {
             this._log.V($"[ModDataManager]: The data key {key} already existed.");
             return false;
         }
 
-        this.Write(terrainFeature, key, value, modId);
+        this.Write(feature, key, value, modId);
         return true;
     }
 
     /// <summary>
     ///     Appends a <paramref name="value"/> to an existing <paramref name="key"/> in the
-    ///     <paramref name="terrainFeature"/>'s <see cref="ModDataDictionary"/>, or initializes it with that
+    ///     <paramref name="feature"/>'s <see cref="ModDataDictionary"/>, or initializes it with that
     ///     <paramref name="value"/>.
     /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to update.</param>
     /// <param name="value">The value to append.</param>
     /// <param name="separator">A <see cref="string"/> with which to separate appended values.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
-    public void Append(TerrainFeature terrainFeature, string key, string value, char separator = ',', string? modId = null)
+    public void Append(TerrainFeature feature, string key, string value, char separator = ',', string? modId = null)
     {
         modId ??= this._id;
         this.AssertKeyNotEmpty(key);
-        if (this.WriteIfNotExists(terrainFeature, key, value))
+        if (this.WriteIfNotExists(feature, key, value))
         {
             return;
         }
 
-        var oldValue = terrainFeature.modData.Read($"{modId}/{key}");
+        var oldValue = feature.modData.Read($"{modId}/{key}");
         var newValue = oldValue + separator + value;
-        terrainFeature.modData.Write($"{modId}/{key}", newValue);
-        this._log.V($"[ModDataManager]: Appended {terrainFeature.GetType().Name}'s {key} with {value}");
+        feature.modData.Write($"{modId}/{key}", newValue);
+        this._log.V($"[ModDataManager]: Appended {feature.GetType().Name}'s {key} with {value}");
         if (this._writeCallbacks.TryGetValue(key, out var callback))
         {
             callback(oldValue, newValue);
@@ -977,23 +1055,23 @@ public class ModDataManager
     }
 
     /// <summary>
-    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/> by an arbitrary <paramref name="amount"/>.
     /// </summary>
     /// <typeparam name="T">A numeric type with which to increment the <paramref name="key"/>. This should most likely be an integer type.</typeparam>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to update.</param>
     /// <param name="amount">The amount to increment by.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
-    public void Increment<T>(TerrainFeature terrainFeature, string key, T amount, string? modId = null)
+    public void Increment<T>(TerrainFeature feature, string key, T amount, string? modId = null)
         where T : struct
     {
         modId ??= this._id;
         this.AssertKeyNotEmpty(key);
-        var oldValue = terrainFeature.modData.Read<T>($"{modId}/{key}");
+        var oldValue = feature.modData.Read<T>($"{modId}/{key}");
         var newValue = oldValue.GenericAdd(amount);
-        terrainFeature.modData.Write($"{modId}/{key}", newValue.ToString());
-        this._log.V($"[ModDataManager]: Incremented {terrainFeature.GetType().Name}'s {key} by {amount}.");
+        feature.modData.Write($"{modId}/{key}", newValue.ToString());
+        this._log.V($"[ModDataManager]: Incremented {feature.GetType().Name}'s {key} by {amount}.");
         if (this._writeCallbacks.TryGetValue(key, out var callback))
         {
             callback(oldValue.ToString() ?? "0", newValue.ToString() ?? amount.ToString() ?? "0");
@@ -1001,15 +1079,15 @@ public class ModDataManager
     }
 
     /// <summary>
-    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="terrainFeature"/>'s
+    ///     Increments the value of a numeric <paramref name="key"/> in the <paramref name="feature"/>'s
     ///     <see cref="ModDataDictionary"/> by 1.
     /// </summary>
-    /// <param name="terrainFeature">The <see cref="TerrainFeature"/>.</param>
+    /// <param name="feature">The <see cref="TerrainFeature"/>.</param>
     /// <param name="key">The key to update.</param>
     /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
-    public void Increment(TerrainFeature terrainFeature, string key, string? modId = null)
+    public void Increment(TerrainFeature feature, string key, string? modId = null)
     {
-        this.Increment(terrainFeature, key, 1, modId);
+        this.Increment(feature, key, 1, modId);
     }
 
     #endregion terrainfeature rw
@@ -1060,6 +1138,19 @@ public class ModDataManager
         }
 
         return value;
+    }
+
+    /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="crop"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="crop">The <see cref="Crop"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Crop crop, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return crop.modData.ContainsKey($"{modId}/{key}");
     }
 
     /// <summary>
@@ -1220,6 +1311,19 @@ public class ModDataManager
         }
 
         return value;
+    }
+
+    /// <summary>
+    ///     Checks whether the <paramref name="key"/> is present in the <paramref name="projectile"/>'s <see cref="ModDataDictionary"/>.
+    /// </summary>
+    /// <param name="projectile">The <see cref="Projectile"/>.</param>
+    /// <param name="key">The key to read from.</param>
+    /// <param name="modId">The unique ID of the owner mod, to be used as an identifier.</param>
+    /// <returns><see langword="true"/> if the <paramref name="key"/> exists, regardless of value, otherwise <see langword="false"/>.</returns>
+    public bool HasKey(Projectile projectile, string key, string? modId = null)
+    {
+        this.AssertKeyNotEmpty(key);
+        return projectile.modData.ContainsKey($"{modId}/{key}");
     }
 
     /// <summary>

@@ -22,7 +22,7 @@ using StardewValley.GameData.Objects;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class HarmonicsAssetRequestedEvent(EventManager? manager = null)
-    : AssetRequestedEvent(manager ?? HarmonicsMod.EventManager)
+    : AssetRequestedEvent(manager ?? HarmonicsMod.Events)
 {
     /// <inheritdoc />
     protected override void Initialize()

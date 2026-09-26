@@ -13,7 +13,7 @@ using StardewValley.Characters;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class PetFeedDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
+    : DayStartedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

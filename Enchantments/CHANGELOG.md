@@ -1,5 +1,13 @@
 ﻿# ENCHANTMENTS Changelog
 
+## 2.2.5
+
+### Changed
+
+* Replaced custom `Die()` call with `onMonsterKilled()`.
+
+<sup><sup>[🔼 Back to top](#enchantments-changelog)</sup></sup>
+
 ## 2.2.4
 
 ### Added

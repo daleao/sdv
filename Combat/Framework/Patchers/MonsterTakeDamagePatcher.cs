@@ -38,7 +38,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
         foreach (var target in TargetMethods())
         {
-            Log.D($"Patching {target.DeclaringType} class...");
+            Log.T($"Patching {target.DeclaringType} class...");
             this.Target = target;
             if (!base.ApplyImpl(harmony))
             {
@@ -59,7 +59,7 @@ internal sealed class MonsterTakeDamagePatcher : HarmonyPatcher
 
         foreach (var target in TargetMethods())
         {
-            Log.D($"Unpatching {target.DeclaringType} class...");
+            Log.T($"Unpatching {target.DeclaringType} class...");
             this.Target = target;
             if (!base.UnapplyImpl(harmony))
             {

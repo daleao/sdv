@@ -1,5 +1,11 @@
 ﻿# TAXES Changelog
 
+## 2.2.5
+
+Update to latest DaLion.Core.
+
+<sup><sup>[🔼 Back to top](#taxes-changelog)</sup></sup>
+
 ## 2.2.4
 
 ### Fixed

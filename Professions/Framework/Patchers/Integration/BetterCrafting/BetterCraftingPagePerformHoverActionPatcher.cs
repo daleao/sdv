@@ -115,6 +115,7 @@ internal sealed class BetterCraftingPagePerformHoverActionPatcher : HarmonyPatch
                 State.OriginalRecipeList = [.. vanillaRecipe.recipeList];
                 State.LuremasterCraftingIngredientSelected = 0;
                 bcIntegration.HoveredIngredientsCopy = [.. ingredients];
+                bcIntegration.HoveredIngredientsReflectedCopy = reflectedIngredients.Clone() as Array;
                 State.CraftingMenuCursorLockPosition = new(x, y);
                 var substituteIngredient = (SObject)bcIntegration.GetInventoryMenu().actualInventory[State.LuremasterCraftingIngredientSelected];
                 vanillaRecipe.AlterCraftingRecipeForLuremaster(substituteIngredient);
@@ -132,10 +133,11 @@ internal sealed class BetterCraftingPagePerformHoverActionPatcher : HarmonyPatch
             if (!Config.ModKey.IsDown() && State.LuremasterCraftingRecipeBeingHovered == vanillaRecipe)
             {
                 inventoryMenu.highlightMethod = InventoryMenu.highlightAllItems;
+                vanillaRecipe.ResetLuremasterCraftingRecipe();
                 State.LuremasterCraftingRecipeBeingHovered = null;
                 State.LuremasterCraftingIngredientSelected = 0;
-                vanillaRecipe.ResetLuremasterCraftingRecipe();
                 bcIntegration.HoveredIngredientsCopy = null;
+                bcIntegration.HoveredIngredientsReflectedCopy = null;
                 return;
             }
         }
@@ -185,6 +187,7 @@ internal sealed class BetterCraftingPagePerformHoverActionPatcher : HarmonyPatch
                 }
 
                 bcIntegration.HoveredIngredientsCopy = [.. ingredients];
+                bcIntegration.HoveredIngredientsReflectedCopy = reflectedIngredients.Clone() as Array;
                 State.CraftingMenuCursorLockPosition = new(x, y);
                 vanillaRecipe.AlterCraftingRecipeForTapper();
                 return;
@@ -192,10 +195,11 @@ internal sealed class BetterCraftingPagePerformHoverActionPatcher : HarmonyPatch
 
             if (!Config.ModKey.IsDown() && State.TapperCraftingRecipeBeingHovered == vanillaRecipe)
             {
+                vanillaRecipe.ResetTapperCraftingRecipe();
                 State.TapperCraftingRecipeBeingHovered = null;
                 State.TapperCraftingIngredientSelected = 0;
-                vanillaRecipe.ResetTapperCraftingRecipe();
                 bcIntegration.HoveredIngredientsCopy = null;
+                bcIntegration.HoveredIngredientsReflectedCopy = null;
             }
         }
     }

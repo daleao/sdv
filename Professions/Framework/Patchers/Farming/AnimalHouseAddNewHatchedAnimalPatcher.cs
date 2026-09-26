@@ -8,6 +8,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using Netcode;
 using xTile.Layers;
 
 #endregion using directives
@@ -43,10 +44,18 @@ internal sealed class AnimalHouseAddNewHatchedAnimalPatcher : HarmonyPatcher
                 ])
                 .Move(-1)
                 .GetOperand(out var localIndex)
-                .Move(-1)
+                .PatternMatch(
+                    [
+                        new CodeInstruction(OpCodes.Ldloc_3),
+                        new CodeInstruction(OpCodes.Ldfld),
+                        new CodeInstruction(OpCodes.Ldnull),
+                    ],
+                    ILHelper.SearchOption.Previous)
                 .Insert([
                     new CodeInstruction(OpCodes.Ldloc_S, (LocalBuilder)localIndex),
                     new CodeInstruction(OpCodes.Ldloc_3),
+                    new CodeInstruction(OpCodes.Ldfld, typeof(SObject).RequireField(nameof(SObject.heldObject))),
+                    new CodeInstruction(OpCodes.Callvirt, typeof(NetFieldBase<SObject, NetRef<SObject>>).RequirePropertyGetter(nameof(NetFieldBase<,>.Value))),
                     new CodeInstruction(
                         OpCodes.Call,
                         typeof(AnimalHouseAddNewHatchedAnimalPatcher).RequireMethod(

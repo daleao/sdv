@@ -21,7 +21,7 @@
 
     "rancher.title.male": "Nutritionist",
     "rancher.title.female": "Nutritionist",
-    "rancher.desc": "Animals can be fed certain crops to supplement nutrition and increase friendship.",
+    "rancher.desc": "Animals can be fed certain items to supplement nutrition and increase friendship.",
     "rancher.desc.prestiged": "Crops placed in a silo are distributed by feed hoppers. Friendship with animals builds twice as quickly.",
     "breeder.title.male": "Breeder",
     "breeder.title.female": "Breeder",
@@ -73,13 +73,13 @@
     "arborist.title.prestiged.male": "Silviculturist",
     "arborist.title.prestiged.female": "Silviculturist",
     "arborist.desc": "Planted trees grow 25% faster. All trees have a chance to drop hardwood.",
-    "arborist.desc.prestiged": "All trees can drop even more hardwood. Green Rain may fall in any season if Green Rain Trees are grown on the farm.",
+    "arborist.desc.prestiged": "Planted trees drop more hardwood. Can use totems",
     "tapper.title.male": "Tapper",
     "tapper.title.female": "Tapper",
     "tapper.title.prestiged.male": "Syrupwright",
     "tapper.title.prestiged.female": "Syrupwright",
     "tapper.desc": "Tappers are cheaper to craft. Tapped trees produce syrup 25% faster.",
-    "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster. Can replace crafting ingredients with sap and double the yield of recipes with syrup.",
+    "tapper.desc.prestiged": "Tapped trees give syrup 25% >> 50% faster. Can replace crafting ingredients with sap and double the yield of recipes that consume syrup.",
 
     // mining
     "miner.title.male": "Miner",
@@ -152,13 +152,13 @@
     "luremaster.title.prestiged.male": "Baitweaver",
     "luremaster.title.prestiged.female": "Baitweaver",
     "luremaster.desc": "Baited crab pots can trap up to twice per day. Unlock new bait effects.",
-    "luremaster.desc.prestiged": "Baited crab pots can trap up to thrice per day. Can make bait from any ingredient and double the yield of machines which produce bait.",
+    "luremaster.desc.prestiged": "Baited crab pots can trap up to thrice per day. Can make bait from most ingredients and double the yield of machines which produce bait.",
     "conservationist.title.male": "Conservationist",
     "conservationist.title.female": "Conservationist",
     "conservationist.title.prestiged.male": "Oceanographer",
     "conservationist.title.prestiged.female": "Oceanographer",
     "conservationist.desc": "Crab pots without bait can trap junk. Clean the Valley's waters to earn the village's favor and merit tax deductions.",
-    "conservationist.desc.prestiged": "Crab pots without bait can also trap fish. Special conditions apply during rainy weathers and full-moon tides.",
+    "conservationist.desc.prestiged": "Clean waters promote aquatic biodiversity; rare fish are more common, and crab pots without bait can harvest fish produce.",
     "conservationist.mail": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for an income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
     "conservationist.mail.max": "Department of the Treasury^Ferngill Revenue Service^^^{{honorific}} Taxpayer,^^We are pleased to inform you that, upon review of your environmentalist activities, we have determined that you qualify for the maximum income tax deduction of {{taxBonus}} as per section 501(c)(3) of the Ferngill Revenue Code. As such, all taxable income for {{farm}} farm will be increased by the aforementioned amount, effective until the 28th of {{season}}.^^Please keep this letter in your permanent records should you need to resolve any questions regarding your fiscal status.^^^Sincerely,^^Laura D. Pretto^Executive Directrice, Ferngill Revenue Service[#]FRS Deduction Notice",
 
@@ -244,8 +244,8 @@
     "poacher.limit.desc.hidden": "Hidden.",
     "poacher.limit.desc.revealed": "Crit power x2.",
     "poacher.limit.explain": "Become invisible and untargetable for 30s. Attacking an enemy forfeits the invisibility, but crit power is doubled for twice the leftover invisibility duration. Slaying an enemy within 0.5s of gaining the latter effect immediately recovers 50% Limit charge.",
-    "desperado.limit.title.male": "Deadly Blossom",
-    "desperado.limit.title.female": "Deadly Blossom",
+    "desperado.limit.title.male": "Death Blossom",
+    "desperado.limit.title.female": "Death Blossom",
     "desperado.limit.desc": "Auto-fire in eight cardinal directions at once.",
     "desperado.limit.explain": "For 15s, you can auto-fire and all shots fire in eight simultaneous cardinal directions at no additional ammo cost.",
     "piper.limit.title.male": "Hamelin Concerto",
@@ -299,7 +299,7 @@
     "objects.surveyflag.cant.here": "Can't use that here.",
     "objects.surveyflag.cant.double": "A Survey Flag has already been placed.",
     "object.coated.affix": "Premium ",
-    
+
     "machines.coatings.cant.not_applicable": "Cannot be applied to this machine.",
     "machines.coatings.cant.already_applied": "A {{treatment}} is already applied.",
     "machines.coatings.fermentation": "Fermentation Coat",
@@ -310,7 +310,7 @@
     "honorific.male": "Dear",
     "honorific.female": "Dear",
 
-    "buildings.PiecesOfHayAndMore": "Pieces Of Hay: {0}/{1}^Grains: {2}/{9}^Leafy Greens: {3}/{9}^Legumes: {4}/{9}^Roots: {5}/{9}^Tubers: {6}/{9}^Gourds: {7}/{9}^Fruits: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Grains: {{grains}}/{{capacity}}^Leafy Greens: {{greens}}/{{capacity}}^Legumes: {{legumes}}/{{capacity}}^Roots: {{roots}}/{{capacity}}^Tubers: {{tubers}}/{{capacity}}^Gourds: {{gourds}}/{{capacity}}^Fruits: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

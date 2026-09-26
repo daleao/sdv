@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [Deprecated]
 internal sealed class ManualDetonationUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

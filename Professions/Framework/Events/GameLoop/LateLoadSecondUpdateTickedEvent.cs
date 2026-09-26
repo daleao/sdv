@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class LateLoadSecondUpdateTickedEvent(EventManager? manager = null)
-    : SecondSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : SecondSecondUpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnSecondSecondUpdateTickedImpl(object? sender, OneSecondUpdateTickedEventArgs e)

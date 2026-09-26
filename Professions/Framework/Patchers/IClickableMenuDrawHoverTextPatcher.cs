@@ -77,7 +77,7 @@ internal sealed class IClickableMenuDrawHoverTextPatcher : HarmonyPatcher
                 Game1.activeClickableMenu is GameMenu menu && menu.GetCurrentPage() is CraftingPage page)
             {
                 var inventory = page.inventory.inventory;
-                inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.Pink, b);
+                inventory[State.LuremasterCraftingIngredientSelected]?.bounds.BorderHighlight(Color.DeepPink, b);
             }
         }
 

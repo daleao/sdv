@@ -40,7 +40,7 @@ internal sealed class MeleeWeaponAnimateSpecialMovePatcher : HarmonyPatcher
         }
 
         ___lastUser = who;
-        EventManager.Enable<StabbingSwordSpecialUpdateTickingEvent>();
+        EnchantmentsMod.Events.Enable<StabbingSwordSpecialUpdateTickingEvent>();
         return false; // don't run original logic
     }
 

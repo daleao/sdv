@@ -166,6 +166,6 @@ public static class FarmerExtensions
     /// <returns>The <paramref name="farmer"/>'s screen ID.</returns>
     public static int? GetScreenId(this Farmer farmer, IMultiplayerHelper helper)
     {
-        return farmer.IsLocalPlayer ? 1 : helper.GetConnectedPlayer(farmer.UniqueMultiplayerID)?.ScreenID;
+        return farmer.IsLocalPlayer ? 0 : helper.GetConnectedPlayer(farmer.UniqueMultiplayerID)?.ScreenID;
     }
 }

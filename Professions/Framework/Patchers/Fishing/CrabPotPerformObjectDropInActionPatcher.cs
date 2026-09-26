@@ -4,6 +4,7 @@
 
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Locations;
 using StardewValley.Objects;
 
 #endregion using directives
@@ -25,11 +26,32 @@ internal sealed class CrabPotPerformObjectDropInActionPatcher : HarmonyPatcher
     /// <summary>Fixes an issue when collecting trash while holding bait as Conservationist.</summary>
     [HarmonyPrefix]
     [UsedImplicitly]
-    private static bool CrabPotPerformObjectDropInActionPrefix(CrabPot __instance, ref bool __result)
+    private static bool CrabPotPerformObjectDropInActionPrefix(CrabPot __instance, ref bool __result, Item dropInItem, bool probe, Farmer who)
     {
         if (__instance.heldObject.Value is null)
         {
-            return true; // run original logic;
+            if (__instance.Location is not Caldera)
+            {
+                return true; // run original logic;
+            }
+
+            if (__instance.bait.Value is null && who is not null && who.HasProfession(Profession.Trapper, true))
+            {
+                if (dropInItem is SObject { QualifiedItemId: QIDs.MagicBait } magicBait)
+                {
+                    if (!probe)
+                    {
+                        __instance.owner.Value = who.UniqueMultiplayerID;
+                        __instance.bait.Value = magicBait.getOne() as SObject;
+                        __instance.Location.playSound("Ship");
+                        __instance.lidFlapping = true;
+                        __instance.lidFlapTimer = 60f;
+                    }
+
+                    __result = true;
+                    return false; // don't run original logic
+                }
+            }
         }
 
         __result = false;

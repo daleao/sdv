@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TrackerButtonsChangedEvent(EventManager? manager = null)
-    : ButtonsChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : ButtonsChangedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)

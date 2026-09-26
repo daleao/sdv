@@ -128,13 +128,15 @@ internal sealed class MonsterUpdatePatcher : HarmonyPatcher
                             }
                         }
 
-                        __instance.startGlowing(Color.LimeGreen, true, 0.05f);
+                        __instance.startGlowing(Color.Purple, true, 0.05f);
                     }
                 }
 
                 if (__instance.Health <= 0)
                 {
-                    __instance.Die(killer);
+                    Reflector
+                        .GetStaticMethodDelegate<Action<Farmer, Monster, Rectangle, bool>>(typeof(GameLocation), "onMonsterKilled")
+                        .Invoke(killer ?? Game1.player, __instance, __instance.GetBoundingBox(), false);
                     return false; // run original logic
                 }
             }

@@ -21,7 +21,7 @@ internal sealed class PrintCommand(CommandHandler handler)
     : ConsoleCommand(handler)
 {
     /// <inheritdoc />
-    public override string[] Triggers { get; } = ["print", "read", "show", "log", "list"];
+    public override string[] Triggers { get; } = ["print", "read", "show", "list"];
 
     /// <inheritdoc />
     public override string Documentation => "Print the specified information.";
@@ -58,25 +58,19 @@ internal sealed class PrintCommand(CommandHandler handler)
                 return false;
             }
 
-            var screenId = farmerIndex - 1;
+            var peerIndex = farmerIndex - 2; // subtract 1 for host player and 1 for zero-index
             var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
-            if (screenId > onlinePlayers.Count)
+            if (peerIndex >= onlinePlayers.Count)
             {
                 Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
                 return false;
             }
 
-            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
-            if (multiplayerId is null)
-            {
-                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
-                return false;
-            }
-
-            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
+            var multiplayerId = onlinePlayers[peerIndex].PlayerID;
+            player = Game1.GetPlayer(multiplayerId, onlyOnline: true);
             if (player is null)
             {
-                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                Log.W($"Failed to get online player number {farmerIndex}.");
                 return false;
             }
         }
@@ -332,7 +326,7 @@ internal sealed class PrintCommand(CommandHandler handler)
             sb.AppendLine("- Mod data does not contain an entry for ConservationistTrashCollectedThisSeason.");
         }
 
-        value = Data.Read(who, DataKeys.ConservationistActiveTaxDeduction);
+        value = Data.Read(who, DataKeys.ActiveTaxDeduction);
         if (!IsNullOrEmpty(value))
         {
             sb.AppendLine($"Active tax deduction in current season:    {float.Parse(value):0%}");

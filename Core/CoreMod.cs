@@ -1,5 +1,4 @@
-﻿global using DaLion.Core.Framework;
-global using DaLion.Core.Framework.Extensions;
+﻿global using DaLion.Core.Framework.Extensions;
 global using DaLion.Shared.Reflection;
 global using static DaLion.Core.CoreMod;
 
@@ -38,7 +37,7 @@ public sealed class CoreMod : Mod
     }
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    public static EventManager EventManager { get; private set; } = null!; // set in Entry
+    public static EventManager Events { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="ModDataManager"/> instance.</summary>
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
@@ -90,7 +89,7 @@ public sealed class CoreMod : Mod
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
         Data = new ModDataManager(UniqueId, Log);
         PerScreenState = new PerScreen<CoreState>(() => new CoreState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
+        Events = new EventManager(helper.Events, helper.ModRegistry, Log).ManageInitial(assembly);
         if (ModHelper.ModRegistry.IsLoaded("Pathoschild.Automate"))
         {
             Log.I("Automate is installed, therefore Hopper changes will not be applied.");

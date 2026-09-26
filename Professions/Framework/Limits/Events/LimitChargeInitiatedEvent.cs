@@ -18,7 +18,7 @@ internal sealed class LimitChargeInitiatedEvent : ManagedEvent
     internal LimitChargeInitiatedEvent(
         Action<object?, ILimitChargeInitiatedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onChargeInitiatedImpl = callback;
         LimitBreak.ChargeInitiated += this.OnChargeInitiated;

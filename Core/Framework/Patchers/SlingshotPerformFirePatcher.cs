@@ -34,6 +34,11 @@ internal sealed class SlingshotPerformFirePatcher : HarmonyPatcher
     {
         try
         {
+            if (__instance.modData.ContainsKey("PeacefulEnd.Archery.Weapon"))
+            {
+                return true; // run original logic
+            }
+
             if (__instance.attachments[0] is not null || !who.IsStandingOnSnow())
             {
                 return true; // run original logic

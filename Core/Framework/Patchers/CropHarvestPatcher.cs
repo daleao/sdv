@@ -132,7 +132,7 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
 
     private static bool IsWinterWheat(Crop crop)
     {
-        return crop.indexOfHarvest.Value == "262" && Data.ReadAs<bool>(crop, DataKeys.WinterWheat);
+        return crop.indexOfHarvest.Value == "262" && Data.HasKey(crop, DataKeys.WinterWheat);
     }
 
     #endregion injected

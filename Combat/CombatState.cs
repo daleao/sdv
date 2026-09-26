@@ -18,7 +18,6 @@ internal sealed class CombatState
         get;
         set
         {
-            Log.D($"[Combo]: Queued {value}");
             field = value;
         }
     }
@@ -28,7 +27,6 @@ internal sealed class CombatState
         get;
         set
         {
-            Log.D($"[Combo]: Doing {value}");
             field = value;
         }
     }
@@ -42,11 +40,11 @@ internal sealed class CombatState
         {
             if (value)
             {
-                EventManager.Disable<ComboResetUpdateTickedEvent>();
+                Events.Disable<ComboResetUpdateTickedEvent>();
             }
             else if (State.QueuedHitStep != ComboHitStep.Idle)
             {
-                EventManager.Enable<ComboResetUpdateTickedEvent>();
+                Events.Enable<ComboResetUpdateTickedEvent>();
             }
 
             field = value;

@@ -1,5 +1,11 @@
 ﻿# COMBAT Changelog
 
+## 1.2.2
+
+### Changed
+
+* Replaced custom `Die()` call with `onMonsterKilled()`.
+
 ## 1.2.1
 
 ### Added

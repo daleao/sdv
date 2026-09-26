@@ -8,8 +8,8 @@ using System.Reflection.Emit;
 using DaLion.Combat.Framework.VirtualProperties;
 using DaLion.Shared.Attributes;
 using DaLion.Shared.Extensions.Reflection;
-using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
+using DaLion.Shared.Reflection;
 using HarmonyLib;
 using Microsoft.Xna.Framework;
 using StardewValley;
@@ -91,7 +91,9 @@ internal class MonsterMovePositionPatcher : HarmonyPatcher
         var knockbacker = monster.Get_KnockBacker()!;
         if (monster.Health <= 0)
         {
-            monster.Die(knockbacker);
+            Reflector
+                .GetStaticMethodDelegate<Action<Farmer, Monster, Rectangle, bool>>(typeof(GameLocation), "onMonsterKilled")
+                .Invoke(knockbacker, monster, monster.GetBoundingBox(), false);
         }
         else
         {

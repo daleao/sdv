@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 public sealed class SlimeBallObjectListChangedEvent(EventManager? manager = null)
-    : ObjectListChangedEvent(manager ?? CoreMod.EventManager)
+    : ObjectListChangedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnEnabled()

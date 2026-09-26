@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class FluteUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.SlimeFluteCooldown > 0 || State.SlimeFluteAddedScale > 0f;

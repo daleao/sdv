@@ -16,7 +16,7 @@ using StardewValley;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class TaxDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? TaxesMod.EventManager)
+    : DayEndingEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)
@@ -148,7 +148,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
         if (dayIncome < amountSold)
         {
             Data.Write(taxpayer, DataKeys.Withheld, (amountSold - dayIncome).ToString());
-            TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
+            TaxesMod.Events.Enable<TaxDayStartedEvent>();
             Log.T(dayIncome > 0
                 ? $"Actual income was decreased by {amountSold - dayIncome}g after debts and payments."
                 : "Day's income was entirely consumed by debts and payments.");
@@ -233,7 +233,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             }
         }
 
-        TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
+        TaxesMod.Events.Enable<TaxDayStartedEvent>();
         Data.Write(taxpayer, DataKeys.SeasonIncome, "0");
         Data.Write(taxpayer, DataKeys.BusinessExpenses, "0");
     }
@@ -285,7 +285,7 @@ internal sealed class TaxDayEndingEvent(EventManager? manager = null)
             }
         }
 
-        TaxesMod.EventManager.Enable<TaxDayStartedEvent>();
+        TaxesMod.Events.Enable<TaxDayStartedEvent>();
         var farm = Game1.getFarm();
         Data.Write(farm, DataKeys.AgricultureValue, "0");
         Data.Write(farm, DataKeys.LivestockValue, "0");

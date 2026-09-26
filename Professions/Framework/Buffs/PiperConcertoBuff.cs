@@ -68,12 +68,12 @@ internal sealed class PiperConcertoBuff : Buff
         }
 
         GreenSlime_Piped.PipedSlimes.ForEach(piped => piped.Health = (int)Math.Min(piped.Health + (piped.MaxHealth * 0.1f), piped.MaxHealth));
-        EventManager.Enable(typeof(SlimeInflationUpdateTickedEvent));
+        ProfessionsMod.Events.Enable(typeof(SlimeInflationUpdateTickedEvent));
     }
 
     /// <inheritdoc />
     public override void OnRemoved()
     {
-        EventManager.Enable<SlimeDeflationUpdateTickedEvent>();
+        ProfessionsMod.Events.Enable<SlimeDeflationUpdateTickedEvent>();
     }
 }

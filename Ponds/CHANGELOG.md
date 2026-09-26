@@ -1,5 +1,13 @@
 ﻿# PONDS Changelog
 
+## 2.2.6
+
+### Fixed
+
+* Fixed Legendary Fish Pond data precedence.
+
+<sup><sup>[🔼 Back to top](#ponds-changelog)</sup></sup>
+
 ## 2.2.5
 
 ### Fixed

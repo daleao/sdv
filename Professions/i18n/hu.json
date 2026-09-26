@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "Oceanográfus",
     "conservationist.title.prestiged.female": "Oceanográfus",
     "conservationist.desc": "A csali nélküli rákcsapdák szemetet foghatnak. Tisztítsd meg a Völgy vizeit, hogy elnyerd a falubéliek jóindulatát és adókedvezményeket.",
-    "conservationist.desc.prestiged": "A csali nélküli rákcsapdák halakat is foghatnak. Esős időben és telehold apálykor különleges feltételek érvényesülnek.",
+    "conservationist.desc.prestiged": "A tiszta vizek elősegítik a vízi élővilág sokféleségét; a ritka halak gyakoribbak, és a csalik nélküli varsák haltermékeket gyűjthetnek.",
     "conservationist.mail": "Pénzügyminisztérium^Ferngill Adóhivatal^^^{{honorific}} Adófizető,^^Örömmel tájékoztatjuk Önt, hogy a környezetvédelmi tevékenységeinek felülvizsgálata után megállapítottuk, hogy Ön jogosult {{taxBonus}} összegű jövedelemadó-levonásra a Ferngill Adótörvény 501(c)(3) szakasza értelmében. Ennek megfelelően a {{farm}} farm összes adóköteles jövedelme a fent említett összeggel növekszik, {{season}} 28-ig.^^Kérjük, őrizze meg ezt a levelet állandó nyilvántartásaiban, ha szükséges lenne pénzügyi helyzetével kapcsolatos kérdések rendezéséhez.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]FAS Levonási értesítő",
     "conservationist.mail.max": "Pénzügyminisztérium^Ferngill Adóhivatal^^^{{honorific}} Adófizető,^^Örömmel tájékoztatjuk Önt, hogy a környezetvédelmi tevékenységeinek felülvizsgálata után megállapítottuk, hogy Ön jogosult a maximális {{taxBonus}} összegű jövedelemadó-levonásra a Ferngill Adótörvény 501(c)(3) szakasza értelmében. Ennek megfelelően a {{farm}} farm összes adóköteles jövedelme a fent említett összeggel növekszik, {{season}} 28-ig.^^Kérjük, őrizze meg ezt a levelet állandó nyilvántartásaiban, ha szükséges lenne pénzügyi helyzetével kapcsolatos kérdések rendezéséhez.^^^Tisztelettel,^^Laura D. Pretto^Ügyvezető igazgató, Ferngill Adóhivatal[#]FAS Levonási értesítő",
 
@@ -311,7 +311,7 @@
     "honorific.male": "Kedves",
     "honorific.female": "Kedves",
 
-    "buildings.PiecesOfHayAndMore": "Szénakupacok: {0}/{1}^Gabonák: {2}/{9}^Leveles zöldségek: {3}/{9}^Hüvelyesek: {4}/{9}^Gyökérzöldségek: {5}/{9}^Gumósok: {6}/{9}^Tökfélék: {7}/{9}^Gyümölcsök: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Gabonák: {{grains}}/{{capacity}}^Leveles zöldségek: {{greens}}/{{capacity}}^Hüvelyesek: {{legumes}}/{{capacity}}^Gyökérzöldségek: {{roots}}/{{7}^Gumósok: {{tubers}}/{{capacity}}^Tökfélék: {{gourds}}/{{capacity}}^Gyümölcsök: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

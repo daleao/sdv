@@ -50,7 +50,6 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
             }
 
             State.HoveredEnemy = monster;
-            Log.D($"Hovering {monster.Name}!");
             return;
         }
     }
@@ -59,7 +58,6 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
     protected override void OnDisabled()
     {
         State.HoveredEnemy = null;
-        Log.D("Hovering no one!");
     }
 
     /// <inheritdoc />
@@ -99,12 +97,10 @@ internal sealed class StabbingSwordSpecialHomingUpdateTickedEvent : UpdateTicked
             newDirection = user.FaceTowardsTile(hoveredEnemy.Tile);
         }
 
-        Log.D($"Auto-turned towards {newDirection}!");
         var angle = currentDirection.AngleBetween(newDirection);
         var trajectory = new Vector2(user.xVelocity, user.yVelocity);
         var rotated = trajectory.Rotate(angle);
         user.setTrajectory(rotated);
-        Log.D($"New trajectory: ({user.xVelocity}, {user.yVelocity})");
         var frame = newDirection switch
         {
             Direction.Up => 276,

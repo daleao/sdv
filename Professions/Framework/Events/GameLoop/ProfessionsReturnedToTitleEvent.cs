@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class ProfessionsReturnedToTitleEvent(EventManager? manager = null)
-    : ReturnedToTitleEvent(manager ?? ProfessionsMod.EventManager)
+    : ReturnedToTitleEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)

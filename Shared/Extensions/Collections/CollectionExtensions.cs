@@ -96,7 +96,7 @@ public static class CollectionExtensions
     }
 
     /// <summary>
-    ///     Adds the specified <paramref name="item"/> to the <paramref name="collection"/>, or moves it to the top
+    ///     Adds the specified <paramref name="item"/> to the <paramref name="collection"/>, or moves it to the bottom
     ///     if already contained.
     /// </summary>
     /// <typeparam name="T">The type of the elements in the <paramref name="collection"/>.</typeparam>
@@ -108,7 +108,7 @@ public static class CollectionExtensions
     /// </returns>
     public static bool AddOrReplace<T>(this ICollection<T> collection, T item)
     {
-        if (typeof(T).IsValueType)
+        if (typeof(T).IsValueType || typeof(T) == typeof(string))
         {
             var removed = collection.Remove(item);
             collection.Add(item);

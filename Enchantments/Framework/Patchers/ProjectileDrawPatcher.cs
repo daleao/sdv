@@ -32,7 +32,7 @@ internal sealed class ProjectileDrawPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ProjectileDrawPostfix(Projectile __instance, float? ____rotation, SpriteBatch b)
     {
-        if (!Data.ReadAs<bool>(__instance, DataKeys.Energized))
+        if (!Data.HasKey(__instance, DataKeys.Energized))
         {
             return;
         }

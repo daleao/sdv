@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using DaLion.Professions.Framework.Buffs;
-using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.VirtualProperties;
 using DaLion.Shared.Extensions;
@@ -462,6 +461,11 @@ internal static class FarmerExtensions
     /// <param name="farmer">The <see cref="Farmer"/>.</param>
     internal static void PlaySlimeFlute(this Farmer farmer)
     {
+        Log.A($"Farmer: {farmer.Name}");
+        Log.A(string.Join(',', farmer.professions));
+        Log.A($"Piper profession: {Profession.Piper.Id}");
+        Log.A($"{farmer.UniqueMultiplayerID}");
+        Log.A($"{farmer.GetHashCode()}");
         if (!farmer.HasProfession(Profession.Piper))
         {
             Game1.showRedMessage(I18n.Objects_Slimeflute_Cant_Player());
@@ -557,6 +561,13 @@ internal static class FarmerExtensions
                 {
                     farmer.DismissMinions();
                 }
+
+#if DEBUG
+                if (farmer.GetPipedSlimes().FirstOrDefault() is { } piped)
+                {
+                    PathfinderAsync?.Debug(piped.Slime);
+                }
+#endif
             },
             1500);
 
@@ -772,5 +783,33 @@ internal static class FarmerExtensions
         rancher.reduceActiveItemByOne();
         animal.friendshipTowardFarmer.Value = Math.Min(1000, animal.friendshipTowardFarmer.Value + 15);
         Data.Write(animal, DataKeys.WasSupplementedToday, "true".ToString());
+    }
+
+    /// <summary>Gets the added distance to the player's bobber tile as a function of fishing level.</summary>
+    /// <param name="who">The <see cref="Farmer"/>.</param>
+    /// <returns>The added distance tot he player's bobber tile.</returns>
+    internal static int GetAddedFishingDistance(this Farmer who)
+    {
+        if (who.FishingLevel >= 15)
+        {
+            return 4;
+        }
+
+        if (who.FishingLevel >= 8)
+        {
+            return 3;
+        }
+
+        if (who.FishingLevel >= 4)
+        {
+            return 2;
+        }
+
+        if (who.FishingLevel >= 1)
+        {
+            return 1;
+        }
+
+        return 0;
     }
 }

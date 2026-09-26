@@ -1,5 +1,11 @@
 ﻿# HARMONICS Changelog
 
+## 1.2.2
+
+Update to latest DaLion.Core.
+
+<sup><sup>[🔼 Back to top]( #harmonics-changelog)</sup></sup>
+
 ## 1.2.1
 
 ### Added

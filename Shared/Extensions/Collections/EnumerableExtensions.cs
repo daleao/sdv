@@ -15,9 +15,9 @@ public static class EnumerableExtensions
     /// <param name="enumerable">The <see cref="IEnumerable{T}"/>.</param>
     /// <param name="condition">A acondition to check.</param>
     /// <returns><see langword="false"/> if at least one element in the <paramref name="enumerable"/> satisfies the <paramref name="condition"/>, otherwise <see langword="true"/>.</see></returns>
-    public static bool None<T>(this IEnumerable<T> enumerable, Func<T, bool> condition)
+    public static bool None<T>(this IEnumerable<T> enumerable, Func<T, bool>? condition = null)
     {
-        return !enumerable.Any(condition);
+        return !enumerable.Any(condition ?? (_ => true));
     }
 
     /// <summary>Applies an <paramref name="action"/> to each item in the <paramref name="enumerable"/>.</summary>

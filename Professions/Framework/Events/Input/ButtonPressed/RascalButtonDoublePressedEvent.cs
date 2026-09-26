@@ -15,7 +15,7 @@ internal sealed class RascalButtonDoublePressedEvent : ButtonDoublePressedEvent
     /// <summary>Initializes a new instance of the <see cref="RascalButtonDoublePressedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     public RascalButtonDoublePressedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this.OnButtonDoublePressed = this.OnButtonDoublePressedImpl;
     }

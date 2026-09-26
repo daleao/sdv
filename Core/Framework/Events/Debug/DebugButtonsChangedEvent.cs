@@ -16,7 +16,7 @@ using StardewModdingAPI.Events;
 [Debug]
 [AlwaysEnabledEvent]
 internal sealed class DebugButtonsChangedEvent(EventManager? manager = null)
-    : ButtonsChangedEvent(manager ?? CoreMod.EventManager)
+    : ButtonsChangedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override async void OnButtonsChangedImpl(object? sender, ButtonsChangedEventArgs e)

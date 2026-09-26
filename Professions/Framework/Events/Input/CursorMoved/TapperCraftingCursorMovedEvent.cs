@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [LimitEvent]
 internal sealed class TapperCraftingCursorMovedEvent(EventManager? manager = null)
-    : CursorMovedEvent(manager ?? ProfessionsMod.EventManager)
+    : CursorMovedEvent(manager ?? ProfessionsMod.Events)
 {
     private float _yPositionSinceLastScroll;
 

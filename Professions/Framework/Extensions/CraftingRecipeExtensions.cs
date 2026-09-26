@@ -86,7 +86,6 @@ internal static class CraftingRecipeExtensions
             var baitTotalValue = ItemRegistry.Create<SObject>(originalPair.Key).Price * originalPair.Value;
             var substituteRequiredQuantity = (int)Math.Max((double)baitTotalValue / substitute.Price, 1);
             recipe.recipeList[substitute.ItemId] = substituteRequiredQuantity;
-
             var numberProducedPerCraft = (int)Math.Max((double)substitute.Price / baitTotalValue, 1);
             recipe.numberProducedPerCraft = numberProducedPerCraft;
         }
@@ -106,17 +105,22 @@ internal static class CraftingRecipeExtensions
 
             var ingredient = ingredients[0];
             var reflectedIngredient = reflectedIngredients.GetValue(0);
-            if (ingredient is null || reflectedIngredient is null)
+            if (ingredient is null || reflectedIngredient is null ||
+                bcIntegration.HoveredIngredientsCopy is null ||
+                bcIntegration.HoveredIngredientsReflectedCopy is null)
             {
                 ThrowHelper.ThrowInvalidOperationException($"Ingredient at index zero was null!");
                 return;
             }
 
-            var originalId = bcIntegration.GetIngredientId(reflectedIngredient);
-            var originalQuantity = ingredient.Quantity;
+            var original = bcIntegration.HoveredIngredientsReflectedCopy.GetValue(0)!;
+            var originalId = bcIntegration.GetIngredientId(original);
+            var originalQuantity = bcIntegration.GetIngredientQuantity(original);
             var baitTotalValue = ItemRegistry.Create<SObject>(originalId).Price * originalQuantity;
-            var substituteRequiredQuantity = (int)Math.Max((double)baitTotalValue / substitute.Price, 1);
-
+            var substituteRequiredQuantity = substitute.Price > 0
+                ? (int)Math.Max((double)baitTotalValue / substitute.Price, 1)
+                : 1;
+            Log.A($"{substitute.QualifiedItemId}, {substitute.Price}, {substituteRequiredQuantity}");
             var numberProducedPerCraft = (int)Math.Max((double)substitute.Price / baitTotalValue, 1);
             recipe.numberProducedPerCraft = numberProducedPerCraft;
 
@@ -148,13 +152,19 @@ internal static class CraftingRecipeExtensions
             bcIntegration.AssertLoaded();
 
             var ingredients = bcMenu.ActiveRecipe?.Ingredients;
-            if (ingredients is null || bcIntegration.HoveredIngredientsCopy is null)
+            var reflectedIngredients = bcIntegration.GetIngredientsFromHoveredRecipe();
+            if (ingredients is null || reflectedIngredients is null ||
+                bcIntegration.HoveredIngredientsCopy is null ||
+                bcIntegration.HoveredIngredientsReflectedCopy is null)
             {
                 ThrowHelper.ThrowInvalidOperationException();
                 return;
             }
 
-            ingredients[State.TapperCraftingIngredientSelected] = bcIntegration.HoveredIngredientsCopy[State.TapperCraftingIngredientSelected];
+            //ingredients[State.TapperCraftingIngredientSelected] = bcIntegration.HoveredIngredientsCopy[State.TapperCraftingIngredientSelected];
+            reflectedIngredients.SetValue(
+                bcIntegration.HoveredIngredientsReflectedCopy.GetValue(State.TapperCraftingIngredientSelected),
+                State.TapperCraftingIngredientSelected);
             bcIntegration.ClearCraftCacheForHoveredRecipe();
         }
 
@@ -174,13 +184,19 @@ internal static class CraftingRecipeExtensions
             bcIntegration.AssertLoaded();
 
             var ingredients = bcMenu.ActiveRecipe?.Ingredients;
-            if (ingredients is null || bcIntegration.HoveredIngredientsCopy is null)
+            var reflectedIngredients = bcIntegration.GetIngredientsFromHoveredRecipe();
+            if (ingredients is null || reflectedIngredients is null ||
+                bcIntegration.HoveredIngredientsCopy is null ||
+                bcIntegration.HoveredIngredientsReflectedCopy is null)
             {
                 ThrowHelper.ThrowInvalidOperationException();
                 return;
             }
 
-            ingredients[0] = bcIntegration.HoveredIngredientsCopy[0];
+            //ingredients[0] = bcIntegration.HoveredIngredientsCopy[0];
+            reflectedIngredients.SetValue(
+                bcIntegration.HoveredIngredientsReflectedCopy.GetValue(0),
+                0);
             bcIntegration.ClearCraftCacheForHoveredRecipe();
         }
 

@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "Oşinograf",
     "conservationist.title.prestiged.female": "Oşinograf",
     "conservationist.desc": "Yemsiz yengeç kapanları çöp yakalayabilir. Vadi'nin sularını temizleyerek köy halkının sevgisini ve vergi indirimlerini kazanın.",
-    "conservationist.desc.prestiged": "Yemsiz yengeç kapanları balık da yakalayabilir. Yağmurlu havalarda ve dolunay gelgitlerinde özel koşullar geçerlidir.",
+    "conservationist.desc.prestiged": "Temiz sular sucul biyoçeşitliliği artırır; nadir balıklar daha sık görülür ve yem kullanılmayan yengeç sepetleri balık ürünleri toplayabilir.",
     "conservationist.mail": "Hazine Bakanlığı^Ferngill Gelir Servisi^^^{{honorific}} Vergi Mükellefi,^^Çevreci faaliyetlerinizi incelememizin ardından, Ferngill Gelir Kanunu'nun 501(c)(3) maddesi uyarınca {{taxBonus}} tutarında gelir vergisi indirimine hak kazandığınızı tespit ettiğimizi bildirmekten memnuniyet duyarız. Bu doğrultuda, {{farm}} çiftliğinin tüm vergilendirilebilir geliri söz konusu tutar kadar artırılacak olup bu uygulama {{season}} ayının 28'ine kadar geçerli olacaktır.^^Mali durumunuzla ilgili herhangi bir soru çözmeniz gerekebileceği ihtimaline karşı bu mektubu kalıcı kayıtlarınızda saklayınız.^^^Saygılarımızla,^^Laura D. Pretto^İcra Direktörü, Ferngill Gelir Servisi[#]FGS İndirim Bildirimi",
     "conservationist.mail.max": "Hazine Bakanlığı^Ferngill Gelir Servisi^^^{{honorific}} Vergi Mükellefi,^^Çevreci faaliyetlerinizi incelememizin ardından, Ferngill Gelir Kanunu'nun 501(c)(3) maddesi uyarınca azami {{taxBonus}} tutarında gelir vergisi indirimine hak kazandığınızı tespit ettiğimizi bildirmekten memnuniyet duyarız. Bu doğrultuda, {{farm}} çiftliğinin tüm vergilendirilebilir geliri söz konusu tutar kadar artırılacak olup bu uygulama {{season}} ayının 28'ine kadar geçerli olacaktır.^^Mali durumunuzla ilgili herhangi bir soru çözmeniz gerekebileceği ihtimaline karşı bu mektubu kalıcı kayıtlarınızda saklayınız.^^^Saygılarımızla,^^Laura D. Pretto^İcra Direktörü, Ferngill Gelir Servisi[#]FGS İndirim Bildirimi",
 
@@ -311,7 +311,7 @@
     "honorific.male": "Sayın",
     "honorific.female": "Sayın",
 
-    "buildings.PiecesOfHayAndMore": "Saman Yığınları: {0}/{1}^Tahıllar: {2}/{9}^Yapraklı Sebzeler: {3}/{9}^Baklagiller: {4}/{9}^Kök Sebzeler: {5}/{9}^Yumrular: {6}/{9}^Kabakgiller: {7}/{9}^Meyveler: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Tahıllar: {{grains}}/{{capacity}}^Yapraklı Sebzeler: {{greens}}/{{capacity}}^Baklagiller: {{legumes}}/{{capacity}}^Kök Sebzeler: {{roots}}/{{capacity}}^Yumrular: {{tubers}}/{{capacity}}^Kabakgiller: {{gourds}}/{{capacity}}^Meyveler: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

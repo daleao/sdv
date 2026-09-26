@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class SlowAnimationUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
+    : UpdateTickedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

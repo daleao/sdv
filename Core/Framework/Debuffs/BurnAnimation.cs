@@ -33,8 +33,8 @@ public class BurnAnimation : TemporaryAnimatedSprite
         this.positionFollowsAttachedCharacter = true;
         this.attachedCharacter = monster;
         this.layerDepth = 999999f;
-        EventManager.Enable<BurnAnimationUpdateTickedEvent>();
-        EventManager.Enable<BurnAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<BurnAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<BurnAnimationRenderedWorldEvent>();
     }
 
     /// <summary>Initializes a new instance of the <see cref="BurnAnimation"/> class for a royal <see cref="Serpent"/>.</summary>
@@ -55,8 +55,8 @@ public class BurnAnimation : TemporaryAnimatedSprite
         this.attachedCharacter = royal;
         this.layerDepth = 999999f;
         this._segmentIndex = segmentIndex;
-        EventManager.Enable<BurnAnimationUpdateTickedEvent>();
-        EventManager.Enable<BurnAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<BurnAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<BurnAnimationRenderedWorldEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, List<BurnAnimation>> BurnAnimationsByMonster { get; } = [];

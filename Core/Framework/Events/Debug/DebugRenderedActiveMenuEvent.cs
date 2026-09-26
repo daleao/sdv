@@ -15,7 +15,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugRenderedActiveMenuEvent(EventManager? manager = null)
-    : RenderedActiveMenuEvent(manager ?? CoreMod.EventManager)
+    : RenderedActiveMenuEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;

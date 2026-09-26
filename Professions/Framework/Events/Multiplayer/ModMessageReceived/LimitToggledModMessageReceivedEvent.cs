@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class LimitToggledModMessageReceivedEvent(EventManager? manager = null)
-    : ModMessageReceivedEvent(manager ?? ProfessionsMod.EventManager)
+    : ModMessageReceivedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer;
@@ -38,7 +38,7 @@ internal sealed class LimitToggledModMessageReceivedEvent(EventManager? manager 
             case "Active":
                 var id = Data.ReadAs(who, DataKeys.LimitBreakId, -1);
                 var limit = LimitBreak.FromId(id);
-                Log.D($"{who.Name} activated {limit.Name}.");
+                Log.D($"{who.Name} activated {limit.Name}!");
                 who.startGlowing(limit.Color, false, 0.05f);
                 break;
 

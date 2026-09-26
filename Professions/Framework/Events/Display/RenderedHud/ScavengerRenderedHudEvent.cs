@@ -13,7 +13,7 @@ using StardewValley.TerrainFeatures;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ScavengerRenderedHudEvent(EventManager? manager = null)
-    : RenderedHudEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedHudEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnRenderedHudImpl(object? sender, RenderedHudEventArgs e)

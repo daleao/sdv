@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class HarmonicsReturnedToTitleEvent(EventManager? manager = null)
-    : ReturnedToTitleEvent(manager ?? HarmonicsMod.EventManager)
+    : ReturnedToTitleEvent(manager ?? HarmonicsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)

@@ -134,7 +134,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         if (this.TriggerPool >= this.TriggerThreshold)
         {
             Log.D("[Scavenger Hunt]: Hunt threshold reached. Begin monitoring for valid hunt location...");
-            EventManager.Enable<ScavengerHuntTriggerTimeChangedEvent>();
+            ProfessionsMod.Events.Enable<ScavengerHuntTriggerTimeChangedEvent>();
         }
     }
 
@@ -291,7 +291,7 @@ internal sealed class ScavengerHunt : TreasureHunt
         if (Game1.player.HasProfession(VanillaProfession.Scavenger, true) &&
             (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
-            EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+            ProfessionsMod.Events.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
         else
         {

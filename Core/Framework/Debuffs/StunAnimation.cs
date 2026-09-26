@@ -30,8 +30,8 @@ public class StunAnimation : TemporaryAnimatedSprite
         this.positionFollowsAttachedCharacter = true;
         this.attachedCharacter = monster;
         this.layerDepth = 999999f;
-        EventManager.Enable<StunAnimationRenderedWorldEvent>();
-        EventManager.Enable<StunAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<StunAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<StunAnimationUpdateTickedEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, StunAnimation> StunAnimationByMonster { get; } = [];

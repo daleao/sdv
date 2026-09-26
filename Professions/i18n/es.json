@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "Oceanógrafo",
     "conservationist.title.prestiged.female": "Oceanógrafa",
     "conservationist.desc": "Las nasas sin cebo pueden atrapar basura. Limpia las aguas del Valle para ganarte el favor del pueblo y deducciones fiscales.",
-    "conservationist.desc.prestiged": "Las nasas sin cebo también pueden atrapar peces. Condiciones especiales durante lluvia y mareas de luna llena.",
+    "conservationist.desc.prestiged": "Las aguas limpias fomentan la biodiversidad acuática; los peces raros son más comunes y las nasas sin cebo pueden recolectar productos de peces.",
     "conservationist.mail": "Departamento del Tesoro^Servicio de Rentas de Ferngill^^^{{honorific}} contribuyente,^^Nos complace informarle que, tras revisar sus actividades medioambientalistas, hemos determinado que cumple los requisitos para una deducción fiscal de {{taxBonus}} según la sección 501(c)(3) del Código de Rentas de Ferngill. Por ello, todos los ingresos imponibles de la granja {{farm}} se incrementarán en el importe mencionado, con validez hasta el día 28 de {{season}}.^^Conserve esta carta en sus archivos permanentes por si necesita resolver cualquier cuestión sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Servicio de Rentas de Ferngill[#]Aviso de Deducción del SRF",
     "conservationist.mail.max": "Departamento del Tesoro^Servicio de Rentas de Ferngill^^^{{honorific}} contribuyente,^^Nos complace informarle que, tras revisar sus actividades medioambientalistas, hemos determinado que cumple los requisitos para la deducción fiscal máxima de {{taxBonus}} según la sección 501(c)(3) del Código de Rentas de Ferngill. Por ello, todos los ingresos imponibles de la granja {{farm}} se incrementarán en el importe mencionado, con validez hasta el día 28 de {{season}}.^^Conserve esta carta en sus archivos permanentes por si necesita resolver cualquier cuestión sobre su situación fiscal.^^^Atentamente,^^Laura D. Pretto^Directora Ejecutiva, Servicio de Rentas de Ferngill[#]Aviso de Deducción del SRF",
 
@@ -311,7 +311,7 @@
     "honorific.male": "Estimado",
     "honorific.female": "Estimada",
 
-    "buildings.PiecesOfHayAndMore": "Montones de heno: {0}/{1}^Cereales: {2}/{9}^Verduras de hoja: {3}/{9}^Legumbres: {4}/{9}^Raíces: {5}/{9}^Tubérculos: {6}/{9}^Calabazas: {7}/{9}^Frutas: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Cereales: {{grains}}/{{capacity}}^Verduras de hoja: {{greens}}/{{capacity}}^Legumbres: {{legumes}}/{{capacity}}^Raíces: {{roots}}/{{capacity}}^Tubérculos: {{tubers}}/{{capacity}}^Calabazas: {{gourds}}/{7}}^Frutas: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

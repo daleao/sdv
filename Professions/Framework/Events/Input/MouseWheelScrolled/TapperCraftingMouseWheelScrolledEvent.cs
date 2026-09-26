@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TapperCraftingMouseWheelScrolledEvent(EventManager? manager = null)
-    : MouseWheelScrolledEvent(manager ?? ProfessionsMod.EventManager)
+    : MouseWheelScrolledEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.TapperCraftingRecipeBeingHovered is not null;

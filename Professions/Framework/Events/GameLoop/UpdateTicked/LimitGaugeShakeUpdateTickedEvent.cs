@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [LimitEvent]
 [UsedImplicitly]
 internal sealed class LimitGaugeShakeUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.LimitBreak?.CanActivate ?? false;

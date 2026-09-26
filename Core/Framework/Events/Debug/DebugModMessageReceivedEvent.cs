@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugModMessageReceivedEvent(EventManager? manager = null)
-    : ModMessageReceivedEvent(manager ?? CoreMod.EventManager)
+    : ModMessageReceivedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;

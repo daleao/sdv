@@ -16,7 +16,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PiperWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
+    : WarpedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.HasProfession(Profession.Piper);

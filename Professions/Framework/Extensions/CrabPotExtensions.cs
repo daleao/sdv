@@ -4,11 +4,14 @@
 
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using DaLion.Shared.Enums;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.Stardew;
+using StardewValley.Buildings;
+using StardewValley.GameData.FishPonds;
 using StardewValley.GameData.Locations;
 using StardewValley.Internal;
 using StardewValley.Locations;
@@ -95,7 +98,23 @@ internal static class CrabPotExtensions
     /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Specific Bait and the bait contains fish metadata, otherwise <see langword="false"/>.</returns>
     internal static bool HasSpecificBait(this CrabPot crabPot)
     {
-        return crabPot.bait.Value is { QualifiedItemId: "(O)SpecificBait", preservedParentSheetIndex.Value: not null };
+        return crabPot.bait.Value is { QualifiedItemId: QIDs.SpecificBait, preservedParentSheetIndex.Value: not null };
+    }
+
+    /// <summary>Determines whether the <paramref name="crabPot"/> is using deluxe fish bait.</summary>
+    /// <param name="crabPot">The <see cref="CrabPot"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Deluxe Bait, otherwise <see langword="false"/>.</returns>
+    internal static bool HasDeluxeBait(this CrabPot crabPot)
+    {
+        return crabPot.bait.Value?.QualifiedItemId == QIDs.DeluxeBait;
+    }
+
+    /// <summary>Determines whether the <paramref name="crabPot"/> is using challenge fish bait.</summary>
+    /// <param name="crabPot">The <see cref="CrabPot"/>.</param>
+    /// <returns><see langword="true"/> if the <paramref name="crabPot"/>'s bait value is the index of Challenge Bait, otherwise <see langword="false"/>.</returns>
+    internal static bool HasChallengeBait(this CrabPot crabPot)
+    {
+        return crabPot.bait.Value?.QualifiedItemId == QIDs.ChallengeBait;
     }
 
     /// <summary>Determines whether the <paramref name="crabPot"/> should catch ocean-specific shellfish.</summary>
@@ -174,7 +193,8 @@ internal static class CrabPotExtensions
                     false,
                     owner.DailyLuck,
                     owner.LuckLevel,
-                    (value, modifiers, mode) => Utility.ApplyQuantityModifiers(value, modifiers, mode, location));
+                    (value, modifiers, mode) => Utility.ApplyQuantityModifiers(value, modifiers, mode, location),
+                    spawn.ItemId == baitTargetFish);
                 if (spawn.UseFishCaughtSeededRandom)
                 {
                     if (!Utility.CreateRandom(Game1.uniqueIDForThisGame, owner.stats.Get("PreciseFishCaught") * 859)
@@ -415,7 +435,7 @@ internal static class CrabPotExtensions
             }
         }
 
-        if (crabPot.bait.Value is { QualifiedItemId: QIDs.DeluxeBait })
+        if (crabPot.HasDeluxeBait())
         {
             quality = quality.Increment();
             if (isLuremaster)
@@ -436,7 +456,6 @@ internal static class CrabPotExtensions
     /// <returns>The stack value.</returns>
     internal static int GetTrapQuantity(this CrabPot crabPot, string trap, bool isLuremaster = false, Farmer? owner = null, Random? r = null)
     {
-        owner ??= crabPot.GetOwner();
         r ??= Game1.random;
         if (TrapperPirateTreasureTable.TryGetValue(trap, out var treasureData))
         {
@@ -444,32 +463,75 @@ internal static class CrabPotExtensions
         }
 
         var quantity = 1;
-        if (crabPot.HasWildBait() && (r.NextBool(0.25) || isLuremaster))
+        if (!isLuremaster)
+        {
+            return quantity;
+        }
+
+        if (crabPot.HasWildBait() && r.NextBool(0.5))
         {
             quantity++;
+        }
+        else if (crabPot.HasChallengeBait())
+        {
+            quantity += 2;
         }
 
         return quantity;
     }
 
-    internal static string TryFromPondData(this CrabPot crabPot, Farmer? owner = null, Random? r = null)
+    internal static bool TryFromPondData(this CrabPot crabPot, [NotNullWhen(true)] out Item? producedItem, Farmer? owner = null, Random? r = null)
     {
         owner ??= crabPot.GetOwner();
         r ??= Game1.random;
+        producedItem = null;
+        var location = crabPot.Location;
+        if (location is Caldera)
+        {
+            var data = FishPond.GetRawData("162"); // laval eel ID
+            if (data is null)
+            {
+                return false;
+            }
+
+            var possibleRewards = data.ProducedItems.Where(i => i.ItemId.QualifyId() != QIDs.Roe);
+            if (possibleRewards.None())
+            {
+                return false;
+            }
+
+            FishPondReward? selected = null;
+            foreach (var reward in possibleRewards)
+            {
+                if ((selected is null || reward.Precedence > selected.Precedence) && r.NextBool(reward.Chance))
+                {
+                    selected = reward;
+                }
+            }
+
+            if (selected is not null)
+            {
+                producedItem = ItemQueryResolver.TryResolveRandomItem(
+                    selected,
+                    new ItemQueryContext(location, null, null, $"fish pond data '162' > reward '{selected.Id}'"));
+                return true;
+            }
+
+            return false;
+        }
+
         var trashCollectedThisSeason = Data.ReadAs<int>(owner, DataKeys.ConservationistTrashCollectedThisSeason);
         if (trashCollectedThisSeason < 100)
         {
-            return string.Empty;
+            return false;
         }
 
-        var location = crabPot.Location;
         var itemQueryContext = new ItemQueryContext(location, owner, r, null);
         var dictionary = DataLoader.Locations(Game1.content);
         var locationData = location.GetData();
         var allFishData = DataLoader.Fish(Game1.content);
         var season = Game1.GetSeasonForLocation(location);
         var bobberTile = crabPot.TileLocation;
-        var fishPondData = DataLoader.FishPondData(Game1.content);
         if (!location.TryGetFishAreaForTile(bobberTile, out var fishAreaId, out var _))
         {
             fishAreaId = null;
@@ -486,99 +548,164 @@ internal static class CrabPotExtensions
                        select p;
         HashSet<string> ignoreQueryKeys = ["TIME"];
         Item? fish = null;
-        for (var i = 0; i < trashCollectedThisSeason / 100; i++)
+        List<string> candidateFish = [];
+        foreach (var spawn in possibleFish)
         {
-            foreach (var spawn in possibleFish)
+            if (spawn.IsBossFish || (spawn.FishAreaId != null && fishAreaId != spawn.FishAreaId) ||
+                (spawn.Season.HasValue && spawn.Season != season))
             {
-                if (spawn.IsBossFish || (spawn.FishAreaId != null && fishAreaId != spawn.FishAreaId) ||
-                    (spawn.Season.HasValue && spawn.Season != season))
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                var chance = spawn.GetChance(
-                    false,
-                    owner.DailyLuck,
-                    owner.LuckLevel,
-                    (value, modifiers, mode) => Utility.ApplyQuantityModifiers(value, modifiers, mode, location));
-                if (spawn.UseFishCaughtSeededRandom)
-                {
-                    if (!Utility.CreateRandom(Game1.uniqueIDForThisGame, owner.stats.Get("PreciseFishCaught") * 859)
-                            .NextBool(chance))
-                    {
-                        continue;
-                    }
-                }
-                else if (!r.NextBool(chance))
-                {
-                    continue;
-                }
-
-                if (spawn.Condition is not null && !GameStateQuery.CheckConditions(
-                        spawn.Condition,
-                        location,
-                        null,
-                        null,
-                        null,
-                        null,
-                        ignoreQueryKeys))
-                {
-                    continue;
-                }
-
-                var item = ItemQueryResolver.TryResolveRandomItem(
-                    spawn,
-                    itemQueryContext,
-                    false,
-                    null,
-                    query => query
-                        .Replace("BOBBER_X", ((int)bobberTile.X).ToString())
-                        .Replace("BOBBER_Y", ((int)bobberTile.Y).ToString())
-                        .Replace("WATER_DEPTH", "1"),
-                    null,
-                    delegate (string query, string error)
-                    {
-                        Log.E(
-                            $"Location '{location.NameOrUniqueName}' failed parsing item query '{query}' for fish '{spawn.Id}': {error}");
-                    });
-                if (item is null || item.TypeDefinitionId != "(O)")
-                {
-                    continue;
-                }
-
-                if (!string.IsNullOrWhiteSpace(spawn.SetFlagOnCatch))
-                {
-                    item.SetFlagOnPickup = spawn.SetFlagOnCatch;
-                }
-
-                fish = item;
-                var belowCatchLimit = spawn.CatchLimit <= -1 ||
-                                      !owner.fishCaught.TryGetValue(fish.QualifiedItemId, out var values) ||
-                                      values[0] < spawn.CatchLimit;
-                var meetsFishRequirements = _checkGenericFishRequirements(
-                    fish,
-                    allFishData,
-                    location,
-                    owner,
-                    spawn,
-                    1,
-                    false,
-                    false,
-                    false,
-                    false);
-                if (!belowCatchLimit || !meetsFishRequirements)
+            var chance = spawn.GetChance(
+                false,
+                owner.DailyLuck,
+                owner.LuckLevel,
+                (value, modifiers, mode) => Utility.ApplyQuantityModifiers(value, modifiers, mode, location));
+            if (spawn.UseFishCaughtSeededRandom)
+            {
+                if (!Utility.CreateRandom(Game1.uniqueIDForThisGame, owner.stats.Get("PreciseFishCaught") * 859)
+                        .NextBool(chance))
                 {
                     continue;
                 }
             }
+            else if (!r.NextBool(chance))
+            {
+                continue;
+            }
+
+            if (spawn.Condition is not null && !GameStateQuery.CheckConditions(
+                    spawn.Condition,
+                    location,
+                    null,
+                    null,
+                    null,
+                    null,
+                    ignoreQueryKeys))
+            {
+                continue;
+            }
+
+            var item = ItemQueryResolver.TryResolveRandomItem(
+                spawn,
+                itemQueryContext,
+                false,
+                null,
+                query => query
+                    .Replace("BOBBER_X", ((int)bobberTile.X).ToString())
+                    .Replace("BOBBER_Y", ((int)bobberTile.Y).ToString())
+                    .Replace("WATER_DEPTH", "1"),
+                null,
+                delegate (string query, string error)
+                {
+                    Log.E(
+                        $"Location '{location.NameOrUniqueName}' failed parsing item query '{query}' for fish '{spawn.Id}': {error}");
+                });
+            if (item is null || item.TypeDefinitionId != "(O)" || item.IsAlgae())
+            {
+                continue;
+            }
+
+            fish = item;
+            var meetsFishRequirements = _checkGenericFishRequirements(
+                fish,
+                allFishData,
+                location,
+                owner,
+                spawn,
+                1,
+                false,
+                false,
+                false,
+                false);
+            if (meetsFishRequirements)
+            {
+                candidateFish.Add(fish.ItemId);
+            }
         }
 
-        if (fish?.IsAlgae() != false)
+        var targetAreas = location.GetCrabPotFishForTile(crabPot.TileLocation);
+        foreach (var (key, value) in allFishData)
         {
-            return string.Empty;
+            if (!value.Contains("trap"))
+            {
+                continue;
+            }
+
+            var rawSplit = value.SplitWithoutAllocation('/');
+            var areaSplit = ArgUtility.SplitBySpace(rawSplit[4].ToString());
+            var found = false;
+            foreach (var crabPotArea in areaSplit)
+            {
+                foreach (var targetArea in targetAreas)
+                {
+                    if (crabPotArea != targetArea)
+                    {
+                        continue;
+                    }
+
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found)
+            {
+                continue;
+            }
+
+            var chanceForCatch = Convert.ToDouble(rawSplit[2].ToString());
+            if (r.NextBool(chanceForCatch))
+            {
+                candidateFish.Add(key);
+            }
         }
 
-        return fish.QualifiedItemId;
+        if (candidateFish.None())
+        {
+            return false;
+        }
+
+        var attempts = trashCollectedThisSeason / 100;
+        for (var i = 0; i < attempts; i++)
+        {
+            foreach (var candidate in candidateFish.Shuffle())
+            {
+                var data = FishPond.GetRawData(candidate);
+                if (data is null)
+                {
+                    continue;
+                }
+
+                var possibleRewards = data.ProducedItems.Where(i => i.ItemId.QualifyId() != QIDs.Roe);
+                if (possibleRewards.None())
+                {
+                    continue;
+                }
+
+                FishPondReward? selected = null;
+                foreach (var reward in possibleRewards)
+                {
+                    if ((selected is null || reward.Precedence > selected.Precedence) &&
+                        attempts >= reward.RequiredPopulation && r.NextBool(reward.Chance) &&
+                        GameStateQuery.CheckConditions(reward.Condition, location, null, null, fish))
+                    {
+                        selected = reward;
+                    }
+                }
+
+                if (selected is not null)
+                {
+                    producedItem = ItemQueryResolver.TryResolveRandomItem(
+                        selected,
+                        new ItemQueryContext(location, null, null, $"fish pond data '{candidate}' > reward '{selected.Id}'"));
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /// <summary>Chooses the ID of a random trash item.</summary>

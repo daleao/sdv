@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class MasteryWarningButtonPressedEvent(EventManager? manager = null)
-    : ButtonPressedEvent(manager ?? ProfessionsMod.EventManager)
+    : ButtonPressedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.WarningBox is not null;

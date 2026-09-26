@@ -20,10 +20,10 @@ internal sealed class MasteryWarningBox : DialogueBox
     /// <param name="masteryTrackerMenu">The <see cref="MasteryTrackerMenu"/>.</param>
     public MasteryWarningBox(GameLocation location, MasteryTrackerMenu masteryTrackerMenu)
         : base(
-            Config.Masteries.LockMasteryUntilFullReset
+            Config.Skills.EnableSkillReset && Config.Masteries.LockMasteryUntilFullReset
                 ? I18n.Prestige_Mastery_Lock()
                 : I18n.Prestige_Mastery_Warning(),
-            Config.Masteries.LockMasteryUntilFullReset
+            Config.Skills.EnableSkillReset && Config.Masteries.LockMasteryUntilFullReset
                 ? [new Response("OK", Game1.content.LoadString("Strings\\UI:Confirm")).SetHotKey(Keys.Escape)]
                 : location.createYesNoResponses())
     {

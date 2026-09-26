@@ -13,7 +13,7 @@ using StardewValley.Tools;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class DesperadoQuickshotUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     private int _timer;
 

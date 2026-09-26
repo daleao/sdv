@@ -10,6 +10,7 @@ using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
 using StardewValley.Mods;
 using xTile.Dimensions;
+using xTile.Tiles;
 
 #endregion using directives
 
@@ -113,5 +114,10 @@ internal static class GameLocationExtensions
                (!ShouldEnableSkillReset || player.professions
                    .Intersect(((ISkill)skill).TierTwoProfessionIds)
                    .Count() > 1);
+    }
+
+    internal static bool IsWaterOrLavaTile(this GameLocation location, int xTile, int yTile)
+    {
+        return location.isWaterTile(xTile, yTile) || location.doesTileHaveProperty(xTile, yTile, "Lava", "Back") != null;
     }
 }

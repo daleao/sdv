@@ -14,7 +14,7 @@ using StardewValley.GameData.Weapons;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class CoreAssetRequestedEvent(EventManager? manager = null)
-    : AssetRequestedEvent(manager ?? CoreMod.EventManager)
+    : AssetRequestedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void Initialize()

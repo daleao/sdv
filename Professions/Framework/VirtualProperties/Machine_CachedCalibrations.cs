@@ -3,6 +3,7 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
+using DaLion.Shared.Extensions;
 
 #endregion using directives
 
@@ -13,7 +14,7 @@ internal static class Machine_CachedCalibrations
 
     internal static Dictionary<string, float> Get_Calibrations(this SObject machine)
     {
-        return Values.TryGetValue(machine, out var cached) ? cached : [];
+        return Values.GetValue(machine, m => Data.Read(m, DataKeys.CalibrationPerItem).ParseDictionary<string, float>());
     }
 
     internal static void Set_Calibrations(this SObject machine, Dictionary<string, float> calibrations)

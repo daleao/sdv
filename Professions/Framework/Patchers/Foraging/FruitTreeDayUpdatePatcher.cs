@@ -37,7 +37,7 @@ internal sealed class FruitTreeDayUpdatePatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void FruitTreeDayUpdatePostfix(FruitTree __instance, (int DaysUntilMature, int GrowthStage) __state)
     {
-        if (!Data.ReadAs<bool>(__instance, DataKeys.PlantedByArborist) || __instance.daysUntilMature.Value % 4 != 0)
+        if (!Data.HasKey(__instance, DataKeys.PlantedByArborist) || __instance.daysUntilMature.Value % 4 != 0)
         {
             return;
         }

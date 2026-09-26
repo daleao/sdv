@@ -14,16 +14,16 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ChromaBallObjectListChangedEvent(EventManager? manager = null)
-    : ObjectListChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : ObjectListChangedEvent(manager ?? ProfessionsMod.Events)
 {
     protected override void OnEnabled()
     {
-        CoreMod.EventManager.Disable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
+        CoreMod.Events.Disable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
     }
 
     protected override void OnDisabled()
     {
-        CoreMod.EventManager.Enable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
+        CoreMod.Events.Enable<Core.Framework.Events.SlimeBallObjectListChangedEvent>();
     }
 
     /// <inheritdoc />

@@ -1,5 +1,7 @@
 ﻿namespace DaLion.Professions.Framework;
 
+using System.Collections;
+
 #region using directives
 
 using System.Collections.Generic;
@@ -257,10 +259,57 @@ public interface ISkill : IEquatable<ISkill>
         return Skill.List.Any(s => s.CanReset()) || CustomSkill.Loaded.Values.Any(s => s.CanReset());
     }
 
+    /// <summary>Ensures <see cref="DataKeys.ResetCountBySkill"/> data is correct.</summary>
+    internal static void CountResets()
+    {
+        var player = Game1.player;
+        if (!string.IsNullOrEmpty(Data.Read(player, DataKeys.ResetCountBySkill)))
+        {
+            return;
+        }
+
+        Dictionary<string, int> resetCountBySkill = [];
+        foreach (ISkill vanilla in Skill.List)
+        {
+            if (vanilla.AcquiredProfessions.Length == 0 ||
+                (vanilla.AcquiredProfessions.Length == 1 && vanilla.CurrentLevel >= 10))
+            {
+                continue;
+            }
+
+            var count = vanilla.AcquiredProfessions.Length - 1;
+            if (vanilla.CurrentLevel < 10)
+            {
+                count++;
+            }
+
+            resetCountBySkill[vanilla.StringId] = count;
+        }
+
+        foreach (ISkill custom in CustomSkill.Loaded.Values)
+        {
+            if (custom.AcquiredProfessions.Length == 0 ||
+                (custom.AcquiredProfessions.Length == 1 && custom.CurrentLevel >= 10))
+            {
+                continue;
+            }
+
+            var count = custom.AcquiredProfessions.Length - 1;
+            if (custom.CurrentLevel < 10)
+            {
+                count++;
+            }
+
+            resetCountBySkill[custom.StringId] = count;
+        }
+
+        Data.Write(player, DataKeys.ResetCountBySkill, resetCountBySkill.Stringify());
+    }
+
     /// <summary>Revalidates all vanilla and custom skills.</summary>
     internal static void RevalidateAll()
     {
-        Skill.List.ForEach(s => s.Revalidate());
-        CustomSkill.Loaded.Values.ForEach(s => s.Revalidate());
+        Skill.RevalidateAll();
+        CustomSkill.RevalidateAll();
     }
 }

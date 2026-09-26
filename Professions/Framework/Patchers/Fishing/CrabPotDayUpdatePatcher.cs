@@ -8,6 +8,7 @@ using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Locations;
 using StardewValley.Objects;
 using StardewValley.Tools;
 
@@ -37,7 +38,6 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             return false; // don't run original logic
         }
 
-        var location = __instance.Location;
         var owner = __instance.GetOwner();
         var isConservationist = owner.HasProfessionOrLax(Profession.Conservationist);
         if (__instance.bait.Value is null && !isConservationist)
@@ -50,6 +50,7 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             var r = Random.Shared;
             var isLuremaster = false;
             var caught = string.Empty;
+            Item caughtItem;
             if (__instance.bait.Value is { } bait)
             {
                 isLuremaster = bait.GetOwner().HasProfessionOrLax(Profession.Luremaster);
@@ -61,6 +62,17 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                     }
                     else if (__instance.HasMagicBait())
                     {
+                        if (__instance.Location is Caldera)
+                        {
+                            if (r.NextBool())
+                            {
+                                caughtItem = ItemRegistry.Create<SObject>(QIDs.LavaEel, 1, (int)__instance.GetTrapQuality(QIDs.LavaEel));
+                                goto end;
+                            }
+
+                            return false;
+                        }
+
                         caught = __instance.ChooseFish(owner, r);
                     }
                 }
@@ -75,9 +87,10 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
             var quality = 0;
             if (string.IsNullOrEmpty(caught))
             {
-                if (owner.HasProfession(Profession.Conservationist, true))
+                if (owner.HasProfession(Profession.Conservationist, true) && __instance.TryFromPondData(out var giftItem, owner, r))
                 {
-                    caught = __instance.TryFromPondData(owner, r);
+                    caughtItem = giftItem;
+                    goto end;
                 }
 
                 if (string.IsNullOrEmpty(caught))
@@ -105,13 +118,14 @@ internal sealed class CrabPotDayUpdatePatcher : HarmonyPatcher
                 caught = caught.ReplaceAt(1, "O");
             }
 
-            var caughtItem = ItemRegistry.Create(caught, amount: quantity, quality: quality);
+            caughtItem = ItemRegistry.Create(caught, amount: quantity, quality: quality);
             if (caughtItem is not SObject)
             {
                 caughtItem = ItemRegistry.Create<SObject>("(O)0", amount: quantity, quality: quality);
                 caughtItem.ItemId = caught[3..];
             }
 
+        end:
             __instance.heldObject.Value = (SObject)caughtItem;
             __instance.tileIndexToShow = 714;
             __instance.readyForHarvest.Value = true;

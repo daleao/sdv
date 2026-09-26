@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "해양학자",
     "conservationist.title.prestiged.female": "해양학자",
     "conservationist.desc": "미끼가 없는 게잡이 통발이 쓰레기를 건집니다. 쓰레기를 건져 낼 수록 마을주민들의 호감도가 오르며, 세금 공제 혜택을 얻을 수 있습니다.",
-    "conservationist.desc.prestiged": "게잡이 통발이 미끼 없이도 물고기를 잡을 수 있습니다. 비가 오거나, 보름달이 뜨는 날에는 모든 물고기를 통발로 잡을 수 있습니다.",
+    "conservationist.desc.prestiged": "깨끗한 물은 수생 생물 다양성을 촉진합니다. 희귀한 물고기가 더 자주 나타나며, 미끼가 없는 통발에서도 생선 생산물을 얻을 수 있습니다.",
     "conservationist.mail": "펀길 재무부 국세청에서^^^{{honorific}} 세금 납부자에게,^^귀하의 환경 보호 활동을 검토한 결과, 펀길 공화국 법률 501조 3항에 의거하여 {{taxBonus}} %의 소득 공제 혜택을 부여하기로 결정했습니다, 따라서 귀하의 {{farm}} 농장의 과세 소득은 상기한 비율만큼 증가하며, 이는 {{season}}의 28일까지 유효합니다.^^해당 내용에 대하여 문의 사항이 있으실 경우를 대비하여 이 편지를 반드시 보관해 두시길 바랍니다.^^^라우라.D 프레토, 펀길 소득 공제 서비스[#]FRS 공제 통지",
     "conservationist.mail.max": "펀길 재무부 국세청에서^^^{{honorific}} 세금 납부자에게,^^귀하의 환경 보호 활동을 검토한 결과, 펀길 공화국 법률 501조 3항에 의거하여 최대 {{taxBonus}} %의 소득 공제 혜택을 부여하기로 결정했습니다, 따라서 귀하의 {{farm}} 농장의 과세 소득은 상기한 비율만큼 증가하며, 이는 {{season}}의 28일까지 유효합니다.^^해당 내용에 대하여 문의 사항이 있으실 경우를 대비하여 이 편지를 반드시 보관해 두시길 바랍니다.^^^라우라.D 프레토, 펀길 소득 공제 서비스[#]FRS 공제 통지",
 
@@ -312,7 +312,7 @@
     "honorific.male": "존경하는",
     "honorific.female": "존경하는",
 
-    "buildings.PiecesOfHayAndMore": "건초 더미: {0}/{1}^곡물: {2}/{9}^잎채소: {3}/{9}^콩류: {4}/{9}^뿌리채소: {5}/{9}^괴경: {6}/{9}^박과 작물: {7}/{9}^과일: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "곡물: {{grains}}/{{capacity}}^잎채소: {{greens}}/{{capacity}}^콩류: {{legumes}}/{{capacity}}^뿌리채소: {{roots}}/{{capacity}}^괴경: {{tubers}}/{{capacity}}^박과 작물: {{gourds}}/{{capacity}}^과일: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

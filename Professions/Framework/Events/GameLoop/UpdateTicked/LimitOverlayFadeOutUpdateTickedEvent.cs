@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [LimitEvent]
 [UsedImplicitly]
 internal sealed class LimitOverlayFadeOutUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnUpdateTickedImpl(object? sender, UpdateTickedEventArgs e)

@@ -34,11 +34,15 @@ internal sealed class BetterCraftingIntegration : ModIntegration<BetterCraftingI
     // cannot cast from API IIngredient to actual BaseIngredient
     internal Func<object, string> GetIngredientId { get; } = Reflector.GetUnboundFieldGetter<object, string>("Leclair.Stardew.BetterCrafting.Models.BaseIngredient", "ItemId");
 
+    internal Func<object, int> GetIngredientQuantity { get; } = Reflector.GetUnboundPropertyGetter<object, int>("Leclair.Stardew.BetterCrafting.Models.BaseIngredient", "Quantity");
+
     internal Func<string, int, float, string?, object> ConstructBaseIngredient { get; } = Reflector.GetConstructorDelegate<Func<string, int, float, string?, object>>("Leclair.Stardew.BetterCrafting.Models.BaseIngredient", 4);
 
     internal Action<object, object> ClearCraftCache { get; } = Reflector.GetUnboundMethodDelegate<Action<object, object>>("Leclair.Stardew.BetterCrafting.Menus.BetterCraftingPage", "ClearCraftCache");
 
     internal IIngredient[]? HoveredIngredientsCopy { get; set; }
+
+    internal Array? HoveredIngredientsReflectedCopy { get; set; }
 
     internal InventoryMenu GetInventoryMenu()
     {

@@ -18,7 +18,7 @@ internal sealed class LimitEmptiedEvent : ManagedEvent
     internal LimitEmptiedEvent(
         Action<object?, ILimitEmptiedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onEmptiedImpl = callback;
         LimitBreak.Emptied += this.OnEmptied;

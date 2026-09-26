@@ -32,8 +32,8 @@ public class FreezeAnimation : TemporaryAnimatedSprite
         this.layerDepth = (monster.StandingPixel.Y + 1) / 10000f;
         this.interval = duration;
         this.scale = 4f;
-        EventManager.Enable<FreezeAnimationUpdateTickedEvent>();
-        EventManager.Enable<FreezeAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<FreezeAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<FreezeAnimationRenderedWorldEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, List<FreezeAnimation>> FreezeAnimationsByMonster { get; } = [];

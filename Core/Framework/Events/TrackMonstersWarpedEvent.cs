@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class TrackMonstersWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? CoreMod.EventManager)
+    : WarpedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

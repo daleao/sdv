@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class MasteryWarningRenderedActiveMenuEvent(EventManager? manager = null)
-    : RenderedActiveMenuEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedActiveMenuEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.WarningBox is not null;

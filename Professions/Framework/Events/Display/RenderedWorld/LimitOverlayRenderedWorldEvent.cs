@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [LimitEvent]
 internal sealed class LimitOverlayRenderedWorldEvent(EventManager? manager = null)
-    : RenderedWorldEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedWorldEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.LimitBreak?.IsActive ?? false;

@@ -10,6 +10,7 @@ using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Collections;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Constants;
 using StardewValley.Menus;
 
@@ -22,11 +23,15 @@ internal sealed class AddCommand(CommandHandler handler)
     : ConsoleCommand(handler)
 {
     /// <inheritdoc />
-    public override string[] Triggers { get; } = ["add", "get"];
+    public override string[] Triggers { get; } = ["add"];
 
     /// <inheritdoc />
     public override string Documentation =>
         "Add the specified professions to the player without affecting skill levels. Can also be used to add masteries to the specified skills using the keyword \"mastery\".";
+
+    internal static Dictionary<int, Queue<int>> ProfessionsToAddPerScreen { get; } = [];
+
+    internal static Dictionary<int, Queue<string>> RecipesToAddPerScreen { get; } = [];
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
@@ -35,18 +40,6 @@ internal sealed class AddCommand(CommandHandler handler)
         {
             Log.W("You must specify at least one profession.");
             return false;
-        }
-
-        if (args.Length == 1 && (args[0].ToLowerInvariant() is "brushes" or "paint" or "paintbrushes"))
-        {
-            var who = Game1.player;
-            who.craftingRecipes.TryAdd("Green Paintbrush", 0);
-            who.craftingRecipes.TryAdd("Blue Paintbrush", 0);
-            who.craftingRecipes.TryAdd("Red Paintbrush", 0);
-            who.craftingRecipes.TryAdd("Purple Paintbrush", 0);
-            who.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
-            Log.I($"Added paintbrush recipes to {who.Name}.");
-            return true;
         }
 
         var tokens = args.ToList();
@@ -70,6 +63,7 @@ internal sealed class AddCommand(CommandHandler handler)
         }
 
         var player = Game1.player;
+        int? screenId = 0;
         if (farmerIndex > 1)
         {
             if (!Context.IsSplitScreen)
@@ -78,26 +72,71 @@ internal sealed class AddCommand(CommandHandler handler)
                 return false;
             }
 
-            var screenId = farmerIndex - 1;
+            var peerIndex = farmerIndex - 2; // subtract 1 for host player and 1 for zero-index
             var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
-            if (screenId > onlinePlayers.Count)
+            if (peerIndex >= onlinePlayers.Count)
             {
                 Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
                 return false;
             }
 
-            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
-            if (multiplayerId is null)
+            var multiplayerId = onlinePlayers[peerIndex].PlayerID;
+            player = Game1.GetPlayer(multiplayerId, onlyOnline: true);
+            if (player is null)
             {
-                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
+                Log.W($"Failed to get online player number {farmerIndex}.");
                 return false;
             }
 
-            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
-            if (player is null)
+            screenId = player.GetScreenId(ModHelper.Multiplayer);
+            if (screenId is null)
             {
-                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                Log.W($"Failed to get {player.Name}'s splitscreen ID.");
                 return false;
+            }
+        }
+
+        HashSet<string> recipesToAdd = [];
+        if (args.Length == 1)
+        {
+            var recipeToAdd = false;
+            if (args[0].ToLowerInvariant() is "flag" or "surveyflag")
+            {
+                recipesToAdd.Add("Survey Flag");
+                recipeToAdd = true;
+            }
+            else if (args[0].ToLowerInvariant() is "flute" or "slimeflute")
+            {
+                recipesToAdd.Add("Slime Flute");
+                recipeToAdd = true;
+            }
+            else if (args.Length == 1 && (args[0].ToLowerInvariant() is "brushes" or "paint" or "paintbrushes"))
+            {
+                recipesToAdd.Add("Green Paintbrush");
+                recipesToAdd.Add("Blue Paintbrush");
+                recipesToAdd.Add("Red Paintbrush");
+                recipesToAdd.Add("Purple Paintbrush");
+                recipesToAdd.Add("Prismatic Paintbrush");
+                recipeToAdd = true;
+            }
+
+            if (recipeToAdd)
+            {
+                if (player.IsLocalPlayer)
+                {
+                    foreach (var recipe in recipesToAdd)
+                    {
+                        if (player.craftingRecipes.TryAdd(recipe, 0))
+                        {
+                            Log.I($"Added {recipe} recipe to {player.Name}.");
+                        }
+                    }
+
+                    return true;
+                }
+
+                RecipesToAddPerScreen[screenId.Value] = new(recipesToAdd);
+                return true;
             }
         }
 
@@ -153,7 +192,7 @@ internal sealed class AddCommand(CommandHandler handler)
             tokens = [.. tokens.Except(prestigeArgs)];
         }
 
-        List<int> professionsToAdd = [];
+        HashSet<(int Id, string Name)> professionsToAdd = [];
         foreach (var token in tokens)
         {
             if (string.Equals(token, "all", StringComparison.InvariantCultureIgnoreCase))
@@ -165,9 +204,9 @@ internal sealed class AddCommand(CommandHandler handler)
                 }
 
                 range = [.. range, .. CustomProfession.List.Select(p => p.Id)];
-                professionsToAdd.AddRange(range);
+                professionsToAdd.UnionWith(range.Select(i => (i, string.Empty)));
                 Log.I(
-                    $"Added all {(prestige ? "prestiged " : string.Empty)}professions to {player.Name}.");
+                    $"Adding all {(prestige ? "prestiged " : string.Empty)}professions to {player.Name}.");
                 break;
             }
 
@@ -182,14 +221,11 @@ internal sealed class AddCommand(CommandHandler handler)
                     continue;
                 }
 
-                professionsToAdd.Add(profession.Id);
+                professionsToAdd.Add((profession.Id, profession.Name));
                 if (prestige)
                 {
-                    professionsToAdd.Add(profession + 100);
+                    professionsToAdd.Add((profession.Id + 100, profession.Name + " (Prestiged)"));
                 }
-
-                Log.I(
-                    $"Added {profession.StringId}{(prestige ? " (P)" : string.Empty)} profession to {player.Name}.");
             }
             else
             {
@@ -216,27 +252,65 @@ internal sealed class AddCommand(CommandHandler handler)
                     continue;
                 }
 
-                professionsToAdd.Add(customProfession.Id);
-                Log.I($"Added the {customProfession.StringId} profession to {player.Name}.");
+                professionsToAdd.Add((customProfession.Id, customProfession.StringId));
             }
         }
 
+        if (player.IsLocalPlayer)
+        {
+            LevelUpMenu levelUpMenu = new();
+            foreach (var (pid, pname) in professionsToAdd)
+            {
+                if (player.professions.AddOrReplace(pid))
+                {
+                    levelUpMenu.getImmediateProfessionPerk(pid);
+                    Log.I($"Added the {pname} profession to {player.Name}.");
+
+                    if (pid.IsIn(Profession.GetRange(true)))
+                    {
+                        ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
+                    }
+                }
+
+            }
+
+            LevelUpMenu.RevalidateHealth(player);
+            return true;
+        }
+
+        ProfessionsToAddPerScreen[screenId.Value] = new(professionsToAdd.Select(p => p.Id));
+        return true;
+    }
+
+    internal static void AddProfessionsStatic(Queue<int> professionsToAdd, Farmer player)
+    {
         LevelUpMenu levelUpMenu = new();
-        foreach (var pid in professionsToAdd.Distinct().Except(player.professions))
+        while (professionsToAdd.TryDequeue(out var pid))
         {
             if (player.professions.AddOrReplace(pid))
             {
                 levelUpMenu.getImmediateProfessionPerk(pid);
+                Log.I($"Added profession ID {pid} to {player.Name}.");
+
+                if (pid.IsIn(Profession.GetRange(true)))
+                {
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
+                }
             }
         }
 
         LevelUpMenu.RevalidateHealth(player);
-        if (professionsToAdd.Intersect(Profession.GetRange(true)).Any())
-        {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
-        }
+    }
 
-        return true;
+    internal static void AddRecipesStatic(Queue<string> recipesToAdd, Farmer player)
+    {
+        while (recipesToAdd.TryDequeue(out var recipe))
+        {
+            if (player.craftingRecipes.TryAdd(recipe, 0))
+            {
+                Log.I($"Added {recipe} recipe to {player.Name}.");
+            }
+        }
     }
 
     /// <inheritdoc />

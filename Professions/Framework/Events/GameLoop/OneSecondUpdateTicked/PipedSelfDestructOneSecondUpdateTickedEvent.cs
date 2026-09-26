@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [Deprecated]
 internal sealed class PipedSelfDestructOneSecondUpdateTickedEvent(EventManager? manager = null)
-    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     private int _counter = 0;
 

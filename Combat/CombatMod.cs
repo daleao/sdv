@@ -36,7 +36,7 @@ public sealed class CombatMod : Mod
     }
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
+    internal static EventManager Events { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Logger"/> instance.</summary>
     internal static Logger Log { get; private set; } = null!; // set in Entry;
@@ -82,7 +82,7 @@ public sealed class CombatMod : Mod
         I18n.Init(helper.Translation);
         Config = helper.ReadConfig<CombatConfig>();
         PerScreenState = new PerScreen<CombatState>(() => new CombatState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+        Events = new EventManager(helper.Events, helper.ModRegistry, Log)
             .ManageInitial(assembly, "DaLion.Combat.Framework.Events");
         this.ValidateMultiplayer();
     }

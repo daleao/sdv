@@ -17,7 +17,7 @@ internal sealed class TreasureHuntStartedEvent : ManagedEvent
     internal TreasureHuntStartedEvent(
         Action<object?, ITreasureHuntStartedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onStartedImpl = callback;
         TreasureHunt.Started += this.OnStarted;

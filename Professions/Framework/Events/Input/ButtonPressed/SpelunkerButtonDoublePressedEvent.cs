@@ -16,7 +16,7 @@ internal sealed class SpelunkerButtonDoublePressedEvent : ButtonDoublePressedEve
     /// <summary>Initializes a new instance of the <see cref="SpelunkerButtonDoublePressedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     public SpelunkerButtonDoublePressedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this.OnButtonDoublePressed = this.OnButtonDoublePressedImpl;
     }

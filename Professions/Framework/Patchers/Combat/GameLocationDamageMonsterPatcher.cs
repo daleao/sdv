@@ -322,6 +322,9 @@ internal sealed class GameLocationDamageMonsterPatcher : HarmonyPatcher
         effectiveCritChance *= 1f + who.buffs.CriticalChanceMultiplier;
         var poachChance = effectiveCritChance -
                           ((monster.resilience.Value - who.LuckLevel) * monster.jitteriness.Value);
+#if DEBUG
+        poachChance = 1d;
+#endif
         if (r.NextDouble() > poachChance)
         {
             return false;

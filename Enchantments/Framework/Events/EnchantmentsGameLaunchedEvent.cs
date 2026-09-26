@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class EnchantmentsGameLaunchedEvent(EventManager? manager = null)
-    : GameLaunchedEvent(manager ?? EnchantmentsMod.EventManager)
+    : GameLaunchedEvent(manager ?? EnchantmentsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)

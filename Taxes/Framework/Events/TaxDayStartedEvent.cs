@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TaxDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? TaxesMod.EventManager)
+    : DayStartedEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

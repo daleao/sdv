@@ -31,8 +31,8 @@ public class PoisonAnimation : TemporaryAnimatedSprite
         this.positionFollowsAttachedCharacter = true;
         this.attachedCharacter = monster;
         this.layerDepth = 999999f;
-        EventManager.Enable<PoisonAnimationUpdateTickedEvent>();
-        EventManager.Enable<PoisonAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<PoisonAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<PoisonAnimationRenderedWorldEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, PoisonAnimation> PoisonAnimationByMonster { get; } = [];

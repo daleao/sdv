@@ -21,7 +21,7 @@ using StardewValley.Tools;
 internal sealed class SetCommand(CommandHandler handler)
     : ConsoleCommand(handler)
 {
-    private readonly HashSet<string> _dataKeys =
+    private static readonly HashSet<string> _dataKeys =
     [
         "forage",
         "itemsforaged",
@@ -53,6 +53,8 @@ internal sealed class SetCommand(CommandHandler handler)
     /// <inheritdoc />
     public override string Documentation => "Sets the specified data key or skill level to the specified value.";
 
+    internal static Dictionary<int, List<string>> TokensToSetPerScreen { get; } = [];
+
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
     {
@@ -61,7 +63,7 @@ internal sealed class SetCommand(CommandHandler handler)
         var farmerArgs = tokens.Where(a => a.ToLower() is "--farmer" or "-f").ToList();
         if (farmerArgs.Any())
         {
-            var fIndex = tokens.IndexOf(farmerArgs.First());    
+            var fIndex = tokens.IndexOf(farmerArgs.First());
             if (fIndex != -1 && tokens.Count > fIndex + 1 && int.TryParse(tokens[fIndex + 1], out var parsed))
             {
                 farmerIndex = parsed;
@@ -76,7 +78,14 @@ internal sealed class SetCommand(CommandHandler handler)
             tokens.RemoveAt(fIndex);
         }
 
+        if (tokens.Count < 2)
+        {
+            Log.W("You must specify a data key and value.");
+            return false;
+        }
+
         var player = Game1.player;
+        int? screenId = 0;
         if (farmerIndex > 1)
         {
             if (!Context.IsSplitScreen)
@@ -85,40 +94,46 @@ internal sealed class SetCommand(CommandHandler handler)
                 return false;
             }
 
-            var screenId = farmerIndex - 1;
+            var peerIndex = farmerIndex - 2; // subtract 1 for host player and 1 for zero-index
             var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
-            if (screenId > onlinePlayers.Count)
+            if (peerIndex >= onlinePlayers.Count)
             {
                 Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
                 return false;
             }
 
-            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
-            if (multiplayerId is null)
-            {
-                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
-                return false;
-            }
-
-            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
+            var multiplayerId = onlinePlayers[peerIndex].PlayerID;
+            player = Game1.GetPlayer(multiplayerId, onlyOnline: true);
             if (player is null)
             {
-                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                Log.W($"Failed to get online player number {farmerIndex}.");
+                return false;
+            }
+
+            screenId = player.GetScreenId(ModHelper.Multiplayer);
+            if (screenId is null)
+            {
+                Log.W($"Failed to get {player.Name}'s splitscreen ID.");
                 return false;
             }
         }
 
-        if (args.Length < 2)
+        if (player.IsLocalPlayer)
         {
-            Log.W("You must specify a data key and value.");
-            return false;
+            return SetStatic(tokens, player);
         }
 
+        TokensToSetPerScreen[screenId.Value] = tokens;
+        return true;
+    }
+
+    internal static bool SetStatic(List<string> tokens, Farmer player)
+    {
         var key = tokens[0].ToLower();
         var value = tokens[1];
-        if (this._dataKeys.Contains(key))
+        if (_dataKeys.Contains(key))
         {
-            this.SetModData(key, value, player);
+            SetModData(key, value, player);
             return true;
         }
 
@@ -140,6 +155,7 @@ internal sealed class SetCommand(CommandHandler handler)
                     if (!player.newLevels.Contains(point))
                     {
                         player.newLevels.Add(point);
+                        Log.I($"Added level {l} to {player.Name}'s {vanillaSkill.Name}.");
                     }
                 }
 
@@ -151,6 +167,7 @@ internal sealed class SetCommand(CommandHandler handler)
                     .When(Skill.Combat).Then(() => player.combatLevel.Value = level);
                 player.experiencePoints[vanillaSkill.Value] =
                     Math.Max(player.experiencePoints[vanillaSkill.Value], ISkill.ExperienceCurve[level]);
+                Log.I($"{player.Name}'s {vanillaSkill.Name} experience was set to {player.experiencePoints[vanillaSkill.Value]}.");
                 return true;
             }
 
@@ -217,7 +234,7 @@ internal sealed class SetCommand(CommandHandler handler)
         switch (key)
         {
             case "limit":
-                this.SetLimitBreak(value, player);
+                SetLimitBreak(value, player);
                 break;
 
             case "fishingdex":
@@ -226,11 +243,11 @@ internal sealed class SetCommand(CommandHandler handler)
                 var all = tokens.Any(arg => arg is "--all" or "-a");
                 if (trap)
                 {
-                    this.SetFishPokedex(player, !all, trap);
+                    SetFishPokedex(player, !all, trap);
                 }
                 else
                 {
-                    this.SetFishPokedex(player, !all);
+                    SetFishPokedex(player, !all);
                 }
 
                 break;
@@ -238,7 +255,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "rodmemory":
             case "rodmemo":
             case "rodmem":
-                this.SetFishingRodMemory(value, player);
+                SetFishingRodMemory(value, player);
                 break;
             case "maxtackleuses" when int.TryParse(value, out var maxTackleUses):
                 FishingRod.maxTackleUses = maxTackleUses;
@@ -246,7 +263,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "animals":
             case "animal":
             case "anim":
-                this.SetAnimalDispositions(value, player);
+                SetAnimalDispositions(value, player);
                 break;
         }
 
@@ -281,11 +298,11 @@ internal sealed class SetCommand(CommandHandler handler)
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} anim mood => sets the mood of all owned animals to the maximum value (for testing Producer profession)");
         sb.Append(
             $"\n\t{this.Handler.EntryCommand} {this.Triggers[0]} fishing 15 --farmer 2 => sets player 2's Fishing skill level to 15");
-        sb.Append(this.GetAvailableKeys());
+        sb.Append(GetAvailableKeys());
         return sb.ToString();
     }
 
-    private void SetModData(string key, string value, Farmer who)
+    private static void SetModData(string key, string value, Farmer who)
     {
         if (string.Equals(value, "clear", StringComparison.InvariantCultureIgnoreCase) ||
             string.Equals(value, "reset", StringComparison.InvariantCultureIgnoreCase) ||
@@ -301,7 +318,7 @@ internal sealed class SetCommand(CommandHandler handler)
             case "varietiesforaged":
             case "ecologist":
             case "ecologistitemsforaged":
-                this.SetEcologistVarietiesForaged(value, who);
+                SetEcologistVarietiesForaged(value, who);
                 break;
 
             case "minerals":
@@ -309,33 +326,36 @@ internal sealed class SetCommand(CommandHandler handler)
             case "mineralsstudied":
             case "gemologist":
             case "gemologistmineralscollected":
-                this.SetGemologistMineralsStudied(value, who);
+                SetGemologistMineralsStudied(value, who);
                 break;
 
             case "shunt":
             case "scavengerhunt":
             case "scavenger":
             case "scavengerhuntstreak":
-                this.SetScavengerHuntStreak(value, who);
+                SetScavengerHuntStreak(value, who);
                 break;
 
             case "phunt":
             case "prospectorhunt":
             case "prospector":
             case "prospectorhuntstreak":
-                this.SetProspectorHuntStreak(value, who);
+                SetProspectorHuntStreak(value, who);
                 break;
 
             case "trash":
             case "trashcollected":
             case "conservationist":
             case "conservationisttrashcollectedthisseason":
-                this.SetConservationistTrashCollectedThisSeason(value, who);
+                SetConservationistTrashCollectedThisSeason(value, who);
+                break;
+            default:
+                Log.I($"Unrecognized data key {key}.");
                 break;
         }
     }
 
-    private void SetLimitBreak(string value, Farmer who)
+    private static void SetLimitBreak(string value, Farmer who)
     {
         if (string.Equals(value, "clear", StringComparison.InvariantCultureIgnoreCase) ||
             string.Equals(value, "reset", StringComparison.InvariantCultureIgnoreCase) ||
@@ -394,14 +414,16 @@ internal sealed class SetCommand(CommandHandler handler)
         {
             var screenId = who.GetScreenId(ModHelper.Multiplayer)!;
             PerScreenState.GetValueForScreen(screenId.Value).LimitBreak = limit;
+            Log.I($"Set {who.Name}'s Limit Break to {limit.Name}.");
         }
         else
         {
             State.LimitBreak = limit;
+            Log.I($"Limit Break to {limit.Name}.");
         }
     }
 
-    private void SetFishPokedex(Farmer who, bool caughtOnly, bool trap = false)
+    private static void SetFishPokedex(Farmer who, bool caughtOnly, bool trap = false)
     {
         var fishCaught = who.fishCaught;
         foreach (var (key, values) in DataLoader.Fish(Game1.content))
@@ -433,7 +455,7 @@ internal sealed class SetCommand(CommandHandler handler)
         Log.I($"{who.Name}'s FishingDex has been updated.");
     }
 
-    private void SetAnimalDispositions(string value, Farmer who)
+    private static void SetAnimalDispositions(string value, Farmer who)
     {
         var both = string.Equals(value, "both", StringComparison.InvariantCultureIgnoreCase) || string.Equals(value, "all", StringComparison.InvariantCultureIgnoreCase);
         var count = 0;
@@ -489,7 +511,7 @@ internal sealed class SetCommand(CommandHandler handler)
         }
     }
 
-    private void SetEcologistVarietiesForaged(string value, Farmer who)
+    private static void SetEcologistVarietiesForaged(string value, Farmer who)
     {
         if (!who.HasProfession(Profession.Ecologist))
         {
@@ -512,7 +534,7 @@ internal sealed class SetCommand(CommandHandler handler)
         Log.I($"Added {value} varieties foraged as Ecologist.");
     }
 
-    private void SetGemologistMineralsStudied(string value, Farmer who)
+    private static void SetGemologistMineralsStudied(string value, Farmer who)
     {
         if (!who.HasProfession(Profession.Gemologist))
         {
@@ -535,7 +557,7 @@ internal sealed class SetCommand(CommandHandler handler)
         Log.I($"Added {value} minerals collected as Gemologist.");
     }
 
-    private void SetProspectorHuntStreak(string value, Farmer who)
+    private static void SetProspectorHuntStreak(string value, Farmer who)
     {
         if (!who.HasProfession(Profession.Prospector))
         {
@@ -553,7 +575,7 @@ internal sealed class SetCommand(CommandHandler handler)
         Log.I($"Prospector Hunt was streak set to {value}.");
     }
 
-    private void SetScavengerHuntStreak(string value, Farmer who)
+    private static void SetScavengerHuntStreak(string value, Farmer who)
     {
         if (!who.HasProfession(Profession.Scavenger))
         {
@@ -571,7 +593,7 @@ internal sealed class SetCommand(CommandHandler handler)
         Log.I($"Scavenger Hunt streak was set to {value}.");
     }
 
-    private void SetConservationistTrashCollectedThisSeason(string value, Farmer who)
+    private static void SetConservationistTrashCollectedThisSeason(string value, Farmer who)
     {
         if (!who.HasProfession(Profession.Conservationist))
         {
@@ -590,7 +612,7 @@ internal sealed class SetCommand(CommandHandler handler)
             $"Conservationist trash collected in the current season ({Game1.CurrentSeasonDisplayName}) was set to {value}.");
     }
 
-    private void SetFishingRodMemory(string value, Farmer who)
+    private static void SetFishingRodMemory(string value, Farmer who)
     {
         if (who.CurrentTool is not FishingRod { UpgradeLevel: > 2 } rod)
         {
@@ -624,7 +646,7 @@ internal sealed class SetCommand(CommandHandler handler)
         }
     }
 
-    private string GetAvailableKeys()
+    private static string GetAvailableKeys()
     {
         var sb = new StringBuilder("\n\nAvailable data fields:");
         sb.Append("\n\t- EcologistVarietiesForaged (shortcuts: 'forages', 'ecologist')");

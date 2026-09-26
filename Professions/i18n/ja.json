@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "海洋学者",
     "conservationist.title.prestiged.female": "海洋学者",
     "conservationist.desc": "餌なしのカニかごでゴミを捕まえられる。バレーの水辺を清掃して村人の好感と税控除を獲得しよう。",
-    "conservationist.desc.prestiged": "餌なしのカニかごで魚も捕まえられる。雨天と満月の大潮には特別な条件が適用される。",
+    "conservationist.desc.prestiged": "きれいな水は水生生物の多様性を促進します。珍しい魚がより頻繁に現れ、エサのないカニかごから魚の産物を収穫できるようになります。",
     "conservationist.mail": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者の方へ,^^環境保護活動の審査の結果、ファーンギル歳入法典第501条(c)(3)項に基づき、{{taxBonus}}の所得税控除の資格があることが確認されましたのでお知らせいたします。これにより、{{farm}}農場のすべての課税所得は上記の金額分増加し、{{season}}の28日まで有効となります。^^財務状況に関するご質問が生じた際に備えて、この書面を永久保管記録として保管してください。^^^敬具,^^ローラ・D・プレット^ファーンギル歳入庁 長官[#]FRS控除通知",
     "conservationist.mail.max": "財務省^ファーンギル歳入庁^^^{{honorific}} 納税者の方へ,^^環境保護活動の審査の結果、ファーンギル歳入法典第501条(c)(3)項に基づき、最大{{taxBonus}}の所得税控除の資格があることが確認されましたのでお知らせいたします。これにより、{{farm}}農場のすべての課税所得は上記の金額分増加し、{{season}}の28日まで有効となります。^^財務状況に関するご質問が生じた際に備えて、この書面を永久保管記録として保管してください。^^^敬具,^^ローラ・D・プレット^ファーンギル歳入庁 長官[#]FRS控除通知",
 
@@ -311,7 +311,7 @@
     "honorific.male": "拝啓",
     "honorific.female": "拝啓",
 
-    "buildings.PiecesOfHayAndMore": "干し草の束: {0}/{1}^穀物: {2}/{9}^葉物野菜: {3}/{9}^豆類: {4}/{9}^根菜: {5}/{9}^塊茎: {6}/{9}^ウリ科: {7}/{9}^果物: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "穀物: {{grains}}/{{capacity}}^葉物野菜: {{greens}}/{{capacity}}^豆類: {{legumes}}/{{capacity}}^根菜: {{roots}}/{{capacity}}^塊茎: {{tubers}}/{{capacity}}^ウリ科: {{gourds}}/{{capacity}}^果物: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

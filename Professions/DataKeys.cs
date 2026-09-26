@@ -12,12 +12,16 @@ internal sealed class DataKeys
     internal const string CurrentScavengerHuntStreak = "CurrentScavengerHuntStreak";
     internal const string LongestScavengerHuntStreak = "LongestScavengerHuntStreak";
     internal const string ScavengerPointPool = "ScavengerPointPool";
+    internal const string ConservationistTrashCollectedLastSeason = "ConservationistTrashCollectedLastSeason";
     internal const string ConservationistTrashCollectedThisSeason = "ConservationistTrashCollectedThisSeason";
-    internal const string ConservationistActiveTaxDeduction = "ConservationistActiveTaxDeduction";
     internal const string ForgottenRecipesDict = "ForgottenRecipesDict";
     internal const string LimitBreakId = "LimitBreakId";
     internal const string OrderedProfessions = "OrderedProfessions";
     internal const string ResetCountBySkill = "ResetCountBySkill";
+
+    // globals, main player only
+    internal const string ActiveTaxDeduction = "ActiveTaxDeduction";
+    internal const string GlobalBiodiversityFactor = "GlobalBiodiversityFactor";
 
     // object keys
     internal const string FirstMemorizedTackle = "FirstMemorizedTackle";
@@ -52,6 +56,7 @@ internal sealed class DataKeys
     internal const string AttackIV = "AttackIV";
     internal const string DefenseIV = "DefenseIV";
     internal const string HealthIV = "HealthIV";
+    internal const string HatchedByPiper = "HatchedByPiper";
 
     // projectile keys
     internal const string Overcharge = "Overcharge";

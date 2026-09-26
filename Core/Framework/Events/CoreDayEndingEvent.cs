@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class CoreDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? CoreMod.EventManager)
+    : DayEndingEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayEndingImpl(object? sender, DayEndingEventArgs e)

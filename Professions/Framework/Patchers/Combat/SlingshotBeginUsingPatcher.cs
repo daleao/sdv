@@ -30,7 +30,7 @@ internal sealed class SlingshotBeginUsingPatcher : HarmonyPatcher
     {
         if (Game1.player.HasProfession(Profession.Desperado))
         {
-            EventManager.Enable<DesperadoOverchargeUpdateTickedEvent>();
+            ProfessionsMod.Events.Enable<DesperadoOverchargeUpdateTickedEvent>();
         }
     }
 

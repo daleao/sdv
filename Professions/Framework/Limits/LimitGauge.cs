@@ -39,7 +39,7 @@ internal sealed class LimitGauge
     internal static Texture2D Texture => Textures.LimitGauge;
 
     /// <summary>Gets a value indicating whether determines whether the gauge is being drawn.</summary>
-    internal static bool IsVisible => EventManager.IsEnabled<LimitGaugeRenderingHudEvent>();
+    internal static bool IsVisible => ProfessionsMod.Events.IsEnabled<LimitGaugeRenderingHudEvent>();
 
     /// <summary>Draws the gauge and all it's components to the HUD.</summary>
     /// <param name="b">A <see cref="SpriteBatch"/> to draw to.</param>
@@ -242,7 +242,7 @@ internal sealed class LimitGauge
             return false;
         }
 
-        EventManager.Disable<LimitGaugeRenderingHudEvent>();
+        ProfessionsMod.Events.Disable<LimitGaugeRenderingHudEvent>();
         this._fadeOutTimer = FadeOutDelay + FadeOutDuration;
         this._opacity = 1f;
         return true;

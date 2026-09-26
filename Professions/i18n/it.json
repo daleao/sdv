@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "Oceanografo",
     "conservationist.title.prestiged.female": "Oceanografa",
     "conservationist.desc": "Le nasse senza esca possono intrappolare spazzatura. Pulisci le acque della Valle per guadagnare il favore del villaggio e deduzioni fiscali.",
-    "conservationist.desc.prestiged": "Le nasse senza esca possono anche intrappolare pesci. Condizioni speciali durante i giorni di pioggia e le maree di luna piena.",
+    "conservationist.desc.prestiged": "Le acque pulite favoriscono la biodiversità acquatica; i pesci rari sono più comuni e le nasse senza esca possono raccogliere prodotti ittici.",
     "conservationist.mail": "Dipartimento del Tesoro^Servizio delle Entrate di Ferngill^^^{{honorific}} contribuente,^^Siamo lieti di informarLa che, a seguito della revisione delle Sue attività ambientaliste, abbiamo determinato che Lei è idoneo/a a una detrazione fiscale sul reddito di {{taxBonus}} ai sensi dell'articolo 501(c)(3) del Codice delle Entrate di Ferngill. Pertanto, tutti i redditi imponibili della fattoria {{farm}} saranno aumentati dell'importo suddetto, con effetto fino al 28 di {{season}}.^^La preghiamo di conservare questa lettera nei Suoi archivi permanenti nel caso in cui abbia necessità di risolvere domande riguardanti la Sua situazione fiscale.^^^Cordialmente,^^Laura D. Pretto^Direttrice Esecutiva, Servizio delle Entrate di Ferngill[#]Avviso di detrazione SRF",
     "conservationist.mail.max": "Dipartimento del Tesoro^Servizio delle Entrate di Ferngill^^^{{honorific}} contribuente,^^Siamo lieti di informarLa che, a seguito della revisione delle Sue attività ambientaliste, abbiamo determinato che Lei è idoneo/a alla detrazione fiscale massima sul reddito di {{taxBonus}} ai sensi dell'articolo 501(c)(3) del Codice delle Entrate di Ferngill. Pertanto, tutti i redditi imponibili della fattoria {{farm}} saranno aumentati dell'importo suddetto, con effetto fino al 28 di {{season}}.^^La preghiamo di conservare questa lettera nei Suoi archivi permanenti nel caso in cui abbia necessità di risolvere domande riguardanti la Sua situazione fiscale.^^^Cordialmente,^^Laura D. Pretto^Direttrice Esecutiva, Servizio delle Entrate di Ferngill[#]Avviso di detrazione SRF",
 
@@ -311,7 +311,7 @@
     "honorific.male": "Caro",
     "honorific.female": "Cara",
 
-    "buildings.PiecesOfHayAndMore": "Mucchi di fieno: {0}/{1}^Cereali: {2}/{9}^Verdure a foglia: {3}/{9}^Legumi: {4}/{9}^Radici: {5}/{9}^Tuberi: {6}/{9}^Zucca: {7}/{9}^Frutti: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Cereali: {{grains}}/{{capacity}}^Verdure a foglia: {{greens}}/{{capacity}}^Legumi: {{legumes}}/{{capacity}}^Radici: {{roots}}/{{capacity}}^Tuberi: {{tubers}}/{{capacity}}^Zucca: {{gourds}}/{{capacity}}^Frutti: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

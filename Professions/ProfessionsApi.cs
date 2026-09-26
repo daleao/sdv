@@ -43,7 +43,7 @@ public class ProfessionsApi : IProfessionsApi
     public float GetConservationistTaxDeduction(Farmer? farmer = null)
     {
         farmer ??= Game1.player;
-        return Data.ReadAs<float>(farmer, DataKeys.ConservationistActiveTaxDeduction);
+        return Data.ReadAs<float>(farmer, DataKeys.ActiveTaxDeduction);
     }
 
     /// <inheritdoc />

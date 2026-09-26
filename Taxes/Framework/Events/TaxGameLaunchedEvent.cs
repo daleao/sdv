@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TaxGameLaunchedEvent(EventManager? manager = null)
-    : GameLaunchedEvent(manager ?? TaxesMod.EventManager)
+    : GameLaunchedEvent(manager ?? TaxesMod.Events)
 {
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)

@@ -15,7 +15,7 @@ using StardewValley.Tools;
 [UsedImplicitly]
 // This is here (as opposed to RenderedHud) to avoid UI scaling shenanigans.
 internal sealed class DesperadoRenderedWorldEvent(EventManager? manager = null)
-    : RenderedWorldEvent(manager ?? ProfessionsMod.EventManager)
+    : RenderedWorldEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)

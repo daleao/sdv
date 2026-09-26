@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TimerUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
+    : UpdateTickedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.Timers.Count > 0 && Game1.game1.ShouldTimePass();

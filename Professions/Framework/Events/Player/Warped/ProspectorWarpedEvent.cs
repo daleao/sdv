@@ -17,7 +17,7 @@ using xTile.Dimensions;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ProspectorWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
+    : WarpedEvent(manager ?? ProfessionsMod.Events)
 {
     private static int _previousMineLevel;
 

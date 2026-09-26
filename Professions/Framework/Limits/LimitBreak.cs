@@ -100,7 +100,7 @@ public abstract class LimitBreak : ILimitBreak
 
                 if (!Game1.currentLocation.IsEnemyArea() && this.IsGaugeVisible)
                 {
-                    EventManager.Enable<LimitGaugeFadeOutUpdateTickedEvent>();
+                    ProfessionsMod.Events.Enable<LimitGaugeFadeOutUpdateTickedEvent>();
                 }
 
                 this.OnEmptied();
@@ -136,7 +136,7 @@ public abstract class LimitBreak : ILimitBreak
 
             if (value > 0)
             {
-                EventManager.Enable<LimitGaugeRenderingHudEvent>();
+                ProfessionsMod.Events.Enable<LimitGaugeRenderingHudEvent>();
             }
 
             field = value;
@@ -214,13 +214,34 @@ public abstract class LimitBreak : ILimitBreak
         yield return new PiperConcerto();
     }
 
+    /// <summary>Loads the <see cref="LimitBreak"/> instance for the local player.</summary>
+    internal static void Load()
+    {
+        var player = Game1.player;
+        var limitId = Data.ReadAs(player, DataKeys.LimitBreakId, -1);
+        if (limitId > 0)
+        {
+            var limit = FromId(limitId);
+            if (!player.professions.Contains(limitId))
+            {
+                Log.W(
+                    $"{player.Name} has the Limit Break \"{limit.Name}\" but is missing the corresponding profession. The limit will be unbroken.");
+                Data.Write(player, DataKeys.LimitBreakId, null);
+            }
+            else
+            {
+                State.LimitBreak = limit;
+            }
+        }
+    }
+
     /// <summary>Activates the <see cref="LimitBreak"/> for the local player.</summary>
     internal virtual void Activate()
     {
         this.IsActive = true;
 
         // fade in overlay and begin countdown
-        EventManager.Enable<LimitOverlayFadeInUpdateTickedEvent>();
+        ProfessionsMod.Events.Enable<LimitOverlayFadeInUpdateTickedEvent>();
 
         // notify peers
         Broadcaster.Broadcast("Active", "ToggledLimitBreak");
@@ -236,7 +257,7 @@ public abstract class LimitBreak : ILimitBreak
         this.ChargeValue = 0;
 
         // fade out overlay
-        EventManager.Enable<LimitOverlayFadeOutUpdateTickedEvent>();
+        ProfessionsMod.Events.Enable<LimitOverlayFadeOutUpdateTickedEvent>();
 
         // stop glowing if necessary
         Game1.player.stopGlowing();
@@ -261,7 +282,7 @@ public abstract class LimitBreak : ILimitBreak
             if (Config.Masteries.HoldKeyToLimitBreak)
             {
                 this._activationTimer = ActivationTimerMax;
-                EventManager.Enable<LimitInputUpdateTickedEvent>();
+                ProfessionsMod.Events.Enable<LimitInputUpdateTickedEvent>();
             }
             else if (this.CanActivate)
             {

@@ -14,7 +14,6 @@ using Microsoft.Xna.Framework;
 using StardewValley.Characters;
 using StardewValley.Objects;
 using StardewValley.TerrainFeatures;
-using FarmerExtensions = DaLion.Professions.Framework.Extensions.FarmerExtensions;
 
 #endregion using directives
 
@@ -228,101 +227,90 @@ internal sealed class CropHarvestPatcher : HarmonyPatcher
         }
 
         var soilMemory = Data.Read(soil, DataKeys.SoilMemory).ParseList<string>();
-        while (soilMemory.Count > 0 && string.IsNullOrEmpty(soilMemory[^1]))
+        soilMemory.RemoveAll(string.IsNullOrEmpty);
+        if (!Game1.player.HasProfession(Profession.Agriculturist, true) || soilMemory.Count <= 0)
         {
-            soilMemory.RemoveAt(soilMemory.Count - 1);
+            return;
         }
 
-        if (Game1.player.HasProfession(Profession.Agriculturist, true) && soilMemory.Count > 0)
+        for (var i = 0; i < soilMemory.Count; i++)
         {
-            for (var i = 0; i < soilMemory.Count; i++)
+            var previousId = soilMemory[^(i + 1)]!;
+            if (previousId == cropId)
             {
-                var previousId = soilMemory[^(i + 1)]!;
-                if (previousId == cropId)
-                {
-                    continue;
-                }
+                continue;
+            }
 
-                var chance = 0.2 / (i + 1.0);
-                var r1 = Utility.CreateRandom(
-                    xTile * 7.0,
-                    yTile * 11.0,
-                    Game1.stats.DaysPlayed,
-                    Game1.uniqueIDForThisGame);
-                if (!r1.NextBool(chance))
-                {
-                    continue;
-                }
+            var chance = 0.2 / (i + 1.0);
+            var r1 = Utility.CreateRandom(
+                xTile * 7.0,
+                yTile * 11.0,
+                Game1.stats.DaysPlayed,
+                Game1.uniqueIDForThisGame);
+            if (!r1.NextBool(chance))
+            {
+                continue;
+            }
 
-                if (!Lookups.SeedByCrop.TryGetValue(previousId, out var previousSeedId))
-                {
-                    previousSeedId = Game1.cropData.First(pair => pair.Value.HarvestItemId == previousId).Key;
-                    Lookups.SeedByCrop[previousId] = previousSeedId;
-                }
+            if (!Lookups.SeedByCrop.TryGetValue(previousId, out var previousSeedId))
+            {
+                previousSeedId = Game1.cropData.First(pair => pair.Value.HarvestItemId == previousId).Key;
+                Lookups.SeedByCrop[previousId] = previousSeedId;
+            }
 
-                if (!Game1.cropData.TryGetValue(previousSeedId, out var hybridHarvestData))
-                {
-                    return;
-                }
+            if (!Game1.cropData.TryGetValue(previousSeedId, out var hybridHarvestData))
+            {
+                return;
+            }
 
-                var fertilizerQualityLevel = soil.GetFertilizerQualityBoostLevel();
-                var chanceForGoldQuality = (0.2 * (Game1.player.FarmingLevel / 10.0)) +
-                                           (0.2 * fertilizerQualityLevel * ((Game1.player.FarmingLevel + 2.0) / 12.0)) +
-                                           0.01;
-                var chanceForSilverQuality = Math.Min(0.75, chanceForGoldQuality * 2.0);
-                var cropQuality = SObject.lowQuality;
-                if (r1.NextBool(chanceForGoldQuality / 2.0))
-                {
-                    cropQuality = SObject.bestQuality;
-                }
-                else if (r1.NextBool(chanceForGoldQuality))
-                {
-                    cropQuality = SObject.highQuality;
-                }
-                else if (r1.NextBool(chanceForSilverQuality) || fertilizerQualityLevel >= 3)
-                {
-                    cropQuality = SObject.medQuality;
-                }
+            var fertilizerQualityLevel = soil.GetFertilizerQualityBoostLevel();
+            var chanceForGoldQuality = (0.2 * (Game1.player.FarmingLevel / 10.0)) +
+                                       (0.2 * fertilizerQualityLevel * ((Game1.player.FarmingLevel + 2.0) / 12.0)) +
+                                       0.01;
+            var chanceForSilverQuality = Math.Min(0.75, chanceForGoldQuality * 2.0);
+            var cropQuality = SObject.lowQuality;
+            if (r1.NextBool(chanceForGoldQuality / 2.0))
+            {
+                cropQuality = SObject.bestQuality;
+            }
+            else if (r1.NextBool(chanceForGoldQuality))
+            {
+                cropQuality = SObject.highQuality;
+            }
+            else if (r1.NextBool(chanceForSilverQuality) || fertilizerQualityLevel >= 3)
+            {
+                cropQuality = SObject.medQuality;
+            }
 
-                Item? hybridHarvest;
-                if (hybridHarvestData.TintColors is not null && hybridHarvestData.TintColors.Count > 0)
-                {
-                    var r2 = Utility.CreateRandom(xTile * 1000.0, yTile, Game1.dayOfMonth);
-                    var color = Utility.StringToColor(hybridHarvestData.TintColors.Choose(r2));
-                    hybridHarvest = new ColoredObject(previousId, 1, color!.Value) { Quality = cropQuality, };
-                }
-                else
-                {
-                    hybridHarvest = ItemRegistry.Create(previousId, 1, cropQuality);
-                }
+            Item? hybridHarvest;
+            if (hybridHarvestData.TintColors is not null && hybridHarvestData.TintColors.Count > 0)
+            {
+                var r2 = Utility.CreateRandom(xTile * 1000.0, yTile, Game1.dayOfMonth);
+                var color = Utility.StringToColor(hybridHarvestData.TintColors.Choose(r2));
+                hybridHarvest = new ColoredObject(previousId, 1, color!.Value) { Quality = cropQuality, };
+            }
+            else
+            {
+                hybridHarvest = ItemRegistry.Create(previousId, 1, cropQuality);
+            }
 
-                if (hybridHarvest is null)
-                {
-                    continue;
-                }
+            if (hybridHarvest is null)
+            {
+                continue;
+            }
 
-                if (junimoHarvester is not null)
-                {
-                    junimoHarvester.tryToAddItemToHut(hybridHarvest.getOne());
-                }
-                else
-                {
-                    Game1.createItemDebris(
-                        hybridHarvest.getOne(),
-                        new Vector2((xTile * Game1.tileSize) + 32, (yTile * Game1.tileSize) + 32),
-                        -1);
-                }
+            if (junimoHarvester is not null)
+            {
+                junimoHarvester.tryToAddItemToHut(hybridHarvest.getOne());
+            }
+            else
+            {
+                Game1.createItemDebris(
+                    hybridHarvest.getOne(),
+                    new Vector2((xTile * Game1.tileSize) + 32, (yTile * Game1.tileSize) + 32),
+                    -1);
             }
         }
-
-        var existingIndex = soilMemory.IndexOf(cropId);
-        if (existingIndex != -1)
-        {
-            soilMemory.RemoveAt(existingIndex);
-        }
-
-        soilMemory.Add(cropId);
-        Data.Write(soil, DataKeys.SoilMemory, string.Join(',', soilMemory));
     }
 
     #endregion injected

@@ -159,7 +159,7 @@
     "conservationist.title.prestiged.male": "海洋学家",
     "conservationist.title.prestiged.female": "海洋学家",
     "conservationist.desc": "无饵蟹笼可以捕捉垃圾。清理山谷水域以获得村民的好感并获得税收减免。",
-    "conservationist.desc.prestiged": "无饵蟹笼也可以捕捉鱼。在雨天和满月潮汐期间有特殊条件。",
+    "conservationist.desc.prestiged": "洁净的水域有助于促进水生生物多样性；稀有鱼类出现得更加频繁，无饵蟹笼也能收获鱼类产品。",
     "conservationist.mail": "财政部^芬吉尔税务局^^^{{honorific}},^^我们很高兴地通知您,经过对您的环保活动审查,我们确定您符合根据芬吉尔共和国收入法典第501(c)(3)节规定的所得税减免资格。因此,{{农场}}农场的所有应税收入将增加上述金额,有效期至{{季节}}的第28天。^^请将此信保存在您的永久记录中,以防您需要解决有关您财务状况的任何问题。^^^此致,^^Laura D。 Pretto^执行董事,芬吉尔税务局[#]FRS减免通知",
     "conservationist.mail.max": "财政部^芬吉尔共和国税务局^^^{{honorific}},^^我们很高兴地通知您,经过对您的环保活动审查,我们确定您符合根据芬吉尔共和国收入法典第501(c)(3)节规定的最高所得税减免资格。因此,{{农场}}农场的所有应税收入将增加上述金额,有效期至{{季节}}的第28天。^^请将此信保存在您的永久记录中,以防您需要解决有关您财务状况的任何问题。^^^此致,^^Laura D。 Pretto^执行董事,芬吉尔税务局[#]FRS减免通知",
 
@@ -312,7 +312,7 @@
     "honorific.male": "尊敬的",
     "honorific.female": "尊敬的",
 
-    "buildings.PiecesOfHayAndMore": "干草堆：{0}/{1}^谷物：{2}/{9}^叶菜：{3}/{9}^豆类：{4}/{9}^根茎类：{5}/{9}^块茎类：{6}/{9}^葫芦科作物：{7}/{9}^水果：{8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "谷物：{{grains}}/{{capacity}}^叶菜：{{greens}}/{{capacity}}^豆类：{{legumes}}/{{capacity}}^根茎类：{{roots}}/{{capacity}}^块茎类：{{tubers}}/{{capacity}}^葫芦科作物：{{gourds}}/{{capacity}}^水果：{{fruits}}/{{capacity}}",
 
     /**********************
      *** 通用模组管理菜单 ***

@@ -37,7 +37,7 @@ internal sealed class CropIsInSeasonPatcher : HarmonyPatcher
             __result = true;
             Data.WriteIfNotExists(__instance, DataKeys.WinterWheat, true.ToString());
         }
-        else if (Game1.currentSeason == "spring" && Data.ReadAs<bool>(__instance, DataKeys.WinterWheat))
+        else if (Game1.currentSeason == "spring" && Data.HasKey(__instance, DataKeys.WinterWheat))
         {
             __result = true;
         }

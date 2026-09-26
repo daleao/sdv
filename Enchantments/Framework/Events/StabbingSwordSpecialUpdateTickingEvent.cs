@@ -14,7 +14,7 @@ using StardewValley.Tools;
 
 [UsedImplicitly]
 internal sealed class StabbingSwordSpecialUpdateTickingEvent(EventManager? manager = null)
-    : UpdateTickingEvent(manager ?? EnchantmentsMod.EventManager)
+    : UpdateTickingEvent(manager ?? EnchantmentsMod.Events)
 {
     private static int _currentFrame = -1;
     private static int _animationFrames;

@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class EnchantmentsDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? EnchantmentsMod.EventManager)
+    : DayEndingEvent(manager ?? EnchantmentsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Game1.player.health > Game1.player.maxHealth;

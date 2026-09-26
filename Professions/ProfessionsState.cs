@@ -11,6 +11,7 @@ using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.Limits;
 using DaLion.Professions.Framework.UI;
 using DaLion.Shared.Extensions;
+using DaLion.Shared.Extensions.Collections;
 using Microsoft.Xna.Framework;
 using StardewValley;
 using StardewValley.Menus;
@@ -61,23 +62,24 @@ internal sealed class ProfessionsState
         get;
         set
         {
+            var player = Game1.player;
             if (value is null)
             {
                 field = null;
-                Data.Write(Game1.player, DataKeys.LimitBreakId, null);
-                EventManager.DisableWithAttribute<LimitEventAttribute>();
-                Log.I($"{Game1.player.Name}'s Limit Break was removed.");
+                Data.Write(player, DataKeys.LimitBreakId, null);
+                Events.DisableWithAttribute<LimitEventAttribute>();
+                Log.D($"{player.Name}'s Limit Break was removed.");
                 return;
             }
 
             field = value;
-            Data.Write(Game1.player, DataKeys.LimitBreakId, value.Id.ToString());
+            Data.Write(player, DataKeys.LimitBreakId, value.Id.ToString());
             if (Config.Masteries.EnableLimitBreaks)
             {
-                EventManager.Enable<LimitWarpedEvent>();
+                Events.Enable<LimitWarpedEvent>();
             }
 
-            Log.I($"{Game1.player.Name}'s LimitBreak was set to {value}.");
+            Log.D($"{player.Name}'s LimitBreak was set to {value}.");
         }
     }
 
@@ -88,11 +90,11 @@ internal sealed class ProfessionsState
         {
             if (value is null && this.ScavengerHunt is null)
             {
-                EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
+                Events.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
             else
             {
-                EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
+                Events.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
             field = value;
@@ -106,11 +108,11 @@ internal sealed class ProfessionsState
         {
             if (value is null && this.ProspectorHunt is null)
             {
-                EventManager.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
+                Events.Disable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
             else
             {
-                EventManager.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
+                Events.Enable<TreasureHuntPoolTrackerTimeChangedEvent>();
             }
 
             field = value;
@@ -166,11 +168,11 @@ internal sealed class ProfessionsState
             field = value;
             if (value > 0)
             {
-                EventManager.Enable<AnglerWarpedEvent>();
+                Events.Enable<AnglerWarpedEvent>();
             }
             else
             {
-                EventManager.Disable<AnglerWarpedEvent>();
+                Events.Disable<AnglerWarpedEvent>();
             }
         }
     }
@@ -197,7 +199,7 @@ internal sealed class ProfessionsState
             field = value;
             if (value is not null)
             {
-                EventManager.Enable<DesperadoQuickshotUpdateTickedEvent>();
+                Events.Enable<DesperadoQuickshotUpdateTickedEvent>();
             }
         }
     }
@@ -233,8 +235,8 @@ internal sealed class ProfessionsState
                 return;
             }
 
-            var currentIndex = valid.IndexOf(field);
-            if (currentIndex < 0)
+            var index = valid.IndexOf(field);
+            if (index < 0)
             {
                 field = valid[0];
                 return;
@@ -242,22 +244,21 @@ internal sealed class ProfessionsState
 
             if (value > field)
             {
-                currentIndex = Math.Min(currentIndex + 1, valid.Count - 1);
+                index = Math.Min(index + 1, valid.Count - 1);
             }
             else if (value < field)
             {
-                currentIndex = Math.Max(currentIndex - 1, 0);
+                index = Math.Max(index - 1, 0);
             }
 
-            var newValue = valid[currentIndex];
-            if (field == newValue)
+            var validValue = valid[index];
+            if (field == validValue)
             {
                 return;
             }
 
             this.TapperCraftingRecipeBeingHovered.ResetTapperCraftingRecipe();
-            field = newValue;
-            Log.D($"Trapper selected ingredient {field}.");
+            field = validValue;
             Game1.playSound("smallSelect");
             this.TapperCraftingRecipeBeingHovered.AlterCraftingRecipeForTapper();
         }
@@ -290,40 +291,38 @@ internal sealed class ProfessionsState
                 return;
             }
 
-            var currentIndex = valid.IndexOf(field);
-            if (currentIndex < 0)
+            var index = valid.IndexOf(field);
+            if (index < 0)
             {
-                field = valid[0];
+                field = value > field ? valid[^1] : valid[0];
                 return;
             }
 
+            var validValue = field;
             if (value > field)
             {
-                if (value - field >= 10)
-                {
-                    currentIndex = Math.Min(currentIndex + 10, valid.Count - 1);
-                }
-
-                currentIndex = Math.Min(currentIndex + 1, valid.Count - 1);
+                validValue = value - field >= 10
+                    ? FindVerticalSelection(field, 1) // scroll down
+                    : valid[Math.Min(index + 1, valid.Count - 1)]; // scroll right
             }
             else if (value < field)
             {
-                currentIndex = Math.Max(currentIndex - 1, 0);
+                validValue = field - value >= 10
+                    ? FindVerticalSelection(field, -1) // scroll up
+                    : valid[Math.Max(index - 1, 0)]; // scroll left
             }
 
-            var newValue = valid[currentIndex];
-            if (field == newValue)
+            if (field == validValue)
             {
                 return;
             }
 
-            field = newValue;
-            Log.D($"Luremaster selected ingredient {field}.");
+            field = validValue;
             Game1.playSound("smallSelect");
             var inventoryMenu = BetterCraftingIntegration.Instance?.Menu is not null
                 ? BetterCraftingIntegration.Instance.GetInventoryMenu()
                 : ((CraftingPage)((GameMenu)Game1.activeClickableMenu).GetCurrentPage()).inventory;
-            this.LuremasterCraftingRecipeBeingHovered.AlterCraftingRecipeForLuremaster((SObject)inventoryMenu.actualInventory[newValue]);
+            this.LuremasterCraftingRecipeBeingHovered.AlterCraftingRecipeForLuremaster((SObject)inventoryMenu.actualInventory[validValue]);
         }
     }
 
@@ -340,4 +339,36 @@ internal sealed class ProfessionsState
     internal MasteryWarningBox? WarningBox { get; set; }
 
     internal SiloMenuWrapper? MenuWrapper { get; set; }
+
+    internal int GlobalBiodiversityFactor { get; set; }
+
+    private static int FindVerticalSelection(int selected, int direction)
+    {
+        const int columns = 12;
+
+        var row = selected / columns;
+        var column = selected % columns;
+        for (var targetRow = row + direction;
+            targetRow >= 0 && targetRow < 3;
+            targetRow += direction)
+        {
+            var rowStart = targetRow * columns;
+            var rowEnd = rowStart + columns;
+
+            var candidates = State.LuremasterValidIngredientsForSubstitution
+                .Where(i => i >= rowStart && i < rowEnd);
+            if (candidates.None())
+            {
+                continue;
+            }
+
+            return candidates
+                .OrderBy(i => Math.Abs((i % columns) - column))
+                .First();
+        }
+
+        return direction < 0
+        ? State.LuremasterValidIngredientsForSubstitution.First()
+        : State.LuremasterValidIngredientsForSubstitution.Last();
+    }
 }

@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class TrackMonstersNpcListChangedEvent(EventManager? manager = null)
-    : NpcListChangedEvent(manager ?? CoreMod.EventManager)
+    : NpcListChangedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnNpcListChangedImpl(object? sender, NpcListChangedEventArgs e)

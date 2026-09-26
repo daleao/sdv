@@ -18,7 +18,7 @@ internal sealed class LimitFullyChargedEvent : ManagedEvent
     internal LimitFullyChargedEvent(
         Action<object?, ILimitFullyChargedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onFullyChargedImpl = callback;
         LimitBreak.FullyCharged += this.OnFullyCharged;

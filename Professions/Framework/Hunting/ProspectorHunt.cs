@@ -285,7 +285,7 @@ internal sealed class ProspectorHunt : TreasureHunt
         Game1.addHUDMessage(new HuntNotification(this.HuntStartedMessage, this.IconSourceRect));
         if (player.HasProfession(VanillaProfession.Prospector, true) && (!Context.IsMultiplayer || Context.IsMainPlayer))
         {
-            EventManager.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
+            ProfessionsMod.Events.Enable<PrestigeTreasureHuntUpdateTickedEvent>();
         }
         else
         {

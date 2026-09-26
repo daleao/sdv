@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class ProfessionAssetsInvalidatedEvent(EventManager? manager = null)
-    : AssetsInvalidatedEvent(manager ?? ProfessionsMod.EventManager)
+    : AssetsInvalidatedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnAssetsInvalidatedImpl(object? sender, AssetsInvalidatedEventArgs e)

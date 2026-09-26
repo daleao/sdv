@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? CoreMod.EventManager)
+    : UpdateTickedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;

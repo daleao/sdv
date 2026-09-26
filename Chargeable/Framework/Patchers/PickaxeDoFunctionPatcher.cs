@@ -68,9 +68,12 @@ internal sealed class PickaxeDoFunctionPatcher
 
     private static void ConsumeStamina(Farmer who)
     {
+        var proficiency = ModHelper.ModRegistry.IsLoaded("DaLion.Professions")
+            ? Math.Max(Math.Min(who.miningLevel.Value, 10) + who.buffs.MiningLevel, 0)
+            : who.MiningLevel * 0.1f;
         if (!State.ShockwaveHitting)
         {
-            who.Stamina -= (2f * (who.toolPower.Value + 1)) - (who.MiningLevel * 0.1f);
+            who.Stamina -= (2f * (who.toolPower.Value + 1)) - proficiency;
         }
     }
 }

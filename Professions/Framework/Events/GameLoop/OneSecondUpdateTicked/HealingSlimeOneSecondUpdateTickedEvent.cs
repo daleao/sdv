@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class HealingSlimeOneSecondUpdateTickedEvent(EventManager? manager = null)
-    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => FarmersInRange.Any();

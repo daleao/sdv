@@ -9,17 +9,16 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Ardalis.SmartEnum;
 using DaLion.Professions.Framework.Events.Display.RenderedHud;
-using DaLion.Professions.Framework.Events.GameLoop.DayEnding;
 using DaLion.Professions.Framework.Events.GameLoop.DayStarted;
 using DaLion.Professions.Framework.Events.GameLoop.TimeChanged;
-using DaLion.Professions.Framework.Events.Input.ButtonPressed;
 using DaLion.Professions.Framework.Events.Input.ButtonsChanged;
-using DaLion.Professions.Framework.Events.Input.CursorMoved;
+using DaLion.Professions.Framework.Events.Multiplayer;
 using DaLion.Professions.Framework.Events.Player.Warped;
 using DaLion.Professions.Framework.Events.World.ObjectListChanged;
 using DaLion.Professions.Framework.Hunting;
 using DaLion.Professions.Framework.Integrations;
 using DaLion.Professions.Framework.Limits;
+using DaLion.Shared.Events;
 using DaLion.Shared.Extensions;
 using Microsoft.Xna.Framework;
 using static System.String;
@@ -374,6 +373,118 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         return _I18n.Get(this.Name.ToLowerInvariant() + ".desc" + (prestiged ? ".prestiged" : Empty));
     }
 
+    /// <summary>Adds profession-specific recipes to the local player.</summary>
+    internal static void AddRecipes()
+    {
+        var player = Game1.player;
+        if (player.HasProfession(Spelunker, true))
+        {
+            player.craftingRecipes.TryAdd("Survey Flag", 0);
+        }
+
+        if (player.HasProfession(Piper))
+        {
+            player.craftingRecipes.TryAdd("Slime Flute", 0);
+            if (player.HasProfession(Piper, true))
+            {
+                player.craftingRecipes.TryAdd("Green Paintbrush", 0);
+                player.craftingRecipes.TryAdd("Blue Paintbrush", 0);
+                player.craftingRecipes.TryAdd("Red Paintbrush", 0);
+                player.craftingRecipes.TryAdd("Purple Paintbrush", 0);
+                player.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
+            }
+        }
+
+        if (player.HasProfession(Luremaster, true))
+        {
+            player.craftingRecipes.TryAdd("Wild Bait Alt", 0);
+            player.craftingRecipes.TryAdd("Deluxe Bait Alt", 0);
+            player.craftingRecipes.TryAdd("Challenge Bait Alt", 0);
+            player.craftingRecipes.TryAdd("Magic Bait Alt", 0);
+        }
+    }
+
+    /// <summary>Enables profession-specific events to the local game session.</summary>
+    internal static void EnableEvents(EventManager? manager = null)
+    {
+        var player = Game1.player;
+        manager ??= ProfessionsMod.Events;
+        var hasTrackingProfession = false;
+        if (player.HasProfession(Scavenger))
+        {
+            manager.Enable<ScavengerRenderedHudEvent>();
+            hasTrackingProfession = true;
+        }
+
+        if (player.HasProfession(Prospector))
+        {
+            manager.Enable<ProspectorRenderedHudEvent>();
+            hasTrackingProfession = true;
+        }
+
+        if (hasTrackingProfession)
+        {
+            manager.Enable<TrackerButtonsChangedEvent>();
+        }
+
+        if (player.HasProfession(Piper))
+        {
+            manager.Enable(
+                typeof(ChromaBallObjectListChangedEvent),
+                typeof(PiperButtonsChangedEvent));
+        }
+
+        if (!Context.IsMainPlayer)
+        {
+            return;
+        }
+
+        // enable host events
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Rancher))
+        {
+            manager.Enable<NutritionDayStartedEvent>();
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Luremaster))
+        {
+            manager.Enable(
+                typeof(LuremasterDayStartedEvent),
+                typeof(LuremasterTimeChangedEvent));
+        }
+        else if (Context.IsMultiplayer)
+        {
+            manager.Enable<ProfessionsPeerConnectedEvent>();
+        }
+
+        if (Game1.game1.DoesAnyPlayerHaveProfession(Piper))
+        {
+            manager.Enable<ChromaBallObjectListChangedEvent>();
+        }
+
+        manager.Enable<RevalidateBuildingsDayStartedEvent>();
+    }
+
+    /// <summary>Adds profession-specific recipes to the local player.</summary>
+    /// <param name="prestiged">Whether to consider prestiged professions.</param>
+    internal void AddRecipes(bool prestiged = false)
+    {
+        if (prestiged)
+        {
+            this
+                .When(Piper).Then(() =>
+                {
+                    Game1.player.craftingRecipes.TryAdd("Green Paintbrush", 0);
+                    Game1.player.craftingRecipes.TryAdd("Blue Paintbrush", 0);
+                    Game1.player.craftingRecipes.TryAdd("Red Paintbrush", 0);
+                    Game1.player.craftingRecipes.TryAdd("Purple Paintbrush", 0);
+                    Game1.player.craftingRecipes.TryAdd("Prismatic Paintbrush", 0);
+                })
+                .When(Spelunker).Then(() => Game1.player.craftingRecipes.TryAdd("Survey Flag", 0));
+        }
+
+        this.When(Piper).Then(() => Game1.player.craftingRecipes.TryAdd("Slime Flute", 0));
+    }
+
     /// <summary>Invoked once when the profession is added to the player.</summary>
     /// <param name="who">The player who gained the profession.</param>
     /// <param name="prestiged">Whether the added profession is prestiged.</param>
@@ -382,15 +493,12 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
         if (prestiged)
         {
             this
-                .When(Angler).Then(() =>
-                {
-                    ModHelper.GameContent.InvalidateCache("Data/Locations");
-                })
+                .When(Angler).Then(() => ModHelper.GameContent.InvalidateCache("Data/Locations"))
                 .When(Aquarist).Then(() =>
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
@@ -409,7 +517,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
@@ -420,14 +528,21 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
                         Broadcaster.MessageHost("Producer", "PeerProfessionGained");
                     }
                 })
-                .When(Spelunker).Then(() => who.craftingRecipes.TryAdd("Survey Flag", 0));
+                .When(Spelunker).Then(() => who.craftingRecipes.TryAdd("Survey Flag", 0))
+                .When(Luremaster).Then(() =>
+                {
+                    who.craftingRecipes.TryAdd("Wild Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Deluxe Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Challenge Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Magic Bait Alt", 0);
+                });
 
             return;
         }
@@ -437,7 +552,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable<NutritionDayStartedEvent>();
+                    ProfessionsMod.Events.Enable<NutritionDayStartedEvent>();
                 }
                 else
                 {
@@ -448,7 +563,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                 }
                 else
                 {
@@ -459,7 +574,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable(
+                    ProfessionsMod.Events.Enable(
                         typeof(LuremasterDayStartedEvent),
                         typeof(LuremasterTimeChangedEvent));
                 }
@@ -471,14 +586,14 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Prospector).Then(() =>
             {
                 State.ProspectorHunt ??= new ProspectorHunt();
-                EventManager.Enable(
+                ProfessionsMod.Events.Enable(
                     typeof(ProspectorRenderedHudEvent),
                     typeof(TrackerButtonsChangedEvent));
             })
             .When(Scavenger).Then(() =>
             {
                 State.ScavengerHunt ??= new ScavengerHunt();
-                EventManager.Enable(
+                ProfessionsMod.Events.Enable(
                     typeof(ScavengerRenderedHudEvent),
                     typeof(TrackerButtonsChangedEvent));
             })
@@ -488,10 +603,10 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Piper).Then(() =>
             {
                 who.craftingRecipes.TryAdd("Slime Flute", 0);
-                EventManager.Enable<PiperButtonsChangedEvent>();
+                ProfessionsMod.Events.Enable<PiperButtonsChangedEvent>();
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable(
+                    ProfessionsMod.Events.Enable(
                         typeof(ChromaBallObjectListChangedEvent),
                         typeof(RevalidateBuildingsDayStartedEvent));
                 }
@@ -524,7 +639,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
@@ -543,7 +658,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
@@ -554,14 +669,21 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
                 {
                     if (Context.IsMainPlayer)
                     {
-                        EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                        ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                     }
                     else
                     {
                         Broadcaster.MessageHost("Producer", "PeerProfessionLost");
                     }
                 })
-                .When(Spelunker).Then(() => who.craftingRecipes.Remove("Survey Flag"));
+                .When(Spelunker).Then(() => who.craftingRecipes.Remove("Survey Flag"))
+                .When(Luremaster).Then(() =>
+                {
+                    who.craftingRecipes.TryAdd("Wild Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Deluxe Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Challenge Bait Alt", 0);
+                    who.craftingRecipes.TryAdd("Magic Bait Alt", 0);
+                });
 
             return;
         }
@@ -571,7 +693,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer && !Game1.game1.DoesAnyPlayerHaveProfession(Rancher))
                 {
-                    EventManager.Disable<NutritionDayStartedEvent>();
+                    ProfessionsMod.Events.Disable<NutritionDayStartedEvent>();
                 }
                 else
                 {
@@ -582,7 +704,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer)
                 {
-                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                 }
                 else
                 {
@@ -593,7 +715,7 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             {
                 if (Context.IsMainPlayer && !Game1.game1.DoesAnyPlayerHaveProfession(Luremaster))
                 {
-                    EventManager.Disable(
+                    ProfessionsMod.Events.Disable(
                         typeof(LuremasterDayStartedEvent),
                         typeof(LuremasterTimeChangedEvent));
                 }
@@ -605,19 +727,19 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Prospector).Then(() =>
             {
                 State.ProspectorHunt = null;
-                EventManager.Disable(typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent));
+                ProfessionsMod.Events.Disable(typeof(ProspectorRenderedHudEvent), typeof(ProspectorWarpedEvent));
                 if (!who.HasProfession(Scavenger))
                 {
-                    EventManager.Disable<TrackerButtonsChangedEvent>();
+                    ProfessionsMod.Events.Disable<TrackerButtonsChangedEvent>();
                 }
             })
             .When(Scavenger).Then(() =>
             {
                 State.ScavengerHunt = null;
-                EventManager.Disable(typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent));
+                ProfessionsMod.Events.Disable(typeof(ScavengerRenderedHudEvent), typeof(ScavengerWarpedEvent));
                 if (!who.HasProfession(Prospector))
                 {
-                    EventManager.Disable<TrackerButtonsChangedEvent>();
+                    ProfessionsMod.Events.Disable<TrackerButtonsChangedEvent>();
                 }
             })
             .When(Tapper).Then(() => ModHelper.GameContent.InvalidateCache("Data/CraftingRecipes"))
@@ -626,15 +748,15 @@ public sealed class VanillaProfession : SmartEnum<Profession>, IProfession
             .When(Piper).Then(() =>
             {
                 who.craftingRecipes.Remove("Slime Flute");
-                EventManager.Disable<PiperButtonsChangedEvent>();
+                ProfessionsMod.Events.Disable<PiperButtonsChangedEvent>();
                 if (Context.IsMainPlayer)
                 {
                     if (!Game1.game1.DoesAnyPlayerHaveProfession(Piper))
                     {
-                        EventManager.Disable<ChromaBallObjectListChangedEvent>();
+                        ProfessionsMod.Events.Disable<ChromaBallObjectListChangedEvent>();
                     }
 
-                    EventManager.Enable<RevalidateBuildingsDayStartedEvent>();
+                    ProfessionsMod.Events.Enable<RevalidateBuildingsDayStartedEvent>();
                 }
                 else
                 {

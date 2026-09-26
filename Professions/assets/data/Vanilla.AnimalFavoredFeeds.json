@@ -7,7 +7,7 @@
         "Cow": [ "LeafyGreens", "Legumes" ],
         "Goat": [ "LeafyGreens", "Legumes", "Fruits" ],
         "Sheep": [ "LeafyGreens", "Legumes" ],
-        "Pig": [ "Grains", "LeafyGreens", "Roots", "Tubers", "Gourds", "Fruits" ],
+        "Pig": [ "Grains", "Legumes", "LeafyGreens", "Roots", "Tubers", "Gourds", "Fruits" ],
         "Ostrich": [ "Grains", "LeafyGreens", "Fruits", "Insects" ]
     }
 }

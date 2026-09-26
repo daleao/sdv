@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class LuremasterCraftingMouseWheelScrolledEvent(EventManager? manager = null)
-    : MouseWheelScrolledEvent(manager ?? ProfessionsMod.EventManager)
+    : MouseWheelScrolledEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.LuremasterCraftingRecipeBeingHovered is not null;
@@ -19,8 +19,8 @@ internal sealed class LuremasterCraftingMouseWheelScrolledEvent(EventManager? ma
     /// <inheritdoc />
     protected override void OnMouseWheelScrolledImpl(object? sender, MouseWheelScrolledEventArgs e)
     {
-        State.IsLuremasterUsingCursorInput = false;
         ModHelper.Input.SuppressScrollWheel();
+        State.IsLuremasterUsingCursorInput = false;
         switch (e.Delta)
         {
             case > 0:

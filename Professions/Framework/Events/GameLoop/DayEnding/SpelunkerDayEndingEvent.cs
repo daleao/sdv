@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class SpelunkerDayEndingEvent(EventManager? manager = null)
-    : DayEndingEvent(manager ?? ProfessionsMod.EventManager)
+    : DayEndingEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.SpelunkerFlag is not null;

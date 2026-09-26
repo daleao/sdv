@@ -23,7 +23,9 @@ using StardewValley.GameData.FishPonds;
 using StardewValley.GameData.Machines;
 using StardewValley.GameData.Objects;
 using StardewValley.Menus;
+using StardewValley.Monsters;
 using xTile;
+using static DaLion.Professions.Framework.Integrations.IBetterCraftingApi;
 
 #endregion using directives
 
@@ -32,7 +34,7 @@ using xTile;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null)
-    : AssetRequestedEvent(manager ?? ProfessionsMod.EventManager)
+    : AssetRequestedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void Initialize()
@@ -52,8 +54,9 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         this.Edit("Maps/SVE_PremiumBarn", new AssetEditor(EditPremiumBarnMap, AssetEditPriority.Late));
         this.Edit("Maps/SVE_PremiumCoop", new AssetEditor(EditPremiumCoopMap, AssetEditPriority.Late));
         this.Edit("Maps/SlimeHutch", new AssetEditor(EditSlimeHutchMap));
-        this.Edit("Strings/Buildings", new AssetEditor(EditBuildingsStrings));
         this.Edit("TileSheets/BuffsIcons", new AssetEditor(EditBuffsIconsTileSheets));
+
+        this.Edit("rokugin.perfectionexclusions/recipes", new AssetEditor(EditPerfectionExclusionsData));
 
         this.Provide(
             $"{UniqueId}_AnimalDerivedGoods", new DictionaryProvider<string, string[]>(ProvideAnimalDerivedGoods));
@@ -178,13 +181,6 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         }
     }
 
-    /// <summary>Patches Hay tooltip.</summary>
-    private static void EditBuildingsStrings(IAssetData asset)
-    {
-        var data = asset.AsDictionary<string, string>().Data;
-        data["PiecesOfHayAndMore"] = I18n.Buildings_PiecesOfHayAndMore();
-    }
-
     /// <summary>Patches Tapper recipes for Foraging professions.</summary>
     private static void EditCraftingRecipesData(IAssetData asset)
     {
@@ -204,6 +200,14 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
             $"{QIDs.Wood} 1 {QIDs.Fiber} 1 {QIDs.PrismaticJelly} 1/Field/{PrismaticBrushId}/false/none/";
         var surveyFlagRecipe =
             $"{QIDs.Wood} 10 {QIDs.Stone} 10 {QIDs.Fiber} 10/Field/{SurveyFlagId}/false/none/";
+        var wildBaitAltRecipe =
+            $"{QIDs.Bait} 10/Field/{QIDs.WildBait}/false/none";
+        var deluxeBaitAltRecipe =
+            $"{QIDs.Bait} 10/Field/{QIDs.DeluxeBait}/false/none";
+        var challengeBaitAltRecipe =
+            $"{QIDs.Bait} 10/Field/{QIDs.ChallengeBait}/false/none";
+        var magicBaitAltRecipe =
+            $"{QIDs.Bait} 40/Field/{QIDs.MagicBait}/false/none";
 
         data["Slime Flute"] = slimeFluteRecipe;
         data["Red Paintbrush"] = redBrushRecipe;
@@ -212,6 +216,10 @@ internal sealed class ProfessionAssetRequestedEvent(EventManager? manager = null
         data["Purple Paintbrush"] = purpleBrushRecipe;
         data["Prismatic Paintbrush"] = prismaticBrushRecipe;
         data["Survey Flag"] = surveyFlagRecipe;
+        data["Wild Bait Alt"] = wildBaitAltRecipe;
+        data["Deluxe Bait Alt"] = deluxeBaitAltRecipe;
+        data["Challenge Bait Alt"] = challengeBaitAltRecipe;
+        data["Magic Bait Alt"] = magicBaitAltRecipe;
         if (!Context.IsWorldReady || (!Game1.player?.HasProfession(Profession.Tapper) ?? false))
         {
             return;
@@ -372,7 +380,7 @@ heavyTapper:
     {
         var data = asset.AsDictionary<string, string>().Data;
         var taxBonus =
-            Data.ReadAs<float>(Game1.player, DataKeys.ConservationistActiveTaxDeduction);
+            Data.ReadAs<float>(Game1.player, DataKeys.ActiveTaxDeduction);
         var key = taxBonus >= Config.ConservationistTaxDeductionCeiling
             ? "conservationist.mail.max"
             : "conservationist.mail";
@@ -784,7 +792,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Slimeflute_Name(),
             Description = I18n.Objects_Slimeflute_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 100,
             Texture = $"{UniqueId}_Flute",
             SpriteIndex = 0,
@@ -802,7 +810,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Redbrush_Name(),
             Description = I18n.Objects_Redbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 250,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 0,
@@ -821,7 +829,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Greenbrush_Name(),
             Description = I18n.Objects_Greenbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 100,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 1,
@@ -840,7 +848,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Bluebrush_Name(),
             Description = I18n.Objects_Bluebrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 175,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 2,
@@ -859,7 +867,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Purplebrush_Name(),
             Description = I18n.Objects_Purplebrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 500,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 3,
@@ -878,7 +886,7 @@ heavyTapper:
             DisplayName = I18n.Objects_Prismaticbrush_Name(),
             Description = I18n.Objects_Prismaticbrush_Desc(),
             Type = "Basic",
-            Category = (int)ObjectCategory.Crafting,
+            Category = (int)ObjectCategory.None,
             Price = 1000,
             Texture = $"{UniqueId}_Brushes",
             SpriteIndex = 4,
@@ -897,6 +905,28 @@ heavyTapper:
         // data["900"].ContextTags.Add("item_legend");
         // data["901"].ContextTags.Add("item_mutant_carp");
         // data["902"].ContextTags.Add("item_glacierfish");
+    }
+
+    private static void EditPerfectionExclusionsData(IAssetData asset)
+    {
+        var data = asset.AsDictionary<string, Dictionary<string, List<string>>>().Data;
+        data[UniqueId] = new Dictionary<string, List<string>>
+        {
+            ["CraftingRecipes"] =
+                [
+                    "Slime Flute",
+                    "Red Paintbrush",
+                    "Green Paintbrush",
+                    "Blue Paintbrush",
+                    "Purple Paintbrush",
+                    "Prismatic Paintbrush",
+                    "Survey Flag",
+                    "Wild Bait Alt",
+                    "Deluxe Bait Alt",
+                    "Challenge Bait Alt",
+                    "Magic Bait Alt",
+                ],
+        };
     }
 
     #endregion editor callbacks

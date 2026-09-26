@@ -14,7 +14,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class FreezeAnimationRenderedWorldEvent(EventManager? manager = null)
-    : RenderedWorldEvent(manager ?? CoreMod.EventManager)
+    : RenderedWorldEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnRenderedWorldImpl(object? sender, RenderedWorldEventArgs e)

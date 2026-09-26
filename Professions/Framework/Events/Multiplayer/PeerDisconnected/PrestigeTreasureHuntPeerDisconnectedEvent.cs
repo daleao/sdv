@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PrestigeTreasureHuntPeerDisconnectedEvent(EventManager? manager = null)
-    : PeerDisconnectedEvent(manager ?? ProfessionsMod.EventManager)
+    : PeerDisconnectedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Context.IsMultiplayer && Context.IsMainPlayer;

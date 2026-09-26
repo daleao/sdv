@@ -36,7 +36,7 @@ public sealed class VampiricEnchantment : BaseWeaponEnchantment
             1f,
             who));
         Game1.playSound("healSound");
-        Log.D($"{who.Name} absorbed {lifeSteal} health.");
+        //Log.D($"{who.Name} absorbed {lifeSteal} health.");
         if (who.health > who.maxHealth)
         {
             ShieldAnimation.Instance = new ShieldAnimation(who);

@@ -72,9 +72,23 @@ Retaining Soil can be used to extend a crop's lifetme into the winter season, bu
 [*][img]https://i.imgur.com/pzj62pg.png[/img] [b]Rancher (Lv5)[/b] - Animals can be fed certain crops to supplement nutrition and increase friendship.
 [spoiler][color=gold][img]https://i.imgur.com/Ipu2yYK.png[/img] [b]Master Rancher (Lv15)[/b] - Crops placed in a Silo are distributed by feed hoppers. Friendship with animals builds twice as quickly.[/color]
 [spoiler][size=2]
-[b]Crop Feeding:[/b] Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. [b]Short-term[/b] nutrition increases by 25 per feeding, caps at 100, and decays by 10 on days where the animal is not fed. [b]Long-term[/b] nutrition also increases by 25 per feeding, caps at 1000, and never decays.
+[b]Crop Feeding:[/b] Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. [b]Short-term[/b] nutrition increases by 25 per feeding, caps at 100, and decays by 10 on days where the animal is not fed (see Producer). [b]Long-term[/b] nutrition increases by 10 per feeding, caps at 500 per generation (see Breeder), and never decays.
 
-There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. Quality makes no difference. You can track which animals have been fed in the Animals menu.[/size][/spoiler]
+There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. Quality makes no difference. You can track which animals have been fed in the Animals menu.
+
+What each animal can eat is entirely configurable (see mod page Article). By default they eat:
+    - [b]Chickens + Ostriches:[/b] Grains (like wheat, corn, rice), Legumes (beans), Fruits and Insects (bug meat).
+    - [b]Ducks:[/b] Same as chickens, plus Greens (like cabbage, kale, cauliflower).
+    - [b]Cows + Sheep:[/b] Greens and Legumes.
+    - [b]Goats:[/b] Same as cows, plus Fruits.
+    - [b]Rabbits:[/b] Greens, Roots (like beets, carrots, parsnips) and Fruits.
+    - [b]Pigs:[/b] Almost anything; all of the above, plus Gourds (pumpkins, squash) and Tubers (potatos, yams).
+    - [b]Dino:[/b] Grains, Greens, Gourds and Fruits.
+    - [b]Camels (SVE):[/b] Grains, Legumes, Greens and Roots.
+    - [b]Geese (SVE):[/b] Grains, Greens, Fruits and Insects.
+    - [b]Bears (SVE):[/b] Fruits, Roots, Tubers, Gourds, Fish and Honey.
+    
+As you can see, the system is not actually limited to crops, though most animals are vegan.[/size][/spoiler]
 [/spoiler]
 [/*]
 [*][img]https://i.imgur.com/410Ljxw.png[/img] [b]Breeder (Lv10)[/b] - Halved incubation time and increased pregnancy chance. Animals with life-long supplemental nutrition build increasingly valuable bloodlines.

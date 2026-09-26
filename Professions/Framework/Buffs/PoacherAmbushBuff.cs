@@ -64,6 +64,6 @@ internal sealed class PoacherAmbushBuff : Buff
             }
         }
 
-        EventManager.Enable<AmbushUpdateTickedEvent>();
+        ProfessionsMod.Events.Enable<AmbushUpdateTickedEvent>();
     }
 }

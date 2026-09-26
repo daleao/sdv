@@ -42,11 +42,11 @@ public sealed class CoreConfig
             {
                 if (value)
                 {
-                    EventManager.Enable<SlimeBallObjectListChangedEvent>();
+                    Events.Enable<SlimeBallObjectListChangedEvent>();
                 }
                 else
                 {
-                    EventManager.Disable<SlimeBallObjectListChangedEvent>();
+                    Events.Disable<SlimeBallObjectListChangedEvent>();
                 }
             }
 

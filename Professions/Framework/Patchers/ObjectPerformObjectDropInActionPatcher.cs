@@ -39,7 +39,8 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
 
         if (probe || !__instance.IsArtisanMachine() || !((dropInItem as SObject)?.IsPossibleMachineTreatment() ?? false) ||
             !who.HasProfession(Profession.Artisan, true) ||
-            !Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
+            !Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules) ||
+            !Config.ModKey.IsDown())
         {
             return true; // run original logic
         }
@@ -118,7 +119,6 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
         var calibrationPerItem = Data.Read(__instance, DataKeys.CalibrationPerItem).ParseDictionary<string, float>();
         var inputHasCalibration = calibrationPerItem.TryGetValue(input.QualifiedItemId, out var calibration);
         const float dayLength = 1600f;
-        var calibrationDelta = 4f + (int)(__instance.MinutesUntilReady / dayLength);
         if (inputHasCalibration)
         {
             // artisan users can preserve the input quality above 50 calibration
@@ -152,6 +152,7 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
             }
         }
 
+        var calibrationDelta = 4f + (int)(__instance.MinutesUntilReady / dayLength);
         if (user.HasProfession(Profession.Artisan))
         {
             // re-calibrate
@@ -195,17 +196,28 @@ internal sealed class ObjectPerformObjectDropInActionPatcher : HarmonyPatcher
                 Data.Write(__instance, DataKeys.CalibrationLocked, "false".ToString());
             }
         }
+        else if (calibrationPerItem.Any())
+        {
+            foreach (var key in calibrationPerItem.Keys.ToList())
+            {
+                var calibrationLoss = calibrationDelta / 2f;
+                calibrationPerItem[key] -= calibrationLoss;
+                if (calibrationPerItem[key] <= 0f)
+                {
+                    calibrationPerItem.Remove(key);
+                }
+            }
+
+            Data.Write(__instance, DataKeys.CalibrationChanged, "true".ToString());
+            Data.Write(__instance, DataKeys.CalibrationLocked, "false".ToString());
+        }
 
         Data.Write(__instance, DataKeys.CalibrationPerItem, calibrationPerItem.Stringify());
         __instance.Set_Calibrations(calibrationPerItem);
 
-        if (!owner.HasProfession(Profession.Artisan, true))
-        {
-            return;
-        }
-
         // apply machinist machine treatment bonus
-        if (!Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
+        if (!owner.HasProfession(Profession.Artisan, true) ||
+            !Lookups.MachineTreatments.TryGetValue(__instance.QualifiedItemId, out var treatmentRules))
         {
             return;
         }

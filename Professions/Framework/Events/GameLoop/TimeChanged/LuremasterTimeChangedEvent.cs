@@ -22,7 +22,7 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
     /// <summary>Initializes a new instance of the <see cref="LuremasterTimeChangedEvent"/> class.</summary>
     /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
     public LuremasterTimeChangedEvent(EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         CatchProbabilityByAttempts[0] = 0d;
         for (var i = 1; i < 120; i++)
@@ -60,10 +60,7 @@ internal sealed class LuremasterTimeChangedEvent : TimeChangedEvent
                 return;
             }
 
-            Log.D($"Crab Pot instance succeeded in Luremaster additional capture at {e.NewTime} hours. Running day update...");
             crabPot.DayUpdate();
-            Log.D("Day update complete.");
-
             crabPot.IncrementCatches();
             if (isOwnedByPrestigedLuremaster)
             {

@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework.Graphics;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class EnchantmentsAssetRequestedEvent(EventManager? manager = null)
-    : AssetRequestedEvent(manager ?? EnchantmentsMod.EventManager)
+    : AssetRequestedEvent(manager ?? EnchantmentsMod.Events)
 {
     /// <inheritdoc />
     protected override void Initialize()

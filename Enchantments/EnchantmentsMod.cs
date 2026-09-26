@@ -1,5 +1,4 @@
-﻿global using DaLion.Enchantments.Framework;
-global using DaLion.Shared.Reflection;
+﻿global using DaLion.Shared.Reflection;
 global using StardewValley.Enchantments;
 global using static DaLion.Enchantments.EnchantmentsMod;
 
@@ -42,7 +41,7 @@ public sealed class EnchantmentsMod : Mod
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
+    internal static EventManager Events { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
@@ -98,7 +97,7 @@ public sealed class EnchantmentsMod : Mod
         Broadcaster = new Broadcaster(helper.Multiplayer, UniqueId);
         Data = new ModDataManager(UniqueId, Log);
         PerScreenState = new PerScreen<EnchantmentsState>(() => new EnchantmentsState());
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log)
+        Events = new EventManager(helper.Events, helper.ModRegistry, Log)
             .ManageInitial(assembly, "DaLion.Enchantments.Framework.Events");
         this.ValidateMultiplayer();
     }

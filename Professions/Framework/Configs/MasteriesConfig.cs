@@ -58,13 +58,13 @@ public sealed class MasteriesConfig
             {
                 case false:
                     State.LimitBreak.ChargeValue = 0d;
-                    EventManager.DisableWithAttribute<LimitEventAttribute>();
+                    ProfessionsMod.Events.DisableWithAttribute<LimitEventAttribute>();
                     break;
                 case true:
                 {
                     if (State.LimitBreak is not null)
                     {
-                        EventManager.Enable<LimitWarpedEvent>();
+                            ProfessionsMod.Events.Enable<LimitWarpedEvent>();
                     }
 
                     break;

@@ -14,7 +14,7 @@ using StardewValley;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class ProfessionSavingEvent(EventManager? manager = null)
-    : SavingEvent(manager ?? ProfessionsMod.EventManager)
+    : SavingEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnSavingImpl(object? sender, SavingEventArgs e)

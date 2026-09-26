@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TapperCraftingButtonPressedEvent(EventManager? manager = null)
-    : ButtonPressedEvent(manager ?? ProfessionsMod.EventManager)
+    : ButtonPressedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.TapperCraftingRecipeBeingHovered is not null;
@@ -23,12 +23,15 @@ internal sealed class TapperCraftingButtonPressedEvent(EventManager? manager = n
         {
             case SButton.DPadUp:
             case SButton.Up:
+                ModHelper.Input.Suppress(e.Button);
                 State.TapperCraftingIngredientSelected--;
                 break;
             case SButton.DPadDown:
             case SButton.Down:
+                ModHelper.Input.Suppress(e.Button);
                 State.TapperCraftingIngredientSelected++;
                 break;
         }
+
     }
 }

@@ -16,7 +16,7 @@ using StardewModdingAPI.Events;
 [ModRequirement(SveIntegration.MOD_ID, "Stardew Valley Expanded")]
 [AlwaysEnabledEvent]
 internal sealed class GaldoraHudThemeWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
+    : WarpedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnWarpedImpl(object? sender, WarpedEventArgs e)

@@ -101,7 +101,7 @@ internal sealed class FarmerTakeDamagePatcher : HarmonyPatcher
             explosive.Accumulated += damage * 2;
             if (explosive.ExplosionRadius >= 1)
             {
-                EventManager.Enable<ExplosiveUpdateTickedEvent>();
+                EnchantmentsMod.Events.Enable<ExplosiveUpdateTickedEvent>();
             }
         }
     }

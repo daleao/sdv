@@ -13,7 +13,7 @@ using StardewValley.Tools;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class EnergizedUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? EnchantmentsMod.EventManager)
+    : UpdateTickedEvent(manager ?? EnchantmentsMod.Events)
 {
     private WeakReference<BaseEnchantment>? _instance;
 

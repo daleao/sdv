@@ -326,6 +326,12 @@ public sealed class VanillaSkill : SmartEnum<Skill>, ISkill
         this.SetLevel(expectedLevel);
     }
 
+    /// <summary>Calls <see cref="Revalidate"/> for all vanilla skills.</summary>
+    internal static void RevalidateAll()
+    {
+        List.ForEach(s => s.Revalidate());
+    }
+
     /// <summary>Sets the experience points for this skill.</summary>
     /// <param name="experience">The new amount of experience points.</param>
     private void SetExperience(int experience)

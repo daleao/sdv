@@ -101,7 +101,7 @@ Equivalent in value to vanilla's 10% price bonus on average, but also provides 
 <font size="2">
 <details>
 
-Crop rotation works as follows:
+**Crop rotation** works as follows:
 - Every tilled tile keeps a memory of the previous crops grown on that tile in the current season.
     - Memory resets on the first of the month, so it works as normal in Ginger Island. If you skip day 1 using mods, the reset will also be skipped.
 - For each unique crop in that memory, the next crop gains 5% bonus to growth speed.
@@ -112,7 +112,7 @@ Crop rotation works as follows:
 Highest-quality refers to iridium, which normally requires Deluxe Fertilizer. This does not affect the actual *chance* to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
 Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
 
-When prestiged, Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season.
+**Prestige:** Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season.
 Each quality of Retaining Soil allows a single tile to grow an out-of-season crop for a limited number of days:
 - **Basic Retaining Soil:** 3 days
 - **Quality Retaining Soil:** 7 days
@@ -143,7 +143,7 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <font size="2">
 <details>
 
-Calibration is very straightforward:
+**Calibration** is very straightforward:
 - Each time the same ingredient is processed consecutively, the following production cycle requires 2.5% less time.
 - This caps after 10 cycles, after which the machine becomes "fully-calibrated", and production time is reduced by 25%.
 - If at any moment the machine receives a different item, the calibration drops down to zero and starts over.
@@ -151,11 +151,11 @@ Calibration is very straightforward:
 - This is tied to the individual machine, and not the user; as long as the machine was crafted by an Artisan, this will work regardless of who uses the machine (ownership requirements can be disabled in config settings).
 - When Prestiged, a fully-calibrated machine will immediately yield an additional low-quality output after every 5 repeated cycles (works with [Two-Way Hopper](../Core/README.md)).
 
-Quality preservation:
+**Quality preservation:**
 - ...is based on your Farming level. There is a `FarmingLevel / 60`% chance to fully preserve the ingredient's quality. If this fails, quality drops by 1 stage, and the game makes another check at `FarmingLevel / 30`. If this also fails, quality drops again by 1 stage. If starting with Iridium ingredients, then the output is guaranteed to be at least Silver quality.
 - ...is tied to the Artisan player, and not the machine. This means that only Artisan players can preserve ingredient quality, and they can do so on any machine, even those crafted by non-Artisan players.
 
-Machine treatments:
+**Prestige (machine treatments):**
 - Machines can receive four types of treatments:
     - **Fermentation treatment** is performed by coating the inside of a machine with Oak Resin. Just as wines and spirits are traditionally aged in oak barrels, a resin-treated vessel gradually imparts subtle woody notes while creating a more favorable environment for fermentation. This treatment improves the quality of fermented products such as wine, beer, mead, cheese, pickles, and other cultured foods.
     - **Glazing treatment** is performed by coating the inside of a machine with a sweet, viscous syrup such as Maple Syrup. The seasoned surfaces enhance the natural sweetness and aroma of fruits and other ingredients while making juices, jams and other confectures. *If SVE is installed, Birch Water may also be used.*
@@ -165,7 +165,7 @@ Machine treatments:
 - Treatments are applied by interacting with a machine while holding the treatment item. If a different coating is applied, it overwrites the previous one.
 - Treatments are automatically applied by Hoppers.
 
-Other:
+**Other:**
 - In order to maintain the consistency of this profession, this mod also adds two additional optional changes:
     1. Large Eggs and Large Milk yield double amounts of regular-quality Mayo and Cheese respectively, instead of increasing each to gold-quality.
     2. Adds Ostrich and Golden Mayo items, replacing the weird vanilla rules that normally apply to Ostrich and Golden eggs. Blue Mayo is not included.
@@ -193,6 +193,8 @@ Other:
 <details>
 
 **Crop Feeding:** Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. Interact with the animal while holding a crop to feed it. There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. You can track which animals have been fed in the Animals menu.
+
+**Prestige:** Interact with a Silo while holding a crop to store it. Just like Hay, crops will automatically be pulled and fed to the respective animals in buildings with a Feed Hopper.
 </details>
 </font>
 
@@ -222,9 +224,9 @@ Only affects animals born *after* obtaining this profession, though nutrition ca
 
 This generates an actual gameplay loop; choose which animals to breed to maximize bloodline potential, and when to sell animals for maximum profit.
 
-Note about eggs: An individual's inherited nutrition value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
+**Note about eggs:** An individual's inherited nutrition value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
 
-Bonus: If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
+**Bonus:** If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
 </details>
 </font>
 
@@ -304,7 +306,7 @@ Other than the name, this profession is unchanged from vanilla.
 
 All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage.
 
-For Bioharmonist, a buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
+**Prestige:** A buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
 </details>
 </font>
 
@@ -335,7 +337,7 @@ Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minig
 You can also hold the mod key (LeftShift by default) to highlight all forageable items currently on-screen for easier viewing.
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
-Pointer colors:
+**Pointer colors:**
 - **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
 - **Green:** Artifact spots
 - **Purple:** Buried treasure (Scavenger Hunt only)
@@ -384,7 +386,7 @@ Other than the name, this profession is unchanged from vanilla.
 
 Applies to both common trees and fruit trees. Note that common trees grow randomly, and so gain 25% bonus chance to advance a stage each night. Fruit trees, on the other hand, grow on a fixed schedule, in which case the perk simply causes every 4th day to be skipped so as to preserve that predictable nature.
 
-For Silviculturist, as long as at least one Green Rain Tree grows on the farm, there is a 10% base chance to convert any rainy weather, even those caused by Rain Totems, into Green Rain, plus 2% for each fully-grown Green Rain Tree, up to a maximum of 50%.
+**Prestige:** As long as at least one Green Rain Tree grows on the farm, there is a 10% base chance to convert any rainy weather, even those caused by Rain Totems, into Green Rain, plus 2% for each fully-grown Green Rain Tree, up to a maximum of 50%.
 </details>
 </font>
 
@@ -400,7 +402,7 @@ For Silviculturist, as long as at least one Green Rain Tree grows on the farm, t
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/tapper_p.png"/> <b>Syrupwright (Lv20)</b> - Tapped trees produce syrup <s>25%</s> → 50% faster. Double yield from recipes that consume syrups.
+<img src="./resources/assets/sprites/loose/tapper_p.png"/> <b>Syrupwright (Lv20)</b> - Tapped trees produce syrup <s>25%</s> → 50% faster. Can replace crafting ingredients with sap and double the yield of recipes that consume syrup.
 </font>
 
 <font size="2">
@@ -410,6 +412,11 @@ New regular recipe: x20 wood, x1 copper bar.
 New Heavy recipe: x15 hardwood, x1 radioactive bar.
 
 In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which makes it more in line with the new Heavy Furnace and, honestly, just makes more sense. This is enabled by default.
+
+**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering any recipe to enter "sap" mode; you can replace any crafting ingredient in the recipe with sap, as long as the recipe has more than one ingredient, and doesn't already use sap. If the recipe uses a syrup, then only the syrup can be replaced, but doing so will forfeit the "double yield" part of the perk. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa). 
+
+    > [!NOTE]
+    > **Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
 </font>
 
@@ -465,7 +472,7 @@ If you have at least 20 stacks, you may also double press the Mod key (default L
 
 Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
 
-On prestige, you unlock a recipe to craft a Survey Flag. One per day, you can place down a flag on any Mine level to create a checkpoint. If you leave the Mines and re-enter, you will begin at the checkpoint level. One per day, if you die at a lower level, you will respawn at the checkpoint without losing any items. And any item you do not pick up during your expedition have a chance to re-appear on the ground near the checkpoint. Also doubles the ore chance after ladder spawn.
+**Prestige:** You unlock a recipe to craft a Survey Flag. One per day, you can place down a flag on any Mine level to create a checkpoint. If you leave the Mines and re-enter, you will begin at the checkpoint level. One per day, if you die at a lower level, you will respawn at the checkpoint without losing any items. And any item you do not pick up during your expedition have a chance to re-appear on the ground near the checkpoint. Also doubles the ore chance after ladder spawn.
 </details>
 </font>
 
@@ -497,7 +504,7 @@ While mining, there is a chance to trigger a **Prospector Hunt** minigame:
 You can also hold the mod key (LeftShift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
-Pointer colors:
+**Pointer colors:**
 - **Orange:** Mining nodes and forage minerals
 - **Blue:** Ladders/shafts, panning spots
 - **Green:** Artifact spots
@@ -546,7 +553,7 @@ A new style of mining which also tries to alleviate the lack of coal from having
 
 Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession.
 
-For Pyrotechnician, chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
+**Prestige:** Chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
 
 All perks also apply to Explosive Ammo.
 </details>
@@ -572,7 +579,7 @@ All perks also apply to Explosive Ammo.
 
 The mining-equivalent of Ecologist. All gems and minerals mined from nodes will have the same deterministic quality, starting at silver and gradually increasing to iridium as you collect and study new varieties of gemstones. Note that this bonus applies only to gems and minerals that have been physically mined.
 
-For Crystallographer, a "perfect replica" refers to quality preservation.
+**Prestige:** A "perfect replica" refers to quality preservation.
 </details>
 </font>
 
@@ -622,11 +629,13 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 <font size="2">
 <details>
 
-- Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
-- Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish.
-- By default, the bonus caps at 100%, but this can be configured.
-- Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
-- If prestiged, Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. The encounter chance increases by 1% per catch, or 2% for a perfect catch. Failing any catch resets the streak back to 0.  
+Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
+
+Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. By default, the bonus caps at 100%, but this can be configured.
+
+Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
+
+**Prestige:** Legendary fish can be re-encountered, assuming all standard time and weather conditions apply, after 10 successive successful catches. The encounter chance increases by 1% per catch, or 2% for a perfect catch. Failing any catch resets the streak back to 0.  
 
 </details>
 </font>
@@ -653,7 +662,7 @@ Designed for players who struggle with, or just plain dislike the fishing miniga
 
 Though it isn't stated, this profession also unlocks the ability to raise legendary fish in pond (since game version 1.6 this a vanilla feature; with this mod, **the Aquarist profession is required to enable this**). They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives if [Aquarism](../Ponds) mod is also installed. Doing so with Angler and Ms. Angler will allow them to reproduce. The max population of legendary ponds is always half of the regular limit, unless the player also has the prestiged version Aquarist; i.e., Ichthyologist.
 
-For Ichthyologist profession, an instant catch also automatically catches treasure chests if applicable.
+**Prestige:** An instant catch also automatically catches treasure chests if applicable.
 </details>
 </font>
 
@@ -676,6 +685,8 @@ For Ichthyologist profession, an instant catch also automatically catches treasu
 <details>
 
 All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The Crab Pot recipe part of the perk is unchanged from vanilla.
+
+**Prestige hidden bonus:** Can also place crab pots in lava pools.
 </details>
 </font>
 
@@ -691,19 +702,24 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/luremaster_p.png"/> <b>Baitweaver (Lv20)</b> - Baited Crab pots can produce <s>2x</s> → 3x per day. Double yield from machines which produce bait.
+<img src="./resources/assets/sprites/loose/luremaster_p.png"/> <b>Baitweaver (Lv20)</b> - Baited crab pots can trap up to thrice per day. Can make baits from any ingredient and double the yield of machines which produce bait.",
 </font>
 
 <font size="2">
 <details>
 
-Each type of bait will also apply its regular fishing effects:
+Each type of bait will also apply its regular fishing rod effects:
 - **Wild bait:** (25 + DailyLuck / 2)% chance to double the stack.
 - **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
 - **Magic bait:** Catches non-Crab Pot fish of any location or season.
 - **Deluxe bait:** Quality is boosted by one additional stage.
 
 All baits, with the exception of Magnet, also prevent collecting junk.
+
+**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering the regular Bait recipe to enter "bait" mode; you can replace the bug meat ingredient with any item that is not itself bait, an egg, milk, fish, syrup, a cooked recipe, a crafted machine or trash. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa). 
+
+    > [!NOTE]
+    > **Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
 </font>
 
@@ -719,7 +735,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/conservationist_p.png"/> <b>Oceanographer (Lv20)</b> - Crab pots without bait can also trap fish. Special conditions apply during rainy or full-moon days.
+<img src="./resources/assets/sprites/loose/conservationist_p.png"/> <b>Oceanographer (Lv20)</b> - Clean waters promote thriving fish schools and aquatic biodiversity; rare fish are more common, and crab pots without bait can harvest fish produce.
 </font>
 
 <font size="2">
@@ -727,7 +743,7 @@ All baits, with the exception of Magnet, also prevent collecting junk.
 
 By default, every 100 junk items collected nets 1 point of global friendship and a 1% tax deduction the following season. What a "tax deduction" means depends on whether companion mod [Serfdom](../Taxes) is installed; if it is, then a tax deduction works as you would expect: a percent reduction of your overall amount due (in **income** tax only). Otherwise, a tax deduction works as a flat % price increase to all items. If you qualify for a deduction you will receive a formal mail from the Ferngill Revenue Service on the first of the season, informing you of your currrent deduction rights.
 
-For Oceanographer, the fish that can be caught are limited to those ordinarily caught with a crab pot. Your deep knowledge of currents and tidal patterns also allows your crab pots to catch entire schools of fish during days when the weather is rainy or stormy, or during the day of the full-moon (15th). All fish caught during these days receive a dramatic boost to quantity and a +1 boost to quality. On regular days, the chance to catch fish this way is 10%, and regular quantity and quality rules apply.
+**Prestige:** In addition to previous reward for cleaning waters, this will also increase the odds of encountering rare fish while fishing, and reduce the odds of common fish (applies to all players in multiplayer). Actual encounter table doesn't change. Furthermore, crab pots may produce items from the Fish Pond rewards table for any of the available fish in the current body of water, except for Roe.
 </details>
 </font>
 

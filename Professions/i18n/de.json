@@ -158,7 +158,7 @@
     "conservationist.title.prestiged.male": "Ozeanographe",
     "conservationist.title.prestiged.female": "Ozeanographin",
     "conservationist.desc": "Krabbenreusen ohne Köder können Müll sammeln. Säubere die Gewässer und erhalte die Gunst der Bewohner, sowie Steuervorteile.",
-    "conservationist.desc.prestiged": "Krabbenreusen ohne Köder können auch Fische fangen. Spezielle Effekte entstehen wenn es regnet, und bei Vollmond.",
+    "conservationist.desc.prestiged": "Saubere Gewässer fördern die aquatische Biodiversität; seltene Fische sind häufiger, und Reusen ohne Köder können Fischprodukte ernten.",
     "conservationist.mail": "Finanzamt ^Ferngill Umsatz Service^^^{{honorific}} Steuerzahler*in,^^Wir freuen uns Ihnen mitteilen zu dürfen, mit Hinsicht auf Ihre umweltfördernden Aktivitäten, dass Sie qualifiziert sind für einen Steuernachlass in Höhe von {{taxBonus}} nach Section 501(c)(3) des Ferngill Umsatzsteuer-Gesetzes. Damit wird sämtlicher Umsatz der {{farm}} Farm um den vorher genannten Betrag erhöht. Effektiv bis zum 28. {{season}}.^^Bitte bewahren Sie diesen Brief in ihren Steuerunterlagen auf, sollten Sie oder Befugte Nachfragen dazu haben.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Leiterin, Ferngill Umsatz Service[#]FRS Nachlass Notiz",
     "conservationist.mail.max": "Finanzamt ^Ferngill Umsatz Service^^^{{honorific}} Steuerzahler*in,^^Wir freuen uns Ihnen mitteilen zu dürfen, mit Hinsicht auf Ihre umweltfördernden Aktivitäten, dass Sie qualifiziert sind für einen maximal zulässlichen Steuernachlass in Höhe von {{taxBonus}} nach Section 501(c)(3) des Ferngill Umsatzsteuer-Gesetzes. Damit wird sämtlicher Umsatz der {{farm}} Farm um den vorher genannten Betrag erhöht. Effektiv bis zum 28. {{season}}.^^Bitte bewahren Sie diesen Brief in ihren Steuerunterlagen auf, sollten Sie oder Befugte Nachfragen dazu haben.^^^Mit freundlichen Grüßen,^^Laura D. Pretto^Leiterin, Ferngill Umsatz Service[#]FRS Nachlass Notiz",
 
@@ -310,7 +310,7 @@
     "honorific.male": "Lieber",
     "honorific.female": "Liebe",
 
-    "buildings.PiecesOfHayAndMore": "Heuballen: {0}/{1}^Getreide: {2}/{9}^Blattgemüse: {3}/{9}^Hülsenfrüchte: {4}/{9}^Wurzelgemüse: {5}/{9}^Knollen: {6}/{9}^Kürbisgewächse: {7}/{9}^Früchte: {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Getreide: {{grains}}/{{capacity}}^Blattgemüse: {{greens}}/{{capacity}}^Hülsenfrüchte: {{legumes}}/{{capacity}}^Wurzelgemüse: {{roots}}/{{capacity}}^Knollen: {{tubers}}/{{capacity}}^Kürbisgewächse: {{gourds}}/{{capacity}}^Früchte: {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

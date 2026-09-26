@@ -5,18 +5,15 @@
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 using DaLion.Professions;
 using DaLion.Professions.Framework.Extensions;
-using DaLion.Professions.Framework.Patchers.Combat;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
-using Microsoft.Xna.Framework;
-using StardewValley.Buildings;
 using StardewValley.Locations;
-using StardewValley.Menus;
 using xTile.Dimensions;
 
 #endregion using directives
@@ -175,7 +172,7 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
 
     [HarmonyTranspiler]
     [UsedImplicitly]
-    private static IEnumerable<CodeInstruction>? GameLocationPerformActionTranspiler (
+    private static IEnumerable<CodeInstruction>? GameLocationPerformActionTranspiler(
         IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original)
     {
         var helper = new ILHelper(original, instructions);
@@ -185,18 +182,14 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
             var notPrestigedRancher = generator.DefineLabel();
             helper
                 .PatternMatch([new CodeInstruction(OpCodes.Ldstr, "Strings\\Buildings:PiecesOfHay")])
-                .Move(-1)
-                .StripLabels(out var labels)
-                .AddLabels(notPrestigedRancher)
-                .InsertProfessionCheck(Farmer.rancher + 100, labels)
+                .PatternMatch([new CodeInstruction(
+                    OpCodes.Call,
+                    typeof(Game1).RequireMethod(nameof(Game1.drawObjectDialogue), [typeof(string)]))])
                 .Insert(
                 [
-                    new CodeInstruction(OpCodes.Brfalse_S, notPrestigedRancher),
                     new CodeInstruction(OpCodes.Ldarg_0),
-                    new CodeInstruction(OpCodes.Call, typeof(GameLocationPerformActionPatcher).RequireMethod(nameof(GetHayDialogueForPrestigedRancher))),
-                    new CodeInstruction(OpCodes.Call, typeof(Game1).RequireMethod(nameof(Game1.drawObjectDialogue), [typeof(string)])),
-                    new CodeInstruction(OpCodes.Ldc_I4_1),
-                    new CodeInstruction(OpCodes.Ret),
+                    new CodeInstruction(OpCodes.Call, typeof(GameLocationPerformActionPatcher).RequireMethod(nameof(GetSiloExtraFeedDialogue))),
+                    new CodeInstruction(OpCodes.Call, typeof(string).RequireMethod(nameof(string.Concat), [typeof(string), typeof(string)])),
                 ]);
         }
         catch (Exception ex)
@@ -282,21 +275,46 @@ internal sealed class GameLocationPerformActionPatcher : HarmonyPatcher
         return true;
     }
 
-    private static string GetHayDialogueForPrestigedRancher(GameLocation location)
+    private static string GetSiloExtraFeedDialogue(GameLocation location)
     {
+        if (!Game1.player.HasProfession(Profession.Rancher, true))
+        {
+            return string.Empty;
+        }
+
         var feeds = Data.Read(location, DataKeys.PiecesOfFeed).ParseDictionary<string, int>();
-        return Game1.content.LoadString(
-            "Strings\\Buildings:PiecesOfHayAndMore",
-            location.piecesOfHay.Value,
-            location.GetHayCapacity(),
+        var raw = I18n.Buildings_PiecesOfHayAndMore(
             feeds.TryGetValue(FeedCategoryRegistry.Grains.Id, out var grains) ? grains : 0,
+            location.GetHayCapacity() / 10,
             feeds.TryGetValue(FeedCategoryRegistry.LeafyGreens.Id, out var greens) ? greens : 0,
             feeds.TryGetValue(FeedCategoryRegistry.Legumes.Id, out var legumes) ? legumes : 0,
             feeds.TryGetValue(FeedCategoryRegistry.Roots.Id, out var roots) ? roots : 0,
             feeds.TryGetValue(FeedCategoryRegistry.Tubers.Id, out var tubers) ? tubers : 0,
             feeds.TryGetValue(FeedCategoryRegistry.Gourds.Id, out var gourds) ? gourds : 0,
-            feeds.TryGetValue(FeedCategoryRegistry.Fruits.Id, out var fruits) ? fruits : 0,
-            location.GetHayCapacity() / 10);
+            feeds.TryGetValue(FeedCategoryRegistry.Fruits.Id, out var fruits) ? fruits : 0);
+        var split = raw.Split('^');
+        var result = split[0];
+        foreach (var line in split[1..])
+        {
+            var match = Regex.Match(line, @"(\d+)/");
+            if (!match.Success)
+            {
+                ThrowHelper.ThrowArgumentException($"Invalid string: {line}");
+            }
+
+            var numerator = int.Parse(match.Groups[1].Value);
+            if (numerator == 0)
+            {
+                continue;
+            }
+
+            result += "^" + line;
+        }
+
+        return Game1.content.LoadString(
+            "Strings\\Buildings:PiecesOfHay",
+            location.piecesOfHay,
+            location.GetHayCapacity()) + result;
     }
 
     #endregion dialog handlers

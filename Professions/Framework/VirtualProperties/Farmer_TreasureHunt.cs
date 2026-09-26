@@ -23,7 +23,7 @@ internal static class Farmer_TreasureHunt
     {
     }
 
-    internal class Holder
+    public class Holder
     {
         public NetBool IsHuntingTreasure => new(false);
 

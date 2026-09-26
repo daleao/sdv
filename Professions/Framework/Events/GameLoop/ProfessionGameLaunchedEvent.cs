@@ -15,7 +15,7 @@ using static DaLion.Shared.Pathfinding.MovingTargetDStarLite;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class ProfessionGameLaunchedEvent(EventManager? manager = null)
-    : GameLaunchedEvent(manager ?? ProfessionsMod.EventManager)
+    : GameLaunchedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnGameLaunchedImpl(object? sender, GameLaunchedEventArgs e)

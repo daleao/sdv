@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [LimitEvent]
 [UsedImplicitly]
 internal sealed class LimitButtonsChangedEvent(EventManager? manager = null)
-    : ButtonsChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : ButtonsChangedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.LimitBreak?.CanActivate ?? false;

@@ -15,7 +15,7 @@ using StardewValley;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugRenderedHudEvent(EventManager? manager = null)
-    : RenderedHudEvent(manager ?? CoreMod.EventManager)
+    : RenderedHudEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;

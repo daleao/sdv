@@ -8,6 +8,7 @@ using System.Text;
 using DaLion.Shared.Commands;
 using DaLion.Shared.Extensions;
 using DaLion.Shared.Extensions.SMAPI;
+using DaLion.Shared.Extensions.Stardew;
 using StardewValley.Constants;
 using StardewValley.Menus;
 
@@ -25,6 +26,8 @@ internal sealed class RemoveCommand(CommandHandler handler)
     /// <inheritdoc />
     public override string Documentation =>
         "Remove the specified professions from the player without affecting skill levels. Can also be used to remove masteries from the specified skills using the keyword \"mastery\".";
+
+    internal static Dictionary<int, Queue<int>> ProfessionsToRemovePerScreen { get; } = [];
 
     /// <inheritdoc />
     public override bool CallbackImpl(string trigger, string[] args)
@@ -70,6 +73,7 @@ internal sealed class RemoveCommand(CommandHandler handler)
         }
 
         var player = Game1.player;
+        int? screenId = 0;
         if (farmerIndex > 1)
         {
             if (!Context.IsSplitScreen)
@@ -78,25 +82,26 @@ internal sealed class RemoveCommand(CommandHandler handler)
                 return false;
             }
 
-            var screenId = farmerIndex - 1;
+            var peerIndex = farmerIndex - 2; // subtract 1 for host player and 1 for zero-index
             var onlinePlayers = ModHelper.Multiplayer.GetConnectedPlayers().ToList();
-            if (screenId > onlinePlayers.Count)
+            if (peerIndex >= onlinePlayers.Count)
             {
                 Log.W($"Insufficient online players for setting specified player \"{farmerIndex}\".");
                 return false;
             }
 
-            var multiplayerId = onlinePlayers.Find(peer => peer.ScreenID == screenId)?.PlayerID;
-            if (multiplayerId is null)
+            var multiplayerId = onlinePlayers[peerIndex].PlayerID;
+            player = Game1.GetPlayer(multiplayerId, onlyOnline: true);
+            if (player is null)
             {
-                Log.W($"Couldn't find online player with the desired player screen ID \"{screenId}\".");
+                Log.W($"Failed to get online player number {farmerIndex}.");
                 return false;
             }
 
-            player = Game1.GetPlayer(multiplayerId.Value, onlyOnline: true);
-            if (player is null)
+            screenId = player.GetScreenId(ModHelper.Multiplayer);
+            if (screenId is null)
             {
-                Log.W($"Couldn't find online player with specified player screen ID \"{screenId}\".");
+                Log.W($"Failed to get {player.Name}'s splitscreen ID.");
                 return false;
             }
         }
@@ -146,10 +151,10 @@ internal sealed class RemoveCommand(CommandHandler handler)
             }
         }
 
-        List<int> professionsToRemove = [];
-        foreach (var arg in args)
+        HashSet<(int Id, string Name)> professionsToRemove = [];
+        foreach (var token in tokens)
         {
-            if (string.Equals(arg, "all", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(token, "all", StringComparison.InvariantCultureIgnoreCase))
             {
                 var shouldInvalidate = player.professions.Intersect(Profession.GetRange(true)).Any();
                 player.professions.Clear();
@@ -159,59 +164,95 @@ internal sealed class RemoveCommand(CommandHandler handler)
                     ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
                 }
 
-                Log.I($"Removed all professions from {player.Name}.");
                 break;
             }
 
-            if (string.Equals(arg, "rogue", StringComparison.InvariantCultureIgnoreCase) ||
-                string.Equals(arg, "unknown", StringComparison.InvariantCultureIgnoreCase))
+            if (string.Equals(token, "rogue", StringComparison.InvariantCultureIgnoreCase) ||
+                string.Equals(token, "unknown", StringComparison.InvariantCultureIgnoreCase))
             {
                 var range = player.professions
                     .Where(pid =>
                         !Profession.TryFromValue(pid, out _) && !Profession.TryFromValue(pid + 100, out _) &&
                         CustomProfession.List.All(p => pid != p.Id && pid != p.Id + 100))
-                    .ToArray();
+                    .ToHashSet();
 
-                professionsToRemove.AddRange(range);
-                Log.I($"Removed unknown professions from {player.Name}.");
+                professionsToRemove.UnionWith(range.Select(i => (i, "Unknown")));
             }
-            else if (Profession.TryFromName(arg, true, out var profession) ||
-                     Profession.TryFromLocalizedName(arg, true, out profession) ||
-                     (int.TryParse(arg, out var id) && Profession.TryFromValue(id, out profession)))
+            else if (Profession.TryFromName(token, true, out var profession) ||
+                     Profession.TryFromLocalizedName(token, true, out profession) ||
+                     (int.TryParse(token, out var id) && Profession.TryFromValue(id, out profession)))
             {
-                professionsToRemove.Add(profession.Id);
-                professionsToRemove.Add(profession.Id + 100);
-                Log.I($"Removed {profession.StringId} profession from {player.Name}.");
+                professionsToRemove.Add((profession.Id, profession.Name));
             }
             else
             {
                 var customProfession = CustomProfession.List.FirstOrDefault(p =>
-                    string.Equals(arg, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    string.Equals(arg, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
-                    (int.TryParse(arg, out id) && id == p.Id));
+                    string.Equals(token, p.StringId.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    string.Equals(token, p.Title.TrimAll(), StringComparison.InvariantCultureIgnoreCase) ||
+                    (int.TryParse(token, out id) && id == p.Id));
                 if (customProfession is null)
                 {
-                    Log.W($"Ignoring unknown profession {arg}.");
+                    Log.W($"Ignoring unknown profession {token}.");
                     continue;
                 }
 
-                professionsToRemove.Add(customProfession.Id);
-                Log.I($"Removed {customProfession.StringId} profession from {Game1.player.Name}.");
+                professionsToRemove.Add((customProfession.Id, customProfession.StringId));
             }
         }
 
-        foreach (var pid in professionsToRemove.Distinct())
+        if (player.IsLocalPlayer)
         {
-            GameLocation.RemoveProfession(pid);
+            foreach (var (pid, pname) in professionsToRemove)
+            {
+                if (!player.professions.Remove(pid))
+                {
+                    if (player.professions.Remove(pid + 100))
+                    {
+                        Log.I($"{Game1.player.Name} does not have profession {pname}, but does have the prestige.");
+
+                        GameLocation.RemoveProfession(pid + 100);
+                        Log.I($"Removed prestiged {pname} (Prestige) profession from {Game1.player.Name}.");
+                        continue;
+                    }
+
+                    Log.I($"{Game1.player.Name} does not have profession {pname}.");
+                    continue;
+                }
+
+                GameLocation.RemoveProfession(pid);
+                Log.I($"Removed {pname} profession from {Game1.player.Name}.");
+                if (player.professions.Remove(pid + 100))
+                {
+                    GameLocation.RemoveProfession(pid + 100);
+                    Log.I($"Removed prestiged {pname} (Prestiged) profession from {Game1.player.Name}.");
+                    continue;
+                }
+            }
+
+            return true;
+        }
+
+        ProfessionsToRemovePerScreen[screenId.Value] = new(professionsToRemove.Select(p => p.Id));
+        return true;
+    }
+
+    internal static void RemoveProfessionsStatic(Queue<int> professionsToRemove, Farmer player)
+    {
+        while (professionsToRemove.TryDequeue(out var pid))
+        {
+            if (player.professions.Remove(pid))
+            {
+                GameLocation.RemoveProfession(pid);
+                Log.I($"Removed profession ID {pid} from {player.Name}.");
+
+                if (pid.IsIn(Profession.GetRange(true)))
+                {
+                    ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
+                }
+            }
         }
 
         LevelUpMenu.RevalidateHealth(player);
-        if (professionsToRemove.Intersect(Profession.GetRange(true)).Any())
-        {
-            ModHelper.GameContent.InvalidateCacheAndLocalized("LooseSprites/Cursors");
-        }
-
-        return true;
     }
 
     /// <inheritdoc />

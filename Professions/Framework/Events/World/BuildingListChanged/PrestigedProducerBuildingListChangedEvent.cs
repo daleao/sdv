@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PrestigedProducerBuildingListChangedEvent(EventManager? manager = null)
-    : BuildingListChangedEvent(manager ?? ProfessionsMod.EventManager)
+    : BuildingListChangedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Game1.game1.DoesAnyPlayerHaveProfession(Profession.Producer, true, true);

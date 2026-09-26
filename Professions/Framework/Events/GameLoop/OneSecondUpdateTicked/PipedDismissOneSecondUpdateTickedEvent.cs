@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class PipedDismissOneSecondUpdateTickedEvent(EventManager? manager = null)
-    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : OneSecondUpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     private int _counter = 0;
 

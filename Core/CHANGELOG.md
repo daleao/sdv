@@ -1,5 +1,21 @@
 ﻿# CORE Changelog
 
+## 2.2.6
+
+### Added
+
+* Added `HasKey` to `ModDataExtensions`.
+
+### Changed
+
+* Replaced custom `Die()` calls with `onMonsterKilled()`.
+
+### Fixed
+
+* Mod now yields when firing a [Bow](https://www.nexusmods.com/stardewvalley/mods/16767).
+
+<sup><sup>[🔼 Back to top](#core-changelog)</sup></sup>
+
 ## 2.2.5
 
 ### Added

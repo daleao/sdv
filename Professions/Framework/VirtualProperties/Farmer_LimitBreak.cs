@@ -13,14 +13,14 @@ internal static class Farmer_LimitBreak
 {
     internal static ConditionalWeakTable<Farmer, Holder> Values { get; } = [];
 
-    public static LimitBreak? Get_LimitBreak(this Farmer farmer)
+    internal static LimitBreak? Get_LimitBreak(this Farmer farmer)
     {
         return farmer.IsLocalPlayer
             ? State.LimitBreak
             : Values.GetOrCreateValue(farmer).LimitBreak;
     }
 
-    public static void Set_LimitBreak(this Farmer farmer, LimitBreak? value)
+    internal static void Set_LimitBreak(this Farmer farmer, LimitBreak? value)
     {
         if (farmer.IsLocalPlayer)
         {
@@ -31,23 +31,23 @@ internal static class Farmer_LimitBreak
         Values.GetOrCreateValue(farmer).LimitBreak = value;
     }
 
-    public static NetInt Get_LimitBreakId(this Farmer farmer)
+    internal static NetInt Get_LimitBreakId(this Farmer farmer)
     {
         return Values.GetValue(farmer, Create).Id;
     }
 
     // Net types are readonly
-    public static void Set_LimitBreakId(this Farmer farmer, NetInt value)
+    internal static void Set_LimitBreakId(this Farmer farmer, NetInt value)
     {
     }
 
-    public static NetBool Get_IsLimitBreaking(this Farmer farmer)
+    internal static NetBool Get_IsLimitBreaking(this Farmer farmer)
     {
         return Values.GetValue(farmer, Create).IsActive;
     }
 
     // Net types are readonly
-    public static void Set_IsLimitBreaking(this Farmer farmer, NetBool value)
+    internal static void Set_IsLimitBreaking(this Farmer farmer, NetBool value)
     {
     }
 

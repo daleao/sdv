@@ -12,7 +12,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class CoreReturnedToTitleEvent(EventManager? manager = null)
-    : ReturnedToTitleEvent(manager ?? CoreMod.EventManager)
+    : ReturnedToTitleEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnReturnedToTitleImpl(object? sender, ReturnedToTitleEventArgs e)

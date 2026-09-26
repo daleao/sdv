@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class NutritionDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
+    : DayStartedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

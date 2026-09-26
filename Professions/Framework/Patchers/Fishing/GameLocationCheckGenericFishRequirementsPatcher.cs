@@ -9,6 +9,9 @@ using DaLion.Shared.Extensions.Reflection;
 using DaLion.Shared.Extensions.Stardew;
 using DaLion.Shared.Harmony;
 using HarmonyLib;
+using StardewValley.Extensions;
+using StardewValley.GameData;
+using StardewValley.GameData.Locations;
 
 #endregion using directives
 
@@ -47,16 +50,27 @@ internal sealed class GameLocationCheckGenericFishRequirementsPatcher : HarmonyP
                         new CodeInstruction(OpCodes.Ldarg_3),
                         new CodeInstruction(
                             OpCodes.Call,
-                            typeof(GameLocationCheckGenericFishRequirementsPatcher).RequireMethod(
-                                nameof(GetFishingChainChance))),
+                            typeof(GameLocationCheckGenericFishRequirementsPatcher)
+                            .RequireMethod(nameof(GetFishingChainChance))),
                         new CodeInstruction(OpCodes.Add),
+                        new CodeInstruction(OpCodes.Stloc_S, helper.Locals[22]),
+                        new CodeInstruction(OpCodes.Ldloc_S, helper.Locals[22]),
+                        new CodeInstruction(OpCodes.Conv_R8),
+                        new CodeInstruction(OpCodes.Ldarg_0),
+                        new CodeInstruction(OpCodes.Ldarg_3),
+                        new CodeInstruction(
+                            OpCodes.Call,
+                            typeof(FishDiversityManager)
+                            .RequireMethod(nameof(FishDiversityManager.GetOrEvaluate), [typeof(Item), typeof(Farmer)])),
+                        new CodeInstruction(OpCodes.Mul),
+                        new CodeInstruction(OpCodes.Conv_R4),
                         new CodeInstruction(OpCodes.Stloc_S, helper.Locals[22]),
                     ],
                     labels);
         }
         catch (Exception ex)
         {
-            Log.E($"Failed patching Prestiged Angler boss fish chance.\nHelper returned {ex}");
+            Log.E($"Failed patching Prestiged Angler boss fish chance + Prestiged Conservationist fish uniformity.\nHelper returned {ex}");
             return null;
         }
 

@@ -32,8 +32,8 @@ internal sealed class ToolTilesAffectedPatcher
 
         __result.Clear();
         var radius = __instance is Axe
-            ? AxeAffectedTilesRadii[Math.Min(power - 2, AxeAffectedTilesRadii.Length - 1)]
-            : PickaxeAffectedTilesRadii[Math.Min(power - 2, PickaxeAffectedTilesRadii.Length - 1)];
+            ? AxeAffectedTilesRadii[Math.Clamp(power - 2, 0, AxeAffectedTilesRadii.Length - 1)]
+            : PickaxeAffectedTilesRadii[Math.Clamp(power - 2, 0, PickaxeAffectedTilesRadii.Length - 1)];
         if (radius == 0)
         {
             return;

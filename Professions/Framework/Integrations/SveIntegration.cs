@@ -36,7 +36,7 @@ internal sealed class SveIntegration()
             return false;
         }
 
-        EventManager.Enable<SveWarpedEvent>();
+        ProfessionsMod.Events.Enable<SveWarpedEvent>();
         Log.D("Registered the Stardew Valley Expanded integration.");
         return true;
     }

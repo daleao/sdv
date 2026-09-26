@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class ChordDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? HarmonicsMod.EventManager)
+    : DayStartedEvent(manager ?? HarmonicsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

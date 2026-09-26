@@ -25,8 +25,8 @@ public class BleedAnimation
     public BleedAnimation(Monster monster, int duration)
     {
         this._attachedMonster = monster;
-        EventManager.Enable<BleedAnimationUpdateTickedEvent>();
-        EventManager.Enable<BleedAnimationRenderedWorldEvent>();
+        CoreMod.Events.Enable<BleedAnimationUpdateTickedEvent>();
+        CoreMod.Events.Enable<BleedAnimationRenderedWorldEvent>();
     }
 
     internal static ConditionalWeakTable<Monster, BleedAnimation> BleedAnimationByMonster { get; } = [];

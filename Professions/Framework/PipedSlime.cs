@@ -63,7 +63,7 @@ internal sealed class PipedSlime : IDisposable
         if (Config.UseAsyncMinionPathfinder)
         {
             (PathfinderAsync ??= new PathfindingManagerAsync(
-                EventManager,
+                ProfessionsMod.Events,
                 (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, COLLISION_MASK))))
                 .Register(slime, slime.currentLocation)
                 .QueueRequest(slime.TilePoint, piper.TilePoint);
@@ -71,7 +71,7 @@ internal sealed class PipedSlime : IDisposable
         else
         {
             (Pathfinder ??= new PathfindingManager(
-                    EventManager,
+                    ProfessionsMod.Events,
                     (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, COLLISION_MASK))))
                 .Register(slime, slime.currentLocation)
                 .RequestFor(slime.TilePoint, piper.TilePoint);
@@ -114,6 +114,8 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Gets a value indicating whether a Hat Slime already exists in the world.</summary>
     [MemberNotNullWhen(true, "HatSlime")]
     internal static bool TheHatSlimeIsUponUs => HatSlime is not null;
+
+    internal static Queue<PipedSlime> SlimesToBeWarped { get; } = [];
 
     /// <summary>Gets the <see cref="GreenSlime"/> instance.</summary>
     internal GreenSlime Slime { get; }
@@ -583,6 +585,12 @@ internal sealed class PipedSlime : IDisposable
     /// <summary>Warps the <seealso cref="Slime"/> to a new position near its <seealso cref="Piper"/> and resets the AI state.</summary>
     internal void WarpToPiper()
     {
+        if (Context.IsSplitScreen && !Context.IsMainPlayer)
+        {
+            SlimesToBeWarped.Enqueue(this);
+            return;
+        }
+
         var slime = this.Slime;
         var piper = this.Piper;
         var piperLocation = piper.currentLocation;
@@ -595,7 +603,7 @@ internal sealed class PipedSlime : IDisposable
         if (Config.UseAsyncMinionPathfinder)
         {
             (PathfinderAsync ??= new PathfindingManagerAsync(
-                    EventManager,
+                    ProfessionsMod.Events,
                     (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, COLLISION_MASK))))
                 .Reregister(slime, slime.currentLocation)
                 .QueueRequest(slime.TilePoint, piper.TilePoint);
@@ -603,14 +611,12 @@ internal sealed class PipedSlime : IDisposable
         else
         {
             (Pathfinder ??= new PathfindingManager(
-                    EventManager,
+                    ProfessionsMod.Events,
                     (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, COLLISION_MASK))))
                 .Reregister(slime, slime.currentLocation)
                 .RequestFor(slime.TilePoint, piper.TilePoint);
             Pathfinder.Debug(slime);
         }
-
-        Log.D($"Warped to {piperLocation}...");
     }
 
     /// <summary>Burst.</summary>

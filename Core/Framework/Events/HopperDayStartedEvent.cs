@@ -15,7 +15,7 @@ using StardewValley.Objects;
 [UsedImplicitly]
 [AlwaysEnabledEvent]
 internal sealed class HopperDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? CoreMod.EventManager)
+    : DayStartedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     protected override void OnDayStartedImpl(object? sender, DayStartedEventArgs e)

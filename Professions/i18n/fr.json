@@ -158,7 +158,7 @@
     "conservationist.title.prestiged.male": "Océanographe",
     "conservationist.title.prestiged.female": "Océanographe",
     "conservationist.desc": "Les casiers à crabes sans appâts peuvent piéger des déchets. Nettoyez les eaux de la vallée pour gagner la faveur du village et des déductions fiscales.",
-    "conservationist.desc.prestiged": "Les casiers à crabes sans appâts peuvent aussi piéger des poissons. Des conditions spéciales s'appliquent par temps de pluie et marées de pleine lune.",
+    "conservationist.desc.prestiged": "Des eaux propres favorisent la biodiversité aquatique ; les poissons rares sont plus communs, et les casiers sans appât peuvent récolter des produits de poisson.",
     "conservationist.mail": "Département du Budget^Service des Recettes de Ferngill^^^{{honorific}} contribuable,^^Nous sommes heureux de vous informer que, suite à l'examen de vos activités écologistes, nous avons déterminé que vous êtes admissible à une déduction fiscale de {{taxBonus}} conformément à l'article 501(c)(3) du Code des Recettes de Ferngill. En conséquence, tous les revenus imposables de la ferme {{farm}} seront augmentés du montant susmentionné, et ce, jusqu'au 28ème jour de {{season}}.^^Veuillez conserver cette lettre dans vos archives permanentes au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice Exécutive, Service des Recettes de Ferngill[#]Avis de Déduction du SRF",
     "conservationist.mail.max": "Département du Budget^Service des Recettes de Ferngill^^^{{honorific}} contribuable,^^Nous avons le plaisir de vous informer que, après avoir examiné vos activités écologistes, nous avons déterminé que vous avez droit à la déduction fiscale maximale de {{taxBonus}} conformément à l'article 501(c)(3) du Code des Recettes de Ferngill. En conséquence, tous les revenus imposables de la ferme {{farm}} seront augmentés du montant susmentionné, et ce, jusqu'au 28ème de {{season}}.^^Veuillez conserver cette lettre dans vos archives permanentes au cas où vous auriez besoin de résoudre des questions concernant votre statut fiscal.^^^Cordialement,^^Laura D. Pretto^Directrice Exécutive, Service des Recettes de Ferngill[#]Avis de Déduction du SRF",
 
@@ -310,7 +310,7 @@
     "honorific.male": "Monsieur",
     "honorific.female": "Madame",
 
-    "buildings.PiecesOfHayAndMore": "Meules de foin : {0}/{1}^Céréales : {2}/{9}^Légumes à feuilles : {3}/{9}^Légumineuses : {4}/{9}^Racines : {5}/{9}^Tubercules : {6}/{9}^Courges : {7}/{9}^Fruits : {8}/{9}",
+    "buildings.Pieces_Of_Hay_And_More": "Céréales : {{grains}}/{{capacity}}^Légumes à feuilles : {{greens}}/{{capacity}}^Légumineuses : {{legumes}}/{{capacity}}^Racines : {{roots}}/{{capacity}}^Tubercules : {{tubers}}/{{capacity}}^Courges : {{gourds}}/{{capacity}}^Fruits : {{fruits}}/{{capacity}}",
 
     /************
      *** GMCM ***

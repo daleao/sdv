@@ -18,7 +18,7 @@ internal sealed class LimitActivatedEvent : ManagedEvent
     internal LimitActivatedEvent(
         Action<object?, ILimitActivatedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onActivatedImpl = callback;
         LimitBreak.Activated += this.OnActivated;

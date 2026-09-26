@@ -70,10 +70,9 @@ internal sealed class ObjectGetPriceAfterMultipliersPatcher : HarmonyPatcher
                     multiplier += farmer.GetAnglerSaleBonus();
                 }
 
-                if (!ModHelper.ModRegistry.IsLoaded("DaLion.Taxes") &&
-                    farmer.HasProfession(Profession.Conservationist))
+                if (!ModHelper.ModRegistry.IsLoaded("DaLion.Taxes"))
                 {
-                    multiplier += Data.ReadAs<float>(farmer, DataKeys.ConservationistActiveTaxDeduction);
+                    multiplier += Data.ReadAs<float>(farmer, DataKeys.ActiveTaxDeduction);
                 }
 
                 // events

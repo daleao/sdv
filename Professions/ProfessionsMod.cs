@@ -43,8 +43,8 @@ public sealed class ProfessionsMod : Mod
     /// <summary>Gets the <see cref="ModDataManager"/> instance.</summary>
     internal static ModDataManager Data { get; private set; } = null!; // set in Entry
 
-    /// <summary>Gets the <see cref="Shared.Events.EventManager"/> instance.</summary>
-    internal static EventManager EventManager { get; private set; } = null!; // set in Entry
+    /// <summary>Gets the <see cref="EventManager"/> instance.</summary>
+    internal static EventManager Events { get; private set; } = null!; // set in Entry
 
     /// <summary>Gets the <see cref="Broadcaster"/> instance.</summary>
     internal static Broadcaster Broadcaster { get; private set; } = null!; // set in Entry
@@ -137,7 +137,7 @@ public sealed class ProfessionsMod : Mod
             Log,
             UniqueId,
             "prfs");
-        EventManager = new EventManager(helper.Events, helper.ModRegistry, Log, handler)
+        Events = new EventManager(helper.Events, helper.ModRegistry, Log, handler)
             .ManageInitial(assembly, "DaLion.Professions.Framework.Events");
 
         I18n.Init(helper.Translation);

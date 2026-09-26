@@ -33,6 +33,11 @@ internal sealed class ObjectDrawPatcher : HarmonyPatcher
     [UsedImplicitly]
     private static void ObjectDrawPostfix(SObject __instance, SpriteBatch spriteBatch, int x, int y, float alpha)
     {
+        if (!Game1.player.HasProfession(Profession.Artisan))
+        {
+            return;
+        }
+
         var calibrations = __instance.Get_Calibrations();
         if (!calibrations.Any())
         {

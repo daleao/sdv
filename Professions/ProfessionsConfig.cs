@@ -325,7 +325,7 @@ public sealed class ProfessionsConfig
                 if (value)
                 {
                     PathfinderAsync ??= new PathfindingManagerAsync(
-                        EventManager,
+                        Events,
                         (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, collisionMask)));
                     foreach (var slime in GreenSlime_Piped.PipedSlimes)
                     {
@@ -336,7 +336,7 @@ public sealed class ProfessionsConfig
                 else
                 {
                     Pathfinder ??= new PathfindingManager(
-                        EventManager,
+                        Events,
                         (l, t) => l.isTilePassable(t) && (!l.IsTileOccupiedBy(t, collisionMask)));
                     foreach (var slime in GreenSlime_Piped.PipedSlimes)
                     {

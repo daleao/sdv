@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class TreasureHunterReturnedToTitleEvent(EventManager? manager = null)
-    : ReturnedToTitleEvent(manager ?? ProfessionsMod.EventManager)
+    : ReturnedToTitleEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.ScavengerHunt is not null || State.ProspectorHunt is not null;

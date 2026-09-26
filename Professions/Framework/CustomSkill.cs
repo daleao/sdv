@@ -3,6 +3,8 @@ global using SCSkills = SpaceCore.Skills;
 
 namespace DaLion.Professions.Framework;
 
+using System.Collections;
+
 #region using directives
 
 using System.Collections.Generic;
@@ -255,5 +257,11 @@ public sealed class CustomSkill : ISkill
     internal static void Initialize(SCSkill scSkill)
     {
         _ = new CustomSkill(scSkill);
+    }
+
+    /// <summary>Calls <see cref="Revalidate"/> for all vanilla skills.</summary>
+    internal static void RevalidateAll()
+    {
+        Loaded.Values.ForEach(s => s.Revalidate());
     }
 }

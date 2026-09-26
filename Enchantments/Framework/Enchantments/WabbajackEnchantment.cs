@@ -155,7 +155,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                         case 3:
                             var clone = monster.DeepClone();
                             location.characters.Add(clone);
-                            Log.D($"{monster.Name} was split in two.");
+                            Log.D($"[Wabbajack] {monster.Name} was split in two!");
                             break;
                     }
 
@@ -193,7 +193,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             }
 
                             location.critters.Add(critter);
-                            Log.D($"{monster.Name} became a {critter.GetType().Name}.");
+                            Log.D($"[Wabbajack] {monster.Name} became a {critter.GetType().Name}!");
                             break;
 
                         // farm animal
@@ -206,7 +206,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                             animal.growFully();
                             animal.Sprite.LoadTexture("Animals\\" + animal.type.Value);
                             location.Animals.Add(animal.myID.Value, animal);
-                            Log.D($"{monster.Name} became a {animal.displayName}.");
+                            Log.D($"[Wabbajack] {monster.Name} became a {animal.displayName}!");
                             break;
 
                         // cheese
@@ -225,7 +225,7 @@ public sealed class WabbajackEnchantment : BaseWeaponEnchantment
                                         who.getStandingPosition()));
                             }
 
-                            Log.D($"{monster.Name} became cheese.");
+                            Log.D($"[Wabbajack] {monster.Name} became cheese!");
                             break;
                     }
 

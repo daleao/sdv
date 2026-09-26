@@ -11,7 +11,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class SpelunkerDayStartedEvent(EventManager? manager = null)
-    : DayStartedEvent(manager ?? ProfessionsMod.EventManager)
+    : DayStartedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     protected override void OnEnabled() => Game1.player.HasProfession(Profession.Spelunker, true);

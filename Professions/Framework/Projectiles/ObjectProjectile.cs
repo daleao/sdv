@@ -127,7 +127,7 @@ internal sealed class ObjectProjectile : BasicProjectile
             return;
         }
 
-        if (Data.ReadAs<bool>(this, "Energized", modId: "DaLion.Enchantments"))
+        if (Data.HasKey(this, "Energized", modId: "DaLion.Enchantments"))
         {
             location.DoLightningBarrage(monster.Tile, 6, this.Firer);
         }
@@ -187,7 +187,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         if (this.Firer.IsLocalPlayer && State.LastDesperadoTarget is not null &&
             monster != State.LastDesperadoTarget)
         {
-            Log.D("Did quick shot!");
             this.Damage = (int)(this.Damage * 1.5f);
             if (State.LimitBreak is DesperadoBlossom { IsActive: false } blossom)
             {
@@ -198,8 +197,6 @@ internal sealed class ObjectProjectile : BasicProjectile
         else if (this.Firer.HasProfession(Profession.Desperado) && !this.IsSquishyOrExplosive &&
                  Game1.random.NextBool((this.Overcharge - 1f) * inverseResistanceModifer))
         {
-            Log.D("Pierced!");
-
             this.Damage += monster.resilience.Value; // ignore defense
             if (isTargetArmored)
             {

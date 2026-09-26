@@ -17,7 +17,7 @@ internal sealed class TreasureHuntEndedEvent : ManagedEvent
     internal TreasureHuntEndedEvent(
         Action<object?, ITreasureHuntEndedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onEndedImpl = callback;
         TreasureHunt.Ended += this.OnEnded;

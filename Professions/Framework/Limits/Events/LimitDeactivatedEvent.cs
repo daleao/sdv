@@ -18,7 +18,7 @@ internal sealed class LimitDeactivatedEvent : ManagedEvent
     internal LimitDeactivatedEvent(
         Action<object?, ILimitDeactivatedEventArgs> callback,
         EventManager? manager = null)
-        : base(manager ?? ProfessionsMod.EventManager)
+        : base(manager ?? ProfessionsMod.Events)
     {
         this._onDeactivatedImpl = callback;
         LimitBreak.Deactivated += this.OnDeactivated;

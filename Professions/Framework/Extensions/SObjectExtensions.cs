@@ -67,7 +67,7 @@ internal static class SObjectExtensions
     /// <returns><see langword="true"/> if the <paramref name="object"/> is can be used as bait ingredient, otherwise <see langword="false"/>.</returns>
     internal static bool IsValidBaitIngredientForLuremaster(this SObject @object)
     {
-        return !@object.HasTypeBigCraftable() && !@object.IsBait() && @object.canBeTrashed() &&
+        return !@object.HasTypeBigCraftable() && !@object.IsBait() && @object.canBeTrashed() && @object.Price > 0 &&
             ((ObjectCategory)@object.Category) is not (ObjectCategory.None or ObjectCategory.Eggs or
             ObjectCategory.Milk or ObjectCategory.Syrups or ObjectCategory.Cooking or ObjectCategory.Crafting or
             ObjectCategory.Fish);

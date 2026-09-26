@@ -33,5 +33,13 @@ public sealed class PondsConfig
     /// <summary>Gets a value indicating whether to add Fish Pond data for legendary fish.</summary>
     [JsonProperty]
     [GMCMPriority(2)]
-    public bool AddLegendaryFishPondData { get; internal set; }
+    public bool AddLegendaryFishPondData
+    {
+        get;
+        internal set
+        {
+            field = value;
+            ModHelper.GameContent.InvalidateCache("Data/FishPondData");
+        }
+    } = true;
 }

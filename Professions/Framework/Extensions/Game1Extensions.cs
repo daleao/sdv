@@ -17,12 +17,12 @@ using StardewValley.TerrainFeatures;
 internal static class Game1Extensions
 {
     /// <summary>Determines whether any <see cref="Farmer"/> in the current game session has the specified <paramref name="profession"/>.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game">The <see cref="Game1"/> instance.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="includeOffline">Whether to include offline farmers.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
     /// <returns><see langword="true"/> is at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
-    internal static bool DoesAnyPlayerHaveProfession(this Game1 game1, IProfession profession, bool includeOffline = false, bool prestiged = false)
+    internal static bool DoesAnyPlayerHaveProfession(this Game1 game, IProfession profession, bool includeOffline = false, bool prestiged = false)
     {
         return !Context.IsMultiplayer
             ? Game1.player.HasProfession(profession, prestiged)
@@ -31,14 +31,14 @@ internal static class Game1Extensions
     }
 
     /// <summary>Determines whether any <see cref="Farmer"/> in the current game session has the specified <paramref name="profession"/>.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game">The <see cref="Game1"/> instance.</param>
     /// <param name="profession">The <see cref="IProfession"/> to check.</param>
     /// <param name="players">Which <see cref="Farmer"/>s have this profession.</param>
     /// <param name="includeOffline">Whether to include offline farmers.</param>
     /// <param name="prestiged">Whether to check for the prestiged variant.</param>
     /// <returns><see langword="true"/> is at least one player in the game session has the <paramref name="profession"/>, otherwise <see langword="false"/>.</returns>
     internal static bool DoesAnyPlayerHaveProfession(
-        this Game1 game1, IProfession profession, out IEnumerable<Farmer> players, bool includeOffline = false, bool prestiged = false)
+        this Game1 game, IProfession profession, out IEnumerable<Farmer> players, bool includeOffline = false, bool prestiged = false)
     {
         if (!Context.IsMultiplayer)
         {
@@ -58,9 +58,9 @@ internal static class Game1Extensions
     }
 
     /// <summary>Enumerates all <see cref="CrabPot"/> instances currently placed in any location.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game">The <see cref="Game1"/> instance.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of all placed <see cref="CrabPot"/> instances in the game world.</returns>
-    internal static IEnumerable<CrabPot> EnumerateAllCrabPots(this Game1 game1)
+    internal static IEnumerable<CrabPot> EnumerateAllCrabPots(this Game1 game)
     {
         foreach (var location in Game1.locations)
         {
@@ -75,10 +75,10 @@ internal static class Game1Extensions
     }
 
     /// <summary>Enumerates all <see cref="HoeDirt"/> instances currently in any location.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
+    /// <param name="game">The <see cref="Game1"/> instance.</param>
     /// <param name="includePots">Whether to include Garden Pots.</param>
     /// <returns>A <see cref="IEnumerable{T}"/> of all <see cref="HoeDirt"/> instances in the game world.</returns>
-    internal static IEnumerable<HoeDirt> EnumerateAllHoeDirt(this Game1 game1, bool includePots = false)
+    internal static IEnumerable<HoeDirt> EnumerateAllHoeDirt(this Game1 game, bool includePots = false)
     {
         foreach (var location in Game1.locations)
         {
@@ -101,8 +101,8 @@ internal static class Game1Extensions
     }
 
     /// <summary>Revalidates all farm buildings, applying profession rules to Barns, Coops, Fish Ponds and Slime Hutches.</summary>
-    /// <param name="game1">The <see cref="Game1"/> instance.</param>
-    internal static void RevalidateAllBuildings(this Game1 game1)
+    /// <param name="game">The <see cref="Game1"/> instance.</param>
+    internal static void RevalidateAllBuildings(this Game1 game)
     {
         if (!Context.IsMainPlayer)
         {

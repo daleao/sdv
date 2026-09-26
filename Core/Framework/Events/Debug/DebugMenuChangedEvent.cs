@@ -15,7 +15,7 @@ using StardewValley.Menus;
 [UsedImplicitly]
 [Debug]
 internal sealed class DebugMenuChangedEvent(EventManager? manager = null)
-    : MenuChangedEvent(manager ?? CoreMod.EventManager)
+    : MenuChangedEvent(manager ?? CoreMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.DebugMode;

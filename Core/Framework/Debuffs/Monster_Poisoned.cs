@@ -3,7 +3,7 @@
 #region using directives
 
 using System.Runtime.CompilerServices;
-using DaLion.Shared.Extensions.Stardew;
+using Microsoft.Xna.Framework;
 using Netcode;
 using StardewValley.Monsters;
 
@@ -23,7 +23,9 @@ internal static class Monster_Poisoned
         holder.PoisonStacks.Value += stacks;
         if (holder.PoisonStacks.Value >= maxStacks && monster.Health < INSTA_KILL_HEALTH_THRESHOLD)
         {
-            monster.Die(poisoner);
+            Reflector
+                .GetStaticMethodDelegate<Action<Farmer, Monster, Rectangle, bool>>(typeof(GameLocation), "onMonsterKilled")
+                .Invoke(poisoner ?? Game1.player, monster, monster.GetBoundingBox(), false);
             return false;
         }
 

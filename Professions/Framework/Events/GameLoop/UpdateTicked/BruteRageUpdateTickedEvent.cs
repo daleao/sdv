@@ -13,7 +13,7 @@ using StardewModdingAPI.Events;
 /// <param name="manager">The <see cref="EventManager"/> instance that manages this event.</param>
 [UsedImplicitly]
 internal sealed class BruteRageUpdateTickedEvent(EventManager? manager = null)
-    : UpdateTickedEvent(manager ?? ProfessionsMod.EventManager)
+    : UpdateTickedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => State.BruteRageCounter > 0;
@@ -23,7 +23,7 @@ internal sealed class BruteRageUpdateTickedEvent(EventManager? manager = null)
     {
         var player = Game1.player;
 
-        // decay counter every 5 seconds after 25 seconds out of combat
+        // decay counter every 5 seconds after 15 seconds out of combat
         var expiry = player.HasProfession(Profession.Brute, true) ? 30 : 15;
         if (Game1.game1.ShouldTimePass() && CoreMod.State.SecondsOutOfCombat > expiry && e.IsMultipleOf(300))
         {

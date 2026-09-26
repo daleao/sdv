@@ -135,7 +135,7 @@ internal sealed class CrabPotCheckForActionPatcher : HarmonyPatcher
                 {
                     var split = rawData2.Split('/');
                     var minFishSize = rawData2.Contains("trap") ? Convert.ToInt32(split[5]) : Convert.ToInt32(split[3]);
-                    var maxFishSize = rawData2.Contains("trap") ? Convert.ToInt32(split[6]) : Convert.ToInt32(split[4]) / 2;
+                    var maxFishSize = rawData2.Contains("trap") ? Convert.ToInt32(split[6]) : Convert.ToInt32(split[4]);
                     who.caughtFish(
                         item.QualifiedItemId,
                         Game1.random.Next(minFishSize, maxFishSize + 1),

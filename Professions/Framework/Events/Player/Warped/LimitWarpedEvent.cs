@@ -15,7 +15,7 @@ using StardewModdingAPI.Events;
 [LimitEvent]
 [UsedImplicitly]
 internal sealed class LimitWarpedEvent(EventManager? manager = null)
-    : WarpedEvent(manager ?? ProfessionsMod.EventManager)
+    : WarpedEvent(manager ?? ProfessionsMod.Events)
 {
     /// <inheritdoc />
     public override bool IsEnabled => Config.Masteries.EnableLimitBreaks && State.LimitBreak is not null;
