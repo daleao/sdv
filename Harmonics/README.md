@@ -5,11 +5,9 @@
 ***Replaces the overpowered Iridium Band with a build-crafting system based on real Music Theory.***
 
 [![Nexus Mods](https://img.shields.io/badge/Nexus%20Mods-Mineracoustics-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/stardewvalley/mods/29612)
-[![Nexus downloads](https://img.shields.io/badge/downloads-on%20Nexus-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/stardewvalley/mods/29612)
 [![Stardew Valley](https://img.shields.io/badge/Stardew%20Valley-1.6-8a5a2b?logo=stardewvalley&logoColor=white)](https://www.stardewvalley.net/)
 [![SMAPI](https://img.shields.io/badge/SMAPI-4.0%2B-cc4400)](https://smapi.io/)
-[![License](https://img.shields.io/badge/license-see%20LICENSE-888)](https://github.com/daleao/sdv/blob/main/LICENSE)
-[![Stars](https://img.shields.io/github/stars/daleao/sdv?logo=github&style=flat&color=e0b040)](https://github.com/daleao/sdv/stargazers)
+[![License](https://img.shields.io/badge/license-see%20LICENSE-888)](../LICENSE)
 
 </div>
 

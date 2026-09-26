@@ -1,3 +1,11 @@
+<!-- BADGES -->
+[![Nexus Mods](https://img.shields.io/badge/Nexus%20Mods-Walk%20of%20Life-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/profile/Arleau/mods?gameId=1303)
+[![Stardew Valley](https://img.shields.io/badge/Stardew%20Valley-1.6-8a5a2b?logo=stardewvalley&logoColor=white)](https://www.stardewvalley.net/)
+[![SMAPI](https://img.shields.io/badge/SMAPI-4.0%2B-cc4400?logo=data:image/png)](https://smapi.io/)
+[![License](https://img.shields.io/badge/license-see%20LICENSE-888)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/daleao/sdv?logo=github&style=flat&color=e0b040)](https://github.com/daleao/sdv/stargazers)
+
+
 # Stardew Valley Mod Collection
 
 This repository contains a collection of gameplay overhauls for **Stardew Valley**.  
