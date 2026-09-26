@@ -12,7 +12,7 @@
 
 </div>
 
-<a id="top"/>
+<a id="top"></a>
 <!-- TABLE OF CONTENTS -->
 <details  open="open"  align="left">
 <summary>Table of Contents</summary>
@@ -47,9 +47,9 @@
 
 ## What This Is
 
-This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and gold-centric vanilla professions with more unique and impactful choices that serve as pivotal anchors to reshape gameplay experiences.
+This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and rather *boring* vanilla professions with more unique and impactful choices. The goal is not to re-optimize gold-making potential, but to expand the gameplay and encourage new experiences.
 
-Optionally, this mod also brings classic progression tropes like [Prestige Classes](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass), [Class Change Level Reset](https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset), and [Limit Breaks](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak).
+Optionally, this mod also brings classic progression tropes like [Prestige Classes](https://tvtropes.org/pmwiki/pmwiki.php/Main/PrestigeClass), [Class Change Level Reset](https://tvtropes.org/pmwiki/pmwiki.php/Main/ClassChangeLevelReset), and [Limit Breaks](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak). Prestige Professions and Limit Breaks are enabled by default, while Class Change Skill Reset is disabled by default; all can be toggled in the settings.
 
 This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
 
@@ -58,7 +58,10 @@ This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]
 
 ## The Professions
 
-Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-progression) variants. **I strongly recommend reading every profession fully, as the in-game descriptions offer limited space and most professions have additional features that are not mentioned in their descriptions.**
+Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-progression) variants.
+
+> [!TIP]
+> I strongly recommend reading every profession fully, as the in-game descriptions offer limited space and most professions have additional features that are not mentioned in their descriptions.
 
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
@@ -79,7 +82,7 @@ Click on any profession below to expand for more details. Golden professions ref
 <font size="2">
 <details>
 
-Equivalent in value to vanilla's 10% price bonus on average, but also provides value if you don't sell raw crops.
+Equivalent in value to vanilla's 10% price bonus on average, but also provides value if you don't sell raw crops.
 </details>
 </font>
 
@@ -89,7 +92,7 @@ Equivalent in value to vanilla's 10% price bonus on average, but also provides 
 <!--- Agriculturist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Crops grow 10% faster, plus 5% for each new crop type grown in the same tile and season. Organically harvest highest-quality crops.
+<summary><img src="./resources/assets/sprites/loose/agriculturist.png"/> <b> Agriculturist (Lv10)</b> - Crops grow 10% faster, plus 5% for each new crop type grown in the same tile and season. Highest-quality crops can be harvested organically, without fertilizers.
 </summary>
 
 <ul>
@@ -101,24 +104,22 @@ Equivalent in value to vanilla's 10% price bonus on average, but also provides 
 <font size="2">
 <details>
 
-**Crop rotation** works as follows:
-- Every tilled tile keeps a memory of the previous crops grown on that tile in the current season.
-    - Memory resets on the first of the month, so it works as normal in Ginger Island. If you skip day 1 using mods, the reset will also be skipped.
-- For each unique crop in that memory, the next crop gains 5% bonus to growth speed.
-- If prestiged, each crop in memory has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5% / etc.).
-- Crop memory resets on the 1st of every season.
-- Untilling a tile fully erases its memory.
+Every tilled tile keeps a memory of the previous crops grown on that tile in the current season. For each unique crop in that memory, the *next* crop gains 5% bonus to growth speed. If prestiged, each crop in memory also has a chance to be harvested as a bonus yield. Chance is 20% for the most recent crop, and decreases by 2x for each subsequent crop (10% / 5% / 2.5%). Caps out at 4 crops.
 
-Highest-quality refers to iridium, which normally requires Deluxe Fertilizer. This does not affect the actual *chance* to obtain iridium quality in any way; it is always equal to half the chance of obtaining gold quality. Fertilizers are still very useful.
+Soil memory resets on the 1st of every season, and is completely lost if the hoe dirt disappears (whether from using a Pickaxe or left unplanted).
+
+**Highest-quality** refers to iridium, which normally requires Deluxe Fertilizer. The chance is very small; about 7% at level 10, without fertilizers. Deluxe Fertilizer increases that to about 40% at level 10. Fertilizers are still very useful.
 Note that quality is determined only on the moment of harvest; planted crops have no quality, which means that this perk will apply to crops planted before obtaining this profession.
 
-**Prestige:** Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season.
-Each quality of Retaining Soil allows a single tile to grow an out-of-season crop for a limited number of days:
-- **Basic Retaining Soil:** 3 days
-- **Quality Retaining Soil:** 7 days
-- **Deluxe Retaining Soil:** 13 days
+When prestiged, Retaining Soil can be used to either extend a crop's lifespan into the next season, or even to grow a whole crop out of season. Each quality of Retaining Soil allows a single tile to sustain an out-of-season crop for a limited number of days:
 
-Any crop that fully matures within that time can be grown entirely out of season.
+| Retaining Soil | Days out of season |
+| --- | --- |
+| **Basic** | 3 days |
+| **Quality** | 7 days |
+| **Deluxe** | 13 days |
+
+Any crop that fully grows within that time can be harvested as normal despite being out of season.
 
 Retaining Soil can be used to extend a crop's lifetime into the winter season, but **cannot be used to plant crops during winter**.
 
@@ -137,7 +138,7 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Industrialist (Lv20)</b> - Machines calibrated twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.
+<img src="./resources/assets/sprites/loose/artisan_p.png"/> <b>Machinist (Lv20)</b> - Machines calibrated twice as quickly. Enhance machines with batteries and curing agents to further boost processing speed or output quality.
 </font>
 
 <font size="2">
@@ -158,7 +159,7 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 **Prestige (machine treatments):**
 - Machines can receive four types of treatments:
     - **Fermentation treatment** is performed by coating the inside of a machine with Oak Resin. Just as wines and spirits are traditionally aged in oak barrels, a resin-treated vessel gradually imparts subtle woody notes while creating a more favorable environment for fermentation. This treatment improves the quality of fermented products such as wine, beer, mead, cheese, pickles, and other cultured foods.
-    - **Glazing treatment** is performed by coating the inside of a machine with a sweet, viscous syrup such as Maple Syrup. The seasoned surfaces enhance the natural sweetness and aroma of fruits and other ingredients while making juices, jams and other confectures. *If SVE is installed, Birch Water may also be used.*
+    - **Glazing treatment** is performed by coating the inside of a machine with a sweet, viscous syrup such as Maple Syrup. The seasoned surfaces enhance the natural sweetness and aroma of fruits and other ingredients while making juices, jams and other confectures. *If SVE is installed, Birch Syrup may also be used.*
     - **Sealing treatment** is performed by applying a thick greese like Pine Tar to seal tiny gaps and condition working surfaces. Like well-seasoned pan or smoker, this improves heat retention and reduces product loss, which supports the manufacturing of oils, waxes and dried goods, while also enhancing the flavor of certain smoked meats. *If SVE is installed, Fir Wax may also be used.*
     - **Overclocking treatment** is performed by fitting a machine with an electronic controller powered by a Battery Pack. The controller safely pushes the machine beyond its normal operating limits, dramatically increasing processing speed until the battery is exhausted. Unlike other treatments, overclocking works with any artisan machine.
 - Any machine can be treated with overclocking plus one respectve coating treatment at the same time. A coating treatment lasts for 20 cycles, and is guaranteed to promote the quality of the output by one stage. An overclock treatment lasts for 30 cycles and will double production speed.
@@ -192,7 +193,23 @@ Retaining Soil can be used to extend a crop's lifetime into the winter season, b
 <font size="2">
 <details>
 
-**Crop Feeding:** Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. Interact with the animal while holding a crop to feed it. There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. You can track which animals have been fed in the Animals menu.
+**Crop Feeding:** Animal species can eat certain crops. Once per day, you can feed an animal their favored crop to improve, in addition to friendship, it's short-term and long-term nutrition; two hidden stats that will be relevant to the next professions. **Short-term** nutrition increases by 25 per feeding, caps at 100, and decays by 10 on days where the animal is not fed (see Producer). **Long-term** nutrition increases by 10 per feeding, caps at 500 per generation (see Breeder), and never decays.
+
+There is no trial and error or different levels of taste like villager NPCs; an animal will only accept the crop if it can eat it, and if it can eat it then it is favored. Quality makes no difference. You can track which animals have been fed in the Animals menu.
+
+What each animal can eat is entirely configurable (see mod page Article). By default they eat:
+- **Chickens + Ostriches:** Grains (like wheat, corn, rice), Legumes (beans), Fruits and Insects (bug meat).
+- **Ducks:** Same as chickens, plus Greens (like cabbage, kale, cauliflower).
+- **Cows + Sheep:** Greens and Legumes.
+- **Goats:** Same as cows, plus Fruits.
+- **Rabbits:** Greens, Roots (like beets, carrots, parsnips) and Fruits.
+- **Pigs:** Almost anything; all of the above, plus Gourds (pumpkins, squash) and Tubers (potatos, yams).
+- **Dino:** Grains, Greens, Gourds and Fruits.
+- **Camels (SVE):** Grains, Legumes, Greens and Roots.
+- **Geese (SVE):** Grains, Greens, Fruits and Insects.
+- **Bears (SVE):** Fruits, Roots, Tubers, Gourds, Fish and Honey.
+
+As you can see, the system is not actually limited to crops, though most animals are vegan.
 
 **Prestige:** Interact with a Silo while holding a crop to store it. Just like Hay, crops will automatically be pulled and fed to the respective animals in buildings with a Feed Hopper.
 </details>
@@ -224,9 +241,9 @@ Only affects animals born *after* obtaining this profession, though nutrition ca
 
 This generates an actual gameplay loop; choose which animals to breed to maximize bloodline potential, and when to sell animals for maximum profit.
 
-**Note about eggs:** An individual's inherited nutrition value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
+**Note about eggs:** An individual's inherited nutrition value is stored on each egg; if the player stacks eggs together, the individual information is lost. The mod will compute the mean nutrition of the final stack and assume that value for any egg taken from that stack, effectively diluting any very high-potential eggs. As such, if you're raising a high-potential chicken, keep its eggs separate from other stacks. Conversely, you can intentionally stack a bunch of eggs to ensure a newborn chick will inherit at least the mean potential of all chickens in a group.
 
-**Bonus:** If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
+**Bonus:** If you are a Breeder, your chickens above a certain nutrition threshold will have a very small chance to produce a Blue Egg naturally, which will hatch into a Blue Chicken.
 </details>
 </font>
 
@@ -242,17 +259,17 @@ This generates an actual gameplay loop; choose which animals to breed to maximiz
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/producer_p.png"/> <b>Yieldmeister (Lv20)</b> - Happy animals produce <s>2x</s> → 3x as frequently. Deluxe Coop capacity +2.
+<img src="./resources/assets/sprites/loose/producer_p.png"/> <b>Prolific (Lv20)</b> - Happy animals produce <s>2x</s> → 3x as frequently. Deluxe Coop capacity +2.
 </font>
 
 <font size="2">
 <details>
 
-Animals will progress through their production cycles twice as quickly on days where their short-term nutrition value is maxed at 100. This means that Ducks will lay eggs every day, and Ostriches will lay eggs every 4 days (rounds up). If the animal already produces daily, this does not cause it to produce twice per day.
+Animals will progress through their production cycles twice as quickly on days where their short-term nutrition value is maxed at 100. This means that Ducks will lay eggs every day, and Ostriches will lay eggs every 4 days (rounds up). If the animal already produces daily, this does not cause it to produce twice per day.
 
 If prestiged, the nutrition cap is raised to 200, and the animal's production cycle is doubled again while maxed out at that value, so Ostriches and Dinosaurs will lay eggs every 2 days.
 
-Bonus value from full buildings also applies to artisan goods derived from animal products (such as cloth, cheeses, mayos), honey (configurable), and meats (not included). Oly deluxe buildings can be considered full, and only barns and coops owned (i.e., commissioned) by the Producer (ownership requirements can be turned off in the configs). SVE Premium buildings will also be considered, but they, too, must be full (i.e., must have 16 animals). If prestiged, this also includes the bonus 2 animal slots, which means that the bonus from coops will be temporarily lost until those extra slots are filled.
+Bonus value from full buildings also applies to artisan goods derived from animal products (such as cloth, cheeses, mayos), honey (configurable), and meats (not included). Oly deluxe buildings can be considered full, and only barns and coops owned (i.e., commissioned) by the Producer (ownership requirements can be turned off in the configs). SVE Premium buildings will also be considered, but they, too, must be full (i.e., must have 16 animals). If prestiged, this also includes the bonus 2 animal slots, which means that the bonus from coops will be temporarily lost until those extra slots are filled.
 
 There is no upper limit to the price bonus.
 </details>
@@ -304,9 +321,9 @@ Other than the name, this profession is unchanged from vanilla.
 <font size="2">
 <details>
 
-All foraged items will have the same deterministic quality, providing immediate inventory convenience. However, that quality will initially start out at silver, and gradually progress to iridium as you gather and study new varieties of forage.
+All foraged items will have the same deterministic quality, providing immediate inventory convenience. But the quality initially starts at silver and progresses to iridium based on how many kinds of forage you have "studied". By default, requires 30 forage varieties to reach iridium, which is a number balanced for vanilla. This target can be increased via mod settings in case you have many mods adding new forage items. Only items foraged *after* obtaining the profession will be counted.
 
-**Prestige:** A buff will be chosen at random the first time a forage is consumed after obtaining the profession. From that moment onwards, that particular forage will always afford the same buff, which will be indicated in the item's tooltip.
+**Prestige:** A buff is chosen at random the first time a forage is consumed (eaten) since obtaining the prestige. That particular forage will henceforth always grant the same buff *for that player*, which will be indicated in the item's tooltip. If a different player in the multiplayer session also picks this prestige, their buffs will be different.
 </details>
 </font>
 
@@ -322,7 +339,7 @@ All foraged items will have the same deterministic quality, providing immediate 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/scavenger_p.png"/> <b>Relicseeker (Lv20)</b> - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.
+<img src="./resources/assets/sprites/loose/scavenger_p.png"/> <b>Wayfarer (Lv20)</b> - Time freezes during Scavenger Hunts. Find increasingly more forageables during a high Scavenger streak.
 </font>
 
 <font size="2">
@@ -338,9 +355,9 @@ You can also hold the mod key (LeftShift by default) to highlight all forageable
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
 **Pointer colors:**
-- **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
-- **Green:** Artifact spots
-- **Purple:** Buried treasure (Scavenger Hunt only)
+- 🟡 **Yellow:** Spawned forage items, blooming berry bushes, ginger, coconuts
+- 🟢 **Green:** Artifact spots
+- 🟣 **Purple:** Buried treasure (Scavenger Hunt only)
 </details>
 </font>
 
@@ -413,10 +430,9 @@ New Heavy recipe: x15 hardwood, x1 radioactive bar.
 
 In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which makes it more in line with the new Heavy Furnace and, honestly, just makes more sense. This is enabled by default.
 
-**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering any recipe to enter "sap" mode; you can replace any crafting ingredient in the recipe with sap, as long as the recipe has more than one ingredient, and doesn't already use sap. If the recipe uses a syrup, then only the syrup can be replaced, but doing so will forfeit the "double yield" part of the perk. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa). 
+**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering any recipe to enter "sap" mode; you can replace any crafting ingredient in the recipe with sap, as long as the recipe has more than one ingredient, and doesn't already use sap. If the recipe uses a syrup, then only the syrup can be replaced, but doing so will forfeit the "double yield" part of the perk. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa).
 
-    > [!NOTE]
-    > **Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
+> **📝 Note — Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
 </font>
 
@@ -468,9 +484,9 @@ This profession is completely unchanged from vanilla.
 
 Gain 5 stacks of Momentum each time you go down a level in the Mines or Skull Caverns. Each stack adds 0.05% ladder chance per stone destroyed, so 0.25% per level. Caps out at 100 stacks, totaling 5% bonus ladder chance per stone. For reference, the vanilla chance is roughly 4% per stone on a brand new level. When *you* trigger a ladder spawn, every 10 minute tick of the clock will decrease your Momentum by 3 stack until you use the ladder. However, in the exchange, every stone will have a 20% chance to drop ore. Resurfacing resets all Momentum.
 
-If you have at least 20 stacks, you may also double press the Mod key (default Left Shift) to consume all Momentum to restore the same amount of Energy.
+If you have at least 20 stacks, you may also double press the Mod key (default Left Shift) to consume all Momentum to restore the same amount of Energy.
 
-Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
+Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
 
 **Prestige:** You unlock a recipe to craft a Survey Flag. One per day, you can place down a flag on any Mine level to create a checkpoint. If you leave the Mines and re-enter, you will begin at the checkpoint level. One per day, if you die at a lower level, you will respawn at the checkpoint without losing any items. And any item you do not pick up during your expedition have a chance to re-appear on the ground near the checkpoint. Also doubles the ore chance after ladder spawn.
 </details>
@@ -489,7 +505,7 @@ Also grants a "hidden" bonus when you break stones in clusters; each adjacent st
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/prospector_p.png"/> <b>Archaeologist (Lv20)</b> - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.
+<img src="./resources/assets/sprites/loose/prospector_p.png"/> <b>Relicseeker (Lv20)</b> - Time freezes during Prospector Hunts. Find increasingly more mining nodes during a high Prospector streak.
 </font>
 
 <font size="2">
@@ -497,17 +513,18 @@ Also grants a "hidden" bonus when you break stones in clusters; each adjacent st
 
 This is the mining-equivalent of Scavenger. Tracks all mining nodes, mineral forages, panning spots, mine ladders and shafts.
 While mining, there is a chance to trigger a **Prospector Hunt** minigame:
-- Works like a game of "Simon says"; a random nearby stone will begin to glow. Break the glowing stone to reveal the next stone. Continue the sequence until the 7th stone to obtain the treasure.
-- Each target stone in the sequence becomes progressively harder to break.
+- Works like a game of "Simon says"; a random nearby stone will begin to glow. Break the glowing stone to reveal the next stone, and so on. Each subsequent stone is slightly more difficult to break. Breaking enough stones grants the treasure.
 - Rewards include ores, rare minerals, fossilized artifacts and special equipment.
 
 You can also hold the mod key (LeftShift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
+**Prestige:** Building up a win streak increases the number of ore veins spawned on every mine floor and the Volcano Dungeon. Uses your longest win streak, and not your current streak, so the bonus is never lost.
+
 **Pointer colors:**
-- **Orange:** Mining nodes and forage minerals
-- **Blue:** Ladders/shafts, panning spots
-- **Green:** Artifact spots
+- 🟠 **Orange:** Mining nodes and forage minerals
+- 🔵 **Blue:** Ladders/shafts, panning spots
+- 🟢 **Green:** Artifact spots
 </details>
 </font>
 
@@ -529,7 +546,7 @@ There is a config option to prevent the tracking HUD arrows from being active al
 <font size="2">
 <details>
 
-A new style of mining which also tries to alleviate the lack of coal from having removed the vanilla Prospector profession.
+Bomberman mining style. Somewhat replaces vanilla Prospector.
 </details>
 </font>
 
@@ -539,23 +556,23 @@ A new style of mining which also tries to alleviate the lack of coal from having
 <!--- Demolitionist --->
 
 <details>
-<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. 50% chance to yield additional resources from exploded rocks. Can manually detonate bombs.
+<summary><img src="./resources/assets/sprites/loose/demolitionist.png"/> <b>Demolitionist (Lv10)</b> - Bomb radius +1. 50% chance to yield additional resources from exploded rocks.
 </summary>
 
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/demolitionist_p.png"/> <b>Pyrotechnician (Lv20)</b> - Explosions cause chain reactions. Double the lasting power of coal used for fueling machines.
+<img src="./resources/assets/sprites/loose/demolitionist_p.png"/> <b>Pyrotechnician (Lv20)</b> - Gain <s>50%</s> → 100% more resources from exploded rocks. Explosions cause chain reactions.
 </font>
 
 <font size="2">
 <details>
 
-Further emphasizes the bomberman mining style while also trying to alleviate the lack of a Geologist profession.
+Better bomberman mining. Somewhat replaces vanilla Geologist. Also works with Explosive Ammo.
 
-**Prestige:** Chain reactions will cause every stone in range of an explosion to itself trigger a small explosion. This allows effective clearing of mine levels with one or two Cherry Bombs. "Lasting power" of coal refers to Furnaces and Heavy Furnaces, which will only consume coal every other time.
+In settings, can optionally toggle a setting to replace with `Pyromaniac`, which gives the same perks with the addition of a short burst of movement speed when you are hit by your own explosions (a reference to Jinx).
 
-All perks also apply to Explosive Ammo.
+An additional "hidden" perk, causes Furnaces and Heavy Furnaces to consume only half as much coal.
 </details>
 </font>
 
@@ -577,9 +594,11 @@ All perks also apply to Explosive Ammo.
 <font size="2">
 <details>
 
-The mining-equivalent of Ecologist. All gems and minerals mined from nodes will have the same deterministic quality, starting at silver and gradually increasing to iridium as you collect and study new varieties of gemstones. Note that this bonus applies only to gems and minerals that have been physically mined.
+The mining-equivalent of Ecologist. All gems and minerals mined from nodes have the same deterministic quality, starting at silver and increasing to iridium as you collect new kinds of gems and minerals. **Applies only to gems and minerals that have been physically mined** (i.e., **NOT** crushed geodes).
 
-**Prestige:** A "perfect replica" refers to quality preservation.
+By default, requires 30 mineral varieties to reach iridium, which is balanced for vanilla. Can be increased via mod setting in case you have many mods adding new mineral items. Only counts items mined *after* obtaining the profession. **Minerals from crushed geodes DO count** towards this progression.
+
+**Prestige:** A "perfect replica" refers to preserving the quality of the input gem.
 </details>
 </font>
 
@@ -631,7 +650,7 @@ Doubles the chance to attract fish normally associated with every bait, as well 
 
 Unless disabled in the settings, a "MAX" icon will be shown in the Collections menu under each fish which has been caught at max size. A blue icon indicates a regular fish, while a red icon indicates a crab pot fish. Only blue-icon fish are counted for the perk.
 
-Legendary fish are worth 5 regular fish; i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. By default, the bonus caps at 100%, but this can be configured.
+Legendary fish are worth 5 regular fish (irrespective of size); i.e., 5% bonus to fish sell price. This applies to anything with the `fish_legendary` context tag, which should allow for compatibiltiy with mod-added legendary fish. By default, the bonus caps at 100%, but this can be configured. Note that **not all fish are obtainable at max size**, as that depends on the physical size of the water where the fish is found. **That's a vanilla game limitation, and it's okay.** There are plenty of fish to max-out the bonus.
 
 Lingering tackle effects last for 20 uses, which is half as many as a regular tackle.
 
@@ -658,11 +677,9 @@ Lingering tackle effects last for 20 uses, which is half as many as a regular ta
 <font size="2">
 <details>
 
-Designed for players who struggle with, or just plain dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, which stacks with Trap Bobber; it should take 12 Fish Ponds + a Trap Bobber to make the bar completely stationary. In multiplayer, only Fish Ponds owned by the player with this profession are counted, though ownership requirements can be toggled off in the settings.
+Designed for players who struggle with, or just dislike the fishing minigame. The catching bar will decrease 5.5% slower per unique Fish Pond, which stacks with Trap Bobber (hint: 12 Fish Ponds + Trap Bobber makes the bar stand still). In multiplayer, only Fish Ponds owned by the Aquarist player are counted, but ownership requirements can be toggled off in the mod settings. If you also install the companion mod [Aquarism](https://www.nexusmods.com/stardewvalley/mods/24356) you will also be able to raise Extended Family in the same pond as their relatives.
 
-Though it isn't stated, this profession also unlocks the ability to raise legendary fish in pond (since game version 1.6 this a vanilla feature; with this mod, **the Aquarist profession is required to enable this**). They will not reproduce, but will produce special rare items appropriate to each fish. You can add Extended Family fish to the same pond as their relatives if [Aquarism](../Ponds) mod is also installed. Doing so with Angler and Ms. Angler will allow them to reproduce. The max population of legendary ponds is always half of the regular limit, unless the player also has the prestiged version Aquarist; i.e., Ichthyologist.
-
-**Prestige:** An instant catch also automatically catches treasure chests if applicable.
+Increases capacity does not apply to Legendary Fish unless prestiged. Instant catches also automatically succeed at treasure chests.
 </details>
 </font>
 
@@ -686,7 +703,7 @@ Though it isn't stated, this profession also unlocks the ability to raise legend
 
 All trapped fish can have quality up to gold, which depends on your Fishing level. If prestiged, that quality is bumped up one stage, such that iridium is the new ceiling and silver the new floor. The Crab Pot recipe part of the perk is unchanged from vanilla.
 
-**Prestige hidden bonus:** Can also place crab pots in lava pools.
+**Prestige hidden bonus:** Can also place crab pots in Caldera.
 </details>
 </font>
 
@@ -702,7 +719,7 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 <ul>
 
 <font color="gold">
-<img src="./resources/assets/sprites/loose/luremaster_p.png"/> <b>Baitweaver (Lv20)</b> - Baited crab pots can trap up to thrice per day. Can make baits from any ingredient and double the yield of machines which produce bait.",
+<img src="./resources/assets/sprites/loose/luremaster_p.png"/> <b>Baitweaver (Lv20)</b> - Baited crab pots can trap up to thrice per day. Can make baits from any ingredient and double the yield of machines which produce bait.
 </font>
 
 <font size="2">
@@ -716,10 +733,9 @@ Each type of bait will also apply its regular fishing rod effects:
 
 All baits, with the exception of Magnet, also prevent collecting junk.
 
-**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering the regular Bait recipe to enter "bait" mode; you can replace the bug meat ingredient with any item that is not itself bait, an egg, milk, fish, syrup, a cooked recipe, a crafted machine or trash. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa). 
+**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering the regular Bait recipe to enter "bait" mode; you can replace the bug meat ingredient with any item that is not itself bait, an egg, milk, fish, syrup, a cooked recipe, a crafted machine or trash. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa).
 
-    > [!NOTE]
-    > **Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
+> **📝 Note — Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
 </font>
 
@@ -839,7 +855,7 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-Press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Double press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the **musked** property.
 
@@ -871,7 +887,7 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 **Piercing Shot:** Piercing chance depends on overcharge percentage and enemy resistance. If successful, a pierced shot then ignores that resistance and can even damage armored enemies. A shot can only pierce once. Only non-squishy and non-explosive ammos can pierce (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
-**Rebound Shot:** Hold the mod key (Default LeftShift) while firing to trigger a rebound shot. Rebound shots can bounce off of walls once, allowing you to hit those expert curve shots.
+**Rebound Shot:** A prestiged hip-fired shot can bounce off of walls once, allowing you to hit those expert curve shots.
 </details>
 </font>
 
@@ -895,32 +911,32 @@ If prestiged, holding the mod key while shooting will fire both ammo slots at on
 
 The most unique profession, so the description is longer. I wanted a combat profession to play around the Slime Hutch, mirroring the Aquarist and also improving the underused Slime Hutch's viability.
 
-All Slimes gain "Individual Values"ç Pokémon-inspired, hidden genetic stats between 0 - 5 for each of Attack, Defense and Health. IVs grant a multiplicative bonus to the corresponding stat (x2 at 5). First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2. IVs can be increased by breeding; when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease.
+All Slimes gain "Individual Values" — Pokémon-inspired, hidden genetic stats between 0 - 5 for each of Attack, Defense and Health. IVs grant a multiplicative bonus to the corresponding stat (x2 at 5). First-generation Slimes (hatched from eggs) are born with a random IV between 0 and 2. IVs can be increased by breeding; when a baby Slime is born, it inherits the highest IVs from both parents, with a decent chance for an increase of 1 or 2 points, and a tiny chance for a decrease.
 
 IVs are inherited separately from color, so Slimes of any color can be raised to max stats.
 A special Gold Slime variant can be bred by aiming for RGB(255, 215, 0) (also known as HTML Gold; try mixing Red and Green Slimes).
 
-Breeding is entirely optional. You can ignore it and still benefit from all the class perks. For those interested, [here is a useful guide about Slime breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
+Breeding is entirely optional. You can ignore it and still benefit from all the class perks. For those interested, [here is a useful guide about Slime breeding](https://stardewvalleywiki.com/Slime_Hutch#Mating_Color_Results).
 
 The following perks are gained when obtaining the **Slimed Piper** profession (Lv10):
 - Slime Hutch capacity is increased to 30 the following day. Please remove Sprinklers or other items placed above and below the water spots, as those tiles will be overwritten by additional water spots, deleting placed objects.
-- Can craft a Slimecaller Flute which grants ally Slimes when played. Play it again while holding the Mod key (Left Shift by default) to dismiss all ally Slimes.
-- "Hidden" bonus 1: wild Slimes act more neutral towards players in the current map. They will still cause damage if touched (unless, of course, the player wears the Slime Charmer Ring).
+- Can craft a Slimecaller Flute which grants ally Slimes when played. Play it again while holding the Mod key (Left Shift by default) to dismiss all ally Slimes.
+- "Hidden" bonus 1: wild Slimes act more neutral towards players in the current map. They will still cause damage if touched (unless, of course, the player wears the Slime Charmer Ring).
 - "Hidden" bonus 2: holding the Mod Key to temporarily "guide" nearby Slimes (helpful for herding and breeding).
-- "Hidden" bonus 3: damage of Slime ammo increased to 20 (equivalent to iron ore).
+- "Hidden" bonus 3: damage of Slime ammo increased to 20 (equivalent to iron ore).
 
-**Ally Slimes:** Includes both Summoned and Charmed Slimes;  Summoned Slimes (summoned from Slime Hutches you own) inherit the stats of raised Slimes (this is where breeding comes in handy). Charmed Slimes (charmed from the wild) do not, but all ally Slimes gain a substantial HP buff. They will fight and distract other non-Slime enemies. They are immune to damage from players, including from explosives, bu can be damaged by non-Slime enemies. They regain health if shot at with Slime ammo (Rascal feature), and can be interacted with while holding a hat to turn it into a Hat Slime.
+**Ally Slimes:** Includes both Summoned and Charmed Slimes;  Summoned Slimes (summoned from Slime Hutches you own) inherit the stats of raised Slimes (this is where breeding comes in handy). Charmed Slimes (charmed from the wild) do not, but all ally Slimes gain a substantial HP buff. They will fight and distract other non-Slime enemies. They are immune to damage from players, including from explosives, bu can be damaged by non-Slime enemies. They regain health if shot at with Slime ammo (Rascal feature), and can be interacted with while holding a hat to turn it into a Hat Slime.
 
-**Hat Slime:** Does not participate in combat, but will auto-pick up dropped items (not spawned forage) and functions as an "item mule". It will follow you everywhere (even indoors), and has access to a 12-slot inventory, which can be checked by interacting with it. You can take items from it, but cannot directly give items to it (but you can drop items on the ground to have the Slime pick it up). When it picks up an item, if the player already has a stack on that item, it will be added to the player's stack instead of the Slime's own inventory. Can be dismissed by removing its hat (interact with it while holding a different hat). When dismissed, carried items are dropped on the ground. You can have only one Hat Slime at a time. 
- 
+**Hat Slime:** Does not participate in combat, but will auto-pick up dropped items (not spawned forage) and functions as an "item mule". It will follow you everywhere (even indoors), and has access to a 12-slot inventory, which can be checked by interacting with it. You can take items from it, but cannot directly give items to it (but you can drop items on the ground to have the Slime pick it up). When it picks up an item, if the player already has a stack on that item, it will be added to the player's stack instead of the Slime's own inventory. Can be dismissed by removing its hat (interact with it while holding a different hat). When dismissed, carried items are dropped on the ground. You can have only one Hat Slime at a time. 
+ 
 The following additional perks are granted to prestiged Slimed Pipers, a.k.a. **Prismarchs** (or Slime Painters, Lv20):
-- Can craft colorful Slime Brushes, which have the effect of changing the pigmentation of raised Slimes, nudging towards  only the corresponding color. If that color component is already maxed out (say, red), the brush then reduces the other two components (green and blue).
-    ﻿﻿- **Green Brush** -> increases a Slime's green component, or reduces its red and blue components.
-    ﻿- **Blue Brush** -> increases a Slime's blue component, or reduces its red and green components.
+- Can craft colorful Slime Brushes, which have the effect of changing the pigmentation of raised Slimes, nudging towards  only the corresponding color. If that color component is already maxed out (say, red), the brush then reduces the other two components (green and blue).
+    - **Green Brush** -> increases a Slime's green component, or reduces its red and blue components.
+    - **Blue Brush** -> increases a Slime's blue component, or reduces its red and green components.
     - **Red Brush** -> increases a Slime's red component, or reduces its green and blue components.
     - **Purple Brush** -> increases a Slime's red and blue components, or reduces its green component.
     - **Prismatic Brush** -> can only be used on a perfect White Slime; will transform it into a Prismatic Slime.
-- Each colored Slime variant gains a special combat ability:
+- Each colored Slime variant gains a special combat ability:
     - **Green Slimes** -> can cause Slimed debuff.
     - **Blue Slimes**-> can cause Chilled/Frozen debuff.
     - **Red & Purple Slimes** -> can cause Burn debuff.
@@ -928,11 +944,10 @@ The following additional perks are granted to prestiged Slimed Pipers, a.k.a. **
     - **Black Slimes** -> can cause Blindness debuff, and have a low chance to transform the enemy into a Void  Essence.
     - **Gold Slimes** -> cause nearby enemies to drop gold when defeated (100g per kill).
     - **Prismatic Slimes** -> combine all previous effects, except for Black and Gold Slime effects.
-- Colored Slime Balls will always drop one random item of the [Dyeing loot table﻿](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
+- Colored Slime Balls will always drop one random item of the [Dyeing loot table](https://stardewvalleywiki.com/Dyeing) of the corresponding color.
 - "Hidden" bonus: the damage of Slime ammo is increased (again) to 40 (between gold ore and iridium ore).
- [Dyeing loot table] of the corresponding color.
 
-Color-specific features above are valid within a range of 10 chroma values from the actual target color, so there's some room for flexibility and does not need to be precise.
+Color-specific features above are valid within a range of 10 chroma values from the actual target color, so there's some room for flexibility and does not need to be precise.
 
 </details>
 </font>
@@ -948,6 +963,9 @@ Color-specific features above are valid within a range of 10 chroma values from 
 ## Skill Progression Tropes
 
 ### Profession Change Skill Reset
+
+> [!IMPORTANT]
+> Unlike the other progression tropes, Skill Reset is **disabled by default**. Enable it in this mod's settings to use the features described below.
 
 If enabled, the [Statue of Uncertainty](https://stardewvalleywiki.com/The_Sewers#Statue%20Of%20Uncertainty) is replaced by the **Statue of Transcendance**.
 
@@ -966,9 +984,10 @@ You will also find that leveling becomes progressively easier after each skill r
 
 For this incredible service, the Statue will charge you 10,000g the first time, 50,000g the second, and 100,000g the third and last time, although the cost can also be configured. After performing three skill resets, you should have acquired all four level 10 professions simultaneously. As you reset and acquire new professions your progress will be reflected on the skills page menu by a colorful new star, over which you can hover to see the professions you have so far (hovering over the colorful bars will only show the most recent profession you have acquired).
 
-Keep in mind that **once a skill has been Mastered it can no longer be reset**. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
+> [!WARNING]
+> Once a skill has been Mastered it can no longer be reset. Taking advantage of Skill Reset may be difficult, but will also speed up your experience gain for Mastery and subsequent Prestige levels.
 
-Note also that **resetting a skill temporarily prevents it from contributing towards Mastery experience**, until it once again reaches level 10.
+Note also that **resetting a skill temporarily prevents the player from receiving Mastery experience or entering the Mastery Cave**, until it once again reaches level 10.
 
 All custom mod skills based on SpaceCore are compatible with Skill Reset by default.
 
@@ -985,7 +1004,8 @@ If enabled, Mastering a skill will also unlock its progression up to level 20, a
 
 **You may choose only one Prestige Profession per skill** (i.e., you cannot reset to acquire more than one) **and can only choose from among those you already have the base version of**; if you only have a single profession because you either did not reset the skill before mastering it, or disabled the Skill Reset feature entirely, then you will automatically receive the prestige of that single profession. If you did reset and acquired multiple base professions, then you will be able to later change your prestige choices back at the Statue of Transcendence, but only after having Mastered all 5 vanilla skills. Changing your prestige choice requires a modest fee of 20,000g (also configurable).
 
-Note that **Mastered skills no longer contribute to Mastery experience**.
+> [!NOTE]
+> Mastered skills no longer contribute to Mastery experience.
 
 Custom skill mods based on SpaceCore are **not** compatible with the Prestige Progression, as they currently cannot be Mastered. This functionality may possibly come to SpaceCore in the future.
 
@@ -1044,8 +1064,8 @@ Charged by scoring critical hits, and the charge amount is proportional to crit 
 <ul>
 
 - Nearby Big Slimes burst immediately, creating tiny baby Slimes that get inflated as well.
-- If a Slime is defeated while inflated, it too will burst into baby Slimes.
-- Inflated Slimes attack 33% faster, and can see all enemies on the map.
+- If an inflated Slime is defeated or the effect ends, it will burst into tiny baby Slimes. Your minion Slimes deflate back to normal.
+- Inflated Slimes attack 33% faster, can see all enemies on the map, and can hit flying enemies even when not jumping.
 - The inflation factor is pseudo-random, between 1.5x and 2x.
 - Charged by being touched by Slimes, defeating Slimes and Big Slimes, or shooting Slime ammo.
 </ul>
@@ -1062,7 +1082,8 @@ Charged by scoring critical hits, and the charge amount is proportional to crit 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
 
 - **Large dairy goods**, including L. Milk and L. Eggs, are changed to double the stack of the processed Mayo or Cheese respectively, instead of increasing the quality to gold. This is implemented to prevent inconsistencies with the Artisan profession (and honestly it just makes sense). Note that this is a straight-up buff, since gold-quality normally only gives a 1.5x price bonus.
-- **Golden Mayo and Ostrich Mayo**, known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [ughitsmegan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303)﻿ (**please visit and endorse [Ostrich Mayo and Golden Mayo﻿](https://www.nexusmods.com/stardewvalley/mods/7660)!**).
+- **Golden Mayo and Ostrich Mayo**, known in-game as "Shiny Mayonnaise" and "Delight Mayonnaise" respectively, are added to the game where they replace the arbitrary processing rules that are otherwise used for Golden and Ostrich Eggs. This, again, is implemented for the sake of making the Artisan profession more consistent. Credit for these items goes entirely to [ughitsmegan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303) (**please visit and endorse [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660)!**).
+- **Slime Mayo and Slime Cheese** are added as well, to add a small amount of depth to the Slime Ranching playstyle enabled by the Slimed Piper profession. They are made from regular Slime, and not with Slime Eggs. Credit for these items goes entirely to [Tarniyar](https://next.nexusmods.com/profile/Tarniyar?gameId=1303), author of [Garden Village](https://www.nexusmods.com/stardewvalley/mods/6113).
 - **Heavy Tapper** behavior is changed to be more in-line with the new Heavy Furnace, doubling the output stack instead of halving the production time. This is implemented to avoid redundancy with the Tapper profession.
 - **Common Trees** age like [Fruit Trees](https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price), which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 
@@ -1071,11 +1092,14 @@ In case you didn't read every single profession description above, please be awa
 
 Compatible with all custom [SpaceCore](mod:spacecore) skills. They can be reset, but cannot be Prestiged. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it.
 
-For any mods that affect professions, skills or Masteries, use common sense. Mods which add alternative ways to acquire multiple professions, such as All Professions, Skill Prestige and Mastery Extended, will obviously conflict with Change Profession Skill Reset, so either remove those mods or disable Skill Reset in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as Level Extender or Level Forever, will obviously conflict with Prestige level progression, and consequently, Prestige Professions. Either remove those mods or disable Prestige Levels in this mod's settings. For any other specific combinations, try it for yourself and see what happens. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
+For any mods that affect professions, skills or Masteries, use common sense. Mods which add alternative ways to acquire multiple professions, such as All Professions, Skill Prestige and Mastery Extended, will obviously conflict with Change Profession Skill Reset, so either remove those mods or disable Skill Reset in this mod's settings. Likewise, any mod which extends or otherwise changes the level cap or level progression, such as Level Extender or Level Forever, will obviously conflict with Prestige level progression, and consequently, Prestige Professions. Either remove those mods or disable Prestige Levels in this mod's settings.
+
+> [!CAUTION]
+> For any other specific combinations, try it for yourself and see what happens. I will not test out every mod combination for you, nor will I support integration with any of these types of mods. They are not meant to work together. If it works, it works. If not, tough.
 
 The base reworked professions up to level 10 should not conflict with any of the aforementioned mods. So if you don't like this mod's progression tropes you can always disable all of the tropes and use whatever progression mods you want.
 
-[Automate](https://www.nexusmods.com/stardewvalley/mods/1063) should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Industrialist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Industrialist profession less special.
+[Automate](https://www.nexusmods.com/stardewvalley/mods/1063) should work fine. Just attach a chest or path to your Hoppers if you want to benefit from the Machinist perk. For every other profession with perks related to specific machines, Automating that machine will not apply those perks. I do not intend to change this as it breaks the game balance and makes the Machinist profession less special.
 
 Yes, it's compatible with [Stardew Valley Expanded](mod:sve). There are additional interactions for SDV fishes, as well as [More New Fish](https://www.nexusmods.com/stardewvalley/mods/3578).
 
@@ -1084,7 +1108,7 @@ Not compatible with mods that change how the game awards experience, such as [Sh
 Yes, it should work in multiplayer.
 No, it does not work on Android.
 
-<sup><sup>[🔼 Back to top](#professions-prfs)</sup></sup>
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
 ## Credits & Special Thanks
@@ -1092,6 +1116,7 @@ No, it does not work on Android.
 Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
 - [Megan](https://next.nexusmods.com/profile/ughitsmegan/about-me?gameId=1303) and Cas for [Ostrich Mayo and Golden Mayo](https://www.nexusmods.com/stardewvalley/mods/7660).
+- [Tarniyar](https://next.nexusmods.com/profile/Tarniyar?gameId=1303) for [Garden Village](https://www.nexusmods.com/stardewvalley/mods/6113)'s Slime Mayo and Slime Cheese.
 - [silicon](https://next.nexusmods.com/profile/siliconmodding/about-me?gameId=1303) for golden skill icons.
 - [KawaiiMuski](https://next.nexusmods.com/profile/KawaiiMuski/about-me) for rose-golden skill icons.
 - **Posister** for alternate golden profession icons.
@@ -1150,10 +1175,14 @@ To consume the API, copy the [API interface](IProfessionsApi.cs) to your project
 <details>
 <summary><b>Can I add this to an existing save?</b></summary>
 
-A new save is recommended, but not required. You may just miss out on part of the intended experience of progression. If you add this to a very late-game save with Mastered skills, don't be surprised to find those skills recalculated to levels 11-20.
+A new save is not required, but **is strongly recommended**. Adding to an existing save will cause you to miss out on the intended experience of progression, especially for very late game saves. If your skills are already all Mastered before installing this mod, you will be unable to use the Skill Reset feature, and don't be alarmed if your skills end up recalculated to levels 11-20.
 
-But keep in mind that, in general, you should avoid adding or removing mods to/from existing saves. That's a good way to corrupt your save.
-Choose the mods you want before you start, and stick with that mod list for that save.
+Do keep in mind that, *in general*, you should avoid adding or removing mods to/from existing saves, as that's a very good way to corrupt a save. Try out new mods for a few mins on a new save first. Then settle on a mod list before you start, and **stick with it** for the next save. If still you really want to add this mod to a late-game save and use the Statue of Transcendence at the Sewer, you can use provided console commands to undo your masteries and reset your skill levels back down to 10:
+
+```
+prfs set <skill name> unmastered
+prfs set <skill name> <level>
+```
 </details>
 
 <details>
@@ -1245,6 +1274,12 @@ Crab Pots are an exception. Although they may use an input (bait), their product
 </details>
 
 <details>
+<summary><b>Automate won't load bait into my Crab Pots since I got the Conservationist profession. What gives?</b></summary>
+
+This should no longer be an issue since 1.6.9.
+</details>
+
+<details>
 <summary><b>How can I make machines / dairy from different mods compatible with the Artisan / Producer profession?</b></summary>
 
 Make a copy of one of the example files inside `assets/data` folder, either `Example.ArtisanMachines.json` or `Example.AnimalDerivedGoods.json`, depending on what you want to add. Change the file prefix to whatever you like (I recommend naming it after the particular mod and creating a new file for each mod), **but you must keep the format `xyz.ArtisanMachines.json` or `xyz.AnimalDerivedGoods.json`**. Then, add the Qualified Item IDs of the desired items into the corresponding list.
@@ -1286,6 +1321,21 @@ Paste the ID of the machine into the list, separated by a comma. The result shou
 Repeat for every machine that you think is relevant.
 
 As noted above, each mod may organize their files differently, so you may not find a specific file for each machine / item. Some authors may group all machines into a single `machines.json` file for example, and yet others may put everything inside CP's base `content.json` file.
+</details>
+
+<details>
+<summary><b>Will you add even further progression beyond level 20?</b></summary>
+
+This isn't just a matter of raising or removing the level cap. If there's nothing meaningful to gain from extra levels, there's no point in adding them. Right now, level-ups give three types of benefits:
+- Incremental boosts — things like reduced stamina cost for tools, a larger fishing bar, more berries from bushes (Foraging), and increased max HP (Combat).
+- New recipes.
+- New professions.
+
+Recipes and professions don't scale infinitely, since each one has to be created manually. As for the incremental boosts, those don't scale forever either; following the vanilla progression, by level 20 stamina costs are already as low as they can reasonably go, and the fishing bar is so large it has even revealed some vanilla bugs. Beyond that, the only real gains would be a few extra berries and more max HP.
+
+In practice, that means only the Combat skill would meaningfully benefit from going past level 20—unless the whole progression system was reworked to add entirely new rewards. That would take a lot of design and development work, which I'm not planning to do.
+
+So TL;DR: no.
 </details>
 
 

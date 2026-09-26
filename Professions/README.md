@@ -1,31 +1,51 @@
 <div align="center">
 
-<img src="resources/covers/title_wol_r.png" alt="title.png" width="67%">
+<img src="resources/covers/title_wol_r.png" alt="Walk of Life" width="67%">
+
+<br>
+<br>
+
+<!-- BADGES -->
+[![Nexus Mods](https://img.shields.io/badge/Nexus%20Mods-Walk%20of%20Life-da8e35?logo=nexusmods&logoColor=white)](https://www.nexusmods.com/stardewvalley/mods/24355)
+[![Nexus downloads](https://img.shields.io/nexusmods/dm/stardewvalley/24355?logo=nexusmods&logoColor=white&label=downloads&color=da8e35)](https://www.nexusmods.com/stardewvalley/mods/24355)
+[![Stardew Valley](https://img.shields.io/badge/Stardew%20Valley-1.6-8a5a2b?logo=stardewvalley&logoColor=white)](https://www.stardewvalley.net/)
+[![SMAPI](https://img.shields.io/badge/SMAPI-4.0%2B-cc4400?logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQCbxYPnAAAAAElFTkSuQmCC)](https://smapi.io/)
+[![License](https://img.shields.io/badge/license-see%20LICENSE-888)](https://github.com/daleao/sdv/blob/main/LICENSE)
+[![Stars](https://img.shields.io/github/stars/daleao/sdv?logo=github&style=flat&color=e0b040)](https://github.com/daleao/sdv/stargazers)
+
+***An extensive overhaul of Stardew Valley's skill progression and profession trees.***
+
+<!-- NAV -->
+[**⬇ Nexus Mods**](https://www.nexusmods.com/stardewvalley/mods/24355) &nbsp;•&nbsp; [**📖 Wiki**](https://stardewvalleywiki.com/) &nbsp;•&nbsp; [**🐛 Report a Bug**](https://github.com/daleao/sdv/issues) &nbsp;•&nbsp; [**💾 Source Code**](https://github.com/daleao/sdv/tree/main/Professions)
 
 <br>
 
 <img src="https://stardewvalleywiki.com/mediawiki/images/8/82/Farming_Skill_Icon.png" width="5%"/>
-<img src="https://stardewvalleywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
+&nbsp;
 <img src="https://stardewvalleywiki.com/mediawiki/images/f/f1/Foraging_Skill_Icon.png" width="5%"/>
+&nbsp;
+<img src="https://stardewvalleywiki.com/mediawiki/images/2/2f/Mining_Skill_Icon.png" width="5%"/>
+&nbsp;
 <img src="https://stardewvalleywiki.com/mediawiki/images/e/e7/Fishing_Skill_Icon.png" width="5%"/>
+&nbsp;
 <img src="https://stardewvalleywiki.com/mediawiki/images/c/cf/Combat_Skill_Icon.png" width="5%"/>
 
 </div>
 
 <a id="top"></a>
 <!-- TABLE OF CONTENTS -->
-<details  open="open"  align="left">
-<summary>Table of Contents</summary>
+<details open="open" align="left">
+<summary><b>Table of Contents</b></summary>
 <ol>
-	<li><a href="#what-this-is">What this is</a></li>
+	<li><a href="#what-this-is">What This Is</a></li>
 	<li>
 		<a href="#the-professions">The Professions</a>
 		<ol>
-			<li><a href="#-farming">Farming</a></li>
-			<li><a href="#-foraging">Foraging</a></li>
-			<li><a href="#-mining">Mining</a></li>
-			<li><a href="#-fishing">Fishing</a></li>
-			<li><a href="#-combat">Combat</a></li>
+			<li><a href="#farming">Farming</a></li>
+			<li><a href="#foraging">Foraging</a></li>
+			<li><a href="#mining">Mining</a></li>
+			<li><a href="#fishing">Fishing</a></li>
+			<li><a href="#combat">Combat</a></li>
 		</ol>
 	</li>
 	<li>
@@ -38,14 +58,15 @@
 	</li>
 	<li><a href="#misc-changes">Misc. Changes</a></li>
 	<li><a href="#compatibility">Compatibility</a></li>
-    <li><a href="#credits--special-thanks">Credits & Special Thanks</a></li>
+	<li><a href="#credits--special-thanks">Credits &amp; Special Thanks</a></li>
 	<li><a href="#for-mod-authors">For Mod Authors</a></li>
 	<li><a href="#faq">F.A.Q.</a></li>
 </ol>
 </details>
 
 
-## What This Is
+<a id="what-this-is"></a>
+## 📖 What This Is
 
 This mod is an extensive overhaul of the skill progression and profession tree systems. It replaces the unbalanced and rather *boring* vanilla professions with more unique and impactful choices. The goal is not to re-optimize gold-making potential, but to expand the gameplay and encourage new experiences.
 
@@ -53,16 +74,39 @@ Optionally, this mod also brings classic progression tropes like [Prestige Class
 
 This module was inspired by such great overhaul mods as [Enai Siaion][user:enai]'s [Ordinator][mod:ordinator] for Skyrim and [ReaperAnon](user:reaperanon)'s [Witcher 3 Enhanced Edition](mod:w3ee). It borrows many ideas and assets from the classic [Ragnarok Online][url:ragnarok], and also includes new improved profession icons by [IllogicalMoodSwing][user:illogicalmoodswing] (**please visit and endorse [Profession Icons Redone](mod:icons-redone)!**).
 
+### Progression at a Glance
+
+```mermaid
+flowchart LR
+    A([Level 5<br/>1st profession]) --> B([Level 10<br/>2nd profession])
+    B --> C{{Master the Skill}}
+    C --> D([Level 15<br/>Prestige 1st profession])
+    D --> E([Level 20<br/>Prestige 2nd profession])
+    C -. Combat only .-> F([Limit Break])
+    B -. optional .-> R[/Skill Reset<br/>acquire every profession/]
+    R -.-> B
+    classDef base fill:#3a6b35,stroke:#2a4d26,color:#fff;
+    classDef prestige fill:#b8860b,stroke:#8a6508,color:#fff;
+    classDef special fill:#6b3fa0,stroke:#4d2d73,color:#fff;
+    class A,B base;
+    class D,E prestige;
+    class C,F,R special;
+```
+
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
-## The Professions
+<a id="the-professions"></a>
+## ⚔️ The Professions
 
-Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-progression) variants.
+Click on any profession below to expand for more details. Golden professions refer to [Prestige Professions](#prestige-professions) variants.
 
 > [!TIP]
 > I strongly recommend reading every profession fully, as the in-game descriptions offer limited space and most professions have additional features that are not mentioned in their descriptions.
 
+**How to read this section:** each skill unlocks a **Level 5** profession and a **Level 10** profession; mastering the skill then unlocks a golden **Prestige** upgrade at Levels 15 & 20. A <s>strikethrough</s> in a golden line means the base perk is being *replaced/upgraded*, not stacked.
+
+<a id="farming"></a>
 ### ![](https://i.imgur.com/p9QdB6L.png) Farming
 
 <ul>
@@ -280,6 +324,7 @@ There is no upper limit to the price bonus.
 
 </ul>
 
+<a id="foraging"></a>
 ### ![](https://i.imgur.com/jf88nPt.png) Foraging
 
 <ul>
@@ -351,7 +396,7 @@ Whenever you are outside there is a chance to trigger a **Scavenger Hunt** minig
 - Rewards include smelted metal bars, artifacts, rare seeds and special equipment.
 - If prestiged, building up a win streak will cause increased spawns of forage in every outdoors map. This uses your longest win streak instead of your current streak. 
 
-You can also hold the mod key (LeftShift by default) to highlight all forageable items currently on-screen for easier viewing.
+You can also hold the mod key (default <kbd>Shift</kbd>) to highlight all forageable items currently on-screen for easier viewing.
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
 **Pointer colors:**
@@ -430,7 +475,7 @@ New Heavy recipe: x15 hardwood, x1 radioactive bar.
 
 In order to avoid redundancy with Heavy Tappers and maintain balance, this mod optionally changes Heavy Tapper to produce at the same speed as regular Tapper, but instead double the yield, which makes it more in line with the new Heavy Furnace and, honestly, just makes more sense. This is enabled by default.
 
-**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering any recipe to enter "sap" mode; you can replace any crafting ingredient in the recipe with sap, as long as the recipe has more than one ingredient, and doesn't already use sap. If the recipe uses a syrup, then only the syrup can be replaced, but doing so will forfeit the "double yield" part of the perk. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa).
+**Prestige:** Hold the Mod key (default <kbd>Shift</kbd>) in the crafting menu while hovering any recipe to enter "sap" mode; you can replace any crafting ingredient in the recipe with sap, as long as the recipe has more than one ingredient, and doesn't already use sap. If the recipe uses a syrup, then only the syrup can be replaced, but doing so will forfeit the "double yield" part of the perk. Note that the vanilla game uses <kbd>Shift</kbd> as a batch key, which allows crafting 5x at a time. If the Mod key is also <kbd>Shift</kbd>, then vanilla's batch key will be swapped to <kbd>Ctrl</kbd> (and vice versa).
 
 > **📝 Note — Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
@@ -441,6 +486,7 @@ In order to avoid redundancy with Heavy Tappers and maintain balance, this mod o
 
 </ul>
 
+<a id="mining"></a>
 ### ![](https://i.imgur.com/TidtIw0.png) Mining
 
 <ul>
@@ -484,7 +530,7 @@ This profession is completely unchanged from vanilla.
 
 Gain 5 stacks of Momentum each time you go down a level in the Mines or Skull Caverns. Each stack adds 0.05% ladder chance per stone destroyed, so 0.25% per level. Caps out at 100 stacks, totaling 5% bonus ladder chance per stone. For reference, the vanilla chance is roughly 4% per stone on a brand new level. When *you* trigger a ladder spawn, every 10 minute tick of the clock will decrease your Momentum by 3 stack until you use the ladder. However, in the exchange, every stone will have a 20% chance to drop ore. Resurfacing resets all Momentum.
 
-If you have at least 20 stacks, you may also double press the Mod key (default Left Shift) to consume all Momentum to restore the same amount of Energy.
+If you have at least 20 stacks, you may also double press the Mod key (default <kbd>Shift</kbd>) to consume all Momentum to restore the same amount of Energy.
 
 Also grants a "hidden" bonus when you break stones in clusters; each adjacent stone also gives a small increase to ladder chance and ore chance after ladder spawn. Meant to encourage a slightly more strategic mining style. 
 
@@ -516,7 +562,7 @@ While mining, there is a chance to trigger a **Prospector Hunt** minigame:
 - Works like a game of "Simon says"; a random nearby stone will begin to glow. Break the glowing stone to reveal the next stone, and so on. Each subsequent stone is slightly more difficult to break. Breaking enough stones grants the treasure.
 - Rewards include ores, rare minerals, fossilized artifacts and special equipment.
 
-You can also hold the mod key (LeftShift by default) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
+You can also hold the mod key (default <kbd>Shift</kbd>) to highlight all ore and gemstone nodes currently on-screen for easier viewing.
 There is a config option to prevent the tracking HUD arrows from being active all the time, and instead display only when holding that same mod key.
 
 **Prestige:** Building up a win streak increases the number of ore veins spawned on every mine floor and the Volcano Dungeon. Uses your longest win streak, and not your current streak, so the bonus is never lost.
@@ -607,6 +653,7 @@ By default, requires 30 mineral varieties to reach iridium, which is balanced fo
 
 </ul>
 
+<a id="fishing"></a>
 ### ![](https://i.imgur.com/XvdVsAn.png) Fishing
 
 <ul>
@@ -726,14 +773,18 @@ All trapped fish can have quality up to gold, which depends on your Fishing leve
 <details>
 
 Each type of bait will also apply its regular fishing rod effects:
-- **Wild bait:** (25 + DailyLuck / 2)% chance to double the stack.
-- **Magnet:** Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests).
-- **Magic bait:** Catches non-Crab Pot fish of any location or season.
-- **Deluxe bait:** Quality is boosted by one additional stage.
+Each type of bait will also apply its regular fishing rod effects:
+
+| Bait | Effect |
+| :-- | :-- |
+| **Wild bait** | (25 + DailyLuck / 2)% chance to double the stack. |
+| **Magnet** | Repels all fish (as per its description), but attracts metal items such as resources, artifacts, treasure chests, rings and even some weapons (treasure table is similar to fishing treasure chests). |
+| **Magic bait** | Catches non-Crab Pot fish of any location or season. |
+| **Deluxe bait** | Quality is boosted by one additional stage. |
 
 All baits, with the exception of Magnet, also prevent collecting junk.
 
-**Prestige:** Hold the Mod key (defaut Left Shift) in the crafting menu while hovering the regular Bait recipe to enter "bait" mode; you can replace the bug meat ingredient with any item that is not itself bait, an egg, milk, fish, syrup, a cooked recipe, a crafted machine or trash. Note that the vanilla game uses Left Shift as a batch key, which allows crafting 5x at a time. If the Mod key is also Left Shift, then vanilla's batch key will be swapped to Left Control (and vice versa).
+**Prestige:** Hold the Mod key (default <kbd>Shift</kbd>) in the crafting menu while hovering the regular Bait recipe to enter "bait" mode; you can replace the bug meat ingredient with any item that is not itself bait, an egg, milk, fish, syrup, a cooked recipe, a crafted machine or trash. Note that the vanilla game uses <kbd>Shift</kbd> as a batch key, which allows crafting 5x at a time. If the Mod key is also <kbd>Shift</kbd>, then vanilla's batch key will be swapped to <kbd>Ctrl</kbd> (and vice versa).
 
 > **📝 Note — Better Crafting + Gamepad:** Although controller input is supported, Better Crafting's menu uses every single button on a normal controller, so it's effectively impossible to trigger because there's no free button to use as the Mod / trigger. So if you play with both BC and gamepad, use it's keybind to open the vanilla crafting menu, and then you'll be able to use these profession features through there.
 </details>
@@ -768,6 +819,7 @@ By default, every 100 junk items collected nets 1 point of global friendship and
 
 </ul>
 
+<a id="combat"></a>
 ### ![](https://i.imgur.com/fUnZSTj.png) Combat
 
 <ul>
@@ -855,7 +907,7 @@ Completely unchanged from vanilla.
 <font size="2">
 <details>
 
-Double press the mod key (default LeftShift) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
+Double press the mod key (default <kbd>Shift</kbd>) to cycle between equipped ammos. The extra slot can be used to easily switch to and from Explosive Ammo, or Slime; Slime can be equipped as ammo and inflicts a slow debuff to enemies. Only non-squishy and non-explossive ammos can be recovered (i.e., not fish, fruits, veggies, Slime or Explosive Ammo).
 
 If prestiged, holding the mod key while shooting will fire both ammo slots at once. A Monster Musk can be equipped as a pseudo-ammo to the second slot in order to grant to the primary ammo the **musked** property.
 
@@ -920,7 +972,7 @@ Breeding is entirely optional. You can ignore it and still benefit from all the 
 
 The following perks are gained when obtaining the **Slimed Piper** profession (Lv10):
 - Slime Hutch capacity is increased to 30 the following day. Please remove Sprinklers or other items placed above and below the water spots, as those tiles will be overwritten by additional water spots, deleting placed objects.
-- Can craft a Slimecaller Flute which grants ally Slimes when played. Play it again while holding the Mod key (Left Shift by default) to dismiss all ally Slimes.
+- Can craft a Slimecaller Flute which grants ally Slimes when played. Play it again while holding the Mod key (default <kbd>Shift</kbd>) to dismiss all ally Slimes.
 - "Hidden" bonus 1: wild Slimes act more neutral towards players in the current map. They will still cause damage if touched (unless, of course, the player wears the Slime Charmer Ring).
 - "Hidden" bonus 2: holding the Mod Key to temporarily "guide" nearby Slimes (helpful for herding and breeding).
 - "Hidden" bonus 3: damage of Slime ammo increased to 20 (equivalent to iron ore).
@@ -960,7 +1012,8 @@ Color-specific features above are valid within a range of 10 chroma values from 
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
-## Skill Progression Tropes
+<a id="skill-progression-tropes"></a>
+## 🌟 Skill Progression Tropes
 
 ### Profession Change Skill Reset
 
@@ -1015,7 +1068,7 @@ Custom skill mods based on SpaceCore are **not** compatible with the Prestige Pr
 
 In addition to Prestige Progression, mastery over the Combat skill may optionally unlock a [Limit Break](https://tvtropes.org/pmwiki/pmwiki.php/Main/LimitBreak); a powerful ability that must be charged by performing certain actions during combat. Each combat profession has its own unique Limit Break, from which you will be prompted to choose **one** upon claiming your Mastery. You may only choose Limit Breaks from among the professions you have already acquired. In case you are eligible for more than 1, you will be able to change your selection, also at the Statue of Transcendance, for free (although a cost can be configured).
 
-During combat you can track the current Limit charge by the HUD bar labeled "L". Once it is full, press **and hold** the Mod Key (default LeftShift) to activate it. Alternatively, you may configure a separate Limit Break Key to activate by a simple press.
+During combat you can track the current Limit charge by the HUD bar labeled "L". Once it is full, press **and hold** the Mod Key (default <kbd>Shift</kbd>) to activate it. Alternatively, you may configure a separate Limit Break Key to activate by a simple press.
 
 <ul>
 
@@ -1077,7 +1130,8 @@ Charged by scoring critical hits, and the charge amount is proportional to crit 
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
-## Misc. Changes
+<a id="misc-changes"></a>
+## 🔧 Misc. Changes
 
 In case you didn't read every single profession description above, please be aware of the following misc. changes implemented by this mod (all are configurable):
 
@@ -1088,7 +1142,8 @@ In case you didn't read every single profession description above, please be awa
 - **Common Trees** age like [Fruit Trees](https://stardewvalleywiki.com/Fruit_Trees#Fruit_Quality_.26_Price), which will similarly impact the quality of produced syrups. This is implemented to improve the long-term viability of the Tapper profession (and again, this also just makes sense, making Common Trees more analogous to Fruit Trees).
 
 
-## Compatibility
+<a id="compatibility"></a>
+## 🧩 Compatibility
 
 Compatible with all custom [SpaceCore](mod:spacecore) skills. They can be reset, but cannot be Prestiged. As far as I know, SpaceCore does not yet support Mastery of custom skills, and until it does there is nothing I can do about it.
 
@@ -1111,7 +1166,8 @@ No, it does not work on Android.
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
-## Credits & Special Thanks
+<a id="credits--special-thanks"></a>
+## 💖 Credits & Special Thanks
 
 Credits to the following asset contributors:
 - [IllogicalMoodSwing](https://www.nexusmods.com/stardewvalley/users/38784845) for [Profession Icons Redone](https://www.nexusmods.com/stardewvalley/mods/4163).
@@ -1139,7 +1195,8 @@ Special thanks to the following visionaries:
 - [Gravity](https://ro.gnjoy.com/index.asp) for my childhood.
 
 
-## For Mod Authors
+<a id="for-mod-authors"></a>
+## 🛠️ For Mod Authors
 
 ### Contentsmiths
 
@@ -1170,7 +1227,8 @@ To consume the API, copy the [API interface](IProfessionsApi.cs) to your project
 <sup><sup>[🔼 Back to top](#top)</sup></sup>
 
 
-## F.A.Q.
+<a id="faq"></a>
+## ❓ F.A.Q.
 
 <details>
 <summary><b>Can I add this to an existing save?</b></summary>
@@ -1338,6 +1396,21 @@ In practice, that means only the Combat skill would meaningfully benefit from go
 So TL;DR: no.
 </details>
 
+<sup><sup>[🔼 Back to top](#top)</sup></sup>
+
+---
+
+<div align="center">
+
+### 🌾 The DaLion.Stardew Series
+
+**Walk of Life** &nbsp;·&nbsp; [Aquarism](https://www.nexusmods.com/stardewvalley/mods/24356) &nbsp;·&nbsp; [Serfdom](https://www.nexusmods.com/stardewvalley/mods/24357) &nbsp;·&nbsp; [Springmyst](https://www.nexusmods.com/stardewvalley/mods/24832) &nbsp;·&nbsp; [Mineracoustics](https://www.nexusmods.com/stardewvalley/mods/29612) &nbsp;·&nbsp; [Chargeable Resource Tools](https://www.nexusmods.com/stardewvalley/mods/23048) &nbsp;·&nbsp; [Wildcat](https://www.nexusmods.com/stardewvalley/mods/29830)
+
+<br>
+
+<sub>Made with 🌱 for the Stardew Valley community.</sub>
+
+</div>
 
 <!-- MOD LINKS -->
 [mod:ordinator]: <https://www.nexusmods.com/skyrimspecialedition/mods/1137> "Ordinator"
