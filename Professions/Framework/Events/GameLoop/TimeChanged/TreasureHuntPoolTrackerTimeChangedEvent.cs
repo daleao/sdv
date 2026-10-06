@@ -21,6 +21,7 @@ internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? mana
         State.ItemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
         State.TreesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
         State.RocksCrushedUntilPreviousTimeChange = Game1.player.stats.RocksCrushed;
+        State.ArtifactSpotsDugUntilPreviousTimeChange = Game1.player.stats.Get("ArtifactSpotsDug");
     }
 
     /// <inheritdoc />
@@ -31,16 +32,19 @@ internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? mana
         {
             var itemsForagedSincePreviousTimeChange = (int)(Game1.player.stats.ItemsForaged - State.ItemsForagedUntilPreviousTimeChange);
             var treesChoppedSincePreviousTimeChange = (int)(Game1.player.stats.Get("treesChopped") - State.TreesChoppedUntilPreviousTimeChange);
+            var artifactSpotsDugSincePreviousTimeChange = (int)(Game1.player.stats.Get("ArtifactSpotsDug") - State.ArtifactSpotsDugUntilPreviousTimeChange);
             if (stepsTakenSincePreviousTimeChange > 0 || itemsForagedSincePreviousTimeChange > 0 || treesChoppedSincePreviousTimeChange > 0)
             {
                 State.ScavengerHunt.UpdateTriggerPool(
                     stepsTakenSincePreviousTimeChange,
                     itemsForagedSincePreviousTimeChange,
-                    treesChoppedSincePreviousTimeChange);
+                    treesChoppedSincePreviousTimeChange,
+                    artifactSpotsDugSincePreviousTimeChange);
             }
 
             State.ItemsForagedUntilPreviousTimeChange = Game1.player.stats.ItemsForaged;
             State.TreesChoppedUntilPreviousTimeChange = Game1.player.stats.Get("treesChopped");
+            State.ArtifactSpotsDugUntilPreviousTimeChange = Game1.player.stats.Get("ArtifactSpotsDug");
         }
         else if (State.ProspectorHunt is not null && Game1.currentLocation is MineShaft or VolcanoDungeon)
         {
