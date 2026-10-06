@@ -63,6 +63,7 @@
     "scavenger.desc.prestiged": "Time freezes during Scavenger Hunts. Find increasingly more forageables on a high streak.",
     "scavenger.hunt_started": "Your Scavenger senses are tingling...",
     "scavenger.hunt_failed": "The tingling stops.",
+    "scavenger.hunt_cancelled": "Scavenger Hunt cancelled due to sudden location change.",
 
     "lumberjack.title.male": "Lumberjack",
     "lumberjack.title.female": "Lumberjack",
