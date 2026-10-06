@@ -31,10 +31,10 @@ internal sealed class TreasureHuntPoolTrackerTimeChangedEvent(EventManager? mana
         {
             var itemsForagedSincePreviousTimeChange = (int)(Game1.player.stats.ItemsForaged - State.ItemsForagedUntilPreviousTimeChange);
             var treesChoppedSincePreviousTimeChange = (int)(Game1.player.stats.Get("treesChopped") - State.TreesChoppedUntilPreviousTimeChange);
-            if (stepsTakenSincePreviousTimeChange > 0 || itemsForagedSincePreviousTimeChange > 0 || treesChoppedSincePreviousTimeChange > 0)
+            if (itemsForagedSincePreviousTimeChange > 0 || treesChoppedSincePreviousTimeChange > 0)
             {
                 State.ScavengerHunt.UpdateTriggerPool(
-                    stepsTakenSincePreviousTimeChange,
+                    0, // handled in ScavengerHuntUpdateTickedEvent
                     itemsForagedSincePreviousTimeChange,
                     treesChoppedSincePreviousTimeChange);
             }
