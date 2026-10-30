@@ -82,7 +82,7 @@ internal sealed class ObjectDrawPatcher : HarmonyPatcher
             }
             else if (calibrationChanged)
             {
-                color = key == __instance.lastInputItem.Value.QualifiedItemId ? Color.Lime : Color.DarkOrange;
+                color = key == __instance.lastInputItem.Value?.QualifiedItemId ? Color.Lime : Color.DarkOrange;
             }
             else if (calibrationLocked)
             {
